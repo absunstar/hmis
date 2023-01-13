@@ -1,0 +1,21 @@
+<script src="/x-js/bootstrap-5-support.js?v=##site.options.version##"></script>
+<script>
+  site.features = '##req.features##';
+  site.feature = (f) => site.features.indexOf(f) !== -1;
+</script>
+
+<script x-import="sitebar.js"></script>
+<script x-import="sitebottom.js"></script>
+<script x-import="ui-print/index.js"></script>
+
+<div x-permission="!login" x-import="security/login_modal.html"></div>
+<div x-permission="login" x-import="security/logout_modal.html"></div>
+
+<script>
+  function toggleShow(selector) {
+    if ((dom = document.querySelector(selector))) {
+      dom.classList.toggle('x-show');
+      dom.classList.toggle('x-hide');
+    }
+  }
+</script>

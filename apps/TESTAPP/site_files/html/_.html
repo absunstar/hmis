@@ -1,0 +1,46 @@
+<div ng-controller="TESTAPP" class="loaded">
+  <div class="row">
+    <div class="row">
+      <div x-import="TESTAPP/modal.html"></div>
+      <div x-import="TESTAPP/modalSearch.html"></div>
+
+      <div class="row">
+        <h1 class="bold text-center">##word.TESTAPP##</h1>
+      </div>
+
+      <div class="top-actions">
+        <i-button type="add" label="##word.New##" ng-click="showAdd()"></i-button>
+      </div>
+
+      <div class="row padding">
+        <i-control ng-model="$search"></i-control>
+      </div>
+      <table class="table hover bold">
+        <tr>
+          <th>##word.URL##</th>
+          <th>##word.Partition##</th>
+          <th>##word.Watch Time##</th>
+          <th>##word.View Count##</th>
+          <th class="not-print">##word.Actions##</th>
+        </tr>
+        <tr ng-repeat="item in list | filter:$search">
+          <td class="text-center">
+            <h2>{{item.url}}</h2>
+            <p class="blue"> Referer : {{item.referer}}</p>
+          </td>
+          <td class="text-center">{{item.partition}}</td>
+          <td class="text-center">{{item.timeout/ 60 / 1000}} minutes</td>
+          <td class="text-center">{{item.count }}</td>
+
+          <td class="text-center not-print">
+            <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
+
+            <i-button type="edit" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
+
+            <i-button type="delete" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

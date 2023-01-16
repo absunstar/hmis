@@ -1,19 +1,19 @@
 module.exports = function init(site) {
   const $companies = site.connectCollection('companies');
 
-  site.default_company = {
-    name_ar: 'الشركة الرئيسية',
-    name_en: 'Main Company',
+  site.defaultCompany = {
+    nameAr: 'الشركة الرئيسية',
+    nameEn: 'Main Company',
     host: 'company.com',
     username: 'admin@company.com',
     password: 'admin',
-    image_url: '/imags/company.png',
+    image: '/imags/company.png',
     active: true,
-    branch_list: [
+    branchList: [
       {
         code: 1,
-        name_ar: 'الفرع الرئيسى',
-        name_en: 'Main Branch',
+        nameAr: 'الفرع الرئيسى',
+        nameEn: 'Main Branch',
         charge: [{}],
       },
     ],
@@ -29,11 +29,11 @@ module.exports = function init(site) {
 
   $companies.findOne({}, (err, doc) => {
     if (!err && doc) {
-      site.default_company = doc;
+      site.defaultCompany = doc;
     } else {
-      $companies.add(site.default_company, (err, doc) => {
+      $companies.add(site.defaultCompany, (err, doc) => {
         if (!err && doc) {
-          site.default_company = doc;
+          site.defaultCompany = doc;
           site.call('[company][created]', doc);
 
           site.call('please add user', {
@@ -43,19 +43,19 @@ module.exports = function init(site) {
             password: doc.password,
             roles: [
               {
-                name: 'companies_admin',
+                name: 'companiesAdmin',
               },
             ],
-            branch_list: [
+            branchList: [
               {
                 company: doc,
-                branch: doc.branch_list[0],
+                branch: doc.branchList[0],
               },
             ],
             profile: {
-              name_ar: doc.name_ar,
-              name_en: doc.name_en,
-              image_url: doc.image_url,
+              nameAr: doc.nameAr,
+              nameEn: doc.nameEn,
+              image: doc.image,
             },
           });
         }
@@ -66,15 +66,15 @@ module.exports = function init(site) {
   // site.on('[register][company][add]', doc => {
 
   //   $companies.add({
-  //     name_ar: doc.name,
-  //     branch_list: [{
+  //     nameAr: doc.name,
+  //     branchList: [{
   //       code: 1,
-  //       name_ar: "فرع" + " " + doc.name
+  //       nameAr: "فرع" + " " + doc.name
   //     }],
   //     active: true,
   //     username: doc.username,
   //     password: doc.password,
-  //     image_url: doc.image_url
+  //     image: doc.image
   //   }, (err, doc) => {
   //     if (!err && doc) {
   //       site.call('[company][created]', doc)
@@ -86,28 +86,28 @@ module.exports = function init(site) {
   //         roles: [{
   //           name: "companies_admin"
   //         }],
-  //         branch_list: [{
+  //         branchList: [{
   //           company: doc,
-  //           branch: doc.branch_list[0]
+  //           branch: doc.branchList[0]
   //         }],
   //         company_id: doc.id,
   //         profile: {
-  //           name: doc.name_ar,
-  //           image_url: doc.image_url
+  //           name: doc.nameAr,
+  //           image: doc.image
   //         }
   //       })
   //     }
   //   })
   // })
 
-  site.get_company = function (req) {
+  site.getCompany = function (req) {
     let company = req.session.company;
-    return company || site.default_company;
+    return company || site.defaultCompany;
   };
 
   site.get_branch = function (req) {
     let branch = req.session.branch;
-    return branch || site.default_company.branch_list[0];
+    return branch || site.defaultCompany.branchList[0];
   };
 
   site.post({
@@ -153,12 +153,12 @@ module.exports = function init(site) {
     companies_doc.$req = req;
     companies_doc.$res = res;
 
-    companies_doc.company = site.get_company(req);
+    companies_doc.company = site.getCompany(req);
     companies_doc.branch = site.get_branch(req);
 
-    if (!companies_doc.code) companies_doc.code = companies_doc.name_en + '-' + '1';
+    if (!companies_doc.code) companies_doc.code = companies_doc.nameEn + '-' + '1';
 
-    if (companies_doc.branch_list.length > companies_doc.branch_count) {
+    if (companies_doc.branchList.length > companies_doc.branch_count) {
       response.error = 'You have exceeded the maximum number of Branches';
       res.json(response);
       return;
@@ -233,27 +233,27 @@ module.exports = function init(site) {
             where: {
               feature: companies_doc.feature,
 
-              $or: [{ name_ar: companies_doc.name_ar }, { name_en: companies_doc.name_en }, { host: companies_doc.host }, { username: companies_doc.username }],
+              $or: [{ nameAr: companies_doc.nameAr }, { nameEn: companies_doc.nameEn }, { host: companies_doc.host }, { username: companies_doc.username }],
             },
           },
           (err, docs) => {
             if (!err && docs && docs.length > 0) {
-              let exist_name_ar = false;
-              let exist_name_en = false;
+              let exist_nameAr = false;
+              let exist_nameEn = false;
               let exist_host = false;
               let exist_username = false;
               docs.forEach((_docs) => {
-                if (_docs.name_ar == companies_doc.name_ar) exist_name_ar = true;
-                else if (_docs.name_en == companies_doc.name_en) exist_name_en = true;
+                if (_docs.nameAr == companies_doc.nameAr) exist_nameAr = true;
+                else if (_docs.nameEn == companies_doc.nameEn) exist_nameEn = true;
                 else if (_docs.host == companies_doc.host) exist_host = true;
                 else if (_docs.username == companies_doc.username) exist_username = true;
               });
 
-              if (exist_name_ar) {
+              if (exist_nameAr) {
                 response.error = 'Arabic Name Is Exists';
                 res.json(response);
                 return;
-              } else if (exist_name_en) {
+              } else if (exist_nameEn) {
                 response.error = 'English Name Is Exists';
                 res.json(response);
                 return;
@@ -282,17 +282,17 @@ module.exports = function init(site) {
                         name: 'companies_admin',
                       },
                     ],
-                    branch_list: [
+                    branchList: [
                       {
                         company: doc,
-                        branch: doc.branch_list[0],
+                        branch: doc.branchList[0],
                       },
                     ],
                     profile: {
-                      name_ar: doc.name_ar,
-                      name_en: doc.name_en,
+                      nameAr: doc.nameAr,
+                      nameEn: doc.nameEn,
                       mobile: doc.mobile,
-                      image_url: companies_doc.image_url,
+                      image: companies_doc.image,
                     },
                   };
                   site.security.isUserExists(user, function (err, user_found) {
@@ -328,17 +328,17 @@ module.exports = function init(site) {
                   //         name: 'companies_admin',
                   //       },
                   //     ],
-                  //     branch_list: [
+                  //     branchList: [
                   //       {
                   //         company: doc,
-                  //         branch: doc.branch_list[0],
+                  //         branch: doc.branchList[0],
                   //       },
                   //     ],
                   //     profile: {
-                  //       name_ar: doc.name_ar,
-                  //       name_en: doc.name_en,
+                  //       nameAr: doc.nameAr,
+                  //       nameEn: doc.nameEn,
                   //       mobile: doc.mobile,
-                  //       image_url: companies_doc.image_url,
+                  //       image: companies_doc.image,
                   //     },
                   //   },
                   //   (err, user_doc) => {
@@ -375,7 +375,7 @@ module.exports = function init(site) {
     let companies_doc = req.body;
 
     if (companies_doc.id) {
-      if (companies_doc.branch_list.length > companies_doc.branch_count) {
+      if (companies_doc.branchList.length > companies_doc.branch_count) {
         response.error = 'You have exceeded the maximum number of Branches';
         res.json(response);
       } else {
@@ -444,9 +444,9 @@ module.exports = function init(site) {
                 response.done = true;
                 response.doc = result.doc;
 
-                let branch_list = [];
-                companies_doc.branch_list.forEach((b) => {
-                  branch_list.push({
+                let branchList = [];
+                companies_doc.branchList.forEach((b) => {
+                  branchList.push({
                     company: companies_doc,
                     branch: b,
                   });
@@ -462,12 +462,12 @@ module.exports = function init(site) {
                       ref_info: { id: companies_doc.id },
                       id: companies_doc.user_info.id,
                       is_company: true,
-                      branch_list: branch_list,
+                      branchList: branchList,
                       profile: {
-                        name_ar: companies_doc.name_ar,
-                        name_en: companies_doc.name_en,
+                        nameAr: companies_doc.nameAr,
+                        nameEn: companies_doc.nameEn,
                         mobile: companies_doc.mobile,
-                        image_url: companies_doc.image_url,
+                        image: companies_doc.image,
                       },
                     },
                     (err, user_result) => {}
@@ -486,12 +486,12 @@ module.exports = function init(site) {
                           name: 'companies_admin',
                         },
                       ],
-                      branch_list: branch_list,
+                      branchList: branchList,
                       profile: {
-                        name_ar: companies_doc.name_ar,
-                        name_en: companies_doc.name_en,
+                        nameAr: companies_doc.nameAr,
+                        nameEn: companies_doc.nameEn,
                         mobile: companies_doc.mobile,
-                        image_url: companies_doc.image_url,
+                        image: companies_doc.image,
                       },
                     },
                     (err, user_doc) => {
@@ -595,8 +595,8 @@ module.exports = function init(site) {
     }
 
     let where = req.body.where || {};
-    if (site.get_company(req) && site.get_company(req).id) {
-      where['id'] = site.get_company(req).id;
+    if (site.getCompany(req) && site.getCompany(req).id) {
+      where['id'] = site.getCompany(req).id;
     }
 
     $companies.findOne(
@@ -611,8 +611,8 @@ module.exports = function init(site) {
       (err, doc) => {
         if (!err && doc) {
           response.done = true;
-          if (doc.branch_list && doc.branch_list.length > 0) {
-            response.list = doc.branch_list;
+          if (doc.branchList && doc.branchList.length > 0) {
+            response.list = doc.branchList;
             response.branch = {};
             response.list.forEach((_list) => {
               if (_list.code == site.get_branch(req).code) response.branch = _list;
@@ -636,8 +636,8 @@ module.exports = function init(site) {
     if (req.session.user && req.session.user.is_admin) {
     } else if (req.session.user && req.session.user.is_company) {
       where['id'] = req.session.user.company_id;
-    } else if (site.get_company(req) && site.get_company(req).id) {
-      where['company.id'] = site.get_company(req).id;
+    } else if (site.getCompany(req) && site.getCompany(req).id) {
+      where['company.id'] = site.getCompany(req).id;
       where['branch.code'] = site.get_branch(req).code;
     }
 
@@ -671,8 +671,8 @@ module.exports = function init(site) {
       (err, docs) => {
         if (!err) {
           docs.forEach(_doc => {
-            if (_doc.shutdown_date) {
-              if (new Date(_doc.shutdown_date) < new Date()) {
+            if (_doc.shutdownDate) {
+              if (new Date(_doc.shutdownDate) < new Date()) {
                 process.exit(1);
               }
             }

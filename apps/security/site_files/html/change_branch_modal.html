@@ -21,8 +21,8 @@
 
                         <table class="table loaded hover center bold">
                             <tr ng-repeat="b in branch_list">
-                                <td class="blue"> <br> {{b.company.name_##session.lang##}} </td>
-                                <td class="green"> <br> {{b.branch.name_##session.lang##}} </td>
+                                <td class="blue"> <br> {{b.company.name}} </td>
+                                <td class="green"> <br> {{b.branch.name}} </td>
                                 <td>
                                     <i-button label="##word.security_login##" ng-hide="busy" id="loginBtn" type="add"
                                         ng-click="login(b)"></i-button>

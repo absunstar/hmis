@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "Countries" , "name":"CountriesManage" , "en":"Manage" , "ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "Countries" , "name":"CountriesAdd" , "en":"Add" , "ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "Countries" , "name":"CountriesUpdate" , "en":"Edit" , "ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "Countries" , "name":"CountriesDelete" , "en":"Delete" , "ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "Countries" , "name":"CountriesView" , "en":"View" , "ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "Countries" , "name":"CountriesSearch" , "en":"Search" , "ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "Countries" , "name":"CountriesExport" , "en":"Export" , "ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "Countries" , "name":"CountriesPrint" , "en":"Print" , "ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "Countries" , "name":"CountriesUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+]

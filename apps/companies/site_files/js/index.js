@@ -6,18 +6,18 @@ app.controller("companies", function ($scope, $http, $timeout) {
   $scope.displayAddcompany = function () {
     $scope.error = '';
     $scope.company = {
-      image_url: '/images/company.png',
-      calender_type: 'gegorian',
+      image: '/images/company.png',
+      calenderType: 'gegorian',
       active: true,
-      branch_count: 3,
+      branchCount: 3,
       store: 5,
       item: 100,
       unit: 5,
       currency: 5,
-      users_count: 20,
-      customers_count: 50,
-      employees_count: 20,
-      branch_list: [{
+      usersCount: 20,
+      customersCount: 50,
+      employeesCount: 20,
+      branchList: [{
         code: 1,
         name_ar: 'الفرع الرئيسى',
         name_en: 'Main Branch',
@@ -223,7 +223,7 @@ app.controller("companies", function ($scope, $http, $timeout) {
     $scope.list = [];
     $http({
       method: "POST",
-      url: "/api/companies_activities/all",
+      url: "/api/companiesActivities/all",
       data: {
         select: {
           id: 1,
@@ -293,7 +293,7 @@ app.controller("companies", function ($scope, $http, $timeout) {
   };
 
 
-  $scope.getCityList = function (gov) {
+  $scope.getCitiesList = function (gov) {
     if (!gov) {
       return;
     }
@@ -316,7 +316,7 @@ app.controller("companies", function ($scope, $http, $timeout) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.cityList = response.data.list;
+          $scope.citiesList = response.data.list;
         }
       },
       function (err) {

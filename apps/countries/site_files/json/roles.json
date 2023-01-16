@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "CountriesAdmin",
+    "en": "Countries Admin",
+    "ar": "إدارة الدول",
+    "permissions": ["CountriesManage"]
+}]

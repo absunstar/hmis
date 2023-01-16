@@ -1,0 +1,56 @@
+[
+  {
+    "category": "main",
+    "feature": "public",
+    "id" : "services",
+    "name": "Services"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id" : "countries",
+    "name": "Countries"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "goves",
+    "name": "Goves"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "cities",
+    "name": "Cities"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "areas",
+    "name": "Areas"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "nationalities",
+    "name": "Nationalities"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "servicesCategories",
+    "name": "Services Categories"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "servicesGroups",
+    "name": "Services Groups"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "achiCodes",
+    "name": "ACHI Codes"
+  }
+]

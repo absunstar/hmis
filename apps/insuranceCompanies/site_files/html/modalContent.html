@@ -1,0 +1,115 @@
+<div class="form" id="services">
+  <div class="tabs">
+    <div class="tabs-header full">
+      <a class="tab-link" onclick="site.showTabContent(event, '#general')">
+        <span> ##word.General##</span>
+      </a>
+
+      <a class="tab-link" onclick="site.showTabContent(event, '#discount')">
+        <span>##word.Discount##</span>
+      </a>
+    </div>
+
+    <div class="tabs-content">
+      <div id="general" class="tab-content">
+        <div class="row padding">
+          <div class="col9">
+            <div class="row">
+              <i-control type="text" v="r" ng-model="item.name" label="##word.Name##"></i-control>
+              <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
+            </div>
+
+            <div class="row">
+              <i-control type="number" class="col6" ng-model="item.freeRevistPeriod" label="##word.Free Revist Period##"></i-control>
+              <i-control type="number" class="col6" ng-model="item.freeRevistCount" label="##word.Free Revist Count##"></i-control>
+            </div>
+
+            <div class="row">
+              <i-control type="number" class="col6" ng-model="item.nonDiscountForm" label="##word.Non-Discount Form##"></i-control>
+              <i-control type="number" class="col6" ng-model="item.postingAccount" label="##word.Posting Account##"></i-control>
+            </div>
+
+            <div class="row">
+              <i-control type="text" class="col6" ng-model="item.vat" label="##word.VAT No.##"></i-control>
+              <i-control type="text" class="col6" ng-model="item.crn" label="##word.CRN##"></i-control>
+            </div>
+
+            <div class="row">
+              <i-list
+                help-id=""
+                class="col6"
+                label="##word.Country##"
+                ng-change="getGovesList(item.country)"
+                ng-model="item.country"
+                display="name"
+                items="countriesList"
+                ng-search="item.$Country"
+              ></i-list>
+              <i-list help-id="" class="col6" label="##word.Governorate##" ng-change="getCitiesList(item.gov)" ng-model="item.gov" display="name" items="govesList" ng-search="item.$gov"></i-list>
+            </div>
+
+            <div class="row">
+              <i-list class="col6" label="##word.City##" ng-model="item.city" ng-change="getAreasList(item.city)" items="citiesList" display="name" ng-search="_search.$area.$city_search"> </i-list>
+              <i-list class="col6" label="##word.Area##" ng-model="item.area" items="areasList" display="name" ng-search="_search.$area.$area_search"> </i-list>
+            </div>
+          </div>
+          <div class="col3">
+            <i-checkbox ng-model="item.active" label="##word.Active##"></i-checkbox>
+            <i-control ng-hide="disabledCode" label="##word.Code##" ng-model="item.code"> </i-control>
+            <i-image class="img256" ng-model="item.image"></i-image>
+          </div>
+        </div>
+      </div>
+
+      <div id="discount" class="tab-content">
+        <div class="row padding">
+          <div class="tabs">
+            <div class="tabs-header full">
+              <a class="tab-link" onclick="site.showTabContent(event, '#serviceGroup')">
+                <span> ##word.Service Group##</span>
+              </a>
+
+              <a class="tab-link" onclick="site.showTabContent(event, '#aa')">
+                <span> ##word.aaa Group##</span>
+              </a>
+
+            </div>
+
+            <div class="tabs-content">
+              <div id="serviceGroup" class="tab-content">
+                <h1>eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</h1>
+              </div>
+              <div id="aa" class="tab-content">
+                <h1>hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div ng-show="mode !== 'add' " class="row">
+  <table class="table hover border">
+    <tr>
+      <th>##word.addUserInfo##</th>
+      <th>##word.editUserInfo##</th>
+    </tr>
+    <tr>
+      <td class="center">
+        <p class="blue">{{item.addUserInfo.name}}</p>
+        <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
+        <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
+        <p class="bold">IP : {{item.addUserInfo.ip}}</p>
+      </td>
+
+      <td class="center">
+        <p class="blue">{{item.editUserInfo.name}}</p>
+        <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
+        <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
+        <p class="bold">IP : {{item.editUserInfo.ip}}</p>
+      </td>
+    </tr>
+  </table>
+</div>

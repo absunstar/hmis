@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "servicesCategories" , "name":"servicesCategoriesManage" , "en":"Manage" , "ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "servicesCategories" , "name":"servicesCategoriesAdd" , "en":"Add" , "ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "servicesCategories" , "name":"servicesCategoriesUpdate" , "en":"Edit" , "ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "servicesCategories" , "name":"servicesCategoriesDelete" , "en":"Delete" , "ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "servicesCategories" , "name":"servicesCategoriesView" , "en":"View" , "ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "servicesCategories" , "name":"servicesCategoriesSearch" , "en":"Search" , "ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "servicesCategories" , "name":"servicesCategoriesExport" , "en":"Export" , "ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "servicesCategories" , "name":"servicesCategoriesPrint" , "en":"Print" , "ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "servicesCategories" , "name":"servicesCategoriesUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+]

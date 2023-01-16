@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "services" , "name":"servicesManage" , "en":"Manage" , "ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "services" , "name":"servicesAdd" , "en":"Add" , "ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "services" , "name":"servicesUpdate" , "en":"Edit" , "ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "services" , "name":"servicesDelete" , "en":"Delete" , "ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "services" , "name":"servicesView" , "en":"View" , "ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "services" , "name":"servicesSearch" , "en":"Search" , "ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "services" , "name":"servicesExport" , "en":"Export" , "ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "services" , "name":"servicesPrint" , "en":"Print" , "ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "services" , "name":"servicesUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+]

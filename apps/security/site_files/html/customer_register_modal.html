@@ -26,7 +26,7 @@
                     label="##word.security_company##"
                     ng-search="_search.$company_search"
                     ng-change="customer.branch = {};getGovList(customer.company.id)"
-                    display="name_##session.lang##"
+                    display="name"
                     class="col4"
                     items="company_list"
                     ng-model="customer.company"
@@ -37,7 +37,7 @@
                     label="##word.security_branch##"
                     v="r"
                     primary="code"
-                    display="name_##session.lang##"
+                    display="name"
                     ng-search="_search.$branch_search"
                     class="col4"
                     items="customer.company.branch_list"
@@ -123,11 +123,11 @@
                     <div class="row center">
                       <i-list
                         class="col6"
-                        label="##word.gov##"
+                        label="##word.Governorate##"
                         ng-model="customer.gov"
                         items="govList"
-                        display="name_##session.lang##"
-                        ng-change="getCityList(customer.gov)"
+                        display="name"
+                        ng-change="getCitiesList(customer.gov)"
                         ng-search="_search.$govNameContact"
                       >
                       </i-list>
@@ -135,9 +135,9 @@
                         class="col6"
                         label="##word.city##"
                         ng-model="customer.city"
-                        items="cityList"
-                        ng-change="getAreaList(customer.city)"
-                        display="name_##session.lang##"
+                        items="citiesList"
+                        ng-change="getareasList(customer.city)"
+                        display="name"
                         ng-search="_search.$customer.$city_search"
                       ></i-list>
                     </div>
@@ -168,8 +168,8 @@
                     class="col4"
                     label="##word.area##"
                     ng-model="customer.area"
-                    items="areaList"
-                    display="name_##session.lang##"
+                    items="areasList"
+                    display="name"
                     ng-search="_search.$customer.$area_search"
                   >
                   </i-list>

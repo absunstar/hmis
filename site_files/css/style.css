@@ -9,3 +9,6 @@ body {
   margin-bottom: 0px !important;
   padding-top: 100px;
 }
+.no-line {
+  text-decoration-line : unset
+}

@@ -42,6 +42,6 @@ site.loadLocalApp('ui-print');
 site.run();
 
 
-let app2 = site.getApp('setting');
+// let app2 = site.getApp('setting');
 
-app2.siteName
+// app2.siteName

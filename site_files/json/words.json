@@ -1,1 +1,72 @@
-[]
+[
+  {
+    "name": "Print",
+    "en": "Print",
+    "ar": "طباعة"
+  },
+  {
+    "name": "Export to excel",
+    "en": "Export to excel",
+    "ar": "تصدير إلى إكسل"
+  },
+  {
+    "name": "New",
+    "en": "New",
+    "ar": "جديد"
+  },
+  {
+    "name": "Accounting",
+    "en": "Accounting",
+    "ar": "الحسابات"
+  },
+  {
+    "name": "Must Enter Code",
+    "en": "Must Enter Code",
+    "ar": "يجب إدخال الكود"
+  },
+  {
+    "name": "Inventory",
+    "en": "Inventory",
+    "ar": "المخازن"
+  },
+  {
+    "name": "Actions",
+    "en": "Actions",
+    "ar": "الإجراءات"
+  },
+  {
+    "name": "Close",
+    "en": "Close",
+    "ar": "إغلاق"
+  },
+  {
+    "name": "Name",
+    "en": "Name",
+    "ar": "الإسم"
+  },
+  {
+    "name": "Add",
+    "en": "Add",
+    "ar": "إضافة"
+  },
+  {
+    "name": "Edit",
+    "en": "Edit",
+    "ar": "تعديل"
+  },
+  {
+    "name": "Delete",
+    "en": "Delete",
+    "ar": "حذف"
+  },
+  {
+    "name": "Details",
+    "en": "Details",
+    "ar": "تفاصيل"
+  },
+  {
+    "name": "Search All",
+    "en": "Search All",
+    "ar": "البحث الشامل"
+  }
+]

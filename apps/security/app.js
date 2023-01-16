@@ -73,7 +73,7 @@ module.exports = function init(site) {
 
     let where = req.body.where || {};
     if (!site.feature('souq') || !site.feature('cms')) {
-      where['company.id'] = site.get_company(req).id;
+      where['company.id'] = site.getCompany(req).id;
       where['branch.code'] = site.get_branch(req).code;
     }
 
@@ -136,18 +136,18 @@ module.exports = function init(site) {
     user.$req = req;
     user.$res = res;
 
-    user.company = site.get_company(req);
+    user.company = site.getCompany(req);
     user.branch = site.get_branch(req);
 
     site.$users.findMany(
       {
         where: {
-          'company.id': site.get_company(req).id,
+          'company.id': site.getCompany(req).id,
         },
       },
       (err, docs, count) => {
-        if (!err && count >= (site.get_company(req).users_count || 0)) {
-          response.error = `You have exceeded the maximum number of Users [ ${count} of ${site.get_company(req).users_count} ]`;
+        if (!err && count >= (site.getCompany(req).users_count || 0)) {
+          response.error = `You have exceeded the maximum number of Users [ ${count} of ${site.getCompany(req).users_count} ]`;
           res.json(response);
         } else {
           site.security.addUser(user, (err, _id) => {

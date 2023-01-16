@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "achiCodesAdmin",
+    "en": "ACHI Codes Admin",
+    "ar": "إدارة آشي كود",
+    "permissions": ["achiCodesManage"]
+}]

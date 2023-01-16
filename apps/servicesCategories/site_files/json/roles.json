@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "servicesCategoriesAdmin",
+    "en": "Services Categories Admin",
+    "ar": "إدارة فئات الخدمات",
+    "permissions": ["servicesCategoriesManage"]
+}]

@@ -1,0 +1,77 @@
+[
+    {
+        "name": "Numbering Screen",
+        "en": "Numbering Screen",
+        "ar": "شاشة الترقيم"
+    },
+    {
+        "name": "Numbering",
+        "en": "Numbering",
+        "ar": "الترقيم"
+    },
+    {
+        "name": "Screen Name",
+        "en": "Screen Name",
+        "ar": "إسم الشاشة"
+    },
+    {
+        "name": "First Transaction Number",
+        "en": "First Transaction Number",
+        "ar": "رقم أول معاملة"
+    },
+    {
+        "name": "Beginning Numbering",
+        "en": "Beginning Numbering",
+        "ar": "بداية الترقيم"
+    },
+    {
+        "name": "Last Number",
+        "en": "Last Number",
+        "ar": "أخر رقم"
+    },
+    {
+        "name": "Financial Year",
+        "en": "Financial year",
+        "ar": "سنة مالية"
+    },
+    {
+        "name": "Accounting Period",
+        "en": "Accounting period",
+        "ar": "فترة محاسبية"
+    },
+    {
+        "name": "Connected",
+        "en": "Connected",
+        "ar": "متصل"
+    },
+    {
+        "name": "Manual",
+        "en": "Manual",
+        "ar": "يدوي"
+    },
+    {
+        "name": "Type Numbering",
+        "en": "Type Numbering",
+        "ar": "نوع الترقيم"
+    },
+    {
+        "name": "Year Name",
+        "en": "Year Name",
+        "ar": "إسم السنة"
+    },
+    {
+        "name": "The Month",
+        "en": "The Month",
+        "ar": "الشهر"
+    },
+    {
+        "name": "Separator Symbol",
+        "en": "Separator Symbol",
+        "ar": "الرمز الفاصل"
+    },
+    {
+        "name": "circulate",
+        "en": "Circulate",
+        "ar": "تعميم"
+    }
+]

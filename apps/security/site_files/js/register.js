@@ -190,7 +190,7 @@ app.controller("register", function ($scope, $http) {
     );
   };
 
-  $scope.getCityList = function (gov) {
+  $scope.getCitiesList = function (gov) {
     $scope.busy = true;
     $http({
       method: "POST",
@@ -206,7 +206,7 @@ app.controller("register", function ($scope, $http) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.cityList = response.data.list;
+          $scope.citiesList = response.data.list;
         }
       },
       function (err) {
@@ -216,7 +216,7 @@ app.controller("register", function ($scope, $http) {
     );
   };
 
-  $scope.getAreaList = function (city) {
+  $scope.getareasList = function (city) {
     $scope.busy = true;
     $http({
       method: "POST",
@@ -231,7 +231,7 @@ app.controller("register", function ($scope, $http) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.areaList = response.data.list;
+          $scope.areasList = response.data.list;
         }
       },
       function (err) {

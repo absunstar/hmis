@@ -12,7 +12,7 @@
     </div>
 
     <div class="row padding">
-      <i-control ng-model="$search" x-permissions="CountriesSearch || countriesManage"></i-control>
+      <i-control ng-model="$search" x-permissions="countriesSearch || countriesManage"></i-control>
     </div>
     <table class="table hover bold" id="t1">
       <tr>
@@ -31,14 +31,14 @@
         <td class="text-center not-print">
           <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
-          <i-button type="edit" x-permissions="CountriesUpdate || countriesManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
+          <i-button type="edit" x-permissions="countriesUpdate || countriesManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
 
-          <i-button type="delete" x-permissions="CountriesDelete || countriesManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
+          <i-button type="delete" x-permissions="countriesDelete || countriesManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
         </td>
       </tr>
     </table>
-    <i-button x-permissions="CountriesPrint || countriesManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
-    <i-button x-permissions="CountriesExport || countriesManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')">
+    <i-button x-permissions="countriesPrint || countriesManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
+    <i-button x-permissions="countriesExport || countriesManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')">
     </i-button>
   </div>
 </div>

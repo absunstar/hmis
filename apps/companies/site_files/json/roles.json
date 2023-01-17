@@ -15,8 +15,8 @@
       "offersManage",
       "servicesManage",
       "insuranceCompaniesManage",
-      "areasManage",
-      "areasManage"
+      "insuranceContractsManage",
+      "subInsurancesManage"
     ]
   }
 ]

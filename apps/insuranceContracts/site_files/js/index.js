@@ -1,12 +1,12 @@
-app.controller('servicesGroups', function ($scope, $http, $timeout) {
+app.controller('insuranceContracts', function ($scope, $http, $timeout) {
   $scope.baseURL = '';
-  $scope.appName = 'servicesGroups';
-  $scope.modalID = '#servicesGroupsManageModal';
-  $scope.modalSearchID = '#servicesGroupsSearchModal';
+  $scope.appName = 'insuranceContracts';
+  $scope.modalID = '#insuranceContractsManageModal';
+  $scope.modalSearchID = '#insuranceContractsSearchModal';
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: '/images/servicesGroups.png',
+    image: '/images/insuranceContracts.png',
     active: true,
   };
   $scope.item = {};
@@ -15,7 +15,7 @@ app.controller('servicesGroups', function ($scope, $http, $timeout) {
   $scope.showAdd = function (_item) {
     $scope.error = '';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure, servicesList: [], servicesCategoriesList: [] };
+    $scope.item = { ...$scope.structure };
     site.showModal($scope.modalID);
   };
 
@@ -187,17 +187,55 @@ app.controller('servicesGroups', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getservicesGroupsTypeList = function () {
+  $scope.getInsuranceCompaniesList = function () {
     $scope.busy = true;
+    $scope.insuranceCompaniesList = [];
     $http({
       method: 'POST',
-      url: '/api/servicesTypeGroups',
-      data: {},
+      url: '/api/insuranceCompanies/all',
+      data: {
+        where: {
+          active: true,
+        },
+        select: {
+          id: 1,
+          name: 1,
+        }
+      },
     }).then(
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.servicesGroupsTypeList = response.data.list;
+          $scope.insuranceCompaniesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getSubInsurancesList = function () {
+    $scope.busy = true;
+    $scope.subInsuranceList = [];
+     $http({
+      method: 'POST',
+      url: '/api/subInsurances/all',
+      data: {
+        where: {
+          active: true,
+        },
+        select: {
+          id: 1,
+          name: 1,
+        }
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.subInsurancesList = response.data.list;
         }
       },
       function (err) {
@@ -230,88 +268,6 @@ app.controller('servicesGroups', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getServicesCategoriesList = function () {
-    $scope.busy = true;
-    $scope.servicesList = [];
-    $http({
-      method: 'POST',
-      url: '/api/servicesCategories/all',
-      data: {
-        where: { active: true },
-        select: {
-          id: 1,
-          code: 1,
-          name: 1,
-        },
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.list.length > 0) {
-          $scope.servicesCategoriesList = response.data.list;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
-
-  $scope.getServicesList = function () {
-    $scope.busy = true;
-    $scope.servicesList = [];
-    $http({
-      method: 'POST',
-      url: '/api/services/all',
-      data: {
-        where: { active: true },
-        select: {
-          id: 1,
-          code: 1,
-          name: 1,
-        },
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.list.length > 0) {
-          $scope.servicesList = response.data.list;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
-
-  $scope.addServicesCategories = function (_item) {
-    $scope.error = '';
-    if (_item.$serviceCategory && _item.$serviceCategory.id) {
-      if (!_item.servicesCategoriesList.some((s) => s.id === _item.$serviceCategory.id)) {
-        _item.servicesCategoriesList.push({ ..._item.$serviceCategory });
-      }
-      _item.$serviceCategory = {};
-    } else {
-      $scope.error = 'Must Select Service Category';
-      return;
-    }
-  };
-
-  $scope.addServices = function (_item) {
-    $scope.error = '';
-    if (_item.$service && _item.$service.id) {
-      if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
-        _item.servicesList.push({ ..._item.$service });
-      }
-      _item.$service = {};
-    } else {
-      $scope.error = 'Must Select Service';
-      return;
-    }
-  };
-
   $scope.showSearch = function () {
     $scope.error = '';
     site.showModal($scope.modalSearchID);
@@ -324,8 +280,7 @@ app.controller('servicesGroups', function ($scope, $http, $timeout) {
   };
 
   $scope.getAll();
+  $scope.getInsuranceCompaniesList();
+  $scope.getSubInsurancesList();
   $scope.getNumberingAuto();
-  $scope.getservicesGroupsTypeList();
-  $scope.getServicesList();
-  $scope.getServicesCategoriesList();
 });

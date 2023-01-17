@@ -15,7 +15,7 @@ app.controller('servicesCategories', function ($scope, $http, $timeout) {
   $scope.showAdd = function (_item) {
     $scope.error = '';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure, servicesList : [] };
+    $scope.item = { ...$scope.structure, servicesList: [] };
     site.showModal($scope.modalID);
   };
 
@@ -261,14 +261,7 @@ app.controller('servicesCategories', function ($scope, $http, $timeout) {
   $scope.addServices = function (_item) {
     $scope.error = '';
     if (_item.$service && _item.$service.id) {
-      let found = false;
-      _item.servicesList.forEach((s) => {
-        if (s.id === _item.$service.id) {
-          found = true;
-        }
-      });
-
-      if (!found) {
+      if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
         _item.servicesList.push({ ..._item.$service });
       }
       _item.$service = {};

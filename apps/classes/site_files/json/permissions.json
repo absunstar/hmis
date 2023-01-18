@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "classes" , "name":"classesManage" , "en":"Manage" , "ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "classes" , "name":"classesAdd" , "en":"Add" , "ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "classes" , "name":"classesUpdate" , "en":"Edit" , "ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "classes" , "name":"classesDelete" , "en":"Delete" , "ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "classes" , "name":"classesView" , "en":"View" , "ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "classes" , "name":"classesSearch" , "en":"Search" , "ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "classes" , "name":"classesExport" , "en":"Export" , "ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "classes" , "name":"classesPrint" , "en":"Print" , "ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "classes" , "name":"classesUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+]

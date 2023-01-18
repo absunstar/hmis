@@ -72,8 +72,8 @@
               </div>
 
               <div class="row">
-                <i-list class="col6" label="##word.City##" ng-model="item.city" ng-change="getAreasList(item.city)" items="citiesList" display="name" ng-search="_search.$area.$city_search"> </i-list>
-                <i-list class="col6" label="##word.Area##" ng-model="item.area" items="areasList" display="name" ng-search="_search.$area.$area_search"> </i-list>
+                <i-list class="col6" label="##word.City##" ng-model="item.city" ng-change="getAreasList(item.city)" items="citiesList" display="name" ng-search="item.$city_search"> </i-list>
+                <i-list class="col6" label="##word.Area##" ng-model="item.area" items="areasList" display="name" ng-search="item.$area_search"> </i-list>
               </div>
 
               <div class="row">

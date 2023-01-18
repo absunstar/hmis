@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "hospitalCenters" , "name":"hospitalCentersManage" , "en":"Manage" , "ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "hospitalCenters" , "name":"hospitalCentersAdd" , "en":"Add" , "ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "hospitalCenters" , "name":"hospitalCentersUpdate" , "en":"Edit" , "ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "hospitalCenters" , "name":"hospitalCentersDelete" , "en":"Delete" , "ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "hospitalCenters" , "name":"hospitalCentersView" , "en":"View" , "ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "hospitalCenters" , "name":"hospitalCentersSearch" , "en":"Search" , "ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "hospitalCenters" , "name":"hospitalCentersExport" , "en":"Export" , "ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "hospitalCenters" , "name":"hospitalCentersPrint" , "en":"Print" , "ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "hospitalCenters" , "name":"hospitalCentersUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+]

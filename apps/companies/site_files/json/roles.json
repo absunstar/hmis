@@ -13,10 +13,15 @@
       "servicesGroupsManage",
       "achiCodesManage",
       "offersManage",
+      "patientsManage",
       "servicesManage",
       "insuranceCompaniesManage",
       "insuranceContractsManage",
-      "subInsurancesManage"
+      "subInsurancesManage",
+      "hospitalCentersManage",
+      "doctorsManage",
+      "specialtiesManage",
+      "classesManage"
     ]
   }
 ]

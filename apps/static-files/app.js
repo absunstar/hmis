@@ -1,5 +1,5 @@
 module.exports = function init(site) {
-  site.post('/api/patientType', (req, res) => {
+  site.post('/api/patientTypes', (req, res) => {
     let list = [
       { id: 1, code : 'N', name: 'Normal',nameAr : 'عادي' },
       { id: 4, code : 'H', name: 'HIJ',nameAr : 'مركز الحجامة' },
@@ -19,7 +19,20 @@ module.exports = function init(site) {
     });
   });
 
-  site.post('/api/paymentType', (req, res) => {
+  site.post('/api/doctorTypes', (req, res) => {
+    let list = [
+      { id: 1, code : 'G', name: 'General',nameAr : 'عام' },
+      { id: 1, code : 'M', name: 'Medical Director',nameAr : 'المدير الطبي' },
+      
+    ];
+
+    res.json({
+      done: true,
+      list: list,
+    });
+  });
+
+  site.post('/api/paymentTypes', (req, res) => {
     let list = [
       { id: 1, code : 001, name: 'CASH',nameAr : 'النقد' },
       { id: 2, code : 002, name: 'CHEQUE',nameAr : 'بالشيك' },
@@ -77,7 +90,7 @@ module.exports = function init(site) {
     });
   });
 
-  site.post('/api/costCenters', (req, res) => {
+  site.post('/api/centersTypes', (req, res) => {
     let list = [
       { id: 1, code : 'O', name: 'Other' },
       { id: 2, code : 'P', name: 'Pharmacy' },
@@ -114,7 +127,7 @@ module.exports = function init(site) {
     });
   });
 
-  site.post('/api/gender', (req, res) => {
+  site.post('/api/genders', (req, res) => {
     let list = [
       { id: 'm', name: 'Male' },
       { id: 'f', name: 'Female' },

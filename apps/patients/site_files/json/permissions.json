@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsManage" , "en":"Manage" , "ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsAdd" , "en":"Add" , "ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsUpdate" , "en":"Edit" , "ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsDelete" , "en":"Delete" , "ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsView" , "en":"View" , "ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsSearch" , "en":"Search" , "ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsExport" , "en":"Export" , "ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsPrint" , "en":"Print" , "ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+]

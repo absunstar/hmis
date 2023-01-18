@@ -3,6 +3,7 @@
     <div class="col7">
       <div class="row">
         <i-control type="text" v="r" ng-model="item.name" label="##word.Name##"></i-control>
+        <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
         <i-list help-id="" v="r" label="##word.Country##" ng-change="getGovesList(item.country)" ng-model="item.country" display="name" items="countriesList" ng-search="item.$Country"></i-list>
         <i-list help-id="" v="r" label="##word.Governorate##" ng-model="item.gov" display="name" items="govesList" ng-search="item.$gov"></i-list>
       </div>

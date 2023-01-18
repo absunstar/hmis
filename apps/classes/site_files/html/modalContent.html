@@ -3,11 +3,9 @@
     <div class="col7">
       <div class="row">
         <i-control type="text" v="r" ng-model="item.name" label="##word.Name##"></i-control>
-        <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
-        <i-list help-id="" v="r" label="##word.Country##" ng-model="item.country" display="name" items="countriesList" ng-search="item.$Countries"></i-list>
       </div>
     </div>
-    <div class="col5 center">
+    <div class="col5">
       <i-control ng-hide="disabledCode" label="##word.Code##" ng-model="item.code"> </i-control>
       <i-image class="img256 center" ng-model="item.image"></i-image>
       <i-checkbox ng-model="item.active" label="##word.Active##"></i-checkbox>

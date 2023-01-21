@@ -393,12 +393,12 @@ app.controller('patients', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getClassesList = function () {
+  $scope.getinsuranceClassesList = function () {
     $scope.busy = true;
-    $scope.classesList = [];
+    $scope.insuranceClassesList = [];
     $http({
       method: 'POST',
-      url: '/api/classes/all',
+      url: '/api/insuranceClasses/all',
       data: {
         where: {
           active: true,
@@ -409,7 +409,7 @@ app.controller('patients', function ($scope, $http, $timeout) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.classesList = response.data.list;
+          $scope.insuranceClassesList = response.data.list;
         }
       },
       function (err) {
@@ -513,6 +513,6 @@ app.controller('patients', function ($scope, $http, $timeout) {
   $scope.getMaritalStatusList();
   $scope.getOffersList();
   $scope.getCountriesList();
-  $scope.getClassesList();
+  $scope.getinsuranceClassesList();
   $scope.getSubInsurancesList();
 });

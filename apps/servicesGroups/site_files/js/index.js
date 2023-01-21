@@ -6,7 +6,7 @@ app.controller('servicesGroups', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: '/images/servicesGroups.png',
+    image: '/images/service.png',
     active: true,
   };
   $scope.item = {};
@@ -16,6 +16,7 @@ app.controller('servicesGroups', function ($scope, $http, $timeout) {
     $scope.error = '';
     $scope.mode = 'add';
     $scope.item = { ...$scope.structure, servicesList: [], servicesCategoriesList: [] };
+    site.resetValidated($scope.modalID);
     site.showModal($scope.modalID);
   };
 

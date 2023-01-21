@@ -238,14 +238,14 @@
               <tr>
                 <th>##word.Code##</th>
                 <th>##word.Name##</th>
-                <th>##word.Classes##</th>
+                <th>##word.insuranceClasses##</th>
                 <th>##word.Need Approval##</th>
                 <th class="not-print">##word.Actions##</th>
               </tr>
               <tr ng-repeat="s in item.coverageServicesGroupsList">
                 <td class="text-center blue">{{s.code}}</td>
                 <td class="text-center">{{s.name}}</td>
-                <td class="text-center"><i-control type="number" ng-model="s.classes"></i-control></td>
+                <td class="text-center"><i-control type="number" ng-model="s.insuranceClasses"></i-control></td>
                 <td class="text-center"><i-checkbox label="##word.Need Approval##" ng-model="s.needApproval"></i-checkbox></td>
                 <td class="text-center not-print">
                   <i-button type="delete default" ng-click="item.coverageServicesGroupsList.splice($index,1)"> </i-button>
@@ -276,14 +276,14 @@
               <tr>
                 <th>##word.Code##</th>
                 <th>##word.Name##</th>
-                <th>##word.Classes##</th>
+                <th>##word.insuranceClasses##</th>
                 <th>##word.Need Approval##</th>
                 <th class="not-print">##word.Actions##</th>
               </tr>
               <tr ng-repeat="s in item.coverageServicesCategoriesList">
                 <td class="text-center blue">{{s.code}}</td>
                 <td class="text-center">{{s.name}}</td>
-                <td class="text-center"><i-control type="number" ng-model="s.classes"></i-control></td>
+                <td class="text-center"><i-control type="number" ng-model="s.insuranceClasses"></i-control></td>
                 <td class="text-center"><i-checkbox label="##word.Need Approval##" ng-model="s.needApproval"></i-checkbox></td>
 
                 <td class="text-center not-print">
@@ -307,14 +307,14 @@
               <tr>
                 <th>##word.Code##</th>
                 <th>##word.Name##</th>
-                <th>##word.Classes##</th>
+                <th>##word.insuranceClasses##</th>
                 <th>##word.Need Approval##</th>
                 <th class="not-print">##word.Actions##</th>
               </tr>
               <tr ng-repeat="s in item.coverageServicesList">
                 <td class="text-center blue">{{s.code}}</td>
                 <td class="text-center">{{s.name}}</td>
-                <td class="text-center"><i-control type="number" ng-model="s.classes"></i-control></td>
+                <td class="text-center"><i-control type="number" ng-model="s.insuranceClasses"></i-control></td>
                 <td class="text-center"><i-checkbox label="##word.Need Approval##" ng-model="s.needApproval"></i-checkbox></td>
 
                 <td class="text-center not-print">

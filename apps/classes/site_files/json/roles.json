@@ -1,7 +1,0 @@
-[{
-    "moduleName" : "public" ,
-    "name": "classesAdmin",
-    "en": "Classes Admin",
-    "ar": "إدارة الفئات",
-    "permissions": ["classesManage"]
-}]

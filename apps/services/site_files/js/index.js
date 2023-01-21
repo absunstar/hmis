@@ -6,7 +6,7 @@ app.controller('services', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: '/images/services.png',
+    image: { url: '/images/service.png' },
     active: true,
   };
   $scope.item = {};
@@ -16,9 +16,9 @@ app.controller('services', function ($scope, $http, $timeout) {
     $scope.error = '';
     $scope.mode = 'add';
     $scope.item = { ...$scope.structure };
+    site.resetValidated($scope.modalID);
     site.showModal($scope.modalID);
     document.querySelector(`${$scope.modalID} .tab-link`).click();
-
   };
 
   $scope.add = function (_item) {

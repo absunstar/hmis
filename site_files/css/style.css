@@ -1,14 +1,45 @@
 :root {
-  --theme-color: #2196f3;
+  --theme-color: #009688;
   --border: 2px solid #9e9e9e;
   --color: #607d8b;
-  --body-background: #fff;
-  --bs-body-bg: #fff;
+  --body-background: #fbfbfb;
+  --bs-body-bg: #fbfbfb;
+  --modal-animation-duration: 0.1s;
+  --tabs-header-link-color: #0000005e;
+  --tabs-header-link-font-weight: bold;
+  --modal-header-background-color: #024e47;
+  --modal-background: #000000c4;
+}
+.modal {
+  --bs-modal-bg: #fbfbfb;
+}
+.modal-header p {
+  font-weight: bold;
+  text-shadow: 0 0 8px black;
+  font-size: 20px;
+}
+.modal-footer {
+  display: block;
+  width: 100%;
+  background: #00cbb8;
 }
 body {
   margin-bottom: 0px !important;
   padding-top: 100px;
 }
+.tabs:has(.tabs-header.full) {
+  padding: 0px;
+  width: 100%;
+  border: 5px solid #009688;
+}
+.tabs .tabs-header.full {
+  background: var(--theme-color);
+  padding: 10px;
+  border-radius: 0px 0px 15px 15px;
+  min-height: 45px;
+}
+.tabs .tabs-header .tab-link.active {
+}
 .no-line {
-  text-decoration-line : unset
+  text-decoration-line: unset;
 }

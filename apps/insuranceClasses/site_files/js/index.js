@@ -1,12 +1,12 @@
-app.controller('servicesCategories', function ($scope, $http, $timeout) {
+app.controller('insuranceClasses', function ($scope, $http, $timeout) {
   $scope.baseURL = '';
-  $scope.appName = 'servicesCategories';
-  $scope.modalID = '#servicesCategoriesManageModal';
-  $scope.modalSearchID = '#servicesCategoriesSearchModal';
+  $scope.appName = 'insuranceClasses';
+  $scope.modalID = '#insuranceClassesManageModal';
+  $scope.modalSearchID = '#insuranceClassesSearchModal';
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: '/images/service.png',
+    image: '/images/insuranceClasses.png',
     active: true,
   };
   $scope.item = {};
@@ -15,8 +15,7 @@ app.controller('servicesCategories', function ($scope, $http, $timeout) {
   $scope.showAdd = function (_item) {
     $scope.error = '';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure, servicesList: [] };
-    site.resetValidated($scope.modalID);
+    $scope.item = { ...$scope.structure };
     site.showModal($scope.modalID);
   };
 
@@ -188,26 +187,6 @@ app.controller('servicesCategories', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getservicesCategoriesTypeList = function () {
-    $scope.busy = true;
-    $http({
-      method: 'POST',
-      url: '/api/servicesTypeCategories',
-      data: {},
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.list.length > 0) {
-          $scope.servicesCategoriesTypeList = response.data.list;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
-
   $scope.getNumberingAuto = function () {
     $scope.error = '';
     $scope.busy = true;
@@ -231,47 +210,6 @@ app.controller('servicesCategories', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getServicesList = function () {
-    $scope.busy = true;
-    $scope.servicesList = [];
-    $http({
-      method: 'POST',
-      url: '/api/services/all',
-      data: {
-        where: { active: true },
-        select: {
-          id: 1,
-          code: 1,
-          name: 1,
-        },
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.list.length > 0) {
-          $scope.servicesList = response.data.list;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
-
-  $scope.addServices = function (_item) {
-    $scope.error = '';
-    if (_item.$service && _item.$service.id) {
-      if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
-        _item.servicesList.push({ ..._item.$service });
-      }
-      _item.$service = {};
-    } else {
-      $scope.error = 'Must Select Service';
-      return;
-    }
-  };
-
   $scope.showSearch = function () {
     $scope.error = '';
     site.showModal($scope.modalSearchID);
@@ -285,6 +223,4 @@ app.controller('servicesCategories', function ($scope, $http, $timeout) {
 
   $scope.getAll();
   $scope.getNumberingAuto();
-  $scope.getservicesCategoriesTypeList();
-  $scope.getServicesList();
 });

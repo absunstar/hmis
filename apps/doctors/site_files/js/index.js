@@ -17,6 +17,7 @@ app.controller('doctors', function ($scope, $http, $timeout) {
     $scope.mode = 'add';
     $scope.item = { ...$scope.structure };
     site.showModal($scope.modalID);
+    document.querySelector(`${$scope.modalID} .tab-link`).click();
   };
 
   $scope.add = function (_item) {
@@ -58,6 +59,7 @@ app.controller('doctors', function ($scope, $http, $timeout) {
     $scope.view(_item);
     $scope.item = {};
     site.showModal($scope.modalID);
+    document.querySelector(`${$scope.modalID} .tab-link`).click();
   };
 
   $scope.update = function (_item) {
@@ -98,6 +100,7 @@ app.controller('doctors', function ($scope, $http, $timeout) {
     $scope.item = {};
     $scope.view(_item);
     site.showModal($scope.modalID);
+    document.querySelector(`${$scope.modalID} .tab-link`).click();
   };
 
   $scope.view = function (_item) {
@@ -130,6 +133,7 @@ app.controller('doctors', function ($scope, $http, $timeout) {
     $scope.item = {};
     $scope.view(_item);
     site.showModal($scope.modalID);
+    document.querySelector(`${$scope.modalID} .tab-link`).click();
   };
 
   $scope.delete = function (_item) {
@@ -160,6 +164,148 @@ app.controller('doctors', function ($scope, $http, $timeout) {
       }
     );
   };
+
+  $scope.getSpecialtiesList = function () {
+    $scope.busy = true;
+    $scope.specialtiesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/specialties/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          code: 1,
+          name: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.specialtiesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getServicesList = function () {
+    $scope.busy = true;
+    $scope.servicesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/services/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          code: 1,
+          name: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.servicesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getNationalitiesList = function () {
+    $scope.busy = true;
+    $scope.nationaltiesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/nationalities/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          code: 1,
+          name: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.nationalitiesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getDoctorTypesList = function () {
+    $scope.busy = true;
+    $scope.doctorTypesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/doctorTypes',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          code: 1,
+          name: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.doctorTypesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getHospitalCenterList = function () {
+    $scope.busy = true;
+    $scope.hospitalCentersList = [];
+    $http({
+      method: 'POST',
+      url: '/api/hospitalCenters/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          code: 1,
+          name: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.hospitalCentersList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+
 
   $scope.getAll = function (where) {
     $scope.busy = true;
@@ -223,4 +369,9 @@ app.controller('doctors', function ($scope, $http, $timeout) {
 
   $scope.getAll();
   $scope.getNumberingAuto();
+  $scope.getServicesList();
+  $scope.getNationalitiesList();
+  $scope.getDoctorTypesList();
+  $scope.getHospitalCenterList();
+  $scope.getSpecialtiesList();
 });

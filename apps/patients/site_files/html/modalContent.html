@@ -1,10 +1,11 @@
 <div class="row">
   <div class="row">
     <i-control ng-hide="disabledCode" class="col4" label="##word.Code##" ng-model="item.code"> </i-control>
+    <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
   </div>
   <fieldset>
-    <div class="tabs">
-      <div class="tabs-header">
+    <div class="tabs ">
+      <div class="tabs-header full">
         <a class="tab-link" onclick="site.showTabContent(event, '#required')">
           <span> ##word.Required##</span>
         </a>
@@ -31,8 +32,8 @@
             <div class="col9">
               <fieldset>
                 <div class="row">
-                  <i-control class="col6" label="##word.Full Name##" ng-model="item.fullName"> </i-control>
-                  <i-control class="col6" label="الإسم بالكامل" ng-model="item.fullNameAr"> </i-control>
+                  <i-control label="##word.Full Name##" ng-model="item.fullName"> </i-control>
+                  <i-control label="الإسم بالكامل" ng-model="item.fullNameAr"> </i-control>
                 </div>
 
                 <div class="row">
@@ -103,7 +104,6 @@
             </div>
             <div class="col3">
               <i-image class="img256" ng-model="item.image"></i-image>
-              <i-checkbox ng-model="item.active" label="##word.Active##"></i-checkbox>
             </div>
           </div>
         </div>
@@ -234,8 +234,8 @@
             <fieldset>
               <div class="col7">
                 <div class="row">
-                  <i-list label="##word.Insurance Company##" ng-model="item.subInsurance" display="name" items="subInsurancesList" ng-search="item.$subInsurance"></i-list>
-                  <i-list label="##word.Class##" ng-model="item.class" items="insuranceClassesList" display="name" ng-search="item.$class"> </i-list>
+                  <i-list label="##word.Insurance Company##" ng-model="item.insurancecompany" display="name" items="insurancecompaniesList" ng-search="item.$insurancecompany"></i-list>
+                  <i-list label="##word.Insurance Class##" ng-model="item.insuranceClass" items="insuranceClassesList" display="name" ng-search="item.$insuranceClass"> </i-list>
                   <i-control label="##word.Member##" ng-model="item.member"> </i-control>
                   <i-date label="##word.Expiry Date##" ng-model="item.expiryDate"></i-date>
                 </div>

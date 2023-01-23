@@ -1,7 +1,0 @@
-[{
-    "moduleName" : "public" ,
-    "name": "subInsurancesAdmin",
-    "en": "Sub Insurances Admin",
-    "ar": "إدارة شركات التأمين الفرعية",
-    "permissions": ["subInsurancesManage"]
-}]

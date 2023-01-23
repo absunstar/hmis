@@ -2,13 +2,16 @@
   <div class="row padding">
     <div class="col7">
       <div class="row">
+        <div class="row">
+
+          <i-control ng-hide="disabledCode" class="col9" label="##word.Code##" ng-model="item.code"> </i-control>
+          <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
+        </div>
         <i-control type="text" v="r" ng-model="item.name" label="##word.Name##"></i-control>
       </div>
     </div>
     <div class="col5">
-      <i-control ng-hide="disabledCode" label="##word.Code##" ng-model="item.code"> </i-control>
       <i-image class="img256 center" ng-model="item.image"></i-image>
-      <i-checkbox ng-model="item.active" label="##word.Active##"></i-checkbox>
     </div>
   </div>
   <div class="row padding"></div>

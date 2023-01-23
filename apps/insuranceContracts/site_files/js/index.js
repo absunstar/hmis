@@ -6,7 +6,7 @@ app.controller('insuranceContracts', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: '/images/insuranceContracts.png',
+    image: {url :'/images/insuranceContracts.png'},
     active: true,
   };
   $scope.item = {};
@@ -187,12 +187,12 @@ app.controller('insuranceContracts', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getInsuranceCompaniesList = function () {
+  $scope.getMainInsuranceCompaniesList = function () {
     $scope.busy = true;
-    $scope.insuranceCompaniesList = [];
+    $scope.mainInsuranceCompaniesList = [];
     $http({
       method: 'POST',
-      url: '/api/insuranceCompanies/all',
+      url: '/api/mainInsuranceCompanies/all',
       data: {
         where: {
           active: true,
@@ -206,7 +206,7 @@ app.controller('insuranceContracts', function ($scope, $http, $timeout) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.insuranceCompaniesList = response.data.list;
+          $scope.mainInsuranceCompaniesList = response.data.list;
         }
       },
       function (err) {
@@ -280,7 +280,7 @@ app.controller('insuranceContracts', function ($scope, $http, $timeout) {
   };
 
   $scope.getAll();
-  $scope.getInsuranceCompaniesList();
+  $scope.getMainInsuranceCompaniesList();
   $scope.getSubInsurancesList();
   $scope.getNumberingAuto();
 });

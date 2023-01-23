@@ -16,14 +16,14 @@
     </div>
     <table class="table hover bold" id="t1">
       <tr>
-        <th>##word.logo##</th>
+        <th class="w150">##word.logo##</th>
         <th>##word.Code##</th>
         <th>##word.Name##</th>
         <th class="not-print">##word.Actions##</th>
       </tr>
       <tr ng-repeat="item in list | filter:$search">
         <td class="text-center">
-          <i-image view class="logo" ng-model="item.image"></i-image>
+          <i-image view class="logo center" ng-model="item.image"></i-image>
         </td>
         <td class="text-center blue">{{item.code}}</td>
         <td class="text-center">{{item.name}}</td>

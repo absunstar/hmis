@@ -17,7 +17,7 @@
       "servicesManage",
       "insuranceCompaniesManage",
       "insuranceContractsManage",
-      "subInsurancesManage",
+      "mainInsuranceCompaniesManage",
       "hospitalCentersManage",
       "doctorsManage",
       "specialtiesManage",

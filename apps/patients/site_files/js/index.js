@@ -6,7 +6,7 @@ app.controller('patients', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: '/images/patients.png',
+    image: {url : '/images/patients.png'},
     active: true,
   };
   $scope.item = {};
@@ -254,6 +254,35 @@ app.controller('patients', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getNationalitiesList = function () {
+    $scope.busy = true;
+    $scope.nationalitiesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/nationalities/all',
+      data: {
+        where: {
+          active: true,
+        },
+        select: {
+          id: 1,
+          name: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.nationalitiesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getCountriesList = function () {
     $scope.busy = true;
     $scope.countriesList = [];
@@ -367,12 +396,12 @@ app.controller('patients', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getSubInsurancesList = function () {
+  $scope.getInsuranceCompaniesList = function () {
     $scope.busy = true;
-    $scope.subInsurancesList = [];
+    $scope.insurancecompaniesList = [];
     $http({
       method: 'POST',
-      url: '/api/subInsurances/all',
+      url: '/api/insurancecompanies/all',
       data: {
         where: {
           active: true,
@@ -383,7 +412,7 @@ app.controller('patients', function ($scope, $http, $timeout) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.subInsurancesList = response.data.list;
+          $scope.insurancecompaniesList = response.data.list;
         }
       },
       function (err) {
@@ -512,7 +541,8 @@ app.controller('patients', function ($scope, $http, $timeout) {
   $scope.getGendersList();
   $scope.getMaritalStatusList();
   $scope.getOffersList();
+  $scope.getNationalitiesList();
   $scope.getCountriesList();
   $scope.getinsuranceClassesList();
-  $scope.getSubInsurancesList();
+  $scope.getInsuranceCompaniesList();
 });

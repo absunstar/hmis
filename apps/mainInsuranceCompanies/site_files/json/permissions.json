@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "mainInsuranceCompanies" , "name":"mainInsuranceCompaniesManage" , "en":"Manage" , "ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "mainInsuranceCompanies" , "name":"mainInsuranceCompaniesAdd" , "en":"Add" , "ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "mainInsuranceCompanies" , "name":"mainInsuranceCompaniesUpdate" , "en":"Edit" , "ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "mainInsuranceCompanies" , "name":"mainInsuranceCompaniesDelete" , "en":"Delete" , "ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "mainInsuranceCompanies" , "name":"mainInsuranceCompaniesView" , "en":"View" , "ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "mainInsuranceCompanies" , "name":"mainInsuranceCompaniesSearch" , "en":"Search" , "ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "mainInsuranceCompanies" , "name":"mainInsuranceCompaniesExport" , "en":"Export" , "ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "mainInsuranceCompanies" , "name":"mainInsuranceCompaniesPrint" , "en":"Print" , "ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "mainInsuranceCompanies" , "name":"mainInsuranceCompaniesUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+]

@@ -6,7 +6,7 @@ app.controller('cities', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: '/images/cities.png',
+    image: { url: '/images/cities.png' },
     active: true,
   };
   $scope.item = {};
@@ -199,7 +199,7 @@ app.controller('cities', function ($scope, $http, $timeout) {
         select: {
           id: 1,
           name: 1,
-        }
+        },
       },
     }).then(
       function (response) {

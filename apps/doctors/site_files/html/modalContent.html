@@ -1,6 +1,8 @@
 <div class="form" id="doctors">
   <div class="row">
-    <i-control ng-hide="disabledCode" class="col4" label="##word.Code##" ng-model="item.code"> </i-control>
+    <i-control ng-hide="disabledCode" class="col6" label="##word.Code##" ng-model="item.code"> </i-control>
+    <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
+
   </div>
   <div class="row">
     <i-control type="text" v="r" class="col6" ng-model="item.name" label="##word.Name##"></i-control>
@@ -8,7 +10,7 @@
   </div>
   <fieldset>
     <div class="tabs">
-      <div class="tabs-header">
+      <div class="tabs-header full">
         <a class="tab-link" onclick="site.showTabContent(event, '#general')">
           <span> ##word.General##</span>
         </a>
@@ -76,7 +78,6 @@
             </div>
             <div class="col3">
               <i-image class="img256" ng-model="item.image"></i-image>
-              <i-checkbox ng-model="item.active" label="##word.Active##"></i-checkbox>
               <i-checkbox ng-model="item.isDoctorAffiliated" label="##word.Is Doctor Affiliated##"></i-checkbox>
               <i-checkbox ng-model="item.nonConsultant" label="##word.Non Consultant##"></i-checkbox>
               <i-checkbox ng-model="item.onDuty" label="##word.On Duty##"></i-checkbox>

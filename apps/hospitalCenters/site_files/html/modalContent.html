@@ -1,10 +1,12 @@
 <div class="form" id="hospitalCenters">
   <div class="row">
-    <i-control ng-hide="disabledCode" class="col4" label="##word.Code##" ng-model="item.code"> </i-control>
+    <i-control ng-hide="disabledCode" class="col6" label="##word.Code##" ng-model="item.code"> </i-control>
+    <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
+
   </div>
   <fieldset>
     <div class="tabs">
-      <div class="tabs-header">
+      <div class="tabs-header full">
         <a class="tab-link" onclick="site.showTabContent(event, '#general')">
           <span> ##word.General##</span>
         </a>
@@ -28,7 +30,6 @@
             </div>
             <div class="col3">
               <i-image class="img256" ng-model="item.image"></i-image>
-              <i-checkbox ng-model="item.active" label="##word.Active##"></i-checkbox>
               <i-checkbox ng-model="item.subStore" label="##word.Sub Store##"></i-checkbox>
               <i-checkbox ng-model="item.inPatientPespCenter" label="##word.In-Patient Pesp Center##"></i-checkbox>
               <i-checkbox ng-model="item.balanceNotRequired" label="##word.Balance Not Required##"></i-checkbox>

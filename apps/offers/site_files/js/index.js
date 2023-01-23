@@ -6,7 +6,7 @@ app.controller('offers', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: '/images/offers.png',
+    image: {url : '/images/offers.png'},
     active: true,
     discount: 0,
     discountType: 'percent',

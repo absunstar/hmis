@@ -1,7 +1,7 @@
 [{
     "moduleName" : "public" ,
     "name": "insuranceCompaniesAdmin",
-    "en": "insuranceCompanies Admin",
+    "en": "Insurance Companies Admin",
     "ar": "إدارة شركات التأمين",
     "permissions": ["insuranceCompaniesManage"]
 }]

@@ -232,7 +232,7 @@ app.controller('vendors', function ($scope, $http, $timeout) {
         },
         select: {
           id: 1,
-          name: 1,
+          nameEn: 1,
           nameAr: 1,
         },
       },
@@ -264,7 +264,7 @@ app.controller('vendors', function ($scope, $http, $timeout) {
         },
         select: {
           id: 1,
-          name: 1,
+          nameEn: 1,
           nameAr: 1,
         },
       },
@@ -294,7 +294,7 @@ app.controller('vendors', function ($scope, $http, $timeout) {
         },
         select: {
           id: 1,
-          name: 1,
+          nameEn: 1,
           nameAr: 1,
         },
       },
@@ -324,7 +324,7 @@ app.controller('vendors', function ($scope, $http, $timeout) {
         },
         select: {
           id: 1,
-          name: 1,
+          nameEn: 1,
           nameAr: 1,
         },
       },

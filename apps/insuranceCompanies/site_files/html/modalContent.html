@@ -2,7 +2,7 @@
   <div class="row padding">
     <div class="col9">
       <div class="row">
-        <i-control type="text" v="r" ng-model="item.name" label="##word.Name##"></i-control>
+        <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
         <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
       </div>
 
@@ -22,13 +22,13 @@
       </div>
 
       <div class="row">
-        <i-list help-id="" class="col6" label="##word.Country##" ng-change="getGovesList(item.country)" ng-model="item.country" display="name" items="countriesList" ng-search="item.$Country"></i-list>
-        <i-list help-id="" class="col6" label="##word.Governorate##" ng-change="getCitiesList(item.gov)" ng-model="item.gov" display="name" items="govesList" ng-search="item.$gov"></i-list>
+        <i-list help-id="" class="col6" label="##word.Country##" ng-change="getGovesList(item.country)" ng-model="item.country" display="name##session.lang##" items="countriesList" ng-search="item.$Country"></i-list>
+        <i-list help-id="" class="col6" label="##word.Governorate##" ng-change="getCitiesList(item.gov)" ng-model="item.gov" display="name##session.lang##" items="govesList" ng-search="item.$gov"></i-list>
       </div>
 
       <div class="row">
-        <i-list class="col6" label="##word.City##" ng-model="item.city" ng-change="getAreasList(item.city)" items="citiesList" display="name" ng-search="_search.$area.$city_search"> </i-list>
-        <i-list class="col6" label="##word.Area##" ng-model="item.area" items="areasList" display="name" ng-search="_search.$area.$area_search"> </i-list>
+        <i-list class="col6" label="##word.City##" ng-model="item.city" ng-change="getAreasList(item.city)" items="citiesList" display="name##session.lang##" ng-search="_search.$area.$city_search"> </i-list>
+        <i-list class="col6" label="##word.Area##" ng-model="item.area" items="areasList" display="name##session.lang##" ng-search="_search.$area.$area_search"> </i-list>
       </div>
 
       <div class="row">

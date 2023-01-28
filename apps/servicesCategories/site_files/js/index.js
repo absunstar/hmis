@@ -6,7 +6,7 @@ app.controller('servicesCategories', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: {url : '/images/services.png'},
+    image: { url: '/images/services.png' },
     active: true,
   };
   $scope.item = {};
@@ -42,7 +42,7 @@ app.controller('servicesCategories', function ($scope, $http, $timeout) {
           $scope.list.push(response.data.doc);
         } else {
           $scope.error = response.data.error;
-          if (response.data.error.like('*Must Enter Code*')) {
+          if (response.data.error && response.data.error.like('*Must Enter Code*')) {
             $scope.error = '##word.Must Enter Code##';
           }
         }
@@ -231,47 +231,6 @@ app.controller('servicesCategories', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getServicesList = function () {
-    $scope.busy = true;
-    $scope.servicesList = [];
-    $http({
-      method: 'POST',
-      url: '/api/services/all',
-      data: {
-        where: { active: true },
-        select: {
-          id: 1,
-          code: 1,
-          name: 1,
-        },
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.list.length > 0) {
-          $scope.servicesList = response.data.list;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
-
-  $scope.addServices = function (_item) {
-    $scope.error = '';
-    if (_item.$service && _item.$service.id) {
-      if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
-        _item.servicesList.push({ ..._item.$service });
-      }
-      _item.$service = {};
-    } else {
-      $scope.error = 'Must Select Service';
-      return;
-    }
-  };
-
   $scope.showSearch = function () {
     $scope.error = '';
     site.showModal($scope.modalSearchID);
@@ -286,5 +245,4 @@ app.controller('servicesCategories', function ($scope, $http, $timeout) {
   $scope.getAll();
   $scope.getNumberingAuto();
   $scope.getservicesCategoriesTypeList();
-  $scope.getServicesList();
 });

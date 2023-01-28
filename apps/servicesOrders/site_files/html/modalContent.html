@@ -1,0 +1,214 @@
+<div class="row">
+  <div class="row padding">
+    <div class="row">
+      <i-control ng-hide="disabledCode" class="col6" label="##word.Code##" ng-model="item.code"> </i-control>
+    </div>
+    <div class="row">
+      <fieldset class="col9">
+        <div class="row">
+          <i-list
+            help-id=""
+            v="r"
+            class="col6"
+            label="##word.Patient##"
+            ng-change="getMainIncuranceFromSub(item.patient.insuranceCompany)"
+            ng-model="item.patient"
+            display="fullName##session.lang##"
+            items="patientsList"
+            ng-search="item.$patient"
+          ></i-list>
+          <i-list help-id="" v="r" class="col6" label="##word.Doctor##" ng-model="item.doctor" display="name##session.lang##" items="doctorsList" ng-search="item.$doctor"></i-list>
+        </div>
+        <div class="row" ng-show="item.patient.id">
+          <table class="table bold center hover">
+            <tr>
+              <td class="bg-theme">##word.Full Name##</td>
+              <td class="center" colspan="5">
+                <p class="height-5">{{item.patient.fullNameEn}} (item.patient.code)</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="bg-theme">الإسم بالكامل</td>
+              <td class="center" colspan="5">
+                <p class="height-5">{{item.patient.fullNameAr}}</p>
+              </td>
+            </tr>
+            <tr>
+              <td class="bg-theme">##word.Mother Name##</td>
+              <td class="center" colspan="2">
+                <p class="height-5">
+                  {{item.patient.motherName}}
+                  <span class="blue" ng-show="item.patient.newBorn">(##word.New Born##)</span>
+                </p>
+              </td>
+
+              <td class="bg-theme">إسم الأم</td>
+              <td class="center" colspan="2">
+                <p class="height-5">{{item.patient.motherNameAr}}</p>
+              </td>
+            </tr>
+            <tr>
+              <td class="bg-theme">##word.Nationality##</td>
+              <td class="center">
+                <p class="height-5">{{item.patient.nationality.name##session.lang##}}</p>
+              </td>
+              <td class="bg-theme">##word.Age##</td>
+              <td class="center">
+                <p class="height-5">{{item.patient.age}}</p>
+              </td>
+              <td class="bg-theme">##word.Mobile##</td>
+              <td class="center">
+                <p class="height-5">{{item.patient.mobileList[0].mobile}}</p>
+              </td>
+            </tr>
+            <tr>
+              <td class="bg-theme">##word.Patient Type##</td>
+              <td class="center">
+                <p class="height-5">{{item.patient.patientType.name##session.lang##}} ({{item.patient.patientType.code}})</p>
+              </td>
+              <td class="bg-theme">##word.Marital Status##</td>
+              <td class="center">
+                <p class="height-5">{{item.patient.maritalStatus.name##session.lang##}}</p>
+              </td>
+
+              <td class="bg-theme">##word.Gender##</td>
+              <td class="center">
+                <p class="height-5">{{item.patient.gender.name##session.lang##}}</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="bg-theme">##word.Insurance Company##</td>
+              <td class="center" colspan="5">
+                <p class="height-5">{{item.patient.insuranceCompany.name##session.lang##}} ({{item.patient.insuranceCompany.code}}) - {{item.patient.insuranceClass.name}}</p>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </fieldset>
+      <fieldset class="col3">
+        <div class="row">
+          <div class="row margin">
+            <p class="bold col4">##word.NPHIS## :</p>
+            <i-radio ng-model="item.nphis" class="col4" ng-value="elig" label="##word.Elig##"> </i-radio>
+            <i-radio ng-model="item.nphis" class="col4" ng-value="nElig" label="##word.N/Elig##"></i-radio>
+          </div>
+
+          <div class="row margin">
+            <p class="bold col4">##word.Type## :</p>
+            <i-radio ng-model="item.type" class="col4" ng-value="Out" label="##word.Out##"> </i-radio>
+            <i-radio ng-model="item.type" class="col4" ng-value="in" label="##word.In##"></i-radio>
+          </div>
+
+          <div class="row margin">
+            <p class="bold col4">##word.Payment## :</p>
+            <i-radio ng-model="item.payment" class="col4" ng-value="cash" label="##word.Cash##"></i-radio>
+            <i-radio ng-model="item.payment" class="col4" ng-value="credit" label="##word.Credit##"> </i-radio>
+          </div>
+
+          <div class="row margin">
+            <i-date label="##word.Date##" ng-model="item.date"> </i-date>
+            <i-control label="##word.Num##" ng-model="item.number"> </i-control>
+            <i-control label="##word.Ref##" ng-model="item.ref"> </i-control>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <div class="row padding">
+    <fieldset>
+      <div class="row">
+        <i-list help-id="" label="##word.Service##" class="col7" ng-model="item.$service" display="name##session.lang##" items="servicesList" ng-search="item.$services"></i-list>
+        <div class="col4">
+          <br />
+          <i-button type="add" label="##word.Add Service##" ng-click="addServices(item)"></i-button>
+        </div>
+      </div>
+      <div class="row">
+        <table class="table hover bold">
+          <tr>
+            <th>##word.Name##</th>
+            <th>##word.Qty##</th>
+            <th>##word.Price##</th>
+            <th>##word.Discount##</th>
+            <th>##word.Total##</th>
+            <th>##word.H-Center##</th>
+            <th>##word.VAT## %</th>
+            <th>##word.PVAT##</th>
+            <th>##word.Com-VAT##</th>
+            <th class="not-print">##word.Actions##</th>
+          </tr>
+          <tr ng-repeat="s in item.servicesList">
+            <td class="text-center">{{s.name##session.lang##}}</td>
+            <td class="text-center">
+              <i-control ng-model="s.qty"> </i-control>
+            </td>
+            <td class="text-center">
+              <i-control ng-model="s.price"> </i-control>
+            </td>
+            <td class="text-center">
+              <i-control ng-model="s.discount"> </i-control>
+            </td>
+            <td class="text-center">
+              <i-control ng-model="s.total"> </i-control>
+            </td>
+            <td class="text-center">
+              <i-list ng-model="s.hospitalCenter" display="name##session.lang##" items="hospitalCentersList" ng-search="item.$hospitalCenter"></i-list>
+            </td>
+            <td class="text-center">
+              <i-control ng-model="s.vat"> </i-control>
+            </td>
+            <td class="text-center">
+              <i-control ng-model="s.pVat"> </i-control>
+            </td>
+            <td class="text-center">
+              <i-control ng-model="s.comVat"> </i-control>
+            </td>
+            <td class="text-center not-print">
+              <i-button type="delete default" ng-click="item.servicesList.splice($index,1)"> </i-button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="row">
+        <i-control class="col3" label="##word.Gross Amnt##" ng-model="item.grossAmnt"> </i-control>
+        <i-control class="col3" label="##word.Discount##" ng-model="item.discount"> </i-control>
+        <i-control class="col3" label="##word.Deductables##" ng-model="item.deductables"> </i-control>
+        <i-control class="col3" label="##word.Patient VAT##" ng-model="item.patientVat"> </i-control>
+      </div>
+      <div class="row">
+        <i-control class="col3" label="##word.Company VAT##" ng-model="item.companyVat"> </i-control>
+        <i-control class="col3" label="##word.Net-Amnt##" ng-model="item.netAmnt"> </i-control>
+        <i-control class="col3" label="##word.Pat-Balance##" ng-model="item.patBalance"> </i-control>
+        <i-control class="col3" label="##word.Acc-Balance##" ng-model="item.accBalance"> </i-control>
+  
+      </div>
+    </fieldset>
+
+    <i-textarea label="##word.Remarks##" ng-model="item.remarks"></i-textarea>
+  </div>
+</div>
+<div ng-show="mode !== 'add' " class="row">
+  <table class="table hover border">
+    <tr>
+      <th>##word.addUserInfo##</th>
+      <th>##word.editUserInfo##</th>
+    </tr>
+    <tr>
+      <td class="center">
+        <p class="blue">{{item.addUserInfo.name}}</p>
+        <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
+        <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
+        <p class="bold">IP : {{item.addUserInfo.ip}}</p>
+      </td>
+
+      <td class="center">
+        <p class="blue">{{item.editUserInfo.name}}</p>
+        <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
+        <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
+        <p class="bold">IP : {{item.editUserInfo.ip}}</p>
+      </td>
+    </tr>
+  </table>
+</div>

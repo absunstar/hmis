@@ -41,7 +41,7 @@ app.controller('cities', function ($scope, $http, $timeout) {
           $scope.list.push(response.data.doc);
         } else {
           $scope.error = response.data.error;
-          if (response.data.error.like('*Must Enter Code*')) {
+          if (response.data.error && response.data.error.like('*Must Enter Code*')) {
             $scope.error = '##word.Must Enter Code##';
           }
         }
@@ -198,7 +198,8 @@ app.controller('cities', function ($scope, $http, $timeout) {
         },
         select: {
           id: 1,
-          name: 1,
+          nameEn: 1,
+          nameAr: 1,
         },
       },
     }).then(
@@ -227,7 +228,8 @@ app.controller('cities', function ($scope, $http, $timeout) {
         },
         select: {
           id: 1,
-          name: 1,
+          nameEn: 1,
+          nameAr: 1,
         },
       },
     }).then(

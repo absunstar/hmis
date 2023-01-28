@@ -5,7 +5,7 @@
 
   </div>
   <div class="row">
-    <i-control type="text" v="r" class="col6" ng-model="item.name" label="##word.Name##"></i-control>
+    <i-control type="text" v="r" class="col6" ng-model="item.nameEn" label="##word.Name##"></i-control>
     <i-control type="text" v="r" class="col6" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
   </div>
   <fieldset>
@@ -21,18 +21,18 @@
           <div class="row padding">
             <div class="col9">
               <div class="row">
-                <i-list class="col6" label="##word.Specialty##" ng-model="item.specialty" items="specialtiesList" display="name" ng-search="item.$specialty"> </i-list>
-                <i-list class="col6" label="##word.Nphies Specialty##" ng-model="item.nphiesSpecialty" items="nphiesSpecialtiesList" display="name" ng-search="item.$nphiesSpecialty"> </i-list>
+                <i-list class="col6" label="##word.Specialty##" ng-model="item.specialty" items="specialtiesList" display="name##session.lang##" ng-search="item.$specialty"> </i-list>
+                <i-list class="col6" label="##word.Nphies Specialty##" ng-model="item.nphiesSpecialty" items="nphiesSpecialtiesList" display="name##session.lang##" ng-search="item.$nphiesSpecialty"> </i-list>
               </div>
 
               <div class="row">
-                <i-list class="col6" label="##word.Hospital Center##" ng-model="item.hospitalCenter" items="hospitalCentersList" display="name" ng-search="item.$hospitalCenter"> </i-list>
-                <i-list class="col6" label="##word.Doctor Type##" ng-model="item.doctorType" items="doctorTypesList" display="name" ng-search="item.$doctorType"> </i-list>
+                <i-list class="col6" label="##word.Hospital Center##" ng-model="item.hospitalCenter" items="hospitalCentersList" display="name##session.lang##" ng-search="item.$hospitalCenter"> </i-list>
+                <i-list class="col6" label="##word.Doctor Type##" ng-model="item.doctorType" items="doctorTypesList" display="name##session.lang##" ng-search="item.$doctorType"> </i-list>
               </div>
 
               <div class="row">
-                <i-list class="col6" label="##word.Cons Item##" ng-model="item.consItem" items="servicesList" display="name" ng-search="item.$consItem"> </i-list>
-                <i-list class="col6" label="##word.Nationality##" ng-model="item.nationality" items="nationalitiesList" display="name" ng-search="item.$nationality"> </i-list>
+                <i-list class="col6" label="##word.Cons Item##" ng-model="item.consItem" items="servicesList" display="name##session.lang##" ng-search="item.$consItem"> </i-list>
+                <i-list class="col6" label="##word.Nationality##" ng-model="item.nationality" items="nationalitiesList" display="name##session.lang##" ng-search="item.$nationality"> </i-list>
               </div>
 
               <div class="row">
@@ -73,6 +73,14 @@
                 <div class="row">
                   <i-textarea type="number" ng-model="item.otherDetails" label="##word.Other Details##"></i-textarea>
                 </div>
+
+                <fieldset>
+                  <div class="row">
+                    <i-control class="col6" label="##word.Email##" ng-model="item.email"> </i-control>
+                    <i-control class="col6" label="##word.Password##" ng-model="item.password"> </i-control>
+                  </div>
+                </fieldset>
+                
               </fieldset>
 
             </div>

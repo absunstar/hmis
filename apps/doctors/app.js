@@ -14,7 +14,7 @@ module.exports = function init(site) {
     allowRouteAll: true,
   };
 
-  app.$collection = site.connectCollection(app.name);
+  app.$collection = site.connectCollection('users_info');
 
   app.init = function () {
     if (app.allowMemory) {
@@ -42,6 +42,7 @@ module.exports = function init(site) {
       if (callback) {
         callback(err, doc);
       }
+
       if (app.allowMemory && !err && doc) {
         app.memoryList.push(doc);
       }
@@ -149,7 +150,7 @@ module.exports = function init(site) {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name }, { parser: 'html', compres: true, lang: 'en' });
+          res.render(app.name + '/index.html', { title: app.name }, { parser: 'html', compres: true });
         }
       );
     }
@@ -165,7 +166,7 @@ module.exports = function init(site) {
         let numObj = {
           company: site.getCompany(req),
           screen: app.name,
-          date: new Date()
+          date: new Date(),
         };
 
         let cb = site.getNumbering(numObj);
@@ -173,12 +174,16 @@ module.exports = function init(site) {
           response.error = 'Must Enter Code';
           res.json(response);
           return;
-
         } else if (cb.auto) {
           _data.code = cb.code;
         }
 
         _data.addUserInfo = req.getUserFinger();
+        _data.type = { id: 2, name: 'Doctor' };
+
+        if (!_data.email) {
+          _data.email = _data.name + Math.floor(Math.random() * 1000 + 1).toString();
+        }
 
         app.add(_data, (err, doc) => {
           if (!err && doc) {
@@ -253,24 +258,26 @@ module.exports = function init(site) {
 
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
-        let where = req.body.where || {};
-        let select = req.body.select || { id: 1, name: 1, image: 1 };
+        let where = req.body.where || { 'type.id': 2 };
+        let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1 };
         let list = [];
-        app.memoryList.forEach((doc) => {
-          let obj = { ...doc };
+        app.memoryList
+          .filter((g) => !where['type.id'] || g.type.id == where['type.id'])
+          .forEach((doc) => {
+            let obj = { ...doc };
 
-          for (const p in obj) {
-            if (!Object.hasOwnProperty.call(select, p)) {
-              delete obj[p];
+            for (const p in obj) {
+              if (!Object.hasOwnProperty.call(select, p)) {
+                delete obj[p];
+              }
             }
-          }
-          if (!where.active || doc.active) {
-            list.push(obj);
-          }
-        });
+            if (!where.active || doc.active) {
+              list.push(obj);
+            }
+          });
         res.json({
           done: true,
-          list: app.memoryList,
+          list: list,
         });
       });
     }

@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "stores" , "name":"storesManage" , "en":"Manage" , "ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "stores" , "name":"storesAdd" , "en":"Add" , "ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "stores" , "name":"storesUpdate" , "en":"Edit" , "ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "stores" , "name":"storesDelete" , "en":"Delete" , "ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "stores" , "name":"storesView" , "en":"View" , "ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "stores" , "name":"storesSearch" , "en":"Search" , "ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "stores" , "name":"storesExport" , "en":"Export" , "ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "stores" , "name":"storesPrint" , "en":"Print" , "ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "stores" , "name":"storesUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+]

@@ -26,7 +26,10 @@
           <i-image view class="logo center" ng-model="item.image"></i-image>
         </td>
         <td class="text-center blue">{{item.code}}</td>
-        <td class="text-center">{{item.name}}</td>
+        <td class="text-center">
+          <p class="center">{{item.fullNameEn}}</p>
+          <p class="center">{{item.fullNameAr}}</p>
+        </td>
 
         <td class="text-center not-print">
           <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>

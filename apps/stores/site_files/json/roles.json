@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "storesAdmin",
+    "en": "Stores Admin",
+    "ar": "إدارة المخازن",
+    "permissions": ["storesManage"]
+}]

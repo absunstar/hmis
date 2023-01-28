@@ -1,14 +1,14 @@
-app.controller("register", function ($scope, $http) {
+app.controller('register', function ($scope, $http) {
   $scope.busy = false;
 
   $scope.register = function () {
-    $scope.error = "";
+    $scope.error = '';
     $scope.busy = true;
     $http({
-      method: "POST",
-      url: "/api/user/register",
+      method: 'POST',
+      url: '/api/user/register',
       data: {
-        $encript: "123",
+        $encript: '123',
         email: site.to123($scope.userEmail),
         password: site.to123($scope.userPassword),
       },
@@ -19,7 +19,7 @@ app.controller("register", function ($scope, $http) {
           $scope.busy = false;
         }
         if (response.data.user) {
-          window.location.href = "/";
+          window.location.href = '/';
         }
       },
       function (err) {
@@ -38,35 +38,35 @@ app.controller("register", function ($scope, $http) {
    }; */
 
   $scope.registerCustomer = function () {
-    $scope.error = "";
+    $scope.error = '';
     if ($scope.busy) {
       return;
     }
     $scope.busy = true;
 
-    const v = site.validated("#customerRegisterModal");
+    const v = site.validated('#customerRegisterModal');
     if (!v.ok) {
       $scope.error = v.messages[0].ar;
       $scope.busy = false;
       return;
     }
     if ($scope.customer.password != $scope.customer.password_return) {
-      $scope.error = "##word.password_err_match##";
+      $scope.error = '##word.password_err_match##';
       $scope.busy = false;
       return;
     }
 
-    if (site.feature("medical")) {
+    if (site.feature('medical')) {
       if (!$scope.customer.image_url) {
-        $scope.customer.image_url = "/images/patients.png";
+        $scope.customer.image_url = '/images/patients.png';
       }
       $scope.customer.allergic_food_list = [{}];
       $scope.customer.allergic_drink_list = [{}];
       $scope.customer.medicines_list = [];
       $scope.customer.disease_list = [{}];
-    } else if (site.feature("school") || site.feature("academy")) {
+    } else if (site.feature('school') || site.feature('academy')) {
       if (!$scope.customer.image_url) {
-        $scope.customer.image_url = "/images/student.png";
+        $scope.customer.image_url = '/images/student.png';
       }
       $scope.customer.allergic_food_list = [{}];
       $scope.customer.allergic_drink_list = [{}];
@@ -75,19 +75,19 @@ app.controller("register", function ($scope, $http) {
     }
 
     $http({
-      method: "POST",
-      url: "/api/customers/add",
+      method: 'POST',
+      url: '/api/customers/add',
       data: $scope.customer,
     }).then(
       function (response) {
         $scope.busy = false;
         if (response.data.done) {
-          site.hideModal("#customerRegisterModal");
+          site.hideModal('#customerRegisterModal');
           $http({
-            method: "POST",
-            url: "/api/user/login",
+            method: 'POST',
+            url: '/api/user/login',
             data: {
-              $encript: "123",
+              $encript: '123',
               email: site.to123(response.data.doc.username),
               password: site.to123(response.data.doc.password),
               company: site.to123({
@@ -114,24 +114,21 @@ app.controller("register", function ($scope, $http) {
             function (response) {
               if (response.data.error) {
                 $scope.error = response.data.error;
-                if (response.data.error.like("*Must Enter Code*")) {
-                  $scope.error = "##word.must_enter_code##";
-                } else if (
-                  response.data.error.like("*maximum number of adds exceeded*")
-                ) {
-                  $scope.error = "##word.err_maximum_adds##";
-                } else if (
-                  response.data.error.like("*ername must be typed correctly*")
-                ) {
-                  $scope.error = "##word.err_username_contain##";
-                } else if (response.data.error.like("*User Is Exist*")) {
-                  $scope.error = "##word.user_exists##";
+                if (response.data.error) {
+                  if (response.data.error.like('*Must Enter Code*')) {
+                    $scope.error = '##word.must_enter_code##';
+                  } else if (response.data.error.like('*maximum number of adds exceeded*')) {
+                    $scope.error = '##word.err_maximum_adds##';
+                  } else if (response.data.error.like('*ername must be typed correctly*')) {
+                    $scope.error = '##word.err_username_contain##';
+                  } else if (response.data.error.like('*User Is Exist*')) {
+                    $scope.error = '##word.user_exists##';
+                  }
                 }
                 $scope.busy = false;
               } else if (response.data.done) {
-                if (site.feature("ecommerce") || site.feature("erp") || site.feature("pos") || site.feature("restaurant"))
-                  document.location.href = "/order_customer";
-                else document.location.href = "/";
+                if (site.feature('ecommerce') || site.feature('erp') || site.feature('pos') || site.feature('restaurant')) document.location.href = '/order_customer';
+                else document.location.href = '/';
 
                 $scope.busy = false;
               }
@@ -142,7 +139,7 @@ app.controller("register", function ($scope, $http) {
             }
           );
         } else {
-          $scope.error = "Please Login First";
+          $scope.error = 'Please Login First';
         }
       },
       function (err) {
@@ -152,11 +149,11 @@ app.controller("register", function ($scope, $http) {
   };
 
   $scope.Gender = function () {
-    $scope.error = "";
+    $scope.error = '';
     $scope.genderList = [];
     $http({
-      method: "POST",
-      url: "/api/gender/all",
+      method: 'POST',
+      url: '/api/gender/all',
     }).then(
       function (response) {
         $scope.genderList = response.data;
@@ -169,12 +166,12 @@ app.controller("register", function ($scope, $http) {
 
   $scope.getGovList = function (companyId) {
     $http({
-      method: "POST",
-      url: "/api/goves/all",
+      method: 'POST',
+      url: '/api/goves/all',
       data: {
         where: {
           active: true,
-          "company.id": companyId,
+          'company.id': companyId,
         },
         select: { id: 1, name_ar: 1, name_en: 1, code: 1 },
       },
@@ -193,11 +190,11 @@ app.controller("register", function ($scope, $http) {
   $scope.getCitiesList = function (gov) {
     $scope.busy = true;
     $http({
-      method: "POST",
-      url: "/api/city/all",
+      method: 'POST',
+      url: '/api/city/all',
       data: {
         where: {
-          "gov.id": gov.id,
+          'gov.id': gov.id,
           active: true,
         },
         select: { id: 1, name_ar: 1, name_en: 1, code: 1 },
@@ -219,11 +216,11 @@ app.controller("register", function ($scope, $http) {
   $scope.getareasList = function (city) {
     $scope.busy = true;
     $http({
-      method: "POST",
-      url: "/api/area/all",
+      method: 'POST',
+      url: '/api/area/all',
       data: {
         where: {
-          "city.id": city.id,
+          'city.id': city.id,
           active: true,
         },
       },
@@ -245,8 +242,8 @@ app.controller("register", function ($scope, $http) {
     $scope.company_list = [];
 
     $http({
-      method: "POST",
-      url: "/api/companies/all",
+      method: 'POST',
+      url: '/api/companies/all',
       data: {},
     }).then(
       function (response) {

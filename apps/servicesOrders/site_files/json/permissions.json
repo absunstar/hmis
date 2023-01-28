@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersManage" , "en":"Manage" , "ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersAdd" , "en":"Add" , "ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersUpdate" , "en":"Edit" , "ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersDelete" , "en":"Delete" , "ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersView" , "en":"View" , "ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersSearch" , "en":"Search" , "ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersExport" , "en":"Export" , "ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersPrint" , "en":"Print" , "ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+]

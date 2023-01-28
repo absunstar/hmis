@@ -1,6 +1,6 @@
 module.exports = function init(site) {
   let app = {
-    name: 'TESTAPP',
+    name: 'stores',
     allowMemory: true,
     memoryList: [],
     allowCache: false,
@@ -137,7 +137,6 @@ module.exports = function init(site) {
     }
   };
 
-
   if (app.allowRoute) {
     if (app.allowRouteGet) {
       site.get({
@@ -150,7 +149,7 @@ module.exports = function init(site) {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name }, { parser: 'html', compres: true, lang: 'en' });
+          res.render(app.name + '/index.html', { title: app.name }, { parser: 'html', compres: true });
         }
       );
     }
@@ -162,6 +161,23 @@ module.exports = function init(site) {
         };
 
         let _data = req.data;
+
+        let numObj = {
+          company: site.getCompany(req),
+          screen: app.name,
+          date: new Date()
+        };
+
+        let cb = site.getNumbering(numObj);
+        if (!_data.code && !cb.auto) {
+          response.error = 'Must Enter Code';
+          res.json(response);
+          return;
+
+        } else if (cb.auto) {
+          _data.code = cb.code;
+        }
+
         _data.addUserInfo = req.getUserFinger();
 
         app.add(_data, (err, doc) => {
@@ -237,6 +253,21 @@ module.exports = function init(site) {
 
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
+        let where = req.body.where || {};
+        let select = req.body.select || { id: 1, nameEn: 1, nameAr: 1, image: 1 };
+        let list = [];
+        app.memoryList.forEach((doc) => {
+          let obj = { ...doc };
+
+          for (const p in obj) {
+            if (!Object.hasOwnProperty.call(select, p)) {
+              delete obj[p];
+            }
+          }
+          if (!where.active || doc.active) {
+            list.push(obj);
+          }
+        });
         res.json({
           done: true,
           list: app.memoryList,

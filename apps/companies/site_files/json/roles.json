@@ -11,6 +11,7 @@
       "areasManage",
       "nationalitiesManage",
       "servicesGroupsManage",
+      "servicesOrdersManage",
       "achiCodesManage",
       "offersManage",
       "patientsManage",
@@ -21,6 +22,7 @@
       "hospitalCentersManage",
       "doctorsManage",
       "specialtiesManage",
+      "storesManage",
       "insuranceClassesManage"
     ]
   }

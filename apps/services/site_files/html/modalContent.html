@@ -8,7 +8,7 @@
       </div>
 
       <div class="row">
-        <i-control type="text" v="r" class="col6" ng-model="item.name" label="##word.Name##"></i-control>
+        <i-control type="text" v="r" class="col6" ng-model="item.nameEn" label="##word.Name##"></i-control>
         <i-control type="text" v="r" class="col6" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
       </div>
     </fieldset>
@@ -29,12 +29,12 @@
         <div class="row padding">
           <div class="col9">
             <div class="row">
-              <i-list class="col6" v="r" label="##word.Service Group##" ng-model="item.serviceGroup" display="name" items="servicesGroupsList" ng-search="item.$serviceGroup"></i-list>
-              <i-list class="col6" v="r" label="##word.ACHI##" ng-model="item.achi" display="name" items="achiCodesList" ng-search="item.$achi"></i-list>
+              <i-list class="col6" v="r" label="##word.Service Group##" ng-model="item.serviceGroup" display="name##session.lang##" items="servicesGroupsList" ng-search="item.$serviceGroup"></i-list>
+              <i-list class="col6" v="r" label="##word.ACHI##" ng-model="item.achi" display="name##session.lang##" items="achiCodesList" ng-search="item.$achi"></i-list>
             </div>
             <div class="row">
               <i-control type="text" v="r" class="col6" ng-model="item.sfdaCode" label="##word.SFDA Code##"></i-control>
-              <i-list class="col6" label="##word.CPT Code##" ng-model="item.cptCode" display="name" items="CptCodeList" ng-search="item.$achi"></i-list>
+              <i-list class="col6" label="##word.CPT Code##" ng-model="item.cptCode" display="name##session.lang##" items="CptCodeList" ng-search="item.$achi"></i-list>
             </div>
           </div>
           <div class="col3">

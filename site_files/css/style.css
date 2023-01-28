@@ -10,6 +10,12 @@
   --modal-header-background-color: #272727;
   --modal-background: #ffffffc4;
 }
+.bg-theme {
+  background: #c8ffca !important;
+}
+.height-5 {
+  height: 5px;
+}
 .modal {
   --bs-modal-bg: #fbfbfb;
 }
@@ -40,6 +46,10 @@ body {
   min-height: 45px;
 }
 .tabs .tabs-header .tab-link.active {
+}
+
+.tabs .full .tab-link {
+  margin: auto;
 }
 .no-line {
   text-decoration-line: unset;

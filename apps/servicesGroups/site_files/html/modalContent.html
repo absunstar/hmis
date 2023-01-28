@@ -6,23 +6,29 @@
         <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
       </div>
       <div class="row">
-        <i-control type="text" v="r" class="col6" ng-model="item.name" label="##word.Name##"></i-control>
+        <i-control type="text" v="r" class="col6" ng-model="item.nameEn" label="##word.Name##"></i-control>
         <i-control type="text" v="r" class="col6" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
       </div>
       <div class="row">
-
-        <i-list help-id="" v="r" class="col6" label="##word.Type##" ng-model="item.type" display="name" items="servicesGroupsTypeList" ng-search="item.$type"></i-list>
+        <i-list help-id="" v="r" class="col6" label="##word.Type##" ng-model="item.type" display="name##session.lang##" items="servicesGroupsTypesList" ng-search="item.$type"></i-list>
       </div>
     </div>
     <div class="col3">
-     
       <i-image class="img256 center" ng-model="item.image"></i-image>
     </div>
   </div>
-  <div class="row padding">
-    <div class="col6">
+  <fieldset>
+    <div class="row padding">
       <div class="row">
-        <i-list help-id="" label="##word.Service Category##" class="col7" ng-model="item.$serviceCategory" display="name" items="servicesCategoriesList" ng-search="item.$servicesCategory"></i-list>
+        <i-list
+          help-id=""
+          label="##word.Service Category##"
+          class="col7"
+          ng-model="item.$serviceCategory"
+          display="name##session.lang##"
+          items="servicesCategoriesList"
+          ng-search="item.$servicesCategory"
+        ></i-list>
         <div class="col5">
           <br />
           <i-button type="add" label="##word.Add Service Category##" ng-click="addServicesCategories(item)"></i-button>
@@ -37,7 +43,7 @@
           </tr>
           <tr ng-repeat="s in item.servicesCategoriesList">
             <td class="text-center blue">{{s.code}}</td>
-            <td class="text-center">{{s.name}}</td>
+            <td class="text-center">{{s.name##session.lang##}}</td>
 
             <td class="text-center not-print">
               <i-button type="delete default" ng-click="item.servicesCategoriesList.splice($index,1)"> </i-button>
@@ -46,33 +52,7 @@
         </table>
       </div>
     </div>
-    <div class="col6">
-      <div class="row">
-        <i-list help-id="" label="##word.Service##" class="col7" ng-model="item.$service" display="name" items="servicesList" ng-search="item.$services"></i-list>
-        <div class="col4">
-          <br />
-          <i-button type="add" label="##word.Add Service##" ng-click="addServices(item)"></i-button>
-        </div>
-      </div>
-      <div class="row">
-        <table class="table hover bold">
-          <tr>
-            <th>##word.Code##</th>
-            <th>##word.Name##</th>
-            <th class="not-print">##word.Actions##</th>
-          </tr>
-          <tr ng-repeat="s in item.servicesList">
-            <td class="text-center blue">{{s.code}}</td>
-            <td class="text-center">{{s.name}}</td>
-
-            <td class="text-center not-print">
-              <i-button type="delete default" ng-click="item.servicesList.splice($index,1)"> </i-button>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
+  </fieldset>
 </div>
 <div ng-show="mode !== 'add' " class="row">
   <table class="table hover border">

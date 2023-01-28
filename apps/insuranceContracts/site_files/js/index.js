@@ -41,7 +41,7 @@ app.controller('insuranceContracts', function ($scope, $http, $timeout) {
           $scope.list.push(response.data.doc);
         } else {
           $scope.error = response.data.error;
-          if (response.data.error.like('*Must Enter Code*')) {
+          if (response.data.error && response.data.error.like('*Must Enter Code*')) {
             $scope.error = '##word.Must Enter Code##';
           }
         }
@@ -199,7 +199,8 @@ app.controller('insuranceContracts', function ($scope, $http, $timeout) {
         },
         select: {
           id: 1,
-          name: 1,
+          nameEn: 1,
+          nameAr: 1,
         }
       },
     }).then(
@@ -216,26 +217,27 @@ app.controller('insuranceContracts', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getSubInsurancesList = function () {
+  $scope.getInsuranceCompaniesList = function () {
     $scope.busy = true;
-    $scope.subInsuranceList = [];
+    $scope.insuranceCompaniesList = [];
      $http({
       method: 'POST',
-      url: '/api/subInsurances/all',
+      url: '/api/insuranceCompanies/all',
       data: {
         where: {
           active: true,
         },
         select: {
           id: 1,
-          name: 1,
+          nameEn: 1,
+          nameAr: 1,
         }
       },
     }).then(
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.subInsurancesList = response.data.list;
+          $scope.insuranceCompaniesList = response.data.list;
         }
       },
       function (err) {
@@ -281,6 +283,6 @@ app.controller('insuranceContracts', function ($scope, $http, $timeout) {
 
   $scope.getAll();
   $scope.getMainInsuranceCompaniesList();
-  $scope.getSubInsurancesList();
+  $scope.getInsuranceCompaniesList();
   $scope.getNumberingAuto();
 });

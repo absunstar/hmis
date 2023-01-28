@@ -1,6 +1,6 @@
 const site = require('../isite')({
   port: [12345],
-  lang: 'en',
+  lang: 'En',
   version: '2023.01.01',
   name: 'HMIS',
   require: {
@@ -25,14 +25,12 @@ site.get({
   path: site.dir + '/',
 });
 
-
-
 site.get(
   {
     name: '/',
   },
   (req, res) => {
-    res.render('index.html', { title: site.word('Site Title')}, { parser: 'html', compres: true, lang: 'en' });
+    res.render('index.html', { title: site.word('Site Title')}, { parser: 'html', compres: true });
   }
 );
 

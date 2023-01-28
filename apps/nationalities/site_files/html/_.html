@@ -14,6 +14,7 @@
     <div class="row padding">
       <i-control ng-model="$search" x-permissions="nationalitiesSearch || nationalitiesManage"></i-control>
     </div>
+
     <table class="table hover bold" id="t1">
       <tr>
         <th class="w150">##word.logo##</th>
@@ -26,7 +27,7 @@
           <i-image view class="logo center" ng-model="item.image"></i-image>
         </td>
         <td class="text-center blue">{{item.code}}</td>
-        <td class="text-center">{{item.name}}</td>
+        <td class="text-center">{{item.name##session.lang##}}</td>
 
         <td class="text-center not-print">
           <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>

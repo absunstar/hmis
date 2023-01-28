@@ -8,6 +8,66 @@
   {
     "category": "main",
     "feature": "public",
+    "id" : "doctors",
+    "name": "Doctors"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id" : "hospitalCenters",
+    "name": "Hospital Centers"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id" : "insuranceClasses",
+    "name": "Insurance Classes"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id" : "insuranceCompanies",
+    "name": "Insurance Companies"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id" : "insuranceContracts",
+    "name": "Insurance Contracts"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id" : "mainInsuranceCompanies",
+    "name": "Main Insurance Companies"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id" : "offers",
+    "name": "Offers"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id" : "patients",
+    "name": "Patients"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id" : "servicesOrders",
+    "name": "Services Orders"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id" : "specialties",
+    "name": "Specialties"
+  },
+  {
+    "category": "main",
+    "feature": "public",
     "id" : "countries",
     "name": "Countries"
   },
@@ -52,5 +112,11 @@
     "feature": "public",
     "id": "achiCodes",
     "name": "ACHI Codes"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "stores",
+    "name": "Stores"
   }
 ]

@@ -1,5 +1,4 @@
 app.controller('company_register', function ($scope, $http) {
-
   $scope.busy = false;
 
   $scope.company = {
@@ -14,13 +13,15 @@ app.controller('company_register', function ($scope, $http) {
     customers_count: 50,
     employees_count: 20,
     users_count: 20,
-    branch_list: [{
-      code: 1,
-      name_ar: 'الفرع الرئيسى',
-      name_en: 'Main Branch',
-      charge: [{}]
-    }],
-    bank_list: [{}]
+    branch_list: [
+      {
+        code: 1,
+        name_ar: 'الفرع الرئيسى',
+        name_en: 'Main Branch',
+        charge: [{}],
+      },
+    ],
+    bank_list: [{}],
   };
 
   document.querySelector('#companyRegisterModal .tab-link').click();
@@ -46,9 +47,9 @@ app.controller('company_register', function ($scope, $http) {
 
     $scope.busy = true;
     $http({
-      method: "POST",
-      url: "/api/companies/add",
-      data: company
+      method: 'POST',
+      url: '/api/companies/add',
+      data: company,
     }).then(
       function (response) {
         $scope.busy = false;
@@ -73,63 +74,62 @@ app.controller('company_register', function ($scope, $http) {
                 customers_count: company.customers_count,
                 employees_count: company.employees_count,
                 users_count: company.users_count,
-                tax_number: company.tax_number
+                tax_number: company.tax_number,
               }),
               branch: site.to123({
                 code: company.branch_list[0].code,
                 name_ar: company.branch_list[0].name_ar,
-                name_en: company.branch_list[0].name_en
+                name_en: company.branch_list[0].name_en,
               }),
-            }
-          }).then(function (response) {
-            if (response.data.error) {
-              $scope.error = response.data.error;
+            },
+          }).then(
+            function (response) {
+              if (response.data.error) {
+                $scope.error = response.data.error;
 
-              $scope.busy = false;
+                $scope.busy = false;
+              } else if (response.data.done) {
+                window.location.href = '/';
+                $scope.busy = false;
 
-            } else if (response.data.done) {
-
-              window.location.href = "/";
-              $scope.busy = false;
-
-              $http({
-                method: "POST",
-                url: "/api/numbering/get",
-                data: {
-                  reset: true,
-                  doc: response.data.doc
-
-                }
-              }).then(
-                function (response) {
-                  if (response.data.done) {
+                $http({
+                  method: 'POST',
+                  url: '/api/numbering/get',
+                  data: {
+                    reset: true,
+                    doc: response.data.doc,
+                  },
+                }).then(
+                  function (response) {
+                    if (response.data.done) {
+                    }
+                  },
+                  function (err) {
+                    $scope.busy = false;
+                    $scope.error = err;
                   }
-                },
-                function (err) {
-                  $scope.busy = false;
-                  $scope.error = err;
-                }
-              )
-
+                );
+              }
+            },
+            function (err) {
+              $scope.busy = false;
+              $scope.error = err;
             }
-
-          }, function (err) {
-            $scope.busy = false;
-            $scope.error = err;
-          });
-
+          );
         } else {
           $scope.error = response.data.error;
-          if (response.data.error.like('*ername must be typed correctly*')) {
-            $scope.error = "##word.err_username_contain##"
-          } else if (response.data.error.like('*User Is Exist*')) {
-            $scope.error = "##word.user_exists##"
+          if (response.data.error) {
+            if (response.data.error.like('*ername must be typed correctly*')) {
+              $scope.error = '##word.err_username_contain##';
+            } else if (response.data.error.like('*User Is Exist*')) {
+              $scope.error = '##word.user_exists##';
+            }
           }
         }
       },
       function (err) {
         console.log(err);
       }
-    )
+    );
   };
 });

@@ -2,14 +2,14 @@
   <div class="row padding">
     <div class="col9">
       <div class="row">
-        <i-list v="r" label="##word.Insurance Company##" ng-model="item.mainInsuranceCompany" display="name" items="mainInsuranceCompaniesList" ng-search="item.$mainInsuranceCompanies"></i-list>
-        <i-list v="r" label="##word.Sub Insurance Company##" ng-model="item.subInsurance" display="name" items="subInsurancesList" ng-search="item.$subInsurance"></i-list>
+        <i-list v="r" label="##word.Main Insurance Company##" ng-model="item.mainInsuranceCompany" display="name##session.lang##" items="mainInsuranceCompaniesList" ng-search="item.$mainInsuranceCompanies"></i-list>
+        <i-list v="r" label="##word.Insurance Company##" ng-model="item.insuranceCompany" display="name##session.lang##" items="insuranceCompaniesList" ng-search="item.$insuranceCompany"></i-list>
       </div>
 
       <div class="row">
         <i-control class="col6" label="##word.Policy Number##" ng-model="item.policyNumber"> </i-control>
       </div>
-      
+
       <div class="row">
         <i-control type="number" class="col6" label="##word.Free Revisit Count##" ng-model="item.freeRevisitCount"> </i-control>
         <i-control type="number" class="col6" label="##word.Free Revisit Count##" ng-model="item.freeRevisitDays"> </i-control>

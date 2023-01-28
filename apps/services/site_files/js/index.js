@@ -43,7 +43,7 @@ app.controller('services', function ($scope, $http, $timeout) {
           $scope.list.push(response.data.doc);
         } else {
           $scope.error = response.data.error;
-          if (response.data.error.like('*Must Enter Code*')) {
+          if (response.data.error && response.data.error.like('*Must Enter Code*')) {
             $scope.error = '##word.Must Enter Code##';
           }
         }
@@ -224,7 +224,8 @@ app.controller('services', function ($scope, $http, $timeout) {
         where: { active: true },
         select: {
           id: 1,
-          name: 1,
+          nameEn: 1,
+          nameAr: 1,
         },
       },
     }).then(
@@ -232,6 +233,34 @@ app.controller('services', function ($scope, $http, $timeout) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
           $scope.achiCodesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getServicesGroupsList = function (country) {
+    $scope.busy = true;
+    $scope.servicesGroupsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/servicesGroups/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.servicesGroupsList = response.data.list;
         }
       },
       function (err) {
@@ -255,4 +284,5 @@ app.controller('services', function ($scope, $http, $timeout) {
   $scope.getAll();
   $scope.getNumberingAuto();
   $scope.getAchiCodesList();
+  $scope.getServicesGroupsList();
 });

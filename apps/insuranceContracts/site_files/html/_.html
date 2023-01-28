@@ -4,7 +4,7 @@
     <div x-import="insuranceContracts/modalSearch.html"></div>
 
     <div class="row">
-      <h1 class="bold text-center">##word.Countries##</h1>
+      <h1 class="bold text-center">##word.Insurance Contracts##</h1>
     </div>
 
     <div class="top-actions">
@@ -18,7 +18,8 @@
       <tr>
         <th class="w150">##word.logo##</th>
         <th>##word.Code##</th>
-        <th>##word.Name##</th>
+        <th>##word.Main Insurance Company##</th>
+        <th>##word.Insurance Company##</th>
         <th class="not-print">##word.Actions##</th>
       </tr>
       <tr ng-repeat="item in list | filter:$search">
@@ -26,7 +27,8 @@
           <i-image view class="logo center" ng-model="item.image"></i-image>
         </td>
         <td class="text-center blue">{{item.code}}</td>
-        <td class="text-center">{{item.name}}</td>
+        <td class="text-center">{{item.mainInsuranceCompany.name##session.lang##}}</td>
+        <td class="text-center">{{item.insuranceCompany.name##session.lang##}}</td>
 
         <td class="text-center not-print">
           <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>

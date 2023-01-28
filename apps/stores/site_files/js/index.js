@@ -1,20 +1,13 @@
-app.controller('TESTAPP', function ($scope, $http, $timeout) {
+app.controller('stores', function ($scope, $http, $timeout) {
   $scope.baseURL = '';
-  $scope.appName = 'TESTAPP';
-  $scope.modalID = '#TESTAPPManageModal';
-  $scope.modalSearchID = '#TESTAPPSearchModal';
+  $scope.appName = 'stores';
+  $scope.modalID = '#storesManageModal';
+  $scope.modalSearchID = '#storesSearchModal';
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    click: false,
-    clickGoogleAds: false,
-    partition: 'user',
-    referer: 'social',
-    url: 'https://egytag.com/post/random',
-    timeout: 1000 * 60 * 10,
-    count: 1,
-    hostname: 'egytag.com',
-    group: 1,
+    image: {url : '/images/stores.png'},
+    active: true,
   };
   $scope.item = {};
   $scope.list = [];
@@ -48,6 +41,9 @@ app.controller('TESTAPP', function ($scope, $http, $timeout) {
           $scope.list.push(response.data.doc);
         } else {
           $scope.error = response.data.error;
+          if (response.data.error && response.data.error.like('*Must Enter Code*')) {
+            $scope.error = '##word.Must Enter Code##';
+          }
         }
       },
       function (err) {
@@ -191,6 +187,29 @@ app.controller('TESTAPP', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getNumberingAuto = function () {
+    $scope.error = '';
+    $scope.busy = true;
+    $http({
+      method: 'POST',
+      url: '/api/numbering/getAutomatic',
+      data: {
+        screen: $scope.appName,
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done) {
+          $scope.disabledCode = response.data.isAuto;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.showSearch = function () {
     $scope.error = '';
     site.showModal($scope.modalSearchID);
@@ -203,4 +222,5 @@ app.controller('TESTAPP', function ($scope, $http, $timeout) {
   };
 
   $scope.getAll();
+  $scope.getNumberingAuto();
 });

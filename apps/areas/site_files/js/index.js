@@ -6,7 +6,7 @@ app.controller('areas', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: {url: '/images/areas.png'},
+    image: { url: '/images/areas.png' },
     active: true,
   };
   $scope.item = {};
@@ -41,7 +41,7 @@ app.controller('areas', function ($scope, $http, $timeout) {
           $scope.list.push(response.data.doc);
         } else {
           $scope.error = response.data.error;
-          if (response.data.error.like('*Must Enter Code*')) {
+          if (response.data.error && response.data.error.like('*Must Enter Code*')) {
             $scope.error = '##word.Must Enter Code##';
           }
         }
@@ -198,8 +198,9 @@ app.controller('areas', function ($scope, $http, $timeout) {
         },
         select: {
           id: 1,
-          name: 1,
-        }
+          nameEn: 1,
+          nameAr: 1,
+        },
       },
     }).then(
       function (response) {
@@ -227,7 +228,8 @@ app.controller('areas', function ($scope, $http, $timeout) {
         },
         select: {
           id: 1,
-          name: 1,
+          nameEn: 1,
+          nameAr: 1,
         },
       },
     }).then(
@@ -254,7 +256,11 @@ app.controller('areas', function ($scope, $http, $timeout) {
           gov: gov,
           active: true,
         },
-        select: { id: 1, name: 1 },
+        select: {
+          id: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
       },
     }).then(
       function (response) {

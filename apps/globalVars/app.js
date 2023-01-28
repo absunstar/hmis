@@ -72,6 +72,17 @@ module.exports = function init(site) {
     { id: 'm', nameEn: 'Male', nameAr: 'ذكر' },
     { id: 'f', nameEn: 'Female', nameAr: 'أنثى' },
   ];
+  site.storesTypes = [
+    { id: '1', nameEn: 'Normal', nameAr: 'عادي' },
+    { id: '2', nameEn: 'Synth', nameAr: 'توالف' },
+    { id: '3', nameEn: 'wholesale', nameAr: 'جملة' },
+    { id: '4', nameEn: 'Section', nameAr: 'قطاعي' },
+  ];
+  site.safesTypes = [
+    { id: '1', nameEn: 'Cash', nameAr: 'نقدي' },
+    { id: '2', nameEn: 'Bank', nameAr: 'بنك' },
+    { id: '3', nameEn: 'Bank Account', nameAr: 'حساب بنكي' },
+  ];
 
   site.servicesTypeGroups = [
     { id: 1, code: 'S', nameEn: 'Service', nameAr: 'خدمة' },
@@ -138,6 +149,20 @@ module.exports = function init(site) {
     res.json({
       done: true,
       list: site.genders,
+    });
+  });
+
+  site.post('/api/storesTypes', (req, res) => {
+    res.json({
+      done: true,
+      list: site.storesTypes,
+    });
+  });
+
+  site.post('/api/safesTypes', (req, res) => {
+    res.json({
+      done: true,
+      list: site.safesTypes,
     });
   });
 };

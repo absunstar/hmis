@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "discountTypes" , "name":"discountTypesManage" , "en":"Manage" , "ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "discountTypes" , "name":"discountTypesAdd" , "en":"Add" , "ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "discountTypes" , "name":"discountTypesUpdate" , "en":"Edit" , "ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "discountTypes" , "name":"discountTypesDelete" , "en":"Delete" , "ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "discountTypes" , "name":"discountTypesView" , "en":"View" , "ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "discountTypes" , "name":"discountTypesSearch" , "en":"Search" , "ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "discountTypes" , "name":"discountTypesExport" , "en":"Export" , "ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "discountTypes" , "name":"discountTypesPrint" , "en":"Print" , "ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "discountTypes" , "name":"discountTypesUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+]

@@ -19,11 +19,11 @@
         <i-list
           help-id=""
           v="r"
-          label="##word.Store Type##"
-          ng-model="item.storeType"
+          label="##word.Safe Type##"
+          ng-model="item.safeType"
           display="name##session.lang##"
-          items="storesTypesList"
-          ng-search="item.$storeType"
+          items="safesTypesList"
+          ng-search="item.$safeType"
         ></i-list>
         <i-control
           type="text"
@@ -36,6 +36,12 @@
           v="r"
           ng-model="item.nameAr"
           label="##word.Name Arabic##"
+        ></i-control>
+        <i-control
+          type="number"
+          v="r"
+          ng-model="item.balance"
+          label="##word.Balance##"
         ></i-control>
       </div>
     </div>

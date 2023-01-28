@@ -1,0 +1,65 @@
+[
+  {
+    "moduleName": "public",
+    "screenName": "storesUnitss",
+    "name": "storesUnitssManage",
+    "en": "Manage",
+    "ar": "إدارة"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "storesUnitss",
+    "name": "storesUnitssAdd",
+    "en": "Add",
+    "ar": "إضافة"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "storesUnitss",
+    "name": "storesUnitssUpdate",
+    "en": "Edit",
+    "ar": "تعديل"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "storesUnitss",
+    "name": "storesUnitssDelete",
+    "en": "Delete",
+    "ar": "حذف"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "storesUnitss",
+    "name": "storesUnitssView",
+    "en": "View",
+    "ar": "عرض"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "storesUnitss",
+    "name": "storesUnitssSearch",
+    "en": "Search",
+    "ar": "بحث"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "storesUnitss",
+    "name": "storesUnitssExport",
+    "en": "Export",
+    "ar": "تصدير"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "storesUnitss",
+    "name": "storesUnitssPrint",
+    "en": "Print",
+    "ar": "طباعة"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "storesUnitss",
+    "name": "storesUnitssUi",
+    "en": "UI",
+    "ar": "الواجهة الرسومية"
+  }
+]

@@ -1,65 +1,66 @@
-[{
-        "module_name": "public",
-        "screen_name": "companies",
-        "name": "companiesManage",
-        "en": "Manage",
-        "ar": "إدارة"
-    },
-    {
-        "module_name": "public",
-        "screen_name": "companies",
-        "name": "companiesAdd",
-        "en": "Add",
-        "ar": "إضافة"
-    },
-    {
-        "module_name": "public",
-        "screen_name": "companies",
-        "name": "companiesEdit",
-        "en": "Edit",
-        "ar": "تعديل"
-    },
-    {
-        "module_name": "public",
-        "screen_name": "companies",
-        "name": "companiesDelete",
-        "en": "Delete",
-        "ar": "حذف"
-    },
-    {
-        "module_name": "public",
-        "screen_name": "companies",
-        "name": "companiesView",
-        "en": "View",
-        "ar": "عرض"
-    },
-    {
-        "module_name": "public",
-        "screen_name": "companies",
-        "name": "companiesSearch",
-        "en": "Search",
-        "ar": "بحث"
-    },
-    {
-        "module_name": "public",
-        "screen_name": "companies",
-        "name": "companiesExport",
-        "en": "Export",
-        "ar": "تصدير"
-    },
-    
-    {
-        "module_name": "public",
-        "screen_name": "companies",
-        "name": "companiesPrint",
-        "en": "Print",
-        "ar": "طباعة"
-    },
-    {
-        "module_name": "public",
-        "screen_name": "companies",
-        "name": "companiesUi",
-        "en": "UI",
-        "ar": "الواجهة الرسومية"
-    }
+[
+  {
+    "module_name": "public",
+    "screen_name": "companies",
+    "name": "companiesManage",
+    "en": "Manage",
+    "ar": "إدارة"
+  },
+  {
+    "module_name": "public",
+    "screen_name": "companies",
+    "name": "companiesAdd",
+    "en": "Add",
+    "ar": "إضافة"
+  },
+  {
+    "module_name": "public",
+    "screen_name": "companies",
+    "name": "companiesEdit",
+    "en": "Edit",
+    "ar": "تعديل"
+  },
+  {
+    "module_name": "public",
+    "screen_name": "companies",
+    "name": "companiesDelete",
+    "en": "Delete",
+    "ar": "حذف"
+  },
+  {
+    "module_name": "public",
+    "screen_name": "companies",
+    "name": "companiesView",
+    "en": "View",
+    "ar": "عرض"
+  },
+  {
+    "module_name": "public",
+    "screen_name": "companies",
+    "name": "companiesSearch",
+    "en": "Search",
+    "ar": "بحث"
+  },
+  {
+    "module_name": "public",
+    "screen_name": "companies",
+    "name": "companiesExport",
+    "en": "Export",
+    "ar": "تصدير"
+  },
+
+  {
+    "module_name": "public",
+    "screen_name": "companies",
+    "name": "companiesPrint",
+    "en": "Print",
+    "ar": "طباعة"
+  },
+  {
+    "module_name": "public",
+    "screen_name": "companies",
+    "name": "companiesUi",
+    "en": "UI",
+    "ar": "الواجهة الرسومية"
+  }
 ]

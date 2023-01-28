@@ -1,0 +1,65 @@
+[
+  {
+    "moduleName": "public",
+    "screenName": "safes",
+    "name": "safesManage",
+    "en": "Manage",
+    "ar": "إدارة"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "safes",
+    "name": "safesAdd",
+    "en": "Add",
+    "ar": "إضافة"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "safes",
+    "name": "safesUpdate",
+    "en": "Edit",
+    "ar": "تعديل"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "safes",
+    "name": "safesDelete",
+    "en": "Delete",
+    "ar": "حذف"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "safes",
+    "name": "safesView",
+    "en": "View",
+    "ar": "عرض"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "safes",
+    "name": "safesSearch",
+    "en": "Search",
+    "ar": "بحث"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "safes",
+    "name": "safesExport",
+    "en": "Export",
+    "ar": "تصدير"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "safes",
+    "name": "safesPrint",
+    "en": "Print",
+    "ar": "طباعة"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "safes",
+    "name": "safesUi",
+    "en": "UI",
+    "ar": "الواجهة الرسومية"
+  }
+]

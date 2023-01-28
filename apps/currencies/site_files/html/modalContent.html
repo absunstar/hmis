@@ -16,15 +16,6 @@
             label="##word.Active##"
           ></i-checkbox>
         </div>
-        <i-list
-          help-id=""
-          v="r"
-          label="##word.Store Type##"
-          ng-model="item.storeType"
-          display="name##session.lang##"
-          items="storesTypesList"
-          ng-search="item.$storeType"
-        ></i-list>
         <i-control
           type="text"
           v="r"
@@ -36,6 +27,25 @@
           v="r"
           ng-model="item.nameAr"
           label="##word.Name Arabic##"
+        ></i-control>
+
+        <i-control
+          type="text"
+          v="r"
+          ng-model="item.smallCurrencyEn"
+          label="##word.Small Currency##"
+        ></i-control>
+        <i-control
+          type="text"
+          v="r"
+          ng-model="item.smallCurrencyAr"
+          label="##word.Small Currency Arabic##"
+        ></i-control>
+        <i-control
+          type="number"
+          v="r"
+          ng-model="item.exchangePrice"
+          label="##word.Exchange Price##"
         ></i-control>
       </div>
     </div>

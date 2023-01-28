@@ -1,12 +1,12 @@
-app.controller('stores', function ($scope, $http, $timeout) {
+app.controller('currencies', function ($scope, $http, $timeout) {
   $scope.baseURL = '';
-  $scope.appName = 'stores';
-  $scope.modalID = '#storesManageModal';
-  $scope.modalSearchID = '#storesSearchModal';
+  $scope.appName = 'currencies';
+  $scope.modalID = '#currenciesManageModal';
+  $scope.modalSearchID = '#currenciesSearchModal';
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: { url: '/images/stores.png' },
+    image: { url: '/images/currencies.png' },
     active: true,
   };
   $scope.item = {};
@@ -187,34 +187,6 @@ app.controller('stores', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getStoresTypesList = function () {
-    $scope.busy = true;
-    $scope.storesTypesList = [];
-    $http({
-      method: 'POST',
-      url: '/api/storesTypes',
-      data: {
-        select: {
-          id: 1,
-          nameEn: 1,
-          nameAr: 1,
-        },
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.list.length > 0) {
-          $scope.storesTypesList = response.data.list;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
-
-
   $scope.getNumberingAuto = function () {
     $scope.error = '';
     $scope.busy = true;
@@ -251,6 +223,6 @@ app.controller('stores', function ($scope, $http, $timeout) {
 
   $scope.getAll();
   $scope.getNumberingAuto();
-  $scope.getStoresTypesList();
+
 });
 

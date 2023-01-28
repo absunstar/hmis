@@ -68,5 +68,15 @@
     "name": "Search All",
     "en": "Search All",
     "ar": "البحث الشامل"
+  },
+  {
+    "name": "Active",
+    "en": "Active",
+    "ar": "نشط"
+  },
+  {
+    "name": "Not Active",
+    "en": "Not Active",
+    "ar": "غير نشط"
   }
 ]

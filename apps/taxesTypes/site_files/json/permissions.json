@@ -1,0 +1,65 @@
+[
+  {
+    "moduleName": "public",
+    "screenName": "taxesTypes",
+    "name": "taxesTypesManage",
+    "en": "Manage",
+    "ar": "إدارة"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "taxesTypes",
+    "name": "taxesTypesAdd",
+    "en": "Add",
+    "ar": "إضافة"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "taxesTypes",
+    "name": "taxesTypesUpdate",
+    "en": "Edit",
+    "ar": "تعديل"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "taxesTypes",
+    "name": "taxesTypesDelete",
+    "en": "Delete",
+    "ar": "حذف"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "taxesTypes",
+    "name": "taxesTypesView",
+    "en": "View",
+    "ar": "عرض"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "taxesTypes",
+    "name": "taxesTypesSearch",
+    "en": "Search",
+    "ar": "بحث"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "taxesTypes",
+    "name": "taxesTypesExport",
+    "en": "Export",
+    "ar": "تصدير"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "taxesTypes",
+    "name": "taxesTypesPrint",
+    "en": "Print",
+    "ar": "طباعة"
+  },
+  {
+    "moduleName": "public",
+    "screenName": "taxesTypes",
+    "name": "taxesTypesUi",
+    "en": "UI",
+    "ar": "الواجهة الرسومية"
+  }
+]

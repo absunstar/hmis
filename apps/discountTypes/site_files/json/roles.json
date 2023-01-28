@@ -1,0 +1,9 @@
+[
+  {
+    "moduleName": "public",
+    "name": "discountTypesAdmin",
+    "en": "Discount Types Admin",
+    "ar": "إدارة أنواع الخصومات",
+    "permissions": ["discountTypesManage"]
+  }
+]

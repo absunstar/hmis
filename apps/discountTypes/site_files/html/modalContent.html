@@ -16,15 +16,6 @@
             label="##word.Active##"
           ></i-checkbox>
         </div>
-        <i-list
-          help-id=""
-          v="r"
-          label="##word.Store Type##"
-          ng-model="item.storeType"
-          display="name##session.lang##"
-          items="storesTypesList"
-          ng-search="item.$storeType"
-        ></i-list>
         <i-control
           type="text"
           v="r"
@@ -37,6 +28,33 @@
           ng-model="item.nameAr"
           label="##word.Name Arabic##"
         ></i-control>
+
+        <fieldset>
+          <legend>##word.Discount Type##</legend>
+          <div class="row">
+            <i-control
+              type="number"
+              v="r"
+              ng-model="item.discountValue"
+              label="##word.Discount Value##"
+            ></i-control>
+            <i-radio
+              class="col3"
+              label="##word.amount##"
+              ng-value="amount"
+              ng-model="item.discountType"
+            >
+            </i-radio>
+
+            <i-radio
+              class="col3"
+              label="##word.Pecent##"
+              ng-value="percent"
+              ng-model="item.discountType"
+            >
+            </i-radio>
+          </div>
+        </fieldset>
       </div>
     </div>
     <div class="col5 center">

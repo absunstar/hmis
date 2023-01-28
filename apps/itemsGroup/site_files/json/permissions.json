@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "itemsGroup" , "name":"itemsGroupManage" , "en":"Manage" , "ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "itemsGroup" , "name":"itemsGroupAdd" , "en":"Add" , "ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "itemsGroup" , "name":"itemsGroupUpdate" , "en":"Edit" , "ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "itemsGroup" , "name":"itemsGroupDelete" , "en":"Delete" , "ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "itemsGroup" , "name":"itemsGroupView" , "en":"View" , "ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "itemsGroup" , "name":"itemsGroupSearch" , "en":"Search" , "ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "itemsGroup" , "name":"itemsGroupExport" , "en":"Export" , "ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "itemsGroup" , "name":"itemsGroupPrint" , "en":"Print" , "ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "itemsGroup" , "name":"itemsGroupUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+]

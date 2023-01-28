@@ -1,0 +1,9 @@
+[
+  {
+    "moduleName": "public",
+    "name": "itemsGroupAdmin",
+    "en": "Items Group Admin",
+    "ar": "إدارة مجموعة الأصناف",
+    "permissions": ["itemsGroupManage"]
+  }
+]

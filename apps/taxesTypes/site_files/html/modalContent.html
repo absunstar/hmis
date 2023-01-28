@@ -16,15 +16,6 @@
             label="##word.Active##"
           ></i-checkbox>
         </div>
-        <i-list
-          help-id=""
-          v="r"
-          label="##word.Store Type##"
-          ng-model="item.storeType"
-          display="name##session.lang##"
-          items="storesTypesList"
-          ng-search="item.$storeType"
-        ></i-list>
         <i-control
           type="text"
           v="r"
@@ -36,6 +27,12 @@
           v="r"
           ng-model="item.nameAr"
           label="##word.Name Arabic##"
+        ></i-control>
+        <i-control
+          type="number"
+          v="r"
+          ng-model="item.value"
+          label="##word.Value##"
         ></i-control>
       </div>
     </div>

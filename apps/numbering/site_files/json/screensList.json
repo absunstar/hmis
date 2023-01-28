@@ -2,73 +2,73 @@
   {
     "category": "main",
     "feature": "public",
-    "id" : "services",
+    "id": "services",
     "name": "Services"
   },
   {
     "category": "main",
     "feature": "public",
-    "id" : "doctors",
+    "id": "doctors",
     "name": "Doctors"
   },
   {
     "category": "main",
     "feature": "public",
-    "id" : "hospitalCenters",
+    "id": "hospitalCenters",
     "name": "Hospital Centers"
   },
   {
     "category": "main",
     "feature": "public",
-    "id" : "insuranceClasses",
+    "id": "insuranceClasses",
     "name": "Insurance Classes"
   },
   {
     "category": "main",
     "feature": "public",
-    "id" : "insuranceCompanies",
+    "id": "insuranceCompanies",
     "name": "Insurance Companies"
   },
   {
     "category": "main",
     "feature": "public",
-    "id" : "insuranceContracts",
+    "id": "insuranceContracts",
     "name": "Insurance Contracts"
   },
   {
     "category": "main",
     "feature": "public",
-    "id" : "mainInsuranceCompanies",
+    "id": "mainInsuranceCompanies",
     "name": "Main Insurance Companies"
   },
   {
     "category": "main",
     "feature": "public",
-    "id" : "offers",
+    "id": "offers",
     "name": "Offers"
   },
   {
     "category": "main",
     "feature": "public",
-    "id" : "patients",
+    "id": "patients",
     "name": "Patients"
   },
   {
     "category": "main",
     "feature": "public",
-    "id" : "servicesOrders",
+    "id": "servicesOrders",
     "name": "Services Orders"
   },
   {
     "category": "main",
     "feature": "public",
-    "id" : "specialties",
+    "id": "specialties",
     "name": "Specialties"
   },
   {
     "category": "main",
     "feature": "public",
-    "id" : "countries",
+    "id": "countries",
     "name": "Countries"
   },
   {
@@ -118,5 +118,47 @@
     "feature": "public",
     "id": "stores",
     "name": "Stores"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "storesUnits",
+    "name": "Stores Units"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "itemsGroup",
+    "name": "Items Group"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "activeSubstances",
+    "name": "Active Substances"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "discountTypes",
+    "name": "Discount Types"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "taxesTypes",
+    "name": "Taxes Types"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "currencies",
+    "name": "Currencies"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "safes",
+    "name": "Safes"
   }
 ]

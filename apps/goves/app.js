@@ -144,7 +144,7 @@ module.exports = function init(site) {
         path: __dirname + '/site_files/',
       });
 
-   
+
 
       site.get(
         {
@@ -255,7 +255,7 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, nameEn: 1,nameAr : 1, image: 1 };
+        let select = req.body.select || { id: 1, nameEn: 1, nameAr: 1, image: 1 };
         let list = [];
         app.memoryList
           .filter((g) => !where['country'] || g.country.id == where['country'].id)
@@ -273,7 +273,7 @@ module.exports = function init(site) {
           });
         res.json({
           done: true,
-          list: app.memoryList,
+          list: list,
         });
       });
     }

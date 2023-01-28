@@ -187,7 +187,7 @@ app.controller('stores', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getStoresTypesList = function () {
+  $scope.getStoresTypes = function () {
     $scope.busy = true;
     $scope.storesTypesList = [];
     $http({
@@ -196,7 +196,7 @@ app.controller('stores', function ($scope, $http, $timeout) {
       data: {
         select: {
           id: 1,
-          nameEn: 1,
+          name: 1,
           nameAr: 1,
         },
       },
@@ -213,7 +213,6 @@ app.controller('stores', function ($scope, $http, $timeout) {
       }
     );
   };
-
 
   $scope.getNumberingAuto = function () {
     $scope.error = '';
@@ -251,6 +250,6 @@ app.controller('stores', function ($scope, $http, $timeout) {
 
   $scope.getAll();
   $scope.getNumberingAuto();
-  $scope.getStoresTypesList();
+  $scope.getStoresTypes();
 });
 

@@ -1,248 +1,155 @@
 <div class="site-bottom">
-  <div class="icons">
-    <i class="fas fa-home" onclick="toggleShow('.menu-bottom')"></i>
-  </div>
+    <div class="icons">
+        <i class="fas fa-home" onclick="toggleShow('.menu-bottom')"></i>
+    </div>
 </div>
 
 <div class="menu-bottom loaded x-hide">
-  <a
-    class="menu-item no-line"
-    x-permissions="patientsUi || patientsManage"
-    href="/patients"
-  >
-    <img src="/images/patients.png" alt="" />
-    <span> ##word.Patients## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="patientsUi || patientsManage" href="/patients">
+        <img src="/images/patients.png" alt="" />
+        <span> ##word.Patients## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="doctorsUi || doctorsManage"
-    href="/doctors"
-  >
-    <img src="/images/doctors.png" alt="" />
-    <span> ##word.Doctors## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="doctorsUi || doctorsManage" href="/doctors">
+        <img src="/images/doctors.png" alt="" />
+        <span> ##word.Doctors## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="storesUi || storesManage"
-    href="/stores"
-  >
-    <img src="/images/stores.png" alt="" />
-    <span> ##word.Stores## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="storesUi || storesManage" href="/stores">
+        <img src="/images/stores.png" alt="" />
+        <span> ##word.Stores## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="storesUnitsUi || storesUnitsManage"
-    href="/storesUnits"
-  >
-    <img src="/images/storesUnits.png" alt="" />
-    <span> ##word.Stores Units## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="storesItemsUi || storesItemsManage" href="/storesItems">
+        <img src="/images/storesItems.png" alt="" />
+        <span> ##word.Stores Items## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="itemsGroupUi || itemsGroupManage"
-    href="/itemsGroup"
-  >
-    <img src="/images/itemsGroup.png" alt="" />
-    <span> ##word.Items Group## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="storesUnitsUi || storesUnitsManage" href="/storesUnits">
+        <img src="/images/storesUnits.png" alt="" />
+        <span> ##word.Stores Units## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="activeSubstancesUi || activeSubstancesManage"
-    href="/activeSubstances"
-  >
-    <img src="/images/activeSubstances.png" alt="" />
-    <span> ##word.Active Substances## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="itemsGroupUi || itemsGroupManage" href="/itemsGroup">
+        <img src="/images/itemsGroup.png" alt="" />
+        <span> ##word.Items Group## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="discountTypesUi || discountTypesManage"
-    href="/discountTypes"
-  >
-    <img src="/images/discountTypes.png" alt="" />
-    <span> ##word.Discount Types## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="activeSubstancesUi || activeSubstancesManage" href="/activeSubstances">
+        <img src="/images/activeSubstances.png" alt="" />
+        <span> ##word.Active Substances## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="taxesTypesUi || taxesTypesManage"
-    href="/taxesTypes"
-  >
-    <img src="/images/taxesTypes.png" alt="" />
-    <span> ##word.Taxes Types## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="discountTypesUi || discountTypesManage" href="/discountTypes">
+        <img src="/images/discountTypes.png" alt="" />
+        <span> ##word.Discount Types## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="currenciesUi || currenciesManage"
-    href="/currencies"
-  >
-    <img src="/images/currencies.png" alt="" />
-    <span> ##word.Currencies## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="taxesTypesUi || taxesTypesManage" href="/taxesTypes">
+        <img src="/images/taxesTypes.png" alt="" />
+        <span> ##word.Taxes Types## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="safesUi || safesManage"
-    href="/safes"
-  >
-    <img src="/images/safes.png" alt="" />
-    <span> ##word.Safes## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="currenciesUi || currenciesManage" href="/currencies">
+        <img src="/images/currencies.png" alt="" />
+        <span> ##word.Currencies## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="specialtiesUi || specialtiesManage"
-    href="/specialties"
-  >
-    <img src="/images/specialties.png" alt="" />
-    <span> ##word.Specialties## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="safesUi || safesManage" href="/safes">
+        <img src="/images/safes.png" alt="" />
+        <span> ##word.Safes## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="hospitalCentersUi || hospitalCentersManage"
-    href="/hospitalCenters"
-  >
-    <img src="/images/hospitalCenters.png" alt="" />
-    <span> ##word.Hospital Centers## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="specialtiesUi || specialtiesManage" href="/specialties">
+        <img src="/images/specialties.png" alt="" />
+        <span> ##word.Specialties## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="servicesUi || servicesManage"
-    href="/services"
-  >
-    <img src="/images/services.png" alt="" />
-    <span> ##word.Services## </span>
-  </a>
-  <a
-    class="menu-item no-line"
-    x-permissions="servicesCategoriesUi || servicesCategoriesManage"
-    href="/servicesCategories"
-  >
-    <img src="/images/services.png" alt="" />
-    <span> ##word.Services Categories## </span>
-  </a>
-  <a
-    class="menu-item no-line"
-    x-permissions="servicesGroupsUi || servicesGroupsManage"
-    href="/servicesGroups"
-  >
-    <img src="/images/services.png" alt="" />
-    <span> ##word.Services Groups## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="hospitalCentersUi || hospitalCentersManage" href="/hospitalCenters">
+        <img src="/images/hospitalCenters.png" alt="" />
+        <span> ##word.Hospital Centers## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="servicesOrdersUi || servicesOrdersManage"
-    href="/servicesOrders"
-  >
-    <img src="/images/servicesOrders.png" alt="" />
-    <span> ##word.Services Orders## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="servicesUi || servicesManage" href="/services">
+        <img src="/images/services.png" alt="" />
+        <span> ##word.Services## </span>
+    </a>
+    <a class="menu-item no-line" x-permissions="servicesCategoriesUi || servicesCategoriesManage" href="/servicesCategories">
+        <img src="/images/services.png" alt="" />
+        <span> ##word.Services Categories## </span>
+    </a>
+    <a class="menu-item no-line" x-permissions="servicesGroupsUi || servicesGroupsManage" href="/servicesGroups">
+        <img src="/images/services.png" alt="" />
+        <span> ##word.Services Groups## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="mainInsuranceCompaniesUi || mainInsuranceCompaniesManage"
-    href="/mainInsuranceCompanies"
-  >
-    <img src="/images/company.png" alt="" />
-    <span> ##word.Main Insurance Companies## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="servicesOrdersUi || servicesOrdersManage" href="/servicesOrders">
+        <img src="/images/servicesOrders.png" alt="" />
+        <span> ##word.Services Orders## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="insuranceCompaniesUi || insuranceCompaniesManage"
-    href="/insuranceCompanies"
-  >
-    <img src="/images/company.png" alt="" />
-    <span> ##word.Insurance Companies## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="mainInsuranceCompaniesUi || mainInsuranceCompaniesManage" href="/mainInsuranceCompanies">
+        <img src="/images/company.png" alt="" />
+        <span> ##word.Main Insurance Companies## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="insuranceClassesUi || insuranceClassesManage"
-    href="/insuranceClasses"
-  >
-    <img src="/images/company.png" alt="" />
-    <span> ##word.insurance Classes## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="insuranceCompaniesUi || insuranceCompaniesManage" href="/insuranceCompanies">
+        <img src="/images/company.png" alt="" />
+        <span> ##word.Insurance Companies## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="insuranceContractsUi || insuranceContractsManage"
-    href="/insuranceContracts"
-  >
-    <img src="/images/insuranceContracts.png" alt="" />
-    <span> ##word.Insurance Contracts## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="insuranceClassesUi || insuranceClassesManage" href="/insuranceClasses">
+        <img src="/images/company.png" alt="" />
+        <span> ##word.insurance Classes## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="nationalitiesUi || nationalitiesManage"
-    href="/nationalities"
-  >
-    <img src="/images/nationalities.png" alt="" />
-    <span> ##word.Nationalities## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="insuranceContractsUi || insuranceContractsManage" href="/insuranceContracts">
+        <img src="/images/insuranceContracts.png" alt="" />
+        <span> ##word.Insurance Contracts## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="countriesUi || countriesManage"
-    href="/countries"
-  >
-    <img src="/images/countries.png" alt="" />
-    <span> ##word.Countries## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="nationalitiesUi || nationalitiesManage" href="/nationalities">
+        <img src="/images/nationalities.png" alt="" />
+        <span> ##word.Nationalities## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="govesUi || govesManage"
-    href="/goves"
-  >
-    <img src="/images/governorates.png" alt="" />
-    <span> ##word.Governorates## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="countriesUi || countriesManage" href="/countries">
+        <img src="/images/countries.png" alt="" />
+        <span> ##word.Countries## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="citiesUi || citiesManage"
-    href="/cities"
-  >
-    <img src="/images/cities.png" alt="" />
-    <span> ##word.Cities## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="govesUi || govesManage" href="/goves">
+        <img src="/images/governorates.png" alt="" />
+        <span> ##word.Governorates## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="areasUi || areasManage"
-    href="/areas"
-  >
-    <img src="/images/areas.png" alt="" />
-    <span> ##word.Areas## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="citiesUi || citiesManage" href="/cities">
+        <img src="/images/cities.png" alt="" />
+        <span> ##word.Cities## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="achiCodesUi || achiCodesManage"
-    href="/achiCodes"
-  >
-    <img src="/images/achiCodes.png" alt="" />
-    <span> ##word.ACHI Codes## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="areasUi || areasManage" href="/areas">
+        <img src="/images/areas.png" alt="" />
+        <span> ##word.Areas## </span>
+    </a>
 
-  <a
-    class="menu-item no-line"
-    x-permissions="offersUi || offersManage"
-    href="/offers"
-  >
-    <img src="/images/offers.png" alt="" />
-    <span> ##word.Offers## </span>
-  </a>
+    <a class="menu-item no-line" x-permissions="achiCodesUi || achiCodesManage" href="/achiCodes">
+        <img src="/images/achiCodes.png" alt="" />
+        <span> ##word.ACHI Codes## </span>
+    </a>
+
+    <a class="menu-item no-line" x-permissions="offersUi || offersManage" href="/offers">
+        <img src="/images/offers.png" alt="" />
+        <span> ##word.Offers## </span>
+    </a>
+
+    <a class="menu-item no-line" x-permissions="vendorsGroupUi || vendorsGroupManage" href="/vendorsGroup">
+        <img src="/images/vendorsGroup.png" alt="" />
+        <span> ##word.Vendors Group## </span>
+    </a>
+
+    <a class="menu-item no-line" x-permissions="vendorsUi || vendorsManage" href="/vendors">
+        <img src="/images/vendor.png" alt="" />
+        <span> ##word.Vendors## </span>
+    </a>
 </div>

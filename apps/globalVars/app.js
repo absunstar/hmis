@@ -75,7 +75,7 @@ module.exports = function init(site) {
   site.storesTypes = [
     { id: '1', nameEn: 'Normal', nameAr: 'عادي' },
     { id: '2', nameEn: 'Synth', nameAr: 'توالف' },
-    { id: '3', nameEn: 'wholesale', nameAr: 'جملة' },
+    { id: '3', nameEn: 'Wholesale', nameAr: 'جملة' },
     { id: '4', nameEn: 'Section', nameAr: 'قطاعي' },
   ];
   site.safesTypes = [

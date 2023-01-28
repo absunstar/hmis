@@ -1,0 +1,9 @@
+[
+    {
+        "moduleName": "public",
+        "name": "storesItemsAdmin",
+        "en": "Stores Items Admin",
+        "ar": "إدارة الأصناف المخزنية",
+        "permissions": ["storesItemsManage"]
+    }
+]

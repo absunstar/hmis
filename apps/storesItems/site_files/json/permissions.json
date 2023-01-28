@@ -1,0 +1,11 @@
+[
+    { "moduleName": "public", "screenName": "storesItems", "name": "storesItemsManage", "en": "Manage", "ar": "إدارة" },
+    { "moduleName": "public", "screenName": "storesItems", "name": "storesItemsAdd", "en": "Add", "ar": "إضافة" },
+    { "moduleName": "public", "screenName": "storesItems", "name": "storesItemsUpdate", "en": "Edit", "ar": "تعديل" },
+    { "moduleName": "public", "screenName": "storesItems", "name": "storesItemsDelete", "en": "Delete", "ar": "حذف" },
+    { "moduleName": "public", "screenName": "storesItems", "name": "storesItemsView", "en": "View", "ar": "عرض" },
+    { "moduleName": "public", "screenName": "storesItems", "name": "storesItemsSearch", "en": "Search", "ar": "بحث" },
+    { "moduleName": "public", "screenName": "storesItems", "name": "storesItemsExport", "en": "Export", "ar": "تصدير" },
+    { "moduleName": "public", "screenName": "storesItems", "name": "storesItemsPrint", "en": "Print", "ar": "طباعة" },
+    { "moduleName": "public", "screenName": "storesItems", "name": "storesItemsUi", "en": "UI", "ar": "الواجهة الرسومية" }
+]

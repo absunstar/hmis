@@ -1,0 +1,9 @@
+[
+    {
+        "moduleName": "public",
+        "name": "vendorsGroupAdmin",
+        "en": "Vendors Group Admin",
+        "ar": "إدارة مجموعات الموردين",
+        "permissions": ["vendorsGroupManage"]
+    }
+]

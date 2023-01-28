@@ -1,0 +1,9 @@
+[
+    {
+        "moduleName": "public",
+        "name": "vendorsAdmin",
+        "en": "Vendors Admin",
+        "ar": "إدارة الموردين",
+        "permissions": ["vendorsManage"]
+    }
+]

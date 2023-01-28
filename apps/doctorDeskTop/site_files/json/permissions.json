@@ -1,0 +1,10 @@
+[
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopManage" , "en":"Manage" , "ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopUpdate" , "en":"Edit" , "ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopDelete" , "en":"Delete" , "ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopView" , "en":"View" , "ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopSearch" , "en":"Search" , "ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopExport" , "en":"Export" , "ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopPrint" , "en":"Print" , "ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+]

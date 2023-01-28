@@ -7,7 +7,6 @@
       <fieldset class="col9">
         <div class="row">
           <i-list
-            help-id=""
             v="r"
             class="col6"
             label="##word.Patient##"
@@ -24,7 +23,7 @@
             <tr>
               <td class="bg-theme">##word.Full Name##</td>
               <td class="center" colspan="5">
-                <p class="height-5">{{item.patient.fullNameEn}} (item.patient.code)</p>
+                <p class="height-5">{{item.patient.fullNameEn}} ({{item.patient.code}})</p>
               </td>
             </tr>
 
@@ -118,14 +117,14 @@
   </div>
   <div class="row padding">
     <fieldset>
-      <div class="row">
+      <div class="row"  ng-class="{disapled : item.id}">
         <i-list help-id="" label="##word.Service##" class="col7" ng-model="item.$service" display="name##session.lang##" items="servicesList" ng-search="item.$services"></i-list>
         <div class="col4">
           <br />
           <i-button type="add" label="##word.Add Service##" ng-click="addServices(item)"></i-button>
         </div>
       </div>
-      <div class="row">
+      <div class="row"  ng-class="{disapled : item.id}">
         <table class="table hover bold">
           <tr>
             <th>##word.Name##</th>
@@ -142,28 +141,28 @@
           <tr ng-repeat="s in item.servicesList">
             <td class="text-center">{{s.name##session.lang##}}</td>
             <td class="text-center">
-              <i-control ng-model="s.qty"> </i-control>
+              <i-control type="number" ng-model="s.qty"> </i-control>
             </td>
             <td class="text-center">
-              <i-control ng-model="s.price"> </i-control>
+              <i-control type="number" ng-model="s.price"> </i-control>
             </td>
             <td class="text-center">
-              <i-control ng-model="s.discount"> </i-control>
+              <i-control type="number" ng-model="s.discount"> </i-control>
             </td>
             <td class="text-center">
-              <i-control ng-model="s.total"> </i-control>
+              <i-control type="number" ng-model="s.total"> </i-control>
             </td>
             <td class="text-center">
               <i-list ng-model="s.hospitalCenter" display="name##session.lang##" items="hospitalCentersList" ng-search="item.$hospitalCenter"></i-list>
             </td>
             <td class="text-center">
-              <i-control ng-model="s.vat"> </i-control>
+              <i-control type="number" ng-model="s.vat"> </i-control>
             </td>
             <td class="text-center">
-              <i-control ng-model="s.pVat"> </i-control>
+              <i-control type="number" ng-model="s.pVat"> </i-control>
             </td>
             <td class="text-center">
-              <i-control ng-model="s.comVat"> </i-control>
+              <i-control type="number" ng-model="s.comVat"> </i-control>
             </td>
             <td class="text-center not-print">
               <i-button type="delete default" ng-click="item.servicesList.splice($index,1)"> </i-button>
@@ -171,18 +170,17 @@
           </tr>
         </table>
       </div>
-      <div class="row">
-        <i-control class="col3" label="##word.Gross Amnt##" ng-model="item.grossAmnt"> </i-control>
-        <i-control class="col3" label="##word.Discount##" ng-model="item.discount"> </i-control>
-        <i-control class="col3" label="##word.Deductables##" ng-model="item.deductables"> </i-control>
-        <i-control class="col3" label="##word.Patient VAT##" ng-model="item.patientVat"> </i-control>
+      <div class="row" ng-class="{disapled : item.id}">
+        <i-control class="col3" type="number" label="##word.Gross Amnt##" ng-model="item.grossAmnt"> </i-control>
+        <i-control class="col3" type="number" label="##word.Discount##" ng-model="item.discount"> </i-control>
+        <i-control class="col3" type="number" label="##word.Deductables##" ng-model="item.deductables"> </i-control>
+        <i-control class="col3" type="number" label="##word.Patient VAT##" ng-model="item.patientVat"> </i-control>
       </div>
-      <div class="row">
-        <i-control class="col3" label="##word.Company VAT##" ng-model="item.companyVat"> </i-control>
-        <i-control class="col3" label="##word.Net-Amnt##" ng-model="item.netAmnt"> </i-control>
-        <i-control class="col3" label="##word.Pat-Balance##" ng-model="item.patBalance"> </i-control>
-        <i-control class="col3" label="##word.Acc-Balance##" ng-model="item.accBalance"> </i-control>
-  
+      <div class="row" ng-class="{disapled : item.id}">
+        <i-control class="col3" type="number" label="##word.Company VAT##" ng-model="item.companyVat"> </i-control>
+        <i-control class="col3" type="number" label="##word.Net-Amnt##" ng-model="item.netAmnt"> </i-control>
+        <i-control class="col3" type="number" label="##word.Pat-Balance##" ng-model="item.patBalance"> </i-control>
+        <i-control class="col3" type="number" label="##word.Acc-Balance##" ng-model="item.accBalance"> </i-control>
       </div>
     </fieldset>
 

@@ -176,11 +176,25 @@ module.exports = function init(site) {
         } else if (cb.auto) {
           _data.code = cb.code;
         }
-
         _data.addUserInfo = req.getUserFinger();
 
         app.add(_data, (err, doc) => {
           if (!err && doc) {
+            doc.servicesList.forEach((_s) => {
+              if (_s.serviceGroup && _s.serviceGroup.type && _s.serviceGroup.type.id) {
+                let obj = {
+                  orderId : doc.id,
+                  patient : doc.patient,
+                  doctor : doc.doctor,
+                  date : doc.date,
+                  service : _s,
+                }
+
+                if (_s.serviceGroup.type.id == 2) {
+                  site.call('[doctorDeskTop][serviceOrder][add]', obj)
+                }
+              }
+            });
             response.done = true;
             response.doc = doc;
           } else {

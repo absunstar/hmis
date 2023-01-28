@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "doctorDeskTopAdmin",
+    "en": "Doctor Desk Top Admin",
+    "ar": "إدارة مكتب الطبيب",
+    "permissions": ["doctorDeskTopManage"]
+}]

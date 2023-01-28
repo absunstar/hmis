@@ -1,0 +1,89 @@
+<div ng-controller="doctorDeskTop" class="loaded">
+  <div class="row" x-permissions="doctorDeskTopUi || doctorDeskTopManage">
+    <div x-import="doctorDeskTop/modal.html"></div>
+    <div x-import="doctorDeskTop/modalSearch.html"></div>
+
+    <div class="row">
+      <h1 class="bold text-center">##word.Doctor Desk Top##</h1>
+    </div>
+
+    <div class="row padding">
+      <i-list class="col6" label="##word.Doctor##" ng-model="search.doctor" display="name##session.lang##" ng-change="getAll({'doctor.id' : search.doctor.id})" items="doctorsList" ng-search="search.$doctor"></i-list>
+      <div class="row" ng-show="search.doctor.id">
+        <table class="table bold center hover">
+          <tr>
+            <td class="bg-theme">##word.Name##</td>
+            <td class="center" colspan="5">
+              <p class="height-5">{{search.doctor.nameEn}} ({{search.doctor.code}})</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="bg-theme">الإسم</td>
+            <td class="center" colspan="5">
+              <p class="height-5">{{search.doctor.nameAr}}</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="bg-theme">##word.Specialty##</td>
+            <td class="center">
+              <p class="height-5">{{search.doctor.specialty.name##session.lang##}}</p>
+            </td>
+            <td class="bg-theme">##word.Hospital Center##</td>
+            <td class="center">
+              <p class="height-5">{{search.doctor.hospitalCenter.name##session.lang##}}</p>
+            </td>
+            <td class="bg-theme">##word.Doctor Type##</td>
+            <td class="center">
+              <p class="height-5">{{search.doctor.doctorType.name##session.lang##}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="bg-theme">##word.Nationality##</td>
+            <td class="center">
+              <p class="height-5">{{search.doctor.nationality.name##session.lang##}}</p>
+            </td>
+            <td class="bg-theme">##word.Clinic Ext##</td>
+            <td class="center">
+              <p class="height-5">{{search.doctor.clinicExt}}</p>
+            </td>
+
+            <td class="bg-theme">##word.Home Tel##</td>
+            <td class="center">
+              <p class="height-5">{{search.doctor.homeTel}}</p>
+            </td>
+          </tr>
+
+        </table>
+      </div>
+    </div>
+    <div class="row padding">
+      <i-control ng-model="$search.text" x-permissions="doctorDeskTopSearch || doctorDeskTopManage"></i-control>
+    </div>
+
+    <table class="table hover bold" id="t1">
+      <tr>
+        <th>##word.Patient##</th>
+        <th ng-hide="search.doctor.id || '##user.type.id##' == 2">##word.Doctor##</th>
+        <th class="not-print">##word.Actions##</th>
+      </tr>
+      <tr ng-repeat="item in list | filter:$search">
+     
+        <td class="text-center">{{item.patient.fullName##session.lang##}}</td>
+        <td class="text-center" ng-hide="search.doctor.id || '##user.type.id##' == 2">{{item.doctor.name##session.lang##}}</td>
+
+        <td class="text-center not-print">
+          <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
+
+          <i-button type="edit" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
+
+          <i-button type="delete" x-permissions="doctorDeskTopDelete || doctorDeskTopManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
+        </td>
+      </tr>
+    </table>
+    <i-button x-permissions="doctorDeskTopPrint || doctorDeskTopManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
+    <i-button x-permissions="doctorDeskTopExport || doctorDeskTopManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')">
+    </i-button>
+  </div>
+</div>

@@ -1,12 +1,12 @@
-app.controller('services', function ($scope, $http, $timeout) {
+app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
   $scope.baseURL = '';
-  $scope.appName = 'services';
-  $scope.modalID = '#servicesManageModal';
-  $scope.modalSearchID = '#servicesSearchModal';
+  $scope.appName = 'doctorDeskTop';
+  $scope.modalID = '#doctorDeskTopManageModal';
+  $scope.modalSearchID = '#doctorDeskTopSearchModal';
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: { url: '/images/services.png' },
+    image: {url : '/images/doctorDeskTop.png'},
     active: true,
   };
   $scope.item = {};
@@ -16,9 +16,7 @@ app.controller('services', function ($scope, $http, $timeout) {
     $scope.error = '';
     $scope.mode = 'add';
     $scope.item = { ...$scope.structure };
-    site.resetValidated($scope.modalID);
     site.showModal($scope.modalID);
-    document.querySelector(`${$scope.modalID} .tab-link`).click();
   };
 
   $scope.add = function (_item) {
@@ -60,7 +58,6 @@ app.controller('services', function ($scope, $http, $timeout) {
     $scope.view(_item);
     $scope.item = {};
     site.showModal($scope.modalID);
-    document.querySelector(`${$scope.modalID} .tab-link`).click();
   };
 
   $scope.update = function (_item) {
@@ -101,7 +98,6 @@ app.controller('services', function ($scope, $http, $timeout) {
     $scope.item = {};
     $scope.view(_item);
     site.showModal($scope.modalID);
-    document.querySelector(`${$scope.modalID} .tab-link`).click();
   };
 
   $scope.view = function (_item) {
@@ -134,7 +130,6 @@ app.controller('services', function ($scope, $http, $timeout) {
     $scope.item = {};
     $scope.view(_item);
     site.showModal($scope.modalID);
-    document.querySelector(`${$scope.modalID} .tab-link`).click();
   };
 
   $scope.delete = function (_item) {
@@ -182,7 +177,6 @@ app.controller('services', function ($scope, $http, $timeout) {
           $scope.list = response.data.list;
           $scope.count = response.data.count;
           site.hideModal($scope.modalSearchID);
-          $scope.search = {};
         }
       },
       function (err) {
@@ -192,47 +186,32 @@ app.controller('services', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getNumberingAuto = function () {
-    $scope.error = '';
+  $scope.getDoctorsList = function () {
     $scope.busy = true;
+    $scope.doctorsList = [];
     $http({
       method: 'POST',
-      url: '/api/numbering/getAutomatic',
+      url: '/api/doctors/all',
       data: {
-        screen: $scope.appName,
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done) {
-          $scope.disabledCode = response.data.isAuto;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
-
-  $scope.getAchiCodesList = function (country) {
-    $scope.busy = true;
-    $http({
-      method: 'POST',
-      url: '/api/achiCodes/all',
-      data: {
-        where: { active: true },
+        where: { active: true,'type.id' : 2 },
         select: {
           id: 1,
+          code: 1,
           nameEn: 1,
           nameAr: 1,
+          specialty: 1,
+          doctorType: 1,
+          nationality: 1,
+          clinicExt: 1,
+          clinicExt: 1,
+          homeTel: 1,
         },
       },
     }).then(
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.achiCodesList = response.data.list;
+          $scope.doctorsList = response.data.list;
         }
       },
       function (err) {
@@ -242,34 +221,7 @@ app.controller('services', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getServicesGroupsList = function (country) {
-    $scope.busy = true;
-    $scope.servicesGroupsList = [];
-    $http({
-      method: 'POST',
-      url: '/api/servicesGroups/all',
-      data: {
-        where: { active: true },
-        select: {
-          id: 1,
-          nameEn: 1,
-          nameAr: 1,
-          type: 1,
-        },
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.list.length > 0) {
-          $scope.servicesGroupsList = response.data.list;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
+
 
   $scope.showSearch = function () {
     $scope.error = '';
@@ -283,7 +235,5 @@ app.controller('services', function ($scope, $http, $timeout) {
   };
 
   $scope.getAll();
-  $scope.getNumberingAuto();
-  $scope.getAchiCodesList();
-  $scope.getServicesGroupsList();
+  $scope.getDoctorsList();
 });

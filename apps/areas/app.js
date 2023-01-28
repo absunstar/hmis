@@ -271,7 +271,7 @@ module.exports = function init(site) {
           });
         res.json({
           done: true,
-          list: app.memoryList,
+          list: list,
         });
       });
     }

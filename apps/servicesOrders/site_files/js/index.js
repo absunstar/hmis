@@ -4,7 +4,6 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
   $scope.modalID = '#servicesOrdersManageModal';
   $scope.modalSearchID = '#servicesOrdersSearchModal';
   $scope.mode = 'add';
-  $scope._search = {};
   $scope.structure = {
     date: new Date(),
     nphis: 'elig',
@@ -250,11 +249,12 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           maritalStatus: 1,
           gender: 1,
           age: 1,
-          motherName: 1,
+          motherNameEn: 1,
           motherNameAr: 1,
           newBorn: 1,
           nationality: 1,
           mobileList: 1,
+          patientType: 1,
           insuranceCompany: 1,
           insuranceClass: 1,
         },
@@ -338,6 +338,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           code: 1,
           nameEn: 1,
           nameAr: 1,
+          hospitalCenter: 1,
         },
       },
     }).then(
@@ -367,6 +368,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           code: 1,
           nameEn: 1,
           nameAr: 1,
+          serviceGroup: 1,
         },
       },
     }).then(
@@ -387,10 +389,15 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     $scope.error = '';
     if (_item.$service && _item.$service.id) {
       if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
-        _item.servicesList.push({
+        let obj = {
           ..._item.$service,
           qty: 1,
-        });
+        };
+        if (_item.doctor && _item.doctor.hospitalCenter) {
+          obj.hospitalCenter = { ..._item.doctor.hospitalCenter };
+        }
+
+        _item.servicesList.push(obj);
       }
       _item.$service = {};
     } else {

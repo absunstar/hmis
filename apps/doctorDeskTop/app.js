@@ -1,6 +1,6 @@
 module.exports = function init(site) {
   let app = {
-    name: 'cities',
+    name: 'doctorDeskTop',
     allowMemory: true,
     memoryList: [],
     allowCache: false,
@@ -144,7 +144,6 @@ module.exports = function init(site) {
         path: __dirname + '/site_files/',
       });
 
-
       site.get(
         {
           name: app.name,
@@ -256,27 +255,30 @@ module.exports = function init(site) {
         let where = req.body.where || {};
         let select = req.body.select || { id: 1, nameEn: 1, nameAr: 1, image: 1 };
         let list = [];
-        app.memoryList
-          .filter((g) => !where['gov'] || g.gov.id == where['gov'].id)
-          .forEach((doc) => {
-            let obj = { ...doc };
+        app.memoryList.forEach((doc) => {
+          let obj = { ...doc };
 
-            for (const p in obj) {
-              if (!Object.hasOwnProperty.call(select, p)) {
-                delete obj[p];
-              }
+          for (const p in obj) {
+            if (!Object.hasOwnProperty.call(select, p)) {
+              delete obj[p];
             }
-            if (!where.active || doc.active) {
-              list.push(obj);
-            }
-          });
+          }
+          if (!where.active || doc.active) {
+            list.push(obj);
+          }
+        });
         res.json({
           done: true,
-          list: list,
+          list: app.memoryList,
         });
       });
     }
   }
+
+  site.on('[doctorDeskTop][serviceOrder][add]', (obj) => {
+    
+    app.add(obj, (err, doc1) => {});
+  });
 
   app.init();
   site.addApp(app);

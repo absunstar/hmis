@@ -16,6 +16,9 @@
 .height-5 {
   height: 5px;
 }
+.disapled {
+  pointer-events: none;
+}
 .modal {
   --bs-modal-bg: #fbfbfb;
 }

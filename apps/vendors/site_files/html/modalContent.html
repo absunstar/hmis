@@ -21,7 +21,7 @@
                         <div class="row">
                             <div class="col9">
                                 <div class="row">
-                                    <i-control class="col4" v="r" label="##word.Name##" ng-model="item.name"> </i-control>
+                                    <i-control class="col4" v="r" label="##word.Name##" ng-model="item.nameEn"> </i-control>
 
                                     <i-control class="col4" v="r" label="##word.Name Arabic##" ng-model="item.nameAr"> </i-control>
                                 </div>
@@ -185,7 +185,7 @@
                                 display="name##session.lang##"
                                 ng-search="item.$item.$citySearch"
                             ></i-list>
-                            <i-list class="col4" label="##word.Area##" ng-model="item.area" items="areaList" display="name##session.lang##" ng-search="item.$tem.$areaSearch"></i-list>
+                            <i-list class="col4" label="##word.Area##" ng-model="item.area" items="areasList" display="name##session.lang##" ng-search="item.$tem.$areaSearch"></i-list>
                             <div class="row">
                                 <i-control label="##word.Aaddress##" ng-model="item.address"></i-control>
                             </div>
@@ -235,7 +235,7 @@
                             ##word.Files##
                         </legend>
 
-                        <div class="row" ng-repeat="f in item.files_list">
+                        <div class="row" ng-repeat="f in item.filesList">
                             <div class="row">
                                 <div class="col10">
                                     <div class="row">
@@ -245,9 +245,8 @@
                                         <i-control class="col3" label="##word.File Name##" ng-model="f.fileName"> </i-control>
 
                                         <i-date2 class="col4" ng-model="f.fileDate" label="##word.File Date##"></i-date2>
-                                    </div>
-                                    <div class="row">
-                                        <i-files ng-model="f.file"></i-files>
+
+                                        <i-file ng-model="f.file"></i-file>
                                     </div>
                                 </div>
                                 <div class="col2 center">
@@ -272,8 +271,8 @@
 <div ng-show="mode !== 'add' " class="row">
     <table class="table hover border">
         <tr>
-            <th>##word.addUserInfo##</th>
-            <th>##word.editUserInfo##</th>
+            <th>##word.Add Info##</th>
+            <th>##word.Last Edit Info##</th>
         </tr>
         <tr>
             <td class="center">

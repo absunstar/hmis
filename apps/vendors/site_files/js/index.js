@@ -179,6 +179,8 @@ app.controller('vendors', function ($scope, $http, $timeout) {
           site.hideModal($scope.modalSearchID);
           $scope.search = {};
         }
+        console.log('$scope.list', $scope.list);
+
       },
       function (err) {
         $scope.busy = false;
@@ -374,9 +376,46 @@ app.controller('vendors', function ($scope, $http, $timeout) {
     $scope.search = {};
   };
 
+  $scope.getFilesTypes = function () {
+    $scope.busy = true;
+    $scope.filesTypesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/filesTypes',
+      data: {
+        select: {
+          id: 1,
+          name: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.filesTypesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.addFiles = function () {
+    $scope.error = '';
+    $scope.item.filesList = $scope.item.filesList || [];
+    $scope.item.filesList.push({
+      file_date: new Date(),
+      file_upload_date: new Date(),
+      upload_by: '##user.name##',
+    })
+  };
   $scope.getAll();
   $scope.getNumberingAuto();
   $scope.getGovs();
+  $scope.getFilesTypes();
   $scope.getNationalities();
   $scope.getVendorsGroups();
 });

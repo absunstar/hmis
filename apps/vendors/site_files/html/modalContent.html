@@ -6,13 +6,12 @@
     <fieldset>
         <div class="tabs">
             <div class="tabs-header full">
-                <a class="tab-link" onclick="site.showTabContent(event, '#personalInformations')"> ##word.Personal Information## </a>
-                <a class="tab-link" onclick="site.showTabContent(event, '#officialDocuments')"> ##word.Official Documents## </a>
-                <!-- <a class="tab-link" onclick="site.showTabContent(event, '#openingBalanceInformations')"> ##word.Opening Balance## </a> -->
-                <a class="tab-link" onclick="site.showTabContent(event,'#bankingAndAccounting')"> ##word.Banking And Acounting## </a>
-                <a class="tab-link" onclick="site.showTabContent(event, '#contactAndAddress')"> ##word.Contact And Addresses## </a>
-                <a class="tab-link" onclick="site.showTabContent(event, '#vendorsBranches')"> ##word.Vendor Branches## </a>
-                <a class="tab-link" onclick="site.showTabContent(event, '#vendorsFiles')"> ##word.Files## </a>
+                <a class="tab-link" onclick="site.showTabContent(event, '#personalInformations')"> <span>##word.Personal Information## </span></a>
+                <a class="tab-link" onclick="site.showTabContent(event, '#officialDocuments')"> <span>##word.Official Documents## </span></a>
+                <a class="tab-link" onclick="site.showTabContent(event, '#initialBalanceInformations')"> <span>##word.Initial Balance## </span></a>
+                <a class="tab-link" onclick="site.showTabContent(event,'#bankingAndAccounting')"> <span>##word.Banking And Acounting## </span></a>
+                <a class="tab-link" onclick="site.showTabContent(event, '#contactAndAddress')"> <span>##word.Contact And Addresses## </span></a>
+                <a class="tab-link" onclick="site.showTabContent(event, '#vendorsFiles')"> <span>##word.Files## </span></a>
             </div>
 
             <div class="tabs-content">
@@ -119,76 +118,45 @@
                     </fieldset>
                 </div>
 
-                <!-- <div id="openingBalanceInformations" class="tab-content">
-                    <fieldset ng-repeat="balance in item.openingBalance">
-                        <legend>
-                            <i-button type="add default" ng-click="item.openingBalance.push({})"></i-button>
-                            ##word.Opening Balance Informations##
-                            <i-button type="delete default" ng-hide="balance.$view" ng-click="item.openingBalance.length === 1 || item.openingBalance.splice($index,1)"> </i-button>
-                        </legend>
+                <div id="initialBalanceInformations" class="tab-content">
+                    <fieldset>
+                        <legend>##word.Initial Balance Informations##</legend>
 
                         <div class="row">
-                            <i-control class="col3" label="##word.Initial Balance##" type="number" ng-disabled="balance.$view" ng-model="balance.initialBalance"></i-control>
+                            <i-control class="col4" label="##word.Initial Balance##" type="number" ng-disabled="item.$view" ng-model="item.initialBalance"></i-control>
 
-                            <i-list
-                                class="col4"
-                                label="##word.Currency##"
-                                ng-model="balance.currency"
-                                ng-disabled="balance.$view"
-                                display2="minor_currency"
-                                space=" - "
-                                items="currenciesList"
-                                display="name##session.lang##"
-                                ng-search="item.$currencyName"
-                            >
-                            </i-list>
+                            <i-radio class="col2" group="bt_{{$index}}" label="##word.Debit##" ng-disabled="item.$view" ng-model="item.balanceType" ng-value="debit"> </i-radio>
 
-                            <i-radio class="col2" group="bt_{{$index}}" label="##word.Debit##" ng-disabled="balance.$view" ng-model="balance.balanceType" ng-value="debit"> </i-radio>
+                            <i-radio class="col2" group="bt_{{$index}}" label="##word.Credit##" ng-disabled="item.$view" ng-model="item.balanceType" ng-value="credit"> </i-radio>
 
-                            <i-radio class="col2" group="bt_{{$index}}" label="##word.Credit##" ng-disabled="balance.$view" ng-model="balance.balanceType" ng-value="credit"> </i-radio>
+                            <i-control class="col4" label="##word.Reference Nnumber##" ng-disabled="balance.$view" ng-model="item.referenceNumber"></i-control>
                         </div>
 
                         <div class="row">
-                            <i-fullDate class="col6" label1="##word.Due Gregorian Date##" ng-disabled="balance.$view" label2="##word.Due Hijri Date##" ng-model="balance.balanceDate"></i-fullDate>
-
-                            <i-control class="col6" label="##word.Reference Nnumber##" ng-disabled="balance.$view" ng-model="balance.referenceNumber"></i-control>
-                        </div>
-
-                        <div class="row">
-                            <i-control class="col6" label="##word.Notes##" ng-model="balance.notes"> </i-control>
+                            <i-textArea label="##word.Notes##" ng-model="item.balanceNotes"> </i-textArea>
                         </div>
                     </fieldset>
-                </div> -->
+                </div>
 
                 <div id="bankingAndAccounting" class="tab-content">
                     <fieldset>
                         <legend>##word.Accounting Informations##</legend>
                         <div class="row">
-                            <i-control class="col3" label="##word.Purchase Maturity Period##" ng-model="item.purchaseMaturityPeriod"></i-control>
+                            <i-control class="col3" type="number" label="##word.Purchase Maturity Period##" ng-model="item.purchaseMaturityPeriod"></i-control>
 
-                            <i-control sign="%" class="col3" label="##word.Vendor Discount##" ng-model="item.discount"> </i-control>
-                        </div>
+                            <i-control sign="%" class="col3" type="number" label="##word.Vendor Discount##" ng-model="item.discount"> </i-control>
 
-                        <div class="row">
-                            <i-control class="col2" type="number" disabled label="##word.Balance Creditor##" ng-model="item.balanceCreditor"> </i-control>
-
-                            <i-control class="col2" type="number" type="number" disabled label="##word.Balance Debtor##" ng-model="item.balanceDebtor"> </i-control>
-
-                            <i-control class="col3" label="##word.Credit Limit##" ng-model="item.creditLimit"> </i-control>
+                            <i-control class="col3" type="number" label="##word.Credit Limit##" ng-model="item.creditLimit"> </i-control>
                         </div>
                     </fieldset>
 
-                    <fieldset ng-repeat="bank in item.banksList">
-                        <legend>
-                            <i-button type="add default" ng-click="item.banksList.push({})"></i-button>
-                            ##word.Banking Information##
-                            <i-button type="delete default" ng-click="item.banksList.length === 1 || item.banksList.splice($index,1)"></i-button>
-                        </legend>
+                    <fieldset>
+                        <legend>##word.Banking Information##</legend>
 
                         <div class="row">
-                            <i-list class="col4" label="##word.Bank Name##" ng-model="bank.bankName" items="banksList" display="name##session.lang##" ng-search="item.$bankName"></i-list>
-
-                            <i-control class="col4" label="##word.Bank Account Number##" ng-model="bank.accountNumber"></i-control>
+                            <i-control class="col4" label="##word.Bank Name##" ng-model="b.bankName"></i-control>
+                            <i-control class="col4" label="##word.Account Owner##" ng-model="b.accountOwner"></i-control>
+                            <i-control class="col4" label="##word.Bank Account Number##" ng-model="b.accountNumber"></i-control>
                         </div>
                     </fieldset>
                 </div>
@@ -198,17 +166,7 @@
                         <legend>##word.Address Informations##</legend>
                         <div class="row">
                             <i-list
-                                class="col3"
-                                label="##word.Country##"
-                                ng-model="item.country"
-                                items="countriesList"
-                                display="name##session.lang##"
-                                ng-change="getGovs(item.country)"
-                                ng-search="item.$countryNameAddress"
-                            ></i-list>
-
-                            <i-list
-                                class="col3"
+                                class="col4"
                                 label="##word.Gov##"
                                 ng-model="item.gov"
                                 items="govesList"
@@ -223,12 +181,14 @@
                                 label="##word.City##"
                                 ng-model="item.city"
                                 items="citiesList"
-                                ng-change="getAreaList(item.city)"
+                                ng-change="getAreas(item.city)"
                                 display="name##session.lang##"
                                 ng-search="item.$item.$citySearch"
                             ></i-list>
                             <i-list class="col4" label="##word.Area##" ng-model="item.area" items="areaList" display="name##session.lang##" ng-search="item.$tem.$areaSearch"></i-list>
-                            <i-control class="col6" label="##word.Aaddress##" ng-model="item.address"></i-control>
+                            <div class="row">
+                                <i-control label="##word.Aaddress##" ng-model="item.address"></i-control>
+                            </div>
                         </div>
                     </fieldset>
 
@@ -236,9 +196,6 @@
                         <legend>##word.Contact Informations##</legend>
                         <div class="row">
                             <i-control class="col3" label="##word.Phone##" ng-model="item.phone"></i-control>
-
-                            <!-- <i-control class="col3" label="##word.vendors_internal_number##"
-                            ng-model="item.internal_number"></i-control> -->
 
                             <i-control class="col3" label="##word.Mobile##" ng-model="item.mobile"></i-control>
 
@@ -268,89 +225,6 @@
 
                             <i-control class="col3" label="##word.Google##" ng-model="item.google"></i-control>
                         </div>
-                    </fieldset>
-                </div>
-
-                <div id="vendorsBranches" class="tab-content">
-                    <fieldset ng-repeat="branch in item.brancheslist">
-                        <legend>
-                            <i-button type="add default" ng-click="item.brancheslist.push({charge: [{}]})"></i-button>
-                            ##word.Branches Informations##
-                            <i-button type="delete default" ng-click="item.brancheslist.length === 1 || item.brancheslist.splice($index,1)"> </i-button>
-                        </legend>
-
-                        <fieldset>
-                            <legend>##word.Branches Informations##</legend>
-
-                            <div class="row">
-                                <i-control class="col2" label="##word.Branch Code##" ng-model="branch.code"> </i-control>
-
-                                <i-control class="col4" label="##word.Branch Name##" ng-model="branch.name"> </i-control>
-
-                                <i-control class="col4" label="##word.Name Arabic##" ng-model="branch.nameAr"> </i-control>
-                            </div>
-
-                            <div class="row">
-                                <i-list
-                                    class="col3"
-                                    label="##word.Branch Gov##"
-                                    ng-model="branch.gov"
-                                    items="govesList"
-                                    display="name##session.lang##"
-                                    ng-change="getBranchCitiesList(branch)"
-                                    ng-search="item.$govNameBranch"
-                                ></i-list>
-
-                                <i-list
-                                    class="col3"
-                                    label="##word.Branch City##"
-                                    ng-model="branch.city"
-                                    items="branch.$citiesList"
-                                    display="name##session.lang##"
-                                    ng-search="item.$cityNameBranch"
-                                ></i-list>
-
-                                <i-control class="col6" label="##word.Branch Address##" ng-model="branch.address"> </i-control>
-                            </div>
-
-                            <div class="row">
-                                <i-control class="col3" label="##word.Branch Phone##" ng-model="branch.phone"> </i-control>
-
-                                <i-control class="col3" label="##word.Branch Mobile##" ng-model="branch.mobile"> </i-control>
-
-                                <i-control class="col3" label="##word.Branch Fax##" ng-model="branch.fax"> </i-control>
-
-                                <i-control class="col3" label="##word.Branch Email##" ng-model="branch.email"> </i-control>
-                            </div>
-
-                            <div class="row">
-                                <i-control class="col6" label="##word.Branch Notes##" ng-model="branch.notes"> </i-control>
-                            </div>
-                        </fieldset>
-
-                        <fieldset ng-repeat="charge in branch.charge">
-                            <legend>
-                                <i-button type="add default" ng-click="branch.charge.push({})"></i-button>
-
-                                ##word.Charge Contact Informations##
-
-                                <i-button type="delete default" ng-click="branch.charge.length === 1 || branch.charge.splice($index,1)"></i-button>
-                            </legend>
-
-                            <div class="row">
-                                <i-control class="col3" label="##word.name##" ng-model="charge.name"> </i-control>
-
-                                <i-control class="col3" label="##word.Job##" ng-model="charge.job"> </i-control>
-
-                                <i-control class="col3" label="##word.Phone##" ng-model="charge.phone"> </i-control>
-                            </div>
-
-                            <div class="row">
-                                <i-control class="col3" label="##word.Mobile##" ng-model="charge.mobile"> </i-control>
-
-                                <i-control class="col3" label="##word.Email##" ng-model="charge.email"> </i-control>
-                            </div>
-                        </fieldset>
                     </fieldset>
                 </div>
 

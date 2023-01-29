@@ -187,39 +187,7 @@ app.controller('vendors', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getCountries = function () {
-    $scope.busy = true;
-    $scope.countriesList = [];
-    $http({
-      method: 'POST',
-      url: '/api/countries/all',
-      data: {
-        where: {
-          active: true
-        },
-        select: {
-          id: 1,
-          name: 1,
-          nameAr: 1,
-        },
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.list.length > 0) {
-          $scope.countriesList = response.data.list;
-        }
-
-
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
-
-  $scope.getGovs = function (country) {
+  $scope.getGovs = function () {
     $scope.busy = true;
     $scope.govesList = [];
     $http({
@@ -227,7 +195,6 @@ app.controller('vendors', function ($scope, $http, $timeout) {
       url: '/api/goves/all',
       data: {
         where: {
-          country: country,
           active: true
         },
         select: {
@@ -273,6 +240,37 @@ app.controller('vendors', function ($scope, $http, $timeout) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
           $scope.citiesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getAreas = function (city) {
+    $scope.busy = true;
+    $scope.areasList = [];
+    $http({
+      method: 'POST',
+      url: '/api/areas/all',
+      data: {
+        where: {
+          city: city,
+          active: true
+        },
+        select: {
+          id: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.areasList = response.data.list;
         }
       },
       function (err) {
@@ -378,7 +376,7 @@ app.controller('vendors', function ($scope, $http, $timeout) {
 
   $scope.getAll();
   $scope.getNumberingAuto();
-  $scope.getCountries();
+  $scope.getGovs();
   $scope.getNationalities();
   $scope.getVendorsGroups();
 });

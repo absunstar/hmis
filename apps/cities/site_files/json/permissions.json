@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "cities" , "name":"citiesUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

@@ -1,7 +1,7 @@
 [{
     "moduleName" : "public" ,
     "name": "servicesAdmin",
-    "en": "services Admin",
-    "ar": "إدارة الخدمات",
+    "En": "services Admin",
+    "Ar": "إدارة الخدمات",
     "permissions": ["servicesManage"]
 }]

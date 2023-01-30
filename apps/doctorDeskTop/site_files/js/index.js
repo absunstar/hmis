@@ -6,7 +6,7 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: {url : '/images/doctorDeskTop.png'},
+    image: { url: '/images/doctorDeskTop.png' },
     active: true,
   };
   $scope.item = {};
@@ -164,6 +164,9 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
   $scope.getAll = function (where) {
     $scope.busy = true;
     $scope.list = [];
+    if ('##user.type.id##' == 2) {
+      where['doctor.id'] == site.toNumber('##user.id##');
+    }
     $http({
       method: 'POST',
       url: `${$scope.baseURL}/api/${$scope.appName}/all`,
@@ -193,7 +196,7 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
       method: 'POST',
       url: '/api/doctors/all',
       data: {
-        where: { active: true,'type.id' : 2 },
+        where: { active: true, 'type.id': 2 },
         select: {
           id: 1,
           code: 1,
@@ -220,8 +223,6 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
       }
     );
   };
-
-
 
   $scope.showSearch = function () {
     $scope.error = '';

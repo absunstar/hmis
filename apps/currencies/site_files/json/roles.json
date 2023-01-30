@@ -2,8 +2,8 @@
   {
     "moduleName": "public",
     "name": "currenciesAdmin",
-    "en": "Currencies Admin",
-    "ar": "إدارة العملات",
+    "En": "Currencies Admin",
+    "Ar": "إدارة العملات",
     "permissions": ["currenciesManage"]
   }
 ]

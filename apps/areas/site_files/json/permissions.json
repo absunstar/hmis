@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "areas" , "name":"areasUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

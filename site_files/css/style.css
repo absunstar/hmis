@@ -13,6 +13,38 @@
 .bg-theme {
   background: #c8ffca !important;
 }
+.table.branch tr  {
+  height: 50px;
+}
+
+.table.branch td  {
+  border: unset
+}
+
+.login-btn {
+  border: 1px solid #1600a2;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 20px;
+  text-decoration: unset;
+  color: white;
+  background-color: #0167c0;
+}
+.login-btn:hover {
+  color: white;
+  padding: 12px;
+}
+.branch-bar {
+  display: inline-block;
+  bottom: 3px;
+  position: relative;
+  margin: 10px;
+  border: 2px solid;
+  padding: 0px 10px 0px 10px;
+  border-radius: 15px;
+  color: cornsilk;
+  cursor: pointer;
+}
 .height-5 {
   height: 5px;
 }

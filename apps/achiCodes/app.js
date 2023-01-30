@@ -144,8 +144,6 @@ module.exports = function init(site) {
         path: __dirname + '/site_files/',
       });
 
-
-
       site.get(
         {
           name: app.name,
@@ -163,7 +161,7 @@ module.exports = function init(site) {
         };
 
         let _data = req.data;
-
+        _data.company = site.getCompany(req);
         let numObj = {
           company: site.getCompany(req),
           screen: app.name,
@@ -255,23 +253,24 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, nameEn: 1, nameAr: 1, image: 1, achi: 1 };
+        let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1, achi: 1 };
         let list = [];
-        app.memoryList.forEach((doc) => {
-          let obj = { ...doc };
-
-          for (const p in obj) {
-            if (!Object.hasOwnProperty.call(select, p)) {
-              delete obj[p];
+        app.memoryList
+          .filter((g) => g.company && g.company.id == site.getCompany(req).id)
+          .forEach((doc) => {
+            let obj = { ...doc };
+            for (const p in obj) {
+              if (!Object.hasOwnProperty.call(select, p)) {
+                delete obj[p];
+              }
             }
-          }
-          if (!where.active || doc.active) {
-            list.push(obj);
-          }
-        });
+            if (!where.active || doc.active) {
+              list.push(obj);
+            }
+          });
         res.json({
           done: true,
-          list: app.memoryList,
+          list: list,
         });
       });
     }

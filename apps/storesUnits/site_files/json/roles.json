@@ -2,8 +2,8 @@
   {
     "moduleName": "public",
     "name": "storesUnitsAdmin",
-    "en": "Stores Units Admin",
-    "ar": "إدارة الوحدات المخزنية",
+    "En": "Stores Units Admin",
+    "Ar": "إدارة الوحدات المخزنية",
     "permissions": ["storesUnitsManage"]
   }
 ]

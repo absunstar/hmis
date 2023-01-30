@@ -10,7 +10,7 @@
         <i-control type="text" v="r" ng-model="item.achi" label="##word.ACHI##"></i-control>
         <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
         <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
-        <i-list help-id="" v="r" label="##word.Type##" ng-model="item.type" display="name" items="achiCodesTypeList" ng-search="item.$type"></i-list>
+        <i-list help-id="" v="r" label="##word.Type##" ng-model="item.type" display="name##session.lang##" items="achiCodesTypeList" ng-search="item.$type"></i-list>
       </div>
     </div>
     <div class="col5">

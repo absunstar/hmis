@@ -74,18 +74,18 @@ module.exports = function init(site) {
     let where = req.body.where || {};
     if (!site.feature('souq') || !site.feature('cms')) {
       where['company.id'] = site.getCompany(req).id;
-      where['branch.code'] = site.get_branch(req).code;
+      where['branch.code'] = site.getBranch(req).code;
     }
 
     if (where['search']) {
       where.$or = [];
 
       where.$or.push({
-        'profile.name': site.get_RegExp(where['search'], 'i'),
+        nameAr: site.get_RegExp(where['search'], 'i'),
       });
 
       where.$or.push({
-        'profile.last_name': site.get_RegExp(where['search'], 'i'),
+        nameEn: site.get_RegExp(where['search'], 'i'),
       });
 
       where.$or.push({
@@ -109,8 +109,7 @@ module.exports = function init(site) {
 
           for (let i = 0; i < docs.length; i++) {
             let u = docs[i];
-            u.profile = u.profile || {};
-            u.profile.image_url = u.profile.image_url || '/images/user.png';
+            u.image_url = u.image_url || '/images/user.png';
           }
 
           response.users = docs;
@@ -137,7 +136,7 @@ module.exports = function init(site) {
     user.$res = res;
 
     user.company = site.getCompany(req);
-    user.branch = site.get_branch(req);
+    user.branch = site.getBranch(req);
 
     site.$users.findMany(
       {
@@ -238,19 +237,19 @@ module.exports = function init(site) {
         },
         (err, doc) => {
           if (!err && doc) {
-            if (doc.is_admin) {
-              response.list = doc.branch_list;
+            if (doc.isAdmin) {
+              response.list = doc.branchList;
               response.done = true;
               res.json(response);
             } else {
               $companies.findMany({}, (err, companiesDoc) => {
                 if (doc.key) {
-                  let branch_list = [];
+                  let branchList = [];
                   companiesDoc.forEach((_com) => {
-                    if (doc.branch_list && doc.branch_list.length > 0) {
-                      doc.branch_list.forEach((_b) => {
-                        _com.branch_list.forEach((_br) => {
-                          branch_list.push({
+                    if (doc.branchList && doc.branchList.length > 0) {
+                      doc.branchList.forEach((_b) => {
+                        _com.branchList.forEach((_br) => {
+                          branchList.push({
                             company: _com,
                             branch: _br,
                           });
@@ -259,17 +258,17 @@ module.exports = function init(site) {
                     }
                   });
 
-                  response.list = branch_list;
+                  response.list = branchList;
                 } else {
-                  let branch_list = [];
+                  let branchList = [];
 
                   companiesDoc.forEach((_com) => {
-                    if (doc.branch_list && doc.branch_list.length > 0) {
-                      doc.branch_list.forEach((_b) => {
+                    if (doc.branchList && doc.branchList.length > 0) {
+                      doc.branchList.forEach((_b) => {
                         if (_com.id === _b.company.id) {
-                          _com.branch_list.forEach((_br) => {
+                          _com.branchList.forEach((_br) => {
                             if (_br.code == _b.branch.code) {
-                              branch_list.push({
+                              branchList.push({
                                 company: _com,
                                 branch: _br,
                               });
@@ -279,7 +278,7 @@ module.exports = function init(site) {
                       });
                     }
                   });
-                  response.list = branch_list || [];
+                  response.list = branchList || [];
                 }
                 response.done = true;
                 res.json(response);
@@ -316,23 +315,21 @@ module.exports = function init(site) {
       (err, doc) => {
         if (!err && doc) {
           response.done = true;
-          if (req.body.profile) {
-            if (doc.followers_list && doc.followers_list.length > 0 && req.session.user) {
-              doc.followers_list.forEach((_f) => {
-                if (_f == req.session.user.id) {
-                  response.follow = true;
-                }
-              });
-            }
-            doc.$created_date = site.xtime(doc.created_date, req.session.lang);
-            let date = new Date(doc.visit_date);
-            date.setMinutes(date.getMinutes() + 1);
-            if (new Date() < date) {
-              doc.$isOnline = true;
-            } else {
-              doc.$isOnline = false;
-              doc.$last_seen = site.xtime(doc.visit_date, req.session.lang);
-            }
+          if (doc.followers_list && doc.followers_list.length > 0 && req.session.user) {
+            doc.followers_list.forEach((_f) => {
+              if (_f == req.session.user.id) {
+                response.follow = true;
+              }
+            });
+          }
+          doc.$created_date = site.xtime(doc.created_date, req.session.lang);
+          let date = new Date(doc.visit_date);
+          date.setMinutes(date.getMinutes() + 1);
+          if (new Date() < date) {
+            doc.$isOnline = true;
+          } else {
+            doc.$isOnline = false;
+            doc.$last_seen = site.xtime(doc.visit_date, req.session.lang);
           }
 
           response.doc = doc;
@@ -363,10 +360,8 @@ module.exports = function init(site) {
         password: req.body.password,
         ip: req.ip,
         permissions: ['user'],
-        profile: {
-          files: [],
-          name: req.body.email,
-        },
+        files: [],
+        name: req.body.email,
         $req: req,
         $res: res,
       },
@@ -386,7 +381,6 @@ module.exports = function init(site) {
     let response = {
       accessToken: req.session.accessToken,
     };
-
     if (req.body.$encript) {
       if (req.body.$encript === '64') {
         req.body.email = site.fromBase64(req.body.email);
@@ -408,7 +402,7 @@ module.exports = function init(site) {
       $req: req,
       $res: res,
     };
-    if ((req.body.mobile_login == true)) {
+    if (req.body.mobile_login == true) {
       if (req.body.email.contains('@') || req.body.email.contains('.')) {
         obj_where.email = req.body.email;
       } else {
@@ -417,7 +411,6 @@ module.exports = function init(site) {
     } else {
       obj_where.email = req.body.email;
     }
-
     // if (site.security.isUserLogin(req, res)) {
     //   response.error = "Login Error , You Are Loged "
     //   response.done = true
@@ -443,7 +436,7 @@ module.exports = function init(site) {
           id: user.id,
           _id: user._id,
           email: user.email,
-          targetId: user.ref_info ? user.ref_info.id : null,
+          targetId: user.refInfo ? user.refInfo.id : null,
           type: user.type,
           permissions: user.permissions,
           company: req.body.company,

@@ -1,82 +1,82 @@
 [
   {
     "name": "Print",
-    "en": "Print",
-    "ar": "طباعة"
+    "En": "Print",
+    "Ar": "طباعة"
   },
   {
     "name": "Export to excel",
-    "en": "Export to excel",
-    "ar": "تصدير إلى إكسل"
+    "En": "Export to excel",
+    "Ar": "تصدير إلى إكسل"
   },
   {
     "name": "New",
-    "en": "New",
-    "ar": "جديد"
+    "En": "New",
+    "Ar": "جديد"
   },
   {
     "name": "Accounting",
-    "en": "Accounting",
-    "ar": "الحسابات"
+    "En": "Accounting",
+    "Ar": "الحسابات"
   },
   {
     "name": "Must Enter Code",
-    "en": "Must Enter Code",
-    "ar": "يجب إدخال الكود"
+    "En": "Must Enter Code",
+    "Ar": "يجب إدخال الكود"
   },
   {
     "name": "Inventory",
-    "en": "Inventory",
-    "ar": "المخازن"
+    "En": "Inventory",
+    "Ar": "المخازن"
   },
   {
     "name": "Actions",
-    "en": "Actions",
-    "ar": "الإجراءات"
+    "En": "Actions",
+    "Ar": "الإجراءات"
   },
   {
     "name": "Close",
-    "en": "Close",
-    "ar": "إغلاق"
+    "En": "Close",
+    "Ar": "إغلاق"
   },
   {
     "name": "Name",
-    "en": "Name",
-    "ar": "الإسم"
+    "En": "Name",
+    "Ar": "الإسم"
   },
   {
     "name": "Add",
-    "en": "Add",
-    "ar": "إضافة"
+    "En": "Add",
+    "Ar": "إضافة"
   },
   {
     "name": "Edit",
-    "en": "Edit",
-    "ar": "تعديل"
+    "En": "Edit",
+    "Ar": "تعديل"
   },
   {
     "name": "Delete",
-    "en": "Delete",
-    "ar": "حذف"
+    "En": "Delete",
+    "Ar": "حذف"
   },
   {
     "name": "Details",
-    "en": "Details",
-    "ar": "تفاصيل"
+    "En": "Details",
+    "Ar": "تفاصيل"
   },
   {
     "name": "Search All",
-    "en": "Search All",
-    "ar": "البحث الشامل"
+    "En": "Search All",
+    "Ar": "البحث الشامل"
   },
   {
     "name": "Active",
-    "en": "Active",
-    "ar": "نشط"
+    "En": "Active",
+    "Ar": "نشط"
   },
   {
     "name": "Not Active",
-    "en": "Not Active",
-    "ar": "غير نشط"
+    "En": "Not Active",
+    "Ar": "غير نشط"
   }
 ]

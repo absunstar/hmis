@@ -92,8 +92,8 @@ app.controller('register', function ($scope, $http) {
               password: site.to123(response.data.doc.password),
               company: site.to123({
                 id: response.data.doc.company.id,
-                name_ar: response.data.doc.company.name_ar,
-                name_en: response.data.doc.company.name_en,
+                nameAr: response.data.doc.company.nameAr,
+                nameEn: response.data.doc.company.nameEn,
                 item: response.data.doc.company.item,
                 store: response.data.doc.company.store,
                 unit: response.data.doc.company.unit,
@@ -106,8 +106,8 @@ app.controller('register', function ($scope, $http) {
               }),
               branch: site.to123({
                 code: response.data.doc.branch.code,
-                name_ar: response.data.doc.branch.name_ar,
-                name_en: response.data.doc.branch.name_en,
+                nameAr: response.data.doc.branch.nameAr,
+                nameEn: response.data.doc.branch.nameEn,
               }),
             },
           }).then(
@@ -173,7 +173,7 @@ app.controller('register', function ($scope, $http) {
           active: true,
           'company.id': companyId,
         },
-        select: { id: 1, name_ar: 1, name_en: 1, code: 1 },
+        select: { id: 1, nameAr: 1, nameEn: 1, code: 1 },
       },
     }).then(
       function (response) {
@@ -197,7 +197,7 @@ app.controller('register', function ($scope, $http) {
           'gov.id': gov.id,
           active: true,
         },
-        select: { id: 1, name_ar: 1, name_en: 1, code: 1 },
+        select: { id: 1, nameAr: 1, nameEn: 1, code: 1 },
       },
     }).then(
       function (response) {
@@ -239,7 +239,7 @@ app.controller('register', function ($scope, $http) {
   };
 
   $scope.getCompanyList = function () {
-    $scope.company_list = [];
+    $scope.companyList = [];
 
     $http({
       method: 'POST',
@@ -249,7 +249,7 @@ app.controller('register', function ($scope, $http) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.company_list = response.data.list;
+          $scope.companyList = response.data.list;
         }
       },
       function (err) {

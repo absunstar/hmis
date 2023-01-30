@@ -5,7 +5,7 @@ app.controller('company_register', function ($scope, $http) {
     image_url: '/images/company.png',
     calender_type: 'gegorian',
     active: true,
-    branch_count: 3,
+    branchount: 3,
     store: 5,
     item: 100,
     unit: 5,
@@ -13,11 +13,11 @@ app.controller('company_register', function ($scope, $http) {
     customers_count: 50,
     employees_count: 20,
     users_count: 20,
-    branch_list: [
+    branchList: [
       {
         code: 1,
-        name_ar: 'الفرع الرئيسى',
-        name_en: 'Main Branch',
+        nameAr: 'الفرع الرئيسى',
+        nameEn: 'Main Branch',
         charge: [{}],
       },
     ],
@@ -64,8 +64,8 @@ app.controller('company_register', function ($scope, $http) {
               password: site.to123(company.password),
               company: site.to123({
                 id: response.data.doc.id,
-                name_ar: company.name_ar,
-                name_en: company.name_en,
+                nameAr: company.nameAr,
+                nameEn: company.nameEn,
                 item: company.item,
                 store: company.store,
                 unit: company.unit,
@@ -77,9 +77,9 @@ app.controller('company_register', function ($scope, $http) {
                 tax_number: company.tax_number,
               }),
               branch: site.to123({
-                code: company.branch_list[0].code,
-                name_ar: company.branch_list[0].name_ar,
-                name_en: company.branch_list[0].name_en,
+                code: company.branchList[0].code,
+                nameAr: company.branchList[0].nameAr,
+                nameEn: company.branchList[0].nameEn,
               }),
             },
           }).then(

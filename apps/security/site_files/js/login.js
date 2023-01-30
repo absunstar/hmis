@@ -20,7 +20,6 @@ app.controller('login', function ($scope, $http) {
     $scope.user.branch = b.branch;
 
     $scope.busy = true;
-
     $http({
       method: 'POST',
       url: '/api/user/login',
@@ -30,8 +29,8 @@ app.controller('login', function ($scope, $http) {
         password: site.to123($scope.user.password),
         company: site.to123({
           id: $scope.user.company.id,
-          name_ar: $scope.user.company.name_ar,
-          name_en: $scope.user.company.name_en,
+          nameAr: $scope.user.company.nameAr,
+          nameEn: $scope.user.company.nameEn,
           item: $scope.user.company.item,
           store: $scope.user.company.store,
           unit: $scope.user.company.unit,
@@ -44,8 +43,8 @@ app.controller('login', function ($scope, $http) {
         }),
         branch: site.to123({
           code: $scope.user.branch.code,
-          name_ar: $scope.user.branch.name_ar,
-          name_en: $scope.user.branch.name_en,
+          nameAr: $scope.user.branch.nameAr,
+          nameEn: $scope.user.branch.nameEn,
         }),
       },
     }).then(
@@ -66,7 +65,7 @@ app.controller('login', function ($scope, $http) {
   };
 
   $scope.loadUserBranches = function (ev) {
-    $scope.company_list = [];
+    $scope.companyList = [];
 
     $http({
       method: 'POST',
@@ -78,24 +77,24 @@ app.controller('login', function ($scope, $http) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.branch_list = response.data.list;
-          $scope.company_list = [];
-          $scope.branch_list.forEach((b) => {
+          $scope.branchList = response.data.list;
+          $scope.companyList = [];
+          $scope.branchList.forEach((b) => {
             let exist = false;
-            $scope.company_list.forEach((company) => {
+            $scope.companyList.forEach((company) => {
               if (company.id === b.company.id) {
                 exist = true;
-                company.branch_list.push(b.branch);
+                company.branchList.push(b.branch);
               }
             });
 
             if (!exist) {
-              b.company.branch_list = [b.branch];
-              $scope.company_list.push(b.company);
+              b.company.branchList = [b.branch];
+              $scope.companyList.push(b.company);
             }
           });
-          if (ev && ev.which === 13 && $scope.branch_list.length > 0 && $scope.user.email && $scope.user.password) {
-            $scope.login($scope.branch_list[0]);
+          if (ev && ev.which === 13 && $scope.branchList.length > 0 && $scope.user.email && $scope.user.password) {
+            $scope.login($scope.branchList[0]);
           }
 
           $scope.$applyAsync();

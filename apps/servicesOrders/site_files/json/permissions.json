@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

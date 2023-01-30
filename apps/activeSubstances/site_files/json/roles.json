@@ -2,8 +2,8 @@
   {
     "moduleName": "public",
     "name": "activeSubstancesAdmin",
-    "en": "Active Substances Admin",
-    "ar": "إدارة المواد الفعالة",
+    "En": "Active Substances Admin",
+    "Ar": "إدارة المواد الفعالة",
     "permissions": ["activeSubstancesManage"]
   }
 ]

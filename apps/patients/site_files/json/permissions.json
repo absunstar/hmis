@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "patients" , "name":"patientsUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

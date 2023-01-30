@@ -253,30 +253,28 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, nameEn: 1, nameAr: 1, image: 1 };
+        let select = req.body.select || { id: 1, patient: 1, doctor: 1, image: 1 };
         let list = [];
-        app.memoryList.forEach((doc) => {
-          let obj = { ...doc };
-
-          for (const p in obj) {
-            if (!Object.hasOwnProperty.call(select, p)) {
-              delete obj[p];
+        app.memoryList
+          .filter((g) => !where['doctor.id'] || g.doctor.id == where['doctor.id'])
+          .forEach((doc) => {
+            let obj = { ...doc };
+            for (const p in obj) {
+              if (!Object.hasOwnProperty.call(select, p)) {
+                delete obj[p];
+              }
             }
-          }
-          if (!where.active || doc.active) {
             list.push(obj);
-          }
-        });
+          });
         res.json({
           done: true,
-          list: app.memoryList,
+          list: list,
         });
       });
     }
   }
 
   site.on('[doctorDeskTop][serviceOrder][add]', (obj) => {
-    
     app.add(obj, (err, doc1) => {});
   });
 

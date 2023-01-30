@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "activeSubstances" , "name":"activeSubstancesUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

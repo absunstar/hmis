@@ -36,11 +36,11 @@
                                             </i-control> -->
 
                                             <i-control class="col4" v="r" label="##word.companies_name_ar##"
-                                                ng-model="company.name_ar">
+                                                ng-model="company.nameAr">
                                             </i-control>
 
                                             <i-control class="col4" v="r" label="##word.companies_name_en##"
-                                                ng-model="company.name_en">
+                                                ng-model="company.nameEn">
                                             </i-control>
 
                                             <i-checkbox class="col2" label="##word.active##" ng-model="company.active">
@@ -100,7 +100,7 @@
                         </div>
 
                         <div id="companiesBranches" class="tab-content">
-                            <fieldset ng-repeat="branch in company.branch_list">
+                            <fieldset ng-repeat="branch in company.branchList">
                                 <legend>
 
                                     ##word.companies_branch##
@@ -116,10 +116,10 @@
                                         </i-control>
 
                                         <i-control class="col5" label="##word.companies_branch_name_ar##"
-                                            ng-model="branch.name_ar">
+                                            ng-model="branch.nameAr">
                                         </i-control>
                                         <i-control class="col5" label="##word.companies_branch_name_en##"
-                                            ng-model="branch.name_en">
+                                            ng-model="branch.nameEn">
                                         </i-control>
 
                                         <i-control class="row" label="##word.companies_branch_notes##"

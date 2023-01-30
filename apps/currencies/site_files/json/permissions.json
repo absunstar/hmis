@@ -3,63 +3,63 @@
     "moduleName": "public",
     "screenName": "currencies",
     "name": "currenciesManage",
-    "en": "Manage",
-    "ar": "إدارة"
+    "En": "Manage",
+    "Ar": "إدارة"
   },
   {
     "moduleName": "public",
     "screenName": "currencies",
     "name": "currenciesAdd",
-    "en": "Add",
-    "ar": "إضافة"
+    "En": "Add",
+    "Ar": "إضافة"
   },
   {
     "moduleName": "public",
     "screenName": "currencies",
     "name": "currenciesUpdate",
-    "en": "Edit",
-    "ar": "تعديل"
+    "En": "Edit",
+    "Ar": "تعديل"
   },
   {
     "moduleName": "public",
     "screenName": "currencies",
     "name": "currenciesDelete",
-    "en": "Delete",
-    "ar": "حذف"
+    "En": "Delete",
+    "Ar": "حذف"
   },
   {
     "moduleName": "public",
     "screenName": "currencies",
     "name": "currenciesView",
-    "en": "View",
-    "ar": "عرض"
+    "En": "View",
+    "Ar": "عرض"
   },
   {
     "moduleName": "public",
     "screenName": "currencies",
     "name": "currenciesSearch",
-    "en": "Search",
-    "ar": "بحث"
+    "En": "Search",
+    "Ar": "بحث"
   },
   {
     "moduleName": "public",
     "screenName": "currencies",
     "name": "currenciesExport",
-    "en": "Export",
-    "ar": "تصدير"
+    "En": "Export",
+    "Ar": "تصدير"
   },
   {
     "moduleName": "public",
     "screenName": "currencies",
     "name": "currenciesPrint",
-    "en": "Print",
-    "ar": "طباعة"
+    "En": "Print",
+    "Ar": "طباعة"
   },
   {
     "moduleName": "public",
     "screenName": "currencies",
     "name": "currenciesUi",
-    "en": "UI",
-    "ar": "الواجهة الرسومية"
+    "En": "UI",
+    "Ar": "الواجهة الرسومية"
   }
 ]

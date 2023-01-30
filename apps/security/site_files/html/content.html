@@ -29,8 +29,9 @@
               </div>
 
               <div class="row">
-                <i-control v="r" class="col6" label="##word.security_user_name##" ng-model="user.profile.name"></i-control>
-                <i-control v="r" class="col6" label="##word.security_user_mobile##" ng-model="user.mobile"></i-control>
+                <i-control v="r" class="col6" label="##word.Name English##" ng-model="user.nameEn"></i-control>
+                <i-control v="r" class="col6" label="##word.Name Arabic##" ng-model="user.nameAr"></i-control>
+                <i-control v="r" class="col6" label="##word.Mobile##" ng-model="user.mobile"></i-control>
               </div>
 
               <div class="row">
@@ -57,11 +58,11 @@
                 </i-list>
               </div>
 
-              <i-textarea ng-model="user.profile.notes" label="##word.notes##"></i-textarea>
+              <i-textarea ng-model="user.notes" label="##word.notes##"></i-textarea>
             </form>
           </div>
           <div class="col4">
-            <i-image category="users" ng-model="user.profile.image_url"></i-image>
+            <i-image category="users" ng-model="user.image"></i-image>
           </div>
         </div>
 
@@ -196,21 +197,21 @@
       <div id="securityAssginBranches" class="tab-content">
         <fieldset>
           <legend>
-            <i-button type="add default" ng-click="user.branch_list.push({})"></i-button>
+            <i-button type="add default" ng-click="user.branchList.push({})"></i-button>
             ##word.security_branches##
           </legend>
-          <div class="row" ng-repeat="info in user.branch_list">
-            <i-list label="##word.security_company##" ng-search="_search.$company_search" display="name" class="col5" items="company_list" ng-model="info.company"> </i-list>
+          <div class="row" ng-repeat="info in user.branchList">
+            <i-list label="##word.security_company##" ng-search="_search.$company_search" display="name" class="col5" items="companyList" ng-model="info.company"> </i-list>
             <i-list
               label="##word.security_branch##"
               ng-search="_search.$branch_search"
               primary="code"
               display="name"
               class="col5"
-              items="info.company.branch_list"
+              items="info.company.branchList"
               ng-model="info.branch"
             ></i-list>
-            <i-button type="delete default" ng-click="user.branch_list.length === 1 || user.branch_list.splice($index,1)"></i-button>
+            <i-button type="delete default" ng-click="user.branchList.length === 1 || user.branchList.splice($index,1)"></i-button>
           </div>
         </fieldset>
       </div>

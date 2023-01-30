@@ -97,8 +97,8 @@ app.controller("security", function ($scope, $http, $interval) {
                 $scope.screens.forEach(s => {
                   let newname = data.find(el => el.name == s.name.replace(/-/g, '_'));
                   if (newname) {
-                    s.name_ar = newname.ar;
-                    s.name_en = newname.en;
+                    s.nameAr = newname.ar;
+                    s.nameEn = newname.en;
                   }
 
                 })
@@ -140,7 +140,7 @@ app.controller("security", function ($scope, $http, $interval) {
 
 
 
-  $scope.user = { profile: { image_url: '/images/user.png', files: [] }, permissions: [], roles: [] };
+  $scope.user = { image: '/images/user.png', files: [] , permissions: [], roles: [] };
 
   $scope.addPermission = function () {
 
@@ -229,7 +229,7 @@ app.controller("security", function ($scope, $http, $interval) {
     $scope.permissionEditor = false;
     $scope.imageEditor = false;
     $scope.fileEditor = false;
-    $scope.user = { profile: { image_url: '/images/user.png', files: [] }, branch_list: [{}], permissions: [], roles: [] };
+    $scope.user = { image: '/images/user.png', files: [] , branchList: [{}], permissions: [], roles: [] };
     site.showModal('#addUserModal');
     document.querySelector('#addUserModal .tab-link').click();
   };
@@ -258,7 +258,7 @@ app.controller("security", function ($scope, $http, $interval) {
 
   $scope.edit = function (user) {
     $scope.view(user);
-    $scope.user = { profile: { image_url: '/images/user.png', files: [] }, permissions: [], roles: [] };
+    $scope.user = {  image: '/images/user.png', files: [] , permissions: [], roles: [] };
     site.showModal('#updateUserModal');
     document.querySelector('#updateUserModal .tab-link').click();
   };
@@ -288,7 +288,7 @@ app.controller("security", function ($scope, $http, $interval) {
 
   $scope.remove = function (user) {
     $scope.view(user);
-    $scope.user = { profile: { image_url: '/images/user.png', files: [] }, permissions: [], newpermissions: [], roles: [] };
+    $scope.user = {  image: '/images/user.png', files: [] , permissions: [], newpermissions: [], roles: [] };
     site.showModal('#deleteUserModal');
     document.querySelector('#deleteUserModal .tab-link').click();
   };
@@ -306,7 +306,7 @@ app.controller("security", function ($scope, $http, $interval) {
         $scope.busy = false;
         if (response.data.done) {
           $scope.user = response.data.doc;
-          $scope.user.branch_list = $scope.user.branch_list || [];
+          $scope.user.branchList = $scope.user.branchList || [];
 
           $scope.user.permissions.forEach(x => {
             if ($scope.onepermission.hasOwnProperty(x.screen_name)) {
@@ -332,7 +332,7 @@ app.controller("security", function ($scope, $http, $interval) {
 
   $scope.details = function (user) {
     $scope.view(user);
-    $scope.user = { profile: { image_url: '/images/user.png', files: [] }, permissions: [], roles: [] };
+    $scope.user = {  image: '/images/user.png', files: [] , permissions: [], roles: [] };
     site.showModal('#viewUserModal');
 
   };
@@ -363,7 +363,7 @@ app.controller("security", function ($scope, $http, $interval) {
 
   $scope.getCompanyList = function () {
 
-    $scope.company_list = [];
+    $scope.companyList = [];
 
     $http({
       method: "POST",
@@ -373,7 +373,7 @@ app.controller("security", function ($scope, $http, $interval) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.company_list = response.data.list;
+          $scope.companyList = response.data.list;
         }
       },
       function (err) {
@@ -389,7 +389,7 @@ app.controller("security", function ($scope, $http, $interval) {
     $http({
       method: "POST",
       url: "/api/stores/all",
-      data: { select: { id: 1, name_ar: 1, name_en: 1, type: 1, code: 1 } }
+      data: { select: { id: 1, nameAr: 1, nameEn: 1, type: 1, code: 1 } }
     }).then(
       function (response) {
         $scope.busy = false;
@@ -412,8 +412,8 @@ app.controller("security", function ($scope, $http, $interval) {
       data: {
         select: {
           id: 1,
-          name_ar: 1,
-          name_en: 1,
+          nameAr: 1,
+          nameEn: 1,
           type: 1,
           ip_device: 1,
           Port_device: 1,

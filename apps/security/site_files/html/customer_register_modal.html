@@ -28,7 +28,7 @@
                     ng-change="customer.branch = {};getGovList(customer.company.id)"
                     display="name"
                     class="col4"
-                    items="company_list"
+                    items="companyList"
                     ng-model="customer.company"
                   >
                   </i-list>
@@ -40,7 +40,7 @@
                     display="name"
                     ng-search="_search.$branch_search"
                     class="col4"
-                    items="customer.company.branch_list"
+                    items="customer.company.branchList"
                     ng-model="customer.branch"
                   >
                   </i-list>
@@ -88,8 +88,8 @@
                         help-id=""
                         v="r"
                         type="text"
-                        label="##word.name_ar##"
-                        ng-model="customer.name_ar"
+                        label="##word.nameAr##"
+                        ng-model="customer.nameAr"
                       >
                       </i-control>
 
@@ -97,8 +97,8 @@
                         class="col6"
                         help-id=""
                         type="text"
-                        label="##word.name_en##"
-                        ng-model="customer.name_en"
+                        label="##word.nameEn##"
+                        ng-model="customer.nameEn"
                       >
                       </i-control>
                     </div>

@@ -1,7 +1,7 @@
 [{
     "moduleName" : "public" ,
     "name": "mainInsuranceCompaniesAdmin",
-    "en": "mainInsuranceCompanies Admin",
-    "ar": "إدارة شركات التأمين",
+    "En": "mainInsuranceCompanies Admin",
+    "Ar": "إدارة شركات التأمين",
     "permissions": ["mainInsuranceCompaniesManage"]
 }]

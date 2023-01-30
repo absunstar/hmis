@@ -3,7 +3,7 @@ app.controller("companies", function ($scope, $http, $timeout) {
 
   $scope.company = {};
 
-  $scope.displayAddcompany = function () {
+  $scope.displayAddCompany = function () {
     $scope.error = '';
     $scope.company = {
       image: '/images/company.png',
@@ -19,8 +19,8 @@ app.controller("companies", function ($scope, $http, $timeout) {
       employeesCount: 20,
       branchList: [{
         code: 1,
-        name_ar: 'الفرع الرئيسى',
-        name_en: 'Main Branch',
+        nameAr: 'الفرع الرئيسى',
+        nameEn: 'Main Branch',
         charge: [{}]
       }],
       bank_list: [{}]
@@ -29,7 +29,7 @@ app.controller("companies", function ($scope, $http, $timeout) {
     document.querySelector('#companyAddModal .tab-link').click();
   };
 
-  $scope.addcompany = function () {
+  $scope.addCompany = function () {
     if ($scope.busy) {
       return;
     }
@@ -53,28 +53,7 @@ app.controller("companies", function ($scope, $http, $timeout) {
           site.hideModal('#companyAddModal');
           $scope.list.push(response.data.doc);
           $scope.count += 1;
-
           $scope.busy = true;
-          $http({
-            method: "POST",
-            url: "/api/numbering/get",
-            data: {
-              reset: true,
-              doc: response.data.doc
-
-            }
-          }).then(
-            function (response) {
-              $scope.busy = false;
-              if (response.data.done) {
-              }
-            },
-            function (err) {
-              $scope.busy = false;
-              $scope.error = err;
-            }
-          )
-
         } else {
           $scope.error = response.data.error;
           $scope.busy = false;
@@ -96,15 +75,15 @@ app.controller("companies", function ($scope, $http, $timeout) {
     )
   };
 
-  $scope.displayUpdatecompany = function (company) {
+  $scope.displayUpdateCompany = function (company) {
     $scope.error = '';
-    $scope.detailscompany(company);
+    $scope.detailsCompany(company);
     $scope.company = {};
     site.showModal('#companyUpdateModal');
     document.querySelector('#companyUpdateModal .tab-link').click();
   };
 
-  $scope.updatecompany = function () {
+  $scope.updateCompany = function () {
     if ($scope.busy) {
       return;
     }
@@ -145,15 +124,15 @@ app.controller("companies", function ($scope, $http, $timeout) {
     )
   };
 
-  $scope.displayDetailscompany = function (company) {
+  $scope.displayDetailsCompany = function (company) {
     $scope.error = '';
-    $scope.detailscompany(company);
+    $scope.detailsCompany(company);
     $scope.company = {};
     site.showModal('#companyDetailsModal');
     document.querySelector('#companyDetailsModal .tab-link').click();
   };
 
-  $scope.detailscompany = function (company) {
+  $scope.detailsCompany = function (company) {
     $scope.busy = true;
     $scope.error = '';
     $http({
@@ -177,15 +156,15 @@ app.controller("companies", function ($scope, $http, $timeout) {
     )
   };
 
-  $scope.displayDeletecompany = function (company) {
+  $scope.displayDeleteCompany = function (company) {
     $scope.error = '';
-    $scope.detailscompany(company);
+    $scope.detailsCompany(company);
     $scope.company = {};
     site.showModal('#companyDeleteModal');
     document.querySelector('#companyDeleteModal .tab-link').click();
   };
 
-  $scope.deletecompany = function () {
+  $scope.deleteCompany = function () {
     if ($scope.busy) {
       return
     }
@@ -220,7 +199,7 @@ app.controller("companies", function ($scope, $http, $timeout) {
     )
   };
 
-  $scope.getcompanyActivityList = function () {
+  $scope.getCompanyActivityList = function () {
     $scope.busy = true;
     $scope.list = [];
     $http({
@@ -229,7 +208,7 @@ app.controller("companies", function ($scope, $http, $timeout) {
       data: {
         select: {
           id: 1,
-          name_ar: 1, name_en: 1,
+          nameAr: 1, nameEn: 1,
           code: 1
         }
       }
@@ -254,7 +233,7 @@ app.controller("companies", function ($scope, $http, $timeout) {
       data: {
         select: {
           id: 1,
-          name_ar: 1, name_en: 1,
+          nameAr: 1, nameEn: 1,
           code: 1
         }
       }
@@ -307,7 +286,7 @@ app.controller("companies", function ($scope, $http, $timeout) {
       data: {
         select: {
           id: 1,
-          name_ar: 1, name_en: 1,
+          nameAr: 1, nameEn: 1,
           code: 1
         },
         where: {
@@ -337,7 +316,7 @@ app.controller("companies", function ($scope, $http, $timeout) {
       data: {
         select: {
           id: 1,
-          name_ar: 1, name_en: 1,
+          nameAr: 1, nameEn: 1,
           code: 1
         }
       }
@@ -353,10 +332,8 @@ app.controller("companies", function ($scope, $http, $timeout) {
     )
   };
 
-
-
   $scope.getcompanyList();
   $scope.getGovList();
   $scope.getBankList();
-  $scope.getcompanyActivityList();
+ /*  $scope.getcompanyActivityList(); */
 });

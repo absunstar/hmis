@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "insuranceContracts" , "name":"insuranceContractsUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

@@ -161,11 +161,20 @@ module.exports = function init(site) {
         };
         let _data = req.data;
 
+        _data.company = site.getCompany(req);
+        _data.branch = site.getBranch(req);
         let numObj = {
           company: site.getCompany(req),
           screen: app.name,
           date: new Date(),
         };
+        if (_data.mobileList.length > 0) {
+          _data.mobile = _data.mobileList[0].mobile;
+        } else {
+          response.error = 'Must Add Mobile Number';
+          res.json(response);
+          return;
+        }
 
         let cb = site.getNumbering(numObj);
         if (!_data.code && !cb.auto) {
@@ -263,7 +272,10 @@ module.exports = function init(site) {
         let select = req.body.select || { id: 1, code: 1, fullNameEn: 1, fullNameAr: 1, image: 1 };
         let list = [];
         app.memoryList
-          .filter((g) => !where['type.id'] || g.type.id == where['type.id'])
+          .filter(
+            (g) => (!where['type.id'] || (g.type && g.type.id == where['type.id'])) && g.company && g.branch && g.company.id == site.getCompany(req).id && g.branch.id == site.getBranch(req).code
+          )
+
           .forEach((doc) => {
             let obj = { ...doc };
             if (doc.dateOfBirth) {

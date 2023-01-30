@@ -2,8 +2,8 @@
   {
     "moduleName": "public",
     "name": "safesAdmin",
-    "en": "safes Admin",
-    "ar": "إدارة الخزائن",
+    "En": "safes Admin",
+    "Ar": "إدارة الخزائن",
     "permissions": ["safesManage"]
   }
 ]

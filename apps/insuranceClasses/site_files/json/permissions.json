@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "insuranceClasses" , "name":"insuranceClassesUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

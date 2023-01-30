@@ -12,11 +12,12 @@
 
 
             <div class="row">
-                <i-control v="r" class="col6" label="##word.security_user_name##" ng-model="user.profile.name"></i-control>
-                <i-control v="r" class="col6" label="##word.security_user_mobile##" ng-model="user.mobile"></i-control>
+                <i-control v="r" class="col6" label="##word.Name English##" ng-model="user.nameEn"></i-control>
+                <i-control v="r" class="col6" label="##word.Name Arabic##" ng-model="user.nameAr"></i-control>
+                <i-control v="r" class="col6" label="##word.Mobile##" ng-model="user.mobile"></i-control>
             </div>
 
-            <i-textarea ng-model="user.profile.notes" label="##word.notes##"></i-textarea>
+            <i-textarea ng-model="user.notes" label="##word.notes##"></i-textarea>
             
     
         </form>
@@ -26,10 +27,10 @@
 
     <div class="col4 padding">
 
-        <i-image category="users" ng-model="user.profile.image_url"></i-image>
+        <i-image category="users" ng-model="user.image_url"></i-image>
         <br>
         <br>
-        <i-files category="users"  label="##word.files##"ng-model="user.user.profile.files"></i-files>
+        <i-files category="users"  label="##word.files##"ng-model="user.user.files"></i-files>
        
        
 

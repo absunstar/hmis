@@ -2,7 +2,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <span class="close">&times;</span>
-      <h2 class="text-center"><i class="fa fa-sign-in"></i> ##word.security_login##</h2>
+      <h2 class="text-center"><i class="fa fa-sign-in"></i> ##word.Login##</h2>
     </div>
 
     <div class="modal-body">
@@ -10,8 +10,8 @@
 
       <form ng-hide="busy">
         <div class="row">
-          <i-control class="col6" ng-model="user.email" type="text" label="##word.security_user_email##" ng-keydown="loadUserBranches($event)"></i-control>
-          <i-control class="col6" ng-model="user.password" type="password" label="##word.security_user_password##" ng-keydown="loadUserBranches($event)"></i-control>
+          <i-control class="col6" ng-model="user.email" type="text" label="##word.Email##" ng-keydown="loadUserBranches($event)"></i-control>
+          <i-control class="col6" ng-model="user.password" type="password" label="##word.Password##" ng-keydown="loadUserBranches($event)"></i-control>
         </div>
 
         <br />
@@ -19,11 +19,11 @@
 
         <div class="row">
           <table class="table loaded hover center bold">
-            <tr ng-repeat="b in branch_list">
-              <td class="blue">{{b.company.name}}</td>
-              <td class="green">{{b.branch.name}}</td>
+            <tr ng-repeat="b in branchList">
+              <td class="blue">{{b.company.name##session.lang##}}</td>
+              <td class="green">{{b.branch.name##session.lang##}}</td>
               <td>
-                <i-button label="##word.security_login##" ng-hide="busy" id="loginBtn" class="center" type="add" ng-click="login(b)"></i-button>
+                <i-button label="##word.Login##" ng-hide="busy" id="loginBtn" class="center" type="add" ng-click="login(b)"></i-button>
               </td>
             </tr>
           </table>

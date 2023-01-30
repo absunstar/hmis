@@ -1,7 +1,14 @@
 <div class="site-top" ng-controller="sitetop">
+  <div x-import="site-top/changeBranchModal.html"></div>
   <div x-permission="login" class="user-area">
-    <span> Amr Mohamed Mahmoud Barakat</span>
+    <span> ##user.nameAr##</span>
     <i class="fas fa-user"></i>
+  </div>
+  <div class="branch-bar" x-features="login">
+    <a id="btn_change_branch" onclick="site.showModal('#changeBranchModal');">
+      <i x-lang="Ar"> ##session.company.nameAr## - ##session.branch.nameAr## </i>
+      <i x-lang="En"> ##session.company.nameEn## - ##session.branch.nameEn## </i>
+    </a>
   </div>
   <div x-permission="!login" class="user-area" ng-click="login()">
     <span> Login </span>

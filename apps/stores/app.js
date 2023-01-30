@@ -162,10 +162,12 @@ module.exports = function init(site) {
 
         let _data = req.data;
 
+        _data.company = site.getCompany(req);
+        _data.branch = site.getBranch(req);
         let numObj = {
           company: site.getCompany(req),
           screen: app.name,
-          date: new Date()
+          date: new Date(),
         };
 
         let cb = site.getNumbering(numObj);
@@ -173,7 +175,6 @@ module.exports = function init(site) {
           response.error = 'Must Enter Code';
           res.json(response);
           return;
-
         } else if (cb.auto) {
           _data.code = cb.code;
         }
@@ -254,23 +255,25 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, nameEn: 1, nameAr: 1, image: 1 };
+        let select = req.body.select || { id: 1, code:1, nameEn: 1, nameAr: 1, image: 1 };
         let list = [];
-        app.memoryList.forEach((doc) => {
-          let obj = { ...doc };
+        app.memoryList
+          .filter((g) => g.company && g.branch && g.company.id == site.getCompany(req).id && g.branch.id == site.getBranch(req).code)
+          .forEach((doc) => {
+            let obj = { ...doc };
 
-          for (const p in obj) {
-            if (!Object.hasOwnProperty.call(select, p)) {
-              delete obj[p];
+            for (const p in obj) {
+              if (!Object.hasOwnProperty.call(select, p)) {
+                delete obj[p];
+              }
             }
-          }
-          if (!where.active || doc.active) {
-            list.push(obj);
-          }
-        });
+            if (!where.active || doc.active) {
+              list.push(obj);
+            }
+          });
         res.json({
           done: true,
-          list: app.memoryList,
+          list: list,
         });
       });
     }

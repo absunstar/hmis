@@ -15,8 +15,8 @@ app.controller('changeBranch', function ($scope, $http) {
         $encript: '123',
         company: site.to123({
           id: $scope.user.company.id,
-          name_ar: $scope.user.company.name_ar,
-          name_en: $scope.user.company.name_en,
+          nameAr: $scope.user.company.nameAr,
+          nameEn: $scope.user.company.nameEn,
           item: $scope.user.company.item,
           store: $scope.user.company.store,
           unit: $scope.user.company.unit,
@@ -29,8 +29,8 @@ app.controller('changeBranch', function ($scope, $http) {
         }),
         branch: site.to123({
           code: $scope.user.branch.code,
-          name_ar: $scope.user.branch.name_ar,
-          name_en: $scope.user.branch.name_en,
+          nameAr: $scope.user.branch.nameAr,
+          nameEn: $scope.user.branch.nameEn,
         }),
       },
     }).then(
@@ -51,7 +51,7 @@ app.controller('changeBranch', function ($scope, $http) {
   };
 
   $scope.loadUserBranches = function () {
-    $scope.company_list = [];
+    $scope.companyList = [];
 
     $http({
       method: 'POST',
@@ -63,21 +63,21 @@ app.controller('changeBranch', function ($scope, $http) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.branch_list = response.data.list;
-          $scope.company_list = [];
+          $scope.branchList = response.data.list;
+          $scope.companyList = [];
        
-          $scope.branch_list.forEach((b) => {
+          $scope.branchList.forEach((b) => {
             let exist = false;
-            $scope.company_list.forEach((company) => {
+            $scope.companyList.forEach((company) => {
               if (company.id === b.company.id) {
                 exist = true;
-                company.branch_list.push(b.branch);
+                company.branchList.push(b.branch);
               }
             });
 
             if (!exist) {
-              b.company.branch_list = [b.branch];
-              $scope.company_list.push(b.company);
+              b.company.branchList = [b.branch];
+              $scope.companyList.push(b.company);
             }
           });
         }

@@ -37,8 +37,8 @@ module.exports = function init(site) {
           site.call('[company][created]', doc);
 
           site.call('please add user', {
-            is_company: true,
-            company_id: doc.id,
+            isCompany: true,
+            companyId: doc.id,
             email: doc.username,
             password: doc.password,
             roles: [
@@ -52,11 +52,9 @@ module.exports = function init(site) {
                 branch: doc.branchList[0],
               },
             ],
-            profile: {
-              nameAr: doc.nameAr,
-              nameEn: doc.nameEn,
-              image: doc.image,
-            },
+            nameAr: doc.nameAr,
+            nameEn: doc.nameEn,
+            image: doc.image,
           });
         }
       });
@@ -80,17 +78,17 @@ module.exports = function init(site) {
   //       site.call('[company][created]', doc)
 
   //       site.call('please add user', {
-  //         is_company: true,
+  //         isCompany: true,
   //         email: doc.username,
   //         password: doc.password,
   //         roles: [{
-  //           name: "companies_admin"
+  //           name: "companiesAdmin"
   //         }],
   //         branchList: [{
   //           company: doc,
   //           branch: doc.branchList[0]
   //         }],
-  //         company_id: doc.id,
+  //         companyId: doc.id,
   //         profile: {
   //           name: doc.nameAr,
   //           image: doc.image
@@ -105,7 +103,7 @@ module.exports = function init(site) {
     return company || site.defaultCompany;
   };
 
-  site.get_branch = function (req) {
+  site.getBranch = function (req) {
     let branch = req.session.branch;
     return branch || site.defaultCompany.branchList[0];
   };
@@ -149,80 +147,68 @@ module.exports = function init(site) {
     //   return
     // }
 
-    let companies_doc = req.body;
-    companies_doc.$req = req;
-    companies_doc.$res = res;
+    let companiesDoc = req.body;
+    companiesDoc.$req = req;
+    companiesDoc.$res = res;
+    companiesDoc.company = site.getCompany(req);
+    companiesDoc.branch = site.getBranch(req);
 
-    companies_doc.company = site.getCompany(req);
-    companies_doc.branch = site.get_branch(req);
+    if (!companiesDoc.code) companiesDoc.code = companiesDoc.nameEn + '-' + '1';
 
-    if (!companies_doc.code) companies_doc.code = companies_doc.nameEn + '-' + '1';
-
-    if (companies_doc.branchList.length > companies_doc.branch_count) {
+    if (companiesDoc.branchList.length > companiesDoc.branchCount) {
       response.error = 'You have exceeded the maximum number of Branches';
       res.json(response);
       return;
     } else {
-      if (site.feature('erp')) companies_doc.feature = 'erp';
-      else if (site.feature('pos')) companies_doc.feature = 'pos';
-      else if (site.feature('ecommerce')) companies_doc.feature = 'ecommerce';
-      else if (site.feature('restaurant')) companies_doc.feature = 'restaurant';
-      else if (site.feature('school')) companies_doc.feature = 'school';
-      else if (site.feature('club')) companies_doc.feature = 'club';
-      else if (site.feature('academy')) companies_doc.feature = 'academy';
-      else if (site.feature('lawyer')) companies_doc.feature = 'lawyer';
-      else if (site.feature('employee')) companies_doc.feature = 'employee';
-      else if (site.feature('medical')) companies_doc.feature = 'medical';
-
-      let user_exist = {
+      let userExist = {
         email: undefined,
         password: undefined,
       };
 
-      if (companies_doc.username && companies_doc.password) {
-        // if(!site.validatePassword(companies_doc.password)) {
+      if (companiesDoc.username && companiesDoc.password) {
+        // if(!site.validatePassword(companiesDoc.password)) {
         //   response.error = 'Must be not less than 8 characters or numbers and must contain at least one character capital, one number and one special character'
         //   res.json(response)
         //   return;
         // }
 
-        if (companies_doc.username.includes('@') && !companies_doc.username.includes('.')) {
+        if (companiesDoc.username.includes('@') && !companiesDoc.username.includes('.')) {
           response.error = 'Username must be typed correctly';
           res.json(response);
           return;
-        } else if (!companies_doc.username.includes('@') && companies_doc.username.includes('.')) {
+        } else if (!companiesDoc.username.includes('@') && companiesDoc.username.includes('.')) {
           response.error = 'Username must be typed correctly';
           res.json(response);
           return;
         }
 
-        if (!companies_doc.host.includes('.')) {
+        if (!companiesDoc.host.includes('.')) {
           response.error = 'Host must be typed correctly';
           res.json(response);
           return;
         }
 
-        let exist_domain = companies_doc.username.includes('@');
-        if (!exist_domain) {
-          companies_doc.username = companies_doc.username + '@' + companies_doc.host;
+        let existDomain = companiesDoc.username.includes('@');
+        if (!existDomain) {
+          companiesDoc.username = companiesDoc.username + '@' + companiesDoc.host;
         }
 
-        if (!site.validateEmail(companies_doc.username)) {
+        if (!site.validateEmail(companiesDoc.username)) {
           response.error = 'Username must be typed correctly';
           res.json(response);
           return;
         }
 
-        if (companies_doc.username) {
-          user_exist = {
-            email: companies_doc.username,
-            password: companies_doc.password,
+        if (companiesDoc.username) {
+          userExist = {
+            email: companiesDoc.username,
+            password: companiesDoc.password,
           };
         }
       }
 
-      site.security.isUserExists(user_exist, function (err, user_found) {
-        if (user_found) {
+      site.security.isUserExists(userExist, function (err, userFound) {
+        if (userFound) {
           response.error = 'User Is Exist';
           res.json(response);
           return;
@@ -231,55 +217,55 @@ module.exports = function init(site) {
         $companies.findMany(
           {
             where: {
-              feature: companies_doc.feature,
+              feature: companiesDoc.feature,
 
-              $or: [{ nameAr: companies_doc.nameAr }, { nameEn: companies_doc.nameEn }, { host: companies_doc.host }, { username: companies_doc.username }],
+              $or: [{ nameAr: companiesDoc.nameAr }, { nameEn: companiesDoc.nameEn }, { host: companiesDoc.host }, { username: companiesDoc.username }],
             },
           },
           (err, docs) => {
             if (!err && docs && docs.length > 0) {
-              let exist_nameAr = false;
-              let exist_nameEn = false;
-              let exist_host = false;
-              let exist_username = false;
+              let existNameAr = false;
+              let existNameEn = false;
+              let existHost = false;
+              let existUsername = false;
               docs.forEach((_docs) => {
-                if (_docs.nameAr == companies_doc.nameAr) exist_nameAr = true;
-                else if (_docs.nameEn == companies_doc.nameEn) exist_nameEn = true;
-                else if (_docs.host == companies_doc.host) exist_host = true;
-                else if (_docs.username == companies_doc.username) exist_username = true;
+                if (_docs.nameAr == companiesDoc.nameAr) existNameAr = true;
+                else if (_docs.nameEn == companiesDoc.nameEn) existNameEn = true;
+                else if (_docs.host == companiesDoc.host) existHost = true;
+                else if (_docs.username == companiesDoc.username) existUsername = true;
               });
 
-              if (exist_nameAr) {
+              if (existNameAr) {
                 response.error = 'Arabic Name Is Exists';
                 res.json(response);
                 return;
-              } else if (exist_nameEn) {
+              } else if (existNameEn) {
                 response.error = 'English Name Is Exists';
                 res.json(response);
                 return;
-              } else if (exist_host) {
+              } else if (existHost) {
                 response.error = 'Host Name Is Exists';
                 res.json(response);
                 return;
-              } else if (exist_username) {
+              } else if (existUsername) {
                 response.error = 'User Name Is Exists';
                 res.json(response);
                 return;
               }
             } else {
-              $companies.add(companies_doc, (err, doc) => {
+              $companies.add(companiesDoc, (err, doc) => {
                 if (!err) {
                   response.done = true;
                   response.doc = doc;
                   let user = {
-                    is_company: true,
-                    company_id: doc.id,
+                    isCompany: true,
+                    companyId: doc.id,
                     email: doc.username,
                     password: doc.password,
-                    ref_info: { id: companies_doc.id },
+                    refInfo: { id: companiesDoc.id },
                     roles: [
                       {
-                        name: 'companies_admin',
+                        name: 'companiesAdmin',
                       },
                     ],
                     branchList: [
@@ -288,15 +274,13 @@ module.exports = function init(site) {
                         branch: doc.branchList[0],
                       },
                     ],
-                    profile: {
-                      nameAr: doc.nameAr,
-                      nameEn: doc.nameEn,
-                      mobile: doc.mobile,
-                      image: companies_doc.image,
-                    },
+                    nameAr: doc.nameAr,
+                    nameEn: doc.nameEn,
+                    mobile: doc.mobile,
+                    image: companiesDoc.image,
                   };
-                  site.security.isUserExists(user, function (err, user_found) {
-                    if (user_found) {
+                  site.security.isUserExists(user, function (err, userFound) {
+                    if (userFound) {
                       response.error = 'User Is Exist';
                       res.json(response);
                       return;
@@ -306,7 +290,7 @@ module.exports = function init(site) {
                       if (!err) {
                         delete user._id;
                         delete user.id;
-                        doc.user_info = {
+                        doc.userInfo = {
                           id: userDoc.id,
                         };
                         $companies.update(doc);
@@ -319,13 +303,13 @@ module.exports = function init(site) {
                   // site.call(
                   //   '[user][add]',
                   //   {
-                  //     is_company: true,
-                  //     company_id: doc.id,
+                  //     isCompany: true,
+                  //     companyId: doc.id,
                   //     email: doc.username,
                   //     password: doc.password,
                   //     roles: [
                   //       {
-                  //         name: 'companies_admin',
+                  //         name: 'companiesAdmin',
                   //       },
                   //     ],
                   //     branchList: [
@@ -338,12 +322,12 @@ module.exports = function init(site) {
                   //       nameAr: doc.nameAr,
                   //       nameEn: doc.nameEn,
                   //       mobile: doc.mobile,
-                  //       image: companies_doc.image,
+                  //       image: companiesDoc.image,
                   //     },
                   //   },
-                  //   (err, user_doc) => {
-                  //     if (!err && user_doc) {
-                  //       doc.user_info = { id: user_doc.id };
+                  //   (err, userDoc) => {
+                  //     if (!err && userDoc) {
+                  //       doc.userInfo = { id: userDoc.id };
                   //       $companies.update(doc);
                   //       site.call('[company][created]', doc);
                   //     }
@@ -372,58 +356,58 @@ module.exports = function init(site) {
       return;
     }
 
-    let companies_doc = req.body;
+    let companiesDoc = req.body;
 
-    if (companies_doc.id) {
-      if (companies_doc.branchList.length > companies_doc.branch_count) {
+    if (companiesDoc.id) {
+      if (companiesDoc.branchList.length > companiesDoc.branchCount) {
         response.error = 'You have exceeded the maximum number of Branches';
         res.json(response);
       } else {
-        let user_exist = {
+        let userExist = {
           email: undefined,
           password: undefined,
         };
 
-        if (companies_doc.username && companies_doc.password) {
-          if (companies_doc.username.includes('@') && !companies_doc.username.includes('.')) {
+        if (companiesDoc.username && companiesDoc.password) {
+          if (companiesDoc.username.includes('@') && !companiesDoc.username.includes('.')) {
             response.error = 'Username must be typed correctly';
             res.json(response);
             return;
-          } else if (!companies_doc.username.includes('@') && companies_doc.username.includes('.')) {
+          } else if (!companiesDoc.username.includes('@') && companiesDoc.username.includes('.')) {
             response.error = 'Username must be typed correctly';
             res.json(response);
             return;
           }
 
-          if (!companies_doc.host.includes('.')) {
+          if (!companiesDoc.host.includes('.')) {
             response.error = 'Host must be typed correctly';
             res.json(response);
             return;
           }
 
-          let exist_domain = companies_doc.username.includes('@');
-          if (!exist_domain) {
-            companies_doc.username = companies_doc.username + '@' + companies_doc.host;
+          let existDomain = companiesDoc.username.includes('@');
+          if (!existDomain) {
+            companiesDoc.username = companiesDoc.username + '@' + companiesDoc.host;
           }
 
-          if (companies_doc.username)
-            user_exist = {
-              email: companies_doc.username,
-              password: companies_doc.password,
+          if (companiesDoc.username)
+            userExist = {
+              email: companiesDoc.username,
+              password: companiesDoc.password,
             };
         }
 
         site.security.getUsers({}, (err, usersDocs, count) => {
           if (!err) {
-            user_found = false;
+            userFound = false;
             for (let i = 0; i < usersDocs.length; i++) {
               let u = usersDocs[i];
-              if (u.email === companies_doc.username && u.company_id != companies_doc.id) {
-                user_found = true;
+              if (u.email === companiesDoc.username && u.companyId != companiesDoc.id) {
+                userFound = true;
               }
             }
 
-            if (user_found) {
+            if (userFound) {
               response.error = 'User Is Exist';
               res.json(response);
               return;
@@ -433,9 +417,9 @@ module.exports = function init(site) {
           $companies.update(
             {
               where: {
-                id: companies_doc.id,
+                id: companiesDoc.id,
               },
-              set: companies_doc,
+              set: companiesDoc,
               $req: req,
               $res: res,
             },
@@ -445,58 +429,54 @@ module.exports = function init(site) {
                 response.doc = result.doc;
 
                 let branchList = [];
-                companies_doc.branchList.forEach((b) => {
+                companiesDoc.branchList.forEach((b) => {
                   branchList.push({
-                    company: companies_doc,
+                    company: companiesDoc,
                     branch: b,
                   });
                 });
 
-                if (companies_doc.user_info) {
+                if (companiesDoc.userInfo) {
                   site.call(
                     '[user][update]',
                     {
-                      email: companies_doc.username,
-                      password: companies_doc.password,
-                      company_id: companies_doc.id,
-                      ref_info: { id: companies_doc.id },
-                      id: companies_doc.user_info.id,
-                      is_company: true,
+                      email: companiesDoc.username,
+                      password: companiesDoc.password,
+                      companyId: companiesDoc.id,
+                      refInfo: { id: companiesDoc.id },
+                      id: companiesDoc.userInfo.id,
+                      isCompany: true,
                       branchList: branchList,
-                      profile: {
-                        nameAr: companies_doc.nameAr,
-                        nameEn: companies_doc.nameEn,
-                        mobile: companies_doc.mobile,
-                        image: companies_doc.image,
-                      },
+                      nameAr: companiesDoc.nameAr,
+                      nameEn: companiesDoc.nameEn,
+                      mobile: companiesDoc.mobile,
+                      image: companiesDoc.image,
                     },
-                    (err, user_result) => {}
+                    (err, userResult) => {}
                   );
                 } else {
                   site.call(
                     '[user][add]',
                     {
-                      email: companies_doc.username,
-                      password: companies_doc.password,
-                      company_id: companies_doc.id,
-                      ref_info: { id: companies_doc.id },
-                      is_company: true,
+                      email: companiesDoc.username,
+                      password: companiesDoc.password,
+                      companyId: companiesDoc.id,
+                      refInfo: { id: companiesDoc.id },
+                      isCompany: true,
                       roles: [
                         {
-                          name: 'companies_admin',
+                          name: 'companiesAdmin',
                         },
                       ],
                       branchList: branchList,
-                      profile: {
-                        nameAr: companies_doc.nameAr,
-                        nameEn: companies_doc.nameEn,
-                        mobile: companies_doc.mobile,
-                        image: companies_doc.image,
-                      },
+                      nameAr: companiesDoc.nameAr,
+                      nameEn: companiesDoc.nameEn,
+                      mobile: companiesDoc.mobile,
+                      image: companiesDoc.image,
                     },
-                    (err, user_doc) => {
-                      if (!err && user_doc) {
-                        result.doc.user_info = { id: user_doc.id };
+                    (err, userDoc) => {
+                      if (!err && userDoc) {
+                        result.doc.userInfo = { id: userDoc.id };
                         $companies.update(result.doc);
                       } else {
                         console.log(err);
@@ -615,7 +595,7 @@ module.exports = function init(site) {
             response.list = doc.branchList;
             response.branch = {};
             response.list.forEach((_list) => {
-              if (_list.code == site.get_branch(req).code) response.branch = _list;
+              if (_list.code == site.getBranch(req).code) response.branch = _list;
             });
           }
         } else {
@@ -632,15 +612,13 @@ module.exports = function init(site) {
     };
 
     let where = req.body.where || {};
-
-    if (req.session.user && req.session.user.is_admin) {
-    } else if (req.session.user && req.session.user.is_company) {
-      where['id'] = req.session.user.company_id;
+    if (req.session.user && req.session.user.isAdmin) {
+    } else if (req.session.user && req.session.user.isCompany) {
+      where['id'] = req.session.user.companyId;
     } else if (site.getCompany(req) && site.getCompany(req).id) {
       where['company.id'] = site.getCompany(req).id;
-      where['branch.code'] = site.get_branch(req).code;
+      where['branch.code'] = site.getBranch(req).code;
     }
-
     $companies.findMany(
       {
         select: req.body.select || {},
@@ -664,23 +642,17 @@ module.exports = function init(site) {
   });
 
   site.getStopProject = function () {
-
-    $companies.findMany(
-      {
-      },
-      (err, docs) => {
-        if (!err) {
-          docs.forEach(_doc => {
-            if (_doc.shutdownDate) {
-              if (new Date(_doc.shutdownDate) < new Date()) {
-                process.exit(1);
-              }
+    $companies.findMany({}, (err, docs) => {
+      if (!err) {
+        docs.forEach((_doc) => {
+          if (_doc.shutdownDate) {
+            if (new Date(_doc.shutdownDate) < new Date()) {
+              process.exit(1);
             }
-            
-          });
-        } 
+          }
+        });
       }
-    );
+    });
   };
 
   setInterval(() => {

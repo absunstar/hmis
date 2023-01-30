@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "offers" , "name":"offersUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

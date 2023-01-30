@@ -6,19 +6,19 @@
         <br>
         <table class="table">
             <tr>
-                <td class="title">##word.security_user_email##</td>
+                <td class="title">##word.Email##</td>
                 <td>{{user.email}}</td>
             </tr>
             <tr>
-                <td class="title">##word.security_user_password##</td>
+                <td class="title">##word.Password##</td>
                 <td>{{user.password}}</td>
             </tr>
             <tr>
-                <td class="title">##word.security_user_name##</td>
-                <td>{{user.profile.name}}</td>
+                <td class="title">##word.Name##</td>
+                <td>{{user.name##session.lang##}}</td>
             </tr>
             <tr>
-                <td class="title">##word.security_user_mobile##</td>
+                <td class="title">##word.Mobile##</td>
                 <td>
                     <a ng-show="user.mobile" target="_blank" href="tel:{{user.mobile}}">
                         {{user.mobile}}
@@ -28,20 +28,19 @@
             </tr>
 
             <tr>
-                <td class="title">##word.notes##</td>
-                <td>{{user.profile.notes}}</td>
+                <td class="title">##word.Notes##</td>
+                <td>{{user.notes}}</td>
             </tr>
 
         </table>
         <br>
         <table class="table margin">
             <tr>
-                <th>##word.security_roles##</th>
+                <th>##word.Security Roles##</th>
 
             </tr>
             <tr ng-repeat="role in user.roles">
-                <td x-lang="ar">{{role.##session.lang##}}</td>
-                <td x-lang="en">{{role.en}}</td>
+                <td>{{role.##session.lang##}}</td>
             </tr>
         </table>
 
@@ -52,9 +51,9 @@
 
             </tr>
             <tr ng-repeat=" p in userPermission ">
-                <td x-lang="ar"><span class="title">{{get_trans(p).##session.lang##}}</span><span ng-repeat="value in onepermission[p]"> -- {{value.##session.lang##}}
+                <td x-lang="Ar"><span class="title">{{get_trans(p).##session.lang##}}</span><span ng-repeat="value in onepermission[p]"> -- {{value.##session.lang##}}
                     </span> </td>
-                <td x-lang="en"><span class="title">{{get_trans(p).en}}</span><span ng-repeat="value in onepermission[p]"> -- {{value.en}}
+                <td x-lang="En"><span class="title">{{get_trans(p).en}}</span><span ng-repeat="value in onepermission[p]"> -- {{value.en}}
                     </span> </td>
             </tr>
 
@@ -65,10 +64,10 @@
 
     <div class="col6 padding">
 
-        <i-image view category="users" ng-model="user.profile.image_url"></i-image>
+        <i-image view category="users" ng-model="user.image"></i-image>
 
         <br>
-        <i-files view category="users" label="##word.files##" ng-model="user.user.profile.files"></i-files>
+        <i-files view category="users" label="##word.files##" ng-model="user.user.files"></i-files>
 
 
     </div>

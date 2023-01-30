@@ -1,7 +1,7 @@
 [{
     "moduleName" : "public" ,
     "name": "doctorDeskTopAdmin",
-    "en": "Doctor Desk Top Admin",
-    "ar": "إدارة مكتب الطبيب",
+    "En": "Doctor Desk Top Admin",
+    "Ar": "إدارة مكتب الطبيب",
     "permissions": ["doctorDeskTopManage"]
 }]

@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "vendorsGroup" , "name":"vendorsGroupUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

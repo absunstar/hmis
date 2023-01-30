@@ -1,77 +1,77 @@
 [
     {
         "name": "Numbering Screen",
-        "en": "Numbering Screen",
-        "ar": "شاشة الترقيم"
+        "En": "Numbering Screen",
+        "Ar": "شاشة الترقيم"
     },
     {
         "name": "Numbering",
-        "en": "Numbering",
-        "ar": "الترقيم"
+        "En": "Numbering",
+        "Ar": "الترقيم"
     },
     {
         "name": "Screen Name",
-        "en": "Screen Name",
-        "ar": "إسم الشاشة"
+        "En": "Screen Name",
+        "Ar": "إسم الشاشة"
     },
     {
         "name": "First Transaction Number",
-        "en": "First Transaction Number",
-        "ar": "رقم أول معاملة"
+        "En": "First Transaction Number",
+        "Ar": "رقم أول معاملة"
     },
     {
         "name": "Beginning Numbering",
-        "en": "Beginning Numbering",
-        "ar": "بداية الترقيم"
+        "En": "Beginning Numbering",
+        "Ar": "بداية الترقيم"
     },
     {
         "name": "Last Number",
-        "en": "Last Number",
-        "ar": "أخر رقم"
+        "En": "Last Number",
+        "Ar": "أخر رقم"
     },
     {
         "name": "Financial Year",
-        "en": "Financial year",
-        "ar": "سنة مالية"
+        "En": "Financial year",
+        "Ar": "سنة مالية"
     },
     {
         "name": "Accounting Period",
-        "en": "Accounting period",
-        "ar": "فترة محاسبية"
+        "En": "Accounting period",
+        "Ar": "فترة محاسبية"
     },
     {
         "name": "Connected",
-        "en": "Connected",
-        "ar": "متصل"
+        "En": "Connected",
+        "Ar": "متصل"
     },
     {
         "name": "Manual",
-        "en": "Manual",
-        "ar": "يدوي"
+        "En": "Manual",
+        "Ar": "يدوي"
     },
     {
         "name": "Type Numbering",
-        "en": "Type Numbering",
-        "ar": "نوع الترقيم"
+        "En": "Type Numbering",
+        "Ar": "نوع الترقيم"
     },
     {
         "name": "Year Name",
-        "en": "Year Name",
-        "ar": "إسم السنة"
+        "En": "Year Name",
+        "Ar": "إسم السنة"
     },
     {
         "name": "The Month",
-        "en": "The Month",
-        "ar": "الشهر"
+        "En": "The Month",
+        "Ar": "الشهر"
     },
     {
         "name": "Separator Symbol",
-        "en": "Separator Symbol",
-        "ar": "الرمز الفاصل"
+        "En": "Separator Symbol",
+        "Ar": "الرمز الفاصل"
     },
     {
         "name": "circulate",
-        "en": "Circulate",
-        "ar": "تعميم"
+        "En": "Circulate",
+        "Ar": "تعميم"
     }
 ]

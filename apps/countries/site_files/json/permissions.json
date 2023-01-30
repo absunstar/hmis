@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

@@ -1,7 +1,7 @@
 [{
     "moduleName" : "public" ,
     "name": "patientsAdmin",
-    "en": "Patients Admin",
-    "ar": "إدارة المرضى",
+    "En": "Patients Admin",
+    "Ar": "إدارة المرضى",
     "permissions": ["patientsManage"]
 }]

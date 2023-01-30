@@ -1,7 +1,7 @@
 [{
     "moduleName" : "public" ,
     "name": "hospitalCentersAdmin",
-    "en": "Hospital Centers Admin",
-    "ar": "إدارة مراكز المستشفى",
+    "En": "Hospital Centers Admin",
+    "Ar": "إدارة مراكز المستشفى",
     "permissions": ["hospitalCentersManage"]
 }]

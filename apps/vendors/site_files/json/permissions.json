@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "vendors" , "name":"vendorsUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

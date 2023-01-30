@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "insuranceCompanies" , "name":"insuranceCompaniesUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

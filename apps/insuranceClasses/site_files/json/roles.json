@@ -1,7 +1,7 @@
 [{
     "moduleName" : "public" ,
     "name": "insuranceClassesAdmin",
-    "en": "insuranceClasses Admin",
-    "ar": "إدارة الفئات",
+    "En": "insuranceClasses Admin",
+    "Ar": "إدارة الفئات",
     "permissions": ["insuranceClassesManage"]
 }]

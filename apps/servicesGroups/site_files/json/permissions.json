@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "servicesGroups" , "name":"servicesGroupsUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

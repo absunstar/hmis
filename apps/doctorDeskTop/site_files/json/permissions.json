@@ -1,10 +1,10 @@
 [
-    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

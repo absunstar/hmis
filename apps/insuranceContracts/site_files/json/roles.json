@@ -1,7 +1,7 @@
 [{
     "moduleName" : "public" ,
     "name": "insuranceContractsAdmin",
-    "en": "÷nsurance Contracts Admin",
-    "ar": "إدارة عقود التأمين",
+    "En": "÷nsurance Contracts Admin",
+    "Ar": "إدارة عقود التأمين",
     "permissions": ["insuranceContractsManage"]
 }]

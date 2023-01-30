@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "doctors" , "name":"doctorsUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

@@ -144,7 +144,6 @@ module.exports = function init(site) {
         path: __dirname + '/site_files/',
       });
 
-
       site.get(
         {
           name: app.name,
@@ -163,6 +162,7 @@ module.exports = function init(site) {
 
         let _data = req.data;
 
+        _data.company = site.getCompany(req);
         let numObj = {
           company: site.getCompany(req),
           screen: app.name,
@@ -257,7 +257,7 @@ module.exports = function init(site) {
         let select = req.body.select || { id: 1, code: 1, country: 1, gov: 1, nameEn: 1, nameAr: 1, image: 1, active: 1 };
         let list = [];
         app.memoryList
-          .filter((g) => !where['gov'] || g.gov.id == where['gov'].id)
+        .filter((g) => (!where['gov'] || g.gov.id == where['gov'].id) && g.company && g.company.id == site.getCompany(req).id)
           .forEach((doc) => {
             let obj = { ...doc };
 

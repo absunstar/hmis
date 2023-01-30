@@ -2,8 +2,8 @@
   {
     "moduleName": "public",
     "name": "discountTypesAdmin",
-    "en": "Discount Types Admin",
-    "ar": "إدارة أنواع الخصومات",
+    "En": "Discount Types Admin",
+    "Ar": "إدارة أنواع الخصومات",
     "permissions": ["discountTypesManage"]
   }
 ]

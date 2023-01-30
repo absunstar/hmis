@@ -3,64 +3,64 @@
     "module_name": "public",
     "screen_name": "companies",
     "name": "companiesManage",
-    "en": "Manage",
-    "ar": "إدارة"
+    "En": "Manage",
+    "Ar": "إدارة"
   },
   {
     "module_name": "public",
     "screen_name": "companies",
     "name": "companiesAdd",
-    "en": "Add",
-    "ar": "إضافة"
+    "En": "Add",
+    "Ar": "إضافة"
   },
   {
     "module_name": "public",
     "screen_name": "companies",
     "name": "companiesEdit",
-    "en": "Edit",
-    "ar": "تعديل"
+    "En": "Edit",
+    "Ar": "تعديل"
   },
   {
     "module_name": "public",
     "screen_name": "companies",
     "name": "companiesDelete",
-    "en": "Delete",
-    "ar": "حذف"
+    "En": "Delete",
+    "Ar": "حذف"
   },
   {
     "module_name": "public",
     "screen_name": "companies",
     "name": "companiesView",
-    "en": "View",
-    "ar": "عرض"
+    "En": "View",
+    "Ar": "عرض"
   },
   {
     "module_name": "public",
     "screen_name": "companies",
     "name": "companiesSearch",
-    "en": "Search",
-    "ar": "بحث"
+    "En": "Search",
+    "Ar": "بحث"
   },
   {
     "module_name": "public",
     "screen_name": "companies",
     "name": "companiesExport",
-    "en": "Export",
-    "ar": "تصدير"
+    "En": "Export",
+    "Ar": "تصدير"
   },
 
   {
     "module_name": "public",
     "screen_name": "companies",
     "name": "companiesPrint",
-    "en": "Print",
-    "ar": "طباعة"
+    "En": "Print",
+    "Ar": "طباعة"
   },
   {
     "module_name": "public",
     "screen_name": "companies",
     "name": "companiesUi",
-    "en": "UI",
-    "ar": "الواجهة الرسومية"
+    "En": "UI",
+    "Ar": "الواجهة الرسومية"
   }
 ]

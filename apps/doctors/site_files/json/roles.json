@@ -4,4 +4,11 @@
     "En": "Doctors Admin",
     "Ar": "إدارة الأطباء",
     "permissions": ["doctorsManage"]
+},
+{
+  "moduleName": "public",
+  "name": "doctorPermissions",
+  "En": "Doctor Permissions",
+  "Ar": "صلاحيات الطبيب",
+  "permissions": ["doctorDeskTopManage"]
 }]

@@ -162,13 +162,28 @@ module.exports = function init(site) {
         };
 
         let _data = req.data;
-
         _data.company = site.getCompany(req);
+        _data.branch = site.getBranch(req);
+        _data.branchList = [
+          {
+            company: _data.company,
+            branch: _data.branch,
+          },
+        ];
         let numObj = {
           company: site.getCompany(req),
           screen: app.name,
           date: new Date(),
         };
+
+        _data.roles = [
+          {
+            moduleName: 'public',
+            name: 'doctorPermissions',
+            En: 'Doctor Permissions',
+            Ar: 'صلاحيات الطبيب',
+          },
+        ];
 
         let cb = site.getNumbering(numObj);
         if (!_data.code && !cb.auto) {
@@ -183,7 +198,7 @@ module.exports = function init(site) {
         _data.type = { id: 2, name: 'Doctor' };
 
         if (!_data.email) {
-          _data.email = _data.name + Math.floor(Math.random() * 1000 + 1).toString();
+          _data.email = _data.nameEn + Math.floor(Math.random() * 1000 + 1).toString();
         }
 
         app.add(_data, (err, doc) => {

@@ -1,6 +1,6 @@
 [
     {
-        "module_name": "public",
+        "moduleName": "public",
         "name": "default_setting",
         "En": "Default Setting",
         "Ar": "الإعدادات الافتراصية",

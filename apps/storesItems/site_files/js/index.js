@@ -208,7 +208,6 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
           $scope.itemsgroupsList = response.data.list;
-          console.log('amr');
 
         }
       },

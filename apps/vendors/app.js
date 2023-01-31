@@ -162,7 +162,6 @@ module.exports = function init(site) {
 
         let _data = req.data;
         _data.company = site.getCompany(req);
-        _data.branch = site.getBranch(req);
 
         let numObj = {
           company: site.getCompany(req),
@@ -256,10 +255,10 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, code:1, nameEn: 1, nameAr: 1, image: 1 };
+        let select = req.body.select || { id: 1, nameEn: 1, nameAr: 1, image: 1 };
         let list = [];
         app.memoryList
-        .filter((g) => g.company && g.branch && g.company.id == site.getCompany(req).id && g.branch.id == site.getBranch(req).code)
+        .filter((g) => g.company && g.company.id == site.getCompany(req).id)
         .forEach((doc) => {
           let obj = { ...doc };
 
@@ -274,7 +273,7 @@ module.exports = function init(site) {
         });
         res.json({
           done: true,
-          list: list,
+          list: app.memoryList,
         });
       });
     }

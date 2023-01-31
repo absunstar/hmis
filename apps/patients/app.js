@@ -163,6 +163,12 @@ module.exports = function init(site) {
 
         _data.company = site.getCompany(req);
         _data.branch = site.getBranch(req);
+        _data.branchList = [
+          {
+            company: _data.company,
+            branch: _data.branch,
+          },
+        ];
         let numObj = {
           company: site.getCompany(req),
           screen: app.name,
@@ -188,7 +194,7 @@ module.exports = function init(site) {
         _data.addUserInfo = req.getUserFinger();
         _data.type = { id: 1, name: 'Patient' };
         if (!_data.email) {
-          _data.email = _data.name + Math.floor(Math.random() * 1000 + 1).toString();
+          _data.email = _data.nameEn + Math.floor(Math.random() * 1000 + 1).toString();
         }
         app.add(_data, (err, doc) => {
           if (!err && doc) {
@@ -272,9 +278,7 @@ module.exports = function init(site) {
         let select = req.body.select || { id: 1, code: 1, fullNameEn: 1, fullNameAr: 1, image: 1 };
         let list = [];
         app.memoryList
-          .filter(
-            (g) => (!where['type.id'] || (g.type && g.type.id == where['type.id'])) && g.company && g.branch && g.company.id == site.getCompany(req).id && g.branch.id == site.getBranch(req).code
-          )
+          .filter((g) => (!where['type.id'] || (g.type && g.type.id == where['type.id'])) && g.company && g.company.id == site.getCompany(req).id)
 
           .forEach((doc) => {
             let obj = { ...doc };

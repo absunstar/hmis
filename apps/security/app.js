@@ -236,6 +236,7 @@ module.exports = function init(site) {
           email: req.data.where.email,
         },
         (err, doc) => {
+
           if (!err && doc) {
             if (doc.isAdmin) {
               response.list = doc.branchList;
@@ -261,7 +262,6 @@ module.exports = function init(site) {
                   response.list = branchList;
                 } else {
                   let branchList = [];
-
                   companiesDoc.forEach((_com) => {
                     if (doc.branchList && doc.branchList.length > 0) {
                       doc.branchList.forEach((_b) => {

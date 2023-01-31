@@ -2,7 +2,10 @@
   <div class="row">
     <i-control ng-hide="disabledCode" class="col6" label="##word.Code##" ng-model="item.code"> </i-control>
     <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
-
+  </div>
+  <div class="row">
+    <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
+    <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
   </div>
   <fieldset>
     <div class="tabs">
@@ -20,10 +23,6 @@
           <div class="row padding">
             <div class="col9">
               <div class="row">
-                <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
-                <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
-              </div>
-              <div class="row">
                 <i-list class="col6" label="##word.Cost Center##" ng-model="item.costCenter" items="costCentersList" display="name##session.lang##" ng-search="item.$costCenter"> </i-list>
                 <i-list class="col6" label="##word.Type##" ng-model="item.type" items="centersTypesList" display="name##session.lang##" ng-search="item.$type"> </i-list>
               </div>
@@ -40,7 +39,15 @@
         <div id="serviceGroup" class="tab-content">
           <div class="row padding">
             <div class="row">
-              <i-list help-id="" label="##word.Service Group##" class="col7" ng-model="item.$serviceGroup" display="name##session.lang##" items="servicesGroupsList" ng-search="item.$servicesGroup"></i-list>
+              <i-list
+                help-id=""
+                label="##word.Service Group##"
+                class="col7"
+                ng-model="item.$serviceGroup"
+                display="name##session.lang##"
+                items="servicesGroupsList"
+                ng-search="item.$servicesGroup"
+              ></i-list>
               <div class="col2">
                 <br />
                 <i-button type="add" label="##word.Add Service Group##" ng-click="addServicesGroups(item)"></i-button>

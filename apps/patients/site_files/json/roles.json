@@ -4,4 +4,11 @@
     "En": "Patients Admin",
     "Ar": "إدارة المرضى",
     "permissions": ["patientsManage"]
+},
+{
+  "moduleName": "public",
+  "name": "patientPermissions",
+  "En": "Patient Permissions",
+  "Ar": "صلاحيات المريض",
+  "permissions": ["patientManage"]
 }]

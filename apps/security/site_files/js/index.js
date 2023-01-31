@@ -40,12 +40,12 @@ app.controller("security", function ($scope, $http, $interval) {
         if (response.data.done) {
           $scope.roles = response.data.roles;
 
-          $scope.accounting_roles = $scope.roles.filter(s => s.module_name == 'accounting');
-          $scope.hr_roles = $scope.roles.filter(s => s.module_name == 'hr');
-          $scope.inventory_roles = $scope.roles.filter(s => s.module_name == 'inventory');
-          $scope.custom_roles = $scope.roles.filter(s => s.module_name == 'custom');
-          $scope.public_roles = $scope.roles.filter(s => s.module_name == 'public');
-          $scope.report_roles = $scope.roles.filter(s => s.module_name == 'report');
+          $scope.accounting_roles = $scope.roles.filter(s => s.moduleName == 'accounting');
+          $scope.hr_roles = $scope.roles.filter(s => s.moduleName == 'hr');
+          $scope.inventory_roles = $scope.roles.filter(s => s.moduleName == 'inventory');
+          $scope.custom_roles = $scope.roles.filter(s => s.moduleName == 'custom');
+          $scope.public_roles = $scope.roles.filter(s => s.moduleName == 'public');
+          $scope.report_roles = $scope.roles.filter(s => s.moduleName == 'report');
 
         }
       },
@@ -68,16 +68,16 @@ app.controller("security", function ($scope, $http, $interval) {
             let exist = false;
 
             $scope.screens.forEach(s => {
-              if (s.name == p.screen_name) {
+              if (s.name == p.screenName) {
                 exist = true
                 s.permissions.push(p)
               }
             });
 
-            if (!exist && p.screen_name) {
+            if (!exist && p.screenName) {
               $scope.screens.push({
-                name: p.screen_name,
-                module_name: p.module_name,
+                name: p.screenName,
+                moduleName: p.moduleName,
                 permissions: [p]
               })
             }
@@ -109,11 +109,11 @@ app.controller("security", function ($scope, $http, $interval) {
 
             });
 
-          $scope.hr_screens = $scope.screens.filter(s => s.module_name == 'hr');
-          $scope.accounting_screens = $scope.screens.filter(s => s.module_name == 'accounting');
-          $scope.inventory_screens = $scope.screens.filter(s => s.module_name == 'inventory');
-          $scope.public_screens = $scope.screens.filter(s => s.module_name == 'public');
-          $scope.report_screens = $scope.screens.filter(s => s.module_name == 'report');
+          $scope.hr_screens = $scope.screens.filter(s => s.moduleName == 'hr');
+          $scope.accounting_screens = $scope.screens.filter(s => s.moduleName == 'accounting');
+          $scope.inventory_screens = $scope.screens.filter(s => s.moduleName == 'inventory');
+          $scope.public_screens = $scope.screens.filter(s => s.moduleName == 'public');
+          $scope.report_screens = $scope.screens.filter(s => s.moduleName == 'report');
 
           $scope.permissions = response.data.permissions;
 
@@ -309,14 +309,14 @@ app.controller("security", function ($scope, $http, $interval) {
           $scope.user.branchList = $scope.user.branchList || [];
 
           $scope.user.permissions.forEach(x => {
-            if ($scope.onepermission.hasOwnProperty(x.screen_name)) {
-              $scope.onepermission[x.screen_name].push(x);
+            if ($scope.onepermission.hasOwnProperty(x.screenName)) {
+              $scope.onepermission[x.screenName].push(x);
 
             } else {
               let element = [];
               element.push(x);
-              $scope.userPermission.push(x.screen_name);
-              $scope.onepermission[x.screen_name] = element;
+              $scope.userPermission.push(x.screenName);
+              $scope.onepermission[x.screenName] = element;
             }
           });
 

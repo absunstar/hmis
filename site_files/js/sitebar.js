@@ -3,7 +3,7 @@ app.controller('sitetop', ($scope, $http) => {
     site.showModal('#registerModal');
   };
 
-  $scope.login = function () {
+  $scope.showLogin = function () {
     site.showModal('#loginModal');
   };
 

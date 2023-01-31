@@ -412,6 +412,7 @@ app.controller('vendors', function ($scope, $http, $timeout) {
       upload_by: '##user.name##',
     })
   };
+  
   $scope.getAll();
   $scope.getNumberingAuto();
   $scope.getGovs();

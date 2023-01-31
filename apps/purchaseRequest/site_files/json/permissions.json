@@ -1,0 +1,13 @@
+[
+    { "moduleName": "public", "screenName": "purchaseRequest", "name": "purchaseRequestManage", "en": "Manage", "ar": "إدارة" },
+    { "moduleName": "public", "screenName": "purchaseRequest", "name": "purchaseRequestAdd", "en": "Add", "ar": "إضافة" },
+    { "moduleName": "public", "screenName": "purchaseRequest", "name": "purchaseRequestUpdate", "en": "Edit", "ar": "تعديل" },
+    { "moduleName": "public", "screenName": "purchaseRequest", "name": "purchaseRequestDelete", "en": "Delete", "ar": "حذف" },
+    { "moduleName": "public", "screenName": "purchaseRequest", "name": "purchaseRequestView", "en": "View", "ar": "عرض" },
+    { "moduleName": "public", "screenName": "purchaseRequest", "name": "purchaseRequestSearch", "en": "Search", "ar": "بحث" },
+    { "moduleName": "public", "screenName": "purchaseRequest", "name": "purchaseRequestExport", "en": "Export", "ar": "تصدير" },
+    { "moduleName": "public", "screenName": "purchaseRequest", "name": "purchaseRequestPrint", "en": "Print", "ar": "طباعة" },
+    { "moduleName": "public", "screenName": "purchaseRequest", "name": "purchaseRequestUi", "en": "UI", "ar": "الواجهة الرسومية" },
+    { "moduleName": "public", "screenName": "purchaseRequest", "name": "approvePurchaseRequest", "en": "Approve", "ar": "إعتماد طلب الشراء" },
+    { "moduleName": "public", "screenName": "purchaseRequest", "name": "unApprovePurchaseRequest", "en": "Unapprove", "ar": "إلغاء إعتماد طلب الشراء" }
+]

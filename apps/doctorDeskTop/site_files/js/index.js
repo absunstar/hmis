@@ -164,6 +164,7 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
   $scope.getAll = function (where) {
     $scope.busy = true;
     $scope.list = [];
+    where = where || {};
     if ('##user.type.id##' == 2) {
       where['doctor.id'] == site.toNumber('##user.id##');
     }

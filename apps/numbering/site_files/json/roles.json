@@ -1,5 +1,5 @@
 [{
-    "module_name" : "public" ,
+    "moduleName" : "public" ,
     "name": "numbering_admin",
     "En": "Numbering Admin",
     "Ar": "إدارة الترقيم",

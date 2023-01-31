@@ -43,16 +43,16 @@ app.controller('security', function ($scope, $http, $interval) {
             let exist = false;
 
             $scope.screens.forEach((s) => {
-              if (s.name == p.screen_name) {
+              if (s.name == p.screenName) {
                 exist = true;
                 s.permissions.push(p);
               }
             });
 
-            if (!exist && p.screen_name) {
+            if (!exist && p.screenName) {
               $scope.screens.push({
-                name: p.screen_name,
-                module_name: p.module_name,
+                name: p.screenName,
+                moduleName: p.moduleName,
                 permissions: [p],
               });
             }
@@ -76,9 +76,9 @@ app.controller('security', function ($scope, $http, $interval) {
             function (err) {}
           );
 
-          $scope.accounting_screens = $scope.screens.filter((s) => s.module_name == 'accounting');
-          $scope.inventory_screens = $scope.screens.filter((s) => s.module_name == 'inventory');
-          $scope.public_screens = $scope.screens.filter((s) => s.module_name == 'public');
+          $scope.accounting_screens = $scope.screens.filter((s) => s.moduleName == 'accounting');
+          $scope.inventory_screens = $scope.screens.filter((s) => s.moduleName == 'inventory');
+          $scope.public_screens = $scope.screens.filter((s) => s.moduleName == 'public');
 
           $scope.permissions = response.data.permissions;
         }

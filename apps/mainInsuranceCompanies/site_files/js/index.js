@@ -342,6 +342,35 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getIncuranceClassesList = function (obj) {
+    $scope.busy = true;
+    obj.$incuranceClassesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/insuranceClasses/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          obj.$incuranceClassesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getServicesGroupsList = function () {
     $scope.busy = true;
     $scope.servicesGroupsList = [];
@@ -413,6 +442,12 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
           code: 1,
           nameEn: 1,
           nameAr: 1,
+          cashPriceOut: 1,
+          creditPriceOut: 1,
+          cashPriceIn: 1,
+          creditPriceIn: 1,
+          packagePrice: 1,
+          vat: 1,
         },
       },
     }).then(
@@ -475,14 +510,12 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       if (!_item.discountServicesList.some((s) => s.id === _item.$discountService.id)) {
         _item.discountServicesList.push({
           ..._item.$discountService,
-          cashBasic: 0,
-          coCashPrice: 0,
-          cashDisc: 0,
-          creditBasic: 0,
-          coCreditPrice: 0,
-          creditDisc: 0,
+          cashIn: 0,
+          CreditIn: 0,
+          cashOut: 0,
+          CreditOut: 0,
           packagePrice: 0,
-          los: 0,
+          packagePrice: 0,
         });
       }
       _item.$discountService = {};
@@ -498,12 +531,9 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       if (!_item.coverageServicesGroupsList.some((s) => s.id === _item.$coverageServiceGroup.id)) {
         _item.coverageServicesGroupsList.push({
           ..._item.$coverageServiceGroup,
-          cashOut: 0,
-          creditOut: 0,
-          cashIn: 0,
-          creditIn: 0,
-          secondAmnt: 0,
+          incuranceClassesList : [],
         });
+        $scope.getIncuranceClassesList(_item.coverageServicesGroupsList[_item.coverageServicesGroupsList.length - 1]);
       }
       _item.$coverageServiceGroup = {};
     } else {
@@ -518,11 +548,10 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       if (!_item.coverageServicesCategoriesList.some((s) => s.id === _item.$coverageServiceCategory.id)) {
         _item.coverageServicesCategoriesList.push({
           ..._item.$coverageServiceCategory,
-          cashOut: 0,
-          creditOut: 0,
-          cashIn: 0,
-          creditIn: 0,
+          incuranceClassesList : [],
+    
         });
+        $scope.getIncuranceClassesList(_item.coverageServicesCategoriesList[_item.coverageServicesCategoriesList.length - 1]);
       }
       _item.$coverageServiceCategory = {};
     } else {
@@ -537,15 +566,9 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       if (!_item.coverageServicesList.some((s) => s.id === _item.$coverageService.id)) {
         _item.coverageServicesList.push({
           ..._item.$coverageService,
-          cashBasic: 0,
-          coCashPrice: 0,
-          cashDisc: 0,
-          creditBasic: 0,
-          coCreditPrice: 0,
-          creditDisc: 0,
-          packagePrice: 0,
-          los: 0,
+          incuranceClassesList : [],
         });
+        $scope.getIncuranceClassesList(_item.coverageServicesList[_item.coverageServicesList.length - 1]);
       }
       _item.$coverageService = {};
     } else {
@@ -568,6 +591,15 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       $scope.error = 'Must Select Service Group';
       return;
     }
+  };
+
+  $scope.addIncuranceClasses = function (obj) {
+    $scope.busy = true;
+
+    if (obj.$incuranceClass && !obj.incuranceClassesList.some((k) => k.id === obj.$incuranceClass.id)) {
+      obj.incuranceClassesList.push(obj.$incuranceClass);
+    }
+    obj.$incuranceClass = '';
   };
 
   $scope.showSearch = function () {

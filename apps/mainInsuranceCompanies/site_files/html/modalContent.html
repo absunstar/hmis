@@ -18,7 +18,6 @@
           <span> ##word.Discount Services Groups##</span>
         </a>
 
-        
         <a class="tab-link" onclick="site.showTabContent(event, '#discountServiceCategory')">
           <span> ##word.Discount Services Categories##</span>
         </a>
@@ -74,11 +73,21 @@
                   items="countriesList"
                   ng-search="item.$Country"
                 ></i-list>
-                <i-list help-id="" class="col6" label="##word.Governorate##" ng-change="getCitiesList(item.gov)" ng-model="item.gov" display="name##session.lang##" items="govesList" ng-search="item.$gov"></i-list>
+                <i-list
+                  help-id=""
+                  class="col6"
+                  label="##word.Governorate##"
+                  ng-change="getCitiesList(item.gov)"
+                  ng-model="item.gov"
+                  display="name##session.lang##"
+                  items="govesList"
+                  ng-search="item.$gov"
+                ></i-list>
               </div>
 
               <div class="row">
-                <i-list class="col6" label="##word.City##" ng-model="item.city" ng-change="getAreasList(item.city)" items="citiesList" display="name##session.lang##" ng-search="item.$city_search"> </i-list>
+                <i-list class="col6" label="##word.City##" ng-model="item.city" ng-change="getAreasList(item.city)" items="citiesList" display="name##session.lang##" ng-search="item.$city_search">
+                </i-list>
                 <i-list class="col6" label="##word.Area##" ng-model="item.area" items="areasList" display="name##session.lang##" ng-search="item.$area_search"> </i-list>
               </div>
 
@@ -95,7 +104,15 @@
 
         <div id="discountServiceGroup" class="tab-content">
           <div class="row">
-            <i-list help-id="" label="##word.Service Group##" class="col7" ng-model="item.$discountServiceGroup" display="name##session.lang##" items="servicesGroupsList" ng-search="item.$servicesGroup"></i-list>
+            <i-list
+              help-id=""
+              label="##word.Service Group##"
+              class="col7"
+              ng-model="item.$discountServiceGroup"
+              display="name##session.lang##"
+              items="servicesGroupsList"
+              ng-search="item.$servicesGroup"
+            ></i-list>
             <div class="col5">
               <br />
               <i-button type="add" label="##word.Add Service Group##" ng-click="addDiscountServicesGroups(item)"></i-button>
@@ -135,7 +152,6 @@
           </div>
         </div>
 
-    
         <div id="discountServiceCategory" class="tab-content">
           <div class="row">
             <i-list
@@ -193,7 +209,7 @@
             </div>
           </div>
           <div class="row">
-            <table class="table hover bold">
+            <!--  <table class="table hover bold">
               <tr>
                 <th>##word.Code##</th>
                 <th>##word.Name##</th>
@@ -221,8 +237,50 @@
                 <td class="text-center"><i-control type="number" ng-model="s.packagePrice"></i-control></td>
                 <td class="text-center"><i-control type="number" ng-model="s.los"></i-control></td>
                 <td class="text-center"><i-control type="text" ng-model="s.coCode"></i-control></td>
-                <td class="text-center"><i-control type="text" ng-model="s.coCode"></i-control></td>
+                <td class="text-center"><i-control type="text" ng-model="s.coName"></i-control></td>
 
+                <td class="text-center not-print">
+                  <i-button type="delete default" ng-click="item.discountServicesList.splice($index,1)"> </i-button>
+                </td>
+              </tr>
+            </table> -->
+            <table class="table hover bold">
+              <tr>
+                <th>##word.Code## / ##word.Name##</th>
+                <th>##word.Co Code##</th>
+                <th>##word.Co Name##</th>
+                <th>(##word.Cash##/##word.Credit##) ##word.In## ##word.Basic##</th>
+                <th>##word.Cash In##</th>
+                <th>##word.Credit In##</th>
+                <th>(##word.Cash## /##word.Credit##) ##word.Out## ##word.Basic##</th>
+                <th>##word.Cash Out##</th>
+                <th>##word.Credit Out##</th>
+                <th>##word.Package Price##</th>
+                <th class="not-print">##word.Actions##</th>
+              </tr>
+              <tr ng-repeat="s in item.discountServicesList">
+                <td class="text-center">
+                  <span class="blue">{{s.code}}</span>
+                  /
+                  <span>{{s.name##session.lang##}}</span>
+                </td>
+                <td class="text-center"><i-control type="text" ng-model="s.coCode"></i-control></td>
+                <td class="text-center"><i-control type="text" ng-model="s.coName"></i-control></td>
+                <td class="text-center">
+                  <span class="green">{{s.cashPriceIn}}</span>
+                  /
+                  <span class="blue">{{s.creditPriceIn}}</span>
+                </td>
+                <td class="text-center"><i-control type="number" ng-model="s.cashIn"></i-control></td>
+                <td class="text-center"><i-control type="number" ng-model="s.CreditIn"></i-control></td>
+                <td class="text-center">
+                  <span class="green">{{s.cashPriceOut}}</span>
+                  /
+                  <span class="blue">{{s.creditPriceOut}}</span>
+                </td>
+                <td class="text-center"><i-control type="number" ng-model="s.cashOut"></i-control></td>
+                <td class="text-center"><i-control type="number" ng-model="s.CreditOut"></i-control></td>
+                <td class="text-center"><i-control type="number" ng-model="s.packagePrice"></i-control></td>
                 <td class="text-center not-print">
                   <i-button type="delete default" ng-click="item.discountServicesList.splice($index,1)"> </i-button>
                 </td>
@@ -233,7 +291,15 @@
 
         <div id="coverageServiceGroup" class="tab-content">
           <div class="row">
-            <i-list help-id="" label="##word.Service Group##" class="col7" ng-model="item.$coverageServiceGroup" display="name##session.lang##" items="servicesGroupsList" ng-search="item.$servicesGroup"></i-list>
+            <i-list
+              help-id=""
+              label="##word.Service Group##"
+              class="col7"
+              ng-model="item.$coverageServiceGroup"
+              display="name##session.lang##"
+              items="servicesGroupsList"
+              ng-search="item.$servicesGroup"
+            ></i-list>
             <div class="col5">
               <br />
               <i-button type="add" label="##word.Add Service Group##" ng-click="addCoverageServicesGroups(item)"></i-button>
@@ -251,7 +317,22 @@
               <tr ng-repeat="s in item.coverageServicesGroupsList">
                 <td class="text-center blue">{{s.code}}</td>
                 <td class="text-center">{{s.name##session.lang##}}</td>
-                <td class="text-center"><i-control type="number" ng-model="s.insuranceClasses"></i-control></td>
+                <td class="text-center">
+                  <i-list
+                    ng-selected="addIncuranceClasses(s)"
+                    ng-model="s.$incuranceClass"
+                    display="name##session.lang##"
+                    items="s.$incuranceClassesList"
+                    ng-search="s.$incuranceClass"
+                  ></i-list>
+
+                  <div class="row">
+                    <div class="key-words" ng-repeat="i in s.incuranceClassesList">
+                      <span>{{i.name##session.lang##}}</span>
+                      <i class="fas fa-times delete-key" ng-click="s.incuranceClassesList.splice($index,1)"></i>
+                    </div>
+                  </div>
+                </td>
                 <td class="text-center"><i-checkbox label="##word.Need Approval##" ng-model="s.needApproval"></i-checkbox></td>
                 <td class="text-center not-print">
                   <i-button type="delete default" ng-click="item.coverageServicesGroupsList.splice($index,1)"> </i-button>
@@ -289,7 +370,22 @@
               <tr ng-repeat="s in item.coverageServicesCategoriesList">
                 <td class="text-center blue">{{s.code}}</td>
                 <td class="text-center">{{s.name##session.lang##}}</td>
-                <td class="text-center"><i-control type="number" ng-model="s.insuranceClasses"></i-control></td>
+                <td class="text-center">
+                  <i-list
+                    ng-selected="addIncuranceClasses(s)"
+                    ng-model="s.$incuranceClass"
+                    display="name##session.lang##"
+                    items="s.$incuranceClassesList"
+                    ng-search="s.$incuranceClass"
+                  ></i-list>
+
+                  <div class="row">
+                    <div class="key-words" ng-repeat="i in s.incuranceClassesList">
+                      <span>{{i.name##session.lang##}}</span>
+                      <i class="fas fa-times delete-key" ng-click="s.incuranceClassesList.splice($index,1)"></i>
+                    </div>
+                  </div>
+                </td>
                 <td class="text-center"><i-checkbox label="##word.Need Approval##" ng-model="s.needApproval"></i-checkbox></td>
 
                 <td class="text-center not-print">
@@ -320,7 +416,22 @@
               <tr ng-repeat="s in item.coverageServicesList">
                 <td class="text-center blue">{{s.code}}</td>
                 <td class="text-center">{{s.name##session.lang##}}</td>
-                <td class="text-center"><i-control type="number" ng-model="s.insuranceClasses"></i-control></td>
+                <td class="text-center">
+                  <i-list
+                    ng-selected="addIncuranceClasses(s)"
+                    ng-model="s.$incuranceClass"
+                    display="name##session.lang##"
+                    items="s.$incuranceClassesList"
+                    ng-search="s.$incuranceClass"
+                  ></i-list>
+
+                  <div class="row">
+                    <div class="key-words" ng-repeat="i in s.incuranceClassesList">
+                      <span>{{i.name##session.lang##}}</span>
+                      <i class="fas fa-times delete-key" ng-click="s.incuranceClassesList.splice($index,1)"></i>
+                    </div>
+                  </div>
+                </td>
                 <td class="text-center"><i-checkbox label="##word.Need Approval##" ng-model="s.needApproval"></i-checkbox></td>
 
                 <td class="text-center not-print">
@@ -334,7 +445,15 @@
         <div id="package" class="tab-content">
           <div class="row padding">
             <div class="row">
-              <i-list help-id="" label="##word.Service Group##" class="col7" ng-model="item.$packageServiceGroup" display="name##session.lang##" items="servicesGroupsList" ng-search="item.$servicesGroup"></i-list>
+              <i-list
+                help-id=""
+                label="##word.Service Group##"
+                class="col7"
+                ng-model="item.$packageServiceGroup"
+                display="name##session.lang##"
+                items="servicesGroupsList"
+                ng-search="item.$servicesGroup"
+              ></i-list>
               <div class="col5">
                 <br />
                 <i-button type="add" label="##word.Add Service Group##" ng-click="addPackageServicesGroups(item)"></i-button>

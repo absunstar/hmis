@@ -1,5 +1,7 @@
 module.exports = function init(site) {
   let appIncuranceContract = site.getApp('insuranceContracts');
+  let appServicesGroup = site.getApp('servicesGroups');
+  let appServicesCategory = site.getApp('servicesCategories');
   let app = {
     name: 'mainInsuranceCompanies',
     allowMemory: true,
@@ -294,6 +296,282 @@ module.exports = function init(site) {
         }
         res.json(response);
       });
+    } else {
+      response.error = 'Not Exists';
+      res.json(response);
+    }
+  });
+
+  site.post({ name: `/api/serviceMainIncurance`, require: { permissions: ['login'] } }, (req, res) => {
+    let response = {
+      done: false,
+    };
+    let _data = req.data;
+    let mainIncurance = app.memoryList.find((_c) => _c.insuranceCompany.id == _data.insuranceCompanyId);
+    if (mainIncurance) {
+      response.done = true;
+      let foundService = false;
+      let service = {};
+      if (mainIncurance.coverageServicesList && mainIncurance.coverageServicesList.length > 0) {
+        mainIncurance.coverageServicesList.forEach((_cService) => {
+          if (_cService.id == _data.service.id) {
+            _cService.incuranceClassesList.forEach((_iClass) => {
+              if (_data.patientClassId == _iClass.id) {
+                foundService = true;
+                service = {
+                  id: _data.service.id,
+                  nameAr: _data.service.nameAr,
+                  nameEn: _data.service.nameEn,
+                  price: 0,
+                  discount: 0,
+                  total: 0,
+                  vat: 0,
+                  pVat: 0,
+                  comVat: 0,
+                  needApproval: _cService.needApproval,
+                };
+              }
+            });
+          }
+        });
+      } else if (!foundService && mainIncurance.coverageServicesGroupsList && mainIncurance.coverageServicesGroupsList.length > 0) {
+        mainIncurance.coverageServicesGroupsList.forEach((_cGroup) => {
+          if (!foundService && _cGroup.id == _data.service.serviceGroup.id) {
+            _cGroup.incuranceClassesList.forEach((_iClass) => {
+              if (_data.patientClassId == _iClass.id) {
+                service = {
+                  id: _data.service.id,
+                  nameAr: _data.service.nameAr,
+                  nameEn: _data.service.nameEn,
+                  price: 0,
+                  discount: 0,
+                  total: 0,
+                  vat: 0,
+                  pVat: 0,
+                  comVat: 0,
+                  needApproval: _cGroup.needApproval,
+                };
+                foundService = true;
+              }
+            });
+          } else if (!foundService) {
+            let group = appServicesGroup.memoryList.find((_c) => _c.id == _cGroup.id);
+            if (group && group.servicesCategoriesList && group.servicesCategoriesList.length > 0) {
+              group.servicesCategoriesList.forEach((_sCateGory) => {
+                let category = appServicesCategory.memoryList.find((_c) => _c.id == _sCateGory.id);
+                if (category && category.servicesList && category.servicesList.length > 0) {
+                  category.servicesList.forEach((_s) => {
+                    if (_s.id == _data.service.id) {
+                      _cGroup.incuranceClassesList.forEach((_iClass) => {
+                        if (_data.patientClassId == _iClass.id) {
+                          foundService = true;
+                          service = {
+                            id: _data.service.id,
+                            nameAr: _data.service.nameAr,
+                            nameEn: _data.service.nameEn,
+                            price: 0,
+                            discount: 0,
+                            total: 0,
+                            vat: 0,
+                            pVat: 0,
+                            comVat: 0,
+                            needApproval: _cGroup.needApproval,
+                          };
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          }
+        });
+      } else if (!foundService && mainIncurance.coverageServicesCategoriesList && mainIncurance.coverageServicesCategoriesList.length > 0) {
+        mainIncurance.coverageServicesCategoriesList.forEach((_cCategory) => {
+          let category = appServicesCategory.memoryList.find((_c) => _c.id == _cCategory.id);
+          if (category && category.servicesList && category.servicesList.length > 0) {
+            category.servicesList.forEach((_s) => {
+              if (_s.id == _data.service.id) {
+                _cCategory.incuranceClassesList.forEach((_iClass) => {
+                  if (_data.patientClassId == _iClass.id) {
+                    foundService = true;
+                    service = {
+                      id: _data.service.id,
+                      nameAr: _data.service.nameAr,
+                      nameEn: _data.service.nameEn,
+                      price: 0,
+                      discount: 0,
+                      total: 0,
+                      vat: 0,
+                      pVat: 0,
+                      comVat: 0,
+                      needApproval: _cCategory.needApproval,
+                    };
+                  }
+                });
+              }
+            });
+          }
+        });
+      } else if (!foundService && mainIncurance.discountServicesList && mainIncurance.discountServicesList.length > 0) {
+        mainIncurance.discountServicesList.forEach((_cService) => {
+          if (_cService.id == _data.service.id) {
+            foundService = true;
+            service = {
+              id: _data.service.id,
+              nameAr: _data.service.nameAr,
+              nameEn: _data.service.nameEn,
+              coCode: _data.service.coCode,
+              coName: _data.service.coName,
+              vat: 0,
+              pVat: 0,
+              comVat: mainIncurance.vat,
+            };
+
+            if (_data.type == 'out') {
+              if (_data.payment == 'cash') {
+                service.price = _cService.cashOut;
+                service.discount = _cService.cashOutDesk;
+              } else if (_data.payment == 'credit') {
+                service.price = _cService.creditOut;
+                service.discount = _cService.creditOutDesk;
+              }
+            } else if (_data.type == 'in') {
+              if (_data.payment == 'cash') {
+                service.price = _cService.cashIn;
+                service.discount = _cService.cashInDesk;
+              } else if (_data.payment == 'credit') {
+                service.price = _cService.creditIn;
+                service.discount = _cService.creditInDesk;
+              }
+            }
+            service.total = service.price - (service.price * service.discount) / 100;
+          }
+        });
+      } else if (!foundService && mainIncurance.discountServicesGroupsList && mainIncurance.discountServicesGroupsList.length > 0) {
+        mainIncurance.discountServicesGroupsList.forEach((_cGroup) => {
+          if (!foundService && _cGroup.id == _data.service.serviceGroup.id) {
+            service = {
+              id: _data.service.id,
+              nameAr: _data.service.nameAr,
+              nameEn: _data.service.nameEn,
+              price: 0,
+              discount: 0,
+              total: 0,
+              vat: 0,
+              pVat: 0,
+              comVat: mainIncurance.vat,
+            };
+            foundService = true;
+
+            if (_data.type == 'out') {
+              if (_data.payment == 'cash') {
+                service.price = _data.service.cashPriceOut;
+                service.discount = applyDiscOut ? _cGroup.cashOut : 0;
+              } else if (_data.payment == 'credit') {
+                service.price = _data.service.creditPriceOut;
+                service.discount = applyDiscOut ? _cGroup.creditOut : 0;
+              }
+            } else if (_data.type == 'in') {
+              if (_data.payment == 'cash') {
+                service.price = _cGroup.cashPriceIn;
+                service.discount = applyDiscIn ? _cGroup.cashIn : 0;
+              } else if (_data.payment == 'credit') {
+                service.price = _cGroup.creditPriceIn;
+                service.discount = applyDiscIn ? _cGroup.creditIn : 0;
+              }
+            }
+            service.total = service.price - (service.price * service.discount) / 100;
+          } else if (!foundService) {
+            let group = appServicesGroup.memoryList.find((_c) => _c.id == _cGroup.id);
+            if (group && group.servicesCategoriesList && group.servicesCategoriesList.length > 0) {
+              group.servicesCategoriesList.forEach((_sCateGory) => {
+                let category = appServicesCategory.memoryList.find((_c) => _c.id == _sCateGory.id);
+                if (category && category.servicesList && category.servicesList.length > 0) {
+                  category.servicesList.forEach((_s) => {
+                    if (_s.id == _data.service.id) {
+                      foundService = true;
+                      service = {
+                        id: _data.service.id,
+                        nameAr: _data.service.nameAr,
+                        nameEn: _data.service.nameEn,
+                        vat: 0,
+                        pVat: 0,
+                        comVat: mainIncurance.vat,
+                      };
+
+                      if (_data.type == 'out') {
+                        if (_data.payment == 'cash') {
+                          service.price = _data.service.cashPriceOut;
+                          service.discount = applyDiscOut ? _cGroup.cashOut : 0;
+                        } else if (_data.payment == 'credit') {
+                          service.price = _data.service.creditPriceOut;
+                          service.discount = applyDiscOut ? _cGroup.creditOut : 0;
+                        }
+                      } else if (_data.type == 'in') {
+                        if (_data.payment == 'cash') {
+                          service.price = _cGroup.cashPriceIn;
+                          service.discount = applyDiscIn ? _cGroup.cashIn : 0;
+                        } else if (_data.payment == 'credit') {
+                          service.price = _cGroup.creditPriceIn;
+                          service.discount = applyDiscIn ? _cGroup.creditIn : 0;
+                        }
+                      }
+                      service.total = service.price - (service.price * service.discount) / 100;
+                    }
+                  });
+                }
+              });
+            }
+          }
+        });
+      } else if (!foundService && mainIncurance.discountServicesCategoriesList && mainIncurance.discountServicesCategoriesList.length > 0) {
+        mainIncurance.discountServicesCategoriesList.forEach((_cCategory) => {
+          let category = appServicesCategory.memoryList.find((_c) => _c.id == _cCategory.id);
+          if (category && category.servicesList && category.servicesList.length > 0) {
+            category.servicesList.forEach((_s) => {
+              if (_s.id == _data.service.id) {
+                foundService = true;
+                service = {
+                  id: _data.service.id,
+                  nameAr: _data.service.nameAr,
+                  nameEn: _data.service.nameEn,
+                  vat: 0,
+                  pVat: 0,
+                  comVat: mainIncurance.vat,
+                };
+
+                if (_data.type == 'out') {
+                  if (_data.payment == 'cash') {
+                    service.price = _data.service.cashPriceOut;
+                    service.discount = applyDiscOut ? _cCategory.cashOut : 0;
+                  } else if (_data.payment == 'credit') {
+                    service.price = _data.service.creditPriceOut;
+                    service.discount = applyDiscOut ? _cCategory.creditOut : 0;
+                  }
+                } else if (_data.type == 'in') {
+                  if (_data.payment == 'cash') {
+                    service.price = _cCategory.cashPriceIn;
+                    service.discount = applyDiscIn ? _cCategory.cashIn : 0;
+                  } else if (_data.payment == 'credit') {
+                    service.price = _cCategory.creditPriceIn;
+                    service.discount = applyDiscIn ? _cCategory.creditIn : 0;
+                  }
+                }
+                service.total = service.price - (service.price * service.discount) / 100;
+              }
+            });
+          }
+        });
+      }
+
+      if (foundService) {
+        response.done = true;
+        response.doc = service;
+      } else {
+        response.error = err?.message || 'Not Exists';
+      }
+      res.json(response);
     } else {
       response.error = 'Not Exists';
       res.json(response);

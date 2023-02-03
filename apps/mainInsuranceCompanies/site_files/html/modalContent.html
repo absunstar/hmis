@@ -246,40 +246,53 @@
             </table> -->
             <table class="table hover bold">
               <tr>
-                <th>##word.Code## / ##word.Name##</th>
-                <th>##word.Co Code##</th>
-                <th>##word.Co Name##</th>
-                <th>(##word.Cash##/##word.Credit##) ##word.In## ##word.Basic##</th>
-                <th>##word.Cash In##</th>
-                <th>##word.Credit In##</th>
-                <th>(##word.Cash## /##word.Credit##) ##word.Out## ##word.Basic##</th>
-                <th>##word.Cash Out##</th>
-                <th>##word.Credit Out##</th>
+                <th>##word.Code## / ##word.Co code##</th>
+                <th>##word.Name## / ##word.Co Name##</th>
+                <th>(##word.Cash##/##word.Credit##) ##word.In##</th>
+                <th>##word.Cash In## / ##word.Disc## %</th>
+                <th>##word.Credit In## / ##word.Disc## %</th>
+                <th>(##word.Cash## /##word.Credit##) ##word.Out##</th>
+                <th>##word.Cash Out## / ##word.Disc## %</th>
+                <th>##word.Credit Out## / ##word.Disc## %</th>
                 <th>##word.Package Price##</th>
                 <th class="not-print">##word.Actions##</th>
               </tr>
               <tr ng-repeat="s in item.discountServicesList">
                 <td class="text-center">
-                  <span class="blue">{{s.code}}</span>
-                  /
-                  <span>{{s.name##session.lang##}}</span>
+                  <p class="blue text-center">{{s.code}}</p>
+                  <i-control type="text" ng-model="s.coCode"></i-control>
                 </td>
-                <td class="text-center"><i-control type="text" ng-model="s.coCode"></i-control></td>
-                <td class="text-center"><i-control type="text" ng-model="s.coName"></i-control></td>
+                <td>
+                  <p class="text-center">{{s.name##session.lang##}}</p>
+                  <i-control type="text" ng-model="s.coName"></i-control>
+                </td>
+
                 <td class="text-center">
                   <span class="green">{{s.cashPriceIn}}</span>
                   /
                   <span class="blue">{{s.creditPriceIn}}</span>
                 </td>
-                <td class="text-center"><i-control type="number" ng-model="s.cashIn"></i-control></td>
-                <td class="text-center"><i-control type="number" ng-model="s.CreditIn"></i-control></td>
+                <td class="text-center">
+                  <i-control type="number" ng-model="s.cashIn"></i-control>
+                  <i-control type="number" ng-model="s.cashInDesc"></i-control>
+                </td>
+                <td class="text-center">
+                  <i-control type="number" ng-model="s.creditIn"></i-control>
+                  <i-control type="number" ng-model="s.creditInDesk"></i-control>
+                </td>
                 <td class="text-center">
                   <span class="green">{{s.cashPriceOut}}</span>
                   /
                   <span class="blue">{{s.creditPriceOut}}</span>
                 </td>
-                <td class="text-center"><i-control type="number" ng-model="s.cashOut"></i-control></td>
-                <td class="text-center"><i-control type="number" ng-model="s.CreditOut"></i-control></td>
+                <td class="text-center">
+                  <i-control type="number" ng-model="s.cashOut"></i-control>
+                  <i-control type="number" ng-model="s.cashOutDesk"></i-control>
+                </td>
+                <td class="text-center">
+                  <i-control type="number" ng-model="s.creditOut"></i-control>
+                  <i-control type="number" ng-model="s.creditOutDesk"></i-control>
+                </td>
                 <td class="text-center"><i-control type="number" ng-model="s.packagePrice"></i-control></td>
                 <td class="text-center not-print">
                   <i-button type="delete default" ng-click="item.discountServicesList.splice($index,1)"> </i-button>
@@ -318,13 +331,7 @@
                 <td class="text-center blue">{{s.code}}</td>
                 <td class="text-center">{{s.name##session.lang##}}</td>
                 <td class="text-center">
-                  <i-list
-                    ng-selected="addIncuranceClasses(s)"
-                    ng-model="s.$incuranceClass"
-                    display="name##session.lang##"
-                    items="s.$incuranceClassesList"
-                    ng-search="s.$incuranceClass"
-                  ></i-list>
+                  <i-list ng-selected="addIncuranceClasses(s)" ng-model="s.$incuranceClass" display="name##session.lang##" items="s.$incuranceClassesList" ng-search="s.$incuranceClass"></i-list>
 
                   <div class="row">
                     <div class="key-words" ng-repeat="i in s.incuranceClassesList">
@@ -371,13 +378,7 @@
                 <td class="text-center blue">{{s.code}}</td>
                 <td class="text-center">{{s.name##session.lang##}}</td>
                 <td class="text-center">
-                  <i-list
-                    ng-selected="addIncuranceClasses(s)"
-                    ng-model="s.$incuranceClass"
-                    display="name##session.lang##"
-                    items="s.$incuranceClassesList"
-                    ng-search="s.$incuranceClass"
-                  ></i-list>
+                  <i-list ng-selected="addIncuranceClasses(s)" ng-model="s.$incuranceClass" display="name##session.lang##" items="s.$incuranceClassesList" ng-search="s.$incuranceClass"></i-list>
 
                   <div class="row">
                     <div class="key-words" ng-repeat="i in s.incuranceClassesList">
@@ -417,13 +418,7 @@
                 <td class="text-center blue">{{s.code}}</td>
                 <td class="text-center">{{s.name##session.lang##}}</td>
                 <td class="text-center">
-                  <i-list
-                    ng-selected="addIncuranceClasses(s)"
-                    ng-model="s.$incuranceClass"
-                    display="name##session.lang##"
-                    items="s.$incuranceClassesList"
-                    ng-search="s.$incuranceClass"
-                  ></i-list>
+                  <i-list ng-selected="addIncuranceClasses(s)" ng-model="s.$incuranceClass" display="name##session.lang##" items="s.$incuranceClassesList" ng-search="s.$incuranceClass"></i-list>
 
                   <div class="row">
                     <div class="key-words" ng-repeat="i in s.incuranceClassesList">

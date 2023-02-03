@@ -188,6 +188,35 @@ app.controller('servicesCategories', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getservicesList = function () {
+    $scope.busy = true;
+    $scope.servicesList = [];
+     $http({
+      method: 'POST',
+      url: '/api/services/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.servicesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getservicesCategoriesTypeList = function () {
     $scope.busy = true;
     $http({
@@ -206,6 +235,19 @@ app.controller('servicesCategories', function ($scope, $http, $timeout) {
         $scope.error = err;
       }
     );
+  };
+
+  $scope.addServices = function (_item) {
+    $scope.error = '';
+    if (_item.$service && _item.$service.id) {
+      if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
+        _item.servicesList.push({ ..._item.$service });
+      }
+      _item.$service = {};
+    } else {
+      $scope.error = 'Must Select Service';
+      return;
+    }
   };
 
   $scope.getNumberingAuto = function () {
@@ -244,5 +286,6 @@ app.controller('servicesCategories', function ($scope, $http, $timeout) {
 
   $scope.getAll();
   $scope.getNumberingAuto();
+  $scope.getservicesList();
   $scope.getservicesCategoriesTypeList();
 });

@@ -7,7 +7,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
   $scope.structure = {
     date: new Date(),
     nphis: 'elig',
-    type: 'Out',
+    type: 'out',
     nphis: 'elig',
   };
   $scope.item = {};
@@ -286,7 +286,6 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
         $scope.busy = false;
         if (response.data.done && response.data.doc) {
           $scope.item.mainInsuranceCompany = response.data.doc;
-          console.log($scope.item.mainInsuranceCompany);
         }
       },
       function (err) {
@@ -369,6 +368,11 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           nameEn: 1,
           nameAr: 1,
           serviceGroup: 1,
+          creditPriceOut: 1,
+          cashPriceIn: 1,
+          creditPriceIn: 1,
+          packagePrice: 1,
+          vat: 1,
         },
       },
     }).then(
@@ -387,6 +391,30 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
 
   $scope.addServices = function (_item) {
     $scope.error = '';
+
+    $http({
+      method: 'POST',
+      url: '/api/serviceMainIncurance',
+      data: {
+        insuranceCompanyId: _item.patient.insuranceCompany.id,
+        patientClassId : _item.patient.insuranceClass.id,
+        service: _item.$service,
+        payment: _item.payment,
+        type: _item.type,
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.doc) {
+          $scope.item.mainInsuranceCompany = response.data.doc;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+
     if (_item.$service && _item.$service.id) {
       if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
         let obj = {

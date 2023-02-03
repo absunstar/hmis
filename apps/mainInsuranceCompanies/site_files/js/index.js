@@ -511,11 +511,14 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
         _item.discountServicesList.push({
           ..._item.$discountService,
           cashIn: 0,
-          CreditIn: 0,
+          creditIn: 0,
           cashOut: 0,
-          CreditOut: 0,
+          creditOut: 0,
           packagePrice: 0,
-          packagePrice: 0,
+          cashInDesc: 0,
+          creditInDesk: 0,
+          cashOutDesk: 0,
+          creditOutDesk: 0,
         });
       }
       _item.$discountService = {};

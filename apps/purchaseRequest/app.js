@@ -177,17 +177,23 @@ module.exports = function init(site) {
                 } else if (cb.auto) {
                     _data.code = cb.code;
                 }
-
-                _data.addUserInfo = req.getUserFinger();
-
-                app.add(_data, (err, doc) => {
-                    if (!err && doc) {
-                        response.done = true;
-                        response.doc = doc;
-                    } else {
-                        response.error = err.mesage;
+                app.$collection.find({ code: _data.code }, (err, doc) => {
+                    if (doc) {
+                        response.error = 'Code Exisit';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
+                    _data.addUserInfo = req.getUserFinger();
+
+                    app.add(_data, (err, doc) => {
+                        if (!err && doc) {
+                            response.done = true;
+                            response.doc = doc;
+                        } else {
+                            response.error = err.mesage;
+                        }
+                        res.json(response);
+                    });
                 });
             });
         }
@@ -199,16 +205,23 @@ module.exports = function init(site) {
                 };
 
                 let _data = req.data;
-                _data.editUserInfo = req.getUserFinger();
-
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
-                    } else {
-                        response.error = err.message;
+                app.$collection.find({ code: _data.code }, (err, doc) => {
+                    if (doc) {
+                        response.error = 'Code Exisit';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
+                    _data.editUserInfo = req.getUserFinger();
+
+                    app.update(_data, (err, result) => {
+                        if (!err) {
+                            response.done = true;
+                            response.result = result;
+                        } else {
+                            response.error = err.message;
+                        }
+                        res.json(response);
+                    });
                 });
             });
         }

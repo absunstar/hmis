@@ -28,11 +28,13 @@
                                 class="col4"
                                 ng-model="item.purchaseRequest"
                                 ng-change="item.itemsList=[]"
-                                display="title"
+                                display="code"
+                                display2="title"
                                 items="purchaseRequestList"
                                 label="##word.Purchase Request##"
                                 ng-search="item.$purchaseRequest"
                             ></i-list>
+
                             <div class="col2">
                                 <br />
                                 <i-button ng-if="item.source.id ==='1'" type="add" label="##word.Add##" ng-click="getRequestItems(item.purchaseRequest)"> </i-button>
@@ -51,11 +53,12 @@
                     <i-control class="col4" type="text" v="r" ng-model="item.importPermitNumber" label="##word.Import Permit Number##"></i-control>
                     <i-date class="col4" v="r" ng-model="item.importAuthorizationDate" label="##word.Import Authorization Date##"></i-date>
 
-                    <i-checkbox ng-model="item.hasVendor" ng-change="item.hasVendor? getVendors():''" class="col3" label="##word.Has Vendor##"></i-checkbox>
+                    <i-checkbox ng-model="item.hasVendor" class="col4" label="##word.Has Vendor##"></i-checkbox>
+
                     <i-list
-                        ng-if="item.hasVendor"
                         v="r"
                         class="col4"
+                        ng-if="item.hasVendor"
                         display="name##session.lang##"
                         ng-model="item.vendor"
                         items="vendorsList"
@@ -93,7 +96,7 @@
                     <i-control type="number" ng-model="orderItem.purchasePrice" label="##word.Price##"></i-control>
                 </div>
                 <div class="col1">
-                    <i-control type="number" ng-model="orderItem.discount" label="##word.Discount##"></i-control>
+                    <i-control type="number" ng-model="orderItem.bonus" label="##word.Bonus##"></i-control>
                 </div>
                 <div class="col2">
                     <i-control type="number" ng-model="orderItem.total" label="##word.Total##"></i-control>
@@ -113,7 +116,7 @@
                     <th>##word.Unit##</th>
                     <th>##word.Quantity##</th>
                     <th>##word.Purchase Price##</th>
-                    <th>##word.Discount##</th>
+                    <th>##word.Bonus##</th>
                     <th>##word.Total##</th>
                     <th>##word.Approved##</th>
                     <th class="not-print">##word.Actions##</th>
@@ -131,8 +134,8 @@
                         <i-control type="number" ng-if="!elem.approved" min="0.001" ng-model="elem.purchasePrice"></i-control>
                     </td>
                     <td class="text-center">
-                        <p ng-if="elem.approved" class="text-center">{{elem.discount}}</p>
-                        <i-control type="number" ng-if="!elem.approved" ng-model="elem.discount"></i-control>
+                        <p ng-if="elem.approved" class="text-center">{{elem.bonus}}</p>
+                        <i-control type="number" ng-if="!elem.approved" ng-model="elem.bonus"></i-control>
                     </td>
                     <td>
                         <p class="text-center">{{elem.total}}</p>

@@ -143,5 +143,10 @@
         "name": "Please Enter Purchase Price",
         "En": "Please Enter Purchase Price",
         "Ar": "يجب إدخال سعر الشراء"
+    },
+    {
+        "name": "Please Enter Validity Days",
+        "En": "Please Enter Validity Days",
+        "Ar": "يجب إدخال فترة الصلاحية"
     }
 ]

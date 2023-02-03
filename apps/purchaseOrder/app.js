@@ -181,9 +181,9 @@ module.exports = function init(site) {
 
                 app.$collection.find({ code: _data.code }, (err, doc) => {
                     if (doc) {
+                        response.done = false;
                         response.error = 'There Is Order Exisit With Same Code';
-                        res.json(response);
-                        return;
+                        return res.json(response);
                     }
                     _data.addUserInfo = req.getUserFinger();
 
@@ -194,13 +194,15 @@ module.exports = function init(site) {
                         } else {
                             response.error = err.mesage;
                         }
-                        if (_data.source.id === '1' && _data.purchaseRequest.id) {
-                            app.$purchaseRequestcollection.findOneAndUpdate({ id: _data.purchaseRequest.id }, { hasTransaction: true }, (err, doc) => {
-                                if (doc) {
-                                    res.json(response);
-                                }
-                            });
-                        }
+                        // if (_data.source?.id === '1' && _data.purchaseRequest.id) {
+                        //     app.$purchaseRequestcollection.update({ id: _data.purchaseRequest.id }, { hasTransaction: true }, (err, doc) => {
+                        //         if (doc) {
+                        //             console.log('doc', doc.id);
+
+                        res.json(response);
+                        // }
+                        //     });
+                        // }
                     });
                 });
             });
@@ -213,16 +215,23 @@ module.exports = function init(site) {
                 };
 
                 let _data = req.data;
-                _data.editUserInfo = req.getUserFinger();
-
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
-                    } else {
-                        response.error = err.message;
+                app.$collection.find({ code: _data.code }, (err, doc) => {
+                    if (doc) {
+                        response.error = 'There Is Order Exisit With Same Code';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
+                    _data.editUserInfo = req.getUserFinger();
+
+                    app.update(_data, (err, result) => {
+                        if (!err) {
+                            response.done = true;
+                            response.result = result;
+                        } else {
+                            response.error = err.message;
+                        }
+                        res.json(response);
+                    });
                 });
             });
         }

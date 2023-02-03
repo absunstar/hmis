@@ -9,13 +9,15 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         image: { url: '/images/storesItems.png' },
         allowSale: true,
         allowBuy: true,
-        workByBatch: false,
+        workByBatch: true,
         unitsList: [],
         workBySerial: false,
         showOnTouchScreen: false,
         collectionItem: false,
         noVat: false,
         validityDays: 0,
+        reorderLimit: 0,
+        maxCapacity: 0,
         active: true,
     };
     $scope.item = {};
@@ -37,6 +39,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         unit: {},
         quantity: 1,
     };
+    
     $scope.collectedItemUnits = [];
     $scope.showAdd = function (_item) {
         $scope.error = '';
@@ -97,9 +100,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         $scope.view(_item);
         $scope.item = {};
         site.showModal($scope.modalID);
-        $scope.itemUnit = { ..._item.itemUnit };
-        $scope.substance = { ..._item.substance };
-        $scope.collectedItem = { ..._item.collectedItem };
+
         $scope.itemUnit.mainUnit = _item.unitsList[0].unit;
         document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
@@ -144,6 +145,9 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
                 console.log(err);
             }
         );
+        $scope.itemUnit = { ..._item.itemUnit };
+        $scope.substance = { ..._item.substance };
+        $scope.collectedItem = { ..._item.collectedItem };
     };
 
     $scope.showView = function (_item) {
@@ -471,9 +475,9 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             purchasePrice: 0,
             sellingPrice: 0,
             averageCost: 0,
-            discount: 0,
+            saleDiscount: 0,
             maxDiscount: 0,
-            discountType: '',
+            discountType: 'percent',
             active: true,
         });
         $scope.unitsInformationsError = '';
@@ -574,6 +578,11 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
 
         if (_item.collectionItem && (!_item.collectedItemsList || _item.collectedItemsList.length < 2)) {
             $scope.error = '##word.Collected Items Must Be Greater Than Two Items##';
+            return success;
+        }
+
+        if (_item.workByBatch && _item.validityDays < 1) {
+            $scope.error = '##word.Please Enter Validity Days##';
             return success;
         }
 

@@ -7,27 +7,27 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: { url: '/images/purchaseOrder.png' },
-        source: {},
-        purchaseRequest: {},
+        source: undefined,
+        purchaseRequest: undefined,
         orderDate: new Date(),
-        paymentType: {},
+        paymentType: undefined,
         importPermitNumber: 0,
         importAuthorizationDate: new Date(),
-        store: {},
-        vendor: {},
-        hasVendor: false,
+        store: undefined,
+        vendor: undefined,
         itemsList: [],
+        hasVendor: true,
         approved: false,
         active: true,
     };
     $scope.item = {};
     $scope.list = [];
     $scope.orderItem = {
-        intem: {},
-        unit: {},
+        intem: undefined,
+        unit: undefined,
         quantity: 1,
         purchasePrice: 0,
-        discount: 0,
+        bonus: 0,
         vat: 0,
         total: 0,
         approved: false,
@@ -48,7 +48,9 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-
+        delete _item.purchaseRequest?.itemsList;
+        delete _item.purchaseRequest?.approved;
+        delete _item.purchaseRequest?.hasTransaction;
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -472,7 +474,7 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
             unit: orderItem.unit,
             quantity: orderItem.quantity,
             purchasePrice: orderItem.purchasePrice,
-            discount: orderItem.discount,
+            bonus: orderItem.bonus,
             total: orderItem.quantity * orderItem.purchasePrice,
             approved: orderItem.approved,
         });
@@ -512,6 +514,7 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
     $scope.getAll();
     $scope.getPaymentTypes();
     $scope.getPurchaseOrderSource();
+    $scope.getVendors();
     $scope.getStores();
     $scope.getStoresItems();
     $scope.getNumberingAuto();

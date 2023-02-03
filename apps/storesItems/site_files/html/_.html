@@ -20,6 +20,9 @@
                 <th class="w150">##word.logo##</th>
                 <th>##word.Code##</th>
                 <th>##word.Name##</th>
+                <th>##word.Collection Item##</th>
+                <th>##word.Medical Item##</th>
+                <th>##word.Work By##</th>
                 <th>##word.Status##</th>
                 <th class="not-print">##word.Actions##</th>
             </tr>
@@ -29,6 +32,20 @@
                 </td>
                 <td class="text-center blue">{{item.code}}</td>
                 <td class="text-center">{{item.name##session.lang##}}</td>
+                <td class="text-center">
+                    <span class="text-success" ng-show="item.collectionItem">##word.Yes##</span>
+                    <span class="text-danger" ng-show="!item.collectionItem">##word.No##</span>
+                </td>
+                <td class="text-center">
+                    <span class="text-success" ng-show="item.hasMedicalData">##word.Yes##</span>
+                    <span class="text-danger" ng-show="!item.hasMedicalData">##word.No##</span>
+                </td>
+
+                <td class="text-center">
+                    <span class="text-success" ng-show="item.workByBatch">##word.Work By Batch## {{item.validityDays}}##word.Days##</span>
+                    <span class="text-danger" ng-show="item.workBySerial">##word.Work By Serial##</span>
+                </td>
+
                 <td class="text-center">
                     <span class="text-success" ng-show="item.active">##word.Active##</span>
                     <span class="text-danger" ng-show="!item.active">##word.Not Active##</span>

@@ -1,82 +1,147 @@
 [
-  {
-    "name": "Print",
-    "En": "Print",
-    "Ar": "طباعة"
-  },
-  {
-    "name": "Export to excel",
-    "En": "Export to excel",
-    "Ar": "تصدير إلى إكسل"
-  },
-  {
-    "name": "New",
-    "En": "New",
-    "Ar": "جديد"
-  },
-  {
-    "name": "Accounting",
-    "En": "Accounting",
-    "Ar": "الحسابات"
-  },
-  {
-    "name": "Must Enter Code",
-    "En": "Must Enter Code",
-    "Ar": "يجب إدخال الكود"
-  },
-  {
-    "name": "Inventory",
-    "En": "Inventory",
-    "Ar": "المخازن"
-  },
-  {
-    "name": "Actions",
-    "En": "Actions",
-    "Ar": "الإجراءات"
-  },
-  {
-    "name": "Close",
-    "En": "Close",
-    "Ar": "إغلاق"
-  },
-  {
-    "name": "Name",
-    "En": "Name",
-    "Ar": "الإسم"
-  },
-  {
-    "name": "Add",
-    "En": "Add",
-    "Ar": "إضافة"
-  },
-  {
-    "name": "Edit",
-    "En": "Edit",
-    "Ar": "تعديل"
-  },
-  {
-    "name": "Delete",
-    "En": "Delete",
-    "Ar": "حذف"
-  },
-  {
-    "name": "Details",
-    "En": "Details",
-    "Ar": "تفاصيل"
-  },
-  {
-    "name": "Search All",
-    "En": "Search All",
-    "Ar": "البحث الشامل"
-  },
-  {
-    "name": "Active",
-    "En": "Active",
-    "Ar": "نشط"
-  },
-  {
-    "name": "Not Active",
-    "En": "Not Active",
-    "Ar": "غير نشط"
-  }
+    {
+        "name": "Print",
+        "En": "Print",
+        "Ar": "طباعة"
+    },
+    {
+        "name": "Export to excel",
+        "En": "Export to excel",
+        "Ar": "تصدير إلى إكسل"
+    },
+    {
+        "name": "New",
+        "En": "New",
+        "Ar": "جديد"
+    },
+    {
+        "name": "Accounting",
+        "En": "Accounting",
+        "Ar": "الحسابات"
+    },
+    {
+        "name": "Must Enter Code",
+        "En": "Must Enter Code",
+        "Ar": "يجب إدخال الكود"
+    },
+    {
+        "name": "Inventory",
+        "En": "Inventory",
+        "Ar": "المخازن"
+    },
+    {
+        "name": "Actions",
+        "En": "Actions",
+        "Ar": "الإجراءات"
+    },
+    {
+        "name": "Close",
+        "En": "Close",
+        "Ar": "إغلاق"
+    },
+    {
+        "name": "Name",
+        "En": "Name",
+        "Ar": "الإسم"
+    },
+    {
+        "name": "Add",
+        "En": "Add",
+        "Ar": "إضافة"
+    },
+    {
+        "name": "Edit",
+        "En": "Edit",
+        "Ar": "تعديل"
+    },
+    {
+        "name": "Delete",
+        "En": "Delete",
+        "Ar": "حذف"
+    },
+    {
+        "name": "Details",
+        "En": "Details",
+        "Ar": "تفاصيل"
+    },
+    {
+        "name": "Search All",
+        "En": "Search All",
+        "Ar": "البحث الشامل"
+    },
+    {
+        "name": "Active",
+        "En": "Active",
+        "Ar": "نشط"
+    },
+    {
+        "name": "Not Active",
+        "En": "Not Active",
+        "Ar": "غير نشط"
+    },
+    {
+        "name": "Must Enter One Item At Least",
+        "En": "Must Enter One Item At Least",
+        "Ar": "يجب إدخال صنف واحد علي الأقل"
+    },
+    {
+        "name": "Item Missing",
+        "En": "Item Missing",
+        "Ar": "رجاء إختيار الصنف"
+    },
+    {
+        "name": "Item Exisit",
+        "En": "Item Exisit",
+        "Ar": "الصنف موجود"
+    },
+    {
+        "name": "Please Enter Quantity",
+        "En": "Please Enter Quantity",
+        "Ar": "يرجي إدخال الكمية"
+    },
+    {
+        "name": "Active Substance Exisit",
+        "En": "Active Substance Exisit",
+        "Ar": "المادة الفعالة موجودة"
+    },
+    {
+        "name": "Concentration Required",
+        "En": "Concentration Required",
+        "Ar": "نسبة التركيز مطلوبة"
+    },
+    {
+        "name": "Unit Exisit",
+        "En": "Unit Exisit",
+        "Ar": "الوحدة مسجلة"
+    },
+    {
+        "name": "Item Unit Required",
+        "En": "Must Enter Item Unit",
+        "Ar": "يجب ادخال وحدة الصنف"
+    },
+    {
+        "name": "Conversion Required",
+        "En": "Conversion Must Be Greater Than Zero",
+        "Ar": "نسبة التحويل يجب ان تكون أكبر من صفر"
+    },
+    {
+        "name": "Unit Information Required",
+        "En": "Must Enter Item Units",
+        "Ar": "يجب إدخال وحدات الصنف"
+    },
+    {
+        "name": "Collected Items Must Be Greater Than Two Items",
+        "En": "Collected Items Must Be Greater Than Two Items",
+        "Ar": "يجب ان يحتوي الصنف المجمع علي صنفين علي الأقل"
+    },
+    {
+        "name": "Must Enter Activesubstance",
+        "En": "Must Enter Activesubstance",
+        "Ar": "يجب إدخال المواد الفعالة"
+    },
+    {
+        "name": "Please Enter Purchase Price",
+        "En": "Please Enter Purchase Price",
+        "Ar": "يجب إدخال سعر الشراء"
+    }
 ]

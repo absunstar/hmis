@@ -7,10 +7,11 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         requestDate: new Date(),
-        filesList: [{}],
+        filesList: [],
         itemsList: [],
         image: { url: '/images/purchaseRequest.png' },
         approved: false,
+        hasTransaction: false,
         active: true,
     };
     $scope.item = {};
@@ -18,19 +19,21 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
 
     $scope.selectItem = {
         item: {},
-        quantity: 0,
+        unit: {},
+        quantity: 1,
         approved: false,
     };
     $scope.date = {
         from: new Date(),
-        to: new Date()
-    }
-
+        to: new Date(),
+    };
 
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
         $scope.item = { ...$scope.structure };
+        $scope.selectItem = { ...$scope.selectItem };
+        $scope.date = { ...$scope.date };
         site.showModal($scope.modalID);
     };
 
@@ -126,20 +129,56 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
         if (!$scope.item.itemsList.length) {
             $scope.error = '##word.Must Enter One Item At Least##';
             return;
-
         }
 
-        if (_item.itemsList.some(itm => !itm.approve)) {
+        if (_item.itemsList.some((itm) => !itm.approved)) {
             $scope.error = '##word.Must Approve All Items##';
-            return
+            return;
         }
-
 
         _item['approved'] = true;
         $scope.busy = true;
         $http({
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/approve`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+
+    $scope.unapprove = function (_item) {
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+        if (!$scope.item.itemsList.length) {
+            $scope.error = '##word.Must Enter One Item At Least##';
+            return;
+        }
+
+        _item['approved'] = false;
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/unapprove`,
             data: _item,
         }).then(
             function (response) {
@@ -238,7 +277,7 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/all`,
             data: {
-                where: where
+                where: where,
             },
         }).then(
             function (response) {
@@ -249,7 +288,6 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
                     site.hideModal($scope.modalSearchID);
                     $scope.search = {};
                 }
-
             },
             function (err) {
                 $scope.busy = false;
@@ -297,8 +335,8 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
             approved: true,
             requestDate: {
                 from: $scope.date.from,
-                to: $scope.date.to
-            }
+                to: $scope.date.to,
+            },
         };
         $scope.getAll($scope.search);
         $scope.search = {};
@@ -309,8 +347,8 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
             approved: false,
             requestDate: {
                 from: $scope.date.from,
-                to: $scope.date.to
-            }
+                to: $scope.date.to,
+            },
         };
         $scope.getAll($scope.search);
         $scope.search = {};
@@ -321,13 +359,19 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
         $scope.storesItemsList = [];
         $http({
             method: 'POST',
-            url: '/api/storesItems/active',
+            url: '/api/storesItems/all',
             data: {
+                where: {
+                    active: true,
+                    allowBuy: true,
+                    collectionItem: false,
+                },
                 select: {
                     id: 1,
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
+                    unitsList: 1,
                 },
             },
         }).then(
@@ -358,16 +402,12 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
         }
 
         if (elem.quantity < 1) {
-            $scope.error = '##word.Item Quantity Missing##';
+            $scope.error = '##word.Please Enter Quantity ##';
             return;
         }
 
         $scope.item.itemsList.unshift(elem);
-        $scope.selectItem = {
-            item: {},
-            quantity: 0,
-            approved: false,
-        };
+        $scope.selectItem = { ...$scope.selectItem };
     };
 
     $scope.approveItem = function (elem) {
@@ -395,8 +435,21 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
             file_date: new Date(),
             file_upload_date: new Date(),
             upload_by: '##user.name##',
-        })
+        });
     };
+
+    $scope.getItemUnits = function (item) {
+        $scope.unitsList = [];
+        for (const elem of item.unitsList) {
+            $scope.unitsList.push({
+                id: elem.unit.id,
+                nameEn: elem.unit.nameEn,
+                nameAr: elem.unit.nameAr,
+            });
+            $scope.selectItem.unit = $scope.unitsList[0];
+        }
+    };
+
     $scope.getAll({ approved: false });
     $scope.getStoresItems();
     $scope.getNumberingAuto();

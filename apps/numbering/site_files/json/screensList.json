@@ -178,5 +178,17 @@
         "feature": "public",
         "id": "vendors",
         "name": "Vendors"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "purchaseRequest",
+        "name": "Purchase Request"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "purchaseOrder",
+        "name": "Purchase Order"
     }
 ]

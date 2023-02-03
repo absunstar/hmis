@@ -67,6 +67,7 @@ app.controller('storesUnits', function ($scope, $http, $timeout) {
       $scope.error = v.messages[0].ar;
       return;
     }
+    
     $scope.busy = true;
     $http({
       method: 'POST',

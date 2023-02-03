@@ -27,7 +27,17 @@
 
                 <div class="row">
                     <div class="row">
-                        <i-list class="col5" label="##word.Item##" ng-model="selectItem.item" items="storesItemsList" display="name##session.lang##" ng-search="item.$elemItem"> </i-list>
+                        <i-list
+                            class="col4"
+                            label="##word.Item##"
+                            ng-model="selectItem.item"
+                            ng-change="getItemUnits(selectItem.item)"
+                            items="storesItemsList"
+                            display="name##session.lang##"
+                            ng-get="getStoresItems()"
+                        >
+                        </i-list>
+                        <i-list class="col3" label="##word.Unit##" ng-model="selectItem.unit" items="unitsList" display="name##session.lang##" ng-search="item.$elemItem"> </i-list>
                         <i-control class="col3" type="number" min="1" label="##word.Quantity##" ng-model="selectItem.quantity"> </i-control>
                         <div class="col2">
                             <br />
@@ -37,10 +47,12 @@
                         </div>
                     </div>
 
-                    <table class="table hover bold" id="t1">
+                    <table class="table hover bold">
                         <tr>
                             <th>##word.S##</th>
                             <th>##word.Store Item##</th>
+                            <th>##word.Item Unit##</th>
+
                             <th>##word.Quantity##</th>
                             <th>##word.Approved##</th>
                             <th class="not-print">##word.Actions##</th>
@@ -48,6 +60,8 @@
                         <tr ng-repeat="elem in item.itemsList">
                             <td class="text-center">{{$index+1}}</td>
                             <td class="text-center">{{elem.item.name##session.lang##}}</td>
+                            <td class="text-center">{{elem.unit.name##session.lang##}}</td>
+
                             <td class="text-center">
                                 <i-control type="number" min="1" ng-show="!elem.approved" ng-model="elem.quantity"> </i-control>
                                 <span class="text-center" ng-show="elem.approved">{{elem.quantity}}</span>
@@ -74,6 +88,7 @@
         <tr>
             <th>##word.Add Info##</th>
             <th>##word.Last Edit Info##</th>
+            <th>##word.Approved Info##</th>
         </tr>
         <tr>
             <td class="center">
@@ -88,6 +103,13 @@
                 <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
                 <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
                 <p class="bold">IP : {{item.editUserInfo.ip}}</p>
+            </td>
+
+            <td class="center">
+                <p class="blue">{{item.approveUserInfo.name}}</p>
+                <small class="green"> {{item.approveUserInfo.date |date:"hh:mm"}} </small>
+                <small> {{item.approveUserInfo.date |date:"dd - MM - yyyy"}} </small>
+                <p class="bold">IP : {{item.approveUserInfo.ip}}</p>
             </td>
         </tr>
     </table>

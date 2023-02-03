@@ -41,8 +41,13 @@
                 <td class="text-center blue">{{item.code}}</td>
                 <td class="text-center">{{item.title}}</td>
                 <td class="text-center">{{item.requestDate |date:'dd/MM/yyyy' }} - {{item.requestDate |date:'hh:mm:ss a' }}</td>
+
                 <td class="text-center">
-                    <span class="text-success" ng-show="item.approved">##word.Yes##</span>
+               
+                    <span ng-show="item.approved">
+                        <span class="text-success text-center">##word.Yes##</span> {{item.approvedDate |date:'dd/MM/yyyy' }} - {{item.approvedDate |date:'hh:mm:ss a' }}
+                    </span>
+
                     <span class="text-danger" ng-show="!item.approved">##word.No##</span>
                 </td>
 
@@ -54,7 +59,7 @@
                 <td class="text-center not-print">
                     <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
-                    <i-button type="edit" ng-show="!item.approved" x-permissions="purchaseRequestUpdate || purchaseRequestManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
+                    <i-button type="edit" ng-show="!item.hasTransaction" x-permissions="purchaseRequestUpdate || purchaseRequestManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
 
                     <i-button type="delete" x-permissions="purchaseRequestDelete || purchaseRequestManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
                 </td>

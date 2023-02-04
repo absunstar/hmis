@@ -190,5 +190,11 @@
         "feature": "public",
         "id": "purchaseOrder",
         "name": "Purchase Order"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "customersGroup",
+        "name": "Customers Group"
     }
 ]

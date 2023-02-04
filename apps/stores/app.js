@@ -259,7 +259,7 @@ module.exports = function init(site) {
                 let list = [];
                 if (app.allowMemory) {
                     app.memoryList
-                        .filter((g) => g.company && g.branch && g.company.id == site.getCompany(req).id && g.branch.id == site.getBranch(req).code)
+                        .filter((g) => g.company && g.branch && g.company.id == site.getCompany(req).id && g.branch.id == site.getBranch(req).id)
                         .forEach((doc) => {
                             let obj = { ...doc };
 

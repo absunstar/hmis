@@ -23,7 +23,7 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
     $scope.item = {};
     $scope.list = [];
     $scope.orderItem = {
-        intem: undefined,
+        item: undefined,
         unit: undefined,
         quantity: 1,
         purchasePrice: 0,
@@ -51,6 +51,10 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
         delete _item.purchaseRequest?.itemsList;
         delete _item.purchaseRequest?.approved;
         delete _item.purchaseRequest?.hasTransaction;
+        let dataValid = $scope.validateData(_item);
+        if (!dataValid.success) {
+            return;
+        }
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -91,7 +95,13 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-
+        delete _item.purchaseRequest?.itemsList;
+        delete _item.purchaseRequest?.approved;
+        delete _item.purchaseRequest?.hasTransaction;
+        let dataValid = $scope.validateData(_item);
+        if (!dataValid.success) {
+            return;
+        }
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -345,6 +355,7 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
             url: '/api/stores/all',
             data: {
                 where: {
+                    'type.id': 1,
                     active: true,
                 },
                 select: {
@@ -469,6 +480,24 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
     };
 
     $scope.addToItemsList = function (orderItem) {
+        $scope.itemListError = '';
+        if (!orderItem.item) {
+            $scope.itemListError = '##word.Please Enter Item##';
+            return;
+        }
+        if (!orderItem?.unit.id) {
+            $scope.itemListError = '##word.Please Enter Item Unit##';
+            return;
+        }
+        if (!orderItem.quantity > 0) {
+            $scope.itemListError = '##word.Please Enter Quantity##';
+            return;
+        }
+        if (!orderItem.purchasePrice > 0) {
+            $scope.itemListError = '##word.Please Enter Purchase Price##';
+            return;
+        }
+
         $scope.item.itemsList.unshift({
             item: orderItem.item,
             unit: orderItem.unit,
@@ -479,9 +508,11 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
             approved: orderItem.approved,
         });
         $scope.orderItem = { ...$scope, orderItem };
+        $scope.itemListError = '';
     };
 
     $scope.getRequestItems = function (purchaseRequest) {
+        $scope.item.itemsList = [];
         for (const elem of purchaseRequest.itemsList) {
             $scope.item.itemsList.push({
                 item: elem.item,
@@ -510,6 +541,29 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
             }
         });
         $scope.itemListError = '';
+    };
+
+    $scope.calculateTotalInItemsList = function (itm) {
+        if (itm.quantity < 0 || itm.purchasePrice < 0) {
+            $scope.itemListError = '##word.Please Enter Valid Numbers##';
+            return;
+        }
+        $scope.item.itemsList.some((elem) => {
+            if (elem.item.id === itm.item.id && elem.unit.id === itm.unit.id) {
+                elem.total = elem.quantity * elem.purchasePrice;
+            }
+        });
+        $scope.itemListError = '';
+    };
+
+    $scope.validateData = function (_item) {
+        let success = false;
+        if (!_item.itemsList.length) {
+            $scope.itemListError = '##word.Must Enter Items Data##';
+            return success;
+        }
+        success = true;
+        return { success, _item };
     };
     $scope.getAll();
     $scope.getPaymentTypes();

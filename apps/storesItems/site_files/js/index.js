@@ -39,7 +39,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         unit: {},
         quantity: 1,
     };
-    
+
     $scope.collectedItemUnits = [];
     $scope.showAdd = function (_item) {
         $scope.error = '';
@@ -445,7 +445,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
 
     $scope.addItemUnitToItemUnitsList = function (itemUnit) {
         if ((!itemUnit.unit && !itemUnit.id) || (itemUnit.unit && !itemUnit.unit.id)) {
-            $scope.unitsInformationsError = '##word.Item Unit Required##';
+            $scope.unitsInformationsError = '##word.Please Enter Item Unit##';
             return;
         }
 
@@ -568,7 +568,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         let success = false;
 
         if (!_item.unitsList.length) {
-            $scope.error = '##word.Item Unit Required##';
+            $scope.error = '##word.Please Enter Item Unit##';
             return success;
         }
         if (_item.hasMedicalData && !_item.medicalInformations.activeSubstancesList?.length) {

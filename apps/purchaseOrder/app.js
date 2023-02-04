@@ -194,7 +194,7 @@ module.exports = function init(site) {
                         } else {
                             response.error = err.mesage;
                         }
-                        // if (_data.source?.id === '1' && _data.purchaseRequest.id) {
+                        // if (_data.source?.id === 1 && _data.purchaseRequest.id) {
                         //     app.$purchaseRequestcollection.update({ id: _data.purchaseRequest.id }, { hasTransaction: true }, (err, doc) => {
                         //         if (doc) {
                         //             console.log('doc', doc.id);
@@ -215,8 +215,9 @@ module.exports = function init(site) {
                 };
 
                 let _data = req.data;
-                app.$collection.find({ code: _data.code }, (err, doc) => {
+                app.$collection.find({ code: _data.code, id: { $ne: _data.id } }, (err, doc) => {
                     if (doc) {
+                              response.done = false;
                         response.error = 'There Is Order Exisit With Same Code';
                         res.json(response);
                         return;

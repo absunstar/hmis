@@ -85,8 +85,8 @@
         "Ar": "يجب إدخال صنف واحد علي الأقل"
     },
     {
-        "name": "Item Missing",
-        "En": "Item Missing",
+        "name": "Please Enter Item",
+        "En": "Please Enter Item",
         "Ar": "رجاء إختيار الصنف"
     },
     {
@@ -115,7 +115,7 @@
         "Ar": "الوحدة مسجلة"
     },
     {
-        "name": "Item Unit Required",
+        "name": "Please Enter Item Unit",
         "En": "Must Enter Item Unit",
         "Ar": "يجب ادخال وحدة الصنف"
     },
@@ -148,5 +148,10 @@
         "name": "Please Enter Validity Days",
         "En": "Please Enter Validity Days",
         "Ar": "يجب إدخال فترة الصلاحية"
+    },
+    {
+        "name": "Must Enter Items Data",
+        "En": "Must Enter Items Data",
+        "Ar": "يجب إدخال بيانات الأصناف"
     }
 ]

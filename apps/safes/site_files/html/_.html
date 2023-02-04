@@ -20,6 +20,7 @@
                 <th class="w150">##word.logo##</th>
                 <th>##word.Code##</th>
                 <th>##word.Name##</th>
+                <th>##word.Type##</th>
                 <th>##word.Balance##</th>
                 <th>##word.Status##</th>
                 <th class="not-print">##word.Actions##</th>
@@ -30,6 +31,7 @@
                 </td>
                 <td class="text-center blue">{{item.code}}</td>
                 <td class="text-center">{{item.name##session.lang##}}</td>
+                <td class="text-center">{{item.type.name##session.lang##}}</td>
                 <td class="text-center">{{item.balance |number:'0.000'}}</td>
                 <td class="text-center">
                     <span class="text-success" ng-show="item.active">##word.Active##</span>

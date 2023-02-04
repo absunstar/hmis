@@ -73,15 +73,13 @@ module.exports = function init(site) {
         { id: 'f', nameEn: 'Female', nameAr: 'أنثى' },
     ];
     site.storesTypes = [
-        { id: '1', nameEn: 'Normal', nameAr: 'عادي' },
-        { id: '2', nameEn: 'Synth', nameAr: 'توالف' },
-        { id: '3', nameEn: 'Wholesale', nameAr: 'جملة' },
-        { id: '4', nameEn: 'Section', nameAr: 'قطاعي' },
+        { id: 1, code: '001', nameEn: 'Main Store', nameAr: 'رئيسي' },
+        { id: 2, code: '002', nameEn: 'Sub Store', nameAr: 'فرعي' },
     ];
     site.safesTypes = [
-        { id: '1', nameEn: 'Cash', nameAr: 'نقدي' },
-        { id: '2', nameEn: 'Bank', nameAr: 'بنك' },
-        { id: '3', nameEn: 'Bank Account', nameAr: 'حساب بنكي' },
+        { id: 1, code: '001', nameEn: 'Cash', nameAr: 'نقدي' },
+        { id: 2, code: '002', nameEn: 'Bank', nameAr: 'بنك' },
+        { id: 3, code: '003', nameEn: 'Bank Account', nameAr: 'حساب بنكي' },
     ];
 
     site.servicesTypeGroups = [
@@ -96,12 +94,12 @@ module.exports = function init(site) {
         { id: 7, code: 'U', nameEn: 'Unknown', nameAr: 'مجهول' },
     ];
     site.itemsTypes = [
-        { id: '1', nameEn: 'Store Category', nameAr: 'صنف مخزني' },
-        { id: '2', nameEn: 'Service Class', nameAr: 'صنف خدمي' },
+        { id: 1, code: '001', nameEn: 'Store Category', nameAr: 'صنف مخزني' },
+        { id: 2, code: '002', nameEn: 'Service Class', nameAr: 'صنف خدمي' },
     ];
     site.purchaseOrderSource = [
-        { id: '1', code: '001', nameEn: 'Purchase Request', nameAr: 'طلب شراء' },
-        { id: '2', code: '002', nameEn: 'Order / Invoice', nameAr: 'أمر شراء / فاتورة' },
+        { id: 1, code: '001', nameEn: 'Purchase Request', nameAr: 'طلب شراء' },
+        { id: 2, code: '002', nameEn: 'Order / Invoice', nameAr: 'أمر شراء / فاتورة' },
     ];
     site.post('/api/patientTypes', (req, res) => {
         res.json({

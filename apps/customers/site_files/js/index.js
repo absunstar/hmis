@@ -7,16 +7,28 @@ app.controller('customers', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: { url: '/images/customer.png' },
+        commercialCustomer: false,
+        group: undefined,
+        purchaseMaturityPeriod: 0,
+        creditLimit: 0,
         active: true,
     };
     $scope.item = {};
     $scope.list = [];
 
+    $scope.setCommercialInformations = function () {
+        $scope.item.bankInformationsList = [];
+        $scope.item.branchesList = [];
+        $scope.item.purchaseMaturityPeriod = 0;
+        $scope.item.creditLimit = 0;
+        $scope.item.commercialCustomer ? document.querySelector(`${$scope.modalID} .tab-link`).click() : '';
+    };
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
         $scope.item = { ...$scope.structure };
         site.showModal($scope.modalID);
+        $scope.item.commercialCustomer ? document.querySelector(`${$scope.modalID} .tab-link`).click() : '';
     };
 
     $scope.add = function (_item) {
@@ -58,6 +70,7 @@ app.controller('customers', function ($scope, $http, $timeout) {
         $scope.view(_item);
         $scope.item = {};
         site.showModal($scope.modalID);
+        document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
     $scope.update = function (_item) {
@@ -98,6 +111,7 @@ app.controller('customers', function ($scope, $http, $timeout) {
         $scope.item = {};
         $scope.view(_item);
         site.showModal($scope.modalID);
+        document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
     $scope.view = function (_item) {
@@ -130,6 +144,7 @@ app.controller('customers', function ($scope, $http, $timeout) {
         $scope.item = {};
         $scope.view(_item);
         site.showModal($scope.modalID);
+        document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
     $scope.delete = function (_item) {
@@ -176,6 +191,8 @@ app.controller('customers', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     image: 1,
                     active: 1,
+                    group: 1,
+                    commercialCustomer: 1,
                 },
             },
         }).then(
@@ -229,6 +246,38 @@ app.controller('customers', function ($scope, $http, $timeout) {
         $scope.search = {};
     };
 
+    $scope.getCustomersGroups = function () {
+        $scope.busy = true;
+        $scope.customersGroupsList = [];
+        $http({
+            method: 'POST',
+            url: '/api/customersGroup/all',
+            data: {
+                where: {
+                    active: true,
+                },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.customersGroupsList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
     $scope.getAll();
     $scope.getNumberingAuto();
+    $scope.getCustomersGroups();
 });

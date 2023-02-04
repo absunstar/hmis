@@ -6,10 +6,8 @@
                     <i-control ng-hide="disabledCode" class="col9" label="##word.Code##" ng-model="item.code"> </i-control>
                     <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
                 </div>
-                <i-list help-id="" v="r" label="##word.Type##" ng-model="item.type" display="name##session.lang##" items="safesTypesList" ng-search="item.$type"></i-list>
                 <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
                 <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
-                <i-control type="number" v="r" ng-model="item.balance" label="##word.Balance##"></i-control>
             </div>
         </div>
         <div class="col5 center">
@@ -21,8 +19,8 @@
 <div ng-show="mode !== 'add' " class="row">
     <table class="table hover border">
         <tr>
-            <th>##word.addUserInfo##</th>
-            <th>##word.editUserInfo##</th>
+            <th>##word.Add Info##</th>
+            <th>##word.Last Edit Info##</th>
         </tr>
         <tr>
             <td class="center">

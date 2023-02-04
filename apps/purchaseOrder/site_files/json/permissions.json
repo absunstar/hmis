@@ -1,11 +1,14 @@
 [
-    { "moduleName" : "public" , "screenName" : "nationalities" , "name":"nationalitiesManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "nationalities" , "name":"nationalitiesAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "nationalities" , "name":"nationalitiesUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "nationalities" , "name":"nationalitiesDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "nationalities" , "name":"nationalitiesView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "nationalities" , "name":"nationalitiesSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "nationalities" , "name":"nationalitiesExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "nationalities" , "name":"nationalitiesPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "nationalities" , "name":"nationalitiesUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderManage", "en": "Manage", "ar": "إدارة" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderAdd", "en": "Add", "ar": "إضافة" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderUpdate", "en": "Edit", "ar": "تعديل" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderDelete", "en": "Delete", "ar": "حذف" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderView", "en": "View", "ar": "عرض" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderSearch", "en": "Search", "ar": "بحث" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderExport", "en": "Export", "ar": "تصدير" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderPrint", "en": "Print", "ar": "طباعة" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderUi", "en": "UI", "ar": "الواجهة الرسومية" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderItem", "en": "Approve Item", "ar": "إعتماد أصناف فاتورة مشتريات" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "unapprovePurchaseOrderItem", "en": "Unapprove Item", "ar": "إلغاء إعتماد أصناف فاتورة شراء" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrder", "en": "Approve Order", "ar": "إعتماد فاتورة مشتريات" }
 ]

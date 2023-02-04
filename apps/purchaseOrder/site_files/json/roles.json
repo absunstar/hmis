@@ -1,7 +1,9 @@
-[{
-    "moduleName" : "public" ,
-    "name": "nationalitiesAdmin",
-    "en": "Nationalities Admin",
-    "ar": "إدارة الجنسيات",
-    "permissions": ["nationalitiesManage"]
-}]
+[
+    {
+        "moduleName": "public",
+        "name": "approvePurchaseOrderAdmin",
+        "en": "Approve Purchase Order Admin",
+        "ar": "إدارة فواتير الشراء",
+        "permissions": ["purchaseOrderManage"]
+    }
+]

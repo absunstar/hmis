@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "customersGroup" , "name":"customersGroupManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "customersGroup" , "name":"customersGroupAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "customersGroup" , "name":"customersGroupUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "customersGroup" , "name":"customersGroupDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "customersGroup" , "name":"customersGroupView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "customersGroup" , "name":"customersGroupSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "customersGroup" , "name":"customersGroupExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "customersGroup" , "name":"customersGroupPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "customersGroup" , "name":"customersGroupUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+]

@@ -391,7 +391,7 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
     $scope.addItem = function (elem) {
         $scope.error = '';
         if (!elem.item.id) {
-            $scope.error = '##word.Item Missing##';
+            $scope.error = '##word.Please Enter Item##';
             return;
         }
         for (const itm of $scope.item.itemsList) {

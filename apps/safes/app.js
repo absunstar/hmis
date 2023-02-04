@@ -138,6 +138,7 @@ module.exports = function init(site) {
   };
 
   if (app.allowRoute) {
+    b;
     if (app.allowRouteGet) {
       site.get({
         name: '/',

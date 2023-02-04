@@ -19,7 +19,6 @@
     <div class="row padding">
       <div class="row">
         <i-list
-          help-id=""
           label="##word.Service##"
           class="col8"
           ng-model="item.$service"
@@ -44,7 +43,7 @@
             <td class="text-center">{{s.name##session.lang##}}</td>
 
             <td class="text-center not-print">
-              <i-button type="delete default" ng-click="item.servicesCategoriesList.splice($index,1)"> </i-button>
+              <i-button type="delete default" ng-click="item.servicesList.splice($index,1)"> </i-button>
             </td>
           </tr>
         </table>

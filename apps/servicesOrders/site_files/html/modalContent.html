@@ -64,7 +64,7 @@
             <tr>
               <td class="bg-theme">##word.Patient Type##</td>
               <td class="center">
-                <p class="height-5">{{item.patient.patientType.name##session.lang##}} ({{item.patient.patientType.code}})</p>
+                <p class="height-5">{{item.patient.patientType.name##session.lang##}} ( <span class="blue">{{item.patient.patientType.code}}</span> )</p>
               </td>
               <td class="bg-theme">##word.Marital Status##</td>
               <td class="center">
@@ -77,10 +77,12 @@
               </td>
             </tr>
 
-            <tr>
+            <tr ng-show="item.patient.insuranceCompany.id">
               <td class="bg-theme">##word.Insurance Company##</td>
               <td class="center" colspan="5">
-                <p class="height-5">{{item.patient.insuranceCompany.name##session.lang##}} ({{item.patient.insuranceCompany.code}}) - {{item.patient.insuranceClass.name}}</p>
+                <p class="height-5">
+                  {{item.patient.insuranceCompany.name##session.lang##}} ( <span class="blue">{{item.patient.insuranceCompany.code}}</span> ) - {{item.patient.insuranceClass.name##session.lang##}}
+                </p>
               </td>
             </tr>
           </table>
@@ -88,22 +90,22 @@
       </fieldset>
       <fieldset class="col3">
         <div class="row">
-          <div class="row margin">
+          <div class="row margin disapled">
             <p class="bold col4">##word.NPHIS## :</p>
             <i-radio ng-model="item.nphis" class="col4" ng-value="elig" label="##word.Elig##"> </i-radio>
             <i-radio ng-model="item.nphis" class="col4" ng-value="nElig" label="##word.N/Elig##"></i-radio>
           </div>
 
-          <div class="row margin">
-            <p class="bold col4">##word.Type## :</p>
-            <i-radio ng-model="item.type" class="col4" ng-value="out" label="##word.Out##"> </i-radio>
-            <i-radio ng-model="item.type" class="col4" ng-value="in" label="##word.In##"></i-radio>
-          </div>
-
-          <div class="row margin">
+          <div class="row margin disapled">
             <p class="bold col4">##word.Payment## :</p>
             <i-radio ng-model="item.payment" class="col4" ng-value="cash" label="##word.Cash##"></i-radio>
             <i-radio ng-model="item.payment" class="col4" ng-value="credit" label="##word.Credit##"> </i-radio>
+          </div>
+
+          <div class="row margin ">
+            <p class="bold col4">##word.Type## :</p>
+            <i-radio ng-model="item.type" class="col4" ng-value="out" label="##word.Out##"> </i-radio>
+            <i-radio ng-model="item.type" class="col4" ng-value="in" label="##word.In##"></i-radio>
           </div>
 
           <div class="row margin">
@@ -117,14 +119,14 @@
   </div>
   <div class="row padding">
     <fieldset>
-      <div class="row"  ng-class="{disapled : item.id}">
+      <div class="row" ng-class="{disapled : item.id}">
         <i-list help-id="" label="##word.Service##" class="col7" ng-model="item.$service" display="name##session.lang##" items="servicesList" ng-search="item.$services"></i-list>
         <div class="col4">
           <br />
           <i-button type="add" label="##word.Add Service##" ng-click="addServices(item)"></i-button>
         </div>
       </div>
-      <div class="row"  ng-class="{disapled : item.id}">
+      <div class="row" ng-class="{disapled : item.id}">
         <table class="table hover bold">
           <tr>
             <th>##word.Name##</th>

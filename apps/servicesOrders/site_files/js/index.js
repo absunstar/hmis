@@ -6,9 +6,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope.structure = {
     date: new Date(),
-    nphis: 'elig',
-    type: 'out',
-    nphis: 'elig',
+    type : 'out'
   };
   $scope.item = {};
   $scope.list = [];
@@ -275,6 +273,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
 
   $scope.getMainIncuranceFromSub = function (insuranceCompany) {
     $scope.busy = true;
+    console.log($scope.item.patient);
     $http({
       method: 'POST',
       url: '/api/mainIncurances/fromSub',
@@ -286,6 +285,43 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
         $scope.busy = false;
         if (response.data.done && response.data.doc) {
           $scope.item.mainInsuranceCompany = response.data.doc;
+          if ($scope.item.patient.insuranceClass && $scope.item.patient.insuranceClass.id) {
+            $scope.getNphisElig($scope.item.patient.insuranceClass.id);
+          } else {
+            $scope.item.nphis = 'nElig';
+            $scope.item.payment = 'cash';
+          }
+        } else {
+          $scope.item.nphis = 'nElig';
+          $scope.item.payment = 'cash';
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getNphisElig = function (insuranceClassId) {
+    $scope.busy = true;
+    $http({
+      method: 'POST',
+      url: '/api/nphisElig/patient',
+      data: {
+        insuranceClassId,
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done) {
+          if (response.data.elig) {
+            $scope.item.nphis = 'elig';
+            $scope.item.payment = 'credit';
+          } else {
+            $scope.item.nphis = 'nElig';
+            $scope.item.payment = 'cash';
+          }
         }
       },
       function (err) {
@@ -369,6 +405,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           nameAr: 1,
           serviceGroup: 1,
           creditPriceOut: 1,
+          cashPriceOut: 1,
           cashPriceIn: 1,
           creditPriceIn: 1,
           packagePrice: 1,
@@ -391,48 +428,87 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
 
   $scope.addServices = function (_item) {
     $scope.error = '';
-
-    $http({
-      method: 'POST',
-      url: '/api/serviceMainIncurance',
-      data: {
-        insuranceCompanyId: _item.patient.insuranceCompany.id,
-        patientClassId : _item.patient.insuranceClass.id,
-        service: _item.$service,
-        payment: _item.payment,
-        type: _item.type,
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.doc) {
-          $scope.item.mainInsuranceCompany = response.data.doc;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-
     if (_item.$service && _item.$service.id) {
-      if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
-        let obj = {
-          ..._item.$service,
-          qty: 1,
-        };
-        if (_item.doctor && _item.doctor.hospitalCenter) {
-          obj.hospitalCenter = { ..._item.doctor.hospitalCenter };
+      $http({
+        method: 'POST',
+        url: '/api/serviceMainIncurance',
+        data: {
+          mainInsuranceCompany: $scope.item.mainInsuranceCompany,
+          patientClass: _item.patient.insuranceClass,
+          service: _item.$service,
+          payment: _item.payment,
+          type: _item.type,
+        },
+      }).then(
+        function (response) {
+          $scope.busy = false;
+          let service = {};
+          if (response.data.done && response.data.doc) {
+            service = { ...response.data.doc, qty: 1 };
+          } else {
+            service = {
+              id: _item.$service.id,
+              nameAr: _item.$service.nameAr,
+              nameEn: _item.$service.nameEn,
+              vat :  _item.$service.vat,
+              discount : 0,
+              comVat : 0,
+              pVat : 0,
+              qty: 1,
+            };
+            if ($scope.item.type == 'out') {
+              if ($scope.item.payment == 'cash') {
+                service.price = $scope.item.$service.creditPriceOut;
+              } else if ($scope.item.payment == 'credit') {
+                service.price = $scope.item.$service.creditPriceOut;
+              }
+            } else if ($scope.item.type == 'in') {
+              if ($scope.item.payment == 'cash') {
+                service.price = $scope.item.$service.cashPriceIn;
+              } else if ($scope.item.payment == 'credit') {
+                service.price = $scope.item.$service.creditPriceIn;
+              }
+            }
+            service.total = service.price  + (service.price * service.vat) / 100;
+            service.total = site.toNumber(service.total);
+          }
+          if (_item.doctor && _item.doctor.hospitalCenter) {
+            service.hospitalCenter = { ..._item.doctor.hospitalCenter };
+          }
+          if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
+            _item.servicesList.push(service);
+          } else {
+            _item.servicesList.forEach((_s) => {
+              if (_s.id === _item.$service.id) {
+                _s.qty += 1;
+                $scope.calc(_item);
+              }
+            });
+          }
+          _item.$service = {};
+        },
+        function (err) {
+          $scope.busy = false;
+          $scope.error = err;
         }
-
-        _item.servicesList.push(obj);
-      }
-      _item.$service = {};
+      );
     } else {
       $scope.error = 'Must Select Service';
       return;
     }
   };
+
+  $scope.calc = function (_item) {
+    $scope.error = '';
+    $timeout(() => {
+
+
+      _item.servicesList.forEach((_service) => {
+
+      })
+    }, 300);
+  };
+
 
   $scope.showSearch = function () {
     $scope.error = '';

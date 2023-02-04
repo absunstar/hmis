@@ -287,15 +287,20 @@ module.exports = function init(site) {
     let _data = req.data;
     let incuranceContract = appIncuranceContract.memoryList.find((_c) => _c.insuranceCompany.id == _data.insuranceCompany);
     if (incuranceContract) {
-      app.view({ id: incuranceContract.mainInsuranceCompany.id }, (err, doc) => {
-        if (!err && doc) {
-          response.done = true;
-          response.doc = doc;
-        } else {
-          response.error = err?.message || 'Not Exists';
-        }
+      if (new Date() >= new Date(incuranceContract.startDate) && new Date() <= new Date(incuranceContract.endDate)) {
+        app.view({ id: incuranceContract.mainInsuranceCompany.id }, (err, doc) => {
+          if (!err && doc) {
+            response.done = true;
+            response.doc = doc;
+          } else {
+            response.error = err?.message || 'Not Exists';
+          }
+          res.json(response);
+        });
+      } else {
+        response.error = "The insurance company's contract date is invalid";
         res.json(response);
-      });
+      }
     } else {
       response.error = 'Not Exists';
       res.json(response);
@@ -306,8 +311,9 @@ module.exports = function init(site) {
     let response = {
       done: false,
     };
+
     let _data = req.data;
-    let mainIncurance = app.memoryList.find((_c) => _c.insuranceCompany.id == _data.insuranceCompanyId);
+    let mainIncurance = app.memoryList.find((_c) => _data.mainInsuranceCompany && _c.id == _data.mainInsuranceCompany.id);
     if (mainIncurance) {
       response.done = true;
       let foundService = false;
@@ -316,7 +322,7 @@ module.exports = function init(site) {
         mainIncurance.coverageServicesList.forEach((_cService) => {
           if (_cService.id == _data.service.id) {
             _cService.incuranceClassesList.forEach((_iClass) => {
-              if (_data.patientClassId == _iClass.id) {
+              if (_data.patientClass && _data.patientClass.id == _iClass.id) {
                 foundService = true;
                 service = {
                   id: _data.service.id,
@@ -334,11 +340,11 @@ module.exports = function init(site) {
             });
           }
         });
-      } else if (!foundService && mainIncurance.coverageServicesGroupsList && mainIncurance.coverageServicesGroupsList.length > 0) {
+      } if (!foundService && mainIncurance.coverageServicesGroupsList && mainIncurance.coverageServicesGroupsList.length > 0) {
         mainIncurance.coverageServicesGroupsList.forEach((_cGroup) => {
           if (!foundService && _cGroup.id == _data.service.serviceGroup.id) {
             _cGroup.incuranceClassesList.forEach((_iClass) => {
-              if (_data.patientClassId == _iClass.id) {
+              if (_data.patientClass && _data.patientClass.id == _iClass.id) {
                 service = {
                   id: _data.service.id,
                   nameAr: _data.service.nameAr,
@@ -363,7 +369,7 @@ module.exports = function init(site) {
                   category.servicesList.forEach((_s) => {
                     if (_s.id == _data.service.id) {
                       _cGroup.incuranceClassesList.forEach((_iClass) => {
-                        if (_data.patientClassId == _iClass.id) {
+                        if (_data.patientClass && _data.patientClass.id == _iClass.id) {
                           foundService = true;
                           service = {
                             id: _data.service.id,
@@ -386,14 +392,14 @@ module.exports = function init(site) {
             }
           }
         });
-      } else if (!foundService && mainIncurance.coverageServicesCategoriesList && mainIncurance.coverageServicesCategoriesList.length > 0) {
+      } if (!foundService && mainIncurance.coverageServicesCategoriesList && mainIncurance.coverageServicesCategoriesList.length > 0) {
         mainIncurance.coverageServicesCategoriesList.forEach((_cCategory) => {
           let category = appServicesCategory.memoryList.find((_c) => _c.id == _cCategory.id);
           if (category && category.servicesList && category.servicesList.length > 0) {
             category.servicesList.forEach((_s) => {
               if (_s.id == _data.service.id) {
                 _cCategory.incuranceClassesList.forEach((_iClass) => {
-                  if (_data.patientClassId == _iClass.id) {
+                  if (_data.patientClass && _data.patientClass.id == _iClass.id) {
                     foundService = true;
                     service = {
                       id: _data.service.id,
@@ -413,7 +419,7 @@ module.exports = function init(site) {
             });
           }
         });
-      } else if (!foundService && mainIncurance.discountServicesList && mainIncurance.discountServicesList.length > 0) {
+      } if (!foundService && mainIncurance.discountServicesList && mainIncurance.discountServicesList.length > 0) {
         mainIncurance.discountServicesList.forEach((_cService) => {
           if (_cService.id == _data.service.id) {
             foundService = true;
@@ -448,7 +454,7 @@ module.exports = function init(site) {
             service.total = service.price - (service.price * service.discount) / 100;
           }
         });
-      } else if (!foundService && mainIncurance.discountServicesGroupsList && mainIncurance.discountServicesGroupsList.length > 0) {
+      } if (!foundService && mainIncurance.discountServicesGroupsList && mainIncurance.discountServicesGroupsList.length > 0) {
         mainIncurance.discountServicesGroupsList.forEach((_cGroup) => {
           if (!foundService && _cGroup.id == _data.service.serviceGroup.id) {
             service = {
@@ -525,7 +531,7 @@ module.exports = function init(site) {
             }
           }
         });
-      } else if (!foundService && mainIncurance.discountServicesCategoriesList && mainIncurance.discountServicesCategoriesList.length > 0) {
+      } if (!foundService && mainIncurance.discountServicesCategoriesList && mainIncurance.discountServicesCategoriesList.length > 0) {
         mainIncurance.discountServicesCategoriesList.forEach((_cCategory) => {
           let category = appServicesCategory.memoryList.find((_c) => _c.id == _cCategory.id);
           if (category && category.servicesList && category.servicesList.length > 0) {
@@ -564,12 +570,11 @@ module.exports = function init(site) {
           }
         });
       }
-
       if (foundService) {
         response.done = true;
         response.doc = service;
       } else {
-        response.error = err?.message || 'Not Exists';
+        response.error = 'Not Exists';
       }
       res.json(response);
     } else {

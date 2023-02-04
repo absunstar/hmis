@@ -258,7 +258,12 @@ module.exports = function init(site) {
                       });
                     }
                   });
-
+                  if(branchList.length === 0){
+                    branchList.push({
+                      company : {nameEn : 'main company'},
+                      branch : {nameEn : 'main branch'}
+                    })
+                  }
                   response.list = branchList;
                 } else {
                   let branchList = [];

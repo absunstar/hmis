@@ -262,44 +262,51 @@ module.exports = function init(site) {
                         response.error = err.message;
                     }
                     const storesItemsApp = site.getApp('storesItems');
-                    for (const elem of _data.itemsList) {
-                        // storesItemsApp.$collection.find({ where: { id: elem.item.id }, set: { hasTransaction: true } });
-                        const purchasePrice = elem.purchasePrice / elem.quantity;
-                        storesItemsApp.$collection.find({ where: { id: elem.item.id } }, (err, doc) => {
+                    for (const itm of _data.itemsList) {
+                        const purchasePrice = itm.purchasePrice / itm.quantity;
+                        storesItemsApp.$collection.find({ where: { id: itm.item.id } }, (err, doc) => {
                             if (doc && doc.unitsList) {
-                                // console.log('length', doc.unitsList.storesList);
-
-                                for (const unit of doc.unitsList) {
-                                    // for (const store of unit.storesList) {
-                                    if (!unit.storesList.length) {
-                                        unit.storesList.push({
-                                            store: _data.store,
-                                            purchaseCount: elem.quantity,
-                                            purchasePrice,
-                                            purchaseReturnCount: 0,
-                                            purchaseReturnPrice: 0,
-                                            salesCount: 0,
-                                            salesPrice: 0,
-                                            salesReturnCount: 0,
-                                            salesReturnPrice: 0,
-                                            bonusCount: elem.bonus,
-                                            bonusPrice: 0,
-                                            damagedCount: 0,
-                                            damagedPrice: 0,
-                                            assembledCount: 0,
-                                            assembledPrice: 0,
-                                            unassembledCount: 0,
-                                            unassembledPrice: 0,
-                                        });
-                                    } else {
+                                for (const elem of doc.unitsList) {
+                                    if (itm.unit.id === elem.unit.id) {
+                                        if (!elem.storesList.length) {
+                                            elem.storesList.push({
+                                                store: _data.store,
+                                                purchaseCount: itm.quantity,
+                                                purchasePrice: purchasePrice,
+                                                purchaseReturnCount: 0,
+                                                purchaseReturnPrice: 0,
+                                                salesCount: 0,
+                                                salesPrice: 0,
+                                                salesReturnCount: 0,
+                                                salesReturnPrice: 0,
+                                                bonusCount: itm.bonusCount,
+                                                bonusPrice: itm.bonusPrice,
+                                                bonusPrice: 0,
+                                                damagedCount: 0,
+                                                damagedPrice: 0,
+                                                assembledCount: 0,
+                                                assembledPrice: 0,
+                                                unassembledCount: 0,
+                                                unassembledPrice: 0,
+                                            });
+                                        } else {
+                                            for (const str of elem.storesList) {
+                                                if (str.store.id === _data.store.id) {
+                                                    str.purchaseCount += itm.quantity;
+                                                    str.purchasePrice += purchasePrice;
+                                                    str.bonusCount += itm.bonusCount;
+                                                    str.bonusPrice += itm.bonusPrice;
+                                                }
+                                            }
+                                        }
                                     }
-                                    storesItemsApp.$collection.update({ where: { id: elem.item.id }, set: { 'unit.storesList': unit.storesList } });
-                                    // }
                                 }
                             }
+              
+                            storesItemsApp.$collection.update(doc);
                         });
                     }
-                    // res.json(response);
+                    res.json(response);
                 });
             });
         }

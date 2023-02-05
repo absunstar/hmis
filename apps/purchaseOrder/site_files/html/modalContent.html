@@ -106,7 +106,7 @@
                     <i-control type="number" min="0" ng-model="orderItem.purchasePrice" label="##word.Price##"></i-control>
                 </div>
                 <div class="col2">
-                    <i-control type="number" min="0" ng-model="orderItem.bonus" label="##word.Bonus##"></i-control>
+                    <i-control type="number" min="0" ng-model="orderItem.bonusCount" label="##word.Bonus##"></i-control>
                 </div>
 
                 <div class="col1">
@@ -157,8 +157,8 @@
                         ></i-control>
                     </td>
                     <td class="text-center">
-                        <p ng-if="elem.approved" class="text-center">{{elem.bonus}}</p>
-                        <i-control type="number" ng-if="!elem.approved" ng-model="elem.bonus"></i-control>
+                        <p ng-if="elem.approved" class="text-center">{{elem.bonusCount}}</p>
+                        <i-control type="number" ng-if="!elem.approved" ng-model="elem.bonusCount"></i-control>
                     </td>
                     <td>
                         <p class="text-center">{{elem.total}}</p>
@@ -178,7 +178,7 @@
                         </i-button>
                         <i-button
                             type="unapprove"
-                            ng-if="elem.approved && mode =='edit'"
+                            ng-if="elem.approved &&!item.approved  && mode =='edit'"
                             x-permissions="unapprovePurchaseOrderItem || purchaseOrderManage"
                             label="##word.Unapprove##"
                             ng-click="unapproveItem(elem)"

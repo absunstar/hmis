@@ -92,6 +92,9 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
                 console.log(err);
             }
         );
+        $scope.itemUnit = { ..._item.itemUnit };
+        $scope.substance = { ..._item.substance };
+        $scope.collectedItem = { ..._item.collectedItem };
     };
 
     $scope.showUpdate = function (_item) {

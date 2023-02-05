@@ -30,7 +30,8 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
         unit: undefined,
         quantity: 1,
         purchasePrice: 0,
-        bonus: 0,
+        bonusCount: 0,
+        bonusPrice: 0,
         vat: 0,
         total: 0,
         approved: false,
@@ -207,7 +208,9 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/all`,
             data: {
-                where: where,
+                where: {
+                    approved: false,
+                },
                 select: {
                     id: 1,
                     code: 1,
@@ -222,6 +225,7 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
                     image: 1,
                     active: 1,
                     approved: 1,
+                    approvedDate: 1,
                 },
             },
         }).then(
@@ -507,7 +511,8 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
             unit: orderItem.unit,
             quantity: orderItem.quantity,
             purchasePrice: orderItem.purchasePrice,
-            bonus: orderItem.bonus,
+            bonusPrice: orderItem.bonusPrice,
+            bonusCount: orderItem.bonusCount,
             total: orderItem.quantity * orderItem.purchasePrice,
             approved: orderItem.approved,
             purchaseCost: 0,
@@ -524,7 +529,8 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
                 unit: elem.unit,
                 quantity: elem.quantity,
                 purchasePrice: 0,
-                bonus: 0,
+                bonusCount: 0,
+                bonusPrice: 0,
                 discount: 0,
                 total: 0,
             });
@@ -595,6 +601,8 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
         if (!dataValid.success) {
             return;
         }
+        _item.approved = true;
+        _item.approvedDate = new Date();
         $scope.busy = true;
         $http({
             method: 'POST',

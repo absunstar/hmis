@@ -1,0 +1,9 @@
+[
+    {
+        "moduleName": "public",
+        "name": "storesItemsCardAdmin",
+        "en": "Stores Items Card Admin",
+        "ar": "إدارة الجنسيات",
+        "permissions": ["storesItemsCardManage"]
+    }
+]

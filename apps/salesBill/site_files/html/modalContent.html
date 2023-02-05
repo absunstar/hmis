@@ -1,0 +1,116 @@
+<div class="row">
+    <fieldset>
+        <legend>##word.Basic Informations##</legend>
+        <div class="row padding">
+            <div class="col7">
+                <div class="row">
+                    <div class="row">
+                        <i-control ng-hide="disabledCode" class="col4" label="##word.Code##" ng-model="item.code"> </i-control>
+                        <i-date class="col4" label="##word.Date##" ng-model="item.date"> </i-date>
+                        <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
+                    </div>
+                    <i-list type="text" v="r" ng-model="item.customer" label="##word.Customer##" items="customersList" display="name##session.lang##"></i-list>
+                </div>
+            </div>
+            <div class="col5 center">
+                <i-image class="img256 center" ng-model="item.image"></i-image>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>##word.Items Information##</legend>
+        <div class="row" ng-if="item.source.id !== 1">
+            <div class="col2">
+                <i-list
+                    ng-model="orderItem.item"
+                    ng-change="orderItem.item? getItemUnits(orderItem.item):''"
+                    items="itemsList"
+                    display="name##session.lang##"
+                    label="##word.Item##"
+                    ng-search="orderItem.$selectItem"
+                ></i-list>
+            </div>
+            <div class="col2">
+                <i-list ng-model="orderItem.unit" items="unitsList" display="name##session.lang##" label="##word.Unit##" ng-search="orderItem.$unit"></i-list>
+            </div>
+
+            <div class="col2">
+                <i-control type="number" min="1" ng-model="orderItem.quantity" label="##word.Quantity##"></i-control>
+            </div>
+            <div class="col2">
+                <i-control type="number" min="0" ng-model="orderItem.purchasePrice" label="##word.Price##"></i-control>
+            </div>
+
+            <div class="col2">
+                <br />
+                <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
+            </div>
+        </div>
+
+        <p class="error">{{itemListError}}</p>
+        <table class="table hover bold">
+            <tr>
+                <th>##word.S##</th>
+                <th>##word.Item##</th>
+                <th>##word.Unit##</th>
+                <th>##word.Quantity##</th>
+                <th>##word.Purchase Price##</th>
+                <th>##word.Bonus##</th>
+                <th>##word.Total##</th>
+                <th>##word.Approved##</th>
+                <th class="not-print">##word.Actions##</th>
+            </tr>
+            <tr ng-repeat="elem in item.itemsList">
+                <td class="text-center">{{$index+1}}</td>
+                <td class="text-center">{{elem.item.name##session.lang##}}</td>
+                <td class="text-center">{{elem.unit.name##session.lang##}}</td>
+                <td class="text-center">
+                    <p ng-if="item.source.id === 1 || elem.approved" class="text-center">{{elem.quantity}}</p>
+                    <i-control ng-if="item.source.id !== 1 && !elem.approved" min="0" type="number" ng-model="elem.quantity"></i-control>
+                </td>
+                <td class="text-center">
+                    <p ng-if=" elem.approved" class="text-center">{{elem.purchasePrice}}</p>
+                    <i-control type="number" ng-if="!elem.approved" min="0" ng-model="elem.purchasePrice"></i-control>
+                </td>
+                <td class="text-center">
+                    <p ng-if="elem.approved" class="text-center">{{elem.bonus}}</p>
+                    <i-control type="number" ng-if="!elem.approved" ng-model="elem.bonus"></i-control>
+                </td>
+                <td>
+                    <p class="text-center">{{elem.total}}</p>
+                </td>
+                <td>
+                    <p class="text-center text-success" ng-if="elem.approved">##word.Yes##</p>
+                    <p class="text-center text-danger" ng-if="!elem.approved">##word.No##</p>
+                </td>
+                <td class="text-center">
+                    <i-button type="delete" ng-if="item.source.id !== 1" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+</div>
+<div ng-show="mode !== 'add' " class="row">
+    <table class="table hover border">
+        <tr>
+            <th>##word.Add Info##</th>
+            <th>##word.Last Edit Info##</th>
+        </tr>
+        <tr>
+            <td class="center">
+                <p class="blue">{{item.addUserInfo.name}}</p>
+                <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
+                <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
+                <p class="bold">IP : {{item.addUserInfo.ip}}</p>
+            </td>
+
+            <td class="center">
+                <p class="blue">{{item.editUserInfo.name}}</p>
+                <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
+                <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
+                <p class="bold">IP : {{item.editUserInfo.ip}}</p>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -153,5 +153,20 @@
         "name": "Must Enter Items Data",
         "En": "Must Enter Items Data",
         "Ar": "يجب إدخال بيانات الأصناف"
+    },
+    {
+        "name": "Same Store",
+        "En": "Canot Transfer To Same Store",
+        "Ar": "لايمكن التحويل لنفس المخزن"
+    },
+    {
+        "name": "Please Select Calculate Purchase Cost Type",
+        "En": "Please Select Calculate Purchase Cost Type",
+        "Ar": "يرجي إختيار نوع حساب تكلفة الشراء"
+    },
+    {
+        "name": "Please Enter Calculate Purchase Cost",
+        "En": "Please Enter Calculate Purchase Cost",
+        "Ar": "يرجي إدخال قيمة تكلفة الشراء"
     }
 ]

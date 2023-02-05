@@ -74,14 +74,14 @@
                                 <i-button type="delete" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
                                 <i-button
                                     type="approve"
-                                    ng-show="elem.approved"
+                                    ng-show="elem.approved &&  mode == 'edit'"
                                     ng-click="unapproveItem(elem)"
                                     x-permissions="unApprovePurchaseRequest||purchaseRequestManage"
                                     label="##word.Unapprove##"
                                 ></i-button>
                                 <i-button
                                     type="unapprove"
-                                    ng-show="!elem.approved"
+                                    ng-show="!elem.approved && mode == 'edit'"
                                     ng-click="approveItem(elem)"
                                     x-permissions="approvePurchaseRequest||purchaseRequestManage"
                                     label="##word.Approve##"

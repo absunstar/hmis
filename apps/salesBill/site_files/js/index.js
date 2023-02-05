@@ -1,40 +1,32 @@
-app.controller('purchaseRequest', function ($scope, $http, $timeout) {
+app.controller('salesBill', function ($scope, $http, $timeout) {
     $scope.baseURL = '';
-    $scope.appName = 'purchaseRequest';
-    $scope.modalID = '#purchaseRequestManageModal';
-    $scope.modalSearchID = '#purchaseRequestSearchModal';
+    $scope.appName = 'salesBill';
+    $scope.modalID = '#salesBillManageModal';
+    $scope.modalSearchID = '#salesBillSearchModal';
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
-        requestDate: new Date(),
-        filesList: [],
-        itemsList: [],
-        image: { url: '/images/purchaseRequest.png' },
-        approved: false,
-        hasTransaction: false,
+        image: { url: '/images/salesBill.png' },
+        date: new Date(),
+
         active: true,
     };
-    $scope.canApprove = false;
     $scope.item = {};
     $scope.list = [];
 
-    $scope.selectItem = {
-        item: {},
-        unit: {},
+    $scope.orderItem = {
+        item: undefined,
+        unit: undefined,
         quantity: 1,
-        approved: false,
-    };
-    $scope.date = {
-        from: new Date(),
-        to: new Date(),
+        purchasePrice: 0,
+        vat: 0,
+        total: 0,
     };
 
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
         $scope.item = { ...$scope.structure };
-        $scope.selectItem = { ...$scope.selectItem };
-        $scope.date = { ...$scope.date };
         site.showModal($scope.modalID);
     };
 
@@ -46,10 +38,6 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
             return;
         }
 
-        if (!$scope.item.itemsList.length) {
-            $scope.error = '##word.Must Enter One Item At Least##';
-            return;
-        }
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -80,7 +68,6 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
         $scope.mode = 'edit';
         $scope.view(_item);
         $scope.item = {};
-        $scope.prpepareToApproveOrder(_item);
         site.showModal($scope.modalID);
     };
 
@@ -91,96 +78,10 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-        if (!$scope.item.itemsList.length) {
-            $scope.error = '##word.Must Enter One Item At Least##';
-            return;
-        }
-
         $scope.busy = true;
         $http({
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/update`,
-            data: _item,
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done) {
-                    site.hideModal($scope.modalID);
-                    site.resetValidated($scope.modalID);
-                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
-                    if (index !== -1) {
-                        $scope.list[index] = response.data.result.doc;
-                    }
-                } else {
-                    $scope.error = 'Please Login First';
-                }
-            },
-            function (err) {
-                console.log(err);
-            }
-        );
-    };
-
-    $scope.approve = function (_item) {
-        $scope.error = '';
-        const v = site.validated($scope.modalID);
-        if (!v.ok) {
-            $scope.error = v.messages[0].ar;
-            return;
-        }
-        if (!$scope.item.itemsList.length) {
-            $scope.error = '##word.Must Enter One Item At Least##';
-            return;
-        }
-
-        if (_item.itemsList.some((itm) => !itm.approved)) {
-            $scope.error = '##word.Must Approve All Items##';
-            return;
-        }
-
-        _item['approved'] = true;
-        $scope.busy = true;
-        $http({
-            method: 'POST',
-            url: `${$scope.baseURL}/api/${$scope.appName}/approve`,
-            data: _item,
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done) {
-                    site.hideModal($scope.modalID);
-                    site.resetValidated($scope.modalID);
-                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
-                    if (index !== -1) {
-                        $scope.list[index] = response.data.result.doc;
-                    }
-                } else {
-                    $scope.error = 'Please Login First';
-                }
-            },
-            function (err) {
-                console.log(err);
-            }
-        );
-    };
-
-    $scope.unapprove = function (_item) {
-        $scope.error = '';
-        const v = site.validated($scope.modalID);
-        if (!v.ok) {
-            $scope.error = v.messages[0].ar;
-            return;
-        }
-        if (!$scope.item.itemsList.length) {
-            $scope.error = '##word.Must Enter One Item At Least##';
-            return;
-        }
-
-        _item['approved'] = false;
-        $scope.busy = true;
-        $http({
-            method: 'POST',
-            url: `${$scope.baseURL}/api/${$scope.appName}/unapprove`,
             data: _item,
         }).then(
             function (response) {
@@ -274,7 +175,6 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
     $scope.getAll = function (where) {
         $scope.busy = true;
         $scope.list = [];
-
         $http({
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/all`,
@@ -332,41 +232,96 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
         $scope.search = {};
     };
 
-    $scope.getApproved = function () {
-        $scope.search = {
-            approved: true,
-            requestDate: {
-                from: $scope.date.from,
-                to: $scope.date.to,
+    $scope.getCustomers = function () {
+        $scope.busy = true;
+        $scope.customersList = [];
+        $http({
+            method: 'POST',
+            url: '/api/customers/all',
+            data: {
+                where: {
+                    active: true,
+                },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                    commercialCustomer: 1,
+                    creditLimit: 1,
+                    group: 1,
+                },
             },
-        };
-        $scope.getAll($scope.search);
-        $scope.search = {};
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.customersList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
     };
 
-    $scope.getUnapproved = function () {
-        $scope.search = {
-            approved: false,
-            requestDate: {
-                from: $scope.date.from,
-                to: $scope.date.to,
-            },
-        };
-        $scope.getAll($scope.search);
-        $scope.search = {};
+    $scope.getItemUnits = function (item) {
+        $scope.unitsList = [];
+
+        for (const elem of item.unitsList) {
+            $scope.unitsList.push({
+                id: elem.unit.id,
+                nameEn: elem.unit.nameEn,
+                nameAr: elem.unit.nameAr,
+            });
+            $scope.orderItem.unit = $scope.unitsList[0];
+        }
+    };
+
+    $scope.addToItemsList = function (orderItem) {
+        $scope.itemListError = '';
+        if (!orderItem.item) {
+            $scope.itemListError = '##word.Please Enter Item##';
+            return;
+        }
+        
+        if (!orderItem?.unit.id) {
+            $scope.itemListError = '##word.Please Enter Item Unit##';
+            return;
+        }
+
+        if (!orderItem.quantity > 0) {
+            $scope.itemListError = '##word.Please Enter Quantity##';
+            return;
+        }
+
+        if (!orderItem.purchasePrice > 0) {
+            $scope.itemListError = '##word.Please Enter Purchase Price##';
+            return;
+        }
+
+        $scope.item.itemsList.unshift({
+            item: orderItem.item,
+            unit: orderItem.unit,
+            quantity: orderItem.quantity,
+            purchasePrice: orderItem.purchasePrice,
+            total: orderItem.quantity * orderItem.purchasePrice,
+        });
+        $scope.orderItem = { ...$scope, orderItem };
+        $scope.itemListError = '';
     };
 
     $scope.getStoresItems = function () {
         $scope.busy = true;
-        $scope.storesItemsList = [];
+        $scope.itemsList = [];
         $http({
             method: 'POST',
             url: '/api/storesItems/all',
             data: {
                 where: {
                     active: true,
-                    allowBuy: true,
-                    collectionItem: false,
+                    allowSale: true,
                 },
                 select: {
                     id: 1,
@@ -380,7 +335,7 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
             function (response) {
                 $scope.busy = false;
                 if (response.data.done && response.data.list.length > 0) {
-                    $scope.storesItemsList = response.data.list;
+                    $scope.itemsList = response.data.list;
                 }
             },
             function (err) {
@@ -390,80 +345,8 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.addItem = function (elem) {
-        $scope.error = '';
-        if (!elem.item.id) {
-            $scope.error = '##word.Please Enter Item##';
-            return;
-        }
-        for (const itm of $scope.item.itemsList) {
-            if (itm.item.id === elem.item.id) {
-                $scope.error = '##word.Item Exisit##';
-                return;
-            }
-        }
-
-        if (elem.quantity < 1) {
-            $scope.error = '##word.Please Enter Quantity ##';
-            return;
-        }
-
-        $scope.item.itemsList.unshift(elem);
-        $scope.selectItem = { ...$scope.selectItem };
-    };
-
-    $scope.approveItem = function (elem) {
-        $scope.error = '';
-        for (const itm of $scope.item.itemsList) {
-            if (itm.item.id === elem.item.id) {
-                itm.approved = true;
-            }
-        }
-        $scope.prpepareToApproveOrder($scope.item);
-    };
-
-    $scope.unapproveItem = function (elem) {
-        $scope.error = '';
-        for (const itm of $scope.item.itemsList) {
-            if (itm.item.id === elem.item.id) {
-                itm.approved = false;
-                $scope.canApprove = false;
-            }
-        }
-    };
-
-    $scope.addFiles = function () {
-        $scope.error = '';
-        $scope.item.filesList = $scope.item.filesList || [];
-        $scope.item.filesList.push({
-            file_date: new Date(),
-            file_upload_date: new Date(),
-            upload_by: '##user.name##',
-        });
-    };
-
-    $scope.getItemUnits = function (item) {
-        $scope.unitsList = [];
-        for (const elem of item.unitsList) {
-            $scope.unitsList.push({
-                id: elem.unit.id,
-                nameEn: elem.unit.nameEn,
-                nameAr: elem.unit.nameAr,
-            });
-            $scope.selectItem.unit = $scope.unitsList[0];
-        }
-    };
-
-    $scope.prpepareToApproveOrder = function (_item) {
-        _item.itemsList.every((elem) => {
-            if (elem.approved) {
-                return ($scope.canApprove = true);
-            }
-            $scope.canApprove = false;
-        });
-    };
-
-    $scope.getAll({ hasTransaction: false });
+    $scope.getAll();
     $scope.getStoresItems();
+    $scope.getCustomers();
     $scope.getNumberingAuto();
 });

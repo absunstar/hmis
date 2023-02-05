@@ -196,5 +196,23 @@
         "feature": "public",
         "id": "customersGroup",
         "name": "Customers Group"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "transferItems",
+        "name": "Transfer Items"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "storesItemsCard",
+        "name": "Stores Items Card"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "salesBill",
+        "name": "Sales Bill"
     }
 ]

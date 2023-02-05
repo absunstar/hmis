@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "storesItemsCard" , "name":"storesItemsCardManage" , "en":"Manage" , "ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "storesItemsCard" , "name":"storesItemsCardAdd" , "en":"Add" , "ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "storesItemsCard" , "name":"storesItemsCardUpdate" , "en":"Edit" , "ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "storesItemsCard" , "name":"storesItemsCardDelete" , "en":"Delete" , "ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "storesItemsCard" , "name":"storesItemsCardView" , "en":"View" , "ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "storesItemsCard" , "name":"storesItemsCardSearch" , "en":"Search" , "ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "storesItemsCard" , "name":"storesItemsCardExport" , "en":"Export" , "ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "storesItemsCard" , "name":"storesItemsCardPrint" , "en":"Print" , "ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "storesItemsCard" , "name":"storesItemsCardUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+]

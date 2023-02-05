@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "salesBill" , "name":"salesBillManage" , "en":"Manage" , "ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "salesBill" , "name":"salesBillAdd" , "en":"Add" , "ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "salesBill" , "name":"salesBillUpdate" , "en":"Edit" , "ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "salesBill" , "name":"salesBillDelete" , "en":"Delete" , "ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "salesBill" , "name":"salesBillView" , "en":"View" , "ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "salesBill" , "name":"salesBillSearch" , "en":"Search" , "ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "salesBill" , "name":"salesBillExport" , "en":"Export" , "ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "salesBill" , "name":"salesBillPrint" , "en":"Print" , "ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "salesBill" , "name":"salesBillUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+]

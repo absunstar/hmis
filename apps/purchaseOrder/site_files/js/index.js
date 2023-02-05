@@ -18,6 +18,9 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
         itemsList: [],
         hasVendor: true,
         approved: false,
+        calculatePurchaseCost: false,
+        calculatePurchaseCostType: { bill: 'bill', items: 'items' },
+        purchaseCost: 0,
         active: true,
     };
     $scope.item = {};
@@ -32,7 +35,7 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
         total: 0,
         approved: false,
     };
-
+    $scope.canApprove = false;
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
@@ -85,6 +88,7 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
         $scope.mode = 'edit';
         $scope.view(_item);
         $scope.item = {};
+        $scope.prpepareToApproveOrder(_item);
         site.showModal($scope.modalID);
     };
 
@@ -506,6 +510,7 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
             bonus: orderItem.bonus,
             total: orderItem.quantity * orderItem.purchasePrice,
             approved: orderItem.approved,
+            purchaseCost: 0,
         });
         $scope.orderItem = { ...$scope, orderItem };
         $scope.itemListError = '';
@@ -519,6 +524,7 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
                 unit: elem.unit,
                 quantity: elem.quantity,
                 purchasePrice: 0,
+                bonus: 0,
                 discount: 0,
                 total: 0,
             });
@@ -540,7 +546,17 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
                 elem.approved = true;
             }
         });
+        $scope.prpepareToApproveOrder($scope.item);
         $scope.itemListError = '';
+    };
+
+    $scope.unapproveItem = function (item) {
+        $scope.item.itemsList.forEach((elem) => {
+            if (elem.item == item.item) {
+                elem.approved = false;
+                $scope.canApprove = false;
+            }
+        });
     };
 
     $scope.calculateTotalInItemsList = function (itm) {
@@ -556,15 +572,76 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
         $scope.itemListError = '';
     };
 
+    $scope.prpepareToApproveOrder = function (_item) {
+        _item.itemsList.every((elem) => {
+            if (elem.approved) {
+                return ($scope.canApprove = true);
+            }
+            $scope.canApprove = false;
+        });
+    };
+
+    $scope.approve = function (_item) {
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+        delete _item.purchaseRequest?.itemsList;
+        delete _item.purchaseRequest?.approved;
+        delete _item.purchaseRequest?.hasTransaction;
+        let dataValid = $scope.validateData(_item);
+        if (!dataValid.success) {
+            return;
+        }
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/approve`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+
     $scope.validateData = function (_item) {
+        $scope.itemListError = '';
+        $scope.error = '';
         let success = false;
         if (!_item.itemsList.length) {
             $scope.itemListError = '##word.Must Enter Items Data##';
             return success;
         }
+        if (_item.calculatePurchaseCost) {
+            if (!_item.calculatePurchaseCostType) {
+                alert('##word.Please Select Calculate Purchase Cost Type##');
+                return success;
+            }
+            if (!_item.purchaseCost > 0) {
+                alert('##word.Please Enter Calculate Purchase Cost##');
+                return success;
+            }
+        }
         success = true;
         return { success, _item };
     };
+
     $scope.getAll();
     $scope.getPaymentTypes();
     $scope.getPurchaseOrderSource();

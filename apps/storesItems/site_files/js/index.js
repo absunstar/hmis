@@ -478,6 +478,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             saleDiscount: 0,
             maxDiscount: 0,
             discountType: 'percent',
+            storesList: [],
             active: true,
         });
         $scope.unitsInformationsError = '';

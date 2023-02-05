@@ -2,7 +2,7 @@
     <div class="row padding">
         <fieldset>
             <legend>##word.Basic Information##</legend>
-            <div class="col7">
+            <div class="col9">
                 <div class="row">
                     <div class="row">
                         <i-control ng-hide="disabledCode" class="col4" label="##word.Code##" ng-model="item.code"> </i-control>
@@ -67,8 +67,18 @@
                     ></i-list>
                     <i-list v="r" class="col4" display="name##session.lang##" ng-model="item.store" items="storesList" label="##word.Store##" ng-search="item.$store"></i-list>
                 </div>
+
+                <fieldset>
+                    <legend>##word.Calculate Purchase Price Informations##</legend>
+                    <div class="row">
+                        <i-checkbox ng-model="item.calculatePurchaseCost" class="col3" label="##word.Calculate Purchase Price##"></i-checkbox>
+                        <i-radio ng-if="item.calculatePurchaseCost" class="col1" label="##word.Bill##" ng-value="bill" ng-model="item.calculatePurchaseCostType"> </i-radio>
+                        <i-radio ng-if="item.calculatePurchaseCost" class="col1" label="##word.Items##" ng-value="items" ng-model="item.calculatePurchaseCostType"> </i-radio>
+                        <i-control ng-if="item.calculatePurchaseCost" class="col3" type="number" min="0" ng-model="item.purchaseCost" label="##word.Purchase Cost##"></i-control>
+                    </div>
+                </fieldset>
             </div>
-            <div class="col5 center">
+            <div class="col3 center">
                 <i-image class="img256 center" ng-model="item.image"></i-image>
             </div>
         </fieldset>
@@ -98,7 +108,6 @@
                 <div class="col2">
                     <i-control type="number" min="0" ng-model="orderItem.bonus" label="##word.Bonus##"></i-control>
                 </div>
-
 
                 <div class="col1">
                     <br />
@@ -161,13 +170,19 @@
                     <td class="text-center">
                         <i-button
                             type="approve"
-                            ng-if="!elem.approved &&!item.approved"
+                            ng-if="!elem.approved &&!item.approved && mode == 'edit'"
                             x-permissions="approvePurchaseOrderItem || purchaseOrderManage"
                             label="##word.Approve##"
                             ng-click="approveItem(elem)"
                         >
                         </i-button>
-                        <i-button type="unapprove" ng-if="elem.approved" x-permissions="unapprovePurchaseOrderItem || purchaseOrderManage" label="##word.Unapprove##" ng-click="elem.approved=false">
+                        <i-button
+                            type="unapprove"
+                            ng-if="elem.approved && mode =='edit'"
+                            x-permissions="unapprovePurchaseOrderItem || purchaseOrderManage"
+                            label="##word.Unapprove##"
+                            ng-click="unapproveItem(elem)"
+                        >
                         </i-button>
                         <i-button type="delete" ng-if="item.source.id !== 1" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
                     </td>

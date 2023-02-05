@@ -45,8 +45,6 @@ module.exports = function init(site) {
             if (app.allowMemory && !err && doc) {
                 app.memoryList.push(doc);
             }
-            let app2 = site.getApp('purchaseRequest');
-            app2.$collection.update({ where: { id: '' }, set: { hasTransaction: true } });
         });
     };
     app.update = function (_item, callback) {
@@ -195,15 +193,12 @@ module.exports = function init(site) {
                         } else {
                             response.error = err.mesage;
                         }
-                        // if (_data.source?.id === 1 && _data.purchaseRequest.id) {
-                        //     app.$purchaseRequestcollection.update({ id: _data.purchaseRequest.id }, { hasTransaction: true }, (err, doc) => {
-                        //         if (doc) {
-                        //             console.log('doc', doc.id);
 
-                        res.json(response);
-                        // }
-                        //     });
-                        // }
+                        if (_data.source.id === 1 && _data.purchaseRequest && _data.purchaseRequest.id) {
+                            const purchaseRequestApp = site.getApp('purchaseRequest');
+                            purchaseRequestApp.$collection.update({ where: { id: _data.purchaseRequest.id }, set: { hasTransaction: true } });
+                            res.json(response);
+                        }
                     });
                 });
             });
@@ -247,6 +242,18 @@ module.exports = function init(site) {
                 let _data = req.data;
                 _data.approveUserInfo = req.getUserFinger();
 
+                if (_data.itemsList.length) {
+                    if (_data.calculatePurchaseCost) {
+                        if (_data.calculatePurchaseCostType && _data.calculatePurchaseCostType === 'items') {
+                            const itemsCount = _data.itemsList + 1;
+                            const itemPurchaseCost = _data.purchaseCost / itemsCount;
+                            for (const item of _data.itemsList) {
+                                const itemPurchasePriceCost = itemPurchaseCost / item.quantity;
+                                item.purchaseCost = itemPurchasePriceCost;
+                            }
+                        }
+                    }
+                }
                 app.update(_data, (err, result) => {
                     if (!err) {
                         response.done = true;
@@ -254,7 +261,45 @@ module.exports = function init(site) {
                     } else {
                         response.error = err.message;
                     }
-                    res.json(response);
+                    const storesItemsApp = site.getApp('storesItems');
+                    for (const elem of _data.itemsList) {
+                        // storesItemsApp.$collection.find({ where: { id: elem.item.id }, set: { hasTransaction: true } });
+                        const purchasePrice = elem.purchasePrice / elem.quantity;
+                        storesItemsApp.$collection.find({ where: { id: elem.item.id } }, (err, doc) => {
+                            if (doc && doc.unitsList) {
+                                // console.log('length', doc.unitsList.storesList);
+
+                                for (const unit of doc.unitsList) {
+                                    // for (const store of unit.storesList) {
+                                    if (!unit.storesList.length) {
+                                        unit.storesList.push({
+                                            store: _data.store,
+                                            purchaseCount: elem.quantity,
+                                            purchasePrice,
+                                            purchaseReturnCount: 0,
+                                            purchaseReturnPrice: 0,
+                                            salesCount: 0,
+                                            salesPrice: 0,
+                                            salesReturnCount: 0,
+                                            salesReturnPrice: 0,
+                                            bonusCount: elem.bonus,
+                                            bonusPrice: 0,
+                                            damagedCount: 0,
+                                            damagedPrice: 0,
+                                            assembledCount: 0,
+                                            assembledPrice: 0,
+                                            unassembledCount: 0,
+                                            unassembledPrice: 0,
+                                        });
+                                    } else {
+                                    }
+                                    storesItemsApp.$collection.update({ where: { id: elem.item.id }, set: { 'unit.storesList': unit.storesList } });
+                                    // }
+                                }
+                            }
+                        });
+                    }
+                    // res.json(response);
                 });
             });
         }

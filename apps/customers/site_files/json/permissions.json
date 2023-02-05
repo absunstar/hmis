@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "customers" , "name":"customersUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

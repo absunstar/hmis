@@ -2,8 +2,8 @@
     {
         "moduleName": "public",
         "name": "transferItemsAdmin",
-        "en": "transferItems Admin",
-        "ar": "إدارة تحويل الأصناف",
+        "En": "transferItems Admin",
+        "Ar": "إدارة تحويل الأصناف",
         "permissions": ["transferItemsManage"]
     }
 ]

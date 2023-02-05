@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "rays" , "name":"raysManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "rays" , "name":"raysAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "rays" , "name":"raysUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "rays" , "name":"raysDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "rays" , "name":"raysView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "rays" , "name":"raysSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "rays" , "name":"raysExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "rays" , "name":"raysPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "rays" , "name":"raysUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+]

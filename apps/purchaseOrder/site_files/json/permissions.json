@@ -1,14 +1,14 @@
 [
-    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderManage", "en": "Manage", "ar": "إدارة" },
-    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderAdd", "en": "Add", "ar": "إضافة" },
-    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderUpdate", "en": "Edit", "ar": "تعديل" },
-    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderDelete", "en": "Delete", "ar": "حذف" },
-    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderView", "en": "View", "ar": "عرض" },
-    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderSearch", "en": "Search", "ar": "بحث" },
-    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderExport", "en": "Export", "ar": "تصدير" },
-    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderPrint", "en": "Print", "ar": "طباعة" },
-    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderUi", "en": "UI", "ar": "الواجهة الرسومية" },
-    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderItem", "en": "Approve Item", "ar": "إعتماد أصناف فاتورة مشتريات" },
-    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "unapprovePurchaseOrderItem", "en": "Unapprove Item", "ar": "إلغاء إعتماد أصناف فاتورة شراء" },
-    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrder", "en": "Approve Order", "ar": "إعتماد فاتورة مشتريات" }
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderManage", "En": "Manage", "Ar": "إدارة" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderAdd", "En": "Add", "Ar": "إضافة" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderUpdate", "En": "Edit", "Ar": "تعديل" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderDelete", "En": "Delete", "Ar": "حذف" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderView", "En": "View", "Ar": "عرض" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderSearch", "En": "Search", "Ar": "بحث" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderExport", "En": "Export", "Ar": "تصدير" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderPrint", "En": "Print", "Ar": "طباعة" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderUi", "En": "UI", "Ar": "الواجهة الرسومية" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrderItem", "En": "Approve Item", "Ar": "إعتماد أصناف فاتورة مشتريات" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "unapprovePurchaseOrderItem", "En": "Unapprove Item", "Ar": "إلغاء إعتماد أصناف فاتورة شراء" },
+    { "moduleName": "public", "screenName": "approvePurchaseOrder", "name": "approvePurchaseOrder", "En": "Approve Order", "Ar": "إعتماد فاتورة مشتريات" }
 ]

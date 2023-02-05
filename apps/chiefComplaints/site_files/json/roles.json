@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "chiefComplaintsAdmin",
+    "En": "Chief Complaints Admin",
+    "Ar": "إدارة شكاوى الرئيس",
+    "permissions": ["chiefComplaintsManage"]
+}]

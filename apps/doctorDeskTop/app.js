@@ -274,9 +274,10 @@ module.exports = function init(site) {
     }
   }
 
-  site.on('[doctorDeskTop][serviceOrder][add]', (obj) => {
+  site.addDoctorDeskTop = function (obj) {
+
     app.add(obj, (err, doc1) => {});
-  });
+  };
 
   app.init();
   site.addApp(app);

@@ -217,7 +217,13 @@ module.exports = function init(site) {
 
         let _data = req.data;
         _data.editUserInfo = req.getUserFinger();
-
+        if (_data.mobileList.length > 0) {
+          _data.mobile = _data.mobileList[0].mobile;
+        } else {
+          response.error = 'Must Add Mobile Number';
+          res.json(response);
+          return;
+        }
         app.update(_data, (err, result) => {
           if (!err) {
             response.done = true;

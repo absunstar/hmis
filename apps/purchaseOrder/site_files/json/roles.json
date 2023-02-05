@@ -2,8 +2,8 @@
     {
         "moduleName": "public",
         "name": "approvePurchaseOrderAdmin",
-        "en": "Approve Purchase Order Admin",
-        "ar": "إدارة فواتير الشراء",
+        "En": "Approve Purchase Order Admin",
+        "Ar": "إدارة فواتير الشراء",
         "permissions": ["purchaseOrderManage"]
     }
 ]

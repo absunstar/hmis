@@ -214,5 +214,59 @@
         "feature": "public",
         "id": "salesBill",
         "name": "Sales Bill"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "chiefComplaints",
+        "name": "Chief Complaints"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "medicines",
+        "name": "Medicines"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "significantSigns",
+        "name": "Significant Signs"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "diagnoses",
+        "name": "Diagnoses"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "patientRecommendations",
+        "name": "Patient Recommendations"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "analyzes",
+        "name": "Analyzes"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "rays",
+        "name": "Rays"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "drinks",
+        "name": "Drinks"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "foods",
+        "name": "Foods"
     }
 ]

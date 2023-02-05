@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsManage" , "en":"Manage" , "ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsAdd" , "en":"Add" , "ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsUpdate" , "en":"Edit" , "ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsDelete" , "en":"Delete" , "ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsView" , "en":"View" , "ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsSearch" , "en":"Search" , "ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsExport" , "en":"Export" , "ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsPrint" , "en":"Print" , "ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsUi" , "en":"UI" , "ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "transferItems" , "name":"transferItemsUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

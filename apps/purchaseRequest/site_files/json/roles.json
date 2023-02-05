@@ -2,8 +2,8 @@
     {
         "moduleName": "public",
         "name": "purchaseRequestAdmin",
-        "en": "Purchase Request Admin",
-        "ar": "إدارة طلبات الشراء",
+        "En": "Purchase Request Admin",
+        "Ar": "إدارة طلبات الشراء",
         "permissions": ["purchaseRequestManage"]
     }
 ]

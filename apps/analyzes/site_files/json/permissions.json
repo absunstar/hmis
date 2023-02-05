@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "analyzes" , "name":"analyzesManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "analyzes" , "name":"analyzesAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "analyzes" , "name":"analyzesUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "analyzes" , "name":"analyzesDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "analyzes" , "name":"analyzesView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "analyzes" , "name":"analyzesSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "analyzes" , "name":"analyzesExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "analyzes" , "name":"analyzesPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "analyzes" , "name":"analyzesUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+]

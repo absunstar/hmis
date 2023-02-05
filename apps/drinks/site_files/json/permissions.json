@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "drinks" , "name":"drinksManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "drinks" , "name":"drinksAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "drinks" , "name":"drinksUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "drinks" , "name":"drinksDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "drinks" , "name":"drinksView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "drinks" , "name":"drinksSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "drinks" , "name":"drinksExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "drinks" , "name":"drinksPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "drinks" , "name":"drinksUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+]

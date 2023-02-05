@@ -2,8 +2,8 @@
     {
         "moduleName": "public",
         "name": "customersAdmin",
-        "en": "Customers Admin",
-        "ar": "إدارة العملاء",
+        "En": "Customers Admin",
+        "Ar": "إدارة العملاء",
         "permissions": ["customersManage"]
     }
 ]

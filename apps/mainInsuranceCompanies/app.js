@@ -287,7 +287,7 @@ module.exports = function init(site) {
     let _data = req.data;
     let incuranceContract = appIncuranceContract.memoryList.find((_c) => _c.insuranceCompany.id == _data.insuranceCompany);
     if (incuranceContract) {
-      if (new Date() >= new Date(incuranceContract.startDate) && new Date() <= new Date(incuranceContract.endDate)) {
+      if (new Date(incuranceContract.startDate) <= new Date() && new Date(incuranceContract.endDate) >= new Date()) {
         app.view({ id: incuranceContract.mainInsuranceCompany.id }, (err, doc) => {
           if (!err && doc) {
             response.done = true;
@@ -296,14 +296,17 @@ module.exports = function init(site) {
             response.error = err?.message || 'Not Exists';
           }
           res.json(response);
+          return;
         });
       } else {
         response.error = "The insurance company's contract date is invalid";
         res.json(response);
+        return;
       }
     } else {
-      response.error = 'Not Exists';
+      response.error = 'There is no incurance company for the patient';
       res.json(response);
+      return;
     }
   });
 
@@ -340,7 +343,8 @@ module.exports = function init(site) {
             });
           }
         });
-      } if (!foundService && mainIncurance.coverageServicesGroupsList && mainIncurance.coverageServicesGroupsList.length > 0) {
+      }
+      if (!foundService && mainIncurance.coverageServicesGroupsList && mainIncurance.coverageServicesGroupsList.length > 0) {
         mainIncurance.coverageServicesGroupsList.forEach((_cGroup) => {
           if (!foundService && _cGroup.id == _data.service.serviceGroup.id) {
             _cGroup.incuranceClassesList.forEach((_iClass) => {
@@ -392,7 +396,8 @@ module.exports = function init(site) {
             }
           }
         });
-      } if (!foundService && mainIncurance.coverageServicesCategoriesList && mainIncurance.coverageServicesCategoriesList.length > 0) {
+      }
+      if (!foundService && mainIncurance.coverageServicesCategoriesList && mainIncurance.coverageServicesCategoriesList.length > 0) {
         mainIncurance.coverageServicesCategoriesList.forEach((_cCategory) => {
           let category = appServicesCategory.memoryList.find((_c) => _c.id == _cCategory.id);
           if (category && category.servicesList && category.servicesList.length > 0) {
@@ -419,7 +424,8 @@ module.exports = function init(site) {
             });
           }
         });
-      } if (!foundService && mainIncurance.discountServicesList && mainIncurance.discountServicesList.length > 0) {
+      }
+      if (!foundService && mainIncurance.discountServicesList && mainIncurance.discountServicesList.length > 0) {
         mainIncurance.discountServicesList.forEach((_cService) => {
           if (_cService.id == _data.service.id) {
             foundService = true;
@@ -429,7 +435,7 @@ module.exports = function init(site) {
               nameEn: _data.service.nameEn,
               coCode: _data.service.coCode,
               coName: _data.service.coName,
-              vat: 0,
+              vat: _data.service.vat,
               pVat: 0,
               comVat: mainIncurance.vat,
             };
@@ -454,7 +460,8 @@ module.exports = function init(site) {
             service.total = service.price - (service.price * service.discount) / 100;
           }
         });
-      } if (!foundService && mainIncurance.discountServicesGroupsList && mainIncurance.discountServicesGroupsList.length > 0) {
+      }
+      if (!foundService && mainIncurance.discountServicesGroupsList && mainIncurance.discountServicesGroupsList.length > 0) {
         mainIncurance.discountServicesGroupsList.forEach((_cGroup) => {
           if (!foundService && _cGroup.id == _data.service.serviceGroup.id) {
             service = {
@@ -464,7 +471,7 @@ module.exports = function init(site) {
               price: 0,
               discount: 0,
               total: 0,
-              vat: 0,
+              vat: _data.service.vat,
               pVat: 0,
               comVat: mainIncurance.vat,
             };
@@ -501,7 +508,7 @@ module.exports = function init(site) {
                         id: _data.service.id,
                         nameAr: _data.service.nameAr,
                         nameEn: _data.service.nameEn,
-                        vat: 0,
+                        vat: _data.service.vat,
                         pVat: 0,
                         comVat: mainIncurance.vat,
                       };
@@ -531,7 +538,8 @@ module.exports = function init(site) {
             }
           }
         });
-      } if (!foundService && mainIncurance.discountServicesCategoriesList && mainIncurance.discountServicesCategoriesList.length > 0) {
+      }
+      if (!foundService && mainIncurance.discountServicesCategoriesList && mainIncurance.discountServicesCategoriesList.length > 0) {
         mainIncurance.discountServicesCategoriesList.forEach((_cCategory) => {
           let category = appServicesCategory.memoryList.find((_c) => _c.id == _cCategory.id);
           if (category && category.servicesList && category.servicesList.length > 0) {
@@ -542,7 +550,7 @@ module.exports = function init(site) {
                   id: _data.service.id,
                   nameAr: _data.service.nameAr,
                   nameEn: _data.service.nameEn,
-                  vat: 0,
+                  vat: _data.service.vat,
                   pVat: 0,
                   comVat: mainIncurance.vat,
                 };

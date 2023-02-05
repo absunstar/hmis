@@ -6,7 +6,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope.structure = {
     date: new Date(),
-    type : 'out'
+    type: 'out',
   };
   $scope.item = {};
   $scope.list = [];
@@ -290,10 +290,12 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           } else {
             $scope.item.nphis = 'nElig';
             $scope.item.payment = 'cash';
+            $scope.item.errMsg = 'There is no incurance class for the patient';
           }
         } else {
           $scope.item.nphis = 'nElig';
           $scope.item.payment = 'cash';
+          $scope.item.errMsg = response.data.error;
         }
       },
       function (err) {
@@ -450,10 +452,10 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
               id: _item.$service.id,
               nameAr: _item.$service.nameAr,
               nameEn: _item.$service.nameEn,
-              vat :  _item.$service.vat,
-              discount : 0,
-              comVat : 0,
-              pVat : 0,
+              vat: _item.$service.vat,
+              discount: 0,
+              comVat: 0,
+              pVat: 0,
               qty: 1,
             };
             if ($scope.item.type == 'out') {
@@ -469,7 +471,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
                 service.price = $scope.item.$service.creditPriceIn;
               }
             }
-            service.total = service.price  + (service.price * service.vat) / 100;
+            service.total = service.price + (service.price * service.vat) / 100;
             service.total = site.toNumber(service.total);
           }
           if (_item.doctor && _item.doctor.hospitalCenter) {
@@ -477,6 +479,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           }
           if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
             _item.servicesList.push(service);
+            $scope.calc(_item);
           } else {
             _item.servicesList.forEach((_s) => {
               if (_s.id === _item.$service.id) {
@@ -501,14 +504,26 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
   $scope.calc = function (_item) {
     $scope.error = '';
     $timeout(() => {
-
+      _item.grossAmount = 0;
+      _item.discount = 0;
+      _item.deductables = 0;
+      _item.patientVat = 0;
+      _item.companyVat = 0;
+      _item.netAmount = 0;
+      _item.patientBalance = 0;
+      _item.accBalance = 0;
 
       _item.servicesList.forEach((_service) => {
-
-      })
+        let net = _service.price - (_service.price * _service.discount) / 100;
+        _service.total = net * _service.qty;
+        _item.grossAmount += _service.price * _service.qty;
+        _item.discount += _service.discount * _service.qty;
+        _item.patientVat += _service.pVat  * _service.qty;
+        _item.companyVat += _service.comVat  * _service.qty;
+      });
+      _item.netAmount = _item.grossAmount - _item.discount;
     }, 300);
   };
-
 
   $scope.showSearch = function () {
     $scope.error = '';

@@ -266,6 +266,7 @@ app.controller('patients', function ($scope, $http, $timeout) {
         },
         select: {
           id: 1,
+          image: 1,
           nameEn: 1,
           nameAr: 1,
         },

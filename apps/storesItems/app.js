@@ -301,7 +301,7 @@ module.exports = function init(site) {
                         });
                     res.json({
                         done: true,
-                        list: app.memoryList,
+                        list: list,
                     });
                 } else {
                     app.$collection.findMany({ where: where, select }, (err, docs) => {

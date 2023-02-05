@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "analyzesAdmin",
+    "En": "Analyzes Admin",
+    "Ar": "إدارة التحاليل",
+    "permissions": ["analyzesManage"]
+}]

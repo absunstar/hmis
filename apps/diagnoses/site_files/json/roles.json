@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "diagnosesAdmin",
+    "En": "Diagnoses Admin",
+    "Ar": "إدارة التشخيصات",
+    "permissions": ["diagnosesManage"]
+}]

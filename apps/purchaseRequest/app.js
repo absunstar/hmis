@@ -340,7 +340,7 @@ module.exports = function init(site) {
                         });
                     res.json({
                         done: true,
-                        list: app.memoryList,
+                        list: code,
                     });
                 } else {
                     app.$collection.findMany({ where: where, select }, (err, docs) => {

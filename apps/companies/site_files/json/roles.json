@@ -36,6 +36,15 @@
       "doctorsManage",
       "specialtiesManage",
       "storesManage",
+      "chiefComplaintsManage",
+      "medicinesManage",
+      "significantSignsManage",
+      "patientRecommendationsManage",
+      "analyzesManage",
+      "raysManage",
+      "diagnosesManage",
+      "drinksManage",
+      "foodsManage",
       "insuranceClassesManage"
     ]
   }

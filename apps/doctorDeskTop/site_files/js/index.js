@@ -60,12 +60,55 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     site.showModal($scope.modalID);
   };
 
-  $scope.update = function (_item) {
+  $scope.update = function (_item, modalID, id) {
     $scope.error = '';
-    const v = site.validated($scope.modalID);
+    const v = site.validated(modalID);
     if (!v.ok) {
       $scope.error = v.messages[0].ar;
       return;
+    }
+
+    if (id == 2) {
+      _item.status = { id: 2, nameEn: 'At doctor', nameAr: 'عند الطبيب' };
+    } else if (id == 3) {
+      _item.status = { id: 3, nameEn: 'Detected', nameAr: 'تم الكشف' };
+    }
+
+    $scope.busy = true;
+    $http({
+      method: 'POST',
+      url: `${$scope.baseURL}/api/${$scope.appName}/update`,
+      data: _item,
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done) {
+          site.hideModal(modalID);
+          site.resetValidated(modalID);
+          let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+          if (index !== -1) {
+            $scope.list[index] = response.data.result.doc;
+          }
+        } else {
+          $scope.error = 'Please Login First';
+        }
+      },
+      function (err) {
+        console.log(err);
+      }
+    );
+  };
+
+  $scope.updateStatus = function (_item, id) {
+    $scope.error = '';
+    if (id == 1) {
+      _item.status = { id: 1, nameEn: 'Pending', nameAr: 'قيد الإنتظار' };
+    } else if (id == 2) {
+      _item.status = { id: 2, nameEn: 'At doctor', nameAr: 'عند الطبيب' };
+    } else if (id == 3) {
+      _item.status = { id: 3, nameEn: 'Detected', nameAr: 'تم الكشف' };
+    } else if (id == 4) {
+      _item.status = { id: 4, nameEn: 'Cancel detection', nameAr: 'إلغاء الكشف' };
     }
     $scope.busy = true;
     $http({
@@ -76,11 +119,13 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
       function (response) {
         $scope.busy = false;
         if (response.data.done) {
-          site.hideModal($scope.modalID);
-          site.resetValidated($scope.modalID);
           let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
           if (index !== -1) {
             $scope.list[index] = response.data.result.doc;
+            site.showModal('#alert');
+            $timeout(() => {
+              site.hideModal('#alert');
+            }, 1500);
           }
         } else {
           $scope.error = 'Please Login First';
@@ -122,6 +167,20 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
         console.log(err);
       }
     );
+  };
+
+  $scope.showDoctorRecommendations = function (_item) {
+    $scope.error = '';
+    $scope.item = {};
+    $scope.view(_item);
+    site.showModal('#doctorRecommendationsModal');
+  };
+
+  $scope.showVitalsNotes = function (_item) {
+    $scope.error = '';
+    $scope.item = {};
+    $scope.view(_item);
+    site.showModal('#vitalsNotesModal');
   };
 
   $scope.showDelete = function (_item) {
@@ -204,6 +263,7 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
           nameEn: 1,
           nameAr: 1,
           specialty: 1,
+          hospitalCenter: 1,
           doctorType: 1,
           nationality: 1,
           clinicExt: 1,
@@ -236,6 +296,6 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     $scope.search = {};
   };
 
-  $scope.getAll();
+  $scope.getAll({ date: new Date() });
   $scope.getDoctorsList();
 });

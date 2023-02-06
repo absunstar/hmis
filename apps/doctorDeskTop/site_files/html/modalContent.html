@@ -1,19 +1,156 @@
 <div class="row">
   <div class="row padding">
     <div class="col9">
-      <div class="row">
-        <div class="row">
-          <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
-        </div>
-        <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
-        <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
-      </div>
+      <fieldset>
+        <legend>##word.Patient##</legend>
+        <table class="table bold center hover">
+          <tr>
+            <td class="bg-theme">##word.Full Name##</td>
+            <td class="center" colspan="5">
+              <p class="height-5">{{item.patient.fullNameEn}} ( <span class="blue">{{item.patient.code}}</span> ) <img class="height-28" ng-src="{{item.patient.image.url}}" alt="" /></p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="bg-theme">الإسم بالكامل</td>
+            <td class="center" colspan="5">
+              <p class="height-5">{{item.patient.fullNameAr}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="bg-theme">##word.Mother Name##</td>
+            <td class="center" colspan="2">
+              <p class="height-5">
+                {{item.patient.motherNameEn}}
+                <span class="blue" ng-show="item.patient.newBorn">(##word.New Born##)</span>
+              </p>
+            </td>
+
+            <td class="bg-theme">إسم الأم</td>
+            <td class="center" colspan="2">
+              <p class="height-5">{{item.patient.motherNameAr}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="bg-theme">##word.Nationality##</td>
+            <td class="center">
+              <p class="height-5">{{item.patient.nationality.name##session.lang##}} <img class="height-28" ng-src="{{item.patient.nationality.image.url}}" alt="" /></p>
+            </td>
+            <td class="bg-theme">##word.Age##</td>
+            <td class="center">
+              <p class="height-5">{{item.patient.age}}Y</p>
+            </td>
+            <td class="bg-theme">##word.Mobile##</td>
+            <td class="center">
+              <p class="height-5">{{item.patient.mobileList[0].mobile}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="bg-theme">##word.Patient Type##</td>
+            <td class="center">
+              <p class="height-5">{{item.patient.patientType.name##session.lang##}} ( <span class="blue">{{item.patient.patientType.code}}</span> )</p>
+            </td>
+            <td class="bg-theme">##word.Marital Status##</td>
+            <td class="center">
+              <p class="height-5">{{item.patient.maritalStatus.name##session.lang##}}</p>
+            </td>
+
+            <td class="bg-theme">##word.Gender##</td>
+            <td class="center">
+              <p class="height-5">{{item.patient.gender.name##session.lang##}}</p>
+            </td>
+          </tr>
+
+          <tr ng-show="item.patient.insuranceCompany.id">
+            <td class="bg-theme">##word.Insurance Company##</td>
+            <td class="center" colspan="5">
+              <p class="height-5">{{item.patient.insuranceCompany.name##session.lang##}} ( <span class="blue">{{item.patient.insuranceCompany.code}}</span> )</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="bg-theme">##word.Insurance Class##</td>
+            <td class="center" colspan="2">
+              <p class="height-5">{{item.patient.insuranceClass.name##session.lang##}}</p>
+            </td>
+
+            <td class="bg-theme">##word.Expiry Date##</td>
+            <td class="center" colspan="2">
+              <p class="height-5 brown">{{item.patient.expiryDate | date:"dd / MM / yyyy"}}</p>
+            </td>
+          </tr>
+        </table>
+      </fieldset>
+      <fieldset>
+        <legend>##word.Doctor##</legend>
+        <table class="table bold center hover">
+          <tr>
+            <td class="bg-theme">##word.Name##</td>
+            <td class="center" colspan="5">
+              <p class="height-5">{{item.doctor.nameEn}} ( <span class="blue">{{item.doctor.code}}</span> ) <img class="height-28" ng-src="{{item.doctor.image.url}}" alt="" /></p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="bg-theme">##word.Name Arabic##</td>
+            <td class="center" colspan="5">
+              <p class="height-5">{{item.doctor.nameAr}}</p>
+            </td>
+          </tr>
+        </table>
+      </fieldset>
+      <fieldset>
+        <legend>##word.Service##</legend>
+        <table class="table bold center hover">
+          <tr>
+            <td class="bg-theme">##word.Name##</td>
+            <td class="center" colspan="5">
+              <p class="height-5">{{item.service.name##session.lang##}}</p>
+            </td>
+          </tr>
+        </table>
+      </fieldset>
     </div>
-    <div class="col3 center">
-      <i-image class="img256 center" ng-model="item.image"></i-image>
+    <div class="col3">
+      <fieldset class="">
+        <div class="row margin">
+          <p class="bold center">##word.Detection number## : <span class="blue">( {{item.code}} )</span></p>
+        </div>
+        <div class="row padding margin">
+          <p class="darkGray bold center">
+            <i class="fas fa-hourglass-start"></i> <span ng-show="item.$hours" class="blue"> H {{item.$hours}} </span> <span ng-show="item.$hours && item.$minutes">:</span>
+            <span ng-show="item.$minutes" class="blue">{{item.$minutes}} MIN </span> <i class="fas fa-male" ng-show="item.patient.gender.id == 'm'"></i>
+            <i class="fas fa-female" ng-show="item.patient.gender.id == 'f'"></i>
+          </p>
+          <p class="bold brown center"><i class="fas fa-clock darkGray"></i> {{item.date | date:"dd / MM / yyyy"}} - <span class="green">{{item.date | date:"hh:mm"}}</span></p>
+          <p class="bold center">##word.Status## : <span class="blue">( {{item.status.name##session.lang##}} )</span></p>
+        </div>
+
+        <div class="row center">
+          <a title="##word.Vitals Notes##" class="btn btn-primary btn-lg margin-button" ng-click="showVitalsNotes(item)"><i class="fas fa-file-medical-alt"></i></a>
+          <br />
+          <a title="##word.Doctor recommendations##" class="btn btn-success btn-lg" ng-click="showDoctorRecommendations(item)"><i class="fas fa-stethoscope"></i></a>
+        </div>
+
+        <fieldset>
+          <legend>##word.Change Status##</legend>
+
+          <div class="row center">
+            <a class="btn btn-secondary btn-lg margin-button" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" ng-click="updateStatus(item,1)">##word.Pending## <i class="fas fa-pen"></i></a>
+            <a class="btn btn-secondary btn-lg margin-button" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" ng-click="updateStatus(item,2)"
+              >##word.Entrance to doctor## <i class="fas fa-pen"></i
+            ></a>
+            <a class="btn btn-secondary btn-lg margin-button" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" ng-click="updateStatus(item,3)"
+              >##word.Detected## <i class="fas fa-pen"></i
+            ></a>
+            <a class="btn btn-secondary btn-lg margin-button" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" ng-click="updateStatus(item,4)"
+              >##word.Cancel detection## <i class="fas fa-pen"></i
+            ></a>
+          </div>
+        </fieldset>
+      </fieldset>
     </div>
   </div>
-  <div class="row padding"></div>
 </div>
 <div ng-show="mode !== 'add' " class="row">
   <table class="table hover border">

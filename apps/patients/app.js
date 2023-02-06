@@ -298,6 +298,11 @@ module.exports = function init(site) {
               }
             }
             if (!where.active || doc.active) {
+              if (obj.expiryDate) {
+                if (new Date(obj.expiryDate) < new Date()) {
+                  obj.expirePatient = true;
+                }
+              }
               list.push(obj);
             }
           });

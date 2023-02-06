@@ -241,6 +241,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
         select: {
           id: 1,
           code: 1,
+          image: 1,
           fullNameEn: 1,
           fullNameAr: 1,
           patientType: 1,
@@ -255,6 +256,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           patientType: 1,
           insuranceCompany: 1,
           insuranceClass: 1,
+          expiryDate: 1,
         },
       },
     }).then(
@@ -375,6 +377,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           code: 1,
           nameEn: 1,
           nameAr: 1,
+          image: 1,
           hospitalCenter: 1,
         },
       },
@@ -452,7 +455,8 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
               id: _item.$service.id,
               nameAr: _item.$service.nameAr,
               nameEn: _item.$service.nameEn,
-              vat: _item.$service.vat,
+              nameEn: _item.$service.nameEn,
+              serviceGroup: _item.$service.serviceGroup,
               discount: 0,
               comVat: 0,
               pVat: 0,
@@ -518,8 +522,8 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
         _service.total = net * _service.qty;
         _item.grossAmount += _service.price * _service.qty;
         _item.discount += _service.discount * _service.qty;
-        _item.patientVat += _service.pVat  * _service.qty;
-        _item.companyVat += _service.comVat  * _service.qty;
+        _item.patientVat += _service.pVat * _service.qty;
+        _item.companyVat += _service.comVat * _service.qty;
       });
       _item.netAmount = _item.grossAmount - _item.discount;
     }, 300);

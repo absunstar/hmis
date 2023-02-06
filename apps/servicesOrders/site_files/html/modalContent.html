@@ -23,7 +23,7 @@
             <tr>
               <td class="bg-theme">##word.Full Name##</td>
               <td class="center" colspan="5">
-                <p class="height-5">{{item.patient.fullNameEn}} ( <span class="blue">{{item.patient.code}}</span> )</p>
+                <p class="height-5">{{item.patient.fullNameEn}} ( <span class="blue">{{item.patient.code}}</span> ) <img class="height-28" ng-src="{{item.patient.image.url}}" alt=""></p>
               </td>
             </tr>
 
@@ -54,7 +54,7 @@
               </td>
               <td class="bg-theme">##word.Age##</td>
               <td class="center">
-                <p class="height-5">{{item.patient.age}}</p>
+                <p class="height-5">{{item.patient.age}}Y</p>
               </td>
               <td class="bg-theme">##word.Mobile##</td>
               <td class="center">
@@ -81,10 +81,25 @@
               <td class="bg-theme">##word.Insurance Company##</td>
               <td class="center" colspan="5">
                 <p class="height-5">
-                  {{item.patient.insuranceCompany.name##session.lang##}} ( <span class="blue">{{item.patient.insuranceCompany.code}}</span> ) {{item.patient.insuranceClass.name##session.lang##}}
+                  {{item.patient.insuranceCompany.name##session.lang##}} ( <span class="blue">{{item.patient.insuranceCompany.code}}</span> ) 
                 </p>
               </td>
             </tr>
+
+            <tr>
+              <td class="bg-theme">##word.Insurance Class##</td>
+              <td class="center" colspan="2">
+                <p class="height-5">
+                  {{item.patient.insuranceClass.name##session.lang##}}
+                </p>
+              </td>
+
+              <td class="bg-theme">##word.Expiry Date##</td>
+              <td class="center" colspan="2">
+                <p class="height-5 brown">{{item.patient.expiryDate | date:"dd / MM / yyyy"}}</p>
+              </td>
+            </tr>
+            
           </table>
           <div class="row" ng-show="item.errMsg">
             <p class="errMsg">{{item.errMsg}}</p>

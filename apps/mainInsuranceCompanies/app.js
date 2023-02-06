@@ -335,6 +335,7 @@ module.exports = function init(site) {
                   discount: 0,
                   total: 0,
                   vat: 0,
+                  serviceGroup: _data.service.serviceGroup,
                   pVat: 0,
                   comVat: 0,
                   needApproval: _cService.needApproval,
@@ -357,6 +358,7 @@ module.exports = function init(site) {
                   discount: 0,
                   total: 0,
                   vat: 0,
+                  serviceGroup: _data.service.serviceGroup,
                   pVat: 0,
                   comVat: 0,
                   needApproval: _cGroup.needApproval,
@@ -383,6 +385,7 @@ module.exports = function init(site) {
                             discount: 0,
                             total: 0,
                             vat: 0,
+                            serviceGroup: _data.service.serviceGroup,
                             pVat: 0,
                             comVat: 0,
                             needApproval: _cGroup.needApproval,
@@ -414,6 +417,7 @@ module.exports = function init(site) {
                       discount: 0,
                       total: 0,
                       vat: 0,
+                      serviceGroup: _data.service.serviceGroup,
                       pVat: 0,
                       comVat: 0,
                       needApproval: _cCategory.needApproval,
@@ -436,6 +440,7 @@ module.exports = function init(site) {
               coCode: _data.service.coCode,
               coName: _data.service.coName,
               vat: _data.service.vat,
+              serviceGroup: _data.service.serviceGroup,
               pVat: 0,
               comVat: mainIncurance.vat,
             };
@@ -473,6 +478,7 @@ module.exports = function init(site) {
               total: 0,
               vat: _data.service.vat,
               pVat: 0,
+              serviceGroup: _data.service.serviceGroup,
               comVat: mainIncurance.vat,
             };
             foundService = true;
@@ -509,6 +515,7 @@ module.exports = function init(site) {
                         nameAr: _data.service.nameAr,
                         nameEn: _data.service.nameEn,
                         vat: _data.service.vat,
+                        serviceGroup: _data.service.serviceGroup,
                         pVat: 0,
                         comVat: mainIncurance.vat,
                       };
@@ -552,6 +559,7 @@ module.exports = function init(site) {
                   nameEn: _data.service.nameEn,
                   vat: _data.service.vat,
                   pVat: 0,
+                  serviceGroup: _data.service.serviceGroup,
                   comVat: mainIncurance.vat,
                 };
 

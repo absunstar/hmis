@@ -1,7 +1,7 @@
 module.exports = function init(site) {
   let app = {
     name: 'doctorDeskTop',
-    allowMemory: true,
+    allowMemory: false,
     memoryList: [],
     allowCache: false,
     cacheList: [],
@@ -241,6 +241,9 @@ module.exports = function init(site) {
         app.view(_data, (err, doc) => {
           if (!err && doc) {
             response.done = true;
+            let newDate = new Date();
+            doc.$hours = parseInt(Math.abs(new Date(doc.date) - newDate) / (1000 * 60 * 60) % 24);
+            doc.$minutes = parseInt(Math.abs(new Date(doc.date).getTime() - newDate.getTime()) / (1000 * 60) % 60);
             response.doc = doc;
           } else {
             response.error = err?.message || 'Not Exists';
@@ -253,30 +256,75 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, patient: 1, doctor: 1, image: 1 };
+        let select = req.body.select || { id: 1, patient: 1, doctor: 1, code: 1, service: 1, date: 1, status: 1 };
         let list = [];
-        app.memoryList
-          .filter((g) => !where['doctor.id'] || g.doctor.id == where['doctor.id'])
-          .forEach((doc) => {
-            let obj = { ...doc };
-            for (const p in obj) {
-              if (!Object.hasOwnProperty.call(select, p)) {
-                delete obj[p];
+        if (app.allowMemory) {
+          app.memoryList
+            .filter((g) => !where['doctor.id'] || g.doctor.id == where['doctor.id'])
+            .forEach((doc) => {
+              let obj = { ...doc };
+              for (const p in obj) {
+                if (!Object.hasOwnProperty.call(select, p)) {
+                  delete obj[p];
+                }
               }
-            }
-            list.push(obj);
+              list.push(obj);
+            });
+          res.json({
+            done: true,
+            list: list,
           });
-        res.json({
-          done: true,
-          list: list,
-        });
+        } else {
+          if (where.date) {
+            let d1 = site.toDate(where.date);
+            let d2 = site.toDate(where.date);
+            d2.setDate(d2.getDate() + 1);
+            where.date = {
+              $gte: d1,
+              $lt: d2,
+            };
+          }
+          app.$collection.findMany({ where, select,sort : {code : -1} }, (err, docs) => {
+            let newDate = new Date();
+            docs.forEach(_d => {
+              _d.$hours = parseInt(Math.abs(new Date(_d.date) - newDate) / (1000 * 60 * 60) % 24);
+              _d.$minutes = parseInt(Math.abs(new Date(_d.date).getTime() - newDate.getTime()) / (1000 * 60) % 60);
+            });
+            res.json({
+              done: true,
+              list: docs,
+            });
+          });
+        }
       });
     }
   }
 
   site.addDoctorDeskTop = function (obj) {
-
-    app.add(obj, (err, doc1) => {});
+    let date = new Date();
+    let d1 = site.toDate(date);
+    let d2 = site.toDate(date);
+    d2.setDate(d2.getDate() + 1);
+    let where = {};
+    where.date = {
+      $gte: d1,
+      $lt: d2,
+    };
+    app.$collection.findMany(
+      {
+        where,
+        limit: 1,
+        sort: {
+          id: -1,
+        },
+      },
+      (err, docs) => {
+        if (!err) {
+          obj.code = docs && docs.length > 0 ? docs[0].code + 1 : 1;
+          app.add(obj, (err, doc1) => {});
+        }
+      }
+    );
   };
 
   app.init();

@@ -160,7 +160,6 @@ module.exports = function init(site) {
         let response = {
           done: false,
         };
-
         let _data = req.data;
         _data.company = site.getCompany(req);
         _data.branch = site.getBranch(req);
@@ -200,13 +199,12 @@ module.exports = function init(site) {
         if (!_data.email) {
           _data.email = _data.nameEn + Math.floor(Math.random() * 1000 + 1).toString();
         }
-
         app.add(_data, (err, doc) => {
           if (!err && doc) {
             response.done = true;
             response.doc = doc;
           } else {
-            response.error = err.mesage;
+            response.error = err?.message || 'Add Not Exists';
           }
           res.json(response);
         });
@@ -227,7 +225,7 @@ module.exports = function init(site) {
             response.done = true;
             response.result = result;
           } else {
-            response.error = err.message;
+            response.error = err?.message || 'Update Not Exists';
           }
           res.json(response);
         });

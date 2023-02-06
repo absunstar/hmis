@@ -9,7 +9,8 @@
         <i-control ng-hide="disabledCode" label="##word.Code##" ng-model="item.code"> </i-control>
         <i-control type="text" v="r" ng-model="item.name" label="##word.Name##"></i-control>
         <i-control type="number" ng-model="item.price" label="##word.Price##"></i-control>
-        <i-control type="number" ng-hide="item.immediate==true" ng-model="item.deliveryTime" label="##word.Delivery Time##"></i-control> <span>##word.Hour##</span>
+        <i-control type="number" ng-model="item.deliveryTime" ng-hide="item.immediate==true" label="##word.Delivery Time## / ##word.Hour##"></i-control>
+
       </div>
     </div>
     <div class="col5 center">

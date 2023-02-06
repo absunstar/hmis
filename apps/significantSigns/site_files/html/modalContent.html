@@ -6,15 +6,13 @@
                     <i-control ng-hide="disabledCode" class="col9" label="##word.Code##" ng-model="item.code"> </i-control>
                     <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
                 </div>
-                <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
-                <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
+                <i-control type="text" v="r" ng-model="item.name" label="##word.Name##"></i-control>
             </div>
         </div>
         <div class="col5 center">
             <i-image class="img256 center" ng-model="item.image"></i-image>
         </div>
     </div>
-    <div class="row padding"></div>
 </div>
 <div ng-show="mode !== 'add' " class="row">
     <table class="table hover border">

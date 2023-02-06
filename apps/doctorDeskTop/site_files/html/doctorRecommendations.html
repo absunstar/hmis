@@ -1,0 +1,86 @@
+<div id="doctorRecommendationsModal" class="modal full" fixed>
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <p class="center">
+        ##word.Doctor Recommendations##
+        <i class="fa fa-pencil"></i>
+      </p>
+    </div>
+
+    <div class="modal-body">
+      <div class="row">
+        <div class="col9">
+          <fieldset>
+            <div class="row">
+
+            <i-checkbox ng-model="item.erCase" label="##word.ER Case ?##"></i-checkbox>
+            <i-checkbox ng-model="item.chronic" label="##word.Chronic##"></i-checkbox>
+            <i-checkbox ng-model="item.conginital" label="##word.Conginital##"></i-checkbox>
+            <i-checkbox ng-model="item.rta" label="##word.RTA##"></i-checkbox>
+            <i-checkbox ng-model="item.workRelated" label="##word.Work Related##"></i-checkbox>
+            <i-checkbox ng-model="item.vaccination" label="##word.Vaccination##"></i-checkbox>
+            <i-checkbox ng-model="item.checkup" label="##word.Checkup##"></i-checkbox>
+            <i-checkbox ng-model="item.psychiatric" label="##word.Psychiatric##"></i-checkbox>
+            <i-checkbox ng-model="item.infertility" label="##word.Infertility##"></i-checkbox>
+            <i-checkbox ng-hide="item.patient.gender.id == 'm'" ng-model="item.pregnancy" label="##word.Pregnancy##"></i-checkbox>
+            <i-checkbox ng-hide="item.patient.gender.id == 'm'" ng-model="item.lactation" label="##word.Lactation##"></i-checkbox>
+            <i-checkbox ng-model="item.acute" label="##word.Acute##"></i-checkbox>
+          </div>
+        </fieldset>
+        </div>
+        <div class="col3">
+          <fieldset>
+            <legend>##word.Patient##</legend>
+            <img class="height-28" ng-src="{{item.patient.image.url}}" alt="" />
+            <p class="bold">{{item.patient.fullName##session.lang##}} ( <span class="blue">{{item.patient.code}}</span> )</p>
+            <p class="bold">{{item.patient.insuranceCompany.name##session.lang##}} ( <span class="blue">{{item.patient.insuranceCompany.code}}</span> )</p>
+            <p class="bold">##word.Class## : {{item.patient.insuranceClass.name##session.lang##}}</p>
+            <p class="bold brown">##word.EXP## : {{item.patient.expiryDate | date:"dd / MM / yyyy"}}</p>
+            <p class="bold">{{item.patient.mobile}}</p>
+            <p class="bold">{{item.patient.nationality.name##session.lang##}} <img class="height-28" ng-src="{{item.patient.nationality.image.url}}" alt="" /></p>
+            <p class="bold">##word.Age## : {{item.patient.age}}Y</p>
+          </fieldset>
+          <fieldset>
+            <legend>##word.Vitals Notes##</legend>
+            <div class="row">
+              <i-control type="number" label="##word.Weight## / kg" ng-model="item.weight"></i-control>
+              <i-control type="number" label="##word.Tall## / cm" ng-model="item.tall"></i-control>
+              <i-control type="number" label="##word.Body Temperature## / %" ng-model="item.bodyTemperature"></i-control>
+              <i-control label="##word.Oxygen percentage## / %" type="number" ng-model="item.oxygenPercentage"></i-control>
+              <i-control label="##word.Heart Beats##" ng-model="item.heartBeats"></i-control>
+            </div>
+
+            <fieldset>
+              <legend>##word.Blood Pressure##</legend>
+              <i-control class="col5" type="number" ng-model="item.bloodPressureFrom"></i-control>
+              <div class="col2 center">/</div>
+              <i-control class="col5" type="number" ng-model="item.bloodPressureTo"></i-control>
+            </fieldset>
+
+            <fieldset>
+              <legend>##word.Sugar Pressure##</legend>
+              <i-control class="col5" type="number" ng-model="item.sugarFrom"></i-control>
+              <div class="col2 center">/</div>
+              <i-control class="col5" type="number" ng-model="item.sugarTo"></i-control>
+            </fieldset>
+
+            <i-textarea label="##word.notes##" ng-model="item.notesAfter"></i-textarea>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer center">
+      <p class="error">{{error}}</p>
+      <i-button type="edit" label="##word.Save##" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" ng-click="update(item,'#doctorRecommendationsModal')"></i-button>
+      <i-button
+        type="save"
+        label="##word.Save## ##word.And## ##word.End detection##"
+        x-permissions="doctorDeskTopUpdate || doctorDeskTopManage"
+        ng-click="update(item,'#doctorRecommendationsModal',3)"
+      ></i-button>
+      <i-button type="close" label="##word.Close##" onclick="site.hideModal( '#doctorRecommendationsModal')"></i-button>
+    </div>
+  </div>
+</div>

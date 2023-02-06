@@ -13,7 +13,7 @@
 .bg-theme {
   background: #c8ffca !important;
 }
-.table.branch tr  {
+.table.branch tr {
   height: 50px;
 }
 
@@ -32,8 +32,8 @@
   color: red;
 }
 
-.table.branch td  {
-  border: unset
+.table.branch td {
+  border: unset;
 }
 
 .login-btn {
@@ -60,6 +60,14 @@
   color: cornsilk;
   cursor: pointer;
 }
+.margin-button {
+  margin: 15px 0px 15px 0px;
+  padding: 10px;
+}
+.darkGray {
+  color: #707070 !important;
+}
+
 .errMsg {
   text-align: center;
   font-size: x-large;
@@ -73,7 +81,7 @@
   height: 5px;
 }
 .height-28 {
-  height: 28px ;
+  height: 28px;
 }
 .disabled {
   pointer-events: none;

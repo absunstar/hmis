@@ -1,7 +1,7 @@
 module.exports = function init(site) {
   let app = {
     name: 'servicesOrders',
-    allowMemory: true,
+    allowMemory: false,
     memoryList: [],
     allowCache: false,
     cacheList: [],
@@ -181,22 +181,25 @@ module.exports = function init(site) {
 
         app.add(_data, (err, doc) => {
           if (!err && doc) {
-            doc.servicesList.forEach((_s) => {
-              if (_s.serviceGroup && _s.serviceGroup.type && _s.serviceGroup.type.id) {
-                let obj = {
-                  orderId: doc.id,
-                  patient: doc.patient,
-                  doctor: doc.doctor,
-                  date: doc.date,
-                  company: doc.company,
-                  branch: doc.branch,
-                  service: _s,
-                };
+            doc.servicesList.forEach((_s, i) => {
+              setTimeout(() => {
+                if (_s.serviceGroup && _s.serviceGroup.type && _s.serviceGroup.type.id) {
+                  let obj = {
+                    orderId: doc.id,
+                    patient: doc.patient,
+                    doctor: doc.doctor,
+                    date: doc.date,
+                    company: doc.company,
+                    branch: doc.branch,
+                    service: _s,
+                    status: { id: 1, nameEn: 'Pending', nameAr: 'قيد الإنتظار' },
+                  };
 
-                if (_s.serviceGroup.type.id == 2) {
-                  site.addDoctorDeskTop(obj);
+                  if (_s.serviceGroup.type.id == 2) {
+                    site.addDoctorDeskTop(obj);
+                  }
                 }
-              }
+              }, 1000 * (i + 1));
             });
             response.done = true;
             response.doc = doc;
@@ -272,23 +275,32 @@ module.exports = function init(site) {
         let where = req.body.where || {};
         let select = req.body.select || { id: 1, code: 1, patient: 1 };
         let list = [];
-        app.memoryList
-          .filter((g) => g.company && g.branch && g.company.id == site.getCompany(req).id && g.branch.code == site.getBranch(req).code)
-          .forEach((doc) => {
-            let obj = { ...doc };
-            for (const p in obj) {
-              if (!Object.hasOwnProperty.call(select, p)) {
-                delete obj[p];
+        if (app.allowMemory) {
+          app.memoryList
+            .filter((g) => g.company && g.branch && g.company.id == site.getCompany(req).id && g.branch.code == site.getBranch(req).code)
+            .forEach((doc) => {
+              let obj = { ...doc };
+              for (const p in obj) {
+                if (!Object.hasOwnProperty.call(select, p)) {
+                  delete obj[p];
+                }
               }
-            }
-            if (!where.active || doc.active) {
-              list.push(obj);
-            }
+              if (!where.active || doc.active) {
+                list.push(obj);
+              }
+            });
+          res.json({
+            done: true,
+            list: list,
           });
-        res.json({
-          done: true,
-          list: list,
-        });
+        } else {
+          app.$collection.findMany({ where: where, select }, (err, docs) => {
+            res.json({
+              done: true,
+              list: docs,
+            });
+          });
+        }
       });
     }
   }

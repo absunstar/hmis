@@ -2,19 +2,35 @@
   <div class="row" x-permissions="doctorDeskTopUi || doctorDeskTopManage">
     <div x-import="doctorDeskTop/modal.html"></div>
     <div x-import="doctorDeskTop/modalSearch.html"></div>
-
+    <div x-import="doctorDeskTop/vitalsNotes.html"></div>
+    <div x-import="doctorDeskTop/doctorRecommendations.html"></div>
+    <div id="alert" class="modal alert small">
+      <div class="modal-content height-auto">
+        <div class="modal-body">
+          <h1 class="blue center">##word.Status changed successfully##</h1>
+        </div>
+      </div>
+    </div>
     <div class="row">
       <h1 class="bold text-center">##word.Doctor Desk Top##</h1>
     </div>
 
     <div class="row padding" ng-hide="'##user.type.id##' == 2">
-      <i-list class="col6" label="##word.Doctor##" ng-model="search.doctor" display="name##session.lang##" ng-change="getAll({'doctor.id' : search.doctor.id})" items="doctorsList" ng-search="search.$doctor"></i-list>
+      <i-list
+        class="col6"
+        label="##word.Doctor##"
+        ng-model="search.doctor"
+        display="name##session.lang##"
+        ng-change="getAll({'doctor.id' : search.doctor.id})"
+        items="doctorsList"
+        ng-search="search.$doctor"
+      ></i-list>
       <div class="row" ng-show="search.doctor.id">
         <table class="table bold center hover">
           <tr>
             <td class="bg-theme">##word.Name##</td>
             <td class="center" colspan="5">
-              <p class="height-5">{{search.doctor.nameEn}} ({{search.doctor.code}})</p>
+              <p class="height-5">{{search.doctor.nameEn}} ( <span class="blue">{{search.doctor.code}}</span> )</p>
             </td>
           </tr>
 
@@ -42,7 +58,7 @@
           <tr>
             <td class="bg-theme">##word.Nationality##</td>
             <td class="center">
-              <p class="height-5">{{search.doctor.nationality.name##session.lang##}}</p>
+              <p class="height-5">{{search.doctor.nationality.name##session.lang##}} <img class="height-28" ng-src="{{search.doctor.nationality.image.url}}" alt="" /></p>
             </td>
             <td class="bg-theme">##word.Clinic Ext##</td>
             <td class="center">
@@ -54,7 +70,6 @@
               <p class="height-5">{{search.doctor.homeTel}}</p>
             </td>
           </tr>
-
         </table>
       </div>
     </div>
@@ -64,26 +79,50 @@
 
     <table class="table hover bold" id="t1">
       <tr>
+        <th>##word.Info##</th>
         <th>##word.Patient##</th>
-        <th ng-hide="search.doctor.id || '##user.type.id##' == 2">##word.Doctor##</th>
+        <th>##word.Date##</th>
         <th class="not-print">##word.Actions##</th>
       </tr>
       <tr ng-repeat="item in list | filter:$search">
-     
-        <td class="text-center">{{item.patient.fullName##session.lang##}}</td>
-        <td class="text-center" ng-hide="search.doctor.id || '##user.type.id##' == 2">{{item.doctor.name##session.lang##}}</td>
-
+        <td class="text-center">
+          <p class="center">( {{item.code}} ) <img class="height-28" ng-src="{{item.patient.nationality.image.url}}" alt="" /></p>
+        </td>
+        <td class="text-center">
+          <div class="row">
+            <div class="col2">
+              <i-image view class="logo center" ng-model="item.patient.image"></i-image>
+              <p class="center darkGray">{{item.patient.age}}Y</p>
+            </div>
+            <div class="col10">
+              <p class="center">{{item.patient.fullNameEn}}</p>
+              <p class="center">{{item.patient.fullNameAr}}</p>
+              <p class="center darkGray">{{item.service.name##session.lang##}}</p>
+            </div>
+          </div>
+        </td>
+        <td class="text-center">
+          <p class="darkGray center">
+            <i class="fas fa-hourglass-start"></i> <span ng-show="item.$hours" class="blue"> H {{item.$hours}} </span> <span ng-show="item.$hours && item.$minutes">:</span>
+            <span ng-show="item.$minutes" class="blue">{{item.$minutes}} MIN </span> <i class="fas fa-male" ng-show="item.patient.gender.id == 'm'"></i>
+            <i class="fas fa-female" ng-show="item.patient.gender.id == 'f'"></i>
+          </p>
+          <p class="brown center"><i class="fas fa-clock darkGray"></i> {{item.date | date:"dd / MM / yyyy"}} - <span class="green">{{item.date | date:"hh:mm"}}</span></p>
+          <p class="blue center">( {{item.status.name##session.lang##}} )</p>
+        </td>
         <td class="text-center not-print">
-          <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
-
-          <i-button type="edit" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
-
-          <i-button type="delete" x-permissions="doctorDeskTopDelete || doctorDeskTopManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
+       
+          <a class="btn btn-warning btn-lg" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" ng-show="item.status.id == 1" ng-click="updateStatus(item,2)">##word.Entrance to doctor## <i class="fas fa-pen"></i></a>
+          <a class="btn btn-warning btn-lg" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" ng-show="item.status.id == 2" ng-click="updateStatus(item,3)">##word.Detected## <i class="fas fa-pen"></i></a>
+          <a title="##word.Vitals Notes##" ng-show="item.status.id == 1" class="btn btn-primary btn-lg" ng-click="showVitalsNotes(item)"><i class="fas fa-file-medical-alt"></i></a>
+          <a title="##word.Doctor recommendations##" class="btn btn-success btn-lg" ng-click="showDoctorRecommendations(item)"><i class="fas fa-stethoscope font-22 pointer"></i></a>
+          <a title="##word.View##" class="btn btn-info btn-lg" x-permissions="doctorDeskTopView || doctorDeskTopManage" ng-click="showView(item)"><i class="fas fa-eye"></i></a>
+          <a title="##word.Delete##" class="btn btn-danger btn-lg" x-permissions="doctorDeskTopDelete || doctorDeskTopManage" ng-click="showDelete(item)"><i class="fas fa-trash-alt"></i></a>
+          <!-- <a title="##word.Edit##"  class="btn btn-warning btn-lg" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" ng-click="showUpdate(item)"><i class="fas fa-edit"></i></a>-->
         </td>
       </tr>
     </table>
     <i-button x-permissions="doctorDeskTopPrint || doctorDeskTopManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
-    <i-button x-permissions="doctorDeskTopExport || doctorDeskTopManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')">
-    </i-button>
+    <i-button x-permissions="doctorDeskTopExport || doctorDeskTopManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')"> </i-button>
   </div>
 </div>

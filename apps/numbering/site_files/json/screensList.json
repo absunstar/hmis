@@ -248,6 +248,12 @@
     {
         "category": "main",
         "feature": "public",
+        "id": "patientEducations",
+        "name": "Patient Educations"
+    },
+    {
+        "category": "main",
+        "feature": "public",
         "id": "analyzes",
         "name": "Analyzes"
     },

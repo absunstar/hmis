@@ -14,20 +14,47 @@
           <fieldset>
             <div class="row">
 
-            <i-checkbox ng-model="item.erCase" label="##word.ER Case ?##"></i-checkbox>
-            <i-checkbox ng-model="item.chronic" label="##word.Chronic##"></i-checkbox>
-            <i-checkbox ng-model="item.conginital" label="##word.Conginital##"></i-checkbox>
-            <i-checkbox ng-model="item.rta" label="##word.RTA##"></i-checkbox>
-            <i-checkbox ng-model="item.workRelated" label="##word.Work Related##"></i-checkbox>
-            <i-checkbox ng-model="item.vaccination" label="##word.Vaccination##"></i-checkbox>
-            <i-checkbox ng-model="item.checkup" label="##word.Checkup##"></i-checkbox>
-            <i-checkbox ng-model="item.psychiatric" label="##word.Psychiatric##"></i-checkbox>
-            <i-checkbox ng-model="item.infertility" label="##word.Infertility##"></i-checkbox>
-            <i-checkbox ng-hide="item.patient.gender.id == 'm'" ng-model="item.pregnancy" label="##word.Pregnancy##"></i-checkbox>
-            <i-checkbox ng-hide="item.patient.gender.id == 'm'" ng-model="item.lactation" label="##word.Lactation##"></i-checkbox>
-            <i-checkbox ng-model="item.acute" label="##word.Acute##"></i-checkbox>
+            <i-checkbox class="col2" ng-model="item.erCase" label="##word.ER Case ?##"></i-checkbox>
+            <i-checkbox class="col2" ng-model="item.chronic" label="##word.Chronic##"></i-checkbox>
+            <i-checkbox class="col2" ng-model="item.conginital" label="##word.Conginital##"></i-checkbox>
+            <i-checkbox class="col2" ng-model="item.rta" label="##word.RTA##"></i-checkbox>
+            <i-checkbox class="col2" ng-model="item.workRelated" label="##word.Work Related##"></i-checkbox>
+            <i-checkbox class="col2" ng-model="item.vaccination" label="##word.Vaccination##"></i-checkbox>
+            <i-checkbox class="col2" ng-model="item.checkup" label="##word.Checkup##"></i-checkbox>
+            <i-checkbox class="col2" ng-model="item.psychiatric" label="##word.Psychiatric##"></i-checkbox>
+            <i-checkbox class="col2" ng-model="item.infertility" label="##word.Infertility##"></i-checkbox>
+            <i-checkbox class="col2" ng-hide="item.patient.gender.id == 'm'" ng-model="item.pregnancy" label="##word.Pregnancy##"></i-checkbox>
+            <i-checkbox class="col2" ng-hide="item.patient.gender.id == 'm'" ng-model="item.lactation" label="##word.Lactation##"></i-checkbox>
+            <i-checkbox class="col2" ng-model="item.acute" label="##word.Acute##"></i-checkbox>
           </div>
         </fieldset>
+        <fieldset>
+          <legend>##word.Treatment##</legend>
+          <i-textarea ng-model="item.treatment"></i-textarea>
+
+        </fieldset>
+
+
+        <div class="row padding">
+          <fieldset>
+            <div class="tabs">
+              <div class="tabs-header full">
+                <a class="tab-link" onclick="site.showTabContent(event, '#patient')">
+                  <span> ##word.Patient## + </span>
+                </a>
+              </div>
+              <div class="tabs-content">
+                <div id="patient" class="tab-content">
+                  <div class="row padding">
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+
         </div>
         <div class="col3">
           <fieldset>

@@ -41,6 +41,7 @@
       "significantSignsManage",
       "patientRecommendationsManage",
       "patientEducationsManage",
+      "otherConditionsManage",
       "analyzesManage",
       "raysManage",
       "diagnosesManage",

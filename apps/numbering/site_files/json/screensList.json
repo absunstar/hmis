@@ -274,5 +274,11 @@
         "feature": "public",
         "id": "foods",
         "name": "Foods"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "otherConditions",
+        "name": "Other Conditions"
     }
 ]

@@ -212,8 +212,8 @@
     {
         "category": "main",
         "feature": "public",
-        "id": "salesBill",
-        "name": "Sales Bill"
+        "id": "salesInvoice",
+        "name": "Sales Invoice"
     },
     {
         "category": "main",

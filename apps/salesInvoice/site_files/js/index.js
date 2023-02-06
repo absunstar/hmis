@@ -1,31 +1,36 @@
-app.controller('salesBill', function ($scope, $http, $timeout) {
+app.controller('salesInvoice', function ($scope, $http, $timeout) {
     $scope.baseURL = '';
-    $scope.appName = 'salesBill';
-    $scope.modalID = '#salesBillManageModal';
-    $scope.modalSearchID = '#salesBillSearchModal';
+    $scope.appName = 'salesInvoice';
+    $scope.modalID = '#salesInvoiceManageModal';
+    $scope.modalSearchID = '#salesInvoiceSearchModal';
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
-        image: { url: '/images/salesBill.png' },
+        image: { url: '/images/salesInvoice.png' },
         date: new Date(),
-
+        itemsList: [],
         active: true,
     };
     $scope.item = {};
     $scope.list = [];
 
-    $scope.orderItem = {
-        item: undefined,
-        unit: undefined,
-        quantity: 1,
-        purchasePrice: 0,
-        vat: 0,
-        total: 0,
+    $scope.resetOrderItem = function () {
+        $scope.orderItem = {
+            item: undefined,
+            unit: undefined,
+            salesCount: 1,
+            sellingPrice: 0,
+            saleDiscount: 0,
+            maxDiscount: 0,
+            discountType: { amount: 'amount', percent: 'percent' },
+            vat: 0,
+            total: 0,
+        };
     };
-
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
+        $scope.resetOrderItem();
         $scope.item = { ...$scope.structure };
         site.showModal($scope.modalID);
     };
@@ -274,6 +279,10 @@ app.controller('salesBill', function ($scope, $http, $timeout) {
                 id: elem.unit.id,
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
+                sellingPrice: elem.sellingPrice,
+                maxDiscount: elem.maxDiscount,
+                saleDiscount: elem.saleDiscount,
+                discountType: elem.discountType,
             });
             $scope.orderItem.unit = $scope.unitsList[0];
         }
@@ -291,25 +300,54 @@ app.controller('salesBill', function ($scope, $http, $timeout) {
             return;
         }
 
-        if (!orderItem.quantity > 0) {
+        if (!orderItem.salesCount > 0) {
             $scope.itemListError = '##word.Please Enter Count##';
-            return;
-        }
-
-        if (!orderItem.purchasePrice > 0) {
-            $scope.itemListError = '##word.Please Enter Purchase Price##';
             return;
         }
 
         $scope.item.itemsList.unshift({
             item: orderItem.item,
             unit: orderItem.unit,
-            quantity: orderItem.quantity,
-            purchasePrice: orderItem.purchasePrice,
-            total: orderItem.quantity * orderItem.purchasePrice,
+            salesCount: orderItem.salesCount,
+            sellingPrice: orderItem.unit.sellingPrice,
+            saleDiscount: orderItem.unit.saleDiscount,
+            maxDiscount: orderItem.unit.maxDiscount,
+            discountType: orderItem.unit.discountType,
+            total: orderItem.salesCount * orderItem.unit.sellingPrice,
         });
-        $scope.orderItem = { ...$scope, orderItem };
+        $scope.resetOrderItem();
         $scope.itemListError = '';
+    };
+
+    $scope.getStores = function () {
+        $scope.busy = true;
+        $scope.storesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/stores/all',
+            data: {
+                where: {
+                    active: true,
+                },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.storesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
     };
 
     $scope.getStoresItems = function () {
@@ -345,7 +383,36 @@ app.controller('salesBill', function ($scope, $http, $timeout) {
         );
     };
 
+    $scope.getPaymentTypes = function () {
+        $scope.busy = true;
+        $scope.paymentTypesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/paymentTypes',
+            data: {
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.paymentTypesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
     $scope.getAll();
+    $scope.getPaymentTypes();
+    $scope.getStores();
     $scope.getStoresItems();
     $scope.getCustomers();
     $scope.getNumberingAuto();

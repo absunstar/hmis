@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "salesInvoice" , "name":"salesInvoiceManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "salesInvoice" , "name":"salesInvoiceAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "salesInvoice" , "name":"salesInvoiceUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "salesInvoice" , "name":"salesInvoiceDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "salesInvoice" , "name":"salesInvoiceView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "salesInvoice" , "name":"salesInvoiceSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "salesInvoice" , "name":"salesInvoiceExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "salesInvoice" , "name":"salesInvoicePrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "salesInvoice" , "name":"salesInvoiceUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+]

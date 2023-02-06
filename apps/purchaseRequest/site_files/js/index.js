@@ -21,7 +21,7 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
     $scope.selectItem = {
         item: {},
         unit: {},
-        count: 1,
+        purchaseCount: 1,
         approved: false,
     };
     $scope.date = {
@@ -415,13 +415,13 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
             }
         }
 
-        if (elem.count < 1) {
-            $scope.error = '##word.Please Enter Count ##';
+        if (elem.purchaseCount < 1) {
+            $scope.error = '##word.Please Enter Count##';
             return;
         }
 
         $scope.item.itemsList.unshift(elem);
-        $scope.selectItem = { count: 1 };
+        $scope.selectItem = { purchaseCount: 1 };
     };
 
     $scope.approveItem = function (elem) {

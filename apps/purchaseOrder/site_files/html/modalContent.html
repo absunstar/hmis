@@ -100,7 +100,7 @@
                 </div>
 
                 <div class="col2">
-                    <i-control type="number" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
+                    <i-control type="number" min="1" ng-model="orderItem.purchaseCount" label="##word.Purchase Count##"></i-control>
                 </div>
                 <div class="col2">
                     <i-control type="number" min="0" ng-model="orderItem.purchasePrice" label="##word.Price##"></i-control>
@@ -121,7 +121,7 @@
                     <th>##word.S##</th>
                     <th>##word.Item##</th>
                     <th>##word.Unit##</th>
-                    <th>##word.Count##</th>
+                    <th>##word.Purchase Count##</th>
                     <th>##word.Purchase Price##</th>
                     <th>##word.Bonus Count##</th>
                     <th>##word.Total##</th>
@@ -133,7 +133,7 @@
                     <td class="text-center">{{elem.item.name##session.lang##}}</td>
                     <td class="text-center">{{elem.unit.name##session.lang##}}</td>
                     <td class="text-center">
-                        <p ng-if="item.source.id === 1 || elem.approved" class="text-center">{{elem.count}}</p>
+                        <p ng-if="item.source.id === 1 || elem.approved" class="text-center">{{elem.purchaseCount}}</p>
                         <i-control
                             ng-change="calculateTotalInItemsList(elem)"
                             ng-keyup="calculateTotalInItemsList(elem)"
@@ -141,7 +141,7 @@
                             ng-if="item.source.id !== 1 && !elem.approved"
                             min="0"
                             type="number"
-                            ng-model="elem.count"
+                            ng-model="elem.purchaseCount"
                         ></i-control>
                     </td>
                     <td class="text-center">

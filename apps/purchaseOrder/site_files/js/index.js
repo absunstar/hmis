@@ -28,7 +28,7 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
     $scope.orderItem = {
         item: undefined,
         unit: undefined,
-        count: 1,
+        purchaseCount: 1,
         purchasePrice: 0,
         bonusCount: 0,
         bonusPrice: 0,
@@ -497,23 +497,23 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
             $scope.itemListError = '##word.Please Enter Item Unit##';
             return;
         }
-        if (!orderItem.count > 0) {
+        if (!orderItem.purchaseCount > 0) {
             $scope.itemListError = '##word.Please Enter Count##';
             return;
         }
         if (!orderItem.purchasePrice > 0) {
-            $scope.itemListError = '##word.Please Enter Purchase Price##';
+            $scope.itemListError = '##word.Please Enter Price##';
             return;
         }
 
         $scope.item.itemsList.unshift({
             item: orderItem.item,
             unit: orderItem.unit,
-            count: orderItem.count,
+            purchaseCount: orderItem.purchaseCount,
             purchasePrice: orderItem.purchasePrice,
             bonusPrice: orderItem.bonusPrice,
             bonusCount: orderItem.bonusCount,
-            total: orderItem.count * orderItem.purchasePrice,
+            total: orderItem.purchaseCount * orderItem.purchasePrice,
             approved: orderItem.approved,
             purchaseCost: 0,
         });
@@ -527,7 +527,7 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
             $scope.item.itemsList.push({
                 item: elem.item,
                 unit: elem.unit,
-                count: elem.count,
+                purchaseCount: elem.purchaseCount,
                 purchasePrice: 0,
                 bonusCount: 0,
                 bonusPrice: 0,
@@ -540,10 +540,10 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
 
     $scope.approveItem = function (item) {
         if (!item.purchasePrice > 0) {
-            $scope.itemListError = '##word.Please Enter Purchase Price##';
+            $scope.itemListError = '##word.Please Enter Price##';
             return;
         }
-        if (item.count < 1) {
+        if (item.purchaseCount < 1) {
             $scope.itemListError = '##word.Please Enter Count##';
             return;
         }
@@ -567,13 +567,13 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
     };
 
     $scope.calculateTotalInItemsList = function (itm) {
-        if (itm.count < 0 || itm.purchasePrice < 0) {
+        if (itm.purchaseCount < 0 || itm.purchasePrice < 0) {
             $scope.itemListError = '##word.Please Enter Valid Numbers##';
             return;
         }
         $scope.item.itemsList.some((elem) => {
             if (elem.item.id === itm.item.id && elem.unit.id === itm.unit.id) {
-                elem.total = elem.count * elem.purchasePrice;
+                elem.total = elem.purchaseCount * elem.purchasePrice;
             }
         });
         $scope.itemListError = '';

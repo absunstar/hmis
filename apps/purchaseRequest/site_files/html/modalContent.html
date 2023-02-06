@@ -38,7 +38,7 @@
                         >
                         </i-list>
                         <i-list class="col3" label="##word.Unit##" ng-model="selectItem.unit" items="unitsList" display="name##session.lang##" ng-search="item.$elemItem"> </i-list>
-                        <i-control class="col3" type="number" min="1" label="##word.Count##" ng-model="selectItem.count"> </i-control>
+                        <i-control class="col3" type="number" min="1" label="##word.Purchase Count##" ng-model="selectItem.purchaseCount"> </i-control>
                         <div class="col2">
                             <br />
                             <div class="row">
@@ -52,7 +52,7 @@
                             <th>##word.S##</th>
                             <th>##word.Store Item##</th>
                             <th>##word.Item Unit##</th>
-                            <th>##word.Count##</th>
+                            <th>##word.Purchase Count##</th>
                             <th>##word.Approved##</th>
                             <th class="not-print">##word.Actions##</th>
                         </tr>
@@ -62,8 +62,8 @@
                             <td class="text-center">{{elem.unit.name##session.lang##}}</td>
 
                             <td class="text-center">
-                                <i-control type="number" min="1" ng-show="!elem.approved" ng-model="elem.count"> </i-control>
-                                <span class="text-center" ng-show="elem.approved">{{elem.count}}</span>
+                                <i-control type="number" min="1" ng-show="!elem.approved" ng-model="elem.purchaseCount"> </i-control>
+                                <span class="text-center" ng-show="elem.approved">{{elem.purchaseCount}}</span>
                             </td>
                             <td class="text-center">
                                 <span class="text-success" ng-show="elem.approved">##word.Yes##</span>

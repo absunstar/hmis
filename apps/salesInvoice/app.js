@@ -1,6 +1,6 @@
 module.exports = function init(site) {
     let app = {
-        name: 'purchaseOrder',
+        name: 'salesInvoice',
         allowMemory: false,
         memoryList: [],
         allowCache: false,
@@ -178,28 +178,16 @@ module.exports = function init(site) {
                     _data.code = cb.code;
                 }
 
-                app.$collection.find({ code: _data.code }, (err, doc) => {
-                    if (doc) {
-                        response.done = false;
-                        response.error = 'There Is Order Exisit With Same Code';
-                        return res.json(response);
+                _data.addUserInfo = req.getUserFinger();
+
+                app.add(_data, (err, doc) => {
+                    if (!err && doc) {
+                        response.done = true;
+                        response.doc = doc;
+                    } else {
+                        response.error = err.mesage;
                     }
-                    _data.addUserInfo = req.getUserFinger();
-
-                    app.add(_data, (err, doc) => {
-                        if (!err && doc) {
-                            response.done = true;
-                            response.doc = doc;
-                        } else {
-                            response.error = err.mesage;
-                        }
-
-                        if (_data.source.id === 1 && _data.purchaseRequest && _data.purchaseRequest.id) {
-                            const purchaseRequestApp = site.getApp('purchaseRequest');
-                            purchaseRequestApp.$collection.update({ where: { id: _data.purchaseRequest.id }, set: { hasTransaction: true } });
-                            res.json(response);
-                        }
-                    });
+                    res.json(response);
                 });
             });
         }
@@ -211,36 +199,7 @@ module.exports = function init(site) {
                 };
 
                 let _data = req.data;
-                app.$collection.find({ code: _data.code, id: { $ne: _data.id } }, (err, doc) => {
-                    if (doc) {
-                        response.done = false;
-                        response.error = 'There Is Order Exisit With Same Code';
-                        res.json(response);
-                        return;
-                    }
-                    _data.editUserInfo = req.getUserFinger();
-
-                    app.update(_data, (err, result) => {
-                        if (!err) {
-                            response.done = true;
-                            response.result = result;
-                        } else {
-                            response.error = err.message;
-                        }
-                        res.json(response);
-                    });
-                });
-            });
-        }
-
-        if (app.allowRouteUpdate) {
-            site.post({ name: `/api/${app.name}/approve`, require: { permissions: ['login'] } }, (req, res) => {
-                let response = {
-                    done: false,
-                };
-
-                let _data = req.data;
-                _data.approveUserInfo = req.getUserFinger();
+                _data.editUserInfo = req.getUserFinger();
 
                 app.update(_data, (err, result) => {
                     if (!err) {
@@ -249,95 +208,6 @@ module.exports = function init(site) {
                     } else {
                         response.error = err.message;
                     }
-                    const storesItemsApp = site.getApp('storesItems');
-                    _data.itemsList.forEach((itm) => {
-                        // if (_data.calculatePurchaseCost) {
-                        //     if (_data.calculatePurchaseCostType === 'items') {
-                        //         const itemsCount = _data.itemsList.length;
-                        //         const itemPurchaseCost = _data.purchaseCost / itemsCount;
-                        //         for (const item of _data.itemsList) {
-                        //             const itemPurchasePriceCost = itemPurchaseCost / item.purchaseCount;
-                        //             item.purchaseCost = itemPurchasePriceCost;
-                        //         }
-                        //     }
-                        // }
-                        // const purchasePrice = itm.purchasePrice / itm.purchaseCount;
-
-                        storesItemsApp.$collection.find({ where: { id: itm.item.id } }, (err, doc) => {
-                            let index = doc.unitsList.findIndex((unt) => unt.unit.id === itm.unit.id);
-
-                            if (index !== -1) {
-                                let unitIndex = doc.unitsList[index].storesList.findIndex((s) => s.store.id === _data.store.id);
-                                if (unitIndex === -1) {
-                                    doc.unitsList[index].storesList.push({
-                                        store: _data.store,
-                                        purchaseCost: itm.purchaseCost || 0,
-                                        purchaseCount: itm.purchaseCount,
-                                        purchasePrice: itm.purchasePrice,
-                                        purchaseReturnCount: 0,
-                                        purchaseReturnPrice: 0,
-                                        salesCount: 0,
-                                        salesPrice: 0,
-                                        salesReturnCount: 0,
-                                        salesReturnPrice: 0,
-                                        bonusCount: itm.bonusCount,
-                                        bonusPrice: itm.bonusPrice,
-                                        bonusPrice: 0,
-                                        damagedCount: 0,
-                                        damagedPrice: 0,
-                                        assembledCount: 0,
-                                        assembledPrice: 0,
-                                        unassembledCount: 0,
-                                        unassembledPrice: 0,
-                                    });
-                                } else {
-                                    doc.unitsList[index].storesList[unitIndex].purchaseCount += itm.purchaseCount;
-                                    doc.unitsList[index].storesList[unitIndex].purchaseCost += itm.purchaseCost;
-                                    doc.unitsList[index].storesList[unitIndex].purchasePrice += itm.purchasePrice;
-                                    doc.unitsList[index].storesList[unitIndex].bonusCount += itm.bonusCount;
-                                    doc.unitsList[index].storesList[unitIndex].bonusPrice += itm.bonusPrice;
-                                }
-                            }
-
-                            const storesItemsCardApp = site.getApp('storesItemsCard');
-                            const transactionType = site.storesTransactionsTypes.find((t) => t.id === 1);
-                            const purchaseItem = { id: itm.item.id, code: itm.item.code, nameAr: itm.item.nameAr, nameEn: itm.item.nameEn };
-                            const purchaseUnit = { id: itm.unit.id, code: itm.unit.code, nameAr: itm.unit.nameAr, nameEn: itm.unit.nameEn };
-                            storesItemsCardApp.$collection.findMany({ where: { 'transactionType.id': transactionType.id, 'item.id': itm.item.id, 'unit.id': itm.unit.id } }, (err, docs) => {
-                                if (docs.length) {
-                                    const lastDoc = docs[docs.length - 1];
-
-                                    storesItemsCardApp.$collection.add({
-                                        transactionType: site.storesTransactionsTypes.find((t) => t.id === 1),
-                                        date: _data.orderDate,
-                                        item: purchaseItem,
-                                        unit: purchaseUnit,
-                                        itemGroup: doc.itemGroup,
-                                        store: _data.store,
-                                        vendor: _data.vendor,
-                                        invoice_id: _data.id,
-                                        count: lastDoc.count + itm.purchaseCount,
-                                        price: lastDoc.price + itm.purchasePrice,
-                                    });
-                                } else {
-                                    storesItemsCardApp.$collection.add({
-                                        transactionType: site.storesTransactionsTypes.find((t) => t.id === 1),
-                                        date: _data.orderDate,
-                                        item: purchaseItem,
-                                        unit: purchaseUnit,
-                                        itemGroup: doc.itemGroup,
-                                        store: _data.store,
-                                        vendor: _data.vendor,
-                                        invoice_id: _data.id,
-                                        count: itm.purchaseCount,
-                                        price: itm.purchasePrice,
-                                    });
-                                }
-                            });
-                            storesItemsApp.$collection.update(doc);
-                        });
-                    });
-
                     res.json(response);
                 });
             });
@@ -384,7 +254,7 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1 };
+                let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1, active: 1 };
                 let list = [];
                 if (app.allowMemory) {
                     app.memoryList
@@ -407,10 +277,7 @@ module.exports = function init(site) {
                     });
                 } else {
                     app.$collection.findMany({ where: where, select }, (err, docs) => {
-                        res.json({
-                            done: true,
-                            list: docs,
-                        });
+                        res.json({ done: true, list: docs });
                     });
                 }
             });

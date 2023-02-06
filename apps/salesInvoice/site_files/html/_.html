@@ -1,18 +1,18 @@
-<div ng-controller="salesBill" class="loaded">
-    <div class="row" x-permissions="salesBillUi || salesBillManage">
-        <div x-import="salesBill/modal.html"></div>
-        <div x-import="salesBill/modalSearch.html"></div>
+<div ng-controller="salesInvoice" class="loaded">
+    <div class="row" x-permissions="salesInvoiceUi || salesInvoiceManage">
+        <div x-import="salesInvoice/modal.html"></div>
+        <div x-import="salesInvoice/modalSearch.html"></div>
 
         <div class="row">
-            <h1 class="bold text-center">##word.Sales Bill##</h1>
+            <h1 class="bold text-center">##word.Sales Invoice##</h1>
         </div>
 
         <div class="top-actions">
-            <i-button type="add" x-permissions="salesBillAdd || salesBillManage" label="##word.New##" ng-click="showAdd()"></i-button>
+            <i-button type="add" x-permissions="salesInvoiceAdd || salesInvoiceManage" label="##word.New##" ng-click="showAdd()"></i-button>
         </div>
 
         <div class="row padding">
-            <i-control ng-model="$search" x-permissions="salesBillSearch || salesBillManage"></i-control>
+            <i-control ng-model="$search" x-permissions="salesInvoiceSearch || salesInvoiceManage"></i-control>
         </div>
 
         <table class="table hover bold" id="t1">
@@ -37,13 +37,13 @@
                 <td class="text-center not-print">
                     <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
-                    <i-button type="edit" x-permissions="salesBillUpdate || salesBillManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
+                    <i-button type="edit" x-permissions="salesInvoiceUpdate || salesInvoiceManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
 
-                    <i-button type="delete" x-permissions="salesBillDelete || salesBillManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
+                    <i-button type="delete" x-permissions="salesInvoiceDelete || salesInvoiceManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
                 </td>
             </tr>
         </table>
-        <i-button x-permissions="salesBillPrint || salesBillManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
-        <i-button x-permissions="salesBillExport || salesBillManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')"> </i-button>
+        <i-button x-permissions="salesInvoicePrint || salesInvoiceManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
+        <i-button x-permissions="salesInvoiceExport || salesInvoiceManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')"> </i-button>
     </div>
 </div>

@@ -51,7 +51,6 @@ module.exports = function init(site) {
     };
 
     app.update = function (_item, callback) {
-        console.log('function storeitem', _item);
         app.$collection.edit(
             {
                 where: {

@@ -101,6 +101,7 @@ module.exports = function init(site) {
         { id: 1, code: '001', nameEn: 'Purchase Request', nameAr: 'طلب شراء' },
         { id: 2, code: '002', nameEn: 'Order / Invoice', nameAr: 'أمر شراء / فاتورة' },
     ];
+    site.storesTransactionsTypes = [{ id: 1, code: '001', nameEn: 'Order / Invoice', nameAr: 'أمر شراء / فاتورة' }];
     site.post('/api/patientTypes', (req, res) => {
         res.json({
             done: true,
@@ -181,6 +182,13 @@ module.exports = function init(site) {
         res.json({
             done: true,
             list: site.purchaseOrderSource,
+        });
+    });
+
+    site.post('/api/storesTransactionsTypes', (req, res) => {
+        res.json({
+            done: true,
+            list: site.storesTransactionsTypes,
         });
     });
 };

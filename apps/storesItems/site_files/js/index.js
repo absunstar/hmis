@@ -281,6 +281,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
                 },
                 select: {
                     id: 1,
+                    code: 1,
                     nameEn: 1,
                     nameAr: 1,
                 },
@@ -555,7 +556,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             return;
         }
         if (!elem.quantity > 0) {
-            $scope.collectionItemsInformationsError = '##word.Please Enter Quantity ##';
+            $scope.collectionItemsInformationsError = '##word.Please Enter Count ##';
             return;
         }
         $scope.item.collectedItemsList.unshift({

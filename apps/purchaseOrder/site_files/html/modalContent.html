@@ -68,7 +68,7 @@
                     <i-list v="r" class="col4" display="name##session.lang##" ng-model="item.store" items="storesList" label="##word.Store##" ng-search="item.$store"></i-list>
                 </div>
 
-                <fieldset>
+                <!-- <fieldset>
                     <legend>##word.Calculate Purchase Price Informations##</legend>
                     <div class="row">
                         <i-checkbox ng-model="item.calculatePurchaseCost" class="col3" label="##word.Calculate Purchase Price##"></i-checkbox>
@@ -76,7 +76,7 @@
                         <i-radio ng-if="item.calculatePurchaseCost" class="col1" label="##word.Items##" ng-value="items" ng-model="item.calculatePurchaseCostType"> </i-radio>
                         <i-control ng-if="item.calculatePurchaseCost" class="col3" type="number" min="0" ng-model="item.purchaseCost" label="##word.Purchase Cost##"></i-control>
                     </div>
-                </fieldset>
+                </fieldset> -->
             </div>
             <div class="col3 center">
                 <i-image class="img256 center" ng-model="item.image"></i-image>
@@ -100,13 +100,13 @@
                 </div>
 
                 <div class="col2">
-                    <i-control type="number" min="1" ng-model="orderItem.quantity" label="##word.Quantity##"></i-control>
+                    <i-control type="number" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
                 </div>
                 <div class="col2">
                     <i-control type="number" min="0" ng-model="orderItem.purchasePrice" label="##word.Price##"></i-control>
                 </div>
                 <div class="col2">
-                    <i-control type="number" min="0" ng-model="orderItem.bonusCount" label="##word.Bonus##"></i-control>
+                    <i-control type="number" min="0" ng-model="orderItem.bonusCount" label="##word.Bonus Count##"></i-control>
                 </div>
 
                 <div class="col1">
@@ -121,9 +121,9 @@
                     <th>##word.S##</th>
                     <th>##word.Item##</th>
                     <th>##word.Unit##</th>
-                    <th>##word.Quantity##</th>
+                    <th>##word.Count##</th>
                     <th>##word.Purchase Price##</th>
-                    <th>##word.Bonus##</th>
+                    <th>##word.Bonus Count##</th>
                     <th>##word.Total##</th>
                     <th>##word.Approved##</th>
                     <th class="not-print">##word.Actions##</th>
@@ -133,7 +133,7 @@
                     <td class="text-center">{{elem.item.name##session.lang##}}</td>
                     <td class="text-center">{{elem.unit.name##session.lang##}}</td>
                     <td class="text-center">
-                        <p ng-if="item.source.id === 1 || elem.approved" class="text-center">{{elem.quantity}}</p>
+                        <p ng-if="item.source.id === 1 || elem.approved" class="text-center">{{elem.count}}</p>
                         <i-control
                             ng-change="calculateTotalInItemsList(elem)"
                             ng-keyup="calculateTotalInItemsList(elem)"
@@ -141,7 +141,7 @@
                             ng-if="item.source.id !== 1 && !elem.approved"
                             min="0"
                             type="number"
-                            ng-model="elem.quantity"
+                            ng-model="elem.count"
                         ></i-control>
                     </td>
                     <td class="text-center">

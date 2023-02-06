@@ -21,6 +21,7 @@
                 <th>##word.Code##</th>
                 <th>##word.Source##</th>
                 <th>##word.Order Date##</th>
+                <th>##word.Store##</th>
                 <th>##word.Approved##</th>
                 <th>##word.Status##</th>
                 <th class="not-print">##word.Actions##</th>
@@ -32,6 +33,7 @@
                 <td class="text-center blue">{{item.code}}</td>
                 <td class="text-center">{{item.source.name##session.lang##}}</td>
                 <td class="text-center blue">{{item.orderDate|date:'dd/MM/yyyy'}}</td>
+                <td class="text-center">{{item.store.name##session.lang##}}</td>
                 <td class="text-center">
                     <span ng-show="item.approved">
                         <span class="text-success text-center">##word.Yes##</span> {{item.approvedDate |date:'dd/MM/yyyy' }} - {{item.approvedDate |date:'hh:mm:ss a' }}

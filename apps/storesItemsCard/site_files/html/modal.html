@@ -2,7 +2,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <span class="close">&times;</span>
-            <p class="center" ng-show="mode == 'add' ">
+            <!-- <p class="center" ng-show="mode == 'add' ">
                 ##word.New## ##word.Stores Items Card##
                 <i class="fa fa-plus"></i>
             </p>
@@ -18,6 +18,15 @@
                 ##word.Stores Items Card## ##word.Details##
                 <i class="fa fa-file"></i>
             </p>
+            <p class="center" ng-show="mode == 'view' ">
+                ##word.Stores Items Card## ##word.Details##
+                <i class="fa fa-file"></i>
+     
+            </p> -->
+            <p class="center" ng-show="mode == 'search' ">
+                ##word.Stores Items Card## ##word.Search##
+                <i class="fa fa-file"></i>
+            </p>
         </div>
 
         <div class="modal-body">
@@ -26,9 +35,9 @@
 
         <div class="modal-footer center">
             <p class="error">{{error}}</p>
-            <i-button ng-show="mode == 'add' " type="add" label="##word.Add##" ng-click="add(item)"></i-button>
-            <i-button ng-show="mode == 'edit' " type="edit" label="##word.Save##" ng-click="update(item)"></i-button>
-            <i-button ng-show="mode == 'delete' " type="delete" label="##word.Delete##" ng-click="delete(item)"> </i-button>
+            <!-- <i-button ng-show="mode == 'add' " type="add" label="##word.Add##" ng-click="add(item)"></i-button> -->
+            <!-- <i-button ng-show="mode == 'edit' " type="edit" label="##word.Save##" ng-click="update(item)"></i-button> -->
+            <!-- <i-button ng-show="mode == 'delete' " type="delete" label="##word.Delete##" ng-click="delete(item)"> </i-button> -->
             <i-button type="close" label="##word.Close##" onclick="site.hideModal( '#storesItemsCardManageModal')"></i-button>
         </div>
     </div>

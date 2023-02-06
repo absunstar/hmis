@@ -21,7 +21,7 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
     $scope.selectItem = {
         item: {},
         unit: {},
-        quantity: 1,
+        count: 1,
         approved: false,
     };
     $scope.date = {
@@ -29,12 +29,22 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
         to: new Date(),
     };
 
+    $scope.resetModel = function () {
+        $scope.structure = {
+            requestDate: new Date(),
+            filesList: [],
+            itemsList: [],
+            image: { url: '/images/purchaseRequest.png' },
+            approved: false,
+            hasTransaction: false,
+            active: true,
+        };
+    };
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
+        $scope.resetModel();
         $scope.item = { ...$scope.structure };
-        $scope.selectItem = { ...$scope.selectItem };
-        $scope.date = { ...$scope.date };
         site.showModal($scope.modalID);
     };
 
@@ -46,7 +56,7 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
             return;
         }
 
-        if (!$scope.item.itemsList.length) {
+        if (!_item.itemsList.length) {
             $scope.error = '##word.Must Enter One Item At Least##';
             return;
         }
@@ -54,7 +64,7 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
         $http({
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/add`,
-            data: $scope.item,
+            data: _item,
         }).then(
             function (response) {
                 $scope.busy = false;
@@ -91,7 +101,7 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-        if (!$scope.item.itemsList.length) {
+        if (!_item.itemsList.length) {
             $scope.error = '##word.Must Enter One Item At Least##';
             return;
         }
@@ -119,6 +129,7 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
                 console.log(err);
             }
         );
+        $scope.item = { ...$scope.structure };
     };
 
     $scope.approve = function (_item) {
@@ -128,7 +139,7 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-        if (!$scope.item.itemsList.length) {
+        if (!_item.itemsList.length) {
             $scope.error = '##word.Must Enter One Item At Least##';
             return;
         }
@@ -171,7 +182,7 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-        if (!$scope.item.itemsList.length) {
+        if (!_item.itemsList.length) {
             $scope.error = '##word.Must Enter One Item At Least##';
             return;
         }
@@ -200,6 +211,7 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
                 console.log(err);
             }
         );
+        $scope.item = {};
     };
 
     $scope.showView = function (_item) {
@@ -403,13 +415,13 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
             }
         }
 
-        if (elem.quantity < 1) {
-            $scope.error = '##word.Please Enter Quantity ##';
+        if (elem.count < 1) {
+            $scope.error = '##word.Please Enter Count ##';
             return;
         }
 
         $scope.item.itemsList.unshift(elem);
-        $scope.selectItem = { ...$scope.selectItem };
+        $scope.selectItem = { count: 1 };
     };
 
     $scope.approveItem = function (elem) {
@@ -447,6 +459,7 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
         for (const elem of item.unitsList) {
             $scope.unitsList.push({
                 id: elem.unit.id,
+                code: elem.unit.code,
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
             });

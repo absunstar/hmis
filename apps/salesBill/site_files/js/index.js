@@ -285,14 +285,14 @@ app.controller('salesBill', function ($scope, $http, $timeout) {
             $scope.itemListError = '##word.Please Enter Item##';
             return;
         }
-        
+
         if (!orderItem?.unit.id) {
             $scope.itemListError = '##word.Please Enter Item Unit##';
             return;
         }
 
         if (!orderItem.quantity > 0) {
-            $scope.itemListError = '##word.Please Enter Quantity##';
+            $scope.itemListError = '##word.Please Enter Count##';
             return;
         }
 

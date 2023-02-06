@@ -242,18 +242,6 @@ module.exports = function init(site) {
                 let _data = req.data;
                 _data.approveUserInfo = req.getUserFinger();
 
-                if (_data.itemsList.length) {
-                    if (_data.calculatePurchaseCost) {
-                        if (_data.calculatePurchaseCostType && _data.calculatePurchaseCostType === 'items') {
-                            const itemsCount = _data.itemsList + 1;
-                            const itemPurchaseCost = _data.purchaseCost / itemsCount;
-                            for (const item of _data.itemsList) {
-                                const itemPurchasePriceCost = itemPurchaseCost / item.quantity;
-                                item.purchaseCost = itemPurchasePriceCost;
-                            }
-                        }
-                    }
-                }
                 app.update(_data, (err, result) => {
                     if (!err) {
                         response.done = true;
@@ -262,50 +250,80 @@ module.exports = function init(site) {
                         response.error = err.message;
                     }
                     const storesItemsApp = site.getApp('storesItems');
-                    for (const itm of _data.itemsList) {
-                        const purchasePrice = itm.purchasePrice / itm.quantity;
+                    _data.itemsList.forEach((itm) => {
+                        // if (_data.calculatePurchaseCost) {
+                        //     if (_data.calculatePurchaseCostType === 'items') {
+                        //         const itemsCount = _data.itemsList.length;
+                        //         const itemPurchaseCost = _data.purchaseCost / itemsCount;
+                        //         for (const item of _data.itemsList) {
+                        //             const itemPurchasePriceCost = itemPurchaseCost / item.count;
+                        //             item.purchaseCost = itemPurchasePriceCost;
+                        //         }
+                        //     }
+                        // }
+                        // const purchasePrice = itm.purchasePrice / itm.count;
+
                         storesItemsApp.$collection.find({ where: { id: itm.item.id } }, (err, doc) => {
-                            if (doc && doc.unitsList) {
-                                for (const elem of doc.unitsList) {
-                                    if (itm.unit.id === elem.unit.id) {
-                                        if (!elem.storesList.length) {
-                                            elem.storesList.push({
-                                                store: _data.store,
-                                                purchaseCount: itm.quantity,
-                                                purchasePrice: purchasePrice,
-                                                purchaseReturnCount: 0,
-                                                purchaseReturnPrice: 0,
-                                                salesCount: 0,
-                                                salesPrice: 0,
-                                                salesReturnCount: 0,
-                                                salesReturnPrice: 0,
-                                                bonusCount: itm.bonusCount,
-                                                bonusPrice: itm.bonusPrice,
-                                                bonusPrice: 0,
-                                                damagedCount: 0,
-                                                damagedPrice: 0,
-                                                assembledCount: 0,
-                                                assembledPrice: 0,
-                                                unassembledCount: 0,
-                                                unassembledPrice: 0,
-                                            });
-                                        } else {
-                                            for (const str of elem.storesList) {
-                                                if (str.store.id === _data.store.id) {
-                                                    str.purchaseCount += itm.quantity;
-                                                    str.purchasePrice += purchasePrice;
-                                                    str.bonusCount += itm.bonusCount;
-                                                    str.bonusPrice += itm.bonusPrice;
-                                                }
-                                            }
-                                        }
-                                    }
+                            doc.unitsList.forEach((unit) => {
+                                let index = unit.storesList.findIndex((s) => s.store.id === _data.store.id);
+
+                                if (index === -1) {
+                                    unit.storesList.push({
+                                        store: _data.store,
+                                        purchaseCost: itm.purchaseCost,
+                                        purchaseCount: itm.count,
+                                        purchasePrice: itm.purchasePrice,
+                                        purchaseReturnCount: 0,
+                                        purchaseReturnPrice: 0,
+                                        salesCount: 0,
+                                        salesPrice: 0,
+                                        salesReturnCount: 0,
+                                        salesReturnPrice: 0,
+                                        bonusCount: itm.bonusCount,
+                                        bonusPrice: itm.bonusPrice,
+                                        bonusPrice: 0,
+                                        damagedCount: 0,
+                                        damagedPrice: 0,
+                                        assembledCount: 0,
+                                        assembledPrice: 0,
+                                        unassembledCount: 0,
+                                        unassembledPrice: 0,
+                                    });
+                                } else {
+                                    unit.storesList[index].purchaseCount += itm.count;
+                                    unit.storesList[index].purchaseCost += itm.purchaseCost;
+                                    unit.storesList[index].purchasePrice += itm.purchasePrice;
+                                    unit.storesList[index].bonusCount += itm.bonusCount;
+                                    unit.storesList[index].bonusPrice += itm.bonusPrice;
                                 }
-                            }
-              
+                            });
+                            const storesItemsCardApp = site.getApp('storesItemsCard');
+                            const transactionType = site.storesTransactionsTypes.find((t) => t.id === 1);
+                            const purchaseItem = { id: itm.item.id, code: itm.item.code, nameAr: itm.item.nameAr, nameEn: itm.item.nameEn };
+                            const purchaseUnit = { id: itm.unit.id, code: itm.unit.code, nameAr: itm.unit.nameAr, nameEn: itm.unit.nameEn };
+                            storesItemsCardApp.$collection.find({ where: { 'transactionType.id': transactionType.id, 'item.id': itm.item.id, 'unit.id': itm.unit.id } }, (err, docs) => {
+                                console.log('docs', docs);
+
+                                if (docs) {
+                                } else {
+                                    storesItemsCardApp.$collection.add({
+                                        transactionType: site.storesTransactionsTypes.find((t) => t.id === 1),
+                                        date: _data.orderDate,
+                                        item: purchaseItem,
+                                        unit: purchaseUnit,
+                                        group: doc.itemGroup,
+                                        store: _data.store,
+                                        vendor: _data.vendor,
+                                        invoice_id: _data.id,
+                                        count: itm.count,
+                                        price: itm.purchasePrice,
+                                    });
+                                }
+                            });
                             storesItemsApp.$collection.update(doc);
                         });
-                    }
+                    });
+                    // cards
                     res.json(response);
                 });
             });

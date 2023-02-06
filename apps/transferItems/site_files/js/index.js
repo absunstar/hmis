@@ -325,7 +325,7 @@ app.controller('transferItems', function ($scope, $http, $timeout) {
         }
 
         if (elem.quantity < 1) {
-            $scope.error = '##word.Please Enter Quantity##';
+            $scope.error = '##word.Please Enter Count##';
             return;
         }
 

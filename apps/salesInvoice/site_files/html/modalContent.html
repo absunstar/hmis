@@ -42,12 +42,12 @@
             </div>
             <div class="col2">
                 <p class="text-center">##word.Selling Price##</p>
-                <p class="text-center">{{orderItem.unit.sellingPrice}}</p>
+                <p class="text-center">{{orderItem.unit.sellingPrice || 0}}</p>
             </div>
 
             <div class="col2">
                 <p class="text-center">##word.Sale Discount##</p>
-                <p class="text-center">{{orderItem.unit.saleDiscount}}</p>
+                <p class="text-center">{{orderItem.unit.saleDiscount || 0}}</p>
             </div>
 
             <div class="col2">
@@ -73,8 +73,7 @@
                 <td class="text-center">{{elem.item.name##session.lang##}}</td>
                 <td class="text-center">{{elem.unit.name##session.lang##}}</td>
                 <td class="text-center">
-                    <p ng-if="item.source.id === 1 || elem.approved" class="text-center">{{elem.salesCount}}</p>
-                    <i-control ng-if="item.source.id !== 1 && !elem.approved" min="0" type="number" ng-model="elem.salesCount"></i-control>
+                    <i-control ng-click="calculateItem(elem)" ng-change="calculateItem(elem)" ng-keyup="calculateItem(elem)" min="0" type="number" ng-model="elem.salesCount"></i-control>
                 </td>
                 <td class="text-center">
                     <p class="text-center">{{elem.sellingPrice}}</p>

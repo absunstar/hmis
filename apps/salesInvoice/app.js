@@ -180,6 +180,22 @@ module.exports = function init(site) {
 
                 _data.addUserInfo = req.getUserFinger();
 
+                const storesItemsApp = site.getApp('storesItems');
+                _data.itemsList.forEach((itm) => {
+                    storesItemsApp.$collection.find({ where: { id: itm.item.id } }, (err, doc) => {
+                        let index = doc.unitsList.findIndex((unt) => unt.unit.id === itm.unit.id);
+                        if (index === -1) {
+                            response.error = 'Item Unit Not Exisit';
+                            response.done = false;
+                            res.json(response);
+                            return;
+                        } else {
+                            // const avaliableBalanceForSale
+                        }
+                    });
+                });
+                storesItemsApp.$collection.find({});
+
                 app.add(_data, (err, doc) => {
                     if (!err && doc) {
                         response.done = true;

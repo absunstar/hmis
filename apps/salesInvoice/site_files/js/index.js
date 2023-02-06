@@ -12,6 +12,7 @@ app.controller('salesInvoice', function ($scope, $http, $timeout) {
         active: true,
     };
     $scope.item = {};
+    $scope.orderItem = {};
     $scope.list = [];
 
     $scope.resetOrderItem = function () {
@@ -23,7 +24,6 @@ app.controller('salesInvoice', function ($scope, $http, $timeout) {
             saleDiscount: 0,
             maxDiscount: 0,
             discountType: { amount: 'amount', percent: 'percent' },
-            vat: 0,
             total: 0,
         };
     };
@@ -42,7 +42,10 @@ app.controller('salesInvoice', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-
+        let dataValid = $scope.validateData(_item);
+        if (!dataValid.success) {
+            return;
+        }
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -81,6 +84,10 @@ app.controller('salesInvoice', function ($scope, $http, $timeout) {
         const v = site.validated($scope.modalID);
         if (!v.ok) {
             $scope.error = v.messages[0].ar;
+            return;
+        }
+        let dataValid = $scope.validateData(_item);
+        if (!dataValid.success) {
             return;
         }
         $scope.busy = true;
@@ -410,6 +417,33 @@ app.controller('salesInvoice', function ($scope, $http, $timeout) {
             }
         );
     };
+
+    $scope.calculateItem = function (itm) {
+        if (itm.salesCount < 0 || itm.sellingPrice < 0) {
+            $scope.itemListError = '##word.Please Enter Valid Numbers##';
+            return;
+        }
+        $scope.item.itemsList.some((elem) => {
+            if (elem.item.id === itm.item.id && elem.unit.id === itm.unit.id) {
+                elem.total = elem.salesCount * elem.sellingPrice;
+            }
+        });
+        $scope.itemListError = '';
+    };
+
+    $scope.validateData = function (_item) {
+        $scope.itemListError = '';
+        $scope.error = '';
+        let success = false;
+        if (!_item.itemsList.length) {
+            $scope.itemListError = '##word.Must Enter Items Data##';
+            return success;
+        }
+
+        success = true;
+        return { success, _item };
+    };
+
     $scope.getAll();
     $scope.getPaymentTypes();
     $scope.getStores();

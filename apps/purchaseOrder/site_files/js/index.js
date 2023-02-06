@@ -444,7 +444,6 @@ app.controller('purchaseOrder', function ($scope, $http, $timeout) {
             $scope.orderItem.unit = $scope.unitsList[0];
         }
     };
-
     $scope.getPurchaseRequest = function () {
         $scope.busy = true;
         $scope.purchaseRequestList = [];

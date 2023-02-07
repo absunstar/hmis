@@ -255,7 +255,7 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                let select = req.body.select || { id: 1, transactionType: 1, item: 1, unit: 1, group: 1, store: 1, vendor: 1, invoice_id: 1, count: 1, price: 1, date: 1 };
+                let select = req.body.select || {  };
                 let list = [];
                 if (where.item) {
                     where['item.id'] = where.item.id;

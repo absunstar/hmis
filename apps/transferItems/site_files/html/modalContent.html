@@ -91,14 +91,14 @@
                             type="approve"
                             ng-show="elem.approved"
                             ng-click="unapproveItem(elem)"
-                            x-permissions="unApprovePurchaseRequest||purchaseRequestManage"
+                            x-permissions="unApprovePurchaseRequests||purchaseRequestsManage"
                             label="##word.Unapprove##"
                         ></i-button>
                         <i-button
                             type="unapprove"
                             ng-show="!elem.approved"
                             ng-click="approveItem(elem)"
-                            x-permissions="approvePurchaseRequest||purchaseRequestManage"
+                            x-permissions="approvePurchaseRequests||purchaseRequestsManage"
                             label="##word.Approve##"
                         ></i-button>
                     </td>

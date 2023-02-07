@@ -331,7 +331,7 @@ app.controller('vendors', function ($scope, $http, $timeout) {
         $scope.vendorsGroupsList = [];
         $http({
             method: 'POST',
-            url: '/api/vendorsGroup/all',
+            url: '/api/vendorsGroups/all',
             data: {
                 where: {
                     active: true,

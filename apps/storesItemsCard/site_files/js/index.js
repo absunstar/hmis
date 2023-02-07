@@ -138,7 +138,7 @@ app.controller('storesItemsCard', function ($scope, $http, $timeout) {
         $scope.itemsGroupList = [];
         $http({
             method: 'POST',
-            url: '/api/itemsGroup/all',
+            url: '/api/itemsGroups/all',
             data: {
                 select: {
                     id: 1,

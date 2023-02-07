@@ -1,0 +1,11 @@
+[
+    { "moduleName": "public", "screenName": "salesInvoices", "name": "salesInvoicesManage", "En": "Manage", "Ar": "إدارة" },
+    { "moduleName": "public", "screenName": "salesInvoices", "name": "salesInvoicesAdd", "En": "Add", "Ar": "إضافة" },
+    { "moduleName": "public", "screenName": "salesInvoices", "name": "salesInvoicesUpdate", "En": "Edit", "Ar": "تعديل" },
+    { "moduleName": "public", "screenName": "salesInvoices", "name": "salesInvoicesDelete", "En": "Delete", "Ar": "حذف" },
+    { "moduleName": "public", "screenName": "salesInvoices", "name": "salesInvoicesView", "En": "View", "Ar": "عرض" },
+    { "moduleName": "public", "screenName": "salesInvoices", "name": "salesInvoicesSearch", "En": "Search", "Ar": "بحث" },
+    { "moduleName": "public", "screenName": "salesInvoices", "name": "salesInvoicesExport", "En": "Export", "Ar": "تصدير" },
+    { "moduleName": "public", "screenName": "salesInvoices", "name": "salesInvoicesPrint", "En": "Print", "Ar": "طباعة" },
+    { "moduleName": "public", "screenName": "salesInvoices", "name": "salesInvoicesUi", "En": "UI", "Ar": "الواجهة الرسومية" }
+]

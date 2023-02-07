@@ -99,7 +99,7 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
         $scope.itemsGroupsList = [];
         $http({
             method: 'POST',
-            url: '/api/itemsGroup/all',
+            url: '/api/itemsGroups/all',
             data: {
                 where: {
                     active: true,

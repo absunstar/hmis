@@ -3,8 +3,6 @@
         <div x-import="storesItemsCard/modal.html"></div>
         <div x-import="storesItemsCard/modalSearch.html"></div>
 
-
-
         <div class="top-actions">
             <i-button type="add" x-permissions="storesItemsCardSearch || storesItemsCardManage" label="##word.Search##" ng-click="showSearch()"></i-button>
         </div>
@@ -17,7 +15,10 @@
             <tr>
                 <!-- <th>##word.Code##</th> -->
                 <th>##word.Item##</th>
+                <th>##word.Store##</th>
                 <th>##word.Date##</th>
+                <th>##word.Count##</th>
+                <th>##word.Price##</th>
                 <th>##word.Transaction Type##</th>
 
                 <th class="not-print">##word.Actions##</th>
@@ -25,7 +26,13 @@
             <tr ng-repeat="item in list | filter:$search">
                 <!-- <td class="text-center blue">{{item.code}}</td> -->
                 <td class="text-center">{{item.item.name##session.lang##}}</td>
+                <td class="text-center">{{item.store.name##session.lang##}}</td>
                 <td class="text-center blue">{{item.date|date:'dd/MM/yyyy'}} - {{item.date|date:'hh:mm:ss a'}}</td>
+                <td>
+                    <p class="text-center text-success" ng-if="item.transactionType.id ===1">{{item.count}}</p>
+                    <p class="text-center text-danger" ng-if="item.transactionType.id ===2">{{item.count}}</p>
+                </td>
+                <td class="text-center blue">{{item.price}}</td>
                 <td class="text-center">{{item.transactionType.name##session.lang##}}</td>
 
                 <td class="text-center not-print">

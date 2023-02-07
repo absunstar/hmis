@@ -1,9 +1,0 @@
-[
-    {
-        "moduleName": "public",
-        "name": "salesInvoiceAdmin",
-        "En": "Sales Invoice Admin",
-        "Ar": "إدارة فواتير المبيعات",
-        "permissions": ["salesInvoiceManage"]
-    }
-]

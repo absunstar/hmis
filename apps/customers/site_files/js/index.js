@@ -21,14 +21,14 @@ app.controller('customers', function ($scope, $http, $timeout) {
         $scope.item.branchesList = [];
         $scope.item.purchaseMaturityPeriod = 0;
         $scope.item.creditLimit = 0;
-        $scope.item.commercialCustomer ? document.querySelector(`${$scope.modalID} .tab-link`).click() : '';
+        document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
         $scope.item = { ...$scope.structure };
         site.showModal($scope.modalID);
-        $scope.item.commercialCustomer ? document.querySelector(`${$scope.modalID} .tab-link`).click() : '';
+        document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
     $scope.add = function (_item) {
@@ -251,7 +251,7 @@ app.controller('customers', function ($scope, $http, $timeout) {
         $scope.customersGroupsList = [];
         $http({
             method: 'POST',
-            url: '/api/customersGroup/all',
+            url: '/api/customersGroups/all',
             data: {
                 where: {
                     active: true,

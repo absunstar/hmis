@@ -115,7 +115,7 @@ module.exports = function init(site) {
         { id: 2, code: '002', nameEn: 'Service Class', nameAr: 'صنف خدمي' },
     ];
 
-    site.purchaseOrderSource = [
+    site.purchaseOrdersSource = [
         { id: 1, code: '001', nameEn: 'Purchase Request', nameAr: 'طلب شراء' },
         { id: 2, code: '002', nameEn: 'Order / Invoice', nameAr: 'أمر شراء / فاتورة' },
     ];
@@ -208,10 +208,10 @@ module.exports = function init(site) {
             list: site.itemsTypes,
         });
     });
-    site.post('/api/purchaseOrderSource', (req, res) => {
+    site.post('/api/purchaseOrdersSource', (req, res) => {
         res.json({
             done: true,
-            list: site.purchaseOrderSource,
+            list: site.purchaseOrdersSource,
         });
     });
 

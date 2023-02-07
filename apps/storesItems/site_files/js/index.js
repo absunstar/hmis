@@ -23,31 +23,47 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     $scope.item = {};
     $scope.list = [];
 
-    $scope.itemUnit = {
-        mainUnit: {},
-        unit: {},
-        conversion: 1,
-    };
-
-    $scope.substance = {
-        activeSubstance: {},
-        concentration: 0,
-    };
-
     $scope.collectedItem = {
         item: {},
         unit: {},
         quantity: 1,
     };
 
+    $scope.resetItemUnit = function () {
+        $scope.itemUnit = {
+            unit: {},
+            conversion: 1,
+            barcode: '',
+            purchasePrice: 0,
+            salesPrice: 0,
+            averageCost: 0,
+            saleDiscount: 0,
+            maxDiscount: 0,
+            discountType: 'amount',
+            storesList: [],
+            active: true,
+        };
+    };
+    $scope.resetSubstance = function () {
+        $scope.substance = {
+            activeSubstance: {},
+            concentration: 0,
+        };
+    };
+    $scope.resetCollectedItem = function () {
+        $scope.substance = {
+            activeSubstance: {},
+            concentration: 0,
+        };
+    };
     $scope.collectedItemUnits = [];
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
         $scope.item = { ...$scope.structure };
-        $scope.itemUnit = { ...$scope.itemUnit };
-        $scope.substance = { ...$scope.substance };
-        $scope.collectedItem = { ...$scope.collectedItem };
+        $scope.resetItemUnit();
+        $scope.resetSubstance();
+        $scope.resetCollectedItem();
         site.showModal($scope.modalID);
         document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
@@ -92,19 +108,21 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
                 console.log(err);
             }
         );
-        $scope.itemUnit = { ..._item.itemUnit };
-        $scope.substance = { ..._item.substance };
-        $scope.collectedItem = { ..._item.collectedItem };
+        $scope.resetItemUnit();
+        $scope.resetSubstance();
+        $scope.resetCollectedItem();
     };
 
     $scope.showUpdate = function (_item) {
         $scope.error = '';
         $scope.mode = 'edit';
         $scope.view(_item);
+        $scope.resetItemUnit();
+        $scope.resetSubstance();
+        $scope.resetCollectedItem();
         $scope.item = {};
         site.showModal($scope.modalID);
 
-        $scope.itemUnit.mainUnit = _item.unitsList[0].unit;
         document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
@@ -148,9 +166,9 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
                 console.log(err);
             }
         );
-        $scope.itemUnit = { ..._item.itemUnit };
-        $scope.substance = { ..._item.substance };
-        $scope.collectedItem = { ..._item.collectedItem };
+        $scope.resetItemUnit();
+        $scope.resetSubstance();
+        $scope.resetCollectedItem();
     };
 
     $scope.showView = function (_item) {
@@ -159,7 +177,6 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         $scope.item = {};
         $scope.view(_item);
         site.showModal($scope.modalID);
-        $scope.itemUnit.mainUnit = _item.unitsList[0].unit;
         document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
@@ -274,7 +291,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         $scope.itemsgroupsList = [];
         $http({
             method: 'POST',
-            url: '/api/itemsGroup/all',
+            url: '/api/itemsGroups/all',
             data: {
                 where: {
                     active: true,
@@ -458,14 +475,13 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             return;
         }
 
-        if ($scope.item.unitsList.length) {
-            for (const itm of $scope.item.unitsList) {
-                if (itm.id === itemUnit.unit.id) {
-                    $scope.unitsInformationsError = '##word.Unit Exisit##';
-                    return;
-                }
-            }
+        let mainUnitIndex = $scope.item.unitsList.findIndex((unt) => unt.unit.id === itemUnit.id || unt.unit.id === itemUnit.unit.id);
+
+        if (mainUnitIndex !== -1) {
+            $scope.unitsInformationsError = '##word.Unit Exisit##';
+            return;
         }
+
         let unit;
         if (itemUnit && !itemUnit.unit) {
             unit = itemUnit;
@@ -474,19 +490,19 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         }
         $scope.item.unitsList.push({
             unit,
-            conversion: itemUnit.conversion || 1,
+            conversion: itemUnit.conversion,
             barcode: itemUnit.barcode,
             purchasePrice: 0,
             salesPrice: 0,
             averageCost: 0,
             saleDiscount: 0,
             maxDiscount: 0,
-            discountType: 'percent',
+            discountType: 'amount',
             storesList: [],
             active: true,
         });
         $scope.unitsInformationsError = '';
-        $scope.itemUnit = { ...$scope.itemUnit };
+        $scope.resetItemUnit();
     };
 
     $scope.setItemCollectionInformations = function (elem) {

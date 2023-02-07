@@ -1,9 +1,0 @@
-[
-    {
-        "moduleName": "public",
-        "name": "customersGroupAdmin",
-        "En": "Customers Group Admin",
-        "Ar": "إدارة مجموعات العملاء",
-        "permissions": ["customersGroupManage"]
-    }
-]

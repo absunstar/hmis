@@ -134,8 +134,8 @@
     {
         "category": "main",
         "feature": "public",
-        "id": "itemsGroup",
-        "name": "Items Group"
+        "id": "itemsGroups",
+        "name": "Items Groups"
     },
     {
         "category": "main",
@@ -170,8 +170,8 @@
     {
         "category": "main",
         "feature": "public",
-        "id": "vendorsGroup",
-        "name": "Vendors Group"
+        "id": "vendorsGroups",
+        "name": "Vendors Groups"
     },
     {
         "category": "main",
@@ -182,20 +182,20 @@
     {
         "category": "main",
         "feature": "public",
-        "id": "purchaseRequest",
-        "name": "Purchase Request"
+        "id": "purchaseRequests",
+        "name": "Purchase Requests"
     },
     {
         "category": "main",
         "feature": "public",
-        "id": "purchaseOrder",
-        "name": "Purchase Order"
+        "id": "purchaseOrders",
+        "name": "Purchase Orders"
     },
     {
         "category": "main",
         "feature": "public",
-        "id": "customersGroup",
-        "name": "Customers Group"
+        "id": "customersGroups",
+        "name": "Customers Groups"
     },
     {
         "category": "main",
@@ -212,8 +212,8 @@
     {
         "category": "main",
         "feature": "public",
-        "id": "salesInvoice",
-        "name": "Sales Invoice"
+        "id": "salesInvoices",
+        "name": "Sales Invoices"
     },
     {
         "category": "main",

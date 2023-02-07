@@ -13,59 +13,234 @@
         <div class="col9">
           <fieldset>
             <div class="row">
-
-            <i-checkbox class="col2" ng-model="item.erCase" label="##word.ER Case ?##"></i-checkbox>
-            <i-checkbox class="col2" ng-model="item.chronic" label="##word.Chronic##"></i-checkbox>
-            <i-checkbox class="col2" ng-model="item.conginital" label="##word.Conginital##"></i-checkbox>
-            <i-checkbox class="col2" ng-model="item.rta" label="##word.RTA##"></i-checkbox>
-            <i-checkbox class="col2" ng-model="item.workRelated" label="##word.Work Related##"></i-checkbox>
-            <i-checkbox class="col2" ng-model="item.vaccination" label="##word.Vaccination##"></i-checkbox>
-            <i-checkbox class="col2" ng-model="item.checkup" label="##word.Checkup##"></i-checkbox>
-            <i-checkbox class="col2" ng-model="item.psychiatric" label="##word.Psychiatric##"></i-checkbox>
-            <i-checkbox class="col2" ng-model="item.infertility" label="##word.Infertility##"></i-checkbox>
-            <i-checkbox class="col2" ng-hide="item.patient.gender.id == 'm'" ng-model="item.pregnancy" label="##word.Pregnancy##"></i-checkbox>
-            <i-checkbox class="col2" ng-hide="item.patient.gender.id == 'm'" ng-model="item.lactation" label="##word.Lactation##"></i-checkbox>
-            <i-checkbox class="col2" ng-model="item.acute" label="##word.Acute##"></i-checkbox>
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend>##word.Treatment##</legend>
-          <i-textarea ng-model="item.treatment"></i-textarea>
-
-        </fieldset>
-
-
-        <div class="row padding">
+              <i-checkbox class="col2" ng-model="item.erCase" label="##word.ER Case ?##"></i-checkbox>
+              <i-checkbox class="col2" ng-model="item.chronic" label="##word.Chronic##"></i-checkbox>
+              <i-checkbox class="col2" ng-model="item.conginital" label="##word.Conginital##"></i-checkbox>
+              <i-checkbox class="col2" ng-model="item.rta" label="##word.RTA##"></i-checkbox>
+              <i-checkbox class="col2" ng-model="item.workRelated" label="##word.Work Related##"></i-checkbox>
+              <i-checkbox class="col2" ng-model="item.vaccination" label="##word.Vaccination##"></i-checkbox>
+              <i-checkbox class="col2" ng-model="item.checkup" label="##word.Checkup##"></i-checkbox>
+              <i-checkbox class="col2" ng-model="item.psychiatric" label="##word.Psychiatric##"></i-checkbox>
+              <i-checkbox class="col2" ng-model="item.infertility" label="##word.Infertility##"></i-checkbox>
+              <i-checkbox class="col2" ng-hide="item.patient.gender.id == 'm'" ng-model="item.pregnancy" label="##word.Pregnancy##"></i-checkbox>
+              <i-checkbox class="col2" ng-hide="item.patient.gender.id == 'm'" ng-model="item.lactation" label="##word.Lactation##"></i-checkbox>
+              <i-checkbox class="col2" ng-model="item.acute" label="##word.Acute##"></i-checkbox>
+            </div>
+          </fieldset>
           <fieldset>
+            <legend>##word.Treatment##</legend>
+            <i-textarea ng-model="item.treatment"></i-textarea>
+          </fieldset>
+
+          <div class="row padding">
             <div class="tabs">
               <div class="tabs-header full">
+                <a class="tab-link" onclick="site.showTabContent(event, '#doctor')">
+                  <span> ##word.Doctor## + </span>
+                </a>
+
                 <a class="tab-link" onclick="site.showTabContent(event, '#patient')">
                   <span> ##word.Patient## + </span>
                 </a>
               </div>
               <div class="tabs-content">
+                <div id="doctor" class="tab-content">
+                  <div class="row padding">
+                    <div class="col6">
+                      <div class="row">
+                        <i-list label="##word.Chief Complaint##" class="col10" ng-model="item.$chiefComplaint" display="name" items="chiefComplaintsList" ng-search="item.$chiefComplaint"></i-list>
+                        <div class="col2">
+                          <br />
+                          <i-button type="add" ng-click="addDoctorReccomend('$chiefComplaint','CC')"></i-button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col6">
+                      <div class="row">
+                        <i-list label="##word.Significant Sign##" class="col10" ng-model="item.$significantSign" display="name" items="significantSignsList" ng-search="item.$significantSign"></i-list>
+                        <div class="col2">
+                          <br />
+                          <i-button type="add" ng-click="addDoctorReccomend('$significantSign','SS')"></i-button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row padding">
+                    <div class="col6">
+                      <div class="row">
+                        <i-list label="##word.Other Condition##" class="col10" ng-model="item.$otherCondition" display="name" items="otherConditionsList" ng-search="item.$otherCondition"></i-list>
+                        <div class="col2">
+                          <br />
+                          <i-button type="add" ng-click="addDoctorReccomend('$otherCondition','OC')"></i-button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col6">
+                      <div class="row">
+                        <i-list label="##word.diagnoses##" class="col10" ng-model="item.$diagnosis" display="name" items="diagnosesList" ng-search="item.$diagnosis"></i-list>
+                        <div class="col2">
+                          <br />
+                          <i-button type="add" ng-click="addDoctorReccomend('$diagnosis','DIAG')"></i-button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row list" ng-repeat="s in item.doctorReccomendList">
+                    <div class="col1 code-list">
+                      <p>{{s.code}}</p>
+                    </div>
+                    <div class="col10">
+                      <p class="bold">{{s.name}}</p>
+                    </div>
+
+                    <div class="col1">
+                      <i-button type="delete default" ng-click="item.doctorReccomendList.splice($index,1)"> </i-button>
+                    </div>
+                  </div>
+                </div>
+
                 <div id="patient" class="tab-content">
                   <div class="row padding">
-                    
+                    <div class="col6">
+                      <div class="row">
+                        <i-list
+                          label="##word.Patient Recommendations##"
+                          class="col10"
+                          ng-model="item.$patientRecommendation"
+                          display="name##session.lang##"
+                          items="patientRecommendationsList"
+                          ng-search="item.$patientRecommendation"
+                        ></i-list>
+                        <div class="col2">
+                          <br />
+                          <i-button type="add" ng-click="addPatientReccomend('$patientRecommendation','PR')"></i-button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col6">
+                      <div class="row">
+                        <i-list
+                          label="##word.Patient Educations##"
+                          class="col10"
+                          ng-model="item.$patientEducation"
+                          display="name##session.lang##"
+                          items="patientEducationsList"
+                          ng-search="item.$patientEducation"
+                        ></i-list>
+                        <div class="col2">
+                          <br />
+                          <i-button type="add" ng-click="addPatientReccomend('$patientEducation','PE')"></i-button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row padding">
+                    <div class="col6">
+                      <div class="row">
+                        <i-list
+                          label="##word.Recommended Foods##"
+                          class="col10"
+                          ng-model="item.$recommendedFood"
+                          display="name##session.lang##"
+                          items="foodsList"
+                          ng-search="item.$recommendedFood"
+                        ></i-list>
+                        <div class="col2">
+                          <br />
+                          <i-button type="add" ng-click="addPatientReccomend('$recommendedFood','RF')"></i-button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col6">
+                      <div class="row">
+                        <i-list
+                          label="##word.Forbidden Foods##"
+                          class="col10"
+                          ng-model="item.$forbiddenFood"
+                          display="name##session.lang##"
+                          items="foodsList"
+                          ng-search="item.$forbiddenFood"
+                        ></i-list>
+                        <div class="col2">
+                          <br />
+                          <i-button type="add" ng-click="addPatientReccomend('$forbiddenFood','FF')"></i-button>
+                        </div>
+                      </div>
+                    </div>
+                 
+                  </div>
+
+                  <div class="row padding">
+                    <div class="col6">
+                      <div class="row">
+                        <i-list
+                          label="##word.Recommended Drinks##"
+                          class="col10"
+                          ng-model="item.$recommendedDrink"
+                          display="name##session.lang##"
+                          items="drinksList"
+                          ng-search="item.$recommendedDrink"
+                        ></i-list>
+                        <div class="col2">
+                          <br />
+                          <i-button type="add" ng-click="addPatientReccomend('$recommendedDrink','RD')"></i-button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col6">
+                      <div class="row">
+                        <i-list
+                          label="##word.Forbidden Drinks##"
+                          class="col10"
+                          ng-model="item.$forbiddenDrink"
+                          display="name##session.lang##"
+                          items="drinksList"
+                          ng-search="item.$forbiddenDrink"
+                        ></i-list>
+                        <div class="col2">
+                          <br />
+                          <i-button type="add" ng-click="addPatientReccomend('$forbiddenDrink','FD')"></i-button>
+                        </div>
+                      </div>
+                    </div>
+                 
+                  </div>
+
+                  <div class="row list" ng-repeat="s in item.patientReccomendList">
+                    <div class="col1 code-list">
+                      <p>{{s.code}}</p>
+                    </div>
+                    <div class="col10">
+                      <p class="bold">{{s.name##session.lang##}}</p>
+                    </div>
+
+                    <div class="col1">
+                      <i-button type="delete default" ng-click="item.patientReccomendList.splice($index,1)"> </i-button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </fieldset>
-        </div>
-
-
+          </div>
         </div>
         <div class="col3">
           <fieldset>
             <legend>##word.Patient##</legend>
-            <img class="height-28" ng-src="{{item.patient.image.url}}" alt="" />
+            <img class="img-logo" ng-src="{{item.patient.image.url}}" alt="" />
             <p class="bold">{{item.patient.fullName##session.lang##}} ( <span class="blue">{{item.patient.code}}</span> )</p>
             <p class="bold">{{item.patient.insuranceCompany.name##session.lang##}} ( <span class="blue">{{item.patient.insuranceCompany.code}}</span> )</p>
             <p class="bold">##word.Class## : {{item.patient.insuranceClass.name##session.lang##}}</p>
             <p class="bold brown">##word.EXP## : {{item.patient.expiryDate | date:"dd / MM / yyyy"}}</p>
             <p class="bold">{{item.patient.mobile}}</p>
-            <p class="bold">{{item.patient.nationality.name##session.lang##}} <img class="height-28" ng-src="{{item.patient.nationality.image.url}}" alt="" /></p>
+            <p class="bold">{{item.patient.nationality.name##session.lang##}} <img class="img-logo" ng-src="{{item.patient.nationality.image.url}}" alt="" /></p>
             <p class="bold">##word.Age## : {{item.patient.age}}Y</p>
           </fieldset>
           <fieldset>

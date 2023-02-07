@@ -2,11 +2,7 @@
     <div class="row" x-permissions="activeSubstancesUi || activeSubstancesManage">
         <div x-import="activeSubstances/modal.html"></div>
         <div x-import="activeSubstances/modalSearch.html"></div>
-
-        <div class="row">
-            <h1 class="bold text-center">##word.Active Substances##</h1>
-        </div>
-
+        
         <div class="top-actions">
             <i-button type="add" x-permissions="activeSubstancesAdd || activeSubstancesManage" label="##word.New##" ng-click="showAdd()"></i-button>
         </div>

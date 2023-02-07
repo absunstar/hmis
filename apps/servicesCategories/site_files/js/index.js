@@ -217,7 +217,7 @@ app.controller('servicesCategories', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getservicesCategoriesTypeList = function () {
+  $scope.getServicesCategoriesTypeList = function () {
     $scope.busy = true;
     $http({
       method: 'POST',
@@ -287,5 +287,5 @@ app.controller('servicesCategories', function ($scope, $http, $timeout) {
   $scope.getAll();
   $scope.getNumberingAuto();
   $scope.getservicesList();
-  $scope.getservicesCategoriesTypeList();
+  $scope.getServicesCategoriesTypeList();
 });

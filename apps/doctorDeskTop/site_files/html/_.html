@@ -11,9 +11,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <h1 class="bold text-center">##word.Doctor Desk Top##</h1>
-    </div>
+
 
     <div class="row padding" ng-hide="'##user.type.id##' == 2">
       <i-list
@@ -21,51 +19,51 @@
         label="##word.Doctor##"
         ng-model="search.doctor"
         display="name##session.lang##"
-        ng-change="getAll({'doctor.id' : search.doctor.id})"
+        ng-change="getAll(search)"
         items="doctorsList"
         ng-search="search.$doctor"
       ></i-list>
       <div class="row" ng-show="search.doctor.id">
         <table class="table bold center hover">
           <tr>
-            <td class="bg-theme">##word.Name##</td>
+            <th>##word.Name##</th>
             <td class="center" colspan="5">
-              <p class="height-5">{{search.doctor.nameEn}} ( <span class="blue">{{search.doctor.code}}</span> )</p>
+              <p class="height-5">{{search.doctor.nameEn}} ( <span class="blue">{{search.doctor.code}}</span> ) <img class="img-logo" ng-src="{{search.doctor.image.url}}" alt=""></p>
             </td>
           </tr>
 
           <tr>
-            <td class="bg-theme">الإسم</td>
+            <th>الإسم</th>
             <td class="center" colspan="5">
               <p class="height-5">{{search.doctor.nameAr}}</p>
             </td>
           </tr>
 
           <tr>
-            <td class="bg-theme">##word.Specialty##</td>
+            <th>##word.Specialty##</th>
             <td class="center">
               <p class="height-5">{{search.doctor.specialty.name##session.lang##}}</p>
             </td>
-            <td class="bg-theme">##word.Hospital Center##</td>
+            <th>##word.Hospital Center##</th>
             <td class="center">
               <p class="height-5">{{search.doctor.hospitalCenter.name##session.lang##}}</p>
             </td>
-            <td class="bg-theme">##word.Doctor Type##</td>
+            <th>##word.Doctor Type##</th>
             <td class="center">
               <p class="height-5">{{search.doctor.doctorType.name##session.lang##}}</p>
             </td>
           </tr>
           <tr>
-            <td class="bg-theme">##word.Nationality##</td>
+            <th>##word.Nationality##</th>
             <td class="center">
-              <p class="height-5">{{search.doctor.nationality.name##session.lang##}} <img class="height-28" ng-src="{{search.doctor.nationality.image.url}}" alt="" /></p>
+              <p class="height-5">{{search.doctor.nationality.name##session.lang##}} <img class="img-logo" ng-src="{{search.doctor.nationality.image.url}}" alt="" /></p>
             </td>
-            <td class="bg-theme">##word.Clinic Ext##</td>
+            <th>##word.Mobile##</th>
             <td class="center">
-              <p class="height-5">{{search.doctor.clinicExt}}</p>
+              <p class="height-5">{{search.doctor.mobile}}</p>
             </td>
 
-            <td class="bg-theme">##word.Home Tel##</td>
+            <th>##word.Home Tel##</th>
             <td class="center">
               <p class="height-5">{{search.doctor.homeTel}}</p>
             </td>
@@ -75,6 +73,14 @@
     </div>
     <div class="row padding">
       <i-control ng-model="$search.text" x-permissions="doctorDeskTopSearch || doctorDeskTopManage"></i-control>
+    </div>
+    <div class="row">
+    <i-button x-permissions="doctorDeskTopSearch || doctorDeskTopManage" type="search" label="##word.Pending##" ng-click="getAll(search,1)"></i-button>
+    <i-button x-permissions="doctorDeskTopSearch || doctorDeskTopManage" type="search" label="##word.At doctor##" ng-click="getAll(search,2)"></i-button>
+    <i-button x-permissions="doctorDeskTopSearch || doctorDeskTopManage" type="search" label="##word.Detected##" ng-click="getAll(search,3)"></i-button>
+    <i-button x-permissions="doctorDeskTopSearch || doctorDeskTopManage" type="search" label="##word.Cancel detection##" ng-click="getAll(search,4)"></i-button>
+    <i-checkbox class="col2" ng-model="today" label="##word.today's date##"></i-checkbox>
+
     </div>
 
     <table class="table hover bold" id="t1">
@@ -86,7 +92,7 @@
       </tr>
       <tr ng-repeat="item in list | filter:$search">
         <td class="text-center">
-          <p class="center">( {{item.code}} ) <img class="height-28" ng-src="{{item.patient.nationality.image.url}}" alt="" /></p>
+          <p class="center">( {{item.code}} ) <img class="img-logo" ng-src="{{item.patient.nationality.image.url}}" alt="" /></p>
         </td>
         <td class="text-center">
           <div class="row">

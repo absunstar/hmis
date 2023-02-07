@@ -149,7 +149,7 @@ module.exports = function init(site) {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name,appName:'Doctor Desk Top' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -242,8 +242,8 @@ module.exports = function init(site) {
           if (!err && doc) {
             response.done = true;
             let newDate = new Date();
-            doc.$hours = parseInt(Math.abs(new Date(doc.date) - newDate) / (1000 * 60 * 60) % 24);
-            doc.$minutes = parseInt(Math.abs(new Date(doc.date).getTime() - newDate.getTime()) / (1000 * 60) % 60);
+            doc.$hours = parseInt((Math.abs(new Date(doc.date) - newDate) / (1000 * 60 * 60)) % 24);
+            doc.$minutes = parseInt((Math.abs(new Date(doc.date).getTime() - newDate.getTime()) / (1000 * 60)) % 60);
             response.doc = doc;
           } else {
             response.error = err?.message || 'Not Exists';
@@ -284,11 +284,15 @@ module.exports = function init(site) {
               $lt: d2,
             };
           }
-          app.$collection.findMany({ where, select,sort : {code : -1} }, (err, docs) => {
+          if (where['doctor']) {
+            where['doctor.id'] = where['doctor'].id;
+            delete where['doctor'];
+          }
+          app.$collection.findMany({ where, select, sort: { code: -1 } }, (err, docs) => {
             let newDate = new Date();
-            docs.forEach(_d => {
-              _d.$hours = parseInt(Math.abs(new Date(_d.date) - newDate) / (1000 * 60 * 60) % 24);
-              _d.$minutes = parseInt(Math.abs(new Date(_d.date).getTime() - newDate.getTime()) / (1000 * 60) % 60);
+            docs.forEach((_d) => {
+              _d.$hours = parseInt((Math.abs(new Date(_d.date) - newDate) / (1000 * 60 * 60)) % 24);
+              _d.$minutes = parseInt((Math.abs(new Date(_d.date).getTime() - newDate.getTime()) / (1000 * 60)) % 60);
             });
             res.json({
               done: true,
@@ -310,6 +314,9 @@ module.exports = function init(site) {
       $gte: d1,
       $lt: d2,
     };
+    if (obj.doctor && obj.doctor.id) {
+      where['doctor.id'] = obj.doctor.id;
+    }
     app.$collection.findMany(
       {
         where,

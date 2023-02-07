@@ -68,6 +68,36 @@
   color: #707070 !important;
 }
 
+.bg-table {
+  background: #0094aa !important;
+}
+
+.img-logo {
+  height: 28px;
+  vertical-align: top;
+}
+
+.list {
+  margin: 10px !important;
+  border-radius: 10px;
+  background: white;
+  padding: 15px 10px 0px 10px !important;
+}
+.list:hover {
+  background: darkgrey;
+  color: white;
+}
+.code-list {
+  height: 35px;
+  border: 1px solid;
+  text-align-last: center;
+  font-weight: bold;
+  color: white;
+  border-radius: 10px;
+  padding: 5px;
+  background: #00b00aab;
+}
+
 .errMsg {
   text-align: center;
   font-size: x-large;

@@ -5,20 +5,20 @@
         <legend>##word.Patient##</legend>
         <table class="table bold center hover">
           <tr>
-            <td class="bg-theme">##word.Full Name##</td>
+            <th>##word.Full Name##</th>
             <td class="center" colspan="5">
-              <p class="height-5">{{item.patient.fullNameEn}} ( <span class="blue">{{item.patient.code}}</span> ) <img class="height-28" ng-src="{{item.patient.image.url}}" alt="" /></p>
+              <p class="height-5">{{item.patient.fullNameEn}} ( <span class="blue">{{item.patient.code}}</span> ) <img class="img-logo" ng-src="{{item.patient.image.url}}" alt="" /></p>
             </td>
           </tr>
 
           <tr>
-            <td class="bg-theme">الإسم بالكامل</td>
+            <th>الإسم بالكامل</th>
             <td class="center" colspan="5">
               <p class="height-5">{{item.patient.fullNameAr}}</p>
             </td>
           </tr>
           <tr>
-            <td class="bg-theme">##word.Mother Name##</td>
+            <th>##word.Mother Name##</th>
             <td class="center" colspan="2">
               <p class="height-5">
                 {{item.patient.motherNameEn}}
@@ -26,55 +26,55 @@
               </p>
             </td>
 
-            <td class="bg-theme">إسم الأم</td>
+            <th>إسم الأم</th>
             <td class="center" colspan="2">
               <p class="height-5">{{item.patient.motherNameAr}}</p>
             </td>
           </tr>
           <tr>
-            <td class="bg-theme">##word.Nationality##</td>
+            <th>##word.Nationality##</th>
             <td class="center">
-              <p class="height-5">{{item.patient.nationality.name##session.lang##}} <img class="height-28" ng-src="{{item.patient.nationality.image.url}}" alt="" /></p>
+              <p class="height-5">{{item.patient.nationality.name##session.lang##}} <img class="img-logo" ng-src="{{item.patient.nationality.image.url}}" alt="" /></p>
             </td>
-            <td class="bg-theme">##word.Age##</td>
+            <th>##word.Age##</th>
             <td class="center">
               <p class="height-5">{{item.patient.age}}Y</p>
             </td>
-            <td class="bg-theme">##word.Mobile##</td>
+            <th>##word.Mobile##</th>
             <td class="center">
               <p class="height-5">{{item.patient.mobileList[0].mobile}}</p>
             </td>
           </tr>
           <tr>
-            <td class="bg-theme">##word.Patient Type##</td>
+            <th>##word.Patient Type##</th>
             <td class="center">
               <p class="height-5">{{item.patient.patientType.name##session.lang##}} ( <span class="blue">{{item.patient.patientType.code}}</span> )</p>
             </td>
-            <td class="bg-theme">##word.Marital Status##</td>
+            <th>##word.Marital Status##</th>
             <td class="center">
               <p class="height-5">{{item.patient.maritalStatus.name##session.lang##}}</p>
             </td>
 
-            <td class="bg-theme">##word.Gender##</td>
+            <th>##word.Gender##</th>
             <td class="center">
               <p class="height-5">{{item.patient.gender.name##session.lang##}}</p>
             </td>
           </tr>
 
           <tr ng-show="item.patient.insuranceCompany.id">
-            <td class="bg-theme">##word.Insurance Company##</td>
+            <th>##word.Insurance Company##</th>
             <td class="center" colspan="5">
               <p class="height-5">{{item.patient.insuranceCompany.name##session.lang##}} ( <span class="blue">{{item.patient.insuranceCompany.code}}</span> )</p>
             </td>
           </tr>
 
           <tr>
-            <td class="bg-theme">##word.Insurance Class##</td>
+            <th>##word.Insurance Class##</th>
             <td class="center" colspan="2">
               <p class="height-5">{{item.patient.insuranceClass.name##session.lang##}}</p>
             </td>
 
-            <td class="bg-theme">##word.Expiry Date##</td>
+            <th>##word.Expiry Date##</th>
             <td class="center" colspan="2">
               <p class="height-5 brown">{{item.patient.expiryDate | date:"dd / MM / yyyy"}}</p>
             </td>
@@ -85,14 +85,14 @@
         <legend>##word.Doctor##</legend>
         <table class="table bold center hover">
           <tr>
-            <td class="bg-theme">##word.Name##</td>
+            <th>##word.Name##</th>
             <td class="center" colspan="5">
-              <p class="height-5">{{item.doctor.nameEn}} ( <span class="blue">{{item.doctor.code}}</span> ) <img class="height-28" ng-src="{{item.doctor.image.url}}" alt="" /></p>
+              <p class="height-5">{{item.doctor.nameEn}} ( <span class="blue">{{item.doctor.code}}</span> ) <img class="img-logo" ng-src="{{item.doctor.image.url}}" alt="" /></p>
             </td>
           </tr>
 
           <tr>
-            <td class="bg-theme">##word.Name Arabic##</td>
+            <th>##word.Name Arabic##</th>
             <td class="center" colspan="5">
               <p class="height-5">{{item.doctor.nameAr}}</p>
             </td>
@@ -103,7 +103,7 @@
         <legend>##word.Service##</legend>
         <table class="table bold center hover">
           <tr>
-            <td class="bg-theme">##word.Name##</td>
+            <th>##word.Name##</th>
             <td class="center" colspan="5">
               <p class="height-5">{{item.service.name##session.lang##}}</p>
             </td>

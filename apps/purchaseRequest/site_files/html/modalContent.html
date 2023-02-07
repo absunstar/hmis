@@ -34,7 +34,7 @@
                             ng-change="getItemUnits(selectItem.item)"
                             items="storesItemsList"
                             display="name##session.lang##"
-                            ng-get="getStoresItems()"
+                            ng-get="getStoresItems($search)"
                         >
                         </i-list>
                         <i-list class="col3" label="##word.Unit##" ng-model="selectItem.unit" items="unitsList" display="name##session.lang##" ng-search="item.$elemItem"> </i-list>

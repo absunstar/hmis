@@ -257,10 +257,12 @@ module.exports = function init(site) {
                                             });
                                         }
                                     });
+               
+
                                     if (branchList.length === 0) {
                                         branchList.push({
-                                            company: { nameEn: 'main company' },
-                                            branch: { nameEn: 'main branch' },
+                                            company: { id: 1, nameAr: 'الشركة الرئيسية', nameEn: 'Main Company' },
+                                            branch: { code: 1, nameAr: 'الفرع الرئيسى', nameEn: 'Main Branch' },
                                         });
                                     }
 

@@ -20,7 +20,7 @@ app.controller('salesInvoice', function ($scope, $http, $timeout) {
             item: undefined,
             unit: undefined,
             salesCount: 1,
-            sellingPrice: 0,
+            salesPrice: 0,
             saleDiscount: 0,
             maxDiscount: 0,
             discountType: { amount: 'amount', percent: 'percent' },
@@ -286,7 +286,7 @@ app.controller('salesInvoice', function ($scope, $http, $timeout) {
                 id: elem.unit.id,
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
-                sellingPrice: elem.sellingPrice,
+                salesPrice: elem.salesPrice,
                 maxDiscount: elem.maxDiscount,
                 saleDiscount: elem.saleDiscount,
                 discountType: elem.discountType,
@@ -316,11 +316,11 @@ app.controller('salesInvoice', function ($scope, $http, $timeout) {
             item: orderItem.item,
             unit: orderItem.unit,
             salesCount: orderItem.salesCount,
-            sellingPrice: orderItem.unit.sellingPrice,
+            salesPrice: orderItem.unit.salesPrice,
             saleDiscount: orderItem.unit.saleDiscount,
             maxDiscount: orderItem.unit.maxDiscount,
             discountType: orderItem.unit.discountType,
-            total: orderItem.salesCount * orderItem.unit.sellingPrice,
+            total: orderItem.salesCount * orderItem.unit.salesPrice,
         });
         $scope.resetOrderItem();
         $scope.itemListError = '';
@@ -419,13 +419,13 @@ app.controller('salesInvoice', function ($scope, $http, $timeout) {
     };
 
     $scope.calculateItem = function (itm) {
-        if (itm.salesCount < 0 || itm.sellingPrice < 0) {
+        if (itm.salesCount < 0 || itm.salesPrice < 0) {
             $scope.itemListError = '##word.Please Enter Valid Numbers##';
             return;
         }
         $scope.item.itemsList.some((elem) => {
             if (elem.item.id === itm.item.id && elem.unit.id === itm.unit.id) {
-                elem.total = elem.salesCount * elem.sellingPrice;
+                elem.total = elem.salesCount * elem.salesPrice;
             }
         });
         $scope.itemListError = '';

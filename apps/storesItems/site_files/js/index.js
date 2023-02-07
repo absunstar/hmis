@@ -477,7 +477,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             conversion: itemUnit.conversion || 1,
             barcode: itemUnit.barcode,
             purchasePrice: 0,
-            sellingPrice: 0,
+            salesPrice: 0,
             averageCost: 0,
             saleDiscount: 0,
             maxDiscount: 0,

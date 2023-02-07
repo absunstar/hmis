@@ -41,8 +41,8 @@
                 <i-control type="number" min="1" ng-model="orderItem.salesCount" label="##word.Sales Count##"></i-control>
             </div>
             <div class="col2">
-                <p class="text-center">##word.Selling Price##</p>
-                <p class="text-center">{{orderItem.unit.sellingPrice || 0}}</p>
+                <p class="text-center">##word.Sales Price##</p>
+                <p class="text-center">{{orderItem.unit.salesPrice || 0}}</p>
             </div>
 
             <div class="col2">
@@ -63,7 +63,7 @@
                 <th>##word.Item##</th>
                 <th>##word.Unit##</th>
                 <th>##word.Sales Count##</th>
-                <th>##word.Selling Price##</th>
+                <th>##word.Sales Price##</th>
                 <th>##word.Sale Discount##</th>
                 <th>##word.Total##</th>
                 <th class="not-print">##word.Actions##</th>
@@ -76,7 +76,7 @@
                     <i-control ng-click="calculateItem(elem)" ng-change="calculateItem(elem)" ng-keyup="calculateItem(elem)" min="0" type="number" ng-model="elem.salesCount"></i-control>
                 </td>
                 <td class="text-center">
-                    <p class="text-center">{{elem.sellingPrice}}</p>
+                    <p class="text-center">{{elem.salesPrice}}</p>
                 </td>
                 <td>
                     <p class="text-center">{{elem.saleDiscount}} <span ng-if="elem.saleDiscount>0?elem.unit.discountType === 'percent':''"> % </span></p>

@@ -1,226 +1,221 @@
 app.controller('systemSetting', function ($scope, $http, $timeout) {
-  $scope.baseURL = '';
-  $scope.appName = 'systemSetting';
-  $scope.modalID = '#systemSettingManageModal';
-  $scope.modalSearchID = '#systemSettingSearchModal';
-  $scope.mode = 'add';
-  $scope._search = {};
-  $scope.structure = {
-    image: {url : '/images/systemSetting.png'},
-    active: true,
-  };
-  $scope.item = {};
-  $scope.list = [];
-
-  $scope.showAdd = function (_item) {
-    $scope.error = '';
+    $scope.baseURL = '';
+    $scope.appName = 'systemSetting';
+    $scope.modalID = '#systemSettingManageModal';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure };
-    site.showModal($scope.modalID);
-  };
+    $scope.item = {
+        storesSetting: {
+            hasDefaultVendor: false,
+            cannotExceedMaximumDiscount: false,
+            allowOverdraft: false,
+            defaultStore: {},
+            idefaultItemType: {},
+            idefaultItemGroup: {},
+            defaultItemUnit: {},
+            defaultVendor: {},
+        },
+        accountingSetting: {
+            paymentType: {},
+        },
+        generalSystemSetting: {},
+    };
 
-  $scope.add = function (_item) {
-    $scope.error = '';
-    const v = site.validated($scope.modalID);
-    if (!v.ok) {
-      $scope.error = v.messages[0].ar;
-      return;
-    }
-
-    $scope.busy = true;
-    $http({
-      method: 'POST',
-      url: `${$scope.baseURL}/api/${$scope.appName}/add`,
-      data: $scope.item,
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done) {
-          site.hideModal($scope.modalID);
-          site.resetValidated($scope.modalID);
-          $scope.list.push(response.data.doc);
-        } else {
-          $scope.error = response.data.error;
-          if (response.data.error && response.data.error.like('*Must Enter Code*')) {
-            $scope.error = '##word.Must Enter Code##';
-          }
+    $scope.save = function (_item) {
+        if (!_item.storesSetting.hasDefaultVendor) {
+            _item.storesSetting.defaultVendor = $scope.item.storesSetting.defaultVendor;
         }
-      },
-      function (err) {
-        console.log(err);
-      }
-    );
-  };
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/save`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    $scope.item = response.data.result.doc;
+                } else {
+                    $scope.error = 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
 
-  $scope.showUpdate = function (_item) {
-    $scope.error = '';
-    $scope.mode = 'edit';
-    $scope.view(_item);
-    $scope.item = {};
-    site.showModal($scope.modalID);
-  };
+    $scope.getSystemSetting = function () {
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/get`,
+            data: {},
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                $scope.item = response.data.doc;
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
 
-  $scope.update = function (_item) {
-    $scope.error = '';
-    const v = site.validated($scope.modalID);
-    if (!v.ok) {
-      $scope.error = v.messages[0].ar;
-      return;
-    }
-    $scope.busy = true;
-    $http({
-      method: 'POST',
-      url: `${$scope.baseURL}/api/${$scope.appName}/update`,
-      data: _item,
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done) {
-          site.hideModal($scope.modalID);
-          site.resetValidated($scope.modalID);
-          let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
-          if (index !== -1) {
-            $scope.list[index] = response.data.result.doc;
-          }
-        } else {
-          $scope.error = 'Please Login First';
-        }
-      },
-      function (err) {
-        console.log(err);
-      }
-    );
-  };
+    $scope.getStores = function () {
+        $scope.busy = true;
+        $scope.storesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/stores/all',
+            data: {
+                where: {
+                    active: true,
+                },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                    type: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.storesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
 
-  $scope.showView = function (_item) {
-    $scope.error = '';
-    $scope.mode = 'view';
-    $scope.item = {};
-    $scope.view(_item);
-    site.showModal($scope.modalID);
-  };
+    $scope.getItemsGroups = function () {
+        $scope.busy = true;
+        $scope.itemsGroupsList = [];
+        $http({
+            method: 'POST',
+            url: '/api/itemsGroup/all',
+            data: {
+                where: {
+                    active: true,
+                },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.itemsGroupsList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
 
-  $scope.view = function (_item) {
-    $scope.busy = true;
-    $scope.error = '';
-    $http({
-      method: 'POST',
-      url: `${$scope.baseURL}/api/${$scope.appName}/view`,
-      data: {
-        id: _item.id,
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done) {
-          $scope.item = response.data.doc;
-        } else {
-          $scope.error = response.data.error;
-        }
-      },
-      function (err) {
-        console.log(err);
-      }
-    );
-  };
+    $scope.getItemsTypes = function () {
+        $scope.busy = true;
+        $scope.itemsTypesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/itemsTypes',
+            data: {
+                select: {
+                    id: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.itemsTypesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
 
-  $scope.showDelete = function (_item) {
-    $scope.error = '';
-    $scope.mode = 'delete';
-    $scope.item = {};
-    $scope.view(_item);
-    site.showModal($scope.modalID);
-  };
+    $scope.getStoresUnits = function () {
+        $scope.busy = true;
+        $scope.storesUnitsList = [];
+        $http({
+            method: 'POST',
+            url: '/api/storesUnits/all',
+            data: {
+                where: { active: true },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.storesUnitsList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
 
-  $scope.delete = function (_item) {
-    $scope.busy = true;
-    $scope.error = '';
+    $scope.getVendors = function () {
+        $scope.busy = true;
+        $scope.vendorsList = [];
+        $http({
+            method: 'POST',
+            url: '/api/vendors/all',
+            data: {
+                where: {
+                    active: true,
+                },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.vendorsList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
 
-    $http({
-      method: 'POST',
-      url: `${$scope.baseURL}/api/${$scope.appName}/delete`,
-      data: {
-        id: $scope.item.id,
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done) {
-          site.hideModal($scope.modalID);
-          let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
-          if (index !== -1) {
-            $scope.list.splice(index, 1);
-          }
-        } else {
-          $scope.error = response.data.error;
-        }
-      },
-      function (err) {
-        console.log(err);
-      }
-    );
-  };
-
-  $scope.getAll = function (where) {
-    $scope.busy = true;
-    $scope.list = [];
-    $http({
-      method: 'POST',
-      url: `${$scope.baseURL}/api/${$scope.appName}/all`,
-      data: {
-        where: where,
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.list.length > 0) {
-          $scope.list = response.data.list;
-          $scope.count = response.data.count;
-          site.hideModal($scope.modalSearchID);
-          $scope.search = {};
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
-
-  $scope.getNumberingAuto = function () {
-    $scope.error = '';
-    $scope.busy = true;
-    $http({
-      method: 'POST',
-      url: '/api/numbering/getAutomatic',
-      data: {
-        screen: $scope.appName,
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done) {
-          $scope.disabledCode = response.data.isAuto;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
-
-  $scope.showSearch = function () {
-    $scope.error = '';
-    site.showModal($scope.modalSearchID);
-  };
-
-  $scope.searchAll = function () {
-    $scope.getAll($scope.search);
-    site.hideModal($scope.modalSearchID);
-    $scope.search = {};
-  };
-
-  $scope.getAll();
-  $scope.getNumberingAuto();
+    $scope.getStores();
+    $scope.getVendors();
+    $scope.getItemsGroups();
+    $scope.getItemsTypes();
+    $scope.getStoresUnits();
+    $scope.getSystemSetting();
 });

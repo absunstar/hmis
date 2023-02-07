@@ -368,7 +368,10 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
         $scope.search = {};
     };
 
-    $scope.getStoresItems = function () {
+    $scope.getStoresItems = function ($search) {
+        if ($search.length < 2) {
+            return;
+        }
         $scope.busy = true;
         $scope.storesItemsList = [];
         $http({
@@ -379,6 +382,7 @@ app.controller('purchaseRequest', function ($scope, $http, $timeout) {
                     active: true,
                     allowBuy: true,
                     collectionItem: false,
+                    search: $search,
                 },
                 select: {
                     id: 1,

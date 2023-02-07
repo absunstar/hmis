@@ -267,8 +267,8 @@ module.exports = function init(site) {
                             let index = doc.unitsList.findIndex((unt) => unt.unit.id === itm.unit.id);
 
                             if (index !== -1) {
-                                let unitIndex = doc.unitsList[index].storesList.findIndex((s) => s.store.id === _data.store.id);
-                                if (unitIndex === -1) {
+                                let storeIndex = doc.unitsList[index].storesList.findIndex((s) => s.store.id === _data.store.id);
+                                if (storeIndex === -1) {
                                     doc.unitsList[index].storesList.push({
                                         store: _data.store,
                                         purchaseCost: itm.purchaseCost || 0,
@@ -291,11 +291,11 @@ module.exports = function init(site) {
                                         unassembledPrice: 0,
                                     });
                                 } else {
-                                    doc.unitsList[index].storesList[unitIndex].purchaseCount += itm.purchaseCount;
-                                    doc.unitsList[index].storesList[unitIndex].purchaseCost += itm.purchaseCost;
-                                    doc.unitsList[index].storesList[unitIndex].purchasePrice += itm.purchasePrice;
-                                    doc.unitsList[index].storesList[unitIndex].bonusCount += itm.bonusCount;
-                                    doc.unitsList[index].storesList[unitIndex].bonusPrice += itm.bonusPrice;
+                                    doc.unitsList[index].storesList[storeIndex].purchaseCount += itm.purchaseCount;
+                                    doc.unitsList[index].storesList[storeIndex].purchaseCost += itm.purchaseCost;
+                                    doc.unitsList[index].storesList[storeIndex].purchasePrice += itm.purchasePrice;
+                                    doc.unitsList[index].storesList[storeIndex].bonusCount += itm.bonusCount;
+                                    doc.unitsList[index].storesList[storeIndex].bonusPrice += itm.bonusPrice;
                                 }
                             }
 

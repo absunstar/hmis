@@ -15,6 +15,7 @@ module.exports = function init(site) {
     };
 
     app.$collection = site.connectCollection(app.name);
+    //   where['name'] = site.get_RegExp(where['name'], 'i');
 
     app.init = function () {
         if (app.allowMemory) {
@@ -256,7 +257,7 @@ module.exports = function init(site) {
                 let where = req.body.where || {};
                 let select = req.body.select || { id: 1, transactionType: 1, item: 1, unit: 1, group: 1, store: 1, vendor: 1, invoice_id: 1, count: 1, price: 1, date: 1 };
                 let list = [];
-                          if (where.item) {
+                if (where.item) {
                     where['item.id'] = where.item.id;
                     delete where.item;
                 }

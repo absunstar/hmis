@@ -364,6 +364,45 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getDoctorDeskTopList = function () {
+    $scope.busy = true;
+    $scope.doctorDeskTopList = [];
+    let where = {};
+    if ($scope.item.patient && $scope.item.patient.id) {
+      where['patient.id'] = $scope.item.patient.id;
+    }
+
+    if ($scope.item.doctor && $scope.item.doctor.id) {
+      where['doctor.id'] = $scope.item.doctor.id;
+    }
+
+    $http({
+      method: 'POST',
+      url: '/api/doctorDeskTop/all',
+      data: {
+        where: where,
+        limit : 100,
+        select: {
+          id: 1,
+          code: 1,
+          patient: 1,
+          doctor: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.doctorDeskTopList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getDoctorsList = function () {
     $scope.busy = true;
     $scope.doctorsList = [];

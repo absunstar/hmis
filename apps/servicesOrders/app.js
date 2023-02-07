@@ -149,7 +149,7 @@ module.exports = function init(site) {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name,appName:'Services Orders' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name, appName: 'Services Orders' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -191,6 +191,7 @@ module.exports = function init(site) {
                     date: doc.date,
                     company: doc.company,
                     branch: doc.branch,
+                    addUserInfo: _data.addUserInfo,
                     service: _s,
                     status: { id: 1, nameEn: 'Pending', nameAr: 'قيد الإنتظار' },
                   };

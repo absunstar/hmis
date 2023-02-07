@@ -99,7 +99,7 @@
                 <p class="height-5 brown">{{item.patient.expiryDate | date:"dd / MM / yyyy"}}</p>
               </td>
             </tr>
-            
+
           </table>
           <div class="row" ng-show="item.errMsg">
             <p class="errMsg">{{item.errMsg}}</p>
@@ -128,7 +128,7 @@
 
           <div class="row margin">
             <i-date label="##word.Date##" ng-model="item.date"> </i-date>
-            <i-control label="##word.Num##" ng-model="item.number"> </i-control>
+            <i-list label="##word.Doctor DeskTop##" ng-model="item.number"> </i-list>
             <i-control label="##word.Ref##" ng-model="item.ref"> </i-control>
           </div>
         </div>

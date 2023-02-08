@@ -1,0 +1,9 @@
+[
+  {
+    "moduleName": "public",
+    "name": "penaltiesAdmin",
+    "En": "Penalties Admin",
+    "Ar": "إدارة الجزاءات",
+    "permissions": ["penaltiesManage"]
+  }
+]

@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "employees" , "name":"employeesManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "employees" , "name":"employeesAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "employees" , "name":"employeesUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "employees" , "name":"employeesDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "employees" , "name":"employeesView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "employees" , "name":"employeesSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "employees" , "name":"employeesExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "employees" , "name":"employeesPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "employees" , "name":"employeesUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+]

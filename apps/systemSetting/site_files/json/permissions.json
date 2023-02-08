@@ -1,11 +1,3 @@
 [
-    { "moduleName" : "public" , "screenName" : "systemSetting" , "name":"systemSettingManage" , "En":"Manage" , "Ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "systemSetting" , "name":"systemSettingAdd" , "En":"Add" , "Ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "systemSetting" , "name":"systemSettingUpdate" , "En":"Edit" , "Ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "systemSetting" , "name":"systemSettingDelete" , "En":"Delete" , "Ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "systemSetting" , "name":"systemSettingView" , "En":"View" , "Ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "systemSetting" , "name":"systemSettingSearch" , "En":"Search" , "Ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "systemSetting" , "name":"systemSettingExport" , "En":"Export" , "Ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "systemSetting" , "name":"systemSettingPrint" , "En":"Print" , "Ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "systemSetting" , "name":"systemSettingUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "systemSetting" , "name":"systemSettingManage" , "En":"Manage" , "Ar":"إدارة"}
 ]

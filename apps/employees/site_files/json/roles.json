@@ -1,0 +1,16 @@
+[
+  {
+    "moduleName": "public",
+    "name": "employeesAdmin",
+    "En": "employees Admin",
+    "Ar": "إدارة الموطفين",
+    "permissions": ["employeesManage"]
+  },
+  {
+    "moduleName": "public",
+    "name": "employeePermissions",
+    "En": "Employee Permissions",
+    "Ar": "صلاحيات الموظف",
+    "permissions": [""]
+  }
+]

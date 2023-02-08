@@ -69,7 +69,7 @@
         "title_en": "Medical Insurance Companies",
         "image_url": "/images/medical_insurance_companies.png",
         "description_ar": "يتم من خلالها إضافة شركة التأمين و تحديد شرائح التأمين و تحديد كل الأدوية و التحاليل و الأشعة و العمليات خارج شريحة التأمين و التي تحتاج لموافقة ",
-        "description_en": "Through which the insurance company is added, insurance segments are defined, and all drugs, analyzes, radiology, and operations outside the insurance segment are identified that require approval."
+        "description_en": "Through which the insurance company is added, insurance segments are defined, and all drugs, analyses, radiology, and operations outside the insurance segment are identified that require approval."
     },
     {
         "feature": "medical",

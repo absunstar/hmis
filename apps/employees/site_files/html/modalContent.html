@@ -1,0 +1,198 @@
+<div class="form" id="employees">
+  <div class="row">
+    <i-control ng-hide="disabledCode" class="col6" label="##word.Code##" ng-model="item.code"> </i-control>
+    <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
+  </div>
+  <div class="row">
+    <i-control type="text" v="r" class="col6" ng-model="item.nameEn" label="##word.Name##"></i-control>
+    <i-control type="text" v="r" class="col6" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
+  </div>
+  <fieldset>
+    <div class="tabs">
+      <div class="tabs-header full">
+        <a class="tab-link" onclick="site.showTabContent(event, '#general')">
+          <span> ##word.General##</span>
+        </a>
+
+        <a class="tab-link" onclick="site.showTabContent(event, '#contact')">
+          <span> ##word.Contact## +</span>
+        </a>
+
+        <a class="tab-link" onclick="site.showTabContent(event, '#allowances')">
+          <span> ##word.Allowances##</span>
+        </a>
+
+        <a class="tab-link" onclick="site.showTabContent(event, '#deductions')">
+          <span> ##word.Deductions##</span>
+        </a>
+      </div>
+
+      <div class="tabs-content">
+        <div id="general" class="tab-content">
+          <div class="row padding">
+            <div class="col9">
+              <div class="row">
+                <i-list class="col6" label="##word.Job##" ng-model="item.job" items="jobsList" display="name##session.lang##" ng-search="item.$job_search"> </i-list>
+                <i-list class="col6" label="##word.Nationality##" ng-model="item.nationality" items="nationalitiesList" display="name##session.lang##" ng-search="item.$nationality"> </i-list>
+              </div>
+
+              <fieldset>
+                <div class="row">
+                  <i-textarea ng-model="item.otherDetails" label="##word.Other Details##"></i-textarea>
+                </div>
+
+                <fieldset>
+                  <div class="row">
+                    <i-control class="col6" label="##word.Email##" ng-model="item.email"> </i-control>
+                    <i-control class="col6" label="##word.Password##" ng-model="item.password"> </i-control>
+                  </div>
+                </fieldset>
+              </fieldset>
+            </div>
+            <div class="col3">
+              <i-image class="img256" ng-model="item.image"></i-image>
+            </div>
+          </div>
+        </div>
+        <div id="contact" class="tab-content">
+          <div class="row padding">
+            <fieldset>
+              <div class="row">
+                <i-control type="text" class="col6" ng-model="item.mobile" label="##word.Mobile##"></i-control>
+                <i-control type="text" class="col6" ng-model="item.homeTel" label="##word.Home Tel##"></i-control>
+              </div>
+
+              <div class="row">
+                <i-list
+                  help-id=""
+                  class="col6"
+                  label="##word.Country##"
+                  ng-change="getGovesList(item.country)"
+                  ng-model="item.country"
+                  display="name##session.lang##"
+                  items="countriesList"
+                  ng-search="item.$Country"
+                ></i-list>
+                <i-list
+                  help-id=""
+                  class="col6"
+                  label="##word.Governorate##"
+                  ng-change="getCitiesList(item.gov)"
+                  ng-model="item.gov"
+                  display="name##session.lang##"
+                  items="govesList"
+                  ng-search="item.$gov"
+                ></i-list>
+              </div>
+
+              <div class="row">
+                <i-list class="col6" label="##word.City##" ng-model="item.city" ng-change="getAreasList(item.city)" items="citiesList" display="name##session.lang##" ng-search="item.$city_search">
+                </i-list>
+                <i-list class="col6" label="##word.Area##" ng-model="item.area" items="areasList" display="name##session.lang##" ng-search="item.$area_search"> </i-list>
+              </div>
+
+              <div class="row">
+                <i-control type="text" ng-model="item.address" label="##word.Address##"></i-control>
+                <i-control type="text" ng-model="item.addressAr" label="##word.Address Arabic##"></i-control>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <div id="allowances" class="tab-content">
+          <div class="row padding">
+            <fieldset>
+              <div class="row padding">
+                <div class="row">
+                  <i-list label="##word.Allowance##" class="col8" ng-model="item.$allowance" display="name##session.lang##" items="allowancesList" ng-search="item.$allowances"></i-list>
+                  <div class="col4">
+                    <br />
+                    <i-button type="add" label="##word.Allowance##" ng-click="addAllowances(item)"></i-button>
+                  </div>
+                </div>
+                <div class="row">
+                  <table class="table hover bold">
+                    <tr>
+                      <th>##word.Code##</th>
+                      <th>##word.Name##</th>
+                      <th>##word.Price##</th>
+                      <th class="not-print">##word.Actions##</th>
+                    </tr>
+                    <tr ng-repeat="s in item.allowancesList">
+                      <td class="text-center blue">{{s.code}}</td>
+                      <td class="text-center">{{s.name##session.lang##}}</td>
+                      <td class="text-center green">{{s.price}}</td>
+
+                      <td class="text-center not-print">
+                        <i-button type="delete default" ng-click="item.allowancesList.splice($index,1)"> </i-button>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <div id="deductions" class="tab-content">
+          <div class="row padding">
+            <fieldset>
+              <div class="row padding">
+                <div class="row">
+                  <i-list label="##word.Deduction##" class="col8" ng-model="item.$deduction" display="name##session.lang##" items="deductionsList" ng-search="item.$deductions"></i-list>
+                  <div class="col4">
+                    <br />
+                    <i-button type="add" label="##word.deduction##" ng-click="adddeductions(item)"></i-button>
+                  </div>
+                </div>
+                <div class="row">
+                  <table class="table hover bold">
+                    <tr>
+                      <th>##word.Code##</th>
+                      <th>##word.Name##</th>
+                      <th>##word.Price##</th>
+                      <th class="not-print">##word.Actions##</th>
+                    </tr>
+                    <tr ng-repeat="s in item.deductionsList">
+                      <td class="text-center blue">{{s.code}}</td>
+                      <td class="text-center">{{s.name##session.lang##}}</td>
+                      <td class="text-center green">{{s.price}}</td>
+
+                      <td class="text-center not-print">
+                        <i-button type="delete default" ng-click="item.deductionsList.splice($index,1)"> </i-button>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+<div ng-show="mode !== 'add' " class="row">
+  <table class="table hover border">
+    <tr>
+      <th>##word.addUserInfo##</th>
+      <th>##word.editUserInfo##</th>
+    </tr>
+    <tr>
+      <td class="center">
+        <p class="blue">{{item.addUserInfo.name}}</p>
+        <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
+        <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
+        <p class="bold">IP : {{item.addUserInfo.ip}}</p>
+      </td>
+
+      <td class="center">
+        <p class="blue">{{item.editUserInfo.name}}</p>
+        <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
+        <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
+        <p class="bold">IP : {{item.editUserInfo.ip}}</p>
+      </td>
+    </tr>
+  </table>
+</div>

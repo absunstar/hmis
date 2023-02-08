@@ -1,0 +1,9 @@
+[
+  {
+    "moduleName": "public",
+    "name": "rewardsAdmin",
+    "En": "Rewards Admin",
+    "Ar": "إدارة المكافئات",
+    "permissions": ["rewardsManage"]
+  }
+]

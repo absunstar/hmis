@@ -7,7 +7,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: { url: '/images/transferItemsOrders.png' },
-        orderDate:new Date(),
+        orderDate: new Date(),
         approved: false,
         hasTransaction: false,
         active: true,
@@ -293,15 +293,10 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
 
     $scope.getRequestItems = function (transferItemsRequest) {
         $scope.item.itemsList = [];
-        const fromStore = transferItemsRequest.fromStore;
-        const toStore = transferItemsRequest.toStore;
-
         for (const elem of transferItemsRequest.itemsList) {
             $scope.item.itemsList.push({
                 item: elem.item,
                 unit: elem.unit,
-                fromStore,
-                toStore,
                 item: elem.item,
                 unit: elem.unit,
                 fromStore,

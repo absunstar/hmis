@@ -84,8 +84,6 @@
                     <th>##word.S##</th>
                     <th>##word.Item##</th>
                     <th>##word.Unit##</th>
-                    <th>##word.From Store##</th>
-                    <th>##word.To Store##</th>
                     <th>##word.Transfer Count##</th>
                     <!-- <th>##word.Purchase Price##</th> -->
                     <!-- <th>##word.Bonus Count##</th> -->
@@ -97,8 +95,6 @@
                     <td class="text-center">{{$index+1}}</td>
                     <td class="text-center">{{elem.item.name##session.lang##}}</td>
                     <td class="text-center">{{elem.unit.name##session.lang##}}</td>
-                    <td class="text-center">{{elem.fromStore.name##session.lang##}}</td>
-                    <td class="text-center">{{elem.toStore.name##session.lang##}}</td>
                     <td class="text-center">
                         <p ng-if="item.source.id === 1 || elem.approved" class="text-center">{{elem.transferFromCount}}</p>
                         <!-- <i-control

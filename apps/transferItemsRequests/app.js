@@ -1,7 +1,7 @@
 module.exports = function init(site) {
     let app = {
-        name: 'storesItems',
-        allowMemory: false,
+        name: 'transferItemsRequests',
+        allowMemory: true,
         memoryList: [],
         allowCache: false,
         cacheList: [],
@@ -12,19 +12,8 @@ module.exports = function init(site) {
         allowRouteDelete: true,
         allowRouteView: true,
         allowRouteAll: true,
-        allowRouteActive: true,
     };
 
-    site.calculateStroeItemBalance = function (item) {
-        item.unitsList.forEach((unt) => {
-            unt.storesList.forEach((str) => {
-                let totalIncome = str.purchaseCount + str.bonusCount + str.unassembledCount + str.salesReturnCount;
-                let totalOut = str.salesCount + str.purchaseReturnCount + str.damagedCount + str.assembledCount;
-                str.currentBalance = totalIncome - totalOut;
-            });
-        });
-        return item;
-    };
     app.$collection = site.connectCollection(app.name);
 
     app.init = function () {
@@ -48,7 +37,6 @@ module.exports = function init(site) {
             });
         }
     };
-
     app.add = function (_item, callback) {
         app.$collection.add(_item, (err, doc) => {
             if (callback) {
@@ -59,7 +47,6 @@ module.exports = function init(site) {
             }
         });
     };
-
     app.update = function (_item, callback) {
         app.$collection.edit(
             {
@@ -90,7 +77,6 @@ module.exports = function init(site) {
             }
         );
     };
-
     app.delete = function (_item, callback) {
         app.$collection.delete(
             {
@@ -114,7 +100,6 @@ module.exports = function init(site) {
             }
         );
     };
-
     app.view = function (_item, callback) {
         if (callback) {
             if (app.allowMemory) {
@@ -142,7 +127,6 @@ module.exports = function init(site) {
             });
         }
     };
-
     app.all = function (_options, callback) {
         if (callback) {
             if (app.allowMemory) {
@@ -165,7 +149,7 @@ module.exports = function init(site) {
                     name: app.name,
                 },
                 (req, res) => {
-                    res.render(app.name + '/index.html', { title: app.name, appName: 'Stores Items' }, { parser: 'html', compres: true });
+                    res.render(app.name + '/index.html', { title: app.name, appName: 'Transfer Items Requests' }, { parser: 'html', compres: true });
                 }
             );
         }
@@ -193,23 +177,17 @@ module.exports = function init(site) {
                 } else if (cb.auto) {
                     _data.code = cb.code;
                 }
-                app.$collection.find({ code: _data.code }, (err, doc) => {
-                    if (doc) {
-                        response.error = 'Code Exisit';
-                        res.json(response);
-                        return;
-                    }
-                    _data.addUserInfo = req.getUserFinger();
 
-                    app.add(_data, (err, doc) => {
-                        if (!err && doc) {
-                            response.done = true;
-                            response.doc = doc;
-                        } else {
-                            response.error = err.mesage;
-                        }
-                        res.json(response);
-                    });
+                _data.addUserInfo = req.getUserFinger();
+
+                app.add(_data, (err, doc) => {
+                    if (!err && doc) {
+                        response.done = true;
+                        response.doc = doc;
+                    } else {
+                        response.error = err.mesage;
+                    }
+                    res.json(response);
                 });
             });
         }
@@ -221,23 +199,16 @@ module.exports = function init(site) {
                 };
 
                 let _data = req.data;
-                app.$collection.find({ code: _data.code, id: { $ne: _data.id } }, (err, doc) => {
-                    if (doc) {
-                        response.done = false;
-                        response.error = 'Code Exisit';
-                        return res.json(response);
-                    }
-                    _data.editUserInfo = req.getUserFinger();
+                _data.editUserInfo = req.getUserFinger();
 
-                    app.update(_data, (err, result) => {
-                        if (!err) {
-                            response.done = true;
-                            response.result = result;
-                        } else {
-                            response.error = err.message;
-                        }
-                        res.json(response);
-                    });
+                app.update(_data, (err, result) => {
+                    if (!err) {
+                        response.done = true;
+                        response.result = result;
+                    } else {
+                        response.error = err.message;
+                    }
+                    res.json(response);
                 });
             });
         }
@@ -283,44 +254,26 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-
-                let select = req.body.select || {
-                    id: 1,
-                    code: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                    image: 1,
-                    active: 1,
-                };
+                let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1 };
                 let list = [];
+                app.memoryList
+                    .filter((g) => g.company && g.company.id == site.getCompany(req).id)
+                    .forEach((doc) => {
+                        let obj = { ...doc };
 
-                if (app.allowMemory) {
-                    app.memoryList
-                        .filter((g) => g.company && g.company.id == site.getCompany(req).id)
-                        .forEach((doc) => {
-                            let obj = { ...doc };
-
-                            for (const p in obj) {
-                                if (!Object.hasOwnProperty.call(select, p)) {
-                                    delete obj[p];
-                                }
+                        for (const p in obj) {
+                            if (!Object.hasOwnProperty.call(select, p)) {
+                                delete obj[p];
                             }
-                            if (!where.active || doc.active) {
-                                list.push(obj);
-                            }
-                        });
-                    res.json({
-                        done: true,
-                        list: list,
+                        }
+                        if (!where.active || doc.active) {
+                            list.push(obj);
+                        }
                     });
-                } else {
-                    app.$collection.findMany({ where: where, select }, (err, docs) => {
-                        res.json({
-                            done: true,
-                            list: docs,
-                        });
-                    });
-                }
+                res.json({
+                    done: true,
+                    list: list,
+                });
             });
         }
     }

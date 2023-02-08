@@ -1,9 +1,0 @@
-[
-    {
-        "moduleName": "public",
-        "name": "transferItemsAdmin",
-        "En": "transferItems Admin",
-        "Ar": "إدارة تحويل الأصناف",
-        "permissions": ["transferItemsManage"]
-    }
-]

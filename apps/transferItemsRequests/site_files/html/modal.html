@@ -1,27 +1,27 @@
-<div id="transferItemsManageModal" class="modal full" fixed>
+<div id="transferItemsRequestsManageModal" class="modal full" fixed>
     <div class="modal-content">
         <div class="modal-header">
             <span class="close">&times;</span>
             <p class="center" ng-show="mode == 'add' ">
-                ##word.New## ##word.Transfer Items##
+                ##word.New## ##word.Transfer Items Request##
                 <i class="fa fa-plus"></i>
             </p>
             <p class="center" ng-show="mode == 'edit' ">
-                ##word.Edit## ##word.Transfer Items##
+                ##word.Edit## ##word.Transfer Items Reequest##
                 <i class="fa fa-pencil"></i>
             </p>
             <p class="center" ng-show="mode == 'delete' ">
-                ##word.Delete## ##word.Transfer Items##
+                ##word.Delete## ##word.Transfer Items Request##
                 <i class="fa fa-trash"></i>
             </p>
             <p class="center" ng-show="mode == 'view' ">
-                ##word.Transfer Items## ##word.Details##
+                ##word.Transfer Items Request## ##word.Details##
                 <i class="fa fa-file"></i>
             </p>
         </div>
 
         <div class="modal-body">
-            <div x-import="transferItems/modalContent.html"></div>
+            <div x-import="transferItemsRequests/modalContent.html"></div>
         </div>
 
         <div class="modal-footer center">
@@ -29,7 +29,8 @@
             <i-button ng-show="mode == 'add' " type="add" label="##word.Add##" ng-click="add(item)"></i-button>
             <i-button ng-show="mode == 'edit' " type="edit" label="##word.Save##" ng-click="update(item)"></i-button>
             <i-button ng-show="mode == 'delete' " type="delete" label="##word.Delete##" ng-click="delete(item)"> </i-button>
-            <i-button type="close" label="##word.Close##" onclick="site.hideModal( '#transferItemsManageModal')"></i-button>
+            <i-button ng-show="mode == 'edit' && !item.approved && canApprove" type="approve" label="##word.Approve##" ng-click="approveTransferItemRequest(item)"> </i-button>
+            <i-button type="close" label="##word.Close##" onclick="site.hideModal( '#transferItemsRequestsManageModal')"></i-button>
         </div>
     </div>
 </div>

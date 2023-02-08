@@ -1,26 +1,32 @@
-app.controller('transferItems', function ($scope, $http, $timeout) {
+app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
     $scope.baseURL = '';
-    $scope.appName = 'transferItems';
-    $scope.modalID = '#transferItemsManageModal';
-    $scope.modalSearchID = '#transferItemsSearchModal';
+    $scope.appName = 'transferItemsRequests';
+    $scope.modalID = '#transferItemsRequestsManageModal';
+    $scope.modalSearchID = '#transferItemsRequestsSearchModal';
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
-        image: { url: '/images/transferItems.png' },
+        image: { url: '/images/transferItemsRequests.png' },
         requestDate: new Date(),
+        itemsList: [],
         active: true,
     };
     $scope.item = {};
     $scope.list = [];
-    $scope.selectItem = {
-        item: {},
-        unit: {},
-        quantity: 1,
-        approved: false,
+
+    $scope.resetSelectedItem = function () {
+        $scope.selectItem = {
+            item: {},
+            unit: {},
+            transferFromCount: 1,
+            approved: false,
+            currentBalance: 0,
+        };
     };
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
+        $scope.resetSelectedItem();
         $scope.item = { ...$scope.structure };
         site.showModal($scope.modalID);
     };
@@ -30,6 +36,11 @@ app.controller('transferItems', function ($scope, $http, $timeout) {
         const v = site.validated($scope.modalID);
         if (!v.ok) {
             $scope.error = v.messages[0].ar;
+            return;
+        }
+
+        if (!_item.itemsList.length) {
+            $scope.error = '##word.Must Enter One Item At Least##';
             return;
         }
 
@@ -63,6 +74,7 @@ app.controller('transferItems', function ($scope, $http, $timeout) {
         $scope.mode = 'edit';
         $scope.view(_item);
         $scope.item = {};
+        $scope.prpepareToApproveOrder($scope.item);
         site.showModal($scope.modalID);
     };
 
@@ -71,6 +83,11 @@ app.controller('transferItems', function ($scope, $http, $timeout) {
         const v = site.validated($scope.modalID);
         if (!v.ok) {
             $scope.error = v.messages[0].ar;
+            return;
+        }
+
+        if (!_item.itemsList.length) {
+            $scope.error = '##word.Must Enter One Item At Least##';
             return;
         }
         $scope.busy = true;
@@ -306,12 +323,32 @@ app.controller('transferItems', function ($scope, $http, $timeout) {
                 id: elem.unit.id,
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
+                storesList: elem.storesList,
             });
             $scope.selectItem.unit = $scope.unitsList[0];
         }
+        $scope.calculateItemBalance($scope.unitsList[0]);
     };
 
-    $scope.addItem = function (elem) {
+    $scope.calculateItemBalance = function (unit) {
+        if (!unit.storesList || !unit.storesList.length || !$scope.item.fromStore.id) return;
+        const storeIndex = unit.storesList.findIndex((str) => str.store.id === $scope.item.fromStore.id);
+        if (storeIndex === -1) {
+            $scope.selectItem.currentBalance = 0;
+            return;
+        } else {
+            const totalIncome =
+                unit.storesList[storeIndex].purchaseCount + unit.storesList[storeIndex].bonusCount + unit.storesList[storeIndex].unassembledCount + unit.storesList[storeIndex].salesReturnCount;
+
+            const totalOut =
+                unit.storesList[storeIndex].salesCount + unit.storesList[storeIndex].purchaseReturnCount + unit.storesList[storeIndex].damagedCount + unit.storesList[storeIndex].assembledCount;
+
+            const currentBalance = totalIncome - totalOut;
+            $scope.selectItem.currentBalance = currentBalance;
+        }
+    };
+
+    $scope.addToItemsList = function (elem) {
         $scope.error = '';
         if (!elem.item.id) {
             $scope.error = '##word.Please Enter Item##';
@@ -319,18 +356,24 @@ app.controller('transferItems', function ($scope, $http, $timeout) {
         }
         for (const itm of $scope.item.itemsList) {
             if (itm.item.id === elem.item.id) {
-                $scope.error = '##word.Item Exisit##';
+                $scope.itemsError = '##word.Item Exisit##';
                 return;
             }
         }
 
-        if (elem.quantity < 1) {
-            $scope.error = '##word.Please Enter Count##';
+        if (elem.transferFromCount < 1) {
+            $scope.itemsError = '##word.Please Enter Count##';
+            return;
+        }
+
+        if (elem.transferFromCount > elem.currentBalance) {
+            $scope.itemsError = '##word.Cannot Transfer Count Bigger Than Current Balance##';
             return;
         }
 
         $scope.item.itemsList.unshift(elem);
-        $scope.selectItem = { ...$scope.selectItem };
+        $scope.resetSelectedItem();
+        $scope.itemsError = '';
     };
 
     $scope.approveItem = function (elem) {
@@ -340,6 +383,7 @@ app.controller('transferItems', function ($scope, $http, $timeout) {
                 itm.approved = true;
             }
         }
+        $scope.prpepareToApproveOrder($scope.item);
     };
 
     $scope.unapproveItem = function (elem) {
@@ -349,6 +393,15 @@ app.controller('transferItems', function ($scope, $http, $timeout) {
                 itm.approved = false;
             }
         }
+    };
+
+    $scope.prpepareToApproveOrder = function (_item) {
+        _item.itemsList.every((elem) => {
+            if (elem.approved) {
+                return ($scope.canApprove = true);
+            }
+            $scope.canApprove = false;
+        });
     };
 
     $scope.getAll();

@@ -13,7 +13,7 @@
                         v="r"
                         class="col6"
                         ng-model="item.fromStore"
-                        ng-change="validateStores()"
+                        ng-change="validateStores(); calculateItemBalance(selectItem.unit)"
                         label="##word.From Store##"
                         display="name##session.lang##"
                         items="storesList"
@@ -42,33 +42,35 @@
 
         <div class="row">
             <div class="row">
+                <i-list class="col2" label="##word.Item##" ng-model="selectItem.item" ng-change="getItemUnits(selectItem.item)" items="storesItemsList" display="name##session.lang##"> </i-list>
+                <!-- ng-get="getStoresItems()" -->
                 <i-list
-                    class="col4"
-                    label="##word.Item##"
-                    ng-model="selectItem.item"
-                    ng-change="getItemUnits(selectItem.item)"
-                    items="storesItemsList"
+                    class="col2"
+                    label="##word.Unit##"
+                    ng-change="calculateItemBalance(selectItem.unit)"
+                    ng-model="selectItem.unit"
+                    items="unitsList"
                     display="name##session.lang##"
-                    ng-get="getStoresItems()"
+                    ng-search="item.$elemItem"
                 >
                 </i-list>
-                <i-list class="col3" label="##word.Unit##" ng-model="selectItem.unit" items="unitsList" display="name##session.lang##" ng-search="item.$elemItem"> </i-list>
-                <i-control class="col3" type="number" min="1" label="##word.Quantity##" ng-model="selectItem.quantity"> </i-control>
+                <i-control class="col2" disabled type="number" label="##word.Current Balance##" ng-model="selectItem.currentBalance"> </i-control>
+                <i-control class="col2" type="number" min="1" label="##word.Transfer Count##" ng-model="selectItem.transferFromCount"> </i-control>
                 <div class="col2">
                     <br />
                     <div class="row">
-                        <i-button type="add" label="##word.Add##" ng-click="addItem(selectItem)"> </i-button>
+                        <i-button type="add" label="##word.Add##" ng-click="addToItemsList(selectItem)"> </i-button>
                     </div>
                 </div>
             </div>
-
+            <p class="error">{{itemsError}}</p>
             <table class="table hover bold">
                 <tr>
                     <th>##word.S##</th>
                     <th>##word.Store Item##</th>
                     <th>##word.Item Unit##</th>
 
-                    <th>##word.Quantity##</th>
+                    <th>##word.Transfer Count##</th>
                     <th>##word.Approved##</th>
                     <th class="not-print">##word.Actions##</th>
                 </tr>
@@ -78,8 +80,8 @@
                     <td class="text-center">{{elem.unit.name##session.lang##}}</td>
 
                     <td class="text-center">
-                        <i-control type="number" min="1" ng-show="!elem.approved" ng-model="elem.quantity"> </i-control>
-                        <span class="text-center" ng-show="elem.approved">{{elem.quantity}}</span>
+                        <i-control type="number" min="1" ng-show="!elem.approved" ng-model="elem.transferFromCount"> </i-control>
+                        <span class="text-center" ng-show="elem.approved">{{elem.transferFromCount}}</span>
                     </td>
                     <td class="text-center">
                         <span class="text-success" ng-show="elem.approved">##word.Yes##</span>
@@ -89,16 +91,16 @@
                         <i-button type="delete" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
                         <i-button
                             type="approve"
-                            ng-show="elem.approved"
+                            ng-show="elem.approved &&   mode == 'edit'"
                             ng-click="unapproveItem(elem)"
-                            x-permissions="unApprovePurchaseRequests||purchaseRequestsManage"
+                            x-permissions="unapproveTransferItem||transferItemsRequestsManage"
                             label="##word.Unapprove##"
                         ></i-button>
                         <i-button
-                            type="unapprove"
-                            ng-show="!elem.approved"
+                            type="approve"
+                            ng-show="!elem.approved &&  mode == 'edit'"
                             ng-click="approveItem(elem)"
-                            x-permissions="approvePurchaseRequests||purchaseRequestsManage"
+                            x-permissions="approveTransferItem||transferItemsRequestsManage"
                             label="##word.Approve##"
                         ></i-button>
                     </td>

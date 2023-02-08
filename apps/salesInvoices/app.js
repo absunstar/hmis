@@ -186,7 +186,6 @@ module.exports = function init(site) {
                 _data.itemsList.forEach((itm) => {
                     storesItemsApp.$collection.find({ where: { id: itm.item.id } }, (err, itemDoc) => {
                         let index = itemDoc.unitsList.findIndex((unt) => unt.unit.id === itm.unit.id);
-                        // console.log('index', index);
 
                         if (index === -1) {
                             response.error = 'Item Unit Not Exisit';
@@ -194,28 +193,23 @@ module.exports = function init(site) {
                             res.json(response);
                             return;
                         } else {
-                            let avaliableBalanceForSale = 0;
+                            // const caluclatedItemBalance = site.calculateStroeItemBalance(itemDoc);
                             let storeIndex = itemDoc.unitsList[index].storesList.findIndex((s) => s.store.id === _data.store.id);
-                            // console.log('storeIndex', storeIndex);
-
                             const totalIncome =
                                 itemDoc.unitsList[index].storesList[storeIndex].purchaseCount +
                                 itemDoc.unitsList[index].storesList[storeIndex].bonusCount +
                                 itemDoc.unitsList[index].storesList[storeIndex].unassembledCount +
                                 itemDoc.unitsList[index].storesList[storeIndex].salesReturnCount;
+
                             const totalOut =
-                                itemDoc.unitsList[index].storesList[storeIndex].salesCount -
-                                itemDoc.unitsList[index].storesList[storeIndex].purchaseReturnCount -
-                                itemDoc.unitsList[index].storesList[storeIndex].damagedCount -
+                                itemDoc.unitsList[index].storesList[storeIndex].salesCount +
+                                itemDoc.unitsList[index].storesList[storeIndex].purchaseReturnCount +
+                                itemDoc.unitsList[index].storesList[storeIndex].damagedCount +
                                 itemDoc.unitsList[index].storesList[storeIndex].assembledCount;
-                            avaliableBalanceForSale = totalIncome - totalOut;
-                            // console.log('totalIncome', totalIncome);
-                            // console.log('totalOut', totalOut);
-                            // console.log('avaliableBalanceForSale', avaliableBalanceForSale);
-                            // console.log('itm.salesCount', itm.salesCount);
+
+                            const avaliableBalanceForSale = totalIncome - totalOut;
 
                             if ((!systemSetting.storesSetting.allowOverdraft && avaliableBalanceForSale > itm.salesCount) || avaliableBalanceForSale > itm.salesCount) {
-                                // if (avaliableBalanceForSale > itm.salesCount) {
                                 app.add(_data, (err, doc) => {
                                     if (!err && doc) {
                                         response.done = true;
@@ -266,7 +260,6 @@ module.exports = function init(site) {
                                     }
                                     res.json(response);
                                 });
-                                // }
                             } else {
                                 response.error = 'Item Balance Not Allowed';
                                 response.done = false;
@@ -276,16 +269,6 @@ module.exports = function init(site) {
                         }
                     });
                 });
-
-                // app.add(_data, (err, doc) => {
-                //     if (!err && doc) {
-                //         response.done = true;
-                //         response.doc = doc;
-                //     } else {
-                //         response.error = err.mesage;
-                //     }
-                //     res.json(response);
-                // });
             });
         }
 

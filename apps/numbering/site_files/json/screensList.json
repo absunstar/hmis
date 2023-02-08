@@ -200,8 +200,8 @@
     {
         "category": "main",
         "feature": "public",
-        "id": "transferItems",
-        "name": "Transfer Items"
+        "id": "transferItemsRequests",
+        "name": "Transfer Items Request"
     },
     {
         "category": "main",

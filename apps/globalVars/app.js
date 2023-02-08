@@ -123,8 +123,13 @@ module.exports = function init(site) {
     site.storesTransactionsTypes = [
         { id: 1, code: '001', nameEn: 'Order / Invoice', nameAr: 'أمر شراء / فاتورة' },
         { id: 2, code: '002', nameEn: 'Sales Invoice', nameAr: 'فاتورة بيع' },
+        { id: 3, code: '003', nameEn: 'Transfer Item Order', nameAr: 'أمر تحويل أصناف' },
     ];
 
+    site.transferItemsOrdersSource = [
+        { id: 1, code: '001', nameEn: 'Transfer Items Request', nameAr: 'طلب تحويل أصناف' },
+        { id: 2, code: '002', nameEn: 'Transfer Items order', nameAr: 'أمر تحويل أصناف' },
+    ];
     site.post('/api/patientTypes', (req, res) => {
         res.json({
             done: true,
@@ -219,6 +224,13 @@ module.exports = function init(site) {
         res.json({
             done: true,
             list: site.storesTransactionsTypes,
+        });
+    });
+
+    site.post('/api/transferItemsOrdersSource', (req, res) => {
+        res.json({
+            done: true,
+            list: site.transferItemsOrdersSource,
         });
     });
 };

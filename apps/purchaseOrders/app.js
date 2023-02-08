@@ -269,15 +269,15 @@ module.exports = function init(site) {
                                 let storeIndex = doc.unitsList[index].storesList.findIndex((s) => s.store.id === _data.store.id);
 
                                 if (storeIndex == -1) {
-                                    const newUit = site.setStoresItemsUnitStoreProperties();
-                                    newUit.store = _data.store;
-                                    newUit.purchaseCost = itm.purchaseCost || newUit.purchaseCost;
-                                    newUit.purchaseCount = itm.purchaseCount || newUit.purchaseCount;
-                                    newUit.purchasePrice = itm.purchasePrice || newUit.purchasePrice;
-                                    newUit.bonusCount = itm.bonusCount || newUit.bonusCount;
-                                    newUit.bonusPrice = itm.bonusPrice || newUit.bonusPrice;
+                                    const newUitStore = site.setStoresItemsUnitStoreProperties();
+                                    newUitStore.store = _data.store;
+                                    newUitStore.purchaseCost = itm.purchaseCost ?? newUitStore.purchaseCost;
+                                    newUitStore.purchaseCount = itm.purchaseCount ?? newUitStore.purchaseCount;
+                                    newUitStore.purchasePrice = itm.purchasePrice ?? newUitStore.purchasePrice;
+                                    newUitStore.bonusCount = itm.bonusCount ?? newUitStore.bonusCount;
+                                    newUitStore.bonusPrice = itm.bonusPrice ?? newUitStore.bonusPrice;
 
-                                    doc.unitsList[index].storesList.push(newUit);
+                                    doc.unitsList[index].storesList.push(newUitStore);
                                 } else {
                                     doc.unitsList[index].storesList[storeIndex].purchaseCount += itm.purchaseCount;
                                     doc.unitsList[index].storesList[storeIndex].purchaseCost += itm.purchaseCost;

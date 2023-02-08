@@ -27,7 +27,7 @@ module.exports = function init(site) {
     };
 
     site.setStoresItemsUnitStoreProperties = function () {
-        return (unit = {
+        return {
             store: {},
             purchaseCost: 0,
             purchaseCount: 0,
@@ -51,7 +51,7 @@ module.exports = function init(site) {
             transferToCount: 0,
             transferFromPrice: 0,
             transferToPrice: 0,
-        });
+        };
     };
     app.$collection = site.connectCollection(app.name);
 

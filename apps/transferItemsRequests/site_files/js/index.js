@@ -14,7 +14,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
     };
     $scope.item = {};
     $scope.list = [];
-
+    $scope.canApprove = false;
     $scope.resetSelectedItem = function () {
         $scope.selectItem = {
             item: {},
@@ -114,6 +114,88 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
                 console.log(err);
             }
         );
+    };
+
+    $scope.approve = function (_item) {
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+        if (!_item.itemsList.length) {
+            $scope.error = '##word.Must Enter One Item At Least##';
+            return;
+        }
+
+        if (_item.itemsList.some((itm) => !itm.approved)) {
+            $scope.error = '##word.Must Approve All Items##';
+            return;
+        }
+
+        _item['approved'] = true;
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/approve`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+
+    $scope.unapprove = function (_item) {
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+        if (!_item.itemsList.length) {
+            $scope.error = '##word.Must Enter One Item At Least##';
+            return;
+        }
+
+        _item['approved'] = false;
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/unapprove`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+        $scope.item = {};
     };
 
     $scope.showView = function (_item) {
@@ -392,15 +474,28 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
         for (const itm of $scope.item.itemsList) {
             if (itm.item.id === elem.item.id) {
                 itm.approved = false;
+                $scope.canApprove = false;
             }
         }
     };
 
     $scope.prpepareToApproveOrder = function (_item) {
-        const index = _item.itemsList.findIndex((item) => item.approved === false);
-        if (index === -1) {
+        let allApproved = _item.itemsList.every((elem) => elem.approved === true);
+        if (allApproved) {
             $scope.canApprove = true;
+        } else {
+            $scope.canApprove = false;
         }
+    };
+
+    $scope.addFiles = function () {
+        $scope.error = '';
+        $scope.item.filesList = $scope.item.filesList || [];
+        $scope.item.filesList.push({
+            file_date: new Date(),
+            file_upload_date: new Date(),
+            upload_by: '##user.name##',
+        });
     };
 
     $scope.getAll();

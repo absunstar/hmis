@@ -7,14 +7,10 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: { url: '/images/purchaseOrders.png' },
-        source: undefined,
-        purchaseRequest: undefined,
         orderDate: new Date(),
-        paymentType: undefined,
         importPermitNumber: 0,
         importAuthorizationDate: new Date(),
-        store: undefined,
-        vendor: undefined,
+        filesList: [],
         itemsList: [],
         hasVendor: true,
         approved: false,
@@ -26,8 +22,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope.item = {};
     $scope.list = [];
     $scope.orderItem = {
-        item: undefined,
-        unit: undefined,
+
         purchaseCount: 1,
         purchasePrice: 0,
         bonusCount: 0,
@@ -444,7 +439,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             $scope.orderItem.unit = $scope.unitsList[0];
         }
     };
-    
+
     $scope.getPurchaseRequest = function () {
         $scope.busy = true;
         $scope.purchaseRequestList = [];
@@ -650,6 +645,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         success = true;
         return { success, _item };
     };
+
 
     $scope.getAll();
     $scope.getPaymentTypes();

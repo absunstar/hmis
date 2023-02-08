@@ -448,6 +448,15 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
         }
     };
 
+    $scope.prpepareToApproveOrder = function (_item) {
+        let allApproved = _item.itemsList.every((elem) => elem.approved === true);
+        if (allApproved) {
+            $scope.canApprove = true;
+        } else {
+            $scope.canApprove = false;
+        }
+    };
+
     $scope.addFiles = function () {
         $scope.error = '';
         $scope.item.filesList = $scope.item.filesList || [];
@@ -469,15 +478,6 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
             });
             $scope.selectItem.unit = $scope.unitsList[0];
         }
-    };
-
-    $scope.prpepareToApproveOrder = function (_item) {
-        _item.itemsList.every((elem) => {
-            if (elem.approved) {
-                return ($scope.canApprove = true);
-            }
-            $scope.canApprove = false;
-        });
     };
 
     $scope.getAll({ hasTransaction: false });

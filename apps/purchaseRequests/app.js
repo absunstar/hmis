@@ -9,6 +9,8 @@ module.exports = function init(site) {
         allowRouteGet: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
+        allowRouteApprove: true,
+        allowRouteUnapprove: true,
         allowRouteDelete: true,
         allowRouteView: true,
         allowRouteAll: true,
@@ -226,7 +228,7 @@ module.exports = function init(site) {
             });
         }
 
-        if (app.allowRouteUpdate) {
+        if (app.allowRouteApprove) {
             site.post({ name: `/api/${app.name}/approve`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {
                     done: false,
@@ -248,7 +250,7 @@ module.exports = function init(site) {
             });
         }
 
-        if (app.allowRouteUpdate) {
+        if (app.allowRouteUnapprove) {
             site.post({ name: `/api/${app.name}/unapprove`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {
                     done: false,

@@ -10,6 +10,21 @@
                         <i-date class="col4" v="r" label="##word.Request Date##" ng-model="item.requestDate"> </i-date>
                         <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
                     </div>
+                    <fieldset>
+                        <legend>
+                            <i-button type="add default" ng-click="addFiles()"></i-button>
+                            ##word.Files##
+                        </legend>
+                        <div class="row" ng-repeat="doc in item.filesList">
+                            <div class="col10">
+                                <i-file ng-model="doc.file"></i-file>
+                            </div>
+                            <div class="col2">
+                                <br />
+                                <i-button type="delete" label="##word.delete##" ng-click="item.filesList.splice($index,1)"> </i-button>
+                            </div>
+                        </div>
+                    </fieldset>
                     <i-list
                         v="r"
                         class="col6"

@@ -3,8 +3,6 @@
         <div x-import="storesItems/modal.html"></div>
         <div x-import="storesItems/modalSearch.html"></div>
 
-
-
         <div class="top-actions">
             <i-button type="add" x-permissions="storesItemsAdd || storesItemsManage" label="##word.New##" ng-click="showAdd()"></i-button>
         </div>
@@ -15,7 +13,7 @@
 
         <table class="table hover bold" id="t1">
             <tr>
-                <th class="w150">##word.logo##</th>
+                <th class="w150">##word.Logo##</th>
                 <th>##word.Code##</th>
                 <th>##word.Name##</th>
                 <th>##word.Collection Item##</th>
@@ -40,8 +38,9 @@
                 </td>
 
                 <td class="text-center">
-                    <span class="text-success" ng-show="item.workByBatch">##word.Batch## - {{item.validityDays}} - ##word.Days##</span>
-                    <span class="text-danger" ng-show="item.workBySerial">##word.Serial##</span>
+                    <span class="text-success" ng-if="item.workByBatch">##word.Batch## - {{item.validityDays}} - ##word.Days##</span>
+                    <span class="text-primary" ng-if="item.workBySerial">##word.Serial##</span>
+                    <span class="text-danger" ng-if="!item.workByBatch && !item.workBySerial">##word.Not Set##</span>
                 </td>
 
                 <td class="text-center">

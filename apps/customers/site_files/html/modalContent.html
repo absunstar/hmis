@@ -27,7 +27,6 @@
             <a class="tab-link" onclick="site.showTabContent(event, '#taxAndBusinessInformations')"> <span>##word.Tax And Business Informatins## </span></a>
             <a class="tab-link" onclick="site.showTabContent(event, '#contactInformations')"> <span>##word.Contact Informatins## </span></a>
             <a class="tab-link" onclick="site.showTabContent(event, '#branchesInformations')"> <span>##word.Branches Informatins## </span></a>
-            <a class="tab-link" onclick="site.showTabContent(event, '#initialBalanceInformations')"> <span>##word.Initial Balance## </span></a>
             <a class="tab-link" onclick="site.showTabContent(event, '#accountingInformations')"> <span>##word.Accounting Informatins## </span></a>
             <a class="tab-link" onclick="site.showTabContent(event,'#bankingAccounts')"> <span>##word.Banking Accounts## </span></a>
             <a class="tab-link" onclick="site.showTabContent(event, '#vendorsFiles')"> <span>##word.Files## </span></a>
@@ -151,26 +150,6 @@
                             <i-control class="col4" label="##word.Manger Email##" ng-model="branch.mangerEmail"></i-control>
                         </div>
                     </fieldset>
-                </fieldset>
-            </div>
-
-            <div id="initialBalanceInformations" class="tab-content">
-                <fieldset>
-                    <legend>##word.Initial Balance Informations##</legend>
-
-                    <div class="row">
-                        <i-control class="col4" label="##word.Initial Balance##" type="number" ng-disabled="item.$view" ng-model="item.initialBalance"></i-control>
-
-                        <i-radio class="col2" group="bt_{{$index}}" label="##word.Debit##" ng-disabled="item.$view" ng-model="item.balanceType" ng-value="debit"> </i-radio>
-
-                        <i-radio class="col2" group="bt_{{$index}}" label="##word.Credit##" ng-disabled="item.$view" ng-model="item.balanceType" ng-value="credit"> </i-radio>
-
-                        <i-control class="col4" label="##word.Reference Nnumber##" ng-disabled="balance.$view" ng-model="item.referenceNumber"></i-control>
-                    </div>
-
-                    <div class="row">
-                        <i-textArea label="##word.Notes##" ng-model="item.balanceNotes"> </i-textArea>
-                    </div>
                 </fieldset>
             </div>
 

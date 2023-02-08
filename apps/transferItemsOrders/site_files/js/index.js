@@ -1,33 +1,23 @@
-app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
+app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     $scope.baseURL = '';
-    $scope.appName = 'transferItemsRequests';
-    $scope.modalID = '#transferItemsRequestsManageModal';
-    $scope.modalSearchID = '#transferItemsRequestsSearchModal';
+    $scope.appName = 'transferItemsOrders';
+    $scope.modalID = '#transferItemsOrdersManageModal';
+    $scope.modalSearchID = '#transferItemsOrdersSearchModal';
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
-        image: { url: '/images/transferItemsRequests.png' },
-        requestDate: new Date(),
-        itemsList: [],
+        image: { url: '/images/transferItemsOrders.png' },
+        orderDate:new Date(),
         approved: false,
+        hasTransaction: false,
         active: true,
     };
     $scope.item = {};
     $scope.list = [];
 
-    $scope.resetSelectedItem = function () {
-        $scope.selectItem = {
-            item: {},
-            unit: {},
-            transferFromCount: 1,
-            approved: false,
-            currentBalance: 0,
-        };
-    };
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.resetSelectedItem();
         $scope.item = { ...$scope.structure };
         site.showModal($scope.modalID);
     };
@@ -37,11 +27,6 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
         const v = site.validated($scope.modalID);
         if (!v.ok) {
             $scope.error = v.messages[0].ar;
-            return;
-        }
-
-        if (!_item.itemsList.length) {
-            $scope.error = '##word.Must Enter One Item At Least##';
             return;
         }
 
@@ -73,7 +58,6 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
     $scope.showUpdate = function (_item) {
         $scope.error = '';
         $scope.mode = 'edit';
-        $scope.prpepareToApproveOrder(_item);
         $scope.view(_item);
         $scope.item = {};
         site.showModal($scope.modalID);
@@ -84,11 +68,6 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
         const v = site.validated($scope.modalID);
         if (!v.ok) {
             $scope.error = v.messages[0].ar;
-            return;
-        }
-
-        if (!_item.itemsList.length) {
-            $scope.error = '##word.Must Enter One Item At Least##';
             return;
         }
         $scope.busy = true;
@@ -245,29 +224,25 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
         $scope.search = {};
     };
 
-    $scope.getStores = function () {
+    $scope.getpurchaseOrdersSource = function () {
         $scope.busy = true;
-        $scope.storesList = [];
+        $scope.transferItemsOrdersSourcesList = [];
         $http({
             method: 'POST',
-            url: '/api/stores/all',
+            url: '/api/transferItemsOrdersSource',
             data: {
-                where: {
-                    active: true,
-                },
                 select: {
                     id: 1,
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
-                    type: 1,
                 },
             },
         }).then(
             function (response) {
                 $scope.busy = false;
                 if (response.data.done && response.data.list.length > 0) {
-                    $scope.storesList = response.data.list;
+                    $scope.transferItemsOrdersSourcesList = response.data.list;
                 }
             },
             function (err) {
@@ -277,29 +252,36 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getStoresItems = function () {
+    $scope.getTransferItemsRequests = function () {
         $scope.busy = true;
-        $scope.storesItemsList = [];
+        $scope.transferItemsRequestsList = [];
+        $scope.item.itemsList = [];
         $http({
             method: 'POST',
-            url: '/api/storesItems/all',
+            url: '/api/transferItemsRequests/all',
             data: {
                 where: {
                     active: true,
+                    approved: true,
+                    hasTransaction: false,
                 },
                 select: {
                     id: 1,
                     code: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                    unitsList: 1,
+                    title: 1,
+                    approved: 1,
+                    hasTransaction: 1,
+                    active: 1,
+                    itemsList: 1,
+                    fromStore: 1,
+                    toStore: 1,
                 },
             },
         }).then(
             function (response) {
                 $scope.busy = false;
                 if (response.data.done && response.data.list.length > 0) {
-                    $scope.storesItemsList = response.data.list;
+                    $scope.transferItemsRequestsList = response.data.list;
                 }
             },
             function (err) {
@@ -309,102 +291,28 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.validateStores = function () {
-        if ($scope.item.fromStore && $scope.item.toStore && $scope.item.fromStore.id === $scope.item.toStore.id) {
-            $scope.error = '##word.Same Store##';
-            return;
-        }
-        $scope.error = '';
-    };
+    $scope.getRequestItems = function (transferItemsRequest) {
+        $scope.item.itemsList = [];
+        const fromStore = transferItemsRequest.fromStore;
+        const toStore = transferItemsRequest.toStore;
 
-    $scope.getItemUnits = function (item) {
-        $scope.unitsList = [];
-        for (const elem of item.unitsList) {
-            $scope.unitsList.push({
-                id: elem.unit.id,
-                nameEn: elem.unit.nameEn,
-                nameAr: elem.unit.nameAr,
-                storesList: elem.storesList,
+        for (const elem of transferItemsRequest.itemsList) {
+            $scope.item.itemsList.push({
+                item: elem.item,
+                unit: elem.unit,
+                fromStore,
+                toStore,
+                item: elem.item,
+                unit: elem.unit,
+                fromStore,
+                toStore,
+                transferFromCount: elem.transferFromCount,
+                approved: true,
             });
-            $scope.selectItem.unit = $scope.unitsList[0];
-        }
-        $scope.calculateItemBalance($scope.unitsList[0]);
-    };
-
-    $scope.calculateItemBalance = function (unit) {
-        if (!unit.storesList || !unit.storesList.length || !$scope.item.fromStore?.id) return;
-        const storeIndex = unit.storesList.findIndex((str) => str.store.id === $scope.item.fromStore.id);
-        if (storeIndex === -1) {
-            $scope.selectItem.currentBalance = 0;
-            return;
-        } else {
-            const totalIncome =
-                unit.storesList[storeIndex].purchaseCount + unit.storesList[storeIndex].bonusCount + unit.storesList[storeIndex].unassembledCount + unit.storesList[storeIndex].salesReturnCount;
-
-            const totalOut =
-                unit.storesList[storeIndex].salesCount + unit.storesList[storeIndex].purchaseReturnCount + unit.storesList[storeIndex].damagedCount + unit.storesList[storeIndex].assembledCount;
-
-            const currentBalance = totalIncome - totalOut;
-            $scope.selectItem.currentBalance = currentBalance;
-        }
-    };
-
-    $scope.addToItemsList = function (elem) {
-        $scope.error = '';
-        if (!elem.item.id) {
-            $scope.error = '##word.Please Enter Item##';
-            return;
-        }
-        for (const itm of $scope.item.itemsList) {
-            if (itm.item.id === elem.item.id) {
-                $scope.itemsError = '##word.Item Exisit##';
-                return;
-            }
-        }
-
-        if (elem.transferFromCount < 1) {
-            $scope.itemsError = '##word.Please Enter Count##';
-            return;
-        }
-
-        if (elem.transferFromCount > elem.currentBalance) {
-            $scope.itemsError = '##word.Cannot Transfer Count Bigger Than Current Balance##';
-            return;
-        }
-
-        $scope.item.itemsList.unshift(elem);
-        $scope.resetSelectedItem();
-        $scope.itemsError = '';
-    };
-
-    $scope.approveItem = function (elem) {
-        $scope.error = '';
-        for (const itm of $scope.item.itemsList) {
-            if (itm.item.id === elem.item.id) {
-                itm.approved = true;
-            }
-        }
-        $scope.prpepareToApproveOrder($scope.item);
-    };
-
-    $scope.unapproveItem = function (elem) {
-        $scope.error = '';
-        for (const itm of $scope.item.itemsList) {
-            if (itm.item.id === elem.item.id) {
-                itm.approved = false;
-            }
-        }
-    };
-
-    $scope.prpepareToApproveOrder = function (_item) {
-        const index = _item.itemsList.findIndex((item) => item.approved === false);
-        if (index === -1) {
-            $scope.canApprove = true;
         }
     };
 
     $scope.getAll();
-    $scope.getStores();
-    $scope.getStoresItems();
+    $scope.getpurchaseOrdersSource();
     $scope.getNumberingAuto();
 });

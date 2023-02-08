@@ -190,14 +190,13 @@ module.exports = function init(site) {
                         if (!err && doc) {
                             response.done = true;
                             response.doc = doc;
+                            if (_data.source.id === 1 && _data.purchaseRequest && _data.purchaseRequest.id) {
+                                const purchaseRequestsApp = site.getApp('purchaseRequests');
+                                purchaseRequestsApp.$collection.update({ where: { id: _data.purchaseRequest.id }, set: { hasTransaction: true } });
+                                res.json(response);
+                            }
                         } else {
                             response.error = err.mesage;
-                        }
-
-                        if (_data.source.id === 1 && _data.purchaseRequest && _data.purchaseRequest.id) {
-                            const purchaseRequestsApp = site.getApp('purchaseRequests');
-                            purchaseRequestsApp.$collection.update({ where: { id: _data.purchaseRequest.id }, set: { hasTransaction: true } });
-                            res.json(response);
                         }
                     });
                 });
@@ -270,27 +269,15 @@ module.exports = function init(site) {
                                 let storeIndex = doc.unitsList[index].storesList.findIndex((s) => s.store.id === _data.store.id);
 
                                 if (storeIndex == -1) {
-                                    doc.unitsList[index].storesList.push({
-                                        store: _data.store,
-                                        purchaseCost: itm.purchaseCost || 0,
-                                        purchaseCount: itm.purchaseCount,
-                                        purchasePrice: itm.purchasePrice,
-                                        purchaseReturnCount: 0,
-                                        purchaseReturnPrice: 0,
-                                        salesCount: 0,
-                                        salesPrice: 0,
-                                        salesReturnCount: 0,
-                                        salesReturnPrice: 0,
-                                        bonusCount: itm.bonusCount,
-                                        bonusPrice: itm.bonusPrice,
-                                        bonusPrice: 0,
-                                        damagedCount: 0,
-                                        damagedPrice: 0,
-                                        assembledCount: 0,
-                                        assembledPrice: 0,
-                                        unassembledCount: 0,
-                                        unassembledPrice: 0,
-                                    });
+                                    const newUit = site.setStoresItemsUnitStoreProperties();
+                                    newUit.store = _data.store;
+                                    newUit.purchaseCost = itm.purchaseCost || newUit.purchaseCost;
+                                    newUit.purchaseCount = itm.purchaseCount || newUit.purchaseCount;
+                                    newUit.purchasePrice = itm.purchasePrice || newUit.purchasePrice;
+                                    newUit.bonusCount = itm.bonusCount || newUit.bonusCount;
+                                    newUit.bonusPrice = itm.bonusPrice || newUit.bonusPrice;
+
+                                    doc.unitsList[index].storesList.push(newUit);
                                 } else {
                                     doc.unitsList[index].storesList[storeIndex].purchaseCount += itm.purchaseCount;
                                     doc.unitsList[index].storesList[storeIndex].purchaseCost += itm.purchaseCost;

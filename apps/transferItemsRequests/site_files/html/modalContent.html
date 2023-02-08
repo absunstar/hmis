@@ -2,12 +2,13 @@
     <fieldset>
         <legend>##word.Basic Informations##</legend>
         <div class="row padding">
-            <div class="col7">
+            <div class="col9">
                 <div class="row">
                     <div class="row">
-                        <i-control ng-hide="disabledCode" class="col6" label="##word.Code##" ng-model="item.code"> </i-control>
-                        <i-date class="col3" v="r" label="##word.Request Date##" ng-model="item.requestDate"> </i-date>
-                        <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
+                        <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="item.code"> </i-control>
+                        <i-control class="col4" v="r" label="##word.Title##" ng-model="item.title"> </i-control>
+                        <i-date class="col4" v="r" label="##word.Request Date##" ng-model="item.requestDate"> </i-date>
+                        <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
                     </div>
                     <i-list
                         v="r"
@@ -31,7 +32,7 @@
                     ></i-list>
                 </div>
             </div>
-            <div class="col5 center">
+            <div class="col3 center">
                 <i-image class="img256 center" ng-model="item.image"></i-image>
             </div>
         </div>
@@ -43,7 +44,7 @@
         <div class="row">
             <div class="row">
                 <i-list class="col2" label="##word.Item##" ng-model="selectItem.item" ng-change="getItemUnits(selectItem.item)" items="storesItemsList" display="name##session.lang##"> </i-list>
-                <!-- ng-get="getStoresItems()" -->
+
                 <i-list
                     class="col2"
                     label="##word.Unit##"

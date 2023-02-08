@@ -25,6 +25,34 @@ module.exports = function init(site) {
         });
         return item;
     };
+
+    site.setStoresItemsUnitStoreProperties = function () {
+        return (unit = {
+            store: {},
+            purchaseCost: 0,
+            purchaseCount: 0,
+            purchasePrice: 0,
+            purchaseReturnCount: 0,
+            purchaseReturnPrice: 0,
+            salesCount: 0,
+            salesPrice: 0,
+            salesReturnCount: 0,
+            salesReturnPrice: 0,
+            bonusCount: 0,
+            bonusPrice: 0,
+            bonusPrice: 0,
+            damagedCount: 0,
+            damagedPrice: 0,
+            assembledCount: 0,
+            assembledPrice: 0,
+            unassembledCount: 0,
+            unassembledPrice: 0,
+            transferFromCount: 0,
+            transferToCount: 0,
+            transferFromPrice: 0,
+            transferToPrice: 0,
+        });
+    };
     app.$collection = site.connectCollection(app.name);
 
     app.init = function () {

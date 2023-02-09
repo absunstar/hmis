@@ -186,13 +186,13 @@ module.exports = function init(site) {
                 if (_s.serviceGroup && _s.serviceGroup.type && _s.serviceGroup.type.id) {
                   let obj = {
                     orderId: doc.id,
-                    patient: doc.patient,
-                    doctor: doc.doctor,
+                    patient: { ...doc.patient },
+                    doctor: { ...doc.doctor },
                     date: doc.date,
                     company: doc.company,
                     branch: doc.branch,
                     addUserInfo: _data.addUserInfo,
-                    service: _s,
+                    service: { ..._s },
                     status: { id: 1, nameEn: 'Pending', nameAr: 'قيد الإنتظار' },
                   };
 

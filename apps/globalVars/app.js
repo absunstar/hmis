@@ -12,9 +12,28 @@ module.exports = function init(site) {
         { id: 16, code: 'S', nameEn: 'S', nameAr: 'Seha' },
     ];
 
+    site.qualificationTypes = [
+        { id: 1, nameEn: 'High qualified', nameAr: 'مؤهل عالي' },
+        { id: 3, nameEn: 'Upper intermediate', nameAr: 'فوق المتوسط' },
+        { id: 4, nameEn: 'Intermediate', nameAr: 'المتوسط' },
+        { id: 5, nameEn: 'Preparatory', nameAr: 'إعدادية' },
+        { id: 6, nameEn: 'Primary', nameAr: 'إبتدائية' },
+        { id: 7, nameEn: 'Student', nameAr: 'طالب' },
+        { id: 8, nameEn: 'Literacy', nameAr: 'محو أمية' },
+        { id: 9, nameEn: 'Without qualified', nameAr: 'بدون مؤهل' },
+    ];
+
+    site.employeeStatus = [
+        { id: 1, nameEn: 'Resignation', nameAr: 'إستقالة' },
+        { id: 2, nameEn: 'Cessation', nameAr: 'إنقطاع' },
+        { id: 3, nameEn: 'Dispensing', nameAr: 'إستغناء' },
+        { id: 4, nameEn: 'Termination', nameAr: 'فصل' },
+        { id: 5, nameEn: 'Release', nameAr: 'إخلاء' },
+    ];
+
     site.doctorTypes = [
         { id: 1, code: 'G', nameEn: 'General', nameAr: 'عام' },
-        { id: 1, code: 'M', nameEn: 'Medical Director', nameAr: 'المدير الطبي' },
+        { id: 2, code: 'M', nameEn: 'Medical Director', nameAr: 'المدير الطبي' },
     ];
 
     site.paymentTypes = [
@@ -130,6 +149,7 @@ module.exports = function init(site) {
         { id: 1, code: '001', nameEn: 'Transfer Items Request', nameAr: 'طلب تحويل أصناف' },
         { id: 2, code: '002', nameEn: 'Transfer Items order', nameAr: 'أمر تحويل أصناف' },
     ];
+
     site.post('/api/patientTypes', (req, res) => {
         res.json({
             done: true,
@@ -143,6 +163,14 @@ module.exports = function init(site) {
             list: site.doctorTypes,
         });
     });
+
+    site.post('/api/qualificationTypes', (req, res) => {
+        res.json({
+            done: true,
+            list: site.qualificationTypes,
+        });
+    });
+
 
     site.post('/api/paymentTypes', (req, res) => {
         res.json({

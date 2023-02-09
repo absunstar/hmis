@@ -225,7 +225,7 @@ app.controller('doctors', function ($scope, $http, $timeout) {
 
   $scope.getNationalitiesList = function () {
     $scope.busy = true;
-    $scope.nationaltiesList = [];
+    $scope.nationalitiesList = [];
     $http({
       method: 'POST',
       url: '/api/nationalities/all',

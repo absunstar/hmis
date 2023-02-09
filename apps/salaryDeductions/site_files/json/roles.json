@@ -1,0 +1,9 @@
+[
+  {
+    "moduleName": "public",
+    "name": "salaryDeductionsAdmin",
+    "En": "Salary Deductions Admin",
+    "Ar": "إدارة إستقطاعات المرتب",
+    "permissions": ["salaryDeductionsManage"]
+  }
+]

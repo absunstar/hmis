@@ -1,0 +1,11 @@
+[
+  { "moduleName": "public", "screenName": "employeesBonuses", "name": "employeesBonusesManage", "En": "Manage", "Ar": "إدارة" },
+  { "moduleName": "public", "screenName": "employeesBonuses", "name": "employeesBonusesAdd", "En": "Add", "Ar": "إضافة" },
+  { "moduleName": "public", "screenName": "employeesBonuses", "name": "employeesBonusesUpdate", "En": "Edit", "Ar": "تعديل" },
+  { "moduleName": "public", "screenName": "employeesBonuses", "name": "employeesBonusesDelete", "En": "Delete", "Ar": "حذف" },
+  { "moduleName": "public", "screenName": "employeesBonuses", "name": "employeesBonusesView", "En": "View", "Ar": "عرض" },
+  { "moduleName": "public", "screenName": "employeesBonuses", "name": "employeesBonusesSearch", "En": "Search", "Ar": "بحث" },
+  { "moduleName": "public", "screenName": "employeesBonuses", "name": "employeesBonusesExport", "En": "Export", "Ar": "تصدير" },
+  { "moduleName": "public", "screenName": "employeesBonuses", "name": "employeesBonusesPrint", "En": "Print", "Ar": "طباعة" },
+  { "moduleName": "public", "screenName": "employeesBonuses", "name": "employeesBonusesUi", "En": "UI", "Ar": "الواجهة الرسومية" }
+]

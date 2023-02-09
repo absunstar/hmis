@@ -48,7 +48,7 @@
                   <div class="row padding">
                     <div class="col6">
                       <div class="row">
-                        <i-list label="##word.Chief Complaint##" class="col10" ng-model="item.$chiefComplaint" display="name" items="chiefComplaintsList" ng-search="item.$chiefComplaint"></i-list>
+                        <i-list label="##word.Chief Complaint##" class="col10" ng-model="item.$chiefComplaint" display="name##session.lang##" items="chiefComplaintsList" ng-search="item.$chiefComplaint"></i-list>
                         <div class="col2">
                           <br />
                           <i-button type="add" ng-click="addDoctorReccomend('$chiefComplaint','CC')"></i-button>
@@ -58,7 +58,7 @@
 
                     <div class="col6">
                       <div class="row">
-                        <i-list label="##word.Significant Sign##" class="col10" ng-model="item.$significantSign" display="name" items="significantSignsList" ng-search="item.$significantSign"></i-list>
+                        <i-list label="##word.Significant Sign##" class="col10" ng-model="item.$significantSign" display="name##session.lang##" items="significantSignsList" ng-search="item.$significantSign"></i-list>
                         <div class="col2">
                           <br />
                           <i-button type="add" ng-click="addDoctorReccomend('$significantSign','SS')"></i-button>
@@ -70,7 +70,7 @@
                   <div class="row padding">
                     <div class="col6">
                       <div class="row">
-                        <i-list label="##word.Other Condition##" class="col10" ng-model="item.$otherCondition" display="name" items="otherConditionsList" ng-search="item.$otherCondition"></i-list>
+                        <i-list label="##word.Other Condition##" class="col10" ng-model="item.$otherCondition" display="name##session.lang##" items="otherConditionsList" ng-search="item.$otherCondition"></i-list>
                         <div class="col2">
                           <br />
                           <i-button type="add" ng-click="addDoctorReccomend('$otherCondition','OC')"></i-button>
@@ -80,7 +80,7 @@
 
                     <div class="col6">
                       <div class="row">
-                        <i-list label="##word.diagnoses##" class="col10" ng-model="item.$diagnosis" display="name" items="diagnosesList" ng-search="item.$diagnosis"></i-list>
+                        <i-list label="##word.diagnoses##" class="col10" ng-model="item.$diagnosis" display="name##session.lang##" items="diagnosesList" ng-search="item.$diagnosis"></i-list>
                         <div class="col2">
                           <br />
                           <i-button type="add" ng-click="addDoctorReccomend('$diagnosis','DIAG')"></i-button>
@@ -94,7 +94,7 @@
                       <p>{{s.code}}</p>
                     </div>
                     <div class="col10">
-                      <p class="bold">{{s.name}}</p>
+                      <p class="bold">{{s.name##session.lang##}}</p>
                     </div>
 
                     <div class="col1">

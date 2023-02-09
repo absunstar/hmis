@@ -288,7 +288,7 @@ module.exports = function init(site) {
             where['doctor.id'] = where['doctor'].id;
             delete where['doctor'];
           }
-          app.$collection.findMany({ where, select, sort: { code: -1 },limit: req.body.limit }, (err, docs) => {
+          app.all({ where, select, sort: { code: -1 },limit: req.body.limit }, (err, docs) => {
             let newDate = new Date();
             docs.forEach((_d) => {
               _d.$hours = parseInt((Math.abs(new Date(_d.date) - newDate) / (1000 * 60 * 60)) % 24);
@@ -317,7 +317,7 @@ module.exports = function init(site) {
     if (obj.doctor && obj.doctor.id) {
       where['doctor.id'] = obj.doctor.id;
     }
-    app.$collection.findMany(
+    app.all(
       {
         where,
         limit: 1,

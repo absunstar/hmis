@@ -1,332 +1,356 @@
 [
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "services",
-        "name": "Services"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "doctors",
-        "name": "Doctors"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "hospitalCenters",
-        "name": "Hospital Centers"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "insuranceClasses",
-        "name": "Insurance Classes"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "insuranceCompanies",
-        "name": "Insurance Companies"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "insuranceContracts",
-        "name": "Insurance Contracts"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "mainInsuranceCompanies",
-        "name": "Main Insurance Companies"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "offers",
-        "name": "Offers"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "patients",
-        "name": "Patients"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "servicesOrders",
-        "name": "Services Orders"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "specialties",
-        "name": "Specialties"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "countries",
-        "name": "Countries"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "goves",
-        "name": "Goves"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "cities",
-        "name": "Cities"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "areas",
-        "name": "Areas"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "nationalities",
-        "name": "Nationalities"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "servicesCategories",
-        "name": "Services Categories"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "servicesGroups",
-        "name": "Services Groups"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "achiCodes",
-        "name": "ACHI Codes"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "stores",
-        "name": "Stores"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "storesItems",
-        "name": "Stores Items"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "storesUnits",
-        "name": "Stores Units"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "itemsGroups",
-        "name": "Items Groups"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "activeSubstances",
-        "name": "Active Substances"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "discountTypes",
-        "name": "Discount Types"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "taxesTypes",
-        "name": "Taxes Types"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "currencies",
-        "name": "Currencies"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "safes",
-        "name": "Safes"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "vendorsGroups",
-        "name": "Vendors Groups"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "vendors",
-        "name": "Vendors"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "purchaseRequests",
-        "name": "Purchase Requests"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "purchaseOrders",
-        "name": "Purchase Orders"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "customersGroups",
-        "name": "Customers Groups"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "transferItemsRequests",
-        "name": "Transfer Items Request"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "storesItemsCard",
-        "name": "Stores Items Card"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "salesInvoices",
-        "name": "Sales Invoices"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "chiefComplaints",
-        "name": "Chief Complaints"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "medicines",
-        "name": "Medicines"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "significantSigns",
-        "name": "Significant Signs"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "diagnoses",
-        "name": "Diagnoses"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "patientRecommendations",
-        "name": "Patient Recommendations"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "patientEducations",
-        "name": "Patient Educations"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "analyses",
-        "name": "Analyses"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "rays",
-        "name": "Rays"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "drinks",
-        "name": "Drinks"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "foods",
-        "name": "Foods"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "otherConditions",
-        "name": "Other Conditions"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "systemSetting",
-        "name": "System Setting"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "jobs",
-        "name": "Jobs"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "deductions",
-        "name": "Deductions"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "allowances",
-        "name": "Allowances"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "rewards",
-        "name": "Rewards"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "penalties",
-        "name": "Penalties"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "employees",
-        "name": "Employees"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "transferItemsOrders",
-        "name": "Transfer Items Orders"
-    }
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "services",
+    "name": "Services"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "doctors",
+    "name": "Doctors"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "hospitalCenters",
+    "name": "Hospital Centers"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "insuranceClasses",
+    "name": "Insurance Classes"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "insuranceCompanies",
+    "name": "Insurance Companies"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "insuranceContracts",
+    "name": "Insurance Contracts"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "mainInsuranceCompanies",
+    "name": "Main Insurance Companies"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "offers",
+    "name": "Offers"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "patients",
+    "name": "Patients"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "servicesOrders",
+    "name": "Services Orders"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "specialties",
+    "name": "Specialties"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "countries",
+    "name": "Countries"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "goves",
+    "name": "Goves"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "cities",
+    "name": "Cities"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "areas",
+    "name": "Areas"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "nationalities",
+    "name": "Nationalities"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "servicesCategories",
+    "name": "Services Categories"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "servicesGroups",
+    "name": "Services Groups"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "achiCodes",
+    "name": "ACHI Codes"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "stores",
+    "name": "Stores"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "storesItems",
+    "name": "Stores Items"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "storesUnits",
+    "name": "Stores Units"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "itemsGroups",
+    "name": "Items Groups"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "activeSubstances",
+    "name": "Active Substances"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "discountTypes",
+    "name": "Discount Types"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "taxesTypes",
+    "name": "Taxes Types"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "currencies",
+    "name": "Currencies"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "safes",
+    "name": "Safes"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "vendorsGroups",
+    "name": "Vendors Groups"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "vendors",
+    "name": "Vendors"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "purchaseRequests",
+    "name": "Purchase Requests"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "purchaseOrders",
+    "name": "Purchase Orders"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "customersGroups",
+    "name": "Customers Groups"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "transferItemsRequests",
+    "name": "Transfer Items Request"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "storesItemsCard",
+    "name": "Stores Items Card"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "salesInvoices",
+    "name": "Sales Invoices"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "chiefComplaints",
+    "name": "Chief Complaints"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "medicines",
+    "name": "Medicines"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "significantSigns",
+    "name": "Significant Signs"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "diagnoses",
+    "name": "Diagnoses"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "patientRecommendations",
+    "name": "Patient Recommendations"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "patientEducations",
+    "name": "Patient Educations"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "analyses",
+    "name": "Analyses"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "rays",
+    "name": "Rays"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "drinks",
+    "name": "Drinks"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "foods",
+    "name": "Foods"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "otherConditions",
+    "name": "Other Conditions"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "systemSetting",
+    "name": "System Setting"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "jobs",
+    "name": "Jobs"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "deductions",
+    "name": "Deductions"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "allowances",
+    "name": "Allowances"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "employeesBonuses",
+    "name": "Employees Bonuses"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "employeesPenalties",
+    "name": "Employees Penalties"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "employees",
+    "name": "Employees"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "jobsAdministrations",
+    "name": "Jobs Administrations"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "jobsSections",
+    "name": "Jobs Sections"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "employeesBonusTypes",
+    "name": "Employees Bonus Types"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "employeesPenaltiesTypes",
+    "name": "Employees Penalties Types"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "transferItemsOrders",
+    "name": "Transfer Items Orders"
+  }
 ]

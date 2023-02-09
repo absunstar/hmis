@@ -1,0 +1,9 @@
+[
+  {
+    "moduleName": "public",
+    "name": "employeesBonusesAdmin",
+    "En": "Employees Bonuses Admin",
+    "Ar": "إدارة مكافئات الموظفين",
+    "permissions": ["employeesBonusesManage"]
+  }
+]

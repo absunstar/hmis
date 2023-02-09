@@ -184,6 +184,15 @@ module.exports = function init(site) {
           },
         ];
 
+        if (_data.mobileList.length > 0) {
+          _data.mobile = _data.mobileList[0].mobile;
+        } else {
+          response.error = 'Must Add Mobile Number';
+          res.json(response);
+          return;
+        }
+
+
         let cb = site.getNumbering(numObj);
         if (!_data.code && !cb.auto) {
           response.error = 'Must Enter Code';
@@ -199,6 +208,7 @@ module.exports = function init(site) {
         if (!_data.email) {
           _data.email = _data.nameEn + Math.floor(Math.random() * 1000 + 1).toString();
         }
+        
 
         app.add(_data, (err, doc) => {
           if (!err && doc) {
@@ -220,6 +230,14 @@ module.exports = function init(site) {
 
         let _data = req.data;
         _data.editUserInfo = req.getUserFinger();
+        
+        if (_data.mobileList.length > 0) {
+          _data.mobile = _data.mobileList[0].mobile;
+        } else {
+          response.error = 'Must Add Mobile Number';
+          res.json(response);
+          return;
+        }
 
         app.update(_data, (err, result) => {
           if (!err) {

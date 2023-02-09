@@ -194,6 +194,7 @@ module.exports = function init(site) {
                         } else {
                             response.error = err.mesage;
                         }
+
                         res.json(response);
                     });
                 });

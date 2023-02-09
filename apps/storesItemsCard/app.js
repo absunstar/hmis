@@ -14,6 +14,33 @@ module.exports = function init(site) {
         allowRouteAll: true,
     };
 
+    site.setItemCard = function (_elm, id) {
+        app.$collection.findMany(
+            {
+                where: { 'transactionType.id': id, id: _elm.item.id, code: _elm.item.code, nameAr: _elm.item.nameAr, nameEn: _elm.item.nameEn, 'item.id': _elm.item.id, 'unit.id': _elm.unit.id },
+                sort: { id: -1 },
+                limit: 1,
+            },
+            (err, docs) => {
+                if (docs && docs.length > 0) {
+                } else {
+                    app.$collection.add({
+                        transactionType: site.storesTransactionsTypes.find((t) => t.id === 1),
+                        date: _elm.date,
+                        item: { id: _elm.item.id, code: _elm.item.code, nameAr: _elm.item.nameAr, nameEn: _elm.item.nameEn },
+                        unit: _elm.unit,
+                        // itemGroup: doc.itemGroup,
+                        store: _elm.store,
+                        vendor: _elm.vendor,
+                        invoiceId: _elm.invoiceId,
+                        count: _elm.purchaseCount,
+                        price: _elm.purchasePrice,
+                    });
+                }
+            }
+        );
+    };
+
     app.$collection = site.connectCollection(app.name);
     //   where['name'] = site.get_RegExp(where['name'], 'i');
 
@@ -150,7 +177,7 @@ module.exports = function init(site) {
                     name: app.name,
                 },
                 (req, res) => {
-                    res.render(app.name + '/index.html', { title: app.name,appName:'Stores Items Card' }, { parser: 'html', compres: true });
+                    res.render(app.name + '/index.html', { title: app.name, appName: 'Stores Items Card' }, { parser: 'html', compres: true });
                 }
             );
         }
@@ -255,7 +282,7 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                let select = req.body.select || {  };
+                let select = req.body.select || {};
                 let list = [];
                 if (where.item) {
                     where['item.id'] = where.item.id;

@@ -8,17 +8,35 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     $scope.structure = {
         image: { url: '/images/transferItemsOrders.png' },
         orderDate: new Date(),
+        itemsList: [],
         approved: false,
-        hasTransaction: false,
         active: true,
     };
     $scope.item = {};
     $scope.list = [];
+    $scope.orderItem = {
+        item: {},
+        unit: {},
+        transferFromCount: 1,
+        approved: false,
+        currentBalance: 0,
+    };
+    $scope.resetOrderItem = function () {
+        $scope.orderItem = {
+            item: {},
+            unit: {},
+            transferFromCount: 1,
+            approved: false,
+            currentBalance: 0,
+        };
+    };
 
     $scope.showAdd = function (_item) {
         $scope.error = '';
+        $scope.itemsError = '';
         $scope.mode = 'add';
         $scope.item = { ...$scope.structure };
+        $scope.resetOrderItem();
         site.showModal($scope.modalID);
     };
 
@@ -27,6 +45,16 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
         const v = site.validated($scope.modalID);
         if (!v.ok) {
             $scope.error = v.messages[0].ar;
+            return;
+        }
+
+        if (!_item.itemsList.length) {
+            $scope.error = '##word.Must Enter One Item At Least##';
+            return;
+        }
+
+        if (_item.fromStore && _item.toStore && _item.fromStore.id === _item.toStore.id) {
+            alert('##word.Same Store##');
             return;
         }
 
@@ -57,7 +85,10 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
 
     $scope.showUpdate = function (_item) {
         $scope.error = '';
+        $scope.itemsError = '';
         $scope.mode = 'edit';
+        $scope.resetOrderItem();
+        $scope.prpepareToApproveOrder(_item);
         $scope.view(_item);
         $scope.item = {};
         site.showModal($scope.modalID);
@@ -68,6 +99,14 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
         const v = site.validated($scope.modalID);
         if (!v.ok) {
             $scope.error = v.messages[0].ar;
+            return;
+        }
+        if (!_item.itemsList.length) {
+            $scope.error = '##word.Must Enter One Item At Least##';
+            return;
+        }
+        if (_item.fromStore && _item.toStore && _item.fromStore.id === _item.toStore.id) {
+            alert('##word.Same Store##');
             return;
         }
         $scope.busy = true;
@@ -87,6 +126,54 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
                     }
                 } else {
                     $scope.error = 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+
+    $scope.approve = function (_item) {
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+        if (!_item.itemsList.length) {
+            $scope.error = '##word.Must Enter One Item At Least##';
+            return;
+        }
+
+        if (_item.itemsList.some((itm) => !itm.approved)) {
+            $scope.error = '##word.Must Approve All Items##';
+            return;
+        }
+        if (_item.fromStore && _item.toStore && _item.fromStore.id === _item.toStore.id) {
+            alert('##word.Same Store##');
+            return;
+        }
+        _item['approved'] = true;
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/approve`,
+            data: _item,
+        }).then(
+            function (response) {
+                console.log('response', response);
+
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = response.data.error || 'Please Login First';
                 }
             },
             function (err) {
@@ -271,6 +358,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
                     title: 1,
                     approved: 1,
                     hasTransaction: 1,
+                    requestDate: 1,
                     active: 1,
                     itemsList: 1,
                     fromStore: 1,
@@ -299,15 +387,204 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
                 unit: elem.unit,
                 item: elem.item,
                 unit: elem.unit,
-                fromStore,
-                toStore,
                 transferFromCount: elem.transferFromCount,
                 approved: true,
             });
         }
     };
 
+    $scope.getStores = function () {
+        $scope.busy = true;
+        $scope.storesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/stores/all',
+            data: {
+                where: {
+                    active: true,
+                },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                    type: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.storesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.getStoresItems = function () {
+        $scope.busy = true;
+        $scope.storesItemsList = [];
+        $http({
+            method: 'POST',
+            url: '/api/storesItems/all',
+            data: {
+                where: {
+                    active: true,
+                },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                    unitsList: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.storesItemsList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.setFromAndToStoreValue = function (transferItemsRequest) {
+        if ($scope.item.source.id !== 1) {
+            $scope.item.fromStore = null;
+            $scope.item.toStore = null;
+        } else if ($scope.item.source.id === 1 && transferItemsRequest.fromStore && transferItemsRequest.toStore) {
+            $scope.item.fromStore = transferItemsRequest.fromStore;
+            $scope.item.toStore = transferItemsRequest.toStore;
+        }
+    };
+
+    $scope.validateStores = function () {
+        if ($scope.item.fromStore && $scope.item.toStore && $scope.item.fromStore.id === $scope.item.toStore.id) {
+            alert('##word.Same Store##');
+            return;
+        }
+        $scope.error = '';
+    };
+
+    $scope.getItemUnits = function (item) {
+        $scope.unitsList = [];
+        for (const elem of item.unitsList) {
+            $scope.unitsList.push({
+                id: elem.unit.id,
+                nameEn: elem.unit.nameEn,
+                nameAr: elem.unit.nameAr,
+                storesList: elem.storesList,
+            });
+            $scope.orderItem.unit = $scope.unitsList[0];
+        }
+        $scope.calculateItemBalance($scope.unitsList[0]);
+    };
+
+    $scope.calculateItemBalance = function (unit) {
+        if (!unit.storesList || !unit.storesList.length || !$scope.item.fromStore?.id) return;
+        const storeIndex = unit.storesList.findIndex((str) => str.store.id === $scope.item.fromStore.id);
+        if (storeIndex === -1) {
+            $scope.orderItem.currentBalance = 0;
+            return;
+        } else {
+            const totalIncome =
+                unit.storesList[storeIndex].purchaseCount + unit.storesList[storeIndex].bonusCount + unit.storesList[storeIndex].unassembledCount + unit.storesList[storeIndex].salesReturnCount;
+
+            const totalOut =
+                unit.storesList[storeIndex].salesCount + unit.storesList[storeIndex].purchaseReturnCount + unit.storesList[storeIndex].damagedCount + unit.storesList[storeIndex].assembledCount;
+
+            const currentBalance = totalIncome - totalOut;
+            $scope.orderItem.currentBalance = currentBalance;
+        }
+    };
+
+    $scope.addToItemsList = function (elem) {
+        $scope.error = '';
+        if (!elem.item.id) {
+            $scope.error = '##word.Please Enter Item##';
+            return;
+        }
+        for (const itm of $scope.item.itemsList) {
+            if (itm.item.id === elem.item.id) {
+                $scope.itemsError = '##word.Item Exisit##';
+                return;
+            }
+        }
+
+        if (elem.transferFromCount < 1) {
+            $scope.itemsError = '##word.Please Enter Count##';
+            return;
+        }
+
+        if (!elem.currentBalance > 0) {
+            $scope.itemsError = '##word.Item balance Is Zero##';
+            return;
+        }
+
+        if (elem.transferFromCount > elem.currentBalance) {
+            $scope.itemsError = '##word.Transfer Count Bigger Than Current Balance##';
+            return;
+        }
+
+        $scope.item.itemsList.unshift(elem);
+        $scope.resetOrderItem();
+        $scope.itemsError = '';
+    };
+
+    $scope.approveItem = function (elem) {
+        $scope.itemsError = '';
+
+        if (elem.transferFromCount < 1) {
+            $scope.itemsError = '##word.Please Enter Valid Numbers##';
+            return;
+        } else {
+            for (const itm of $scope.item.itemsList) {
+                if (itm.item.id === elem.item.id) {
+                    itm.approved = true;
+                }
+            }
+            $scope.prpepareToApproveOrder($scope.item);
+        }
+    };
+
+    $scope.unapproveItem = function (elem) {
+        $scope.itemsError = '';
+        for (const itm of $scope.item.itemsList) {
+            if (itm.item.id === elem.item.id) {
+                itm.approved = false;
+                $scope.canApprove = false;
+            }
+        }
+    };
+
+    $scope.prpepareToApproveOrder = function (_item) {
+        let allApproved = _item.itemsList.every((elem) => elem.approved === true);
+        if (allApproved) {
+            $scope.canApprove = true;
+        } else {
+            $scope.canApprove = false;
+        }
+    };
+
+    $scope.calculateTotalInItemsList = function (itm) {
+        if (itm.transferFromCount < 1) {
+            $scope.itemsError = '##word.Please Enter Valid Numbers##';
+            return;
+        }
+    };
+
     $scope.getAll();
+    $scope.getStores();
+    $scope.getStoresItems();
     $scope.getpurchaseOrdersSource();
     $scope.getNumberingAuto();
 });

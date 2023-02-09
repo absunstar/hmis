@@ -29,6 +29,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     };
     $scope.showAdd = function (_item) {
         $scope.error = '';
+        $scope.itemsError = '';
         $scope.mode = 'add';
         $scope.resetOrderItem();
         $scope.item = { ...$scope.structure };
@@ -73,7 +74,9 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
 
     $scope.showUpdate = function (_item) {
         $scope.error = '';
+        $scope.itemsError = '';
         $scope.mode = 'edit';
+        $scope.resetOrderItem();
         $scope.view(_item);
         $scope.item = {};
         site.showModal($scope.modalID);
@@ -296,19 +299,19 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     };
 
     $scope.addToItemsList = function (orderItem) {
-        $scope.itemListError = '';
+        $scope.itemsError = '';
         if (!orderItem.item) {
-            $scope.itemListError = '##word.Please Enter Item##';
+            $scope.itemsError = '##word.Please Enter Item##';
             return;
         }
 
         if (!orderItem?.unit.id) {
-            $scope.itemListError = '##word.Please Enter Item Unit##';
+            $scope.itemsError = '##word.Please Enter Item Unit##';
             return;
         }
 
         if (!orderItem.salesCount > 0) {
-            $scope.itemListError = '##word.Please Enter Count##';
+            $scope.itemsError = '##word.Please Enter Count##';
             return;
         }
 
@@ -323,7 +326,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
             total: orderItem.salesCount * orderItem.unit.salesPrice,
         });
         $scope.resetOrderItem();
-        $scope.itemListError = '';
+        $scope.itemsError = '';
     };
 
     $scope.getStores = function () {
@@ -420,7 +423,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
 
     $scope.calculateItem = function (itm) {
         if (itm.salesCount < 0 || itm.salesPrice < 0) {
-            $scope.itemListError = '##word.Please Enter Valid Numbers##';
+            $scope.itemsError = '##word.Please Enter Valid Numbers##';
             return;
         }
         $scope.item.itemsList.some((elem) => {
@@ -428,15 +431,15 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
                 elem.total = elem.salesCount * elem.salesPrice;
             }
         });
-        $scope.itemListError = '';
+        $scope.itemsError = '';
     };
 
     $scope.validateData = function (_item) {
-        $scope.itemListError = '';
+        $scope.itemsError = '';
         $scope.error = '';
         let success = false;
         if (!_item.itemsList.length) {
-            $scope.itemListError = '##word.Must Enter Items Data##';
+            $scope.itemsError = '##word.Must Enter Items Data##';
             return success;
         }
 

@@ -188,16 +188,16 @@ module.exports = function init(site) {
 
                     app.add(_data, (err, doc) => {
                         if (!err && doc) {
-                            response.done = true;
-                            response.doc = doc;
                             if (_data.source.id === 1 && _data.purchaseRequest && _data.purchaseRequest.id) {
                                 const purchaseRequestsApp = site.getApp('purchaseRequests');
                                 purchaseRequestsApp.$collection.update({ where: { id: _data.purchaseRequest.id }, set: { hasTransaction: true } });
-                                res.json(response);
                             }
+                            response.done = true;
+                            response.doc = doc;
                         } else {
                             response.error = err.mesage;
                         }
+                        res.json(response);
                     });
                 });
             });
@@ -239,92 +239,105 @@ module.exports = function init(site) {
                 };
 
                 let _data = req.data;
-                _data.approveUserInfo = req.getUserFinger();
 
+                _data.approveUserInfo = req.getUserFinger();
+                // return;
                 app.update(_data, (err, result) => {
                     if (!err) {
                         response.done = true;
+                        result.doc.itemsList.forEach((_item) => {
+                            let item = { ..._item };
+                            item.store = { ...result.doc.store };
+                            site.editItemsBalance(item);
+                            item.invoiceId = result.doc.id;
+                            item.date = result.doc.orderDate;
+                            item.vendor = result.doc.vendor;
+
+                            site.setItemCard(item, 1);
+                        });
+
                         response.result = result;
                     } else {
                         response.error = err.message;
                     }
-                    const storesItemsApp = site.getApp('storesItems');
-                    _data.itemsList.forEach((itm) => {
-                        // if (_data.calculatePurchaseCost) {
-                        //     if (_data.calculatePurchaseCostType === 'items') {
-                        //         const itemsCount = _data.itemsList.length;
-                        //         const itemPurchaseCost = _data.purchaseCost / itemsCount;
-                        //         for (const item of _data.itemsList) {
-                        //             const itemPurchasePriceCost = itemPurchaseCost / item.purchaseCount;
-                        //             item.purchaseCost = itemPurchasePriceCost;
-                        //         }
-                        //     }
-                        // }
-                        // const purchasePrice = itm.purchasePrice / itm.purchaseCount;
+                    // const storesItemsApp = site.getApp('storesItems');
 
-                        storesItemsApp.$collection.find({ where: { id: itm.item.id } }, (err, doc) => {
-                            let index = doc.unitsList.findIndex((unt) => unt.unit.id === itm.unit.id);
+                    // _data.itemsList.forEach((itm) => {
+                    // if (_data.calculatePurchaseCost) {
+                    //     if (_data.calculatePurchaseCostType === 'items') {
+                    //         const itemsCount = _data.itemsList.length;
+                    //         const itemPurchaseCost = _data.purchaseCost / itemsCount;
+                    //         for (const item of _data.itemsList) {
+                    //             const itemPurchasePriceCost = itemPurchaseCost / item.purchaseCount;
+                    //             item.purchaseCost = itemPurchasePriceCost;
+                    //         }
+                    //     }
+                    // }
+                    // const purchasePrice = itm.purchasePrice / itm.purchaseCount;
 
-                            if (index != -1) {
-                                let storeIndex = doc.unitsList[index].storesList.findIndex((s) => s.store.id === _data.store.id);
+                    // storesItemsApp.$collection.find({ where: { id: itm.item.id } }, (err, doc) => {
+                    // let index = doc.unitsList.findIndex((unt) => unt.unit.id === itm.unit.id);
 
-                                if (storeIndex == -1) {
-                                    const newUitStore = site.setStoresItemsUnitStoreProperties();
-                                    newUitStore.store = _data.store;
-                                    newUitStore.purchaseCost = itm.purchaseCost ?? newUitStore.purchaseCost;
-                                    newUitStore.purchaseCount = itm.purchaseCount ?? newUitStore.purchaseCount;
-                                    newUitStore.purchasePrice = itm.purchasePrice ?? newUitStore.purchasePrice;
-                                    newUitStore.bonusCount = itm.bonusCount ?? newUitStore.bonusCount;
-                                    newUitStore.bonusPrice = itm.bonusPrice ?? newUitStore.bonusPrice;
+                    // if (index != -1) {
+                    //     let storeIndex = doc.unitsList[index].storesList.findIndex((s) => s.store.id === _data.store.id);
 
-                                    doc.unitsList[index].storesList.push(newUitStore);
-                                } else {
-                                    doc.unitsList[index].storesList[storeIndex].purchaseCount += itm.purchaseCount;
-                                    doc.unitsList[index].storesList[storeIndex].purchaseCost += itm.purchaseCost;
-                                    doc.unitsList[index].storesList[storeIndex].purchasePrice += itm.purchasePrice;
-                                    doc.unitsList[index].storesList[storeIndex].bonusCount += itm.bonusCount;
-                                    doc.unitsList[index].storesList[storeIndex].bonusPrice += itm.bonusPrice;
-                                }
-                            }
+                    //     if (storeIndex == -1) {
+                    //         const newUitStore = site.setStoresItemsUnitStoreProperties();
+                    //         newUitStore.store = _data.store;
+                    //         newUitStore.purchaseCost = itm.purchaseCost ?? newUitStore.purchaseCost;
+                    //         newUitStore.purchaseCount = itm.purchaseCount ?? newUitStore.purchaseCount;
+                    //         newUitStore.purchasePrice = itm.purchasePrice ?? newUitStore.purchasePrice;
+                    //         newUitStore.bonusCount = itm.bonusCount ?? newUitStore.bonusCount;
+                    //         newUitStore.bonusPrice = itm.bonusPrice ?? newUitStore.bonusPrice;
 
-                            const storesItemsCardApp = site.getApp('storesItemsCard');
-                            const transactionType = site.storesTransactionsTypes.find((t) => t.id === 1);
-                            const purchaseItem = { id: itm.item.id, code: itm.item.code, nameAr: itm.item.nameAr, nameEn: itm.item.nameEn };
-                            const purchaseUnit = { id: itm.unit.id, code: itm.unit.code, nameAr: itm.unit.nameAr, nameEn: itm.unit.nameEn };
-                            storesItemsCardApp.$collection.findMany({ where: { 'transactionType.id': transactionType.id, 'item.id': itm.item.id, 'unit.id': itm.unit.id } }, (err, docs) => {
-                                if (docs.length) {
-                                    const lastDoc = docs[docs.length - 1];
+                    //         doc.unitsList[index].storesList.push(newUitStore);
+                    //     } else {
+                    //         doc.unitsList[index].storesList[storeIndex].purchaseCount += itm.purchaseCount;
+                    //         doc.unitsList[index].storesList[storeIndex].purchaseCost += itm.purchaseCost;
+                    //         doc.unitsList[index].storesList[storeIndex].purchasePrice += itm.purchasePrice;
+                    //         doc.unitsList[index].storesList[storeIndex].bonusCount += itm.bonusCount;
+                    //         doc.unitsList[index].storesList[storeIndex].bonusPrice += itm.bonusPrice;
+                    //     }
+                    // }
 
-                                    storesItemsCardApp.$collection.add({
-                                        transactionType: site.storesTransactionsTypes.find((t) => t.id === 1),
-                                        date: _data.orderDate,
-                                        item: purchaseItem,
-                                        unit: purchaseUnit,
-                                        itemGroup: doc.itemGroup,
-                                        store: _data.store,
-                                        vendor: _data.vendor,
-                                        invoice_id: _data.id,
-                                        count: lastDoc.count + itm.purchaseCount,
-                                        price: lastDoc.price + itm.purchasePrice,
-                                    });
-                                } else {
-                                    storesItemsCardApp.$collection.add({
-                                        transactionType: site.storesTransactionsTypes.find((t) => t.id === 1),
-                                        date: _data.orderDate,
-                                        item: purchaseItem,
-                                        unit: purchaseUnit,
-                                        itemGroup: doc.itemGroup,
-                                        store: _data.store,
-                                        vendor: _data.vendor,
-                                        invoice_id: _data.id,
-                                        count: itm.purchaseCount,
-                                        price: itm.purchasePrice,
-                                    });
-                                }
-                            });
-                            storesItemsApp.$collection.update(doc);
-                        });
-                    });
+                    //     // const storesItemsCardApp = site.getApp('storesItemsCard');
+                    //     // const transactionType = site.storesTransactionsTypes.find((t) => t.id === 1);
+                    //     // const purchaseItem = { id: itm.item.id, code: itm.item.code, nameAr: itm.item.nameAr, nameEn: itm.item.nameEn };
+                    //     // const purchaseUnit = { id: itm.unit.id, code: itm.unit.code, nameAr: itm.unit.nameAr, nameEn: itm.unit.nameEn };
+                    //     // storesItemsCardApp.$collection.findMany({ where: { 'transactionType.id': transactionType.id, 'item.id': itm.item.id, 'unit.id': itm.unit.id } }, (err, docs) => {
+                    //     //     if (docs.length) {
+                    //     //         const lastDoc = docs[docs.length - 1];
+
+                    //     //         storesItemsCardApp.$collection.add({
+                    //     //             transactionType: site.storesTransactionsTypes.find((t) => t.id === 1),
+                    //     //             date: _data.orderDate,
+                    //     //             item: purchaseItem,
+                    //     //             unit: purchaseUnit,
+                    //     //             itemGroup: doc.itemGroup,
+                    //     //             store: _data.store,
+                    //     //             vendor: _data.vendor,
+                    //     //             invoice_id: _data.id,
+                    //     //             count: lastDoc.count + itm.purchaseCount,
+                    //     //             price: lastDoc.price + itm.purchasePrice,
+                    //     //         });
+                    //     //     } else {
+                    //     //         storesItemsCardApp.$collection.add({
+                    //     //             transactionType: site.storesTransactionsTypes.find((t) => t.id === 1),
+                    //     //             date: _data.orderDate,
+                    //     //             item: purchaseItem,
+                    //     //             unit: purchaseUnit,
+                    //     //             itemGroup: doc.itemGroup,
+                    //     //             store: _data.store,
+                    //     //             vendor: _data.vendor,
+                    //     //             invoice_id: _data.id,
+                    //     //             count: itm.purchaseCount,
+                    //     //             price: itm.purchasePrice,
+                    //     //         });
+                    //     //     }
+                    //     // });
+                    //     // storesItemsApp.$collection.update(doc);
+                    // });
+                    // });
 
                     res.json(response);
                 });

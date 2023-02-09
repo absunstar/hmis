@@ -7,12 +7,14 @@
                     <i-control ng-hide="disabledCode" class="col3" label="##word.Code##" ng-model="item.code"> </i-control>
                     <i-date v="r" class="col3" label="##word.Order Date##" ng-model="item.orderDate"> </i-date>
                     <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
+                </div>
+                <div class="row">
                     <fieldset>
                         <div class="row">
                             <i-list
                                 v="r"
                                 class="col4"
-                                ng-change="item.source.id === 1?getTransferItemsRequests():item.itemsList=[]"
+                                ng-change="setFromAndToStoreValue(item.source);item.source.id === 1?getTransferItemsRequests():item.itemsList=[]"
                                 ng-model="item.source"
                                 display="name##session.lang##"
                                 items="transferItemsOrdersSourcesList"
@@ -24,7 +26,7 @@
                                 ng-if="item.source.id === 1"
                                 class="col4"
                                 ng-model="item.transferItemsRequest"
-                                ng-change="item.itemsList=[]"
+                                ng-change="setFromAndToStoreValue(item.transferItemsRequest);item.itemsList=[]"
                                 display="code"
                                 display2="title"
                                 items="transferItemsRequestsList"
@@ -40,6 +42,41 @@
                         </div>
                     </fieldset>
                 </div>
+
+                <div class="row">
+                    <div class="row" ng-if="item.source.id ===1 && item.transferItemsRequest.id">
+                        <div class="col3">
+                            <p class="text-center">##word.From Store##</p>
+                            <p class="text-center blue">{{item.transferItemsRequest.fromStore.name##session.lang##}}</p>
+                        </div>
+                        <div class="col3">
+                            <p class="text-center">##word.To Store##</p>
+                            <p class="text-center blue">{{item.transferItemsRequest.toStore.name##session.lang##}}</p>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="item.source.id !==1">
+                        <i-list
+                            v="r"
+                            class="col4"
+                            ng-change="validateStores(); calculateItemBalance(orderItem.unit)"
+                            ng-model="item.fromStore"
+                            display="name##session.lang##"
+                            items="storesList"
+                            label="##word.From Store##"
+                            ng-search="item.$fromStore"
+                        ></i-list>
+                        <i-list
+                            v="r"
+                            class="col4"
+                            ng-change="validateStores()"
+                            ng-model="item.toStore"
+                            display="name##session.lang##"
+                            items="storesList"
+                            label="##word.To Store##"
+                            ng-search="item.$toStore"
+                        ></i-list>
+                    </div>
+                </div>
             </div>
             <div class="col3 center">
                 <i-image class="img256 center" ng-model="item.image"></i-image>
@@ -48,37 +85,29 @@
         <fieldset>
             <legend>##word.Items Information##</legend>
             <div class="row" ng-if="item.source.id !== 1">
-                <div class="col2">
-                    <i-list
-                        ng-model="orderItem.item"
-                        ng-change="orderItem.item? getItemUnits(orderItem.item):''"
-                        items="itemsList"
-                        display="name##session.lang##"
-                        label="##word.Item##"
-                        ng-search="orderItem.$selectItem"
-                    ></i-list>
-                </div>
-                <div class="col2">
-                    <i-list ng-model="orderItem.unit" items="unitsList" display="name##session.lang##" label="##word.Unit##" ng-search="orderItem.$unit"></i-list>
-                </div>
+                <i-list class="col2" label="##word.Item##" ng-model="orderItem.item" ng-change="getItemUnits(orderItem.item)" items="storesItemsList" display="name##session.lang##"> </i-list>
 
+                <i-list
+                    class="col2"
+                    label="##word.Unit##"
+                    ng-change="calculateItemBalance(orderItem.unit)"
+                    ng-model="orderItem.unit"
+                    items="unitsList"
+                    display="name##session.lang##"
+                    ng-search="item.$elemItem"
+                >
+                </i-list>
+                <i-control class="col2" disabled type="number" label="##word.Current Balance##" ng-model="orderItem.currentBalance"> </i-control>
+                <i-control class="col2" type="number" min="1" label="##word.Transfer Count##" ng-model="orderItem.transferFromCount"> </i-control>
                 <div class="col2">
-                    <i-control type="number" min="1" ng-model="orderItem.purchaseCount" label="##word.Purchase Count##"></i-control>
-                </div>
-                <div class="col2">
-                    <i-control type="number" min="0" ng-model="orderItem.purchasePrice" label="##word.Price##"></i-control>
-                </div>
-                <div class="col2">
-                    <i-control type="number" min="0" ng-model="orderItem.bonusCount" label="##word.Bonus Count##"></i-control>
-                </div>
-
-                <div class="col1">
                     <br />
-                    <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
+                    <div class="row">
+                        <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
+                    </div>
                 </div>
             </div>
 
-            <p class="error">{{itemListError}}</p>
+            <p class="error">{{itemsError}}</p>
             <table class="table hover bold">
                 <tr>
                     <th>##word.S##</th>
@@ -89,23 +118,23 @@
                     <!-- <th>##word.Bonus Count##</th> -->
                     <!-- <th>##word.Total##</th> -->
                     <th>##word.Approved##</th>
-                    <th class="not-print">##word.Actions##</th>
+                    <th class="not-print" ng-show="item.source.id !== 1">##word.Actions##</th>
                 </tr>
                 <tr ng-repeat="elem in item.itemsList">
                     <td class="text-center">{{$index+1}}</td>
                     <td class="text-center">{{elem.item.name##session.lang##}}</td>
                     <td class="text-center">{{elem.unit.name##session.lang##}}</td>
                     <td class="text-center">
-                        <p ng-if="item.source.id === 1 || elem.approved" class="text-center">{{elem.transferFromCount}}</p>
-                        <!-- <i-control
+                        <p class="text-center" ng-if="item.source.id === 1 || elem.approved">{{elem.transferFromCount}}</p>
+                        <i-control
+                            ng-if="item.source.id !== 1 && !elem.approved"
                             ng-change="calculateTotalInItemsList(elem)"
                             ng-keyup="calculateTotalInItemsList(elem)"
                             ng-click="calculateTotalInItemsList(elem)"
-                            ng-if="item.source.id !== 1 && !elem.approved"
                             min="0"
                             type="number"
-                            ng-model="elem.purchaseCount"
-                        ></i-control> -->
+                            ng-model="elem.transferFromCount"
+                        ></i-control>
                     </td>
                     <!-- <td class="text-center">
                         <p ng-if=" elem.approved" class="text-center">{{elem.purchasePrice}}</p>
@@ -130,11 +159,11 @@
                         <p class="text-center text-success" ng-if="elem.approved">##word.Yes##</p>
                         <p class="text-center text-danger" ng-if="!elem.approved">##word.No##</p>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" ng-show="item.source.id !== 1">
                         <i-button
                             type="approve"
                             ng-if="!elem.approved &&!item.approved && mode == 'edit'"
-                            x-permissions="approvepurchaseOrdersItem || purchaseOrdersManage"
+                            x-permissions="approveTransferItemsOrdersItem || transferItemsOrdersManage"
                             label="##word.Approve##"
                             ng-click="approveItem(elem)"
                         >
@@ -142,7 +171,7 @@
                         <i-button
                             type="unapprove"
                             ng-if="elem.approved &&!item.approved  && mode =='edit'"
-                            x-permissions="unapprovepurchaseOrdersItem || purchaseOrdersManage"
+                            x-permissions="unapproveTransferItemsOrdersItem || transferItemsOrdersManage"
                             label="##word.Unapprove##"
                             ng-click="unapproveItem(elem)"
                         >

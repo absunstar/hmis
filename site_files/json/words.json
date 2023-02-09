@@ -170,8 +170,13 @@
         "Ar": "يرجي إدخال قيمة تكلفة الشراء"
     },
     {
-        "name": "Cannot Transfer Count Bigger Than Current Balance",
-        "En": "Cannot Transfer Count Bigger Than Current Balance",
+        "name": "Transfer Count Bigger Than Current Balance",
+        "En": "Transfer Count Bigger Than Current Balance",
         "Ar": "لايمكن تحويل قيمة اكبر من رصيد الصنف"
+    },
+    {
+        "name": "Item balance Is Zero",
+        "En": "Item balance Is Zero",
+        "Ar": "لايوجد رصيد للصنف في الممخزن"
     }
 ]

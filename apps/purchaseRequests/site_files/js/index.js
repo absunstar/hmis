@@ -18,7 +18,7 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
     $scope.item = {};
     $scope.list = [];
 
-    $scope.selectItem = {
+    $scope.orderItem = {
         item: {},
         unit: {},
         purchaseCount: 1,
@@ -425,17 +425,22 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
         }
 
         $scope.item.itemsList.unshift(elem);
-        $scope.selectItem = { purchaseCount: 1 };
+        $scope.orderItem = { purchaseCount: 1 };
     };
 
     $scope.approveItem = function (elem) {
         $scope.error = '';
-        for (const itm of $scope.item.itemsList) {
-            if (itm.item.id === elem.item.id) {
-                itm.approved = true;
+        if (elem.purchaseCount < 1) {
+            $scope.error = '##word.Please Enter Valid Numbers##';
+            return;
+        } else {
+            for (const itm of $scope.item.itemsList) {
+                if (itm.item.id === elem.item.id) {
+                    itm.approved = true;
+                }
             }
+            $scope.prpepareToApproveOrder($scope.item);
         }
-        $scope.prpepareToApproveOrder($scope.item);
     };
 
     $scope.unapproveItem = function (elem) {
@@ -476,7 +481,7 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
             });
-            $scope.selectItem.unit = $scope.unitsList[0];
+            $scope.orderItem.unit = $scope.unitsList[0];
         }
     };
 

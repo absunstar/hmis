@@ -15,6 +15,68 @@ module.exports = function init(site) {
         allowRouteActive: true,
     };
 
+    site.editItemsBalance = function (_elm) {
+        app.view({ id: _elm.item.id }, (err, doc) => {
+            if (doc) {
+                let index = doc.unitsList.findIndex((unt) => unt.unit.id === _elm.unit.id);
+
+                if (index != -1) {
+                    let storeIndex = doc.unitsList[index].storesList.findIndex((s) => s.store.id === _elm.store.id);
+                    if (storeIndex == -1) {
+                        const newUitStore = site.setStoresItemsUnitStoreProperties();
+                        newUitStore.store = _elm.store;
+                        newUitStore.purchaseCost = _elm.purchaseCost ?? newUitStore.purchaseCost;
+                        newUitStore.purchaseCount = _elm.purchaseCount ?? newUitStore.purchaseCount;
+                        newUitStore.purchasePrice = _elm.purchasePrice ?? newUitStore.purchasePrice;
+                        newUitStore.bonusCount = _elm.bonusCount ?? newUitStore.bonusCount;
+                        newUitStore.bonusPrice = _elm.bonusPrice ?? newUitStore.bonusPrice;
+                        newUitStore.purchaseReturnCount = _elm.purchaseReturnCount ?? newUitStore.purchaseReturnCount;
+                        newUitStore.purchaseReturnPrice = _elm.purchaseReturnPrice ?? newUitStore.purchaseReturnPrice;
+                        newUitStore.salesCount = _elm.salesCount ?? newUitStore.salesCount;
+                        newUitStore.salesPrice = _elm.salesPrice ?? newUitStore.salesPrice;
+                        newUitStore.salesReturnCount = _elm.salesReturnCount ?? newUitStore.salesReturnCount;
+                        newUitStore.salesReturnPrice = _elm.salesReturnPrice ?? newUitStore.salesReturnPrice;
+                        newUitStore.damagedCount = _elm.damagedCount ?? newUitStore.damagedCount;
+                        newUitStore.damagedPrice = _elm.damagedPrice ?? newUitStore.damagedPrice;
+                        newUitStore.assembledCount = _elm.assembledCount ?? newUitStore.assembledCount;
+                        newUitStore.assembledPrice = _elm.assembledPrice ?? newUitStore.assembledPrice;
+                        newUitStore.unassembledCount = _elm.unassembledCount ?? newUitStore.unassembledCount;
+                        newUitStore.unassembledPrice = _elm.unassembledPrice ?? newUitStore.unassembledPrice;
+                        newUitStore.transferFromCount = _elm.transferFromCount ?? newUitStore.transferFromCount;
+                        newUitStore.transferToCount = _elm.transferToCount ?? newUitStore.transferToCount;
+                        newUitStore.transferFromPrice = _elm.transferFromPrice ?? newUitStore.transferFromPrice;
+                        newUitStore.transferToPrice = _elm.transferToPrice ?? newUitStore.transferToPrice;
+                        doc.unitsList[index].storesList.push(newUitStore);
+                    } else {
+                        doc.unitsList[index].storesList[storeIndex].purchaseCount += _elm.purchaseCount;
+                        doc.unitsList[index].storesList[storeIndex].purchaseCost += _elm.purchaseCost;
+                        doc.unitsList[index].storesList[storeIndex].purchasePrice += _elm.purchasePrice;
+                        doc.unitsList[index].storesList[storeIndex].bonusCount += _elm.bonusCount;
+                        doc.unitsList[index].storesList[storeIndex].bonusPrice += _elm.bonusPrice;
+                        doc.unitsList[index].storesList[storeIndex].purchaseReturnCount = _elm.purchaseReturnCount;
+                        doc.unitsList[index].storesList[storeIndex].purchaseReturnPrice = _elm.purchaseReturnPrice;
+                        doc.unitsList[index].storesList[storeIndex].salesCount = _elm.salesCount;
+                        doc.unitsList[index].storesList[storeIndex].salesPrice = _elm.salesPrice;
+                        doc.unitsList[index].storesList[storeIndex].salesReturnCount = _elm.salesReturnCount;
+                        doc.unitsList[index].storesList[storeIndex].salesReturnPrice = _elm.salesReturnPrice;
+                        doc.unitsList[index].storesList[storeIndex].damagedCount = _elm.damagedCount;
+                        doc.unitsList[index].storesList[storeIndex].damagedPrice = _elm.damagedPrice;
+                        doc.unitsList[index].storesList[storeIndex].assembledCount = _elm.assembledCount;
+                        doc.unitsList[index].storesList[storeIndex].assembledPrice = _elm.assembledPrice;
+                        doc.unitsList[index].storesList[storeIndex].unassembledCount = _elm.unassembledCount;
+                        doc.unitsList[index].storesList[storeIndex].unassembledPrice = _elm.unassembledPrice;
+                        doc.unitsList[index].storesList[storeIndex].transferFromCount = _elm.transferFromCount;
+                        doc.unitsList[index].storesList[storeIndex].transferToCount = _elm.transferToCount;
+                        doc.unitsList[index].storesList[storeIndex].transferFromPrice = _elm.transferFromPrice;
+                        doc.unitsList[index].storesList[storeIndex].transferToPrice = _elm.transferToPrice;
+                    }
+                }
+
+                app.update(doc);
+            }
+        });
+    };
+
     site.calculateStroeItemBalance = function (item) {
         item.unitsList.forEach((unt) => {
             unt.storesList.forEach((str) => {
@@ -40,7 +102,6 @@ module.exports = function init(site) {
             salesReturnPrice: 0,
             bonusCount: 0,
             bonusPrice: 0,
-            bonusPrice: 0,
             damagedCount: 0,
             damagedPrice: 0,
             assembledCount: 0,
@@ -53,6 +114,7 @@ module.exports = function init(site) {
             transferToPrice: 0,
         };
     };
+
     app.$collection = site.connectCollection(app.name);
 
     app.init = function () {

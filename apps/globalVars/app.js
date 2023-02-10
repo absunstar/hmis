@@ -24,11 +24,13 @@ module.exports = function init(site) {
     ];
 
     site.employeeStatus = [
-        { id: 1, nameEn: 'Resignation', nameAr: 'إستقالة' },
-        { id: 2, nameEn: 'Cessation', nameAr: 'إنقطاع' },
-        { id: 3, nameEn: 'Dispensing', nameAr: 'إستغناء' },
-        { id: 4, nameEn: 'Termination', nameAr: 'فصل' },
-        { id: 5, nameEn: 'Release', nameAr: 'إخلاء' },
+        { id: 1, nameEn: 'Active', nameAr: 'نشط' },
+        { id: 2, nameEn: 'Inactive', nameAr: 'خامل' },
+        { id: 3, nameEn: 'Resignation', nameAr: 'إستقالة' },
+        { id: 4, nameEn: 'Cessation', nameAr: 'إنقطاع' },
+        { id: 5, nameEn: 'Dispensing', nameAr: 'إستغناء' },
+        { id: 6, nameEn: 'Termination', nameAr: 'فصل' },
+        { id: 7, nameEn: 'Release', nameAr: 'إخلاء' },
     ];
 
     site.doctorTypes = [
@@ -211,6 +213,13 @@ module.exports = function init(site) {
         res.json({
             done: true,
             list: site.servicesTypeGroups,
+        });
+    });
+
+    site.post('/api/employeeStatus', (req, res) => {
+        res.json({
+            done: true,
+            list: site.employeeStatus,
         });
     });
 

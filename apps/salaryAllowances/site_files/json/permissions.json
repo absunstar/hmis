@@ -1,0 +1,11 @@
+[
+  { "moduleName": "public", "screenName": "salaryAllowances", "name": "salaryAllowancesManage", "En": "Manage", "Ar": "إدارة" },
+  { "moduleName": "public", "screenName": "salaryAllowances", "name": "salaryAllowancesAdd", "En": "Add", "Ar": "إضافة" },
+  { "moduleName": "public", "screenName": "salaryAllowances", "name": "salaryAllowancesUpdate", "En": "Edit", "Ar": "تعديل" },
+  { "moduleName": "public", "screenName": "salaryAllowances", "name": "salaryAllowancesDelete", "En": "Delete", "Ar": "حذف" },
+  { "moduleName": "public", "screenName": "salaryAllowances", "name": "salaryAllowancesView", "En": "View", "Ar": "عرض" },
+  { "moduleName": "public", "screenName": "salaryAllowances", "name": "salaryAllowancesSearch", "En": "Search", "Ar": "بحث" },
+  { "moduleName": "public", "screenName": "salaryAllowances", "name": "salaryAllowancesExport", "En": "Export", "Ar": "تصدير" },
+  { "moduleName": "public", "screenName": "salaryAllowances", "name": "salaryAllowancesPrint", "En": "Print", "Ar": "طباعة" },
+  { "moduleName": "public", "screenName": "salaryAllowances", "name": "salaryAllowancesUi", "En": "UI", "Ar": "الواجهة الرسومية" }
+]

@@ -302,8 +302,8 @@
   {
     "category": "main",
     "feature": "public",
-    "id": "allowances",
-    "name": "Allowances"
+    "id": "salaryAllowances",
+    "name": "Salary Allowances"
   },
   {
     "category": "main",
@@ -352,5 +352,11 @@
     "feature": "public",
     "id": "transferItemsOrders",
     "name": "Transfer Items Orders"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "jobsTools",
+    "name": "Jobs Tools"
   }
 ]

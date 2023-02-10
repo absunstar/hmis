@@ -1,8 +1,8 @@
-app.controller('allowances', function ($scope, $http, $timeout) {
+app.controller('salaryAllowances', function ($scope, $http, $timeout) {
   $scope.baseURL = '';
-  $scope.appName = 'allowances';
-  $scope.modalID = '#allowancesManageModal';
-  $scope.modalSearchID = '#allowancesSearchModal';
+  $scope.appName = 'salaryAllowances';
+  $scope.modalID = '#salaryAllowancesManageModal';
+  $scope.modalSearchID = '#salaryAllowancesSearchModal';
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {

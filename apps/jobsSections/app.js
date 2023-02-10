@@ -149,7 +149,7 @@ module.exports = function init(site) {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name,appName:'Jobs Sections' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name, appName: 'Jobs Sections' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -257,7 +257,7 @@ module.exports = function init(site) {
         let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1, active: 1 };
         let list = [];
         app.memoryList
-          .filter((g) => g.company && g.company.id == site.getCompany(req).id)
+          .filter((g) => (!where['jobsAdministration'] || g.jobsAdministration.id == where['jobsAdministration'].id) && g.company && g.company.id == site.getCompany(req).id)
           .forEach((doc) => {
             let obj = { ...doc };
 

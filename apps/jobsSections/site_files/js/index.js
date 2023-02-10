@@ -6,7 +6,7 @@ app.controller('jobsSections', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: {url : '/images/jobsSections.png'},
+    image: { url: '/images/jobsSections.png' },
     active: true,
   };
   $scope.item = {};
@@ -161,6 +161,65 @@ app.controller('jobsSections', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getEmployeesList = function () {
+    $scope.busy = true;
+    $scope.employeesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/employees/all',
+      data: {
+        where: { active: true, 'type.id': 3 },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+        limit: 10,
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.employeesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getJobsAdministrationsList = function () {
+    $scope.busy = true;
+    $scope.jobsAdministrationsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/jobsAdministrations/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.jobsAdministrationsList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getAll = function (where) {
     $scope.busy = true;
     $scope.list = [];
@@ -223,4 +282,6 @@ app.controller('jobsSections', function ($scope, $http, $timeout) {
 
   $scope.getAll();
   $scope.getNumberingAuto();
+  $scope.getJobsAdministrationsList();
+  $scope.getEmployeesList();
 });

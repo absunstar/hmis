@@ -11,6 +11,11 @@
           <i-control label="##word.Full Name##" ng-model="item.fullNameEn"> </i-control>
           <i-control label="الإسم بالكامل" ng-model="item.fullNameAr"> </i-control>
         </div>
+
+        <div class="row">
+          <i-date class="col6" label="##word.Contract starting date##" ng-model="item.contractStartingDate"> </i-date>
+          <i-date class="col6" label="##word.Contract end date##" ng-model="item.contractEndDate"> </i-date>
+        </div>
       </div>
       <div class="col3">
         <i-image class="img256" ng-model="item.image"></i-image>
@@ -20,12 +25,20 @@
   <fieldset>
     <div class="tabs">
       <div class="tabs-header full">
-        <a class="tab-link" onclick="site.showTabContent(event, '#general')">
-          <span> ##word.General##</span>
+        <a class="tab-link" onclick="site.showTabContent(event, '#personalData')">
+          <span> ##word.Personal data##</span>
         </a>
 
         <a class="tab-link" onclick="site.showTabContent(event, '#contact')">
           <span> ##word.Contact## +</span>
+        </a>
+
+        <a class="tab-link" onclick="site.showTabContent(event, '#jobData')">
+          <span> ##word.Job Data## </span>
+        </a>
+
+        <a class="tab-link" onclick="site.showTabContent(event, '#employeeCases')">
+          <span> ##word.Employee cases## </span>
         </a>
 
         <a class="tab-link" onclick="site.showTabContent(event, '#allowances')">
@@ -38,7 +51,7 @@
       </div>
 
       <div class="tabs-content">
-        <div id="general" class="tab-content">
+        <div id="personalData" class="tab-content">
           <div class="row padding">
             <fieldset>
               <div class="row">
@@ -63,6 +76,11 @@
             </fieldset>
 
             <div class="row">
+              <i-list class="col6" label="##word.Last Status##" ng-model="item.employeeStatus" display="name##session.lang##" items="employeesStatusList" ng-search="item.$employeeStatus"></i-list>
+              <i-control class="col6" label="##word.Fingerprint code##" ng-model="item.fingerprintCode"> </i-control>
+            </div>
+
+            <div class="row">
               <i-list
                 class="col6"
                 label="##word.Qualification Type##"
@@ -77,7 +95,6 @@
 
             <div class="row">
               <i-date ng-model="item.dateQualification" label="##word.Date obtaining qualification##"></i-date>
-              <i-list class="col6" label="##word.Last Status##" ng-model="item.employeeStatus" display="name##session.lang##" items="employeesStatusList" ng-search="item.$employeeStatus"></i-list>
             </div>
 
             <div class="row">
@@ -93,7 +110,7 @@
             <div class="row">
               <i-radio class="col3" label="##word.ID##" ng-value="id" ng-model="item.idType"> </i-radio>
               <i-radio class="col3" label="##word.Passport /Iqama##" ng-value="iqama" ng-model="item.idType"> </i-radio>
-              <i-control class="col6" label="##word.Passport /Iqama Num##" ng-model="item.idNum"> </i-control>
+              <i-control class="col6" label="##word.ID /Iqama Num##" ng-model="item.idNum"> </i-control>
             </div>
 
             <fieldset>
@@ -110,15 +127,12 @@
             </fieldset>
           </div>
         </div>
+
         <div id="contact" class="tab-content">
           <div class="row padding">
             <fieldset>
               <div class="row">
-                <i-control type="text" class="col6" ng-model="item.homeTel" label="##word.Home Tel##"></i-control>
-              </div>
-
-              <div class="row">
-                <fieldset class="col8">
+                <fieldset class="col6">
                   <legend>
                     <i-button type="add default" ng-click="item.mobileList.push({})"></i-button>
                     ##word.Mobile##
@@ -132,6 +146,7 @@
                     </div>
                   </div>
                 </fieldset>
+                <i-control type="text" class="col6" ng-model="item.homeTel" label="##word.Home Tel##"></i-control>
               </div>
 
               <div class="row">
@@ -167,6 +182,106 @@
                 <i-control type="text" ng-model="item.address" label="##word.Current Address##"></i-control>
                 <i-control type="text" ng-model="item.addressId" label="##word.Address In ID/Iqama##"></i-control>
               </div>
+
+              <fieldset>
+                <legend>
+                  <i-button type="add default" ng-click="item.relativesList.push({})"></i-button>
+                  ##word.Relatives##</legend>
+                <table class="table center hover bold">
+                  <tr>
+                    <th>##word.Name##</th>
+                    <th>##word.Phone##</th>
+                    <th>##word.Degree of relative##</th>
+                    <th class="not-print">##word.Actions##</th>
+                  </tr>
+                  <tr ng-repeat="t in item.relativesList">
+                    <td class="text-center">
+                      <i-control type="text" v="r" ng-model="t.name"></i-control>
+                    </td>
+                    <td class="text-center">
+                      <i-control type="text" v="r" ng-model="t.phone"></i-control>
+                    </td>
+                    <td class="text-center">
+                      <i-control type="text" v="r" ng-model="t.degreeOfRelative"></i-control>
+                    </td>
+                    <td>
+                      <i-button type="delete default" ng-click="item.relativesList.splice($index,1)"> </i-button>
+                    </td>
+                  </tr>
+                </table>
+              </fieldset>
+            </fieldset>
+          </div>
+        </div>
+
+        <div id="jobData" class="tab-content">
+          <div class="row padding">
+            <fieldset>
+              <div class="row">
+                <i-control type="number" class="col6" label="##word.Balance of regular vacations##" ng-model="item.regularVacations"> </i-control>
+                <i-control type="number" class="col6" label="##word.Balance of casual vacations##" ng-model="item.casualVacations"> </i-control>
+              </div>
+              <div class="row">
+                <i-list
+                  v="r"
+                  class="col6"
+                  label="##word.Jobs Administration##"
+                  ng-model="item.jobsAdministration"
+                  ng-change="getJobsSectionsList(item.jobsAdministration)"
+                  display="name##session.lang##"
+                  items="jobsAdministrationsList"
+                  ng-search="item.$jobsAdministration"
+                ></i-list>
+                <i-list
+                  v="r"
+                  class="col6"
+                  label="##word.Jobs Section##"
+                  ng-change="getJobsList(item.jobsSection)"
+                  ng-model="item.jobsSection"
+                  display="name##session.lang##"
+                  items="jobsSectionsList"
+                  ng-search="item.$jobsSection"
+                ></i-list>
+              </div>
+              <div class="row">
+                <i-list v="r" class="col6" label="##word.Job##" ng-model="item.job" display="name##session.lang##" items="jobsList" ng-search="item.$job"></i-list>
+                <i-date class="col6" label="##word.Job filled date ##" ng-model="item.jobFilledDate"> </i-date>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <div id="employeeCases" class="tab-content">
+          <div class="row padding">
+            <fieldset>
+              <div class="row">
+                <i-list v="r" class="col6" label="##word.Last status##" ng-model="item.lastStatus" display="name##session.lang##" items="employeeStatusList" ng-search="item.$lastStatus"></i-list>
+                <i-date ng-model="item.lastStatusDate" label="##word.Last statuse date##"></i-date>
+              </div>
+              <fieldset>
+                <legend>##word.Medical classification##</legend>
+                <div class="row">
+                  <i-radio class="col4" label="##word.Does not suffer from chronic diseases##" ng-value="no" ng-model="item.medicalClassification"> </i-radio>
+                  <i-radio class="col4" label="##word.Suffers from chronic diseases##" ng-value="yes" ng-model="item.medicalClassification"> </i-radio>
+                </div>
+                <div class="row">
+                  <i-textarea label="##word.Disease details##" ng-disabled="item.medicalClassification == 'no'" ng-model="item.diseaseDetails"> </i-textarea>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>##word.Government health insurance##</legend>
+                <div class="row">
+                  <i-radio class="col2" label="##word.Insured##" ng-value="yes" ng-model="item.insured"> </i-radio>
+                  <i-radio class="col2" label="##word.Not insured##" ng-value="no" ng-model="item.insured"> </i-radio>
+                </div>
+                <div class="row" ng-class="{disabled : item.insured == 'no'}">
+                  <i-date ng-model="item.startDateInsurance" label="##word.Start date of insurance##"></i-date>
+                  <i-date ng-model="item.endDateInsurance" label="##word.End date of insurance##"></i-date>
+                </div>
+                <div class="row" ng-class="{disabled : item.insured == 'no'}">
+                  <i-checkbox ng-model="item.handCardToCompany" label="##word.Hand over the card to the company##"></i-checkbox>
+                </div>
+              </fieldset>
             </fieldset>
           </div>
         </div>
@@ -179,7 +294,7 @@
                   <i-list label="##word.Allowance##" class="col8" ng-model="item.$allowance" display="name##session.lang##" items="allowancesList" ng-search="item.$allowances"></i-list>
                   <div class="col4">
                     <br />
-                    <i-button type="add" label="##word.Allowance##" ng-click="addAllowances(item)"></i-button>
+                    <i-button type="add" label="##word.Add allowance##" ng-click="addAllowances(item)"></i-button>
                   </div>
                 </div>
                 <div class="row">
@@ -194,7 +309,7 @@
                       <td class="text-center blue">{{s.code}}</td>
                       <td class="text-center">{{s.name##session.lang##}}</td>
                       <td class="text-center">
-                        <i-control ng-model="s.price"> </i-control>
+                        <i-control type="number" ng-model="s.price"> </i-control>
                       </td>
                       <td class="text-center not-print">
                         <i-button type="delete default" ng-click="item.allowancesList.splice($index,1)"> </i-button>
@@ -215,7 +330,7 @@
                   <i-list label="##word.Deduction##" class="col8" ng-model="item.$deduction" display="name##session.lang##" items="deductionsList" ng-search="item.$deductions"></i-list>
                   <div class="col4">
                     <br />
-                    <i-button type="add" label="##word.deduction##" ng-click="adddeductions(item)"></i-button>
+                    <i-button type="add" label="##word.Add deduction##" ng-click="addDeductions(item)"></i-button>
                   </div>
                 </div>
                 <div class="row">
@@ -230,7 +345,7 @@
                       <td class="text-center blue">{{s.code}}</td>
                       <td class="text-center">{{s.name##session.lang##}}</td>
                       <td class="text-center">
-                        <i-control ng-model="s.price"> </i-control>
+                        <i-control type="number" ng-model="s.price"> </i-control>
                       </td>
 
                       <td class="text-center not-print">

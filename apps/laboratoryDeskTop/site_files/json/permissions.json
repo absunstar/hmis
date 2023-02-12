@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "laboratoryDeskTop" , "name":"laboratoryDeskTopManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "laboratoryDeskTop" , "name":"laboratoryDeskTopAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "laboratoryDeskTop" , "name":"laboratoryDeskTopUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "laboratoryDeskTop" , "name":"laboratoryDeskTopDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "laboratoryDeskTop" , "name":"laboratoryDeskTopView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "laboratoryDeskTop" , "name":"laboratoryDeskTopSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "laboratoryDeskTop" , "name":"laboratoryDeskTopExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "laboratoryDeskTop" , "name":"laboratoryDeskTopPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "laboratoryDeskTop" , "name":"laboratoryDeskTopUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+]

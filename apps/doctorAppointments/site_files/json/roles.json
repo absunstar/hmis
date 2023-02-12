@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "doctorAppointmentsAdmin",
+    "En": "doctorAppointments Admin",
+    "Ar": "إدارة مواعيد الطبيب",
+    "permissions": ["doctorAppointmentsManage"]
+}]

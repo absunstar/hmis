@@ -207,6 +207,27 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getservicesOrdersSourcesList = function () {
+    $scope.busy = true;
+    $scope.servicesOrdersSourcesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/servicesOrdersSources',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.servicesOrdersSourcesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getNumberingAuto = function () {
     $scope.error = '';
     $scope.busy = true;
@@ -273,38 +294,43 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getMainIncuranceFromSub = function (insuranceCompany) {
+  $scope.getMainInsuranceFromSub = function (patient) {
     $scope.busy = true;
-    console.log($scope.item.patient);
-    $http({
-      method: 'POST',
-      url: '/api/mainIncurances/fromSub',
-      data: {
-        insuranceCompany: insuranceCompany.id,
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.doc) {
-          $scope.item.mainInsuranceCompany = response.data.doc;
-          if ($scope.item.patient.insuranceClass && $scope.item.patient.insuranceClass.id) {
-            $scope.getNphisElig($scope.item.patient.insuranceClass.id);
+    if (patient.insuranceCompany && patient.insuranceCompany.id) {
+      $http({
+        method: 'POST',
+        url: '/api/mainInsurances/fromSub',
+        data: {
+          insuranceCompany: patient.insuranceCompany.id,
+        },
+      }).then(
+        function (response) {
+          $scope.busy = false;
+          if (response.data.done && response.data.doc) {
+            $scope.item.mainInsuranceCompany = response.data.doc;
+            if ($scope.item.patient.insuranceClass && $scope.item.patient.insuranceClass.id) {
+              $scope.getNphisElig($scope.item.patient.insuranceClass.id);
+            } else {
+              $scope.item.nphis = 'nElig';
+              $scope.item.payment = 'cash';
+              $scope.item.errMsg = 'There is no incurance class for the patient';
+            }
           } else {
             $scope.item.nphis = 'nElig';
             $scope.item.payment = 'cash';
-            $scope.item.errMsg = 'There is no incurance class for the patient';
+            $scope.item.errMsg = response.data.error;
           }
-        } else {
-          $scope.item.nphis = 'nElig';
-          $scope.item.payment = 'cash';
-          $scope.item.errMsg = response.data.error;
+        },
+        function (err) {
+          $scope.busy = false;
+          $scope.error = err;
         }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
+      );
+    } else {
+      $scope.item.nphis = 'nElig';
+      $scope.item.payment = 'cash';
+      $scope.item.errMsg = 'There is no incurance company for the patient';
+    }
   };
 
   $scope.getNphisElig = function (insuranceClassId) {
@@ -364,27 +390,62 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getDoctorDeskTopList = function () {
+  $scope.selectDoctorAppointment = function (doctorAppointment) {
+    $scope.item.patient = doctorAppointment.patient;
+    $scope.item.doctor = doctorAppointment.doctor;
+    $scope.getMainInsuranceFromSub(doctorAppointment.patient);
+    $scope.addServices(doctorAppointment.doctor.consItem);
+
+    $http({
+      method: 'POST',
+      url: '/api/selectDoctorAppointment',
+      data: doctorAppointment,
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.doc) {
+          $scope.item.mainInsuranceCompany = response.data.mainInsuranceCompany;
+          if ($scope.item.patient.insuranceClass && $scope.item.patient.insuranceClass.id) {
+            $scope.getNphisElig($scope.item.patient.insuranceClass.id);
+          } else {
+            $scope.item.nphis = 'nElig';
+            $scope.item.payment = 'cash';
+            $scope.item.errMsg = 'There is no incurance class for the patient';
+          }
+        } else {
+          $scope.item.errMsg = response.data.error;
+        }
+      
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getSource = function (id) {
+    if (id == 2) {
+      $scope.getDoctorDeskTopList();
+    } else if (id == 3) {
+      $scope.getDoctorAppointmentsList();
+    }
+  };
+
+  $scope.getDoctorDeskTopList = function (where) {
     $scope.busy = true;
     $scope.doctorDeskTopList = [];
-    let where = {};
-    if ($scope.item.patient && $scope.item.patient.id) {
-      where['patient.id'] = $scope.item.patient.id;
-    }
-
-    if ($scope.item.doctor && $scope.item.doctor.id) {
-      where['doctor.id'] = $scope.item.doctor.id;
-    }
 
     $http({
       method: 'POST',
       url: '/api/doctorDeskTop/all',
       data: {
         where: where,
-        limit : 100,
+        limit: 100,
         select: {
           id: 1,
           code: 1,
+          date: 1,
           patient: 1,
           doctor: 1,
         },
@@ -394,6 +455,40 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
           $scope.doctorDeskTopList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getDoctorAppointmentsList = function () {
+    $scope.busy = true;
+    $scope.doctorAppointmentsList = [];
+
+    let where = { date: $scope.item.date };
+
+    $http({
+      method: 'POST',
+      url: '/api/doctorAppointments/all',
+      data: {
+        where: where,
+        limit: 100,
+        select: {
+          id: 1,
+          code: 1,
+          date: 1,
+          patient: 1,
+          doctor: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.doctorAppointmentsList = response.data.list;
         }
       },
       function (err) {
@@ -470,32 +565,31 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.addServices = function (_item) {
+  $scope.addServices = function (s, mainInsuranceCompany) {
     $scope.error = '';
-    if (_item.$service && _item.$service.id) {
+    if (s && s.id) {
       $http({
         method: 'POST',
-        url: '/api/serviceMainIncurance',
+        url: '/api/serviceMainInsurance',
         data: {
-          mainInsuranceCompany: $scope.item.mainInsuranceCompany,
-          patientClass: _item.patient.insuranceClass,
-          service: _item.$service,
-          payment: _item.payment,
-          type: _item.type,
+          mainInsuranceCompany: mainInsuranceCompany,
+          patientClass: $scope.item.patient.insuranceClass,
+          service: s,
+          payment: $scope.item.payment,
+          type: $scope.item.type,
         },
       }).then(
         function (response) {
           $scope.busy = false;
           let service = {};
-          if (response.data.done && response.data.doc) {
-            service = { ...response.data.doc, qty: 1 };
+          if (response.data.done && response.data.service) {
+            service = { ...response.data.service, qty: 1 };
           } else {
             service = {
-              id: _item.$service.id,
-              nameAr: _item.$service.nameAr,
-              nameEn: _item.$service.nameEn,
-              nameEn: _item.$service.nameEn,
-              serviceGroup: _item.$service.serviceGroup,
+              id: s.id,
+              nameAr: s.nameAr,
+              nameEn: s.nameEn,
+              serviceGroup: s.serviceGroup,
               discount: 0,
               comVat: 0,
               pVat: 0,
@@ -503,35 +597,35 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
             };
             if ($scope.item.type == 'out') {
               if ($scope.item.payment == 'cash') {
-                service.price = $scope.item.$service.creditPriceOut;
+                service.price = s.creditPriceOut;
               } else if ($scope.item.payment == 'credit') {
-                service.price = $scope.item.$service.creditPriceOut;
+                service.price = s.creditPriceOut;
               }
             } else if ($scope.item.type == 'in') {
               if ($scope.item.payment == 'cash') {
-                service.price = $scope.item.$service.cashPriceIn;
+                service.price = s.cashPriceIn;
               } else if ($scope.item.payment == 'credit') {
-                service.price = $scope.item.$service.creditPriceIn;
+                service.price = s.creditPriceIn;
               }
             }
             service.total = service.price + (service.price * service.vat) / 100;
             service.total = site.toNumber(service.total);
           }
-          if (_item.doctor && _item.doctor.hospitalCenter) {
-            service.hospitalCenter = { ..._item.doctor.hospitalCenter };
+          if ($scope.item.doctor && $scope.item.doctor.hospitalCenter) {
+            service.hospitalCenter = { ...$scope.item.doctor.hospitalCenter };
           }
-          if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
-            _item.servicesList.push(service);
-            $scope.calc(_item);
+          if (!$scope.item.servicesList.some((s) => s.id === service.id)) {
+            $scope.item.servicesList.push(service);
+            $scope.calc($scope.item);
           } else {
-            _item.servicesList.forEach((_s) => {
-              if (_s.id === _item.$service.id) {
+            $scope.item.servicesList.forEach((_s) => {
+              if (_s.id === service.id) {
                 _s.qty += 1;
-                $scope.calc(_item);
+                $scope.calc($scope.item);
               }
             });
           }
-          _item.$service = {};
+          service = {};
         },
         function (err) {
           $scope.busy = false;
@@ -586,4 +680,5 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
   $scope.getPatientsList();
   $scope.getDoctorsList();
   $scope.getHospitalCentersList();
+  $scope.getservicesOrdersSourcesList();
 });

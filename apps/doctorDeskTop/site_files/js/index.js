@@ -237,7 +237,6 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     } else {
       delete where['date'];
     }
-    console.log(where);
     $http({
       method: 'POST',
       url: `${$scope.baseURL}/api/${$scope.appName}/all`,
@@ -456,6 +455,40 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getServicesList = function () {
+    $scope.busy = true;
+    $scope.servicesList = [];
+    let where = {
+      active: true,
+    };
+    if ($scope.item.$groupTypeId) {
+      where['groupTypeId'] = $scope.item.$groupTypeId;
+    }
+    $http({
+      method: 'POST',
+      url: '/api/services/all',
+      data: {
+        where: where,
+        select: {
+          id: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.servicesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getDrinksList = function () {
     $scope.busy = true;
     $scope.drinksList = [];
@@ -475,6 +508,43 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
           $scope.drinksList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getDoctorsList = function () {
+    $scope.busy = true;
+    $scope.doctorsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/doctors/all',
+      data: {
+        where: { active: true, 'type.id': 2 },
+        select: {
+          id: 1,
+          code: 1,
+          image: 1,
+          nameEn: 1,
+          nameAr: 1,
+          specialty: 1,
+          hospitalCenter: 1,
+          doctorType: 1,
+          nationality: 1,
+          clinicExt: 1,
+          mobile: 1,
+          homeTel: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.doctorsList = response.data.list;
         }
       },
       function (err) {
@@ -519,41 +589,18 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     }
   };
 
-  $scope.getDoctorsList = function () {
-    $scope.busy = true;
-    $scope.doctorsList = [];
-    $http({
-      method: 'POST',
-      url: '/api/doctors/all',
-      data: {
-        where: { active: true, 'type.id': 2 },
-        select: {
-          id: 1,
-          code: 1,
-          image: 1,
-          nameEn: 1,
-          nameAr: 1,
-          specialty: 1,
-          hospitalCenter: 1,
-          doctorType: 1,
-          nationality: 1,
-          clinicExt: 1,
-          mobile: 1,
-          homeTel: 1,
-        },
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.list.length > 0) {
-          $scope.doctorsList = response.data.list;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
+  $scope.addServices = function (_item) {
+    $scope.error = '';
+    if (_item.$service && _item.$service.id) {
+      _item.servicesList = _item.servicesList || [];
+      if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
+        _item.servicesList.push({ ..._item.$service, type: _item.$serviceType });
       }
-    );
+      _item.$service = {};
+    } else {
+      $scope.error = 'Must Select Service';
+      return;
+    }
   };
 
   $scope.showSearch = function () {

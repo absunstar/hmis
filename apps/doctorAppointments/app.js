@@ -1,7 +1,8 @@
 module.exports = function init(site) {
+  let appServices = site.getApp('services');
   let app = {
-    name: 'itemsGroups',
-    allowMemory: true,
+    name: 'doctorAppointments',
+    allowMemory: false,
     memoryList: [],
     allowCache: false,
     cacheList: [],
@@ -13,7 +14,7 @@ module.exports = function init(site) {
     allowRouteView: true,
     allowRouteAll: true,
   };
-
+  
   app.$collection = site.connectCollection(app.name);
 
   app.init = function () {
@@ -149,7 +150,7 @@ module.exports = function init(site) {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name, appName: 'Items Groups' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name, appName: 'Doctor Appointments' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -254,29 +255,65 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1, active: 1 };
+        let select = req.body.select || { id: 1, code: 1, patient: 1, doctor: 1, active: 1 };
         let list = [];
-        app.memoryList
-          .filter((g) => g.company && g.company.id == site.getCompany(req).id)
-          .forEach((doc) => {
-            let obj = { ...doc };
+        if (app.allowMemory) {
+          app.memoryList
+            .filter((g) => g.company && g.company.id == site.getCompany(req).id)
+            .forEach((doc) => {
+              let obj = { ...doc };
 
-            for (const p in obj) {
-              if (!Object.hasOwnProperty.call(select, p)) {
-                delete obj[p];
+              for (const p in obj) {
+                if (!Object.hasOwnProperty.call(select, p)) {
+                  delete obj[p];
+                }
               }
-            }
-            if (!where.active || doc.active) {
-              list.push(obj);
-            }
+              if (!where.active || doc.active) {
+                list.push(obj);
+              }
+            });
+          res.json({
+            done: true,
+            list: list,
           });
-        res.json({
-          done: true,
-          list: list,
-        });
+        } else {
+          if (where.date) {
+            let d1 = site.toDate(where.date);
+            let d2 = site.toDate(where.date);
+            d2.setDate(d2.getDate() + 1);
+            where.date = {
+              $gte: d1,
+              $lt: d2,
+            };
+          }
+          app.all({ where: where, select }, (err, docs) => {
+            res.json({
+              done: true,
+              list: docs,
+            });
+          });
+        }
       });
     }
   }
+
+  site.post({ name: `/api/selectDoctorAppointment`, require: { permissions: ['login'] } }, (req, res) => {
+    console.log(appServices,"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+    let response = { done: false };
+    let _data = req.body;
+    let service = appServices.memoryList.find((_c) => _c.id == _data.doctor.consItem.id);
+    if (_data.patient.insuranceCompany && _data.patient.insuranceCompany.id) {
+      site.mainInsurancesFromSub(_data.patient.insuranceCompany.id, (callback) => {
+        console.log(service.id,"kkkkkkkkkkkkkk");
+        callback.service = service;
+        res.json(callback);
+      });
+    } else {
+      response.error = 'There is no insurance company for the patient';
+      res.json(response);
+      return;
+    }
+  });
 
   app.init();
   site.addApp(app);

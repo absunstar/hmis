@@ -358,5 +358,17 @@
     "feature": "public",
     "id": "jobsTools",
     "name": "Jobs Tools"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "doctorAppointments",
+    "name": "Doctor Appointments"
+  },
+  {
+    "category": "main",
+    "feature": "public",
+    "id": "laboratoryDeskTop",
+    "name": "Laboratory DeskTop"
   }
 ]

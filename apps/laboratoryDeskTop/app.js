@@ -1,7 +1,7 @@
 module.exports = function init(site) {
   let app = {
-    name: 'itemsGroups',
-    allowMemory: true,
+    name: 'laboratoryDeskTop',
+    allowMemory: false,
     memoryList: [],
     allowCache: false,
     cacheList: [],
@@ -149,7 +149,7 @@ module.exports = function init(site) {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name, appName: 'Items Groups' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name,appName:'Laboratory DeskTop' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -277,6 +277,34 @@ module.exports = function init(site) {
       });
     }
   }
+
+  site.addLaboratoryDeskTop = function (obj) {
+    let date = new Date();
+    let d1 = site.toDate(date);
+    let d2 = site.toDate(date);
+    d2.setDate(d2.getDate() + 1);
+    let where = {};
+    where.date = {
+      $gte: d1,
+      $lt: d2,
+    };
+  
+    app.all(
+      {
+        where,
+        limit: 1,
+        sort: {
+          id: -1,
+        },
+      },
+      (err, docs) => {
+        if (!err) {
+          obj.code = docs && docs.length > 0 ? docs[0].code + 1 : 1;
+          app.add(obj, (err, doc1) => {});
+        }
+      }
+    );
+  };
 
   app.init();
   site.addApp(app);

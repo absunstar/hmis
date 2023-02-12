@@ -33,6 +33,12 @@ module.exports = function init(site) {
         { id: 7, nameEn: 'Release', nameAr: 'إخلاء' },
     ];
 
+    site.servicesOrdersSources = [
+        { id: 1,  nameEn: 'Direct', nameAr: 'مباشر' },
+        { id: 2,  nameEn: 'Doctor DeskTop', nameAr: 'مكتب الطبيب' },
+        { id: 3,  nameEn: 'Doctor Appointment', nameAr: 'ميعاد طبيب' },
+    ];
+
     site.doctorTypes = [
         { id: 1, code: 'G', nameEn: 'General', nameAr: 'عام' },
         { id: 2, code: 'M', nameEn: 'Medical Director', nameAr: 'المدير الطبي' },
@@ -116,7 +122,15 @@ module.exports = function init(site) {
         { id: 1, nameEn: 'Pending', nameAr: 'قيد الإنتظار' },
         { id: 2, nameEn: 'At doctor', nameAr: 'عند الطبيب' },
         { id: 3, nameEn: 'Detected', nameAr: 'تم الكشف' },
-        { id: 4, nameEn: 'Cancel detection', nameAr: 'إلغاء الكشف' },
+        { id: 4, nameEn: 'Cancel reservation', nameAr: 'إلغاء الحجز' },
+    ];
+
+    site.laboratoryDeskTopTypes = [
+        { id: 1, nameEn: 'Pending', nameAr: 'قيد الإنتظار' },
+        { id: 2, nameEn: 'Inside laboratory', nameAr: 'داخل المعمل' },
+        { id: 3, nameEn: 'Complete analysis', nameAr: 'إتمام التحليل' },
+        { id: 3, nameEn: 'Was delivered', nameAr: 'تم التسليم' },
+        { id: 4, nameEn: 'Cancel reservation', nameAr: 'إلغاء الحجز' },
     ];
 
     site.servicesTypeGroups = [
@@ -213,6 +227,13 @@ module.exports = function init(site) {
         res.json({
             done: true,
             list: site.servicesTypeGroups,
+        });
+    });
+
+    site.post('/api/servicesOrdersSources', (req, res) => {
+        res.json({
+            done: true,
+            list: site.servicesOrdersSources,
         });
     });
 

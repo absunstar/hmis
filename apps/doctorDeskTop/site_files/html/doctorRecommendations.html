@@ -42,13 +42,24 @@
                 <a class="tab-link" onclick="site.showTabContent(event, '#patient')">
                   <span> ##word.Patient## + </span>
                 </a>
+
+                <a class="tab-link" onclick="site.showTabContent(event, '#orders')">
+                  <span> ##word.Orders## + </span>
+                </a>
               </div>
               <div class="tabs-content">
                 <div id="doctor" class="tab-content">
                   <div class="row padding">
                     <div class="col6">
                       <div class="row">
-                        <i-list label="##word.Chief Complaint##" class="col10" ng-model="item.$chiefComplaint" display="name##session.lang##" items="chiefComplaintsList" ng-search="item.$chiefComplaint"></i-list>
+                        <i-list
+                          label="##word.Chief Complaint##"
+                          class="col10"
+                          ng-model="item.$chiefComplaint"
+                          display="name##session.lang##"
+                          items="chiefComplaintsList"
+                          ng-search="item.$chiefComplaint"
+                        ></i-list>
                         <div class="col2">
                           <br />
                           <i-button type="add" ng-click="addDoctorReccomend('$chiefComplaint','CC')"></i-button>
@@ -58,7 +69,14 @@
 
                     <div class="col6">
                       <div class="row">
-                        <i-list label="##word.Significant Sign##" class="col10" ng-model="item.$significantSign" display="name##session.lang##" items="significantSignsList" ng-search="item.$significantSign"></i-list>
+                        <i-list
+                          label="##word.Significant Sign##"
+                          class="col10"
+                          ng-model="item.$significantSign"
+                          display="name##session.lang##"
+                          items="significantSignsList"
+                          ng-search="item.$significantSign"
+                        ></i-list>
                         <div class="col2">
                           <br />
                           <i-button type="add" ng-click="addDoctorReccomend('$significantSign','SS')"></i-button>
@@ -70,7 +88,14 @@
                   <div class="row padding">
                     <div class="col6">
                       <div class="row">
-                        <i-list label="##word.Other Condition##" class="col10" ng-model="item.$otherCondition" display="name##session.lang##" items="otherConditionsList" ng-search="item.$otherCondition"></i-list>
+                        <i-list
+                          label="##word.Other Condition##"
+                          class="col10"
+                          ng-model="item.$otherCondition"
+                          display="name##session.lang##"
+                          items="otherConditionsList"
+                          ng-search="item.$otherCondition"
+                        ></i-list>
                         <div class="col2">
                           <br />
                           <i-button type="add" ng-click="addDoctorReccomend('$otherCondition','OC')"></i-button>
@@ -160,21 +185,13 @@
 
                     <div class="col6">
                       <div class="row">
-                        <i-list
-                          label="##word.Forbidden Foods##"
-                          class="col10"
-                          ng-model="item.$forbiddenFood"
-                          display="name##session.lang##"
-                          items="foodsList"
-                          ng-search="item.$forbiddenFood"
-                        ></i-list>
+                        <i-list label="##word.Forbidden Foods##" class="col10" ng-model="item.$forbiddenFood" display="name##session.lang##" items="foodsList" ng-search="item.$forbiddenFood"></i-list>
                         <div class="col2">
                           <br />
                           <i-button type="add" ng-click="addPatientReccomend('$forbiddenFood','FF')"></i-button>
                         </div>
                       </div>
                     </div>
-                 
                   </div>
 
                   <div class="row padding">
@@ -211,7 +228,6 @@
                         </div>
                       </div>
                     </div>
-                 
                   </div>
 
                   <div class="row list" ng-repeat="s in item.patientReccomendList">
@@ -221,9 +237,42 @@
                     <div class="col10">
                       <p class="bold">{{s.name##session.lang##}}</p>
                     </div>
-
                     <div class="col1">
                       <i-button type="delete default" ng-click="item.patientReccomendList.splice($index,1)"> </i-button>
+                    </div>
+                  </div>
+                </div>
+                <div id="orders" class="tab-content">
+                  <div class="row padding">
+                    <div class="row padding">
+                      <div class="row">
+                        <i-list label="##word.Service##" class="col6" ng-model="item.$service" display="name##session.lang##" items="servicesList" ng-search="item.$services"></i-list>
+                        <div class="col6">
+                          <br />
+                          <div class="row">
+                            <i-button type="add" ng-click="addServices(item)"></i-button>
+                            <i class="fas fa-user-md" id="icon" ng-click="item.$groupTypeId = 2 ; item.$serviceType = 'CO' ;getServicesList()"></i>
+                            <i class="fas fa-vial" id="icon" ng-click="item.$groupTypeId = 3 ;item.$serviceType = 'LA' ;getServicesList()"></i>
+                            <i class="fas fa-x-ray" id="icon" ng-click="item.$groupTypeId = 4 ;item.$serviceType = 'X-R' ;getServicesList()"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <table class="table hover bold">
+                          <tr>
+                            <th>##word.Type##</th>
+                            <th>##word.Name##</th>
+                            <th class="not-print">##word.Actions##</th>
+                          </tr>
+                          <tr ng-repeat="s in item.servicesList">
+                            <td class="text-center blue">{{s.type}}</td>
+                            <td class="text-center">{{s.name##session.lang##}}</td>
+                            <td class="text-center not-print">
+                              <i-button type="delete default" ng-click="item.servicesList.splice($index,1)"> </i-button>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>

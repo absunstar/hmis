@@ -3,7 +3,7 @@ module.exports = function init(site) {
     name: 'doctorDeskTop',
     allowMemory: false,
     memoryList: [],
-    allowCache: false,
+    allowCache: true,
     cacheList: [],
     allowRoute: true,
     allowRouteGet: true,
@@ -149,7 +149,7 @@ module.exports = function init(site) {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name,appName:'Doctor Desk Top' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name, appName: 'Doctor Desk Top' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -275,7 +275,16 @@ module.exports = function init(site) {
             list: list,
           });
         } else {
-          if (where.date) {
+          if (where && where.dateTo) {
+            let d1 = site.toDate(where.date);
+            let d2 = site.toDate(where.dateTo);
+            d2.setDate(d2.getDate() + 1);
+            where.date = {
+              $gte: d1,
+              $lt: d2,
+            };
+            delete where.dateTo;
+          } else if (where.date) {
             let d1 = site.toDate(where.date);
             let d2 = site.toDate(where.date);
             d2.setDate(d2.getDate() + 1);
@@ -288,7 +297,7 @@ module.exports = function init(site) {
             where['doctor.id'] = where['doctor'].id;
             delete where['doctor'];
           }
-          app.all({ where, select, sort: { code: -1 },limit: req.body.limit }, (err, docs) => {
+          app.all({ where, select, sort: { code: -1 }, limit: req.body.limit }, (err, docs) => {
             let newDate = new Date();
             docs.forEach((_d) => {
               _d.$hours = parseInt((Math.abs(new Date(_d.date) - newDate) / (1000 * 60 * 60)) % 24);
@@ -303,6 +312,24 @@ module.exports = function init(site) {
       });
     }
   }
+
+  site.post({ name: `/api/selectDoctorDeskTop`, require: { permissions: ['login'] } }, (req, res) => {
+    let appServices = site.getApp('services');
+    let response = { done: false };
+    let _data = req.body;
+    let service = appServices.memoryList.find((_c) => _c.id == _data.doctor.consItem.id);
+    if (_data.patient.insuranceCompany && _data.patient.insuranceCompany.id) {
+      site.mainInsurancesFromSub({ insuranceCompanyId: _data.patient.insuranceCompany.id }, (callback) => {
+        callback.service = service;
+        
+        res.json(callback);
+      });
+    } else {
+      response.error = 'There is no insurance company for the patient';
+      res.json(response);
+      return;
+    }
+  });
 
   site.addDoctorDeskTop = function (obj) {
     let date = new Date();

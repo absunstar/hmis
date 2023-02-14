@@ -17,7 +17,7 @@
               <i-checkbox class="col2" ng-model="item.chronic" label="##word.Chronic##"></i-checkbox>
               <i-checkbox class="col2" ng-model="item.conginital" label="##word.Conginital##"></i-checkbox>
               <i-checkbox class="col2" ng-model="item.rta" label="##word.RTA##"></i-checkbox>
-              <i-checkbox class="col2" ng-model="item.workRelated" label="##word.Work Related##"></i-checkbox>
+              <i-checkbox class="col3" ng-model="item.workRelated" label="##word.Work Related##"></i-checkbox>
               <i-checkbox class="col2" ng-model="item.vaccination" label="##word.Vaccination##"></i-checkbox>
               <i-checkbox class="col2" ng-model="item.checkup" label="##word.Checkup##"></i-checkbox>
               <i-checkbox class="col2" ng-model="item.psychiatric" label="##word.Psychiatric##"></i-checkbox>
@@ -251,9 +251,9 @@
                           <br />
                           <div class="row">
                             <i-button type="add" ng-click="addServices(item)"></i-button>
-                            <i class="fas fa-user-md" id="icon" ng-click="item.$groupTypeId = 2 ; item.$serviceType = 'CO' ;getServicesList()"></i>
-                            <i class="fas fa-vial" id="icon" ng-click="item.$groupTypeId = 3 ;item.$serviceType = 'LA' ;getServicesList()"></i>
-                            <i class="fas fa-x-ray" id="icon" ng-click="item.$groupTypeId = 4 ;item.$serviceType = 'X-R' ;getServicesList()"></i>
+                            <i class="fas fa-user-md icon" id="icon1" ng-click="item.$groupTypeId = 2 ; item.$serviceType = 'CO' ;getServicesList('icon1')"></i>
+                            <i class="fas fa-vial icon" id="icon2" ng-click="item.$groupTypeId = 3 ;item.$serviceType = 'LA' ;getServicesList('icon2')"></i>
+                            <i class="fas fa-x-ray icon" id="icon3" ng-click="item.$groupTypeId = 4 ;item.$serviceType = 'X-R' ;getServicesList('icon3')"></i>
                           </div>
                         </div>
                       </div>
@@ -327,6 +327,7 @@
       <i-button type="edit" label="##word.Save##" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" ng-click="update(item,'#doctorRecommendationsModal')"></i-button>
       <i-button
         type="save"
+        ng-show="item.status.id == 2"
         label="##word.Save## ##word.And## ##word.End detection##"
         x-permissions="doctorDeskTopUpdate || doctorDeskTopManage"
         ng-click="update(item,'#doctorRecommendationsModal',3)"

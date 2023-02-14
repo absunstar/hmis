@@ -222,21 +222,22 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getAll = function (where, statusId) {
+  $scope.getAll = function (where,type) {
     $scope.busy = true;
     $scope.list = [];
     where = where || {};
     if ('##user.type.id##' == 2) {
       where['doctor.id'] == site.toNumber('##user.id##');
     }
-    if (statusId) {
-      where['status.id'] = statusId;
-    }
+   
     if ($scope.today) {
       where['date'] = new Date();
-    } else {
-      delete where['date'];
     }
+
+    if(type =='all') {
+      delete where['status.id'];
+    }
+
     $http({
       method: 'POST',
       url: `${$scope.baseURL}/api/${$scope.appName}/all`,
@@ -455,8 +456,14 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getServicesList = function () {
+  $scope.getServicesList = function (iconId) {
     $scope.busy = true;
+
+    document.getElementById('icon1').classList.remove('icon-select');
+    document.getElementById('icon2').classList.remove('icon-select');
+    document.getElementById('icon3').classList.remove('icon-select');
+    document.getElementById(iconId).classList.add('icon-select');
+
     $scope.servicesList = [];
     let where = {
       active: true,
@@ -561,7 +568,8 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
       if (!$scope.item.doctorReccomendList.some((s) => s.id === $scope.item[name].id && code == s.code)) {
         $scope.item.doctorReccomendList.push({
           id: $scope.item[name].id,
-          name: $scope.item[name].name,
+          nameAr: $scope.item[name].nameAr,
+          nameEn: $scope.item[name].nameEn,
           code: code,
         });
       }

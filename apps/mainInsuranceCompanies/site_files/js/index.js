@@ -344,7 +344,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
 
   $scope.getinsuranceClassesList = function (obj) {
     $scope.busy = true;
-    obj.$insuranceClassesList = [];
+    $scope.insuranceClassesList = [];
     $http({
       method: 'POST',
       url: '/api/insuranceClasses/all',
@@ -361,7 +361,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          obj.$insuranceClassesList = response.data.list;
+          $scope.insuranceClassesList = response.data.list;
         }
       },
       function (err) {
@@ -536,7 +536,6 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
           ..._item.$coverageServiceGroup,
           insuranceClassesList : [],
         });
-        $scope.getinsuranceClassesList(_item.coverageServicesGroupsList[_item.coverageServicesGroupsList.length - 1]);
       }
       _item.$coverageServiceGroup = {};
     } else {
@@ -554,7 +553,6 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
           insuranceClassesList : [],
     
         });
-        $scope.getinsuranceClassesList(_item.coverageServicesCategoriesList[_item.coverageServicesCategoriesList.length - 1]);
       }
       _item.$coverageServiceCategory = {};
     } else {
@@ -571,7 +569,6 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
           ..._item.$coverageService,
           insuranceClassesList : [],
         });
-        $scope.getinsuranceClassesList(_item.coverageServicesList[_item.coverageServicesList.length - 1]);
       }
       _item.$coverageService = {};
     } else {
@@ -596,7 +593,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     }
   };
 
-  $scope.addinsuranceClasses = function (obj) {
+  $scope.addInsuranceClasses = function (obj) {
     $scope.busy = true;
 
     if (obj.$insuranceClass && !obj.insuranceClassesList.some((k) => k.id === obj.$insuranceClass.id)) {
@@ -622,4 +619,5 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
   $scope.getServicesCategoriesList();
   $scope.getServicesGroupsList();
   $scope.getServicesList();
+  $scope.getinsuranceClassesList();
 });

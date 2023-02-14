@@ -22,6 +22,10 @@
       <a class="tab-link" onclick="site.showTabContent(event, '#financial')">
         <span>##word.Financial Info##</span>
       </a>
+
+      <a class="tab-link" onclick="site.showTabContent(event, '#servicesCategories')">
+        <span>##word.Services Categories##</span>
+      </a>
     </div>
 
     <div class="tabs-content">
@@ -70,6 +74,36 @@
             <i-control type="number" v="r" class="col6" ng-model="item.cost" label="##word.Cost##"></i-control>
           </div>
         </div>
+      </div>
+      <div id="servicesCategories" class="tab-content">
+        <fieldset>
+          <div class="row padding">
+            <div class="row">
+              <i-list label="##word.Service Category##" class="col8" ng-model="item.$serviceCategory" display="name##session.lang##" items="servicesCategoriesList" ng-search="item.$servicesCategory"></i-list>
+              <div class="col4">
+                <br />
+                <i-button type="add" label="##word.Add Service Category##" ng-click="addServicesCategories(item)"></i-button>
+              </div>
+            </div>
+            <div class="row">
+              <table class="table hover bold">
+                <tr>
+                  <th>##word.Code##</th>
+                  <th>##word.Name##</th>
+                  <th class="not-print">##word.Actions##</th>
+                </tr>
+                <tr ng-repeat="s in item.servicesCategoriesList">
+                  <td class="text-center blue">{{s.code}}</td>
+                  <td class="text-center">{{s.name##session.lang##}}</td>
+
+                  <td class="text-center not-print">
+                    <i-button type="delete default" ng-click="item.servicesCategoriesList.splice($index,1)"> </i-button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </fieldset>
       </div>
     </div>
   </div>

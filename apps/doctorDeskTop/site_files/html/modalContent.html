@@ -86,15 +86,43 @@
         <table class="table bold center hover">
           <tr>
             <th>##word.Name##</th>
-            <td class="center" colspan="5">
+            <td class="center" colspan="2">
               <p class="height-5">{{item.doctor.nameEn}} ( <span class="blue">{{item.doctor.code}}</span> ) <img class="img-logo" ng-src="{{item.doctor.image.url}}" alt="" /></p>
+            </td>
+
+            <th>الإسم</th>
+            <td class="center" colspan="2">
+              <p class="height-5">{{item.doctor.nameAr}}</p>
             </td>
           </tr>
 
           <tr>
-            <th>##word.Name Arabic##</th>
-            <td class="center" colspan="5">
-              <p class="height-5">{{item.doctor.nameAr}}</p>
+            <th>##word.Specialty##</th>
+            <td class="center">
+              <p class="height-5">{{item.doctor.specialty.name##session.lang##}}</p>
+            </td>
+            <th>##word.Hospital Center##</th>
+            <td class="center">
+              <p class="height-5">{{item.doctor.hospitalCenter.name##session.lang##}}</p>
+            </td>
+            <th>##word.Doctor Type##</th>
+            <td class="center">
+              <p class="height-5">{{item.doctor.doctorType.name##session.lang##}}</p>
+            </td>
+          </tr>
+          <tr>
+            <th>##word.Nationality##</th>
+            <td class="center">
+              <p class="height-5">{{item.doctor.nationality.name##session.lang##}} <img class="img-logo" ng-src="{{item.doctor.nationality.image.url}}" alt="" /></p>
+            </td>
+            <th>##word.Mobile##</th>
+            <td class="center">
+              <p class="height-5">{{item.doctor.mobile}}</p>
+            </td>
+
+            <th>##word.Home Tel##</th>
+            <td class="center">
+              <p class="height-5">{{item.doctor.homeTel}}</p>
             </td>
           </tr>
         </table>

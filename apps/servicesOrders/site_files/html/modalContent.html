@@ -24,6 +24,7 @@
             display="name##session.lang##"
             items="doctorDeskTopList"
             ng-search="item.$doctorDeskTop"
+            ng-change="selectDoctorDeskTop(item.doctorDeskTop)"
           ></i-list>
           <i-list
             class="col6"
@@ -47,17 +48,6 @@
             items="patientsList"
             ng-search="item.$patient"
             ng-disabled="item.source.id != 1"
-          ></i-list>
-
-          <i-list
-            v="r"
-            class="col6"
-            ng-disabled="item.source.id != 1"
-            label="##word.Doctor##"
-            ng-model="item.doctor"
-            display="name##session.lang##"
-            items="doctorsList"
-            ng-search="item.$doctor"
           ></i-list>
         </div>
         <div class="row" ng-show="item.patient.id">
@@ -142,6 +132,61 @@
             <p class="errMsg">{{item.errMsg}}</p>
           </div>
         </div>
+        <div class="row">
+          <i-list
+            v="r"
+            class="col6"
+            ng-disabled="item.source.id != 1"
+            label="##word.Doctor##"
+            ng-model="item.doctor"
+            display="name##session.lang##"
+            items="doctorsList"
+            ng-search="item.$doctor"
+          ></i-list>
+          <table ng-show="item.doctor.id" class="table bold center hover">
+            <tr>
+              <th>##word.Name##</th>
+              <td class="center" colspan="2">
+                <p class="height-5">{{item.doctor.nameEn}} ( <span class="blue">{{item.doctor.code}}</span> ) <img class="img-logo" ng-src="{{item.doctor.image.url}}" alt="" /></p>
+              </td>
+
+              <th>الإسم</th>
+              <td class="center" colspan="2">
+                <p class="height-5">{{item.doctor.nameAr}}</p>
+              </td>
+            </tr>
+
+            <tr>
+              <th>##word.Specialty##</th>
+              <td class="center">
+                <p class="height-5">{{item.doctor.specialty.name##session.lang##}}</p>
+              </td>
+              <th>##word.Hospital Center##</th>
+              <td class="center">
+                <p class="height-5">{{item.doctor.hospitalCenter.name##session.lang##}}</p>
+              </td>
+              <th>##word.Doctor Type##</th>
+              <td class="center">
+                <p class="height-5">{{item.doctor.doctorType.name##session.lang##}}</p>
+              </td>
+            </tr>
+            <tr>
+              <th>##word.Nationality##</th>
+              <td class="center">
+                <p class="height-5">{{item.doctor.nationality.name##session.lang##}} <img class="img-logo" ng-src="{{item.doctor.nationality.image.url}}" alt="" /></p>
+              </td>
+              <th>##word.Mobile##</th>
+              <td class="center">
+                <p class="height-5">{{item.doctor.mobile}}</p>
+              </td>
+
+              <th>##word.Home Tel##</th>
+              <td class="center">
+                <p class="height-5">{{item.doctor.homeTel}}</p>
+              </td>
+            </tr>
+          </table>
+        </div>
       </fieldset>
       <fieldset class="col3">
         <div class="row">
@@ -195,7 +240,11 @@
             <th class="not-print">##word.Actions##</th>
           </tr>
           <tr ng-repeat="s in item.servicesList">
-            <td class="text-center">{{s.name##session.lang##}}</td>
+            <td class="text-center">
+              {{s.name##session.lang##}}
+              <p class="green">{{s.type}}</p>
+              <span class="red" ng-show="s.needApproval">( ##word.Need Approval##) </span>
+            </td>
             <td class="text-center">
               <i-control type="number" ng-change="calc(item)" ng-model="s.qty"> </i-control>
             </td>
@@ -226,18 +275,25 @@
           </tr>
         </table>
       </div>
+
       <div class="row disabled">
         <i-control class="col3" type="number" label="##word.Gross Amount##" ng-model="item.grossAmount"> </i-control>
         <i-control class="col3" type="number" label="##word.Discount##" ng-model="item.discount"> </i-control>
         <i-control class="col3" type="number" label="##word.Deductables##" ng-model="item.deductables"> </i-control>
         <i-control class="col3" type="number" label="##word.Patient-VAT##" ng-model="item.patientVat"> </i-control>
       </div>
+
       <div class="row disabled">
+        <i-control class="col3" type="number" label="##word.VAT##" ng-model="item.vat"> </i-control>
         <i-control class="col3" type="number" label="##word.Company-VAT##" ng-model="item.companyVat"> </i-control>
-        <i-control class="col3" type="number" label="##word.Net-Amount##" ng-model="item.netAmount"> </i-control>
         <i-control class="col3" type="number" label="##word.Patient-Balance##" ng-model="item.patientBalance"> </i-control>
         <i-control class="col3" type="number" label="##word.Acc-Balance##" ng-model="item.accBalance"> </i-control>
       </div>
+
+      <div class="row disabled">
+        <i-control class="col3" type="number" label="##word.Net-Amount##" ng-model="item.netAmount"> </i-control>
+      </div>
+
     </fieldset>
 
     <i-textarea label="##word.Remarks##" ng-model="item.remarks"></i-textarea>

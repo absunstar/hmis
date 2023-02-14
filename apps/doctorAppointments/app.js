@@ -1,5 +1,4 @@
 module.exports = function init(site) {
-  let appServices = site.getApp('services');
   let app = {
     name: 'doctorAppointments',
     allowMemory: false,
@@ -14,7 +13,7 @@ module.exports = function init(site) {
     allowRouteView: true,
     allowRouteAll: true,
   };
-  
+
   app.$collection = site.connectCollection(app.name);
 
   app.init = function () {
@@ -298,13 +297,12 @@ module.exports = function init(site) {
   }
 
   site.post({ name: `/api/selectDoctorAppointment`, require: { permissions: ['login'] } }, (req, res) => {
-    console.log(appServices,"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+    let appServices = site.getApp('services');
     let response = { done: false };
     let _data = req.body;
     let service = appServices.memoryList.find((_c) => _c.id == _data.doctor.consItem.id);
     if (_data.patient.insuranceCompany && _data.patient.insuranceCompany.id) {
-      site.mainInsurancesFromSub(_data.patient.insuranceCompany.id, (callback) => {
-        console.log(service.id,"kkkkkkkkkkkkkk");
+      site.mainInsurancesFromSub({ insuranceCompanyId: _data.patient.insuranceCompany.id }, (callback) => {
         callback.service = service;
         res.json(callback);
       });

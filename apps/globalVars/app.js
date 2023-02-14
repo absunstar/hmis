@@ -12,6 +12,33 @@ module.exports = function init(site) {
         { id: 16, code: 'S', nameEn: 'S', nameAr: 'Seha' },
     ];
 
+    site.qualificationTypes = [
+        { id: 1, nameEn: 'High qualified', nameAr: 'مؤهل عالي' },
+        { id: 3, nameEn: 'Upper intermediate', nameAr: 'فوق المتوسط' },
+        { id: 4, nameEn: 'Intermediate', nameAr: 'المتوسط' },
+        { id: 5, nameEn: 'Preparatory', nameAr: 'إعدادية' },
+        { id: 6, nameEn: 'Primary', nameAr: 'إبتدائية' },
+        { id: 7, nameEn: 'Student', nameAr: 'طالب' },
+        { id: 8, nameEn: 'Literacy', nameAr: 'محو أمية' },
+        { id: 9, nameEn: 'Without qualified', nameAr: 'بدون مؤهل' },
+    ];
+
+    site.employeeStatus = [
+        { id: 1, nameEn: 'Active', nameAr: 'نشط' },
+        { id: 2, nameEn: 'Inactive', nameAr: 'خامل' },
+        { id: 3, nameEn: 'Resignation', nameAr: 'إستقالة' },
+        { id: 4, nameEn: 'Cessation', nameAr: 'إنقطاع' },
+        { id: 5, nameEn: 'Dispensing', nameAr: 'إستغناء' },
+        { id: 6, nameEn: 'Termination', nameAr: 'فصل' },
+        { id: 7, nameEn: 'Release', nameAr: 'إخلاء' },
+    ];
+
+    site.servicesOrdersSources = [
+        { id: 1, nameEn: 'Direct', nameAr: 'مباشر' },
+        { id: 2, nameEn: 'Doctor DeskTop', nameAr: 'مكتب الطبيب' },
+        { id: 3, nameEn: 'Doctor Appointment', nameAr: 'ميعاد طبيب' },
+    ];
+
     site.doctorTypes = [
         { id: 1, code: 'G', nameEn: 'General', nameAr: 'عام' },
         { id: 2, code: 'M', nameEn: 'Medical Director', nameAr: 'المدير الطبي' },
@@ -153,6 +180,13 @@ module.exports = function init(site) {
         res.json({
             done: true,
             list: site.doctorTypes,
+        });
+    });
+
+    site.post('/api/qualificationTypes', (req, res) => {
+        res.json({
+            done: true,
+            list: site.qualificationTypes,
         });
     });
 

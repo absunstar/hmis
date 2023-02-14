@@ -16,16 +16,16 @@
                             <i-list
                                 v="r"
                                 class="col4"
-                                ng-change="item.source.id === 1?getPurchaseRequest():item.itemsList=[]"
-                                ng-model="item.source"
+                                ng-change="item.sourceType.id === 1?getPurchaseRequest():item.itemsList=[]"
+                                ng-model="item.sourceType"
                                 display="name##session.lang##"
                                 items="purchaseOrdersSourcesList"
-                                label="##word.Source##"
+                                label="##word.Source Type##"
                                 ng-search="item.$source"
                             ></i-list>
                             <i-list
                                 v="r"
-                                ng-if="item.source.id === 1"
+                                ng-if="item.sourceType.id === 1"
                                 class="col4"
                                 ng-model="item.purchaseRequest"
                                 ng-change="item.itemsList=[]"
@@ -38,7 +38,7 @@
 
                             <div class="col2">
                                 <br />
-                                <i-button ng-if="item.source.id === 1" type="add" label="##word.Add##" ng-click="getRequestItems(item.purchaseRequest)"> </i-button>
+                                <i-button ng-if="item.sourceType.id === 1" type="get" label="##word.Get Items##" ng-click="getRequestItems(item.purchaseRequest)"> </i-button>
                             </div>
                         </div>
                     </fieldset>
@@ -85,7 +85,7 @@
         </fieldset>
         <fieldset>
             <legend>##word.Items Information##</legend>
-            <div class="row" ng-if="item.source.id !== 1">
+            <div class="row" ng-if="item.sourceType.id !== 1">
                 <div class="col2">
                     <i-list
                         ng-model="orderItem.item"
@@ -101,12 +101,16 @@
                 </div>
 
                 <div class="col2">
-                    <i-control type="number" min="1" ng-model="orderItem.purchaseCount" label="##word.Purchase Count##"></i-control>
+                    <i-control type="number" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
                 </div>
                 <div class="col2">
-                    <i-control type="number" min="0" ng-model="orderItem.purchasePrice" label="##word.Price##"></i-control>
+                    <i-control type="number" min="0" ng-model="orderItem.price" label="##word.Purchase Price##"></i-control>
                 </div>
+
                 <div class="col2">
+                    <i-control type="number" min="0" ng-model="orderItem.salesPrice" label="##word.Sales Price##"></i-control>
+                </div>
+                <div class="col1">
                     <i-control type="number" min="0" ng-model="orderItem.bonusCount" label="##word.Bonus Count##"></i-control>
                 </div>
 
@@ -122,8 +126,9 @@
                     <th>##word.S##</th>
                     <th>##word.Item##</th>
                     <th>##word.Unit##</th>
-                    <th>##word.Purchase Count##</th>
+                    <th>##word.Count##</th>
                     <th>##word.Purchase Price##</th>
+                    <th>##word.Sales Price##</th>
                     <th>##word.Bonus Count##</th>
                     <th>##word.Total##</th>
                     <th>##word.Approved##</th>
@@ -131,22 +136,30 @@
                 </tr>
                 <tr ng-repeat="elem in item.itemsList">
                     <td class="text-center">{{$index+1}}</td>
-                    <td class="text-center">{{elem.item.name##session.lang##}}</td>
+                    <td class="text-center">{{elem.name##session.lang##}}</td>
                     <td class="text-center">{{elem.unit.name##session.lang##}}</td>
                     <td class="text-center">
-                        <p ng-if="item.source.id === 1 || elem.approved" class="text-center">{{elem.purchaseCount}}</p>
+                        <p ng-if="item.sourceType.id === 1 || elem.approved" class="text-center">{{elem.count}}</p>
                         <i-control
                             ng-change="calculateTotalInItemsList(elem)"
                             ng-keyup="calculateTotalInItemsList(elem)"
                             ng-click="calculateTotalInItemsList(elem)"
-                            ng-if="item.source.id !== 1 && !elem.approved"
+                            ng-if="item.sourceType.id !== 1 && !elem.approved"
                             min="0"
                             type="number"
-                            ng-model="elem.purchaseCount"
+                            ng-model="elem.count"
                         ></i-control>
+
+                        <!-- <fieldset ng-show="item.sourceType.id !== 1 && mode =='add'">
+                            <legend>##word.Stores Balance## <span class="blue"> {{elem.totalBalance}}</span></legend>
+                            <div class="row" ng-repeat="store in elem.storesBalanceList">
+                                <span class="col6 text-center">{{store.store.name##session.lang##}}</span>
+                                <span class="col6 text-center blue">{{store.currentBalance}}</span>
+                            </div>
+                        </fieldset> -->
                     </td>
                     <td class="text-center">
-                        <p ng-if=" elem.approved" class="text-center">{{elem.purchasePrice}}</p>
+                        <p ng-if=" elem.approved" class="text-center">{{elem.price}}</p>
                         <i-control
                             ng-change="calculateTotalInItemsList(elem)"
                             ng-keyup="calculateTotalInItemsList(elem)"
@@ -154,8 +167,12 @@
                             type="number"
                             ng-if="!elem.approved"
                             min="0"
-                            ng-model="elem.purchasePrice"
+                            ng-model="elem.price"
                         ></i-control>
+                    </td>
+                    <td class="text-center">
+                        <p ng-if=" elem.approved" class="text-center">{{elem.salesPrice}}</p>
+                        <i-control type="number" ng-if="!elem.approved" min="0" ng-model="elem.salesPrice"></i-control>
                     </td>
                     <td class="text-center">
                         <p ng-if="elem.approved" class="text-center">{{elem.bonusCount}}</p>
@@ -185,7 +202,7 @@
                             ng-click="unapproveItem(elem)"
                         >
                         </i-button>
-                        <i-button type="delete" ng-if="item.source.id !== 1" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
+                        <i-button type="delete" ng-if="item.sourceType.id !== 1" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
                     </td>
                 </tr>
             </table>

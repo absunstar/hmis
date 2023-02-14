@@ -16,7 +16,7 @@
                 <th class="w150">##word.Logo##</th>
                 <th>##word.Code##</th>
                 <th>##word.Order Date##</th>
-                <th>##word.Source##</th>
+                <th>##word.Source Type##</th>
                 <th>##word.From Store##</th>
                 <th>##word.To Store##</th>
                 <th>##word.Approved##</th>
@@ -28,9 +28,9 @@
                     <i-image view class="logo center" ng-model="item.image"></i-image>
                 </td>
                 <td class="text-center blue">{{item.code}}</td>
-                <td class="text-center">{{item.requestDate|date:'dd/MM/yyyy'}} - {{item.requestDate|date:'hh:mm:ss a'}}</td>
-                <td class="text-center">{{item.source.name##session.lang##}}</td>
-                <td class="text-center">{{item.fromStore.name##session.lang##}}</td>
+                <td class="text-center">{{item.orderDate|date:'dd/MM/yyyy'}} - {{item.orderDate|date:'hh:mm:ss a'}}</td>
+                <td class="text-center">{{item.sourceType.name##session.lang##}}</td>
+                <td class="text-center">{{item.store.name##session.lang##}}</td>
                 <td class="text-center">{{item.toStore.name##session.lang##}}</td>
                 <td class="text-center">
                     <span ng-show="item.approved">

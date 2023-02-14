@@ -1,12 +1,18 @@
 <div class="form" id="doctors">
   <div class="row">
-    <i-control ng-hide="disabledCode" class="col6" label="##word.Code##" ng-model="item.code"> </i-control>
-    <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
-
-  </div>
-  <div class="row">
-    <i-control type="text" v="r" class="col6" ng-model="item.nameEn" label="##word.Name##"></i-control>
-    <i-control type="text" v="r" class="col6" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
+    <div class="col9">
+      <div class="row">
+        <i-control ng-hide="disabledCode" class="col6" label="##word.Code##" ng-model="item.code"> </i-control>
+        <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
+      </div>
+      <div class="row">
+        <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
+        <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
+      </div>
+    </div>
+    <div class="col3">
+      <i-image class="img256" ng-model="item.image"></i-image>
+    </div>
   </div>
   <fieldset>
     <div class="tabs">
@@ -26,11 +32,13 @@
             <div class="col9">
               <div class="row">
                 <i-list class="col6" label="##word.Specialty##" ng-model="item.specialty" items="specialtiesList" display="name##session.lang##" ng-search="item.$specialty"> </i-list>
-                <i-list class="col6" label="##word.Nphies Specialty##" ng-model="item.nphiesSpecialty" items="nphiesSpecialtiesList" display="name##session.lang##" ng-search="item.$nphiesSpecialty"> </i-list>
+                <i-list class="col6" label="##word.Nphies Specialty##" ng-model="item.nphiesSpecialty" items="nphiesSpecialtiesList" display="name##session.lang##" ng-search="item.$nphiesSpecialty">
+                </i-list>
               </div>
 
               <div class="row">
-                <i-list class="col6" label="##word.Hospital Center##" ng-model="item.hospitalCenter" items="hospitalCentersList" display="name##session.lang##" ng-search="item.$hospitalCenter"> </i-list>
+                <i-list class="col6" label="##word.Hospital Center##" ng-model="item.hospitalCenter" items="hospitalCentersList" display="name##session.lang##" ng-search="item.$hospitalCenter">
+                </i-list>
                 <i-list class="col6" label="##word.Doctor Type##" ng-model="item.doctorType" items="doctorTypesList" display="name##session.lang##" ng-search="item.$doctorType"> </i-list>
               </div>
 
@@ -44,7 +52,6 @@
               </div>
 
               <fieldset>
- 
                 <div class="row">
                   <i-control type="number" class="col6" ng-model="item.numOfRevisits" label="##word.Num Of Revisits##"></i-control>
                   <i-control type="number" class="col6" ng-model="item.freeRevisitPer" label="##word.Free Revisit Per##"></i-control>
@@ -65,7 +72,7 @@
                 </div>
 
                 <div class="row">
-                  <i-textarea  ng-model="item.otherDetails" label="##word.Other Details##"></i-textarea>
+                  <i-textarea ng-model="item.otherDetails" label="##word.Other Details##"></i-textarea>
                 </div>
 
                 <fieldset>
@@ -74,12 +81,9 @@
                     <i-control class="col6" label="##word.Password##" ng-model="item.password"> </i-control>
                   </div>
                 </fieldset>
-                
               </fieldset>
-
             </div>
             <div class="col3">
-              <i-image class="img256" ng-model="item.image"></i-image>
               <i-checkbox ng-model="item.isDoctorAffiliated" label="##word.Is Doctor Affiliated##"></i-checkbox>
               <i-checkbox ng-model="item.nonConsultant" label="##word.Non Consultant##"></i-checkbox>
               <i-checkbox ng-model="item.onDuty" label="##word.On Duty##"></i-checkbox>

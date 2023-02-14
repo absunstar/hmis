@@ -307,7 +307,7 @@ module.exports = function init(site) {
                     approvedDate: 1,
                     title: 1,
                     itemsList: 1,
-                    fromStore: 1,
+                    store: 1,
                     toStore: 1,
                     active: 1,
                     approved: 1,

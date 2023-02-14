@@ -12,9 +12,36 @@ module.exports = function init(site) {
         { id: 16, code: 'S', nameEn: 'S', nameAr: 'Seha' },
     ];
 
+    site.qualificationTypes = [
+        { id: 1, nameEn: 'High qualified', nameAr: 'مؤهل عالي' },
+        { id: 3, nameEn: 'Upper intermediate', nameAr: 'فوق المتوسط' },
+        { id: 4, nameEn: 'Intermediate', nameAr: 'المتوسط' },
+        { id: 5, nameEn: 'Preparatory', nameAr: 'إعدادية' },
+        { id: 6, nameEn: 'Primary', nameAr: 'إبتدائية' },
+        { id: 7, nameEn: 'Student', nameAr: 'طالب' },
+        { id: 8, nameEn: 'Literacy', nameAr: 'محو أمية' },
+        { id: 9, nameEn: 'Without qualified', nameAr: 'بدون مؤهل' },
+    ];
+
+    site.employeeStatus = [
+        { id: 1, nameEn: 'Active', nameAr: 'نشط' },
+        { id: 2, nameEn: 'Inactive', nameAr: 'خامل' },
+        { id: 3, nameEn: 'Resignation', nameAr: 'إستقالة' },
+        { id: 4, nameEn: 'Cessation', nameAr: 'إنقطاع' },
+        { id: 5, nameEn: 'Dispensing', nameAr: 'إستغناء' },
+        { id: 6, nameEn: 'Termination', nameAr: 'فصل' },
+        { id: 7, nameEn: 'Release', nameAr: 'إخلاء' },
+    ];
+
+    site.servicesOrdersSources = [
+        { id: 1, nameEn: 'Direct', nameAr: 'مباشر' },
+        { id: 2, nameEn: 'Doctor DeskTop', nameAr: 'مكتب الطبيب' },
+        { id: 3, nameEn: 'Doctor Appointment', nameAr: 'ميعاد طبيب' },
+    ];
+
     site.doctorTypes = [
         { id: 1, code: 'G', nameEn: 'General', nameAr: 'عام' },
-        { id: 1, code: 'M', nameEn: 'Medical Director', nameAr: 'المدير الطبي' },
+        { id: 2, code: 'M', nameEn: 'Medical Director', nameAr: 'المدير الطبي' },
     ];
 
     site.paymentTypes = [
@@ -95,7 +122,15 @@ module.exports = function init(site) {
         { id: 1, nameEn: 'Pending', nameAr: 'قيد الإنتظار' },
         { id: 2, nameEn: 'At doctor', nameAr: 'عند الطبيب' },
         { id: 3, nameEn: 'Detected', nameAr: 'تم الكشف' },
-        { id: 4, nameEn: 'Cancel detection', nameAr: 'إلغاء الكشف' },
+        { id: 4, nameEn: 'Cancel reservation', nameAr: 'إلغاء الحجز' },
+    ];
+
+    site.laboratoryDeskTopTypes = [
+        { id: 1, nameEn: 'Pending', nameAr: 'قيد الإنتظار' },
+        { id: 2, nameEn: 'Inside laboratory', nameAr: 'داخل المعمل' },
+        { id: 3, nameEn: 'Complete analysis', nameAr: 'إتمام التحليل' },
+        { id: 3, nameEn: 'Was delivered', nameAr: 'تم التسليم' },
+        { id: 4, nameEn: 'Cancel reservation', nameAr: 'إلغاء الحجز' },
     ];
 
     site.servicesTypeGroups = [
@@ -117,19 +152,23 @@ module.exports = function init(site) {
 
     site.purchaseOrdersSource = [
         { id: 1, code: '001', nameEn: 'Purchase Request', nameAr: 'طلب شراء' },
-        { id: 2, code: '002', nameEn: 'Order / Invoice', nameAr: 'أمر شراء / فاتورة' },
+        { id: 2, code: '002', nameEn: 'Purchase Order / Invoice', nameAr: 'أمر شراء / فاتورة' },
     ];
 
     site.storesTransactionsTypes = [
-        { id: 1, code: '001', nameEn: 'Order / Invoice', nameAr: 'أمر شراء / فاتورة' },
-        { id: 2, code: '002', nameEn: 'Sales Invoice', nameAr: 'فاتورة بيع' },
-        { id: 3, code: '003', nameEn: 'Transfer Item Order', nameAr: 'أمر تحويل أصناف' },
+        { id: 1, code: 'purchaseOrders', nameEn: 'Purchase Order / Invoice', nameAr: 'أمر شراء / فاتورة' },
+        { id: 2, code: 'salesInvoices', nameEn: 'Sales Invoice', nameAr: 'فاتورة بيع' },
+        { id: 3, code: 'transferItemsOrders', nameEn: 'Transfer Item Order', nameAr: 'أمر تحويل أصناف' },
+        { id: 4, code: 'convertUnits', nameEn: 'Convert Units', nameAr: 'تحويل وحدات' },
+        { id: 5, code: 'returnPurchaseOrders', nameEn: 'Return Purchase Orders', nameAr: 'مرتجع فاتورة شراء' },
+        { id: 6, code: 'returnSalesInvoices', nameEn: 'Return Sales Invoices', nameAr: 'مرتجع فاتورة مبيعات' },
     ];
 
     site.transferItemsOrdersSource = [
         { id: 1, code: '001', nameEn: 'Transfer Items Request', nameAr: 'طلب تحويل أصناف' },
-        { id: 2, code: '002', nameEn: 'Transfer Items order', nameAr: 'أمر تحويل أصناف' },
+        { id: 2, code: '002', nameEn: 'Transfer Items Order', nameAr: 'أمر تحويل أصناف' },
     ];
+
     site.post('/api/patientTypes', (req, res) => {
         res.json({
             done: true,
@@ -141,6 +180,13 @@ module.exports = function init(site) {
         res.json({
             done: true,
             list: site.doctorTypes,
+        });
+    });
+
+    site.post('/api/qualificationTypes', (req, res) => {
+        res.json({
+            done: true,
+            list: site.qualificationTypes,
         });
     });
 
@@ -183,6 +229,20 @@ module.exports = function init(site) {
         res.json({
             done: true,
             list: site.servicesTypeGroups,
+        });
+    });
+
+    site.post('/api/servicesOrdersSources', (req, res) => {
+        res.json({
+            done: true,
+            list: site.servicesOrdersSources,
+        });
+    });
+
+    site.post('/api/employeeStatus', (req, res) => {
+        res.json({
+            done: true,
+            list: site.employeeStatus,
         });
     });
 

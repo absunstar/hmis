@@ -28,12 +28,12 @@
                     <i-list
                         v="r"
                         class="col6"
-                        ng-model="item.fromStore"
+                        ng-model="item.store"
                         ng-change="validateStores(); calculateItemBalance(orderItem.unit)"
                         label="##word.From Store##"
                         display="name##session.lang##"
                         items="storesList"
-                        ng-search="item.$fromStore"
+                        ng-search="item.$store"
                     ></i-list>
                     <i-list
                         v="r"
@@ -71,7 +71,7 @@
                 >
                 </i-list>
                 <i-control class="col2" disabled type="number" label="##word.Current Balance##" ng-model="orderItem.currentBalance"> </i-control>
-                <i-control class="col2" type="number" min="1" label="##word.Transfer Count##" ng-model="orderItem.transferFromCount"> </i-control>
+                <i-control class="col2" type="number" min="1" label="##word.Transfer Count##" ng-model="orderItem.count"> </i-control>
                 <div class="col2">
                     <br />
                     <div class="row">
@@ -91,12 +91,12 @@
                 </tr>
                 <tr ng-repeat="elem in item.itemsList">
                     <td class="text-center">{{$index+1}}</td>
-                    <td class="text-center">{{elem.item.name##session.lang##}}</td>
+                    <td class="text-center">{{elem.name##session.lang##}}</td>
                     <td class="text-center">{{elem.unit.name##session.lang##}}</td>
 
                     <td class="text-center">
-                        <i-control type="number" min="1" ng-show="!elem.approved" ng-model="elem.transferFromCount"> </i-control>
-                        <span class="text-center" ng-show="elem.approved">{{elem.transferFromCount}}</span>
+                        <i-control type="number" min="1" ng-show="!elem.approved" ng-model="elem.count"> </i-control>
+                        <span class="text-center" ng-show="elem.approved">{{elem.count}}</span>
                     </td>
                     <td class="text-center">
                         <span class="text-success" ng-show="elem.approved">##word.Yes##</span>

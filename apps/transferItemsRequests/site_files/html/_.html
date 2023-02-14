@@ -3,10 +3,6 @@
         <div x-import="transferItemsRequests/modal.html"></div>
         <div x-import="transferItemsRequests/modalSearch.html"></div>
 
-        <div class="row">
-            <h1 class="bold text-center">##word.Transfer Items Requests##</h1>
-        </div>
-
         <div class="top-actions">
             <i-button type="add" x-permissions="transferItemsRequestsAdd || transferItemsRequestsManage" label="##word.New##" ng-click="showAdd()"></i-button>
         </div>
@@ -34,7 +30,7 @@
                 <td class="text-center blue">{{item.code}}</td>
                 <td class="text-center">{{item.title}}</td>
                 <td class="text-center">{{item.requestDate|date:'dd/MM/yyyy'}} - {{item.requestDate|date:'hh:mm:ss a'}}</td>
-                <td class="text-center">{{item.fromStore.name##session.lang##}}</td>
+                <td class="text-center">{{item.store.name##session.lang##}}</td>
                 <td class="text-center">{{item.toStore.name##session.lang##}}</td>
                 <td class="text-center">
                     <span ng-show="item.approved">

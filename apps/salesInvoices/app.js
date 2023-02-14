@@ -178,95 +178,40 @@ module.exports = function init(site) {
                     _data.code = cb.code;
                 }
 
-                _data.addUserInfo = req.getUserFinger();
+                let overDraftObj = {
+                    store: _data.store,
+                    items: _data.itemsList,
+                };
 
-                const storesItemsApp = site.getApp('storesItems');
-                const systemSetting = site.getSystemSetting(req);
-
-                _data.itemsList.forEach((itm) => {
-                    storesItemsApp.$collection.find({ where: { id: itm.item.id } }, (err, itemDoc) => {
-                        let index = itemDoc.unitsList.findIndex((unt) => unt.unit.id === itm.unit.id);
-
-                        if (index === -1) {
-                            response.error = 'Item Unit Not Exisit';
-                            response.done = false;
-                            res.json(response);
-                            return;
+                site.checkOverDraft(req, overDraftObj,(overDraftCb) => {
+                    if (!overDraftCb.done) {
+                        let error = '';
+                        error = overDraftCb.refuseList.map((m) => (req.session.lang == 'Ar' ? m.nameAr : m.nameEn)).join('-');
+                        response.error = `Item Balance Insufficient ( ${error} )`;
+                        res.json(response);
+                        return;
+                    }
+                    _data.addUserInfo = req.getUserFinger();
+                    app.add(_data, (err, doc) => {
+                        if (!err) {
+                            response.done = true;
+                            doc.itemsList.forEach((_item) => {
+                                let item = { ..._item };
+                                item.store = { ...doc.store };
+                                site.editItemsBalance(item, app.name);
+                                item.invoiceId = doc.id;
+                                item.date = doc.date;
+                                item.customer = doc.customer;
+                                item.countType = 'out';
+                                item.orderCode = doc.code;
+                                site.setItemCard(item, app.name);
+                            });
+                            response.doc = doc;
                         } else {
-                            // const caluclatedItemBalance = site.calculateStroeItemBalance(itemDoc);
-                            let storeIndex = itemDoc.unitsList[index].storesList.findIndex((s) => s.store.id === _data.store.id);
-                            const totalIncome =
-                                itemDoc.unitsList[index].storesList[storeIndex].purchaseCount +
-                                itemDoc.unitsList[index].storesList[storeIndex].bonusCount +
-                                itemDoc.unitsList[index].storesList[storeIndex].unassembledCount +
-                                itemDoc.unitsList[index].storesList[storeIndex].salesReturnCount;
-
-                            const totalOut =
-                                itemDoc.unitsList[index].storesList[storeIndex].salesCount +
-                                itemDoc.unitsList[index].storesList[storeIndex].purchaseReturnCount +
-                                itemDoc.unitsList[index].storesList[storeIndex].damagedCount +
-                                itemDoc.unitsList[index].storesList[storeIndex].assembledCount;
-
-                            const avaliableBalanceForSale = totalIncome - totalOut;
-
-                            if ((!systemSetting.storesSetting.allowOverdraft && avaliableBalanceForSale > itm.salesCount) || avaliableBalanceForSale > itm.salesCount) {
-                                app.add(_data, (err, doc) => {
-                                    if (!err && doc) {
-                                        response.done = true;
-                                        response.doc = doc;
-                                        itemDoc.unitsList[index].storesList[storeIndex].salesCount += itm.salesCount;
-                                        itemDoc.unitsList[index].storesList[storeIndex].salesPrice += itm.salesPrice * itm.salesCount;
-                                        const storesItemsCardApp = site.getApp('storesItemsCard');
-                                        storesItemsApp.$collection.update(itemDoc);
-                                        const transactionType = site.storesTransactionsTypes.find((t) => t.id === 2);
-                                        const salesItem = { id: itm.item.id, code: itm.item.code, nameAr: itm.item.nameAr, nameEn: itm.item.nameEn };
-                                        const salesUnit = { id: itm.unit.id, code: itm.unit.code, nameAr: itm.unit.nameAr, nameEn: itm.unit.nameEn };
-                                        storesItemsCardApp.$collection.findMany(
-                                            { where: { 'transactionType.id': transactionType.id, 'item.id': itm.item.id, 'unit.id': itm.unit.id } },
-                                            (err, docs) => {
-                                                if (docs.length) {
-                                                    const lastDoc = docs[docs.length - 1];
-
-                                                    storesItemsCardApp.$collection.add({
-                                                        transactionType: site.storesTransactionsTypes.find((t) => t.id === 2),
-                                                        date: _data.date,
-                                                        item: salesItem,
-                                                        unit: salesUnit,
-                                                        itemGroup: itemDoc.itemGroup,
-                                                        store: _data.store,
-                                                        customer: _data.customer,
-                                                        invoice_id: doc.id,
-                                                        count: lastDoc.count + itm.salesCount,
-                                                        price: lastDoc.price + itm.salesPrice * itm.salesCount,
-                                                    });
-                                                } else {
-                                                    storesItemsCardApp.$collection.add({
-                                                        transactionType: site.storesTransactionsTypes.find((t) => t.id === 2),
-                                                        date: _data.date,
-                                                        item: salesItem,
-                                                        unit: salesUnit,
-                                                        itemGroup: itemDoc.itemGroup,
-                                                        store: _data.store,
-                                                        customer: _data.customer,
-                                                        invoice_id: doc.id,
-                                                        count: itm.salesCount,
-                                                        price: itm.salesPrice * itm.salesCount,
-                                                    });
-                                                }
-                                            }
-                                        );
-                                    } else {
-                                        response.error = err.mesage;
-                                    }
-                                    res.json(response);
-                                });
-                            } else {
-                                response.error = 'Item Balance Not Allowed';
-                                response.done = false;
-                                res.json(response);
-                                return;
-                            }
+                            response.error = err.message;
                         }
+
+                        res.json(response);
                     });
                 });
             });
@@ -334,26 +279,28 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                let select = req.body.select || { id: 1, code: 1, customer: 1, itemsList: 1, paymentType: 1, store: 1, active: 1, image: 1 };
-                let list = [];
-                if (app.allowMemory) {
-                    app.memoryList
-                        .filter((g) => g.company && g.company.id == site.getCompany(req).id)
-                        .forEach((doc) => {
-                            let obj = { ...doc };
+                // where.search = where.search || 'id';
+                // let select = req.body.select || { id: 1, code: 1, customer: 1, itemsList: 1, paymentType: 1, store: 1, active: 1, image: 1 };
+                let select = req.body.select || {};
 
-                            for (const p in obj) {
-                                if (!Object.hasOwnProperty.call(select, p)) {
-                                    delete obj[p];
-                                }
-                            }
-                            if (!where.active || doc.active) {
-                                list.push(obj);
-                            }
-                        });
+                if (where.date) {
+                    let d1 = site.toDate(where.date);
+                    let d2 = site.toDate(where.date);
+                    d2.setDate(d2.getDate() + 1);
+                    where.date = {
+                        $gte: d1,
+                        $lt: d2,
+                    };
+                }
+                if (app.allowMemory) {
+                    let list = app.memoryList.filter(
+                        (g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(where.search)
+                    );
+                    // .map((s) => ({ ...select }));
+
                     res.json({
                         done: true,
-                        list: list,
+                        list: list.slice(-limit),
                     });
                 } else {
                     app.$collection.findMany({ where: where, select }, (err, docs) => {

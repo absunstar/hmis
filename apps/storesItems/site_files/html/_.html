@@ -5,6 +5,11 @@
 
         <div class="top-actions">
             <i-button type="add" x-permissions="storesItemsAdd || storesItemsManage" label="##word.New##" ng-click="showAdd()"></i-button>
+            <i-button type="search" x-permissions="storesItemsSearch || storesItemsManage" label="##word.Collection Items##" ng-click="searchAll(search={collectionItem:true})"></i-button>
+            <i-button type="search" x-permissions="storesItemsSearch || storesItemsManage" label="##word.Medical Items##" ng-click="searchAll(search={hasMedicalData:true})"></i-button>
+            <i-button type="search" x-permissions="storesItemsSearch || storesItemsManage" label="##word.Work By Batch##" ng-click="searchAll(search={workByBatch:true})"></i-button>
+            <i-button type="search" x-permissions="storesItemsSearch || storesItemsManage" label="##word.Work By Serial##" ng-click="searchAll(search={workBySerial:true})"></i-button>
+            <i-button type="search" x-permissions="storesItemsSearch || storesItemsManage" label="##word.Not Active##" ng-click="searchAll(search={active:false})"></i-button>
         </div>
 
         <div class="row padding">

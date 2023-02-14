@@ -15,33 +15,35 @@
             <tr>
                 <!-- <th>##word.Code##</th> -->
                 <th>##word.Item##</th>
+                <th>##word.Unit##</th>
                 <th>##word.Store##</th>
                 <th>##word.Date##</th>
                 <th>##word.Count##</th>
                 <th>##word.Price##</th>
                 <th>##word.Transaction Type##</th>
 
-                <th class="not-print">##word.Actions##</th>
+                <!-- <th class="not-print">##word.Actions##</th> -->
             </tr>
-            <tr ng-repeat="item in list | filter:$search">
+            <tr ng-repeat="elem in list | filter:$search">
                 <!-- <td class="text-center blue">{{item.code}}</td> -->
-                <td class="text-center">{{item.item.name##session.lang##}}</td>
-                <td class="text-center">{{item.store.name##session.lang##}}</td>
-                <td class="text-center blue">{{item.date|date:'dd/MM/yyyy'}} - {{item.date|date:'hh:mm:ss a'}}</td>
+                <td class="text-center">{{elem.name##session.lang##}}</td>
+                <td class="text-center">{{elem.unit.name##session.lang##}}</td>
+                <td class="text-center">{{elem.store.name##session.lang##}}</td>
+                <td class="text-center blue">{{elem.date|date:'dd/MM/yyyy'}} - {{elem.date|date:'hh:mm:ss a'}}</td>
                 <td>
-                    <p class="text-center text-success" ng-if="item.transactionType.id ===1">{{item.count}}</p>
-                    <p class="text-center text-danger" ng-if="item.transactionType.id ===2">{{item.count}}</p>
+                    <p class="text-center text-success" ng-if="elem.countType =='in'">{{elem.count}}</p>
+                    <p class="text-center text-danger" ng-if="elem.countType =='out'">{{elem.count}}</p>
                 </td>
-                <td class="text-center blue">{{item.price}}</td>
-                <td class="text-center">{{item.transactionType.name##session.lang##}}</td>
+                <td class="text-center blue">{{elem.price}}</td>
+                <td class="text-center">{{elem.transactionType.name##session.lang##}}</td>
 
-                <td class="text-center not-print">
-                    <!-- <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button> -->
+                <!-- <td class="text-center not-print"> -->
+                <!-- <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button> -->
 
-                    <!-- <i-button type="edit" x-permissions="storesItemsCardUpdate || storesItemsCardManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button> -->
+                <!-- <i-button type="edit" x-permissions="storesItemsCardUpdate || storesItemsCardManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button> -->
 
-                    <!-- <i-button type="delete" x-permissions="storesItemsCardDelete || storesItemsCardManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button> -->
-                </td>
+                <!-- <i-button type="delete" x-permissions="storesItemsCardDelete || storesItemsCardManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button> -->
+                <!-- </td> -->
             </tr>
         </table>
         <i-button x-permissions="storesItemsCardPrint || storesItemsCardManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>

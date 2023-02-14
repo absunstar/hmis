@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "employeesBonusTypes" , "name":"employeesBonusTypesManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "employeesBonusTypes" , "name":"employeesBonusTypesAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "employeesBonusTypes" , "name":"employeesBonusTypesUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "employeesBonusTypes" , "name":"employeesBonusTypesDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "employeesBonusTypes" , "name":"employeesBonusTypesView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "employeesBonusTypes" , "name":"employeesBonusTypesSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "employeesBonusTypes" , "name":"employeesBonusTypesExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "employeesBonusTypes" , "name":"employeesBonusTypesPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "employeesBonusTypes" , "name":"employeesBonusTypesUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+]

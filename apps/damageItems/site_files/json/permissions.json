@@ -1,0 +1,11 @@
+[
+    { "moduleName": "public", "screenName": "damageItems", "name": "damageItemsManage", "En": "Manage", "Ar": "إدارة" },
+    { "moduleName": "public", "screenName": "damageItems", "name": "damageItemsAdd", "En": "Add", "Ar": "إضافة" },
+    { "moduleName": "public", "screenName": "damageItems", "name": "damageItemsUpdate", "En": "Edit", "Ar": "تعديل" },
+    { "moduleName": "public", "screenName": "damageItems", "name": "damageItemsDelete", "En": "Delete", "Ar": "حذف" },
+    { "moduleName": "public", "screenName": "damageItems", "name": "damageItemsView", "En": "View", "Ar": "عرض" },
+    { "moduleName": "public", "screenName": "damageItems", "name": "damageItemsSearch", "En": "Search", "Ar": "بحث" },
+    { "moduleName": "public", "screenName": "damageItems", "name": "damageItemsExport", "En": "Export", "Ar": "تصدير" },
+    { "moduleName": "public", "screenName": "damageItems", "name": "damageItemsPrint", "En": "Print", "Ar": "طباعة" },
+    { "moduleName": "public", "screenName": "damageItems", "name": "damageItemsUi", "En": "UI", "Ar": "الواجهة الرسومية" }
+]

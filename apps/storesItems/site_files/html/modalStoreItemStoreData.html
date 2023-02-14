@@ -1,0 +1,87 @@
+<div id="modalStoreItemStoreDataModal" class="modal full">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close">&times;</span>
+            <p class="center">##word.Details Units Count In Stores##</p>
+        </div>
+
+        <div class="modal-body">
+            <fieldset>
+                <legend>##word.Item Data By Store##</legend>
+                <div class="row text-center">
+                    <h3 class="col4">##word.Current Count##</h3>
+                    <h3 class="col6 blue">{{unit.currentCount}}</h3>
+                </div>
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table hover bold">
+                            <tr>
+                                <th>##word.S##</th>
+                                <th>##word.Store##</th>
+                                <!-- <th>##word.Purchase Cost##</th> -->
+                                <th>##word.Current Count##</th>
+                                <th>##word.Purchase Count##</th>
+                                <th>##word.Purchase Price##</th>
+                                <th>##word.Purchase Return Count##</th>
+                                <th>##word.Purchase Return Price##</th>
+                                <th>##word.Bonus Count##</th>
+                                <th>##word.Bonus Price##</th>
+                                <th>##word.Sales Count##</th>
+                                <th>##word.Sales Price##</th>
+                                <th>##word.Damage Count##</th>
+                                <th>##word.Damage Price##</th>
+                                <th>##word.Assembled Count##</th>
+                                <th>##word.Assembled Price##</th>
+                                <th>##word.Unassembled Count##</th>
+                                <th>##word.Unassembled Price##</th>
+                                <th>##word.Transfer From Count##</th>
+                                <th>##word.Transfer From Price##</th>
+                                <th>##word.Transfer To Count##</th>
+                                <th>##word.Transfer To Price##</th>
+                                <th>##word.Transfer Unit From Count##</th>
+                                <th>##word.Transfer Unit From Price##</th>
+                                <th>##word.Transfer Unit To Count##</th>
+                                <th>##word.Transfer Unit To Price##</th>
+
+                                <!-- <th class="not-print">##word.Actions##</th> -->
+                            </tr>
+
+                            <tr ng-repeat="str in unit.storesList">
+                                <td class="text-center">{{$index+1}}</td>
+                                <td class="text-center">{{str.store.name##session.lang##}}</td>
+                                <!-- <td class="text-center">{{str.purchaseCost}}</td> -->
+                                <td class="text-center bold blue">{{str.currentCount}}</td>
+                                <td class="text-center text-success">{{str.purchaseCount}}</td>
+                                <td class="text-center">{{str.purchasePrice}}</td>
+                                <td class="text-center text-danger">{{str.purchaseReturnCount}}</td>
+                                <td class="text-center">{{str.purchaseReturnPrice}}</td>
+                                <td class="text-center text-success">{{str.bonusCount}}</td>
+                                <td class="text-center">{{str.bonusPrice}}</td>
+                                <td class="text-center text-danger">{{str.salesCount}}</td>
+                                <td class="text-center">{{str.salesPrice}}</td>
+                                <td class="text-center text-danger">{{str.damagedCount}}</td>
+                                <td class="text-center">{{str.damagedPrice}}</td>
+                                <td class="text-center text-danger">{{str.assembledCount}}</td>
+                                <td class="text-center">{{str.assembledPrice}}</td>
+                                <td class="text-center text-success">{{str.unassembledCount}}</td>
+                                <td class="text-center">{{str.unassembledPrice}}</td>
+                                <td class="text-center text-danger">{{str.transferFromCount}}</td>
+                                <td class="text-center">{{str.transferFromPrice}}</td>
+                                <td class="text-center text-success">{{str.transferToCount}}</td>
+                                <td class="text-center">{{str.transferToPrice}}</td>
+                                <td class="text-center text-danger">{{str.convertUnitFromCount}}</td>
+                                <td class="text-center">{{str.convertUnitFromPrice}}</td>
+                                <td class="text-center text-success">{{str.convertUnitToCount}}</td>
+                                <td class="text-center">{{str.convertUnitToPrice}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="modal-footer center">
+            <i-button type="close" label="##word.close##" onclick="site.hideModal('#modalStoreItemStoreDataModal')"> </i-button>
+        </div>
+    </div>
+</div>

@@ -3,6 +3,8 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     $scope.appName = 'storesItems';
     $scope.modalID = '#storesItemsManageModal';
     $scope.modalSearchID = '#storesItemsSearchModal';
+    $scope.modalStoreData = '#modalStoreItemStoreDataModal';
+    $scope.modalUnitConversionData = '#unitConversionModal';
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
@@ -44,19 +46,23 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             active: true,
         };
     };
+
     $scope.resetSubstance = function () {
         $scope.substance = {
             activeSubstance: {},
             concentration: 0,
         };
     };
+
     $scope.resetCollectedItem = function () {
         $scope.substance = {
             activeSubstance: {},
             concentration: 0,
         };
     };
+
     $scope.collectedItemUnits = [];
+
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
@@ -68,7 +74,49 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
+    $scope.showStoreData = function (_item) {
+        $scope.mode = 'view';
+        $scope.unit = { ..._item };
+        site.showModal($scope.modalStoreData);
+    };
+
+    $scope.showModalUnitConversionData = function (_item) {
+        $scope.unitConversion = { active: true, approved: false };
+        $scope.unitConversionList = [];
+        _item.unitsList.forEach((_u) => {
+            $scope.unitConversionList.push({
+                id: _u.unit.id,
+                code: _u.unit.code,
+                nameAr: _u.unit.nameAr,
+                nameEn: _u.unit.nameEn,
+                conversion: _u.conversion,
+                currentCount: _u.currentCount,
+            });
+        });
+        site.showModal($scope.modalUnitConversionData);
+    };
+
+    $scope.validateUnitConversionData = function (_unitConversion) {
+        console.log('validateUnitConversionData', _unitConversion);
+
+        $timeout(() => {
+            if (_unitConversion.unit && _unitConversion.toUnit && _unitConversion.unit.id === _unitConversion.toUnit.id) {
+                alert('##word.Cannot Make Conversion To The Same Unit##');
+                return;
+            }
+
+            if (_unitConversion.count && !_unitConversion.count > 0) {
+                alert('##word.Please Enter Conversion Count##');
+                return;
+            }
+            if (_unitConversion.toUnit && _unitConversion.toUnit.id) {
+                _unitConversion.newCount = (_unitConversion.count * _unitConversion.unit.conversion) / _unitConversion.toUnit.conversion;
+                _unitConversion.newCount = site.toNumber(_unitConversion.newCount);
+            }
+        }, 300);
+    };
     $scope.medicalInformationsError = '';
+
     $scope.add = function (_item) {
         $scope.error = '';
         $scope.medicalInformationsError = '';
@@ -180,13 +228,14 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
-    $scope.view = function (_item) {
+    $scope.view = function (_item, where) {
         $scope.busy = true;
         $scope.error = '';
         $http({
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/view`,
             data: {
+                where: { where },
                 id: _item.id,
             },
         }).then(
@@ -286,7 +335,10 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getItemsGroups = function () {
+    $scope.getItemsGroups = function ($search) {
+        // if ($search && $search.length < 3) {
+        //     return;
+        // }
         $scope.busy = true;
         $scope.itemsgroupsList = [];
         $http({
@@ -295,6 +347,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
+                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -344,14 +397,18 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getStoresUnits = function () {
+    $scope.getStoresUnits = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
+
         $scope.busy = true;
         $scope.storesUnitsList = [];
         $http({
             method: 'POST',
             url: '/api/storesUnits/all',
             data: {
-                where: { active: true },
+                where: { active: true, search: $search },
                 select: {
                     id: 1,
                     code: 1,
@@ -364,6 +421,39 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
                 $scope.busy = false;
                 if (response.data.done && response.data.list.length > 0) {
                     $scope.storesUnitsList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.getStores = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
+
+        $scope.busy = true;
+        $scope.storesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/stores/all',
+            data: {
+                where: { active: true, search: $search },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.storesList = response.data.list;
                 }
             },
             function (err) {
@@ -490,7 +580,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         }
         $scope.item.unitsList.push({
             unit,
-            conversion: itemUnit.conversion,
+            conversion: itemUnit.conversion || 1,
             barcode: itemUnit.barcode,
             purchasePrice: 0,
             salesPrice: 0,
@@ -553,6 +643,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         for (const elem of item.unitsList) {
             $scope.collectedItemUnits.push({
                 id: elem.unit.id,
+                code: elem.unit.code,
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
             });
@@ -585,6 +676,56 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         $scope.collectedItemUnits = [];
     };
 
+    $scope.addConvertUnits = function (_item) {
+        $scope.error = '';
+        const v = site.validated($scope.modalUnitConversionData);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+
+        _item.itemsList = [
+            {
+                id: $scope.item.id,
+                code: $scope.item.code,
+                nameAr: $scope.item.nameAr,
+                nameEn: $scope.item.nameEn,
+                itemGroup: $scope.item.itemGroup,
+                unit: _item.unit,
+                toUnit: _item.toUnit,
+                currentCount: _item.currentCount,
+                conversion: _item.toUnit.conversion,
+                count: _item.count,
+                newCount: _item.newCount,
+            },
+        ];
+        $scope.busy = true;
+        console.log('start');
+        $http({
+            method: 'POST',
+            url: '/api/convertUnits/add',
+            data: _item,
+        }).then(
+            function (response) {
+                console.log('response', response);
+
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalUnitConversionData);
+                    site.resetValidated($scope.modalUnitConversionData);
+                } else {
+                    $scope.error = response.data.error;
+                    if (response.data.error && response.data.error.like('*Must Enter Code*')) {
+                        $scope.error = '##word.Must Enter Code##';
+                    }
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+
     $scope.validateData = function (_item) {
         let success = false;
 
@@ -610,8 +751,10 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         success = true;
         return { success, _item };
     };
+
     $scope.getAll();
     $scope.getStoresUnits();
+    $scope.getStores();
     $scope.getItemsTypes();
     $scope.getNumberingAuto();
     $scope.getItemsGroups();

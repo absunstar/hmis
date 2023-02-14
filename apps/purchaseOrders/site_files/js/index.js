@@ -10,20 +10,18 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         orderDate: new Date(),
         importPermitNumber: 0,
         importAuthorizationDate: new Date(),
-        filesList: [],
-        itemsList: [],
         hasVendor: true,
         approved: false,
-        calculatePurchaseCost: false,
-        calculatePurchaseCostType: { bill: 'bill', items: 'items' },
+        // calculatePurchaseCost: false,
+        // calculatePurchaseCostType: '',
         purchaseCost: 0,
         active: true,
     };
     $scope.item = {};
     $scope.list = [];
     $scope.orderItem = {
-        purchaseCount: 1,
-        purchasePrice: 0,
+        count: 1,
+        price: 0,
         bonusCount: 0,
         bonusPrice: 0,
         vat: 0,
@@ -33,8 +31,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope.canApprove = false;
     $scope.resetOrderItem = function () {
         $scope.orderItem = {
-            purchaseCount: 1,
-            purchasePrice: 0,
+            count: 1,
+            price: 0,
+            salesPrice: 0,
             bonusCount: 0,
             bonusPrice: 0,
             vat: 0,
@@ -47,9 +46,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         $scope.error = '';
         $scope.itemsError = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure };
+        $scope.item = { ...$scope.structure, filesList: [], itemsList: [] };
         $scope.orderItem = { ...$scope.orderItem };
-        $scope.resetOrderItem();
+
         site.showModal($scope.modalID);
     };
 
@@ -96,10 +95,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         $scope.error = '';
         $scope.itemsError = '';
         $scope.mode = 'edit';
+        $scope.prpepareToApproveOrder(_item);
         $scope.view(_item);
         $scope.item = {};
-        $scope.resetOrderItem();
-        $scope.prpepareToApproveOrder(_item);
         site.showModal($scope.modalID);
     };
 
@@ -224,7 +222,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
                 select: {
                     id: 1,
                     code: 1,
-                    source: 1,
+                    sourceType: 1,
                     orderDate: 1,
                     paymentType: 1,
                     importPermitNumber: 1,
@@ -414,6 +412,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
+                    itemGroup: 1,
                     unitsList: 1,
                 },
             },
@@ -448,11 +447,18 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         for (const elem of item.unitsList) {
             $scope.unitsList.push({
                 id: elem.unit.id,
+                code: elem.unit.code,
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
+                storesList: elem.storesList,
+                price: elem.purchasePrice,
+                salesPrice: elem.salesPrice,
             });
-            $scope.orderItem.unit = $scope.unitsList[0];
         }
+        $scope.orderItem.unit = $scope.unitsList[0];
+        $scope.orderItem.price = $scope.unitsList[0].purchasePrice;
+        $scope.orderItem.salesPrice = $scope.unitsList[0].salesPrice;
+        // $scope.calucualteStoreBalance($scope.unitsList[0]);
     };
 
     $scope.getPurchaseRequest = function () {
@@ -492,40 +498,60 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.resetItemsList = function () {
-        alert();
-        $scope.item.itemsList = [];
-    };
+    // $scope.calucualteStoreBalance = function (unit) {
+    //     const storesBalanceList = [];
+    //     let totalBalance = 0;
+    //     unit.storesList.forEach((store) => {
+    //         const totalIncome = store.count + store.salesReturnCount + store.bonusCount + store.unassembledCount + store.transferToCount;
+    //         const totalOut = store.purchaseReturnCount + store.salesCount + store.damagedCount + store.assembledCount + store.transferFromCount;
+    //         const currentBalance = totalIncome - totalOut;
+    //         totalBalance += currentBalance;
+    //         storesBalanceList.push({
+    //             store: store.store,
+    //             currentBalance,
+    //         });
+    //     });
+
+    //     return { storesBalanceList, totalBalance };
+    // };
 
     $scope.addToItemsList = function (orderItem) {
         $scope.itemsError = '';
-        if (!orderItem.item) {
-            $scope.itemsError = '##word.Please Enter Item##';
+        if (!orderItem.item.id) {
+            alert('##word.Please Enter Item##');
             return;
         }
-        if (!orderItem?.unit.id) {
-            $scope.itemsError = '##word.Please Enter Item Unit##';
+        if (!orderItem.unit.id) {
+            alert('##word.Please Enter Item Unit##');
             return;
         }
-        if (!orderItem.purchaseCount > 0) {
-            $scope.itemsError = '##word.Please Enter Count##';
+        if (!orderItem.count > 0) {
+            alert('##word.Please Enter Count##');
             return;
         }
-        if (!orderItem.purchasePrice > 0) {
-            $scope.itemsError = '##word.Please Enter Price##';
+        if (!orderItem.price > 0) {
+            alert('##word.Please Enter Price##');
             return;
         }
-
+        // const calcBalance = $scope.calucualteStoreBalance(orderItem.unit);
+        delete orderItem.unit.storesList;
         $scope.item.itemsList.unshift({
-            item: orderItem.item,
+            id: orderItem.item.id,
+            code: orderItem.item.code,
+            nameAr: orderItem.item.nameAr,
+            nameEn: orderItem.item.nameEn,
+            itemGroup: orderItem.itemGroup,
             unit: orderItem.unit,
-            purchaseCount: orderItem.purchaseCount,
-            purchasePrice: orderItem.purchasePrice,
+            count: orderItem.count,
+            price: orderItem.price,
+            salesPrice: orderItem.salesPrice,
             bonusPrice: orderItem.bonusPrice,
             bonusCount: orderItem.bonusCount,
-            total: orderItem.purchaseCount * orderItem.purchasePrice,
+            total: orderItem.count * orderItem.price,
             approved: orderItem.approved,
             purchaseCost: 0,
+            // storesBalanceList: calcBalance.storesBalanceList,
+            // totalBalance: calcBalance.totalBalance,
         });
         $scope.orderItem = { ...$scope, orderItem };
         $scope.itemsError = '';
@@ -535,67 +561,72 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         $scope.item.itemsList = [];
         for (const elem of purchaseRequest.itemsList) {
             $scope.item.itemsList.push({
-                item: elem.item,
+                id: elem.id,
+                code: elem.code,
+                nameAr: elem.nameAr,
+                nameEn: elem.nameEn,
+                itemGroup: elem.itemGroup,
                 unit: elem.unit,
-                purchaseCount: elem.purchaseCount,
-                purchasePrice: 0,
+                count: elem.count,
+                price: elem.price,
+                salesPrice: elem.salesPrice,
                 bonusCount: 0,
                 bonusPrice: 0,
                 purchaseCost: 0,
                 discount: 0,
                 total: 0,
             });
+            $scope.calculateTotalInItemsList($scope.item.itemsList[$scope.item.itemsList.length - 1]);
         }
     };
 
     $scope.approveItem = function (item) {
-        if (!item.purchasePrice > 0) {
+        if (!item.price > 0) {
             $scope.itemsError = '##word.Please Enter Price##';
             return;
         }
-        if (item.purchaseCount < 1) {
+        if (item.count < 1) {
             $scope.itemsError = '##word.Please Enter Count##';
             return;
         }
-
-        $scope.item.itemsList.some((elem) => {
-            if (elem.item == item.item) {
-                elem.approved = true;
-            }
-        });
+        const index = $scope.item.itemsList.findIndex((_elem) => _elem.id === item.id);
+        if (index !== -1) {
+            $scope.item.itemsList[index].approved = true;
+        }
         $scope.prpepareToApproveOrder($scope.item);
         $scope.itemsError = '';
     };
 
     $scope.unapproveItem = function (item) {
-        $scope.item.itemsList.forEach((elem) => {
-            if (elem.item == item.item) {
-                elem.approved = false;
-                $scope.canApprove = false;
-            }
-        });
+        const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === item.id);
+        if (itemIndex !== -1) {
+            $scope.item.itemsList[itemIndex].approved = false;
+            $scope.canApprove = false;
+        }
     };
 
     $scope.calculateTotalInItemsList = function (itm) {
-        if (itm.purchaseCount < 0 || itm.purchasePrice < 0) {
-            $scope.itemsError = '##word.Please Enter Valid Numbers##';
-            return;
-        }
-        $scope.item.itemsList.some((elem) => {
-            if (elem.item.id === itm.item.id && elem.unit.id === itm.unit.id) {
-                elem.total = elem.purchaseCount * elem.purchasePrice;
+        $timeout(() => {
+            if (itm.count < 0 || itm.price < 0) {
+                $scope.itemsError = '##word.Please Enter Valid Numbers##';
+                return;
             }
-        });
-        $scope.itemsError = '';
+            const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === itm.id);
+            const selectdItem = $scope.item.itemsList[itemIndex];
+            if (itemIndex !== -1) {
+                selectdItem.total = selectdItem.count * selectdItem.price;
+            }
+            $scope.itemsError = '';
+        }, 300);
     };
 
     $scope.prpepareToApproveOrder = function (_item) {
-        _item.itemsList.every((elem) => {
-            if (elem.approved) {
-                return ($scope.canApprove = true);
-            }
-            $scope.canApprove = false;
-        });
+        $scope.canApprove = false;
+        const index = _item.itemsList.findIndex((elem) => elem.approved == false);
+
+        if (index == -1) {
+            $scope.canApprove = true;
+        }
     };
 
     $scope.approve = function (_item) {
@@ -647,16 +678,16 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             $scope.itemsError = '##word.Must Enter Items Data##';
             return success;
         }
-        if (_item.calculatePurchaseCost) {
-            if (!_item.calculatePurchaseCostType) {
-                alert('##word.Please Select Calculate Purchase Cost Type##');
-                return success;
-            }
-            if (!_item.purchaseCost > 0) {
-                alert('##word.Please Enter Calculate Purchase Cost##');
-                return success;
-            }
-        }
+        // if (_item.calculatePurchaseCost) {
+        //     if (!_item.calculatePurchaseCostType) {
+        //         alert('##word.Please Select Calculate Purchase Cost Type##');
+        //         return success;
+        //     }
+        //     if (!_item.purchaseCost > 0) {
+        //         alert('##word.Please Enter Calculate Purchase Cost##');
+        //         return success;
+        //     }
+        // }
         success = true;
         return { success, _item };
     };

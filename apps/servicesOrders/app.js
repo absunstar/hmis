@@ -186,18 +186,20 @@ module.exports = function init(site) {
                 if (_s.serviceGroup && _s.serviceGroup.type && _s.serviceGroup.type.id) {
                   let obj = {
                     orderId: doc.id,
-                    patient: doc.patient,
-                    doctor: doc.doctor,
+                    patient: { ...doc.patient },
                     date: doc.date,
                     company: doc.company,
                     branch: doc.branch,
                     addUserInfo: _data.addUserInfo,
-                    service: _s,
+                    service: { ..._s },
                     status: { id: 1, nameEn: 'Pending', nameAr: 'قيد الإنتظار' },
                   };
 
                   if (_s.serviceGroup.type.id == 2) {
+                    obj.doctor = { ...doc.doctor };
                     site.addDoctorDeskTop(obj);
+                  } else if (_s.serviceGroup.type.id == 3) {
+                    site.addLaboratoryDeskTop(obj);
                   }
                 }
               }, 1000 * (i + 1));
@@ -295,7 +297,17 @@ module.exports = function init(site) {
             list: list,
           });
         } else {
-          app.$collection.findMany({ where: where, select }, (err, docs) => {
+          if (where.date) {
+            let d1 = site.toDate(where.date);
+            let d2 = site.toDate(where.date);
+            d2.setDate(d2.getDate() + 1);
+            where.date = {
+              $gte: d1,
+              $lt: d2,
+            };
+          }
+
+          app.all({ where: where, select }, (err, docs) => {
             res.json({
               done: true,
               list: docs,

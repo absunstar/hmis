@@ -8,7 +8,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     $scope.structure = {
         image: { url: '/images/salesInvoices.png' },
         date: new Date(),
-        itemsList: [],
+
         active: true,
     };
     $scope.item = {};
@@ -19,8 +19,8 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
         $scope.orderItem = {
             item: undefined,
             unit: undefined,
-            salesCount: 1,
-            salesPrice: 0,
+            count: 1,
+            price: 0,
             saleDiscount: 0,
             maxDiscount: 0,
             discountType: { amount: 'amount', percent: 'percent' },
@@ -32,7 +32,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
         $scope.itemsError = '';
         $scope.mode = 'add';
         $scope.resetOrderItem();
-        $scope.item = { ...$scope.structure };
+        $scope.item = { ...$scope.structure, itemsList: [] };
         site.showModal($scope.modalID);
     };
 
@@ -262,9 +262,9 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
-                    commercialCustomer: 1,
-                    creditLimit: 1,
-                    group: 1,
+                    // commercialCustomer: 1,
+                    // creditLimit: 1,
+                    // group: 1,
                 },
             },
         }).then(
@@ -287,9 +287,10 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
         for (const elem of item.unitsList) {
             $scope.unitsList.push({
                 id: elem.unit.id,
+                code: elem.unit.code,
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
-                salesPrice: elem.salesPrice,
+                price: elem.salesPrice,
                 maxDiscount: elem.maxDiscount,
                 saleDiscount: elem.saleDiscount,
                 discountType: elem.discountType,
@@ -300,30 +301,34 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
 
     $scope.addToItemsList = function (orderItem) {
         $scope.itemsError = '';
-        if (!orderItem.item) {
+        if (!orderItem.item.id) {
             $scope.itemsError = '##word.Please Enter Item##';
             return;
         }
 
-        if (!orderItem?.unit.id) {
+        if (!orderItem.unit.id) {
             $scope.itemsError = '##word.Please Enter Item Unit##';
             return;
         }
 
-        if (!orderItem.salesCount > 0) {
+        if (!orderItem.count > 0) {
             $scope.itemsError = '##word.Please Enter Count##';
             return;
         }
 
         $scope.item.itemsList.unshift({
-            item: orderItem.item,
-            unit: orderItem.unit,
-            salesCount: orderItem.salesCount,
-            salesPrice: orderItem.unit.salesPrice,
+            id: orderItem.item.id,
+            code: orderItem.item.code,
+            nameAr: orderItem.item.nameAr,
+            nameEn: orderItem.item.nameEn,
+            itemGroup: orderItem.item.itemGroup,
+            unit: { id: orderItem.unit.id, code: orderItem.unit.code, nameAr: orderItem.unit.nameAr, nameEn: orderItem.unit.nameEn },
+            count: orderItem.count,
+            price: orderItem.unit.price,
             saleDiscount: orderItem.unit.saleDiscount,
             maxDiscount: orderItem.unit.maxDiscount,
             discountType: orderItem.unit.discountType,
-            total: orderItem.salesCount * orderItem.unit.salesPrice,
+            total: orderItem.count * orderItem.unit.price,
         });
         $scope.resetOrderItem();
         $scope.itemsError = '';
@@ -377,6 +382,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     nameAr: 1,
                     unitsList: 1,
+                    itemGroup: 1,
                 },
             },
         }).then(
@@ -422,15 +428,17 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     };
 
     $scope.calculateItem = function (itm) {
-        if (itm.salesCount < 0 || itm.salesPrice < 0) {
+        if (itm.count < 0 || itm.price < 0) {
             $scope.itemsError = '##word.Please Enter Valid Numbers##';
             return;
         }
-        $scope.item.itemsList.some((elem) => {
-            if (elem.item.id === itm.item.id && elem.unit.id === itm.unit.id) {
-                elem.total = elem.salesCount * elem.salesPrice;
+        $timeout(() => {
+            const index = $scope.item.itemsList.findIndex((elem) => elem.id === itm.id && elem.unit.id === itm.unit.id);
+            if (index !== -1) {
+                $scope.item.itemsList[index].total = $scope.item.itemsList[index].count * $scope.item.itemsList[index].price;
             }
-        });
+        }, 300);
+
         $scope.itemsError = '';
     };
 

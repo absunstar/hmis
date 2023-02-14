@@ -1,0 +1,11 @@
+[
+  { "moduleName": "public", "screenName": "salaryDeductions", "name": "salaryDeductionsManage", "En": "Manage", "Ar": "إدارة" },
+  { "moduleName": "public", "screenName": "salaryDeductions", "name": "salaryDeductionsAdd", "En": "Add", "Ar": "إضافة" },
+  { "moduleName": "public", "screenName": "salaryDeductions", "name": "salaryDeductionsUpdate", "En": "Edit", "Ar": "تعديل" },
+  { "moduleName": "public", "screenName": "salaryDeductions", "name": "salaryDeductionsDelete", "En": "Delete", "Ar": "حذف" },
+  { "moduleName": "public", "screenName": "salaryDeductions", "name": "salaryDeductionsView", "En": "View", "Ar": "عرض" },
+  { "moduleName": "public", "screenName": "salaryDeductions", "name": "salaryDeductionsSearch", "En": "Search", "Ar": "بحث" },
+  { "moduleName": "public", "screenName": "salaryDeductions", "name": "salaryDeductionsExport", "En": "Export", "Ar": "تصدير" },
+  { "moduleName": "public", "screenName": "salaryDeductions", "name": "salaryDeductionsPrint", "En": "Print", "Ar": "طباعة" },
+  { "moduleName": "public", "screenName": "salaryDeductions", "name": "salaryDeductionsUi", "En": "UI", "Ar": "الواجهة الرسومية" }
+]

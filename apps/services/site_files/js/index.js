@@ -15,7 +15,7 @@ app.controller('services', function ($scope, $http, $timeout) {
   $scope.showAdd = function (_item) {
     $scope.error = '';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure };
+    $scope.item = { ...$scope.structure, servicesCategoriesList: [] };
     site.resetValidated($scope.modalID);
     site.showModal($scope.modalID);
     document.querySelector(`${$scope.modalID} .tab-link`).click();
@@ -271,6 +271,50 @@ app.controller('services', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getservicesCategoriesList = function () {
+    $scope.busy = true;
+    $scope.servicesCategoriesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/servicesCategories/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.servicesCategoriesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.addServicesCategories = function (_item) {
+    $scope.error = '';
+    console.log($scope.servicesCategoriesList);
+    if (_item.$serviceCategory && _item.$serviceCategory.id) {
+      _item.servicesCategoriesList = _item.servicesCategoriesList || [];
+      if (!_item.servicesCategoriesList.some((s) => s.id === _item.$serviceCategory.id)) {
+        _item.servicesCategoriesList.push({ ..._item.$serviceCategory });
+      }
+      _item.$serviceCategory = {};
+    } else {
+      $scope.error = 'Must Select Service Category';
+      return;
+    }
+  };
+
   $scope.showSearch = function () {
     $scope.error = '';
     site.showModal($scope.modalSearchID);
@@ -286,4 +330,5 @@ app.controller('services', function ($scope, $http, $timeout) {
   $scope.getNumberingAuto();
   $scope.getAchiCodesList();
   $scope.getServicesGroupsList();
+  $scope.getservicesCategoriesList();
 });

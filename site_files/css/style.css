@@ -17,6 +17,17 @@
   height: 50px;
 }
 
+.icon {
+  font-size: xx-large;
+  color: #10007d;
+  cursor: pointer;
+  padding: 3px;
+  inline-size: auto;
+}
+
+.icon-select {     
+  color:rgb(131, 131, 131);    
+}
 .key-words {
   border: 1px solid;
   inline-size: auto;

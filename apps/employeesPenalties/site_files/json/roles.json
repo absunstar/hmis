@@ -1,0 +1,9 @@
+[
+  {
+    "moduleName": "public",
+    "name": "employeesPenaltiesAdmin",
+    "En": "Employees Penalties Admin",
+    "Ar": "إدارة جزاءات الموظفين",
+    "permissions": ["employeesPenaltiesManage"]
+  }
+]

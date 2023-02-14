@@ -2,9 +2,10 @@
     <div class="row padding">
         <div class="row">
             <div class="row">
-                <i-control ng-hide="disabledCode" class="col3" label="##word.Code##" ng-model="item.code"> </i-control>
+                <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="item.code"> </i-control>
                 <i-control class="col4" label="##word.Title##" ng-model="item.title"> </i-control>
-                <i-date class="col3" ng-model="item.requestDate" label="##word.Request Date##"></i-date>
+                <i-date class="col2" ng-model="item.requestDate" label="##word.Request Date##"></i-date>
+                <i-checkbox ng-model="showStoresBalance" class="col2" label="##word.Show Stores Balance##"></i-checkbox>
                 <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
             </div>
             <fieldset>
@@ -37,12 +38,21 @@
                             ng-get="getStoresItems($search)"
                         >
                         </i-list>
-                        <i-list class="col3" label="##word.Unit##" ng-model="orderItem.unit" items="unitsList" display="name##session.lang##" ng-search="item.$elemItem"> </i-list>
-                        <i-control class="col3" type="number" min="1" label="##word.Purchase Count##" ng-model="orderItem.purchaseCount"> </i-control>
+                        <i-list
+                            class="col3"
+                            label="##word.Unit##"
+                            ng-change="calucualteStoreBalance(orderItem.unit)"
+                            ng-model="orderItem.unit"
+                            items="unitsList"
+                            display="name##session.lang##"
+                            ng-search="item.$elemItem"
+                        >
+                        </i-list>
+                        <i-control class="col3" type="number" min="1" label="##word.Purchase Count##" ng-model="orderItem.count"> </i-control>
                         <div class="col2">
                             <br />
                             <div class="row">
-                                <i-button type="add" label="##word.Add##" ng-click="addItem(orderItem)"> </i-button>
+                                <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
                             </div>
                         </div>
                     </div>
@@ -50,20 +60,31 @@
                     <table class="table hover bold">
                         <tr>
                             <th>##word.S##</th>
-                            <th>##word.Store Item##</th>
-                            <th>##word.Item Unit##</th>
+                            <th>##word.Item##</th>
+                            <!-- <th>##word.Item Unit##</th> -->
                             <th>##word.Purchase Count##</th>
                             <th>##word.Approved##</th>
                             <th class="not-print">##word.Actions##</th>
                         </tr>
                         <tr ng-repeat="elem in item.itemsList">
                             <td class="text-center">{{$index+1}}</td>
-                            <td class="text-center">{{elem.item.name##session.lang##}}</td>
-                            <td class="text-center">{{elem.unit.name##session.lang##}}</td>
+                            <td class="text-center">
+                                {{elem.name##session.lang##}} <span class="blue"> ({{elem.unit.name##session.lang##}})</span>
+                                <fieldset ng-show="showStoresBalance">
+                                    <legend>##word.Stores Balance## <span class="blue"> {{elem.totalBalance}}</span></legend>
+                                    <p ng-show="!elem.storesBalanceList.length">##word.Not Found Balance##</p>
+                                    <div class="row" ng-repeat="store in elem.storesBalanceList">
+                                        <span class="col6 text-center">{{store.store.name##session.lang##}}</span>
+                                        <span class="col6 text-center blue">{{store.currentBalance}}</span>
+                                    </div>
+                                </fieldset>
+                            </td>
+                            <!-- <td class="text-center"></td> -->
 
                             <td class="text-center">
-                                <i-control type="number" min="1" ng-show="!elem.approved" ng-model="elem.purchaseCount"> </i-control>
-                                <span class="text-center" ng-show="elem.approved">{{elem.purchaseCount}}</span>
+                                <i-control type="number" min="1" ng-show="!elem.approved" ng-model="elem.count"> </i-control>
+
+                                <span class="text-center" ng-show="elem.approved"> {{elem.count}} </span>
                             </td>
                             <td class="text-center">
                                 <span class="text-success" ng-show="elem.approved">##word.Yes##</span>

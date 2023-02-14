@@ -1,0 +1,103 @@
+<div class="row">
+    <fieldset>
+        <legend>##word.Invoice Informations##</legend>
+        <div class="row padding">
+            <div class="row">
+                <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="search.code"> </i-control>
+                <i-date class="col2" label="##word.Date##" ng-model="search.orderDate"> </i-date>
+
+                <i-list class="col2" ng-model="search.store" label="##word.Store##" items="storesList" display="name##session.lang##"></i-list>
+                <i-list class="col2" ng-model="search.paymentType" label="##word.Payment Type##" items="paymentTypesList" display="name##session.lang##"></i-list>
+                <i-list class="col2" ng-model="search.vendor" label="##word.Vendor##" items="vendorsList" display="name##session.lang##"></i-list>
+                <div class="col2">
+                    <br />
+                    <i-button type="search" label="##word.Search##" ng-click="getPurchaseOrders(search)"> </i-button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>##word.Result Invoices##</legend>
+
+        <table class="table hover bold">
+            <tr>
+                <th>##word.S##</th>
+                <th>##word.Code##</th>
+                <th>##word.Vendor##</th>
+                <th>##word.Date##</th>
+                <th>##word.Store##</th>
+                <th>##word.Payment Type##</th>
+                <th class="not-print">##word.Actions##</th>
+            </tr>
+            <tr ng-repeat="bill in returnPurchaseOrdersList">
+                <td class="text-center">{{$index+1}}</td>
+                <td class="text-center">{{bill.code}}</td>
+                <td class="text-center">{{bill.vendor.name##session.lang##}}</td>
+                <td class="text-center">{{bill.date|date:'dd/MM/yyyy'}} - {{bill.date|date:'hh:mm:ss a'}}</td>
+                <td class="text-center">{{bill.store.name##session.lang##}}</td>
+                <td class="text-center">{{bill.paymentType.name##session.lang##}}</td>
+
+                <td class="text-center">
+                    <i-button type="add" label="##word.Get Items##" ng-click="addToItemsList(bill)"> </i-button>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    <fieldset>
+        <legend>##word.Items Information##</legend>
+
+        <p class="error">{{itemsError}}</p>
+        <table class="table hover bold">
+            <tr>
+                <th>##word.S##</th>
+                <th>##word.Item##</th>
+                <th>##word.Unit##</th>
+                <th>##word.Sales Count##</th>
+                <th>##word.Sales Price##</th>
+                <th>##word.Sale Discount##</th>
+                <th>##word.Total##</th>
+            </tr>
+            <tr ng-repeat="elem in item.itemsList">
+                <td class="text-center">{{$index+1}}</td>
+                <td class="text-center">{{elem.name##session.lang##}}</td>
+                <td class="text-center">{{elem.unit.name##session.lang##}}</td>
+                <td class="text-center">
+                    <p class="text-center">{{elem.count}}</p>
+                </td>
+                <td class="text-center">
+                    <p class="text-center">{{elem.price}}</p>
+                </td>
+                <td>
+                    <p class="text-center">{{elem.saleDiscount}} <span ng-if="elem.saleDiscount>0?elem.unit.discountType === 'percent':''"> % </span></p>
+                </td>
+                <td>
+                    <p class="text-center">{{elem.total}}</p>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+</div>
+<div ng-show="mode !== 'add' " class="row">
+    <table class="table hover border">
+        <tr>
+            <th>##word.Add Info##</th>
+            <th>##word.Last Edit Info##</th>
+        </tr>
+        <tr>
+            <td class="center">
+                <p class="blue">{{item.addUserInfo.name}}</p>
+                <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
+                <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
+                <p class="bold">IP : {{item.addUserInfo.ip}}</p>
+            </td>
+
+            <td class="center">
+                <p class="blue">{{item.editUserInfo.name}}</p>
+                <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
+                <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
+                <p class="bold">IP : {{item.editUserInfo.ip}}</p>
+            </td>
+        </tr>
+    </table>
+</div>

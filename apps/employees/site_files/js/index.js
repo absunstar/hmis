@@ -6,7 +6,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: { url: '/images/employees.png' },
+    image: { url: '/images/employees.png', medicalClassification: 'no', idType: 'id' },
     active: true,
   };
   $scope.item = {};
@@ -15,7 +15,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
   $scope.showAdd = function (_item) {
     $scope.error = '';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure, allowancesList: [], deductionsList: [] };
+    $scope.item = { ...$scope.structure, allowancesList: [], deductionsList: [], mobileList: [], relativesList: [{}] };
     site.showModal($scope.modalID);
     document.querySelector(`${$scope.modalID} .tab-link`).click();
   };
@@ -167,7 +167,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
 
   $scope.getNationalitiesList = function () {
     $scope.busy = true;
-    $scope.nationaltiesList = [];
+    $scope.nationalitiesList = [];
     $http({
       method: 'POST',
       url: '/api/nationalities/all',
@@ -249,7 +249,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
     $scope.allowancesList = [];
     $http({
       method: 'POST',
-      url: '/api/allowances/all',
+      url: '/api/salaryAllowances/all',
       data: {
         where: {
           active: true,
@@ -276,12 +276,44 @@ app.controller('employees', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getQualificationTypesList = function () {
+    $scope.busy = true;
+    $scope.qualificationTypesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/qualificationTypes',
+      data: {
+        where: {
+          active: true,
+        },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+          price: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.qualificationTypesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getDeductionsList = function () {
     $scope.busy = true;
     $scope.deductionsList = [];
     $http({
       method: 'POST',
-      url: '/api/deductions/all',
+      url: '/api/salaryDeductions/all',
       data: {
         where: {
           active: true,
@@ -308,35 +340,6 @@ app.controller('employees', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getJobsList = function () {
-    $scope.busy = true;
-    $scope.jobsList = [];
-    $http({
-      method: 'POST',
-      url: '/api/jobs/all',
-      data: {
-        where: {
-          active: true,
-        },
-        select: {
-          id: 1,
-          nameEn: 1,
-          nameAr: 1,
-        },
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.list.length > 0) {
-          $scope.jobsList = response.data.list;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
 
   $scope.getCountriesList = function () {
     $scope.busy = true;
@@ -457,6 +460,69 @@ app.controller('employees', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getEmployeeStatusList = function () {
+    $scope.busy = true;
+    $scope.employeeStatusList = [];
+    $http({
+      method: 'POST',
+      url: '/api/employeeStatus',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.employeeStatusList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getMaritalStatusList = function () {
+    $scope.busy = true;
+    $scope.maritalStatusList = [];
+    $http({
+      method: 'POST',
+      url: '/api/maritalStatus',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.maritalStatusList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getGendersList = function () {
+    $scope.busy = true;
+    $scope.gendersList = [];
+    $http({
+      method: 'POST',
+      url: '/api/genders',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.gendersList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.addAllowances = function (_item) {
     $scope.error = '';
     if (_item.$allowance && _item.$allowance.id) {
@@ -470,7 +536,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
     }
   };
 
-  $scope.adddEductions = function (_item) {
+  $scope.addDeductions = function (_item) {
     $scope.error = '';
     if (_item.$deduction && _item.$deduction.id) {
       if (!_item.deductionsList.some((s) => s.id === _item.$deduction.id)) {
@@ -481,6 +547,94 @@ app.controller('employees', function ($scope, $http, $timeout) {
       $scope.error = 'Must Select Aeduction';
       return;
     }
+  };
+
+  $scope.getJobsAdministrationsList = function () {
+    $scope.busy = true;
+    $scope.jobsAdministrationsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/jobsAdministrations/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.jobsAdministrationsList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getJobsSectionsList = function (jobsAdministration) {
+    $scope.busy = true;
+    $scope.jobsSectionsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/jobsSections/all',
+      data: {
+        where: { active: true, jobsAdministration },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+          manager: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.jobsSectionsList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getJobsList = function (jobsSection) {
+    $scope.busy = true;
+    $scope.jobsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/jobs/all',
+      data: {
+        where: { active: true, jobsSection },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.jobsList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
   };
 
   $scope.showSearch = function () {
@@ -498,7 +652,11 @@ app.controller('employees', function ($scope, $http, $timeout) {
   $scope.getNumberingAuto();
   $scope.getCountriesList();
   $scope.getNationalitiesList();
-  $scope.getJobsList();
   $scope.getAllowancesList();
   $scope.getDeductionsList();
+  $scope.getQualificationTypesList();
+  $scope.getMaritalStatusList();
+  $scope.getGendersList();
+  $scope.getEmployeeStatusList();
+  $scope.getJobsAdministrationsList();
 });

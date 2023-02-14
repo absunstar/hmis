@@ -3,7 +3,7 @@ module.exports = function init(site) {
         name: 'storesItemsCard',
         allowMemory: false,
         memoryList: [],
-        allowCache: false,
+        allowCache: true,
         cacheList: [],
         allowRoute: true,
         allowRouteGet: true,
@@ -14,28 +14,57 @@ module.exports = function init(site) {
         allowRouteAll: true,
     };
 
-    site.setItemCard = function (_elm, id) {
-        app.$collection.findMany(
+    site.setItemCard = function (_elm, screenName) {
+        app.all(
             {
-                where: { 'transactionType.id': id, id: _elm.item.id, code: _elm.item.code, nameAr: _elm.item.nameAr, nameEn: _elm.item.nameEn, 'item.id': _elm.item.id, 'unit.id': _elm.unit.id },
+                where: { 'transactionType.code': screenName, id: _elm.id, 'unit.id': _elm.unit.id, 'store.id': _elm.store.id },
                 sort: { id: -1 },
                 limit: 1,
             },
             (err, docs) => {
-                if (docs && docs.length > 0) {
-                } else {
-                    app.$collection.add({
-                        transactionType: site.storesTransactionsTypes.find((t) => t.id === 1),
+                if (!err) {
+                    docs = docs || [];
+                    let obj = {
                         date: _elm.date,
-                        item: { id: _elm.item.id, code: _elm.item.code, nameAr: _elm.item.nameAr, nameEn: _elm.item.nameEn },
+                        itemId: _elm.id,
+                        itemCode: _elm.code,
+                        orderCode: _elm.orderCode,
+                        nameAr: _elm.nameAr,
+                        nameEn: _elm.nameEn,
                         unit: _elm.unit,
-                        // itemGroup: doc.itemGroup,
+                        itemGroup: _elm.itemGroup,
                         store: _elm.store,
                         vendor: _elm.vendor,
+                        customer: _elm.customer,
                         invoiceId: _elm.invoiceId,
-                        count: _elm.purchaseCount,
-                        price: _elm.purchasePrice,
-                    });
+                        transactionType: site.storesTransactionsTypes.find((t) => t.code === screenName),
+                        count: _elm.count,
+                        price: _elm.price,
+                        totalCount: docs[0] ? docs[0].count + _elm.count : _elm.count,
+                        totalPrice: docs[0] ? docs[0].price + _elm.price : _elm.price,
+                        countType: _elm.countType,
+                    };
+                    if (screenName === 'transferItemsOrders' && _elm.$type == 'transferItemsOrdersTo') {
+                        obj = {
+                            ...obj,
+                            store: _elm.toStore,
+                            countType: 'in',
+                        };
+                    } else if (screenName === 'convertUnits' && _elm.$type == 'convertUnitsTo') {
+                        obj = {
+                            ...obj,
+                            unit: _elm.toUnit,
+                            count: _elm.newCount,
+                            countType: 'in',
+                        };
+                    }
+
+                    app.$collection.add(obj);
+                    if (screenName === 'transferItemsOrders' && !_elm.$type) {
+                        site.setItemCard({ ..._elm, $type: 'transferItemsOrdersTo' }, screenName);
+                    } else if (screenName === 'convertUnits' && !_elm.$type) {
+                        site.setItemCard({ ..._elm, $type: 'convertUnitsTo' }, screenName);
+                    }
                 }
             }
         );

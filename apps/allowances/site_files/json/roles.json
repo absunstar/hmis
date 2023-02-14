@@ -1,9 +1,0 @@
-[
-  {
-    "moduleName": "public",
-    "name": "allowancesAdmin",
-    "En": "Allowances Admin",
-    "Ar": "إدارة البدلات",
-    "permissions": ["allowancesManage"]
-  }
-]

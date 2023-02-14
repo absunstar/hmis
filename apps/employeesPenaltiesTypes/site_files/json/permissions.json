@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "employeesPenaltiesTypes" , "name":"employeesPenaltiesTypesManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "employeesPenaltiesTypes" , "name":"employeesPenaltiesTypesAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "employeesPenaltiesTypes" , "name":"employeesPenaltiesTypesUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "employeesPenaltiesTypes" , "name":"employeesPenaltiesTypesDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "employeesPenaltiesTypes" , "name":"employeesPenaltiesTypesView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "employeesPenaltiesTypes" , "name":"employeesPenaltiesTypesSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "employeesPenaltiesTypes" , "name":"employeesPenaltiesTypesExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "employeesPenaltiesTypes" , "name":"employeesPenaltiesTypesPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "employeesPenaltiesTypes" , "name":"employeesPenaltiesTypesUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+]

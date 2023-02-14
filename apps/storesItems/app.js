@@ -3,7 +3,7 @@ module.exports = function init(site) {
         name: 'storesItems',
         allowMemory: false,
         memoryList: [],
-        allowCache: false,
+        allowCache: true,
         cacheList: [],
         allowRoute: true,
         allowRouteGet: true,
@@ -15,74 +15,158 @@ module.exports = function init(site) {
         allowRouteActive: true,
     };
 
-    site.editItemsBalance = function (_elm) {
-        app.view({ id: _elm.item.id }, (err, doc) => {
+    site.editItemsBalance = function (_elm, screenName) {
+        app.view({ id: _elm.id }, (err, doc) => {
             if (doc) {
                 let index = doc.unitsList.findIndex((unt) => unt.unit.id === _elm.unit.id);
-
                 if (index != -1) {
-                    let storeIndex = doc.unitsList[index].storesList.findIndex((s) => s.store.id === _elm.store.id);
+                    let storeIndex = doc.unitsList[index].storesList.findIndex((s) => s.store && s.store.id === _elm.store.id);
+
                     if (storeIndex == -1) {
                         const newUitStore = site.setStoresItemsUnitStoreProperties();
                         newUitStore.store = _elm.store;
-                        newUitStore.purchaseCost = _elm.purchaseCost ?? newUitStore.purchaseCost;
-                        newUitStore.purchaseCount = _elm.purchaseCount ?? newUitStore.purchaseCount;
-                        newUitStore.purchasePrice = _elm.purchasePrice ?? newUitStore.purchasePrice;
-                        newUitStore.bonusCount = _elm.bonusCount ?? newUitStore.bonusCount;
-                        newUitStore.bonusPrice = _elm.bonusPrice ?? newUitStore.bonusPrice;
-                        newUitStore.purchaseReturnCount = _elm.purchaseReturnCount ?? newUitStore.purchaseReturnCount;
-                        newUitStore.purchaseReturnPrice = _elm.purchaseReturnPrice ?? newUitStore.purchaseReturnPrice;
-                        newUitStore.salesCount = _elm.salesCount ?? newUitStore.salesCount;
-                        newUitStore.salesPrice = _elm.salesPrice ?? newUitStore.salesPrice;
-                        newUitStore.salesReturnCount = _elm.salesReturnCount ?? newUitStore.salesReturnCount;
-                        newUitStore.salesReturnPrice = _elm.salesReturnPrice ?? newUitStore.salesReturnPrice;
-                        newUitStore.damagedCount = _elm.damagedCount ?? newUitStore.damagedCount;
-                        newUitStore.damagedPrice = _elm.damagedPrice ?? newUitStore.damagedPrice;
-                        newUitStore.assembledCount = _elm.assembledCount ?? newUitStore.assembledCount;
-                        newUitStore.assembledPrice = _elm.assembledPrice ?? newUitStore.assembledPrice;
-                        newUitStore.unassembledCount = _elm.unassembledCount ?? newUitStore.unassembledCount;
-                        newUitStore.unassembledPrice = _elm.unassembledPrice ?? newUitStore.unassembledPrice;
-                        newUitStore.transferFromCount = _elm.transferFromCount ?? newUitStore.transferFromCount;
-                        newUitStore.transferToCount = _elm.transferToCount ?? newUitStore.transferToCount;
-                        newUitStore.transferFromPrice = _elm.transferFromPrice ?? newUitStore.transferFromPrice;
-                        newUitStore.transferToPrice = _elm.transferToPrice ?? newUitStore.transferToPrice;
                         doc.unitsList[index].storesList.push(newUitStore);
-                    } else {
-                        doc.unitsList[index].storesList[storeIndex].purchaseCount += _elm.purchaseCount;
-                        doc.unitsList[index].storesList[storeIndex].purchaseCost += _elm.purchaseCost;
-                        doc.unitsList[index].storesList[storeIndex].purchasePrice += _elm.purchasePrice;
+                        storeIndex = doc.unitsList[index].storesList.length - 1;
+                    }
+
+                    if (screenName === 'purchaseOrders') {
+                        doc.unitsList[index].storesList[storeIndex].purchaseCost += _elm.cost;
+                        doc.unitsList[index].storesList[storeIndex].purchaseCount += _elm.count;
+                        doc.unitsList[index].storesList[storeIndex].purchasePrice += _elm.price;
                         doc.unitsList[index].storesList[storeIndex].bonusCount += _elm.bonusCount;
                         doc.unitsList[index].storesList[storeIndex].bonusPrice += _elm.bonusPrice;
-                        doc.unitsList[index].storesList[storeIndex].purchaseReturnCount = _elm.purchaseReturnCount;
-                        doc.unitsList[index].storesList[storeIndex].purchaseReturnPrice = _elm.purchaseReturnPrice;
-                        doc.unitsList[index].storesList[storeIndex].salesCount = _elm.salesCount;
-                        doc.unitsList[index].storesList[storeIndex].salesPrice = _elm.salesPrice;
-                        doc.unitsList[index].storesList[storeIndex].salesReturnCount = _elm.salesReturnCount;
-                        doc.unitsList[index].storesList[storeIndex].salesReturnPrice = _elm.salesReturnPrice;
-                        doc.unitsList[index].storesList[storeIndex].damagedCount = _elm.damagedCount;
-                        doc.unitsList[index].storesList[storeIndex].damagedPrice = _elm.damagedPrice;
-                        doc.unitsList[index].storesList[storeIndex].assembledCount = _elm.assembledCount;
-                        doc.unitsList[index].storesList[storeIndex].assembledPrice = _elm.assembledPrice;
-                        doc.unitsList[index].storesList[storeIndex].unassembledCount = _elm.unassembledCount;
-                        doc.unitsList[index].storesList[storeIndex].unassembledPrice = _elm.unassembledPrice;
-                        doc.unitsList[index].storesList[storeIndex].transferFromCount = _elm.transferFromCount;
-                        doc.unitsList[index].storesList[storeIndex].transferToCount = _elm.transferToCount;
-                        doc.unitsList[index].storesList[storeIndex].transferFromPrice = _elm.transferFromPrice;
-                        doc.unitsList[index].storesList[storeIndex].transferToPrice = _elm.transferToPrice;
+                        doc.unitsList[index].purchasePrice = _elm.price;
+                        doc.unitsList[index].salesPrice = _elm.salesPrice;
                     }
-                }
+                    if (screenName === 'returnPurchaseOrders') {
+                        doc.unitsList[index].storesList[storeIndex].purchaseReturnCost += _elm.cost;
+                        doc.unitsList[index].storesList[storeIndex].purchaseReturnCount += _elm.count;
+                        doc.unitsList[index].storesList[storeIndex].purchaseReturnPrice += _elm.price;
+                        doc.unitsList[index].storesList[storeIndex].bonusReturnCount += _elm.bonusCount;
+                        doc.unitsList[index].storesList[storeIndex].bonusReturnPrice += _elm.bonusPrice;
+                    } else if (screenName === 'salesInvoices') {
+                        doc.unitsList[index].storesList[storeIndex].salesCount += _elm.count;
+                        doc.unitsList[index].storesList[storeIndex].salesPrice += _elm.price;
+                    } else if (screenName === 'returnSalesInvoices') {
+                        doc.unitsList[index].storesList[storeIndex].salesReturnCount += _elm.count;
+                        doc.unitsList[index].storesList[storeIndex].salesReturnPrice += _elm.price;
+                    } else if (screenName === 'convertUnits') {
+                        doc.unitsList[index].storesList[storeIndex].convertUnitFromCount += _elm.count;
+                        doc.unitsList[index].storesList[storeIndex].convertUnitFromPrice += _elm.price;
+                        let unitToIndex = doc.unitsList.findIndex((s) => s.unit && s.unit.id === _elm.toUnit.id);
+                        if (unitToIndex != -1) {
+                            let storeIndexTo = doc.unitsList[unitToIndex].storesList.findIndex((s) => s.store && s.store.id === _elm.store.id);
+                            if (storeIndexTo == -1) {
+                                const newUitStore = site.setStoresItemsUnitStoreProperties();
+                                newUitStore.store = _elm.store;
+                                doc.unitsList[unitToIndex].storesList.push(newUitStore);
+                                storeIndexTo = doc.unitsList[unitToIndex].storesList.length - 1;
+                            }
 
+                            doc.unitsList[unitToIndex].storesList[storeIndexTo].convertUnitToCount += _elm.newCount;
+                            doc.unitsList[unitToIndex].storesList[storeIndexTo].convertUnitToPrice += _elm.price;
+                        }
+                    } else if (screenName === 'transferItemsOrders') {
+                        doc.unitsList[index].storesList[storeIndex].transferFromCount += _elm.count;
+                        doc.unitsList[index].storesList[storeIndex].transferFromPrice += _elm.price;
+
+                        let storeToIndex = doc.unitsList[index].storesList.findIndex((s) => s.store && s.store.id === _elm.toStore.id);
+                        if (storeToIndex == -1) {
+                            const newUitStore = site.setStoresItemsUnitStoreProperties();
+                            newUitStore.store = _elm.toStore;
+
+                            doc.unitsList[index].storesList.push(newUitStore);
+                            storeToIndex = doc.unitsList[index].storesList.length - 1;
+                        }
+                        doc.unitsList[index].storesList[storeToIndex].transferToCount += _elm.count;
+                        doc.unitsList[index].storesList[storeToIndex].transferToPrice += _elm.price;
+                    } else if (screenName === 'damageItems') {
+                        doc.unitsList[index].storesList[storeIndex].damagedCount += _elm.count;
+                        doc.unitsList[index].storesList[storeIndex].damagedPrice += _elm.price;
+                    } 
+                    // else if (screenName === app.name) {
+                    //     doc.unitsList[index].storesList[storeIndex].transferFromCount += _elm.count;
+                    //     doc.unitsList[index].storesList[storeIndex].transferFromPrice += _elm.price;
+
+                    //     let storeToIndex = doc.unitsList[index].storesList.findIndex((s) => s.store && s.store.id === _elm.toStore.id);
+                    //     if (storeToIndex == -1) {
+                    //         const newUitStore = site.setStoresItemsUnitStoreProperties();
+                    //         newUitStore.store = _elm.store;
+                    //         newUitStore.transferToCount += _elm.count;
+                    //         newUitStore.transferToPrice += _elm.price;
+                    //         doc.unitsList[index].storesList.push(newUitStore);
+                    //     } else {
+                    //         doc.unitsList[index].storesList[storeToIndex].transferToCount += _elm.count;
+                    //         doc.unitsList[index].storesList[storeToIndex].transferToPrice += _elm.price;
+                    //     }
+                    // }
+                }
+                site.calculateStroeItemBalance(doc);
                 app.update(doc);
             }
         });
     };
 
+    site.checkOverDraft = function (req, obj, callback) {
+        const systemSetting = site.getSystemSetting(req);
+
+        if (!systemSetting.storesSetting.allowOverdraft) {
+            let itemIds = obj.items.map((_item) => _item.id);
+            app.$collection.findMany({ where: { id: { $in: itemIds } } }, (err, docs) => {
+                let cb = {
+                    done: false,
+                    refuseList: [],
+                };
+                for (let i = 0; i < obj.items.length; i++) {
+                    let itemCb = obj.items[i];
+
+                    let itemDoc = docs.find((_d) => {
+                        return _d.id == itemCb.id;
+                    });
+                    if (itemDoc) {
+                        let unitDoc = itemDoc.unitsList.find((_u) => {
+                            return _u.unit.id == itemCb.unit.id;
+                        });
+
+                        if (unitDoc) {
+                            let storeDoc = unitDoc.storesList.find((_store) => {
+                                return _store.store.id == obj.store.id;
+                            });
+
+                            if (storeDoc) {
+                                if (storeDoc.currentCount - itemCb.count < 0) {
+                                    cb.refuseList.push({ nameAr: itemCb.nameAr, nameEn: itemCb.nameEn });
+                                }
+                            } else {
+                                cb.refuseList.push({ nameAr: itemCb.nameAr, nameEn: itemCb.nameEn });
+                            }
+                        } else {
+                            cb.refuseList.push({ nameAr: itemCb.nameAr, nameEn: itemCb.nameEn });
+                        }
+                    } else {
+                        cb.refuseList.push({ nameAr: itemCb.nameAr, nameEn: itemCb.nameEn });
+                    }
+                }
+
+                cb.done = true ? !cb.refuseList.length : false;
+                callback(cb);
+                return;
+            });
+        } else {
+            callback({ done: true });
+
+            return;
+        }
+    };
+
     site.calculateStroeItemBalance = function (item) {
         item.unitsList.forEach((unt) => {
+            unt.currentCount = 0;
             unt.storesList.forEach((str) => {
-                let totalIncome = str.purchaseCount + str.bonusCount + str.unassembledCount + str.salesReturnCount;
-                let totalOut = str.salesCount + str.purchaseReturnCount + str.damagedCount + str.assembledCount;
-                str.currentBalance = totalIncome - totalOut;
+                let totalIncome = str.purchaseCount + str.bonusCount + str.unassembledCount + str.salesReturnCount + str.transferToCount + str.convertUnitToCount;
+                let totalOut = str.salesCount + str.purchaseReturnCount + str.damagedCount + str.assembledCount + str.transferFromCount + str.convertUnitFromCount + str.bonusReturnCount;
+                str.currentCount = totalIncome - totalOut || 0;
+                unt.currentCount += str.currentCount || 0;
             });
         });
         return item;
@@ -92,16 +176,19 @@ module.exports = function init(site) {
         return {
             store: {},
             purchaseCost: 0,
+            purchaseReturnCost: 0,
+            purchaseReturnCount: 0,
             purchaseCount: 0,
             purchasePrice: 0,
-            purchaseReturnCount: 0,
             purchaseReturnPrice: 0,
             salesCount: 0,
-            salesPrice: 0,
             salesReturnCount: 0,
+            salesPrice: 0,
             salesReturnPrice: 0,
             bonusCount: 0,
+            bonusReturnCount: 0,
             bonusPrice: 0,
+            bonusReturnPrice: 0,
             damagedCount: 0,
             damagedPrice: 0,
             assembledCount: 0,
@@ -109,9 +196,13 @@ module.exports = function init(site) {
             unassembledCount: 0,
             unassembledPrice: 0,
             transferFromCount: 0,
-            transferToCount: 0,
             transferFromPrice: 0,
+            transferToCount: 0,
             transferToPrice: 0,
+            convertUnitFromCount: 0,
+            convertUnitFromPrice: 0,
+            convertUnitToCount: 0,
+            convertUnitToPrice: 0,
         };
     };
 

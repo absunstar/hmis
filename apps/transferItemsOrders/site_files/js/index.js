@@ -17,7 +17,8 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     $scope.orderItem = {
         item: {},
         unit: {},
-        transferFromCount: 1,
+        count: 1,
+        transferPrice: 0,
         approved: false,
         currentBalance: 0,
     };
@@ -25,7 +26,8 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
         $scope.orderItem = {
             item: {},
             unit: {},
-            transferFromCount: 1,
+            count: 1,
+            transferPrice: 1,
             approved: false,
             currentBalance: 0,
         };
@@ -53,7 +55,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
             return;
         }
 
-        if (_item.fromStore && _item.toStore && _item.fromStore.id === _item.toStore.id) {
+        if (_item.store && _item.toStore && _item.store.id === _item.toStore.id) {
             alert('##word.Same Store##');
             return;
         }
@@ -105,7 +107,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
             $scope.error = '##word.Must Enter One Item At Least##';
             return;
         }
-        if (_item.fromStore && _item.toStore && _item.fromStore.id === _item.toStore.id) {
+        if (_item.store && _item.toStore && _item.store.id === _item.toStore.id) {
             alert('##word.Same Store##');
             return;
         }
@@ -150,7 +152,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
             $scope.error = '##word.Must Approve All Items##';
             return;
         }
-        if (_item.fromStore && _item.toStore && _item.fromStore.id === _item.toStore.id) {
+        if (_item.store && _item.toStore && _item.store.id === _item.toStore.id) {
             alert('##word.Same Store##');
             return;
         }
@@ -361,7 +363,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
                     requestDate: 1,
                     active: 1,
                     itemsList: 1,
-                    fromStore: 1,
+                    store: 1,
                     toStore: 1,
                 },
             },
@@ -383,11 +385,14 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
         $scope.item.itemsList = [];
         for (const elem of transferItemsRequest.itemsList) {
             $scope.item.itemsList.push({
-                item: elem.item,
+                id: elem.id,
+                code: elem.code,
+                nameAr: elem.nameAr,
+                nameEn: elem.nameEn,
+                itemGroup: elem.itemGroup,
                 unit: elem.unit,
-                item: elem.item,
-                unit: elem.unit,
-                transferFromCount: elem.transferFromCount,
+                count: elem.count,
+                transferPrice: 0,
                 approved: true,
             });
         }
@@ -441,6 +446,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     nameAr: 1,
                     unitsList: 1,
+                    itemGroup: 1,
                 },
             },
         }).then(
@@ -458,17 +464,17 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     };
 
     $scope.setFromAndToStoreValue = function (transferItemsRequest) {
-        if ($scope.item.source.id !== 1) {
-            $scope.item.fromStore = null;
+        if ($scope.item.sourceType.id !== 1) {
+            $scope.item.store = null;
             $scope.item.toStore = null;
-        } else if ($scope.item.source.id === 1 && transferItemsRequest.fromStore && transferItemsRequest.toStore) {
-            $scope.item.fromStore = transferItemsRequest.fromStore;
+        } else if ($scope.item.sourceType.id === 1 && transferItemsRequest.store && transferItemsRequest.toStore) {
+            $scope.item.store = transferItemsRequest.store;
             $scope.item.toStore = transferItemsRequest.toStore;
         }
     };
 
     $scope.validateStores = function () {
-        if ($scope.item.fromStore && $scope.item.toStore && $scope.item.fromStore.id === $scope.item.toStore.id) {
+        if ($scope.item.store && $scope.item.toStore && $scope.item.store.id === $scope.item.toStore.id) {
             alert('##word.Same Store##');
             return;
         }
@@ -480,6 +486,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
         for (const elem of item.unitsList) {
             $scope.unitsList.push({
                 id: elem.unit.id,
+                code: elem.unit.code,
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
                 storesList: elem.storesList,
@@ -490,8 +497,8 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     };
 
     $scope.calculateItemBalance = function (unit) {
-        if (!unit.storesList || !unit.storesList.length || !$scope.item.fromStore?.id) return;
-        const storeIndex = unit.storesList.findIndex((str) => str.store.id === $scope.item.fromStore.id);
+        if (!unit.storesList || !unit.storesList.length || !$scope.item.store?.id) return;
+        const storeIndex = unit.storesList.findIndex((str) => str.store.id === $scope.item.store.id);
         if (storeIndex === -1) {
             $scope.orderItem.currentBalance = 0;
             return;
@@ -514,13 +521,13 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
             return;
         }
         for (const itm of $scope.item.itemsList) {
-            if (itm.item.id === elem.item.id) {
+            if (itm.item.id === elem.item.id && itm.unit.id === elem.unit.id) {
                 $scope.itemsError = '##word.Item Exisit##';
                 return;
             }
         }
 
-        if (elem.transferFromCount < 1) {
+        if (elem.count < 1) {
             $scope.itemsError = '##word.Please Enter Count##';
             return;
         }
@@ -530,12 +537,23 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
             return;
         }
 
-        if (elem.transferFromCount > elem.currentBalance) {
+        if (elem.count > elem.currentBalance) {
             $scope.itemsError = '##word.Transfer Count Bigger Than Current Balance##';
             return;
         }
 
-        $scope.item.itemsList.unshift(elem);
+        $scope.item.itemsList.unshift({
+            id: elem.item.id,
+            code: elem.item.code,
+            nameAr: elem.item.nameAr,
+            nameEn: elem.item.nameEn,
+            itemGroup: elem.item.itemGroup,
+            unit: { id: elem.unit.id, code: elem.unit.code, nameAr: elem.unit.nameAr, nameEn: elem.unit.nameEn },
+            count: elem.count,
+            transferPrice: 0,
+            approved: false,
+        });
+
         $scope.resetOrderItem();
         $scope.itemsError = '';
     };
@@ -543,26 +561,25 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     $scope.approveItem = function (elem) {
         $scope.itemsError = '';
 
-        if (elem.transferFromCount < 1) {
+        if (elem.count < 1) {
             $scope.itemsError = '##word.Please Enter Valid Numbers##';
             return;
         } else {
-            for (const itm of $scope.item.itemsList) {
-                if (itm.item.id === elem.item.id) {
-                    itm.approved = true;
-                }
+            const index = $scope.item.itemsList.findIndex((_el) => elem.id === elem.id);
+            if (index !== -1) {
+                $scope.item.itemsList[index].approved = true;
             }
+
             $scope.prpepareToApproveOrder($scope.item);
         }
     };
 
     $scope.unapproveItem = function (elem) {
         $scope.itemsError = '';
-        for (const itm of $scope.item.itemsList) {
-            if (itm.item.id === elem.item.id) {
-                itm.approved = false;
-                $scope.canApprove = false;
-            }
+        const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === elem.id);
+        if (itemIndex !== -1) {
+            $scope.item.itemsList[itemIndex].approved = false;
+            $scope.canApprove = false;
         }
     };
 
@@ -576,7 +593,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     };
 
     $scope.calculateTotalInItemsList = function (itm) {
-        if (itm.transferFromCount < 1) {
+        if (itm.count < 1) {
             $scope.itemsError = '##word.Please Enter Valid Numbers##';
             return;
         }

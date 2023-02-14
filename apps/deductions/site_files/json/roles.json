@@ -1,9 +1,0 @@
-[
-  {
-    "moduleName": "public",
-    "name": "deductionsAdmin",
-    "En": "Deductions Admin",
-    "Ar": "إدارة الإستقطاعات",
-    "permissions": ["deductionsManage"]
-  }
-]

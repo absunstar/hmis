@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "laboratoryDeskTopAdmin",
+    "En": "Laboratory DeskTop Admin",
+    "Ar": "إدارة معمل التحاليل",
+    "permissions": ["laboratoryDeskTopManage"]
+}]

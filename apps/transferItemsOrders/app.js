@@ -1,4 +1,4 @@
-module.exports =  function init(site) {
+module.exports = function init(site) {
     let app = {
         name: 'transferItemsOrders',
         allowMemory: false,
@@ -14,8 +14,6 @@ module.exports =  function init(site) {
         allowRouteView: true,
         allowRouteAll: true,
     };
-
-
 
     app.$collection = site.connectCollection(app.name);
 
@@ -185,7 +183,7 @@ module.exports =  function init(site) {
 
                 app.add(_data, (err, doc) => {
                     if (!err && doc) {
-                        if (_data.source.id === 1 && _data.transferItemsRequest && _data.transferItemsRequest.id) {
+                        if (_data.sourceType.id === 1 && _data.transferItemsRequest && _data.transferItemsRequest.id) {
                             const transferItemsRequestsApp = site.getApp('transferItemsRequests');
                             transferItemsRequestsApp.$collection.update({ where: { id: _data.transferItemsRequest.id }, set: { hasTransaction: true } });
                         }
@@ -229,118 +227,41 @@ module.exports =  function init(site) {
                 let _data = req.data;
                 _data.approvedUserInfo = req.getUserFinger();
                 _data.approvedDate = new Date();
-       
 
-                app.update(_data, (updateErr, result) => {
-                    const storesItemsApp = site.getApp('storesItems');
-                    _data.itemsList.forEach((itm) => {
-                        storesItemsApp.$collection.find({ where: { id: itm.item.id } }, (err, doc) => {
-                            let index = doc.unitsList.findIndex((unt) => unt.unit.id === itm.unit.id);
-
-                            if (index != -1) {
-                                let fromStoreIndex = doc.unitsList[index].storesList.findIndex((s) => s.store.id === _data.fromStore.id);
-                                let toStoreIndex = doc.unitsList[index].storesList.findIndex((s) => s.store.id === _data.toStore.id);
-                                // console.log('fromStoreIndex', fromStoreIndex);
-
-                                if (fromStoreIndex == -1) {
-                                    response.done = false;
-                                    response.error = 'Item Not Exisit In Store';
-                                    return res.json(response);
-                                } else {
-      
-
-                                    const totalIncome =
-                                        doc.unitsList[index].storesList[fromStoreIndex].purchaseCount +
-                                        doc.unitsList[index].storesList[fromStoreIndex].salesReturnCount +
-                                        doc.unitsList[index].storesList[fromStoreIndex].bonusCount +
-                                        doc.unitsList[index].storesList[fromStoreIndex].unassembledCount +
-                                        doc.unitsList[index].storesList[fromStoreIndex].transferToPrice;
-                                    const totalOut =
-                                        doc.unitsList[index].storesList[fromStoreIndex].purchaseReturnCount +
-                                        doc.unitsList[index].storesList[fromStoreIndex].salesCount +
-                                        doc.unitsList[index].storesList[fromStoreIndex].damagedCount +
-                                        doc.unitsList[index].storesList[fromStoreIndex].assembledCount +
-                                        doc.unitsList[index].storesList[fromStoreIndex].transferFromCount;
-                                    const currentBalance = totalIncome - totalOut;
-                                    if (currentBalance < itm.transferFromCount) {
-                                        response.done = false;
-                                        response.error = 'Item Balance Is Insufficient';
-                                    }
-
-                                    if (toStoreIndex == -1) {
-                                        const newUitStore = site.setStoresItemsUnitStoreProperties();
-                                        newUitStore.store = _data.store;
-                                        newUitStore.transferFromCount = itm.transferFromCount ?? newUitStore.transferFromCount;
-                                        newUitStore.transferFromPrice = itm.transferFromPrice ?? newUitStore.transferFromPrice;
-                                        doc.unitsList[index].storesList.push(newUitStore);
-                                    }
-                                    // else {
-                                    doc.unitsList[index].storesList[fromStoreIndex].transferFromCount += itm.transferFromCount;
-                                    doc.unitsList[index].storesList[fromStoreIndex].transferFromPrice += itm.transferFromPrice;
-                                    // }
-                                    doc.unitsList[index].storesList[toStoreIndex].transferToCount += itm.transferToCount;
-                                    doc.unitsList[index].storesList[toStoreIndex].transferToPrice += itm.transferToPrice;
-                                }
-                            }
-
-                            const storesItemsCardApp = site.getApp('storesItemsCard');
-                            const transactionType = site.storesTransactionsTypes.find((t) => t.id === 1);
-                            const purchaseItem = { id: itm.item.id, code: itm.item.code, nameAr: itm.item.nameAr, nameEn: itm.item.nameEn };
-                            const purchaseUnit = { id: itm.unit.id, code: itm.unit.code, nameAr: itm.unit.nameAr, nameEn: itm.unit.nameEn };
-                            // site.addStoreItemTransaction(itm);
-                            storesItemsCardApp.$collection.find(
-                                { sort: { id: -1 }, where: { 'transactionType.id': transactionType.id, 'item.id': itm.item.id, 'unit.id': itm.unit.id } },
-                                (err, doc) => {
-                                    if (doc) {
-                                        storesItemsCardApp.$collection.add({
-                                            transactionType: site.storesTransactionsTypes.find((t) => t.id === 1),
-                                            date: _data.orderDate,
-                                            item: purchaseItem,
-                                            unit: purchaseUnit,
-                                            itemGroup: doc.itemGroup,
-                                            store: _data.store,
-                                            vendor: _data.vendor,
-                                            invoice_id: _data.id,
-                                            count: lastDoc.count + itm.purchaseCount,
-                                            price: lastDoc.price + itm.purchasePrice,
-                                        });
-                                    } else {
-                                        storesItemsCardApp.$collection.add({
-                                            transactionType: site.storesTransactionsTypes.find((t) => t.id === 1),
-                                            date: _data.orderDate,
-                                            item: purchaseItem,
-                                            unit: purchaseUnit,
-                                            itemGroup: doc.itemGroup,
-                                            store: _data.store,
-                                            vendor: _data.vendor,
-                                            invoice_id: _data.id,
-                                            count: itm.purchaseCount,
-                                            price: itm.purchasePrice,
-                                        });
-                                    }
-                                }
-                            );
-
-                            console.log('err', err);
-
-                            if (!err) {
-                                response.done = true;
-                                response.result = result;
-                                storesItemsApp.$collection.update(doc);
-                            } else {
-                                response.error = err.message;
-                            }
-                        });
-                    });
-
-                    if (!updateErr) {
-                        response.done = true;
-                        response.result = result;
-                    } else {
-                        response.error = updateErr.message;
+                let overDraftObj = {
+                    store: _data.store,
+                    items: _data.itemsList,
+                };
+                site.checkOverDraft(req, overDraftObj, (overDraftCb) => {
+                    if (!overDraftCb.done) {
+                        let error = '';
+                        error = overDraftCb.refuseList.map((m) => (req.session.lang == 'Ar' ? m.nameAr : m.nameEn)).join('-');
+                        response.error = `Item Balance Insufficient  ( ${error} )`;
+                        res.json(response);
+                        return;
                     }
+                    app.update(_data, (err, result) => {
+                        if (!err) {
+                            response.done = true;
 
-                    // res.json(response);
+                            result.doc.itemsList.forEach((_item) => {
+                                let item = { ..._item };
+                                item.store = result.doc.store;
+                                item.toStore = result.doc.toStore;
+                                site.editItemsBalance(item, app.name);
+                                item.invoiceId = result.doc.id;
+                                item.date = result.doc.orderDate;
+                                item.countType = 'out';
+                                site.setItemCard(item, app.name);
+                            });
+
+                            response.result = result;
+                        } else {
+                            response.error = err.message;
+                        }
+
+                        res.json(response);
+                    });
                 });
             });
         }
@@ -390,10 +311,10 @@ module.exports =  function init(site) {
                     id: 1,
                     code: 1,
                     orderDate: 1,
-                    fromStore: 1,
+                    store: 1,
                     toStore: 1,
                     itemsList: 1,
-                    source: 1,
+                    sourceType: 1,
                     approved: 1,
                     approvedDate: 1,
                     nameEn: 1,

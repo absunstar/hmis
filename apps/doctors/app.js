@@ -150,7 +150,7 @@ module.exports = function init(site) {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name ,appName : 'Doctors' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name, appName: 'Doctors' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -273,13 +273,14 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || { 'type.id': 2 };
+        let search = req.body.search || undefined;
         let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1 };
+        let limit = req.body.limit || 10;
         let list = [];
-        app.memoryList
-          .filter((g) => (!where['type.id'] || (g.type && g.type.id == where['type.id'])) && g.company && g.company.id == site.getCompany(req).id)
+        app.memoryList.slice(-limit)
+          .filter((g) => (!search || JSON.stringify(g).contains(search) || !where['type.id'] || (g.type && g.type.id == where['type.id'])) && g.company && g.company.id == site.getCompany(req).id)
           .forEach((doc) => {
             let obj = { ...doc };
-
             for (const p in obj) {
               if (!Object.hasOwnProperty.call(select, p)) {
                 delete obj[p];

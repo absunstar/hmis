@@ -1,0 +1,11 @@
+[
+    { "moduleName": "public", "screenName": "returnSalesInvoices", "name": "returnSalesInvoicesManage", "En": "Manage", "Ar": "إدارة" },
+    { "moduleName": "public", "screenName": "returnSalesInvoices", "name": "returnSalesInvoicesAdd", "En": "Add", "Ar": "إضافة" },
+    { "moduleName": "public", "screenName": "returnSalesInvoices", "name": "returnSalesInvoicesUpdate", "En": "Edit", "Ar": "تعديل" },
+    { "moduleName": "public", "screenName": "returnSalesInvoices", "name": "returnSalesInvoicesDelete", "En": "Delete", "Ar": "حذف" },
+    { "moduleName": "public", "screenName": "returnSalesInvoices", "name": "returnSalesInvoicesView", "En": "View", "Ar": "عرض" },
+    { "moduleName": "public", "screenName": "returnSalesInvoices", "name": "returnSalesInvoicesSearch", "En": "Search", "Ar": "بحث" },
+    { "moduleName": "public", "screenName": "returnSalesInvoices", "name": "returnSalesInvoicesExport", "En": "Export", "Ar": "تصدير" },
+    { "moduleName": "public", "screenName": "returnSalesInvoices", "name": "returnSalesInvoicesPrint", "En": "Print", "Ar": "طباعة" },
+    { "moduleName": "public", "screenName": "returnSalesInvoices", "name": "returnSalesInvoicesUi", "En": "UI", "Ar": "الواجهة الرسومية" }
+]

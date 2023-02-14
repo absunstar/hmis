@@ -15,8 +15,9 @@ app.controller('jobs', function ($scope, $http, $timeout) {
   $scope.showAdd = function (_item) {
     $scope.error = '';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure };
+    $scope.item = { ...$scope.structure, jobTasksList: [], jobToolsList: [], jobSpecificationsList: [] };
     site.showModal($scope.modalID);
+    document.querySelector(`${$scope.modalID} .tab-link`).click();
   };
 
   $scope.add = function (_item) {
@@ -58,6 +59,7 @@ app.controller('jobs', function ($scope, $http, $timeout) {
     $scope.view(_item);
     $scope.item = {};
     site.showModal($scope.modalID);
+    document.querySelector(`${$scope.modalID} .tab-link`).click();
   };
 
   $scope.update = function (_item) {
@@ -98,6 +100,7 @@ app.controller('jobs', function ($scope, $http, $timeout) {
     $scope.item = {};
     $scope.view(_item);
     site.showModal($scope.modalID);
+    document.querySelector(`${$scope.modalID} .tab-link`).click();
   };
 
   $scope.view = function (_item) {
@@ -130,6 +133,7 @@ app.controller('jobs', function ($scope, $http, $timeout) {
     $scope.item = {};
     $scope.view(_item);
     site.showModal($scope.modalID);
+    document.querySelector(`${$scope.modalID} .tab-link`).click();
   };
 
   $scope.delete = function (_item) {
@@ -187,6 +191,93 @@ app.controller('jobs', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getJobsToolsList = function () {
+    $scope.busy = true;
+    $scope.jobsToolsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/jobsTools/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.jobsToolsList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getJobsAdministrationsList = function () {
+    $scope.busy = true;
+    $scope.jobsAdministrationsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/jobsAdministrations/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.jobsAdministrationsList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getJobsSectionsList = function (jobsAdministration) {
+    $scope.busy = true;
+    $scope.jobsSectionsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/jobsSections/all',
+      data: {
+        where: { active: true, jobsAdministration },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.jobsSectionsList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getNumberingAuto = function () {
     $scope.error = '';
     $scope.busy = true;
@@ -223,4 +314,6 @@ app.controller('jobs', function ($scope, $http, $timeout) {
 
   $scope.getAll();
   $scope.getNumberingAuto();
+  $scope.getJobsAdministrationsList();
+  $scope.getJobsToolsList();
 });

@@ -222,22 +222,22 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getAll = function (where, statusId) {
+  $scope.getAll = function (where,type) {
     $scope.busy = true;
     $scope.list = [];
     where = where || {};
     if ('##user.type.id##' == 2) {
       where['doctor.id'] == site.toNumber('##user.id##');
     }
-    if (statusId) {
-      where['status.id'] = statusId;
-    }
+   
     if ($scope.today) {
       where['date'] = new Date();
-    } else {
-      delete where['date'];
     }
-    console.log(where);
+
+    if(type =='all') {
+      delete where['status.id'];
+    }
+
     $http({
       method: 'POST',
       url: `${$scope.baseURL}/api/${$scope.appName}/all`,
@@ -270,7 +270,8 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
         where: { active: true },
         select: {
           id: 1,
-          name: 1,
+          nameEn: 1,
+          nameAr: 1,
         },
       },
     }).then(
@@ -297,7 +298,8 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
         where: { active: true },
         select: {
           id: 1,
-          name: 1,
+          nameEn: 1,
+          nameAr: 1,
         },
       },
     }).then(
@@ -324,7 +326,8 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
         where: { active: true },
         select: {
           id: 1,
-          name: 1,
+          nameEn: 1,
+          nameAr: 1,
         },
       },
     }).then(
@@ -351,7 +354,8 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
         where: { active: true },
         select: {
           id: 1,
-          name: 1,
+          nameEn: 1,
+          nameAr: 1,
         },
       },
     }).then(
@@ -452,6 +456,46 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getServicesList = function (iconId) {
+    $scope.busy = true;
+
+    document.getElementById('icon1').classList.remove('icon-select');
+    document.getElementById('icon2').classList.remove('icon-select');
+    document.getElementById('icon3').classList.remove('icon-select');
+    document.getElementById(iconId).classList.add('icon-select');
+
+    $scope.servicesList = [];
+    let where = {
+      active: true,
+    };
+    if ($scope.item.$groupTypeId) {
+      where['groupTypeId'] = $scope.item.$groupTypeId;
+    }
+    $http({
+      method: 'POST',
+      url: '/api/services/all',
+      data: {
+        where: where,
+        select: {
+          id: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.servicesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getDrinksList = function () {
     $scope.busy = true;
     $scope.drinksList = [];
@@ -478,41 +522,6 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
         $scope.error = err;
       }
     );
-  };
-
-  $scope.addDoctorReccomend = function (name, code) {
-    $scope.error = '';
-    $scope.item.doctorReccomendList = $scope.item.doctorReccomendList || [];
-    if ($scope.item[name] && $scope.item[name].id) {
-      if (!$scope.item.doctorReccomendList.some((s) => s.id === $scope.item[name].id && code == s.code)) {
-        $scope.item.doctorReccomendList.push({
-          id: $scope.item[name].id,
-          name: $scope.item[name].name,
-          code: code,
-        });
-      }
-      delete $scope.item[name];
-    } else {
-      return;
-    }
-  };
-
-  $scope.addPatientReccomend = function (name, code) {
-    $scope.error = '';
-    $scope.item.patientReccomendList = $scope.item.patientReccomendList || [];
-    if ($scope.item[name] && $scope.item[name].id) {
-      if (!$scope.item.patientReccomendList.some((s) => s.id === $scope.item[name].id && code == s.code)) {
-        $scope.item.patientReccomendList.push({
-          id: $scope.item[name].id,
-          nameEn: $scope.item[name].nameEn,
-          nameAr: $scope.item[name].nameAr,
-          code: code,
-        });
-      }
-      delete $scope.item[name];
-    } else {
-      return;
-    }
   };
 
   $scope.getDoctorsList = function () {
@@ -550,6 +559,56 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
         $scope.error = err;
       }
     );
+  };
+
+  $scope.addDoctorReccomend = function (name, code) {
+    $scope.error = '';
+    $scope.item.doctorReccomendList = $scope.item.doctorReccomendList || [];
+    if ($scope.item[name] && $scope.item[name].id) {
+      if (!$scope.item.doctorReccomendList.some((s) => s.id === $scope.item[name].id && code == s.code)) {
+        $scope.item.doctorReccomendList.push({
+          id: $scope.item[name].id,
+          nameAr: $scope.item[name].nameAr,
+          nameEn: $scope.item[name].nameEn,
+          code: code,
+        });
+      }
+      delete $scope.item[name];
+    } else {
+      return;
+    }
+  };
+
+  $scope.addPatientReccomend = function (name, code) {
+    $scope.error = '';
+    $scope.item.patientReccomendList = $scope.item.patientReccomendList || [];
+    if ($scope.item[name] && $scope.item[name].id) {
+      if (!$scope.item.patientReccomendList.some((s) => s.id === $scope.item[name].id && code == s.code)) {
+        $scope.item.patientReccomendList.push({
+          id: $scope.item[name].id,
+          nameEn: $scope.item[name].nameEn,
+          nameAr: $scope.item[name].nameAr,
+          code: code,
+        });
+      }
+      delete $scope.item[name];
+    } else {
+      return;
+    }
+  };
+
+  $scope.addServices = function (_item) {
+    $scope.error = '';
+    if (_item.$service && _item.$service.id) {
+      _item.servicesList = _item.servicesList || [];
+      if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
+        _item.servicesList.push({ ..._item.$service, type: _item.$serviceType });
+      }
+      _item.$service = {};
+    } else {
+      $scope.error = 'Must Select Service';
+      return;
+    }
   };
 
   $scope.showSearch = function () {

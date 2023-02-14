@@ -184,6 +184,15 @@ module.exports = function init(site) {
           },
         ];
 
+        if (_data.mobileList.length > 0) {
+          _data.mobile = _data.mobileList[0].mobile;
+        } else {
+          response.error = 'Must Add Mobile Number';
+          res.json(response);
+          return;
+        }
+
+
         let cb = site.getNumbering(numObj);
         if (!_data.code && !cb.auto) {
           response.error = 'Must Enter Code';
@@ -199,6 +208,7 @@ module.exports = function init(site) {
         if (!_data.email) {
           _data.email = _data.nameEn + Math.floor(Math.random() * 1000 + 1).toString();
         }
+        
 
         app.add(_data, (err, doc) => {
           if (!err && doc) {
@@ -220,6 +230,14 @@ module.exports = function init(site) {
 
         let _data = req.data;
         _data.editUserInfo = req.getUserFinger();
+        
+        if (_data.mobileList.length > 0) {
+          _data.mobile = _data.mobileList[0].mobile;
+        } else {
+          response.error = 'Must Add Mobile Number';
+          res.json(response);
+          return;
+        }
 
         app.update(_data, (err, result) => {
           if (!err) {
@@ -274,9 +292,11 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || { 'type.id': 3 };
+        let limit = req.body.limit || 100;
         let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1 };
         let list = [];
         app.memoryList
+        .slice(-limit)
           .filter((g) => (!where['type.id'] || (g.type && g.type.id == where['type.id'])) && g.company && g.company.id == site.getCompany(req).id)
           .forEach((doc) => {
             let obj = { ...doc };

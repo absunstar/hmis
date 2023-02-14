@@ -7,44 +7,32 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         requestDate: new Date(),
-        filesList: [],
-        itemsList: [],
         image: { url: '/images/purchaseRequests.png' },
         approved: false,
         hasTransaction: false,
         active: true,
     };
     $scope.canApprove = false;
+    $scope.showStoresBalance = true;
     $scope.item = {};
     $scope.list = [];
 
     $scope.orderItem = {
         item: {},
         unit: {},
-        purchaseCount: 1,
+        count: 1,
         approved: false,
     };
+
     $scope.date = {
         from: new Date(),
         to: new Date(),
     };
 
-    $scope.resetModel = function () {
-        $scope.structure = {
-            requestDate: new Date(),
-            filesList: [],
-            itemsList: [],
-            image: { url: '/images/purchaseRequests.png' },
-            approved: false,
-            hasTransaction: false,
-            active: true,
-        };
-    };
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.resetModel();
-        $scope.item = { ...$scope.structure };
+        $scope.item = { ...$scope.structure, filesList: [], itemsList: [] };
         site.showModal($scope.modalID);
     };
 
@@ -60,6 +48,7 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
             $scope.error = '##word.Must Enter One Item At Least##';
             return;
         }
+
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -129,7 +118,6 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
                 console.log(err);
             }
         );
-        $scope.item = { ...$scope.structure };
     };
 
     $scope.approve = function (_item) {
@@ -390,6 +378,7 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     nameAr: 1,
                     unitsList: 1,
+                    itemGroup: 1,
                 },
             },
         }).then(
@@ -406,36 +395,68 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.addItem = function (elem) {
+    // $scope.calucualteStoreBalance = function (unit) {
+    //     const storesBalanceList = [];
+    //     let totalBalance = 0;
+    //     unit.storesList.forEach((store) => {
+    //         const totalIncome = store.count + store.salesReturnCount + store.bonusCount + store.unassembledCount + store.transferToCount;
+    //         const totalOut = store.purchaseReturnCount + store.salesCount + store.damagedCount + store.assembledCount + store.transferFromCount;
+    //         const currentBalance = totalIncome - totalOut;
+    //         totalBalance += currentBalance;
+    //         storesBalanceList.push({
+    //             store: store.store,
+    //             currentBalance,
+    //         });
+    //     });
+
+    //     return { storesBalanceList, totalBalance };
+    // };
+
+    $scope.addToItemsList = function (orderItem) {
         $scope.error = '';
-        if (!elem.item.id) {
-            $scope.error = '##word.Please Enter Item##';
+        if (!orderItem.item.id) {
+            alert('##word.Please Enter Item##');
             return;
         }
         for (const itm of $scope.item.itemsList) {
-            if (itm.item.id === elem.item.id) {
-                $scope.error = '##word.Item Exisit##';
+            if (itm.id === orderItem.item.id && itm.unit.id === orderItem.unit.id) {
+                alert('##word.Item Exisit##');
                 return;
             }
         }
 
-        if (elem.purchaseCount < 1) {
-            $scope.error = '##word.Please Enter Count##';
+        if (orderItem.count < 1) {
+            alert('##word.Please Enter Count##');
             return;
         }
 
-        $scope.item.itemsList.unshift(elem);
-        $scope.orderItem = { purchaseCount: 1 };
+        // const calcBalance = $scope.calucualteStoreBalance(orderItem.unit);
+        delete orderItem.unit.storesList;
+        $scope.item.itemsList.unshift({
+            id: orderItem.item.id,
+            code: orderItem.item.code,
+            nameAr: orderItem.item.nameAr,
+            nameEn: orderItem.item.nameEn,
+            itemGroup: orderItem.item.itemGroup,
+            unit: { id: orderItem.unit.id, code: orderItem.unit.code, nameAr: orderItem.unit.nameAr, nameEn: orderItem.unit.nameEn },
+            price: orderItem.unit.price,
+            salesPrice: orderItem.unit.salesPrice,
+            count: orderItem.count,
+            approved: false,
+            // storesBalanceList: calcBalance.storesBalanceList,
+            // totalBalance: calcBalance.totalBalance,
+        });
+        $scope.orderItem = { count: 1 };
     };
 
     $scope.approveItem = function (elem) {
         $scope.error = '';
-        if (elem.purchaseCount < 1) {
+        if (elem.count < 1) {
             $scope.error = '##word.Please Enter Valid Numbers##';
             return;
         } else {
             for (const itm of $scope.item.itemsList) {
-                if (itm.item.id === elem.item.id) {
+                if (itm.id === elem.id) {
                     itm.approved = true;
                 }
             }
@@ -443,16 +464,13 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
         }
     };
 
-    $scope.unapproveItem = function (elem) {
-        $scope.error = '';
-        for (const itm of $scope.item.itemsList) {
-            if (itm.item.id === elem.item.id) {
-                itm.approved = false;
-                $scope.canApprove = false;
-            }
+    $scope.unapproveItem = function (item) {
+        const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === item.id);
+        if (itemIndex !== -1) {
+            $scope.item.itemsList[itemIndex].approved = false;
+            $scope.canApprove = false;
         }
     };
-
     $scope.prpepareToApproveOrder = function (_item) {
         let allApproved = _item.itemsList.every((elem) => elem.approved === true);
         if (allApproved) {
@@ -480,9 +498,14 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
                 code: elem.unit.code,
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
+                storesList: elem.storesList,
+                price: elem.purchasePrice,
+                salesPrice: elem.salesPrice,
             });
-            $scope.orderItem.unit = $scope.unitsList[0];
         }
+
+        $scope.orderItem.unit = $scope.unitsList[0];
+        // $scope.calucualteStoreBalance($scope.unitsList[0]);
     };
 
     $scope.getAll({ hasTransaction: false });

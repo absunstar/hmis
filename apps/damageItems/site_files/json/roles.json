@@ -1,0 +1,9 @@
+[
+    {
+        "moduleName": "public",
+        "name": "damageItemsAdmin",
+        "En": "Sales Invoices Admin",
+        "Ar": "إدارة فواتير المبيعات",
+        "permissions": ["damageItemsManage"]
+    }
+]

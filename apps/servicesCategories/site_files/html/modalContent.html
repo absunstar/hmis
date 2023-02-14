@@ -15,41 +15,7 @@
     </div>
   </div>
 
-  <fieldset>
-    <div class="row padding">
-      <div class="row">
-        <i-list
-          label="##word.Service##"
-          class="col8"
-          ng-model="item.$service"
-          display="name##session.lang##"
-          items="servicesList"
-          ng-search="item.$services"
-        ></i-list>
-        <div class="col4">
-          <br />
-          <i-button type="add" label="##word.Add Service##" ng-click="addServices(item)"></i-button>
-        </div>
-      </div>
-      <div class="row">
-        <table class="table hover bold">
-          <tr>
-            <th>##word.Code##</th>
-            <th>##word.Name##</th>
-            <th class="not-print">##word.Actions##</th>
-          </tr>
-          <tr ng-repeat="s in item.servicesList">
-            <td class="text-center blue">{{s.code}}</td>
-            <td class="text-center">{{s.name##session.lang##}}</td>
-
-            <td class="text-center not-print">
-              <i-button type="delete default" ng-click="item.servicesList.splice($index,1)"> </i-button>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </fieldset>
+ 
 
 </div>
 <div ng-show="mode !== 'add' " class="row">

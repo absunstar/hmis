@@ -342,9 +342,9 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getIncuranceClassesList = function (obj) {
+  $scope.getinsuranceClassesList = function (obj) {
     $scope.busy = true;
-    obj.$incuranceClassesList = [];
+    $scope.insuranceClassesList = [];
     $http({
       method: 'POST',
       url: '/api/insuranceClasses/all',
@@ -361,7 +361,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          obj.$incuranceClassesList = response.data.list;
+          $scope.insuranceClassesList = response.data.list;
         }
       },
       function (err) {
@@ -534,9 +534,8 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       if (!_item.coverageServicesGroupsList.some((s) => s.id === _item.$coverageServiceGroup.id)) {
         _item.coverageServicesGroupsList.push({
           ..._item.$coverageServiceGroup,
-          incuranceClassesList : [],
+          insuranceClassesList : [],
         });
-        $scope.getIncuranceClassesList(_item.coverageServicesGroupsList[_item.coverageServicesGroupsList.length - 1]);
       }
       _item.$coverageServiceGroup = {};
     } else {
@@ -551,10 +550,9 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       if (!_item.coverageServicesCategoriesList.some((s) => s.id === _item.$coverageServiceCategory.id)) {
         _item.coverageServicesCategoriesList.push({
           ..._item.$coverageServiceCategory,
-          incuranceClassesList : [],
+          insuranceClassesList : [],
     
         });
-        $scope.getIncuranceClassesList(_item.coverageServicesCategoriesList[_item.coverageServicesCategoriesList.length - 1]);
       }
       _item.$coverageServiceCategory = {};
     } else {
@@ -569,9 +567,8 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       if (!_item.coverageServicesList.some((s) => s.id === _item.$coverageService.id)) {
         _item.coverageServicesList.push({
           ..._item.$coverageService,
-          incuranceClassesList : [],
+          insuranceClassesList : [],
         });
-        $scope.getIncuranceClassesList(_item.coverageServicesList[_item.coverageServicesList.length - 1]);
       }
       _item.$coverageService = {};
     } else {
@@ -596,13 +593,13 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     }
   };
 
-  $scope.addIncuranceClasses = function (obj) {
+  $scope.addInsuranceClasses = function (obj) {
     $scope.busy = true;
 
-    if (obj.$incuranceClass && !obj.incuranceClassesList.some((k) => k.id === obj.$incuranceClass.id)) {
-      obj.incuranceClassesList.push(obj.$incuranceClass);
+    if (obj.$insuranceClass && !obj.insuranceClassesList.some((k) => k.id === obj.$insuranceClass.id)) {
+      obj.insuranceClassesList.push(obj.$insuranceClass);
     }
-    obj.$incuranceClass = '';
+    obj.$insuranceClass = '';
   };
 
   $scope.showSearch = function () {
@@ -622,4 +619,5 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
   $scope.getServicesCategoriesList();
   $scope.getServicesGroupsList();
   $scope.getServicesList();
+  $scope.getinsuranceClassesList();
 });

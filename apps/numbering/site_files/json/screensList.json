@@ -302,20 +302,20 @@
     {
         "category": "main",
         "feature": "public",
-        "id": "salaryAllowances",
-        "name": "Salary Allowances"
+        "id": "allowances",
+        "name": "Allowances"
     },
     {
         "category": "main",
         "feature": "public",
-        "id": "employeesBonuses",
-        "name": "Employees Bonuses"
+        "id": "rewards",
+        "name": "Rewards"
     },
     {
         "category": "main",
         "feature": "public",
-        "id": "employeesPenalties",
-        "name": "Employees Penalties"
+        "id": "penalties",
+        "name": "Penalties"
     },
     {
         "category": "main",
@@ -326,73 +326,7 @@
     {
         "category": "main",
         "feature": "public",
-        "id": "jobsAdministrations",
-        "name": "Jobs Administrations"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "jobsSections",
-        "name": "Jobs Sections"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "employeesBonusTypes",
-        "name": "Employees Bonus Types"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "employeesPenaltiesTypes",
-        "name": "Employees Penalties Types"
-    },
-    {
-        "category": "main",
-        "feature": "public",
         "id": "transferItemsOrders",
         "name": "Transfer Items Orders"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "jobsTools",
-        "name": "Jobs Tools"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "doctorAppointments",
-        "name": "Doctor Appointments"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "laboratoryDeskTop",
-        "name": "Laboratory DeskTop"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "convertUnits",
-        "name": "Convert Units"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "returnSalesInvoices",
-        "name": "Return Sales Invoices"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "returnPurchaseInvoices",
-        "name": "Return Purchase Invoices"
-    },
-    {
-        "category": "main",
-        "feature": "public",
-        "id": "damageItems",
-        "name": "Damage Items"
     }
 ]

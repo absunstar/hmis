@@ -6,9 +6,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
-        image: { url: '/images/damageItems.png' },
         date: new Date(),
-
         active: true,
     };
     $scope.item = {};
@@ -247,40 +245,6 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
         $scope.search = {};
     };
 
-    $scope.getCustomers = function () {
-        $scope.busy = true;
-        $scope.customersList = [];
-        $http({
-            method: 'POST',
-            url: '/api/customers/all',
-            data: {
-                where: {
-                    active: true,
-                },
-                select: {
-                    id: 1,
-                    code: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                    // commercialCustomer: 1,
-                    // creditLimit: 1,
-                    // group: 1,
-                },
-            },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.customersList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
     $scope.getItemUnits = function (item) {
         $scope.unitsList = [];
 
@@ -325,10 +289,6 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
             unit: { id: orderItem.unit.id, code: orderItem.unit.code, nameAr: orderItem.unit.nameAr, nameEn: orderItem.unit.nameEn },
             count: orderItem.count,
             price: orderItem.unit.price,
-            saleDiscount: orderItem.unit.saleDiscount,
-            maxDiscount: orderItem.unit.maxDiscount,
-            discountType: orderItem.unit.discountType,
-            total: orderItem.count * orderItem.unit.price,
         });
         $scope.resetOrderItem();
         $scope.itemsError = '';
@@ -399,34 +359,6 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getPaymentTypes = function () {
-        $scope.busy = true;
-        $scope.paymentTypesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/paymentTypes',
-            data: {
-                select: {
-                    id: 1,
-                    code: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                },
-            },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.paymentTypesList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
     $scope.calculateItem = function (itm) {
         if (itm.count < 0 || itm.price < 0) {
             $scope.itemsError = '##word.Please Enter Valid Numbers##';
@@ -456,9 +388,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
     };
 
     $scope.getAll();
-    $scope.getPaymentTypes();
     $scope.getStores();
     $scope.getStoresItems();
-    $scope.getCustomers();
     $scope.getNumberingAuto();
 });

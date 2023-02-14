@@ -2,27 +2,16 @@
     <fieldset>
         <legend>##word.Basic Informations##</legend>
         <div class="row padding">
-            <div class="col9">
-                <div class="row">
-                    <div class="row">
-                        <i-control ng-hide="disabledCode" class="col4" label="##word.Code##" ng-model="item.code"> </i-control>
-                        <i-date class="col5" label="##word.Date##" ng-model="item.date"> </i-date>
-                        <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
-                    </div>
-                    <i-list type="text" v="r" class="col4" ng-model="item.store" label="##word.Store##" items="storesList" display="name##session.lang##"></i-list>
-                    <i-list type="text" v="r" class="col4" ng-model="item.customer" label="##word.Customer##" items="customersList" display="name##session.lang##"></i-list>
-                    <i-list type="text" v="r" class="col4" ng-model="item.paymentType" label="##word.Payment Type##" items="paymentTypesList" display="name##session.lang##"></i-list>
-                </div>
-            </div>
-            <div class="col3 center">
-                <i-image class="img256 center" ng-model="item.image"></i-image>
-            </div>
+            <i-control ng-hide="disabledCode" class="col3" label="##word.Code##" ng-model="item.code"> </i-control>
+            <i-date class="col3" label="##word.Date##" ng-model="item.date"> </i-date>
+            <i-list type="text" v="r" class="col4" ng-model="item.store" label="##word.Store##" items="storesList" display="name##session.lang##"></i-list>
+            <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
         </div>
     </fieldset>
 
     <fieldset>
         <legend>##word.Items Information##</legend>
-        <div class="row" ng-if="item.source.id !== 1">
+        <div class="row">
             <div class="col2">
                 <i-list
                     ng-model="orderItem.item"
@@ -38,16 +27,7 @@
             </div>
 
             <div class="col2">
-                <i-control type="number" min="1" ng-model="orderItem.count" label="##word.Sales Count##"></i-control>
-            </div>
-            <div class="col2">
-                <p class="text-center">##word.Sales Price##</p>
-                <p class="text-center">{{orderItem.unit.price || 0}}</p>
-            </div>
-
-            <div class="col2">
-                <p class="text-center">##word.Sale Discount##</p>
-                <p class="text-center">{{orderItem.unit.saleDiscount || 0}}</p>
+                <i-control type="number" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
             </div>
 
             <div class="col2">
@@ -62,10 +42,8 @@
                 <th>##word.S##</th>
                 <th>##word.Item##</th>
                 <th>##word.Unit##</th>
-                <th>##word.Sales Count##</th>
-                <th>##word.Sales Price##</th>
-                <th>##word.Sale Discount##</th>
-                <th>##word.Total##</th>
+                <th>##word.Count##</th>
+
                 <th class="not-print">##word.Actions##</th>
             </tr>
             <tr ng-repeat="elem in item.itemsList">
@@ -73,16 +51,7 @@
                 <td class="text-center">{{elem.name##session.lang##}}</td>
                 <td class="text-center">{{elem.unit.name##session.lang##}}</td>
                 <td class="text-center">
-                    <i-control  ng-change="calculateItem(elem)" min="0" type="number" ng-model="elem.count"></i-control>
-                </td>
-                <td class="text-center">
-                    <p class="text-center">{{elem.price}}</p>
-                </td>
-                <td>
-                    <p class="text-center">{{elem.saleDiscount}} <span ng-if="elem.saleDiscount>0?elem.unit.discountType === 'percent':''"> % </span></p>
-                </td>
-                <td>
-                    <p class="text-center">{{elem.total}}</p>
+                    <i-control ng-change="calculateItem(elem)" min="0" type="number" ng-model="elem.count"></i-control>
                 </td>
 
                 <td class="text-center">

@@ -162,6 +162,7 @@ module.exports = function init(site) {
         { id: 4, code: 'convertUnits', nameEn: 'Convert Units', nameAr: 'تحويل وحدات' },
         { id: 5, code: 'returnPurchaseOrders', nameEn: 'Return Purchase Orders', nameAr: 'مرتجع فاتورة شراء' },
         { id: 6, code: 'returnSalesInvoices', nameEn: 'Return Sales Invoices', nameAr: 'مرتجع فاتورة مبيعات' },
+        { id: 7, code: 'damageItems', nameEn: 'Damage Items', nameAr: 'إتلاف أصناف' },
     ];
 
     site.transferItemsOrdersSource = [

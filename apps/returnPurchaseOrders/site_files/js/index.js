@@ -3,22 +3,21 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
     $scope.appName = 'returnPurchaseOrders';
     $scope.modalID = '#returnPurchaseOrdersManageModal';
     $scope.modalSearchID = '#returnPurchaseOrdersSearchModal';
+    $scope.getPurchaseOrdersModalID = '#findPurchaseOrdersModal';
     $scope.mode = 'add';
     $scope.search = {};
     $scope.structure = {
-        image: { url: '/images/returnPurchaseOrders.png' },
         orderDate: new Date(),
         active: true,
     };
     $scope.item = {};
     $scope.list = [];
 
-    $scope.showAdd = function (_item) {
+    $scope.showAdd = function () {
         $scope.error = '';
         $scope.itemsError = '';
         $scope.mode = 'add';
         $scope.item = { ...$scope.structure };
-        $scope.search = { ...$scope.structure };
         site.showModal($scope.modalID);
     };
 
@@ -29,6 +28,7 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
+
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -256,26 +256,17 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
         );
     };
 
-    // $scope.getItemUnits = function (item) {
-    //     $scope.unitsList = [];
-
-    //     for (const elem of item.unitsList) {
-    //         $scope.unitsList.push({
-    //             id: elem.unit.id,
-    //             code: elem.unit.code,
-    //             nameEn: elem.unit.nameEn,
-    //             nameAr: elem.unit.nameAr,
-    //             price: elem.salesPrice,
-    //             maxDiscount: elem.maxDiscount,
-    //             saleDiscount: elem.saleDiscount,
-    //             discountType: elem.discountType,
-    //         });
-    //         $scope.orderItem.unit = $scope.unitsList[0];
-    //     }
-    // };
-
     $scope.addToItemsList = function (invoice) {
-        $scope.item = { ...invoice };
+        $scope.item = {
+            ...$scope.item,
+            invoiceCode: invoice.code,
+            invoiceId: invoice.id,
+            vendor: invoice.vendor,
+            store: invoice.store,
+            sourceType: invoice.sourceType,
+            itemsList: invoice.itemsList,
+        };
+        site.hideModal($scope.getPurchaseOrdersModalID);
     };
 
     $scope.getStores = function () {
@@ -343,7 +334,14 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
         );
     };
 
+    $scope.showModalGetPurchaseOrdersData = function () {
+        $scope.search = {};
+
+        site.showModal($scope.getPurchaseOrdersModalID);
+    };
+
     $scope.getPurchaseOrders = function (where) {
+        $scope.searchError = '';
         if (where && where.store && where.store.id) {
             where['store.id'] = where.store.id;
             delete where.store;
@@ -364,6 +362,7 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
         where['hasReturnTransaction'] = { $ne: true };
         $scope.busy = true;
         $scope.returnPurchaseOrdersList = [];
+
         $http({
             method: 'POST',
             url: '/api/purchaseOrders/all',
@@ -373,9 +372,13 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
         }).then(
             function (response) {
                 $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
+                if (response.data.done && response.data.list.length) {
                     $scope.returnPurchaseOrdersList = response.data.list;
+                    site.showModal($scope.getPurchaseOrdersModalID);
+                } else {
+                    $scope.searchError = 'No Data Match Your Search';
                 }
+                $scope.search = {};
             },
             function (err) {
                 $scope.busy = false;

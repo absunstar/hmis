@@ -3,6 +3,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
     $scope.appName = 'returnSalesInvoices';
     $scope.modalID = '#returnSalesInvoicesManageModal';
     $scope.modalSearchID = '#returnSalesInvoicesSearchModal';
+    $scope.getSalesInvoicesModalID = '#findSalesInvoicesModal';
     $scope.mode = 'add';
     $scope.search = {};
     $scope.structure = {
@@ -258,32 +259,23 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
         );
     };
 
-    // $scope.getItemUnits = function (item) {
-    //     $scope.unitsList = [];
-
-    //     for (const elem of item.unitsList) {
-    //         $scope.unitsList.push({
-    //             id: elem.unit.id,
-    //             code: elem.unit.code,
-    //             nameEn: elem.unit.nameEn,
-    //             nameAr: elem.unit.nameAr,
-    //             price: elem.salesPrice,
-    //             maxDiscount: elem.maxDiscount,
-    //             saleDiscount: elem.saleDiscount,
-    //             discountType: elem.discountType,
-    //         });
-    //         $scope.orderItem.unit = $scope.unitsList[0];
-    //     }
-    // };
-
     $scope.addToItemsList = function (invoice) {
         $scope.item = {
-            ... $scope.item,
+            ...$scope.item,
             invoiceCode: invoice.code,
             invoiceId: invoice.id,
+            customer: invoice.customer,
+            store: invoice.store,
+            sourceType: invoice.sourceType,
             itemsList: invoice.itemsList,
         };
-        
+        site.hideModal($scope.getSalesInvoicesModalID);
+    };
+
+    $scope.showModalGetPurchaseOrdersData = function () {
+        $scope.search = {};
+
+        site.showModal($scope.getSalesInvoicesModalID);
     };
 
     $scope.getStores = function () {

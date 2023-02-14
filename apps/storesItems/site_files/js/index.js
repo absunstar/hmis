@@ -36,6 +36,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             unit: {},
             conversion: 1,
             barcode: '',
+            purchaseCost: 0,
             purchasePrice: 0,
             salesPrice: 0,
             averageCost: 0,
@@ -581,7 +582,9 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         $scope.item.unitsList.push({
             unit,
             conversion: itemUnit.conversion || 1,
-            barcode: itemUnit.barcode,
+            barcode: itemUnit.barcode || '',
+            purchaseCost: 0,
+            currentCount: 0,
             purchasePrice: 0,
             salesPrice: 0,
             averageCost: 0,

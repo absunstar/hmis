@@ -30,13 +30,21 @@ module.exports = function init(site) {
                     }
 
                     if (screenName === 'purchaseOrders') {
-                        doc.unitsList[index].storesList[storeIndex].purchaseCost += _elm.cost;
                         doc.unitsList[index].storesList[storeIndex].purchaseCount += _elm.count;
                         doc.unitsList[index].storesList[storeIndex].purchasePrice += _elm.price;
                         doc.unitsList[index].storesList[storeIndex].bonusCount += _elm.bonusCount;
                         doc.unitsList[index].storesList[storeIndex].bonusPrice += _elm.bonusPrice;
                         doc.unitsList[index].purchasePrice = _elm.price;
                         doc.unitsList[index].salesPrice = _elm.salesPrice;
+                        if (!doc.unitsList[index].purchaseCost) {
+                            doc.unitsList[index].purchaseCost = _elm.price;
+                        }
+                        const selectedUnit = doc.unitsList[index];
+                        const oldCost = selectedUnit.currentCount * selectedUnit.purchaseCost; //1500
+                        const newCost = _elm.count * _elm.price; // 2000 * 2 = 4000
+                        const totalCount = selectedUnit.currentCount + _elm.count; // 1000 +2000
+                        doc.unitsList[index].purchaseCost = (oldCost + newCost) / totalCount; // 1500 + 4000 / 3000
+            
                     }
                     if (screenName === 'returnPurchaseOrders') {
                         doc.unitsList[index].storesList[storeIndex].purchaseReturnCost += _elm.cost;
@@ -83,7 +91,7 @@ module.exports = function init(site) {
                     } else if (screenName === 'damageItems') {
                         doc.unitsList[index].storesList[storeIndex].damagedCount += _elm.count;
                         doc.unitsList[index].storesList[storeIndex].damagedPrice += _elm.price;
-                    } 
+                    }
                     // else if (screenName === app.name) {
                     //     doc.unitsList[index].storesList[storeIndex].transferFromCount += _elm.count;
                     //     doc.unitsList[index].storesList[storeIndex].transferFromPrice += _elm.price;

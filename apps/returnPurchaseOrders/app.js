@@ -149,7 +149,7 @@ module.exports = function init(site) {
                     name: app.name,
                 },
                 (req, res) => {
-                    res.render(app.name + '/index.html', { title: app.name, appName: 'Sales Invoices' }, { parser: 'html', compres: true });
+                    res.render(app.name + '/index.html', { title: app.name, appName: 'Return Purchase Orders' }, { parser: 'html', compres: true });
                 }
             );
         }
@@ -183,7 +183,7 @@ module.exports = function init(site) {
                     items: _data.itemsList,
                 };
 
-                site.checkOverDraft(req, overDraftObj, app.name, (overDraftCb) => {
+                site.checkOverDraft(req, overDraftObj, (overDraftCb) => {
                     if (!overDraftCb.done) {
                         let error = '';
                         error = overDraftCb.refuseList.map((m) => (req.session.lang == 'Ar' ? m.nameAr : m.nameEn)).join('-');
@@ -201,7 +201,7 @@ module.exports = function init(site) {
                                 site.editItemsBalance(item, app.name);
                                 item.invoiceId = doc.id;
                                 item.date = doc.orderDate;
-                                item.customer = doc.customer;
+                                item.vendor = doc.vendor;
                                 item.countType = 'out';
                                 item.orderCode = doc.code;
                                 site.setItemCard(item, app.name);

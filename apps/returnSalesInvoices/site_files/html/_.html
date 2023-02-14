@@ -2,6 +2,7 @@
     <div class="row" x-permissions="returnSalesInvoicesUi || returnSalesInvoicesManage">
         <div x-import="returnSalesInvoices/modal.html"></div>
         <div x-import="returnSalesInvoices/modalSearch.html"></div>
+        <div x-import="returnSalesInvoices/getSalesInvoicesModal.html"></div>
 
         <div class="top-actions">
             <i-button type="add" x-permissions="returnSalesInvoicesAdd || returnSalesInvoicesManage" label="##word.New##" ng-click="showAdd()"></i-button>
@@ -42,6 +43,7 @@
             </tr>
         </table>
         <i-button x-permissions="returnSalesInvoicesPrint || returnSalesInvoicesManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
-        <i-button x-permissions="returnSalesInvoicesExport || returnSalesInvoicesManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')"> </i-button>
+        <i-button x-permissions="returnSalesInvoicesExport || returnSalesInvoicesManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')">
+        </i-button>
     </div>
 </div>

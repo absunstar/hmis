@@ -2,9 +2,8 @@
     <fieldset>
         <legend>##word.Invoice Informations##</legend>
         <div class="row padding">
-            <!-- <div class="col9"> -->
             <div class="row">
-                  <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="item.code"> </i-control>
+                <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="item.code"> </i-control>
                 <i-date class="col2" label="##word.Date##" ng-model="item.date"> </i-date>
             </div>
             <div class="row">
@@ -23,10 +22,6 @@
                     <i-button type="search" label="##word.Search##" ng-click="getStoresSalesInvoices(search)"> </i-button>
                 </div>
             </div>
-            <!-- </div> -->
-            <!-- <div class="col3 center">
-                <i-image class="img256 center" ng-model="item.image"></i-image>
-            </div> -->
         </div>
     </fieldset>
 

@@ -18,7 +18,6 @@
                             <tr>
                                 <th>##word.S##</th>
                                 <th>##word.Store##</th>
-                                <!-- <th>##word.Purchase Cost##</th> -->
                                 <th>##word.Current Count##</th>
                                 <th>##word.Purchase Count##</th>
                                 <th>##word.Purchase Price##</th>
@@ -42,14 +41,11 @@
                                 <th>##word.Transfer Unit From Price##</th>
                                 <th>##word.Transfer Unit To Count##</th>
                                 <th>##word.Transfer Unit To Price##</th>
-
-                                <!-- <th class="not-print">##word.Actions##</th> -->
                             </tr>
 
                             <tr ng-repeat="str in unit.storesList">
                                 <td class="text-center">{{$index+1}}</td>
                                 <td class="text-center">{{str.store.name##session.lang##}}</td>
-                                <!-- <td class="text-center">{{str.purchaseCost}}</td> -->
                                 <td class="text-center bold blue">{{str.currentCount}}</td>
                                 <td class="text-center text-success">{{str.purchaseCount}}</td>
                                 <td class="text-center">{{str.purchasePrice}}</td>

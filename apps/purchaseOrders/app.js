@@ -9,6 +9,7 @@ module.exports = function init(site) {
         allowRouteGet: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
+        allowRouteApprove: true,
         allowRouteDelete: true,
         allowRouteView: true,
         allowRouteAll: true,
@@ -232,7 +233,7 @@ module.exports = function init(site) {
             });
         }
 
-        if (app.allowRouteUpdate) {
+        if (app.allowRouteApprove) {
             site.post({ name: `/api/${app.name}/approve`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {
                     done: false,
@@ -245,7 +246,7 @@ module.exports = function init(site) {
                     if (!err) {
                         response.done = true;
                         result.doc.itemsList.forEach((_item) => {
-                            let item = { ..._item };
+                            let item = { ..._item };_elm.count;
                             item.store = { ...result.doc.store };
                             site.editItemsBalance(item, app.name);
                             item.invoiceId = result.doc.id;
@@ -310,6 +311,7 @@ module.exports = function init(site) {
                 // let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1 };
                 let select = req.body.select || {};
                 let list = [];
+
                 if (where.orderDate) {
                     let d1 = site.toDate(where.orderDate);
                     let d2 = site.toDate(where.orderDate);
@@ -319,6 +321,7 @@ module.exports = function init(site) {
                         $lt: d2,
                     };
                 }
+
                 if (app.allowMemory) {
                     app.memoryList
                         .filter((g) => g.company && g.company.id == site.getCompany(req).id)

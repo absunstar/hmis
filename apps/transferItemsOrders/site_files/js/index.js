@@ -503,11 +503,10 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
             $scope.orderItem.currentBalance = 0;
             return;
         } else {
-            const totalIncome =
-                unit.storesList[storeIndex].purchaseCount + unit.storesList[storeIndex].bonusCount + unit.storesList[storeIndex].unassembledCount + unit.storesList[storeIndex].salesReturnCount;
+            const selectedUnit = unit.storesList[storeIndex];
+            const totalIncome = selectedUnit.purchaseCount + selectedUnit.bonusCount + selectedUnit.unassembledCount + selectedUnit.salesReturnCount;
 
-            const totalOut =
-                unit.storesList[storeIndex].salesCount + unit.storesList[storeIndex].purchaseReturnCount + unit.storesList[storeIndex].damagedCount + unit.storesList[storeIndex].assembledCount;
+            const totalOut = selectedUnit.salesCount + selectedUnit.purchaseReturnCount + selectedUnit.damagedCount + selectedUnit.assembledCount;
 
             const currentBalance = totalIncome - totalOut;
             $scope.orderItem.currentBalance = currentBalance;

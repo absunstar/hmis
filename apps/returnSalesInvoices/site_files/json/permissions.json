@@ -7,5 +7,6 @@
     { "moduleName": "public", "screenName": "returnSalesInvoices", "name": "returnSalesInvoicesSearch", "En": "Search", "Ar": "بحث" },
     { "moduleName": "public", "screenName": "returnSalesInvoices", "name": "returnSalesInvoicesExport", "En": "Export", "Ar": "تصدير" },
     { "moduleName": "public", "screenName": "returnSalesInvoices", "name": "returnSalesInvoicesPrint", "En": "Print", "Ar": "طباعة" },
-    { "moduleName": "public", "screenName": "returnSalesInvoices", "name": "returnSalesInvoicesUi", "En": "UI", "Ar": "الواجهة الرسومية" }
+    { "moduleName": "public", "screenName": "returnSalesInvoices", "name": "returnSalesInvoicesUi", "En": "UI", "Ar": "الواجهة الرسومية" },
+    { "moduleName": "public", "screenName": "returnSalesInvoices", "name": "approveReturnSalesInvoice", "En": "Approve Return Sales Invoice", "Ar": "الموافقة علي إرجاع فاتورة بيع" }
 ]

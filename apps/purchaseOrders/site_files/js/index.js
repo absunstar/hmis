@@ -7,9 +7,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: { url: '/images/purchaseOrders.png' },
-        orderDate: new Date(),
+
         importPermitNumber: 0,
-        importAuthorizationDate: new Date(),
+
         hasVendor: true,
         approved: false,
         // calculatePurchaseCost: false,
@@ -23,6 +23,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         count: 1,
         price: 0,
         bonusCount: 0,
+        salesPrice: 0,
+        vendorDiscount: 0,
         bonusPrice: 0,
         vat: 0,
         total: 0,
@@ -36,6 +38,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             salesPrice: 0,
             bonusCount: 0,
             bonusPrice: 0,
+            vendorDiscount: 0,
             vat: 0,
             total: 0,
             approved: false,
@@ -46,9 +49,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         $scope.error = '';
         $scope.itemsError = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, filesList: [], itemsList: [] };
+        $scope.item = { ...$scope.structure, orderDate: new Date(), filesList: [], itemsList: [] };
         $scope.orderItem = { ...$scope.orderItem };
-
+        $scope.canApprove = false;
         site.showModal($scope.modalID);
     };
 
@@ -332,7 +335,10 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getVendors = function () {
+    $scope.getVendors = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
         $scope.busy = true;
         $scope.vendorsList = [];
         $http({
@@ -341,6 +347,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
+                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -363,7 +370,10 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getStores = function () {
+    $scope.getStores = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
         $scope.busy = true;
         $scope.storesList = [];
         $http({
@@ -371,8 +381,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             url: '/api/stores/all',
             data: {
                 where: {
-                    'type.id': 1,
                     active: true,
+                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -456,11 +466,15 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             });
         }
         $scope.orderItem.unit = $scope.unitsList[0];
-        $scope.orderItem.price = $scope.unitsList[0].purchasePrice;
+        $scope.orderItem.price = $scope.unitsList[0].price;
         $scope.orderItem.salesPrice = $scope.unitsList[0].salesPrice;
         // $scope.calucualteStoreBalance($scope.unitsList[0]);
     };
-
+    $scope.setOrderItemData = function (unit) {
+        $scope.orderItem.unit = { id: unit.id, code: unit.code, nameAr: unit.nameAr, nameEn: unit.nameEn };
+        $scope.orderItem.price = unit.price;
+        $scope.orderItem.salesPrice = unit.salesPrice;
+    };
     $scope.getPurchaseRequest = function () {
         $scope.busy = true;
         $scope.purchaseRequestList = [];
@@ -549,6 +563,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             bonusCount: orderItem.bonusCount,
             total: orderItem.count * orderItem.price,
             approved: orderItem.approved,
+            vendorDiscount: orderItem.vendorDiscount,
             purchaseCost: 0,
             // storesBalanceList: calcBalance.storesBalanceList,
             // totalBalance: calcBalance.totalBalance,
@@ -589,7 +604,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             $scope.itemsError = '##word.Please Enter Count##';
             return;
         }
-        const index = $scope.item.itemsList.findIndex((_elem) => _elem.id === item.id);
+        const index = $scope.item.itemsList.findIndex((_elem) => _elem.id === item.id && _elem.unit.id === item.unit.id);
         if (index !== -1) {
             $scope.item.itemsList[index].approved = true;
         }
@@ -598,7 +613,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     };
 
     $scope.unapproveItem = function (item) {
-        const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === item.id);
+        const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === item.id && _elm.unit.id === item.unit.id);
         if (itemIndex !== -1) {
             $scope.item.itemsList[itemIndex].approved = false;
             $scope.canApprove = false;
@@ -611,7 +626,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
                 $scope.itemsError = '##word.Please Enter Valid Numbers##';
                 return;
             }
-            const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === itm.id);
+            const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === itm.id && _elm.unit.id === itm.unit.id);
             const selectdItem = $scope.item.itemsList[itemIndex];
             if (itemIndex !== -1) {
                 selectdItem.total = selectdItem.count * selectdItem.price;
@@ -623,8 +638,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope.prpepareToApproveOrder = function (_item) {
         $scope.canApprove = false;
         const index = _item.itemsList.findIndex((elem) => elem.approved == false);
-
-        if (index == -1) {
+        if (index === -1) {
             $scope.canApprove = true;
         }
     };
@@ -695,8 +709,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope.getAll();
     $scope.getPaymentTypes();
     $scope.getpurchaseOrdersSource();
-    $scope.getVendors();
-    $scope.getStores();
+    // $scope.getVendors();
+    // $scope.getStores();
     $scope.getStoresItems();
     $scope.getNumberingAuto();
 });

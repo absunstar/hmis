@@ -9,6 +9,7 @@ module.exports = function init(site) {
         allowRouteGet: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
+        allowRouteApprove: true,
         allowRouteDelete: true,
         allowRouteView: true,
         allowRouteAll: true,
@@ -149,7 +150,7 @@ module.exports = function init(site) {
                     name: app.name,
                 },
                 (req, res) => {
-                    res.render(app.name + '/index.html', { title: app.name, appName: 'Sales Invoices' }, { parser: 'html', compres: true });
+                    res.render(app.name + '/index.html', { title: app.name, appName: 'Return Sales Invoices' }, { parser: 'html', compres: true });
                 }
             );
         }
@@ -178,42 +179,42 @@ module.exports = function init(site) {
                     _data.code = cb.code;
                 }
 
-                let overDraftObj = {
-                    store: _data.store,
-                    items: _data.itemsList,
-                };
+                // let overDraftObj = {
+                //     store: _data.store,
+                //     items: _data.itemsList,
+                // };
 
-                site.checkOverDraft(req, overDraftObj, (overDraftCb) => {
-                    if (!overDraftCb.done) {
-                        let error = '';
-                        error = overDraftCb.refuseList.map((m) => (req.session.lang == 'Ar' ? m.nameAr : m.nameEn)).join('-');
-                        response.error = `Item Balance Insufficient ( ${error} )`;
-                        res.json(response);
-                        return;
+                // site.checkOverDraft(req, overDraftObj, (overDraftCb) => {
+                //     if (!overDraftCb.done) {
+                //         let error = '';
+                //         error = overDraftCb.refuseList.map((m) => (req.session.lang == 'Ar' ? m.nameAr : m.nameEn)).join('-');
+                //         response.error = `Item Balance Insufficient ( ${error} )`;
+                //         res.json(response);
+                //         return;
+                //     }
+                _data.addUserInfo = req.getUserFinger();
+                app.add(_data, (err, doc) => {
+                    if (!err) {
+                        response.done = true;
+                        // doc.itemsList.forEach((_item) => {
+                        //     let item = { ..._item };
+                        //     item.store = { ...doc.store };
+                        //     site.editItemsBalance(item, app.name);
+                        //     item.invoiceId = doc.id;
+                        //     item.date = doc.date;
+                        //     item.customer = doc.customer;
+                        //     item.countType = 'in';
+                        //     item.orderCode = doc.code;
+                        //     site.setItemCard(item, app.name);
+                        // });
+                        response.doc = doc;
+                    } else {
+                        response.error = err.message;
                     }
-                    _data.addUserInfo = req.getUserFinger();
-                    app.add(_data, (err, doc) => {
-                        if (!err) {
-                            response.done = true;
-                            doc.itemsList.forEach((_item) => {
-                                let item = { ..._item };
-                                item.store = { ...doc.store };
-                                site.editItemsBalance(item, app.name);
-                                item.invoiceId = doc.id;
-                                item.date = doc.date;
-                                item.customer = doc.customer;
-                                item.countType = 'in';
-                                item.orderCode = doc.code;
-                                site.setItemCard(item, app.name);
-                            });
-                            response.doc = doc;
-                        } else {
-                            response.error = err.message;
-                        }
 
-                        res.json(response);
-                    });
+                    res.json(response);
                 });
+                // });
             });
         }
 
@@ -234,6 +235,53 @@ module.exports = function init(site) {
                         response.error = err.message;
                     }
                     res.json(response);
+                });
+            });
+        }
+
+        if (app.allowRouteApprove) {
+            site.post({ name: `/api/${app.name}/approve`, require: { permissions: ['login'] } }, (req, res) => {
+                let response = {
+                    done: false,
+                };
+
+                let _data = req.data;
+                _data.editUserInfo = req.getUserFinger();
+                let overDraftObj = {
+                    store: _data.store,
+                    items: _data.itemsList,
+                };
+
+                site.checkOverDraft(req, overDraftObj, (overDraftCb) => {
+                    if (!overDraftCb.done) {
+                        let error = '';
+                        error = overDraftCb.refuseList.map((m) => (req.session.lang == 'Ar' ? m.nameAr : m.nameEn)).join('-');
+                        response.error = `Item Balance Insufficient ( ${error} )`;
+                        res.json(response);
+                        return;
+                    }
+                    _data.addUserInfo = req.getUserFinger();
+                    app.update(_data, (err, result) => {
+                        if (!err) {
+                            response.done = true;
+                            result.doc.itemsList.forEach((_item) => {
+                                let item = { ..._item };
+                                item.store = { ...result.doc.store };
+                                site.editItemsBalance(item, app.name);
+                                item.invoiceId = result.doc.id;
+                                item.date = result.doc.date;
+                                item.customer = result.doc.customer;
+                                item.countType = 'in';
+                                item.orderCode = result.doc.code;
+                                site.setItemCard(item, app.name);
+                            });
+                            response.result = result;
+                        } else {
+                            response.error = err.message;
+                        }
+
+                        res.json(response);
+                    });
                 });
             });
         }
@@ -279,7 +327,7 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                let select = req.body.select || { id: 1, code: 1, customer: 1, itemsList: 1, paymentType: 1, store: 1, active: 1, image: 1 };
+                let select = req.body.select || { id: 1, code: 1, invoiceCode: 1, invoiceId: 1, orderDate: 1, customer: 1, itemsList: 1, paymentType: 1, store: 1, active: 1, image: 1, approved: 1 };
                 let list = [];
 
                 if (where && where.dateTo) {
@@ -300,7 +348,7 @@ module.exports = function init(site) {
                         $lt: d2,
                     };
                 }
-                
+
                 if (app.allowMemory) {
                     app.memoryList
                         .filter((g) => g.company && g.company.id == site.getCompany(req).id)

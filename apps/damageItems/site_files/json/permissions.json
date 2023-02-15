@@ -7,5 +7,8 @@
     { "moduleName": "public", "screenName": "damageItems", "name": "damageItemsSearch", "En": "Search", "Ar": "بحث" },
     { "moduleName": "public", "screenName": "damageItems", "name": "damageItemsExport", "En": "Export", "Ar": "تصدير" },
     { "moduleName": "public", "screenName": "damageItems", "name": "damageItemsPrint", "En": "Print", "Ar": "طباعة" },
-    { "moduleName": "public", "screenName": "damageItems", "name": "damageItemsUi", "En": "UI", "Ar": "الواجهة الرسومية" }
+    { "moduleName": "public", "screenName": "damageItems", "name": "damageItemsUi", "En": "UI", "Ar": "الواجهة الرسومية" },
+    { "moduleName": "public", "screenName": "damageItems", "name": "approveDamageItem", "En": "Approve Damage Item", "Ar": "إعتماد صنف للإتلاف" },
+    { "moduleName": "public", "screenName": "damageItems", "name": "unapproveDamageItem", "En": "Unapprove Damage Item", "Ar": "إلغاء إعتماد صنف للإتلاف" },
+    { "moduleName": "public", "screenName": "damageItems", "name": "approveDamageItems", "En": "Approve Damage Items", "Ar": "إعتماد إتلاف اصناف" }
 ]

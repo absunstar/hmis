@@ -16,7 +16,7 @@
                             <i-list
                                 v="r"
                                 class="col4"
-                                ng-change="item.sourceType.id === 1?getPurchaseRequest():item.itemsList=[]"
+                                ng-change="item.sourceType.id === 1?getPurchaseRequest():item.itemsList=[];resetOrderItem()"
                                 ng-model="item.sourceType"
                                 display="name##session.lang##"
                                 items="purchaseOrdersSourcesList"
@@ -38,7 +38,7 @@
 
                             <div class="col2">
                                 <br />
-                                <i-button ng-if="item.sourceType.id === 1" type="get" label="##word.Get Items##" ng-click="getRequestItems(item.purchaseRequest)"> </i-button>
+                                <i-button ng-if="item.sourceType.id === 1" type="get" label="##word.Load Items##" ng-click="getRequestItems(item.purchaseRequest)"> </i-button>
                             </div>
                         </div>
                     </fieldset>
@@ -51,8 +51,8 @@
                         label="##word.Payment Type##"
                         ng-search="item.orderPaymentType"
                     ></i-list>
-                    <i-control class="col4" type="text" v="r" ng-model="item.importPermitNumber" label="##word.Import Permit Number##"></i-control>
-                    <i-date class="col4" v="r" ng-model="item.importAuthorizationDate" label="##word.Import Authorization Date##"></i-date>
+                    <i-control class="col4" type="text" ng-model="item.importPermitNumber" label="##word.Import Permit Number##"></i-control>
+                    <i-date class="col4" ng-model="item.importAuthorizationDate" label="##word.Import Authorization Date##"></i-date>
 
                     <i-checkbox ng-model="item.hasVendor" class="col4" label="##word.Has Vendor##"></i-checkbox>
 
@@ -64,9 +64,18 @@
                         ng-model="item.vendor"
                         items="vendorsList"
                         label="##word.Vendor##"
-                        ng-search="item.orderPaymentType"
+                        ng-get="getVendors($search)"
                     ></i-list>
-                    <i-list v="r" class="col4" display="name##session.lang##" ng-model="item.store" items="storesList" label="##word.Store##" ng-search="item.$store"></i-list>
+                    <i-list
+                        v="r"
+                        class="col4"
+                        display="name##session.lang##"
+                        ng-model="item.store"
+                        ng-get="getStores($search)"
+                        items="storesList"
+                        label="##word.Store##"
+                        ng-search="item.$store"
+                    ></i-list>
                 </div>
 
                 <!-- <fieldset>
@@ -97,23 +106,34 @@
                     ></i-list>
                 </div>
                 <div class="col2">
-                    <i-list ng-model="orderItem.unit" items="unitsList" display="name##session.lang##" label="##word.Unit##" ng-search="orderItem.$unit"></i-list>
+                    <i-list
+                        ng-model="orderItem.unit"
+                        ng-change="setOrderItemData(orderItem.unit)"
+                        items="unitsList"
+                        display="name##session.lang##"
+                        label="##word.Unit##"
+                        ng-search="orderItem.$unit"
+                    ></i-list>
                 </div>
 
-                <div class="col2">
+                <div class="col1">
                     <i-control type="number" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
                 </div>
-                <div class="col2">
-                    <i-control type="number" min="0" ng-model="orderItem.price" label="##word.Purchase Price##"></i-control>
+                <div class="col1">
+                    <i-control type="number" min="0" ng-model="orderItem.price" label="##word.Price##"></i-control>
                 </div>
 
                 <div class="col2">
                     <i-control type="number" min="0" ng-model="orderItem.salesPrice" label="##word.Sales Price##"></i-control>
                 </div>
+
                 <div class="col1">
                     <i-control type="number" min="0" ng-model="orderItem.bonusCount" label="##word.Bonus Count##"></i-control>
                 </div>
 
+                <div class="col2">
+                    <i-control type="number" min="1" ng-model="orderItem.vendorDiscount" label="##word.Vendor Discount##"></i-control>
+                </div>
                 <div class="col1">
                     <br />
                     <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
@@ -130,6 +150,7 @@
                     <th>##word.Purchase Price##</th>
                     <th>##word.Sales Price##</th>
                     <th>##word.Bonus Count##</th>
+                    <th>##word.Vendor Discount##</th>
                     <th>##word.Total##</th>
                     <th>##word.Approved##</th>
                     <th class="not-print">##word.Actions##</th>
@@ -140,15 +161,7 @@
                     <td class="text-center">{{elem.unit.name##session.lang##}}</td>
                     <td class="text-center">
                         <p ng-if="item.sourceType.id === 1 || elem.approved" class="text-center">{{elem.count}}</p>
-                        <i-control
-                            ng-change="calculateTotalInItemsList(elem)"
-                            ng-keyup="calculateTotalInItemsList(elem)"
-                            ng-click="calculateTotalInItemsList(elem)"
-                            ng-if="item.sourceType.id !== 1 && !elem.approved"
-                            min="0"
-                            type="number"
-                            ng-model="elem.count"
-                        ></i-control>
+                        <i-control ng-change="calculateTotalInItemsList(elem)" ng-if="item.sourceType.id !== 1 && !elem.approved" min="0" type="number" ng-model="elem.count"></i-control>
 
                         <!-- <fieldset ng-show="item.sourceType.id !== 1 && mode =='add'">
                             <legend>##word.Stores Balance## <span class="blue"> {{elem.totalBalance}}</span></legend>
@@ -160,15 +173,7 @@
                     </td>
                     <td class="text-center">
                         <p ng-if=" elem.approved" class="text-center">{{elem.price}}</p>
-                        <i-control
-                            ng-change="calculateTotalInItemsList(elem)"
-                            ng-keyup="calculateTotalInItemsList(elem)"
-                            ng-click="calculateTotalInItemsList(elem)"
-                            type="number"
-                            ng-if="!elem.approved"
-                            min="0"
-                            ng-model="elem.price"
-                        ></i-control>
+                        <i-control ng-change="calculateTotalInItemsList(elem)" type="number" ng-if="!elem.approved" min="0" ng-model="elem.price"></i-control>
                     </td>
                     <td class="text-center">
                         <p ng-if=" elem.approved" class="text-center">{{elem.salesPrice}}</p>
@@ -177,6 +182,10 @@
                     <td class="text-center">
                         <p ng-if="elem.approved" class="text-center">{{elem.bonusCount}}</p>
                         <i-control type="number" ng-if="!elem.approved" ng-model="elem.bonusCount"></i-control>
+                    </td>
+                    <td class="text-center">
+                        <p ng-if="elem.approved" class="text-center">{{elem.vendorDiscount}}</p>
+                        <i-control type="number" ng-if="!elem.approved" ng-model="elem.vendorDiscount"></i-control>
                     </td>
                     <td>
                         <p class="text-center">{{elem.total}}</p>
@@ -202,7 +211,7 @@
                             ng-click="unapproveItem(elem)"
                         >
                         </i-button>
-                        <i-button type="delete" ng-if="item.sourceType.id !== 1" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
+                        <i-button type="delete" ng-if="item.sourceType.id !== 1" label="##word.Delete##" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>
                     </td>
                 </tr>
             </table>

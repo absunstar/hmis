@@ -6,13 +6,12 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
-        date: new Date(),
         active: true,
     };
     $scope.item = {};
     $scope.orderItem = {};
     $scope.list = [];
-
+    $scope.canApprove = false;
     $scope.resetOrderItem = function () {
         $scope.orderItem = {
             item: undefined,
@@ -30,7 +29,8 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
         $scope.itemsError = '';
         $scope.mode = 'add';
         $scope.resetOrderItem();
-        $scope.item = { ...$scope.structure, itemsList: [] };
+        $scope.item = { ...$scope.structure, date: new Date(), itemsList: [] };
+        $scope.canApprove = false;
         site.showModal($scope.modalID);
     };
 
@@ -286,15 +286,20 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
             nameAr: orderItem.item.nameAr,
             nameEn: orderItem.item.nameEn,
             itemGroup: orderItem.item.itemGroup,
+            destroyingReason: orderItem.destroyingReason,
             unit: { id: orderItem.unit.id, code: orderItem.unit.code, nameAr: orderItem.unit.nameAr, nameEn: orderItem.unit.nameEn },
             count: orderItem.count,
             price: orderItem.unit.price,
+            approved: false,
         });
         $scope.resetOrderItem();
         $scope.itemsError = '';
     };
 
-    $scope.getStores = function () {
+    $scope.getStores = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
         $scope.busy = true;
         $scope.storesList = [];
         $http({
@@ -303,6 +308,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
+                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -374,6 +380,113 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
         $scope.itemsError = '';
     };
 
+    $scope.getReasonsDestroyingItems = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
+
+        $scope.busy = true;
+        $scope.destroyingItemsReasonsList = [];
+        $http({
+            method: 'POST',
+            url: '/api/reasonsDestroyingItems/all',
+            data: {
+                where: { active: true, search: $search },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.destroyingItemsReasonsList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.approveItem = function (elem) {
+        $scope.error = '';
+        if (elem.count < 1) {
+            $scope.error = '##word.Please Enter Valid Numbers##';
+            return;
+        }
+
+        const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === elem.id && _elm.unit.id === elem.unit.id);
+        if (itemIndex !== -1) {
+            $scope.item.itemsList[itemIndex].approved = true;
+        }
+
+        $scope.prpepareToApproveOrder($scope.item);
+    };
+
+    $scope.unapproveItem = function (item) {
+        const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === item.id && _elm.unit.id === item.unit.id);
+        if (itemIndex !== -1) {
+            $scope.item.itemsList[itemIndex].approved = false;
+            $scope.canApprove = false;
+        }
+    };
+
+    $scope.prpepareToApproveOrder = function (_item) {
+        $scope.canApprove = false;
+        const index = _item.itemsList.findIndex((elem) => elem.approved == false);
+        if (index === -1) {
+            $scope.canApprove = true;
+        }
+    };
+
+    $scope.approve = function (_item) {
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+        if (!_item.itemsList.length) {
+            $scope.error = '##word.Must Enter One Item At Least##';
+            return;
+        }
+
+        if (_item.itemsList.some((itm) => !itm.approved)) {
+            $scope.error = '##word.Must Approve All Items##';
+            return;
+        }
+
+        _item['approved'] = true;
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/approve`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+
     $scope.validateData = function (_item) {
         $scope.itemsError = '';
         $scope.error = '';
@@ -386,9 +499,9 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
         success = true;
         return { success, _item };
     };
-
+    $scope.getReasonsDestroyingItems();
     $scope.getAll();
-    $scope.getStores();
+    // $scope.getStores();
     $scope.getStoresItems();
     $scope.getNumberingAuto();
 });

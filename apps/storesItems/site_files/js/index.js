@@ -337,9 +337,10 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     };
 
     $scope.getItemsGroups = function ($search) {
-        // if ($search && $search.length < 3) {
-        //     return;
-        // }
+        if ($search && $search.length < 3) {
+            return;
+        }
+
         $scope.busy = true;
         $scope.itemsgroupsList = [];
         $http({
@@ -380,6 +381,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             data: {
                 select: {
                     id: 1,
+                    code: 1,
                     nameEn: 1,
                     nameAr: 1,
                 },
@@ -464,14 +466,18 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getActiveSubstances = function () {
+    $scope.getActiveSubstances = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
+
         $scope.busy = true;
         $scope.activeSubstancesList = [];
         $http({
             method: 'POST',
-            url: '/api/activeSubstances/active',
+            url: '/api/activeSubstances/all',
             data: {
-                where: { active: true },
+                where: { active: true, search: $search },
                 select: {
                     id: 1,
                     code: 1,

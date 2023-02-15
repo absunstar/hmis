@@ -9,7 +9,18 @@
                         <i-date class="col5" label="##word.Date##" ng-model="item.date"> </i-date>
                         <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
                     </div>
-                    <i-list type="text" v="r" class="col4" ng-model="item.store" label="##word.Store##" items="storesList" display="name##session.lang##"></i-list>
+                    <i-list
+                        type="text"
+                        v="r"
+                        class="col4"
+                        ng-disabled="item.itemsList.length"
+                        ng-model="item.store"
+                        label="##word.Store##"
+                        ng-get="getStores($search)"
+                        items="storesList"
+                        display="name##session.lang##"
+                    ></i-list>
+                    <!-- ng-get="getCustomers($search)" -->
                     <i-list type="text" v="r" class="col4" ng-model="item.customer" label="##word.Customer##" items="customersList" display="name##session.lang##"></i-list>
                     <i-list type="text" v="r" class="col4" ng-model="item.paymentType" label="##word.Payment Type##" items="paymentTypesList" display="name##session.lang##"></i-list>
                 </div>
@@ -20,9 +31,9 @@
         </div>
     </fieldset>
 
-    <fieldset>
+    <fieldset ng-show="item.store && item.store.id">
         <legend>##word.Items Information##</legend>
-        <div class="row" ng-if="item.source.id !== 1">
+        <div class="row" ng-if="mode == 'add'">
             <div class="col2">
                 <i-list
                     ng-model="orderItem.item"
@@ -73,7 +84,8 @@
                 <td class="text-center">{{elem.name##session.lang##}}</td>
                 <td class="text-center">{{elem.unit.name##session.lang##}}</td>
                 <td class="text-center">
-                    <i-control  ng-change="calculateItem(elem)" min="0" type="number" ng-model="elem.count"></i-control>
+                    <i-control ng-if="mode == 'add'" min="0" type="number" ng-model="elem.count"></i-control>
+                    <p class="text-center" ng-if="mode != 'add'">{{elem.count}}</p>
                 </td>
                 <td class="text-center">
                     <p class="text-center">{{elem.price}}</p>
@@ -86,7 +98,7 @@
                 </td>
 
                 <td class="text-center">
-                    <i-button type="delete" ng-if="item.source.id !== 1" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
+                    <i-button type="delete" ng-if="mode == 'add'" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
                 </td>
             </tr>
         </table>

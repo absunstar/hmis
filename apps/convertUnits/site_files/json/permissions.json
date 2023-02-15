@@ -8,7 +8,7 @@
     { "moduleName": "public", "screenName": "convertUnits", "name": "convertUnitsExport", "En": "Export", "Ar": "تصدير" },
     { "moduleName": "public", "screenName": "convertUnits", "name": "convertUnitsPrint", "En": "Print", "Ar": "طباعة" },
     { "moduleName": "public", "screenName": "convertUnits", "name": "convertUnitsUi", "En": "UI", "Ar": "الواجهة الرسومية" },
-    { "moduleName": "public", "screenName": "convertUnits", "name": "convertUnitsItem", "En": "Approve Item", "Ar": "إعتماد أصناف فاتورة مشتريات" },
-    { "moduleName": "public", "screenName": "convertUnits", "name": "unapproveconvertUnitsItem", "En": "Unapprove Item", "Ar": "إلغاء إعتماد أصناف فاتورة شراء" },
-    { "moduleName": "public", "screenName": "convertUnits", "name": "approveconvertUnits", "En": "Approve Order", "Ar": "إعتماد فاتورة مشتريات" }
+    { "moduleName": "public", "screenName": "convertUnits", "name": "approveConvertUnitsItem", "En": "Approve Item", "Ar": "إعتماد تحويل صنف" },
+    { "moduleName": "public", "screenName": "convertUnits", "name": "unapproveConvertUnitsItem", "En": "Unapprove Item", "Ar": "إلغاء إعتماد تحويل صنف" },
+    { "moduleName": "public", "screenName": "convertUnits", "name": "approveConvertUnits", "En": "Approve Order", "Ar": "إعتماد أمر تحويل وحدات" }
 ]

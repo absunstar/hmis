@@ -256,7 +256,8 @@ module.exports = function init(site) {
                 let where = req.body.where || {};
                 where.search = where.search || 'id';
                 let limit = req.body.limit || 10;
-                let select = req.body.select || { id, code, nameEn, nameAr, image, active };
+                // let select = req.body.select || { id, code, nameEn, nameAr, image, active };
+                let select = req.body.select || {  };
                 let list = app.memoryList.filter(
                     (g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(where.search)
                 );

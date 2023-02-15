@@ -7,7 +7,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
     $scope.mode = 'add';
     $scope.search = {};
     $scope.structure = {
-        date: new Date(),
+        approved: false,
         active: true,
     };
     $scope.item = {};
@@ -17,7 +17,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
         $scope.error = '';
         $scope.itemsError = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure };
+        $scope.item = { ...$scope.structure, orderDate: new Date() };
         $scope.search = { ...$scope.structure };
         site.showModal($scope.modalID);
     };
@@ -29,6 +29,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
+
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -46,6 +47,41 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
                     if (response.data.error && response.data.error.like('*Must Enter Code*')) {
                         $scope.error = '##word.Must Enter Code##';
                     }
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+
+    $scope.approve = function (_item) {
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+
+        _item.approved = true;
+        _item.approvedDate = new Date();
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/approve`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = 'Please Login First';
                 }
             },
             function (err) {
@@ -272,13 +308,63 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
         site.hideModal($scope.getSalesInvoicesModalID);
     };
 
-    $scope.showModalGetPurchaseOrdersData = function () {
+    $scope.showModalGetSalesInvoicesData = function () {
         $scope.search = {};
 
         site.showModal($scope.getSalesInvoicesModalID);
     };
 
-    $scope.getStores = function () {
+    $scope.getSalesInvoices = function (where) {
+        $scope.searchError = '';
+        if (where && where.store && where.store.id) {
+            where['store.id'] = where.store.id;
+            delete where.store;
+        }
+
+        if (where && where.paymentType && where.paymentType.id) {
+            where['paymentType.id'] = where.paymentType.id;
+            delete where.paymentType;
+        }
+
+        if (where && where.customer && where.customer.id) {
+            where['customer.id'] = where.customer.id;
+            delete where.customer;
+        }
+
+        delete where['image'];
+        delete where['active'];
+        where['hasReturnTransaction'] = { $ne: true };
+        $scope.busy = true;
+        $scope.returnSalesInvoicesList = [];
+
+        $http({
+            method: 'POST',
+            url: '/api/salesInvoices/all',
+            data: {
+                where: where,
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length) {
+                    $scope.returnSalesInvoicesList = response.data.list;
+                    site.showModal($scope.getSalesInvoicesModalID);
+                } else {
+                    $scope.searchError = 'No Data Match Your Search';
+                }
+                $scope.search = {};
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.getStores = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
         $scope.busy = true;
         $scope.storesList = [];
         $http({
@@ -287,6 +373,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
+                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -414,7 +501,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
     $scope.getAll();
 
     $scope.getPaymentTypes();
-    $scope.getStores();
+    // $scope.getStores();
     $scope.getStoresItems();
     $scope.getCustomers();
     $scope.getNumberingAuto();

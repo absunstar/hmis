@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "reasonsDestroyingItemsAdmin",
+    "En": "reasonsDestroyingItems Admin",
+    "Ar": "إدارة أسباب إتلاف الأصناف",
+    "permissions": ["reasonsDestroyingItemsManage"]
+}]

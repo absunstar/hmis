@@ -56,11 +56,18 @@
 
                     <i-button type="edit" ng-show="!item.hasTransaction" x-permissions="purchaseRequestsUpdate || purchaseRequestsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
 
-                    <i-button type="delete" x-permissions="purchaseRequestsDelete || purchaseRequestsManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
+                    <i-button
+                        type="delete"
+                        ng-show="!item.hasTransaction"
+                        x-permissions="purchaseRequestsDelete || purchaseRequestsManage"
+                        label="##word.Delete##"
+                        ng-click="showDelete(item)"
+                    ></i-button>
                 </td>
             </tr>
         </table>
         <i-button x-permissions="purchaseRequestsPrint || purchaseRequestsManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
-        <i-button x-permissions="purchaseRequestsExport || purchaseRequestsManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')"> </i-button>
+        <i-button x-permissions="purchaseRequestsExport || purchaseRequestsManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')">
+        </i-button>
     </div>
 </div>

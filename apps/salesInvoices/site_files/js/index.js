@@ -7,7 +7,6 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: { url: '/images/salesInvoices.png' },
-        date: new Date(),
 
         active: true,
     };
@@ -32,7 +31,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
         $scope.itemsError = '';
         $scope.mode = 'add';
         $scope.resetOrderItem();
-        $scope.item = { ...$scope.structure, itemsList: [] };
+        $scope.item = { ...$scope.structure, date: new Date(), itemsList: [] };
         site.showModal($scope.modalID);
     };
 
@@ -248,6 +247,9 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     };
 
     $scope.getCustomers = function () {
+        // if ($search && $search.length < 3) {
+        //     return;
+        // }
         $scope.busy = true;
         $scope.customersList = [];
         $http({
@@ -256,6 +258,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
+                    // search: $search,
                 },
                 select: {
                     id: 1,
@@ -334,7 +337,10 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
         $scope.itemsError = '';
     };
 
-    $scope.getStores = function () {
+    $scope.getStores = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
         $scope.busy = true;
         $scope.storesList = [];
         $http({
@@ -342,7 +348,9 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
             url: '/api/stores/all',
             data: {
                 where: {
+                    'type.id': 1,
                     active: true,
+                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -457,7 +465,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
 
     $scope.getAll();
     $scope.getPaymentTypes();
-    $scope.getStores();
+    // $scope.getStores();
     $scope.getStoresItems();
     $scope.getCustomers();
     $scope.getNumberingAuto();

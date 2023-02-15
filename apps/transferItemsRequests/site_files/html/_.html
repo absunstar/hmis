@@ -47,9 +47,21 @@
                 <td class="text-center not-print">
                     <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
-                    <i-button type="edit" x-permissions="transferItemsRequestsUpdate || transferItemsRequestsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
+                    <i-button
+                        type="edit"
+                        ng-show="!item.hasTransaction"
+                        x-permissions="transferItemsRequestsUpdate || transferItemsRequestsManage"
+                        label="##word.Edit##"
+                        ng-click="showUpdate(item)"
+                    ></i-button>
 
-                    <i-button type="delete" x-permissions="transferItemsRequestsDelete || transferItemsRequestsManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
+                    <i-button
+                        type="delete"
+                        ng-show="!item.approved"
+                        x-permissions="transferItemsRequestsDelete || transferItemsRequestsManage"
+                        label="##word.Delete##"
+                        ng-click="showDelete(item)"
+                    ></i-button>
                 </td>
             </tr>
         </table>

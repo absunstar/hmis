@@ -76,7 +76,7 @@
                             ng-model="item.commericalNationality"
                             items="nationalitiesList"
                             display="name##session.lang##"
-                            ng-search="item.$commericalNationality"
+                            ng-get="getNationalities($search)"
                         ></i-list>
 
                         <i-control class="col3" label="##word.Financial System##" ng-model="item.financialSystem"></i-control>

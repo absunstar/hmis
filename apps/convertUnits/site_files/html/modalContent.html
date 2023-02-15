@@ -2,19 +2,17 @@
     <div class="row padding">
         <fieldset>
             <legend>##word.Basic Information##</legend>
-            <div class="col9">
-                <div class="row">
-                    <div class="row">
-                        <i-control ng-hide="disabledCode" class="col4" label="##word.Code##" ng-model="item.code"> </i-control>
+            <div class="row">
+                <i-control ng-hide="disabledCode" class="col3" label="##word.Code##" ng-model="item.code"> </i-control>
 
-                        <i-date ng-model="item.date" class="col4" label="##word.Date##"></i-date>
-                        <i-checkbox ng-model="item.active" class="col4" label="##word.Active##"></i-checkbox>
-                    </div>
+                <i-date ng-model="item.date" class="col3" label="##word.Date##"></i-date>
 
-                    <i-list v="r" class="col4" display="name##session.lang##" ng-model="item.store" items="storesList" label="##word.Store##" ng-search="item.$store"></i-list>
-                </div>
+                <i-list v="r" class="col4" display="name##session.lang##" ng-model="item.store" items="storesList" label="##word.Store##" ng-get="getStores($search)"></i-list>
 
-                <!-- <fieldset>
+                <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
+            </div>
+
+            <!-- <fieldset>
                     <legend>##word.Calculate Purchase Price Informations##</legend>
                     <div class="row">
                         <i-checkbox ng-model="item.calculatePurchaseCost" class="col3" label="##word.Calculate Purchase Price##"></i-checkbox>
@@ -23,14 +21,14 @@
                         <i-control ng-if="item.calculatePurchaseCost" class="col3" type="number" min="0" ng-model="item.purchaseCost" label="##word.Purchase Cost##"></i-control>
                     </div>
                 </fieldset> -->
-            </div>
-            <div class="col3 center">
+            <!-- </div> -->
+            <!-- <div class="col3 center">
                 <i-image class="img256 center" ng-model="item.image"></i-image>
-            </div>
+            </div> -->
         </fieldset>
         <fieldset>
             <legend>##word.Items Information##</legend>
-            <div class="row">
+            <div class="row" ng-if="mode =='add'">
                 <i-list
                     class="col2"
                     ng-model="orderItem.item"
@@ -76,7 +74,7 @@
                     <th>##word.To Unit##</th>
                     <th>##word.Conversion##</th>
                     <th>##word.New Count##</th>
-
+                    <th>##word.Approved##</th>
                     <th class="not-print">##word.Actions##</th>
                 </tr>
                 <tr ng-repeat="elem in item.itemsList">
@@ -85,38 +83,28 @@
                         <p class="text-center">{{elem.name##session.lang##}}</p>
                     </td>
                     <td>
-                        <p class="text-center">{{elem.unit.name##session.lang##}}</p>
+                        <p class="text-center text-danger">{{elem.unit.name##session.lang##}}</p>
                     </td>
                     <td><p class="text-center">{{elem.currentCount}}</p></td>
-                    <td><p class="text-center">{{elem.count}}</p></td>
+                    <td><p class="text-center text-danger">{{elem.count}}</p></td>
                     <td>
-                        <p class="text-center">{{elem.toUnit.name##session.lang##}}</p>
+                        <p class="text-center text-success">{{elem.toUnit.name##session.lang##}}</p>
                     </td>
 
                     <td><p class="text-center">{{elem.conversion}}</p></td>
 
                     <td class="text-center">
-                        <p class="text-center">{{elem.newCount}}</p>
-
-                        <!-- <fieldset ng-show="item.sourceType.id !== 1 && mode =='add'">
-                            <legend>##word.Stores Balance## <span class="blue"> {{elem.totalBalance}}</span></legend>
-                            <div class="row" ng-repeat="store in elem.storesBalanceList">
-                                <span class="col6 text-center">{{store.store.name##session.lang##}}</span>
-                                <span class="col6 text-center blue">{{store.currentBalance}}</span>
-                            </div>
-                        </fieldset> -->
-
-                        <!-- <p class="text-center">{{elem.total}}</p> -->
+                        <p class="text-center text-success">{{elem.newCount}}</p>
                     </td>
-                    <!-- <td>
+                    <td>
                         <p class="text-center text-success" ng-if="elem.approved">##word.Yes##</p>
                         <p class="text-center text-danger" ng-if="!elem.approved">##word.No##</p>
-                    </td> -->
+                    </td>
                     <td class="text-center">
                         <i-button
                             type="approve"
                             ng-if="!elem.approved &&!item.approved && mode == 'edit'"
-                            x-permissions="approvepurchaseOrdersItem || purchaseOrdersManage"
+                            x-permissions="approveConvertUnitsItem || convertUnitsManage"
                             label="##word.Approve##"
                             ng-click="approveItem(elem)"
                         >
@@ -124,18 +112,17 @@
                         <i-button
                             type="unapprove"
                             ng-if="elem.approved &&!item.approved  && mode =='edit'"
-                            x-permissions="unapprovepurchaseOrdersItem || purchaseOrdersManage"
+                            x-permissions="unapproveConvertUnitsItem || convertUnitsManage"
                             label="##word.Unapprove##"
                             ng-click="unapproveItem(elem)"
                         >
                         </i-button>
-                        <i-button type="delete" ng-if="item.sourceType.id !== 1" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
+                        <i-button type="delete" ng-if="item.sourceType.id !== 1" label="##word.Delete##" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>
                     </td>
                 </tr>
             </table>
         </fieldset>
     </div>
-    <div class="row padding"></div>
 </div>
 <div ng-show="mode !== 'add' " class="row">
     <table class="table hover border">

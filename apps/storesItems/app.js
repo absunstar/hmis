@@ -44,7 +44,6 @@ module.exports = function init(site) {
                         const newCost = _elm.count * _elm.price; // 2000 * 2 = 4000
                         const totalCount = selectedUnit.currentCount + _elm.count; // 1000 +2000
                         doc.unitsList[index].purchaseCost = (oldCost + newCost) / totalCount; // 1500 + 4000 / 3000
-            
                     }
                     if (screenName === 'returnPurchaseOrders') {
                         doc.unitsList[index].storesList[storeIndex].purchaseReturnCost += _elm.cost;
@@ -472,7 +471,9 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-
+                // where.search = where.search || 'id';
+                // let limit = req.body.limit || 10;
+                // let select = req.body.select || {};
                 let select = req.body.select || {
                     id: 1,
                     code: 1,

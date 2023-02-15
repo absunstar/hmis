@@ -7,7 +7,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: { url: '/images/transferItemsRequests.png' },
-        requestDate: new Date(),
+
         itemsList: [],
         hasTransaction: false,
         approved: false,
@@ -26,11 +26,13 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
         };
     };
     $scope.showAdd = function (_item) {
+        $scope.canApprove = false;
         $scope.error = '';
         $scope.itemsError = '';
         $scope.mode = 'add';
         $scope.resetOrderItem();
-        $scope.item = { ...$scope.structure };
+        $scope.item = { ...$scope.structure, requestDate: new Date() };
+        $scope.canApprove = false;
         site.showModal($scope.modalID);
     };
 
@@ -343,7 +345,10 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
         $scope.search = {};
     };
 
-    $scope.getStores = function () {
+    $scope.getStores = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
         $scope.busy = true;
         $scope.storesList = [];
         $http({
@@ -352,13 +357,13 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
+                    search: $search,
                 },
                 select: {
                     id: 1,
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
-                    type: 1,
                 },
             },
         }).then(
@@ -503,14 +508,12 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.prpepareToApproveOrder = function (_item) {
-        let allApproved = _item.itemsList.every((elem) => elem.approved === true);
-        if (allApproved) {
+        $scope.canApprove = false;
+        const index = _item.itemsList.findIndex((elem) => elem.approved == false);
+        if (index === -1) {
             $scope.canApprove = true;
-        } else {
-            $scope.canApprove = false;
         }
     };
-
     $scope.addFiles = function () {
         $scope.error = '';
         $scope.item.filesList = $scope.item.filesList || [];
@@ -522,7 +525,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.getAll();
-    $scope.getStores();
+    // $scope.getStores();
     $scope.getStoresItems();
     $scope.getNumberingAuto();
 });

@@ -33,7 +33,7 @@
                         label="##word.From Store##"
                         display="name##session.lang##"
                         items="storesList"
-                        ng-search="item.$store"
+                        ng-get="getStores($search)"
                     ></i-list>
                     <i-list
                         v="r"
@@ -43,7 +43,7 @@
                         label="##word.To Store##"
                         display="name##session.lang##"
                         items="storesList"
-                        ng-search="item.$toStore"
+                        ng-get="getStores($search)"
                     ></i-list>
                 </div>
             </div>
@@ -117,7 +117,7 @@
                             x-permissions="approveTransferItem||transferItemsRequestsManage"
                             label="##word.Approve##"
                         ></i-button>
-                        <i-button type="delete" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
+                        <i-button type="delete" label="##word.Delete##" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>
                     </td>
                 </tr>
             </table>

@@ -67,7 +67,7 @@
                 <div class="row">
                     <i-list
                         class="col3"
-                                               ng-model="item.mainUnit"
+                        ng-model="item.mainUnit"
                         ng-change="item.mainUnit?addItemUnitToItemUnitsList(item.mainUnit):''"
                         items="storesUnitsList"
                         display="name##session.lang##"
@@ -110,6 +110,7 @@
                         <tr>
                             <th>##word.S##</th>
                             <th>##word.Unit##</th>
+                            <th>##word.Purchase Cost##</th>
                             <th>##word.Conversion##</th>
                             <th>##word.Barcode##</th>
                             <th>##word.Purchase Price##</th>
@@ -123,8 +124,11 @@
                             <td class="text-center">
                                 <span class="text-center"
                                     >{{elem.unit.name##session.lang##}}
-                                    <p class="text-center">({{elem.currentCount}})</p>
+                                    <p class="text-center text-success">({{elem.currentCount}})</p>
                                 </span>
+                            </td>
+                            <td>
+                                <p class="text-center">{{elem.purchaseCost | number:'3'}}</p>
                             </td>
                             <td class="text-center">
                                 <i-control type="number" min="1" ng-model="elem.conversion"></i-control>
@@ -178,7 +182,7 @@
                                 ng-model="substance.activeSubstance"
                                 items="activeSubstancesList"
                                 display="name##session.lang##"
-                                ng-search="substance.$activeSubstances"
+                                ng-get="getActiveSubstances($search)"
                             >
                             </i-list>
                             <i-control class="col4" type="number" step=".01" min="0.00001" ng-model="substance.concentration" label="##word.Concentration##"></i-control>

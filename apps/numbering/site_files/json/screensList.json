@@ -394,5 +394,11 @@
         "feature": "public",
         "id": "damageItems",
         "name": "Damage Items"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "reasonsDestroyingItems",
+        "name": "Reasons Destroying Items"
     }
 ]

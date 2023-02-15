@@ -6,7 +6,6 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
-        requestDate: new Date(),
         image: { url: '/images/purchaseRequests.png' },
         approved: false,
         hasTransaction: false,
@@ -32,8 +31,9 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, filesList: [], itemsList: [] };
+        $scope.item = { ...$scope.structure, requestDate: new Date(), filesList: [], itemsList: [] };
         site.showModal($scope.modalID);
+        $scope.canApprove = false;
     };
 
     $scope.add = function (_item) {
@@ -370,8 +370,8 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
                     active: true,
                     allowBuy: true,
                     collectionItem: false,
-                    search: $search,
                 },
+
                 select: {
                     id: 1,
                     code: 1,
@@ -395,23 +395,6 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
         );
     };
 
-    // $scope.calucualteStoreBalance = function (unit) {
-    //     const storesBalanceList = [];
-    //     let totalBalance = 0;
-    //     unit.storesList.forEach((store) => {
-    //         const totalIncome = store.count + store.salesReturnCount + store.bonusCount + store.unassembledCount + store.transferToCount;
-    //         const totalOut = store.purchaseReturnCount + store.salesCount + store.damagedCount + store.assembledCount + store.transferFromCount;
-    //         const currentBalance = totalIncome - totalOut;
-    //         totalBalance += currentBalance;
-    //         storesBalanceList.push({
-    //             store: store.store,
-    //             currentBalance,
-    //         });
-    //     });
-
-    //     return { storesBalanceList, totalBalance };
-    // };
-
     $scope.addToItemsList = function (orderItem) {
         $scope.error = '';
         if (!orderItem.item.id) {
@@ -430,8 +413,11 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
             return;
         }
 
-        // const calcBalance = $scope.calucualteStoreBalance(orderItem.unit);
-        delete orderItem.unit.storesList;
+        const storesList = [];
+        orderItem.unit.storesList.forEach((str) => {
+            storesList.push({ store: str.store, currentCount: str.currentCount });
+        });
+
         $scope.item.itemsList.unshift({
             id: orderItem.item.id,
             code: orderItem.item.code,
@@ -443,8 +429,8 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
             salesPrice: orderItem.unit.salesPrice,
             count: orderItem.count,
             approved: false,
-            // storesBalanceList: calcBalance.storesBalanceList,
-            // totalBalance: calcBalance.totalBalance,
+            storesList,
+            currentCount: orderItem.unit.currentCount,
         });
         $scope.orderItem = { count: 1 };
     };
@@ -454,29 +440,29 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
         if (elem.count < 1) {
             $scope.error = '##word.Please Enter Valid Numbers##';
             return;
-        } else {
-            for (const itm of $scope.item.itemsList) {
-                if (itm.id === elem.id) {
-                    itm.approved = true;
-                }
-            }
-            $scope.prpepareToApproveOrder($scope.item);
         }
+
+        const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === elem.id && _elm.unit.id === elem.unit.id);
+        if (itemIndex !== -1) {
+            $scope.item.itemsList[itemIndex].approved = true;
+        }
+
+        $scope.prpepareToApproveOrder($scope.item);
     };
 
     $scope.unapproveItem = function (item) {
-        const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === item.id);
+        const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === item.id && _elm.unit.id === item.unit.id);
         if (itemIndex !== -1) {
             $scope.item.itemsList[itemIndex].approved = false;
             $scope.canApprove = false;
         }
     };
+
     $scope.prpepareToApproveOrder = function (_item) {
-        let allApproved = _item.itemsList.every((elem) => elem.approved === true);
-        if (allApproved) {
+        $scope.canApprove = false;
+        const index = _item.itemsList.findIndex((elem) => elem.approved == false);
+        if (index === -1) {
             $scope.canApprove = true;
-        } else {
-            $scope.canApprove = false;
         }
     };
 
@@ -498,6 +484,7 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
                 code: elem.unit.code,
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
+                currentCount: elem.currentCount,
                 storesList: elem.storesList,
                 price: elem.purchasePrice,
                 salesPrice: elem.salesPrice,

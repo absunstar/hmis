@@ -4,15 +4,12 @@ app.controller('storesItemsCard', function ($scope, $http, $timeout) {
     $scope.modalID = '#storesItemsCardManageModal';
     $scope.modalSearchID = '#storesItemsCardSearchModal';
     $scope.mode = 'add';
-    $scope.structure = {
-        fromDate: new Date(),
-        toDate: new Date(),
-    };
+    $scope.structure = {};
     $scope.item = {};
     $scope.list = [];
     $scope.showSearch = function () {
         $scope.error = '';
-        $scope.search = { ...$scope.structure };
+        $scope.search = { ...$scope.structure, fromDate: new Date(), toDate: new Date() };
         site.showModal($scope.modalSearchID);
     };
 
@@ -40,7 +37,6 @@ app.controller('storesItemsCard', function ($scope, $http, $timeout) {
                     site.hideModal($scope.modalSearchID);
                     $scope.search = {};
                 }
-                console.log('$scope.list', $scope.list);
             },
             function (err) {
                 $scope.busy = false;

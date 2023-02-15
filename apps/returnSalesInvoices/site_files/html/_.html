@@ -16,8 +16,9 @@
             <tr>
                 <th class="w150">##word.Logo##</th>
                 <th>##word.Code##</th>
-                <th>##word.Name##</th>
-                <th>##word.Payment Type##</th>
+                <th>##word.Customer##</th>
+                <th>##word.Date##</th>
+                <th>##word.Approved##</th>
                 <th>##word.Status##</th>
                 <th class="not-print">##word.Actions##</th>
             </tr>
@@ -27,7 +28,13 @@
                 </td>
                 <td class="text-center blue">{{item.code}}</td>
                 <td class="text-center">{{item.customer.name##session.lang##}}</td>
-                <td class="text-center">{{item.paymentType.name##session.lang##}}</td>
+                <td>
+                    <p class="text-center">{{item.orderDate |date:'dd/MM/yyyy'}} - {{item.orderDate |date:'hh:mm:ss a'}}</p>
+                </td>
+                <td class="text-center">
+                    <span class="text-success" ng-show="item.approved">##word.Yes##</span>
+                    <span class="text-danger" ng-show="!item.approved">##word.No##</span>
+                </td>
                 <td class="text-center">
                     <span class="text-success" ng-show="item.active">##word.Active##</span>
                     <span class="text-danger" ng-show="!item.active">##word.Not Active##</span>
@@ -36,9 +43,15 @@
                 <td class="text-center not-print">
                     <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
-                    <i-button type="edit" x-permissions="returnSalesInvoicesUpdate || returnSalesInvoicesManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
+                    <i-button type="edit" ng-show="!item.approved" x-permissions="returnSalesInvoicesUpdate || returnSalesInvoicesManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
 
-                    <i-button type="delete" x-permissions="returnSalesInvoicesDelete || returnSalesInvoicesManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
+                    <i-button
+                        type="delete"
+                        ng-show="!item.approved"
+                        x-permissions="returnSalesInvoicesDelete || returnSalesInvoicesManage"
+                        label="##word.Delete##"
+                        ng-click="showDelete(item)"
+                    ></i-button>
                 </td>
             </tr>
         </table>

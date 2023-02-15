@@ -9,6 +9,7 @@ module.exports = function init(site) {
         allowRouteGet: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
+        allowRouteApprove: true,
         allowRouteDelete: true,
         allowRouteView: true,
         allowRouteAll: true,
@@ -232,6 +233,40 @@ module.exports = function init(site) {
                     } else {
                         response.error = err.message;
                     }
+                    res.json(response);
+                });
+            });
+        }
+
+        if (app.allowRouteApprove) {
+            site.post({ name: `/api/${app.name}/approve`, require: { permissions: ['login'] } }, (req, res) => {
+                let response = {
+                    done: false,
+                };
+
+                let _data = req.data;
+
+                _data.approveUserInfo = req.getUserFinger();
+                app.update(_data, (err, result) => {
+                    if (!err) {
+                        response.done = true;
+                        result.doc.itemsList.forEach((_item) => {
+                            let item = { ..._item };
+
+                            item.store = { ...result.doc.store };
+                            site.editItemsBalance(item, app.name);
+                            item.invoiceId = result.doc.id;
+                            item.date = result.doc.date;
+                            item.countType = 'out';
+                            item.orderCode = result.doc.code;
+                            site.setItemCard(item, app.name);
+                        });
+
+                        response.result = result;
+                    } else {
+                        response.error = err.message;
+                    }
+
                     res.json(response);
                 });
             });

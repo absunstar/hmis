@@ -246,7 +246,9 @@ module.exports = function init(site) {
                     if (!err) {
                         response.done = true;
                         result.doc.itemsList.forEach((_item) => {
-                            let item = { ..._item };_elm.count;
+                            let item = { ..._item };
+                            _item.count;
+
                             item.store = { ...result.doc.store };
                             site.editItemsBalance(item, app.name);
                             item.invoiceId = result.doc.id;

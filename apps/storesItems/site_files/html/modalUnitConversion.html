@@ -9,7 +9,7 @@
             <fieldset>
                 <div class="row">
                     <i-control class="col3" ng-model="unitConversion.code" label="##word.Code##"> </i-control>
-                    <i-list class="col3" ng-model="unitConversion.store" items="storesList" display="name##session.lang##" label="##word.Store##"> </i-list>
+                    <i-list class="col3" ng-model="unitConversion.store" ng-get="getStores($search)" items="storesList" display="name##session.lang##" label="##word.Store##"> </i-list>
                 </div>
             </fieldset>
             <fieldset>

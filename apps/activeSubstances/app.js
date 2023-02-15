@@ -1,7 +1,7 @@
 module.exports = function init(site) {
     let app = {
         name: 'activeSubstances',
-        allowMemory: false,
+        allowMemory: true,
         memoryList: [],
         allowCache: false,
         cacheList: [],
@@ -164,7 +164,7 @@ module.exports = function init(site) {
                     name: app.name,
                 },
                 (req, res) => {
-                    res.render(app.name + '/index.html', { title: app.name ,appName :'Active Substances' }, { parser: 'html', compres: true });
+                    res.render(app.name + '/index.html', { title: app.name, appName: 'Active Substances' }, { parser: 'html', compres: true });
                 }
             );
         }
@@ -269,9 +269,13 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
+                where.search = where.search || 'id';
+                let limit = req.body.limit || 10;
                 let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1, active: 1, scientificName: 1 };
                 let list = [];
+    
                 app.memoryList
+
                     .filter((g) => g.company && g.company.id == site.getCompany(req).id)
                     .forEach((doc) => {
                         let obj = { ...doc };
@@ -287,43 +291,8 @@ module.exports = function init(site) {
                     });
                 res.json({
                     done: true,
-                    list: list,
+                    list: list.slice(-limit),
                 });
-            });
-        }
-
-        if (app.allowRouteAll) {
-            site.post({ name: `/api/${app.name}/active`, public: true }, (req, res) => {
-                let where = req.body.where || {};
-                let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1, active: 1, scientificName: 1 };
-                let list = [];
-                if (app.allowMemory) {
-                    app.memoryList
-                        .filter((g) => g.company && g.company.id == site.getCompany(req).id)
-                        .forEach((doc) => {
-                            let obj = { ...doc };
-
-                            for (const p in obj) {
-                                if (!Object.hasOwnProperty.call(select, p)) {
-                                    delete obj[p];
-                                }
-                            }
-                            if (!where.active || doc.active) {
-                                list.push(obj);
-                            }
-                        });
-                    res.json({
-                        done: true,
-                        list: list,
-                    });
-                } else {
-                    app.$collection.findAll({ where: where, select }, (err, docs) => {
-                        res.json({
-                            done: true,
-                            list: docs,
-                        });
-                    });
-                }
             });
         }
     }

@@ -9,6 +9,7 @@ module.exports = function init(site) {
         allowRouteGet: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
+        allowRouteApprove: true,
         allowRouteDelete: true,
         allowRouteView: true,
         allowRouteAll: true,
@@ -178,54 +179,52 @@ module.exports = function init(site) {
                     _data.code = cb.code;
                 }
 
-                let overDraftObj = {
-                    store: _data.store,
-                    items: _data.itemsList,
-                };
-                console.log('store', _data.store);
+                // let overDraftObj = {
+                //     store: _data.store,
+                //     items: _data.itemsList,
+                // };
 
+                // site.checkOverDraft(req, overDraftObj, (overDraftCb) => {
+                //     if (!overDraftCb.done) {
+                //         let error = '';
+                //         error = overDraftCb.refuseList.map((m) => (req.session.lang == 'Ar' ? m.nameAr : m.nameEn)).join('-');
+                //         response.error = `Item Balance Insufficient ( ${error} )`;
+                //         res.json(response);
+                //         return;
+                //     }
 
-                site.checkOverDraft(req, overDraftObj, (overDraftCb) => {
-                    if (!overDraftCb.done) {
-                        let error = '';
-                        error = overDraftCb.refuseList.map((m) => (req.session.lang == 'Ar' ? m.nameAr : m.nameEn)).join('-');
-                        response.error = `Item Balance Insufficient ( ${error} )`;
-                        res.json(response);
-                        return;
+                //     app.$collection.find({ code: _data.code }, (err, doc) => {
+                //         if (doc) {
+                //             response.done = false;
+                //             response.error = 'There Is Order Exisit With Same Code';
+                //             return res.json(response);
+                //         }
+                //         _data.addUserInfo = req.getUserFinger();
+                //         if (!_data.date) {
+                //             _data.date = new Date();
+                //         }
+                app.add(_data, (err, doc) => {
+                    if (!err && doc) {
+                        // doc.itemsList.forEach((_item) => {
+                        //     let item = { ..._item };
+                        //     item.store = { ...doc.store };
+                        //     site.editItemsBalance(item, app.name);
+                        //     item.invoiceId = doc.id;
+                        //     item.date = doc.date;
+                        //     item.countType = 'out';
+                        //     site.setItemCard(item, app.name);
+                        // });
+
+                        response.done = true;
+                        response.doc = doc;
+                    } else {
+                        response.error = err.mesage;
                     }
-
-                    app.$collection.find({ code: _data.code }, (err, doc) => {
-                        if (doc) {
-                            response.done = false;
-                            response.error = 'There Is Order Exisit With Same Code';
-                            return res.json(response);
-                        }
-                        _data.addUserInfo = req.getUserFinger();
-                        if (!_data.date) {
-                            _data.date = new Date();
-                        }
-                        app.add(_data, (err, doc) => {
-                            if (!err && doc) {
-                                doc.itemsList.forEach((_item) => {
-                                    let item = { ..._item };
-                                    item.store = { ...doc.store };
-                                    site.editItemsBalance(item, app.name);
-                                    item.invoiceId = doc.id;
-                                    item.date = doc.date;
-                                    item.countType = 'out';
-                                    site.setItemCard(item, app.name);
-                                });
-
-                                response.done = true;
-                                response.doc = doc;
-                            } else {
-                                response.error = err.mesage;
-                            }
-                            res.json(response);
-                        });
-                    });
+                    res.json(response);
                 });
             });
+            //     });
+            // });
         }
 
         if (app.allowRouteUpdate) {
@@ -257,52 +256,52 @@ module.exports = function init(site) {
             });
         }
 
-        // if (app.allowRouteUpdate) {
-        //     site.post({ name: `/api/${app.name}/approve`, require: { permissions: ['login'] } }, (req, res) => {
-        //         let response = {
-        //             done: false,
-        //         };
+        if (app.allowRouteApprove) {
+            site.post({ name: `/api/${app.name}/approve`, require: { permissions: ['login'] } }, (req, res) => {
+                let response = {
+                    done: false,
+                };
 
-        //         let _data = req.data;
+                let _data = req.data;
 
-        //         _data.approveUserInfo = req.getUserFinger();
+                _data.approveUserInfo = req.getUserFinger();
 
-        //         let overDraftObj = {
-        //             store: _data.store,
-        //             items: _data.itemsList,
-        //         };
+                let overDraftObj = {
+                    store: _data.store,
+                    items: _data.itemsList,
+                };
 
-        //         site.checkOverDraft(req, overDraftObj, app.name, (overDraftCb) => {
-        //             if (!overDraftCb.done) {
-        //                 let error = '';
-        //                 error = overDraftCb.refuseList.map((m) => (m.nameAr ? req.session.lang == 'Ar' : m.nameEn)).join('-');
-        //                 response.error = `Item Balance Insufficient ( ${error} )`;
-        //                 res.json(response);
-        //                 return;
-        //             }
-        //         });
-        //         app.update(_data, (err, result) => {
-        //             if (!err) {
-        //                 response.done = true;
-        //                 result.doc.itemsList.forEach((_item) => {
-        //                     let item = { ..._item };
-        //                     item.store = { ...result.doc.store };
-        //                     site.editItemsBalance(item, app.name);
-        //                     item.invoiceId = result.doc.id;
-        //                     item.date = result.doc.orderDate;
-        //                     item.toUnit = result.doc.toUnit;
-        //                     site.setItemCard(item, app.name);
-        //                 });
+                site.checkOverDraft(req, overDraftObj, (overDraftCb) => {
+                    if (!overDraftCb.done) {
+                        let error = '';
+                        error = overDraftCb.refuseList.map((m) => (m.nameAr ? req.session.lang == 'Ar' : m.nameEn)).join('-');
+                        response.error = `Item Balance Insufficient ( ${error} )`;
+                        res.json(response);
+                        return;
+                    }
+                });
+                app.update(_data, (err, result) => {
+                    if (!err) {
+                        result.doc.itemsList.forEach((_item) => {
+                            let item = { ..._item };
+                            item.store = { ...result.doc.store };
+                            site.editItemsBalance(item, app.name);
+                            item.invoiceId = result.doc.id;
+                            item.date = result.doc.date;
+                            item.toUnit = _item.toUnit;
+                            item.countType = 'out';
+                            site.setItemCard(item, app.name);
+                        });
+                        response.done = true;
+                        response.result = result;
+                    } else {
+                        response.error = err.message;
+                    }
 
-        //                 response.result = result;
-        //             } else {
-        //                 response.error = err.message;
-        //             }
-
-        //             res.json(response);
-        //         });
-        //     });
-        // }
+                    res.json(response);
+                });
+            });
+        }
 
         if (app.allowRouteDelete) {
             site.post({ name: `/api/${app.name}/delete`, require: { permissions: ['login'] } }, (req, res) => {

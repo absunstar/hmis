@@ -296,36 +296,6 @@ app.controller('vendors', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getNationalities = function () {
-        $scope.busy = true;
-        $scope.nationalitiesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/nationalities/all',
-            data: {
-                where: {
-                    active: true,
-                },
-                select: {
-                    id: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                },
-            },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.nationalitiesList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
     $scope.getVendorsGroups = function () {
         $scope.busy = true;
         $scope.vendorsGroupsList = [];
@@ -457,10 +427,41 @@ app.controller('vendors', function ($scope, $http, $timeout) {
         $scope.error = '';
     };
 
+    $scope.getNationalities = function ($search) {
+        if ($search && $search.length < 2) {
+            return;
+        }
+        $scope.busy = true;
+        $scope.nationalitiesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/nationalities/all',
+            data: {
+                where: { active: true, search: $search },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameAr: 1,
+                    nameEn: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.nationalitiesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
     $scope.getAll();
     $scope.getNumberingAuto();
     $scope.getGovs();
     $scope.getFilesTypes();
-    $scope.getNationalities();
     $scope.getVendorsGroups();
 });

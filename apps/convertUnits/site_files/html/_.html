@@ -13,18 +13,18 @@
 
         <table class="table hover bold" id="t1">
             <tr>
-                <th class="w150">##word.Logo##</th>
+                <!-- <th class="w150">##word.Logo##</th> -->
                 <th>##word.Code##</th>
-                 <th>##word.Date##</th>
+                <th>##word.Date##</th>
                 <th>##word.Store##</th>
                 <th>##word.Approved##</th>
                 <th>##word.Status##</th>
                 <th class="not-print">##word.Actions##</th>
             </tr>
             <tr ng-repeat="item in list | filter:$search">
-                <td>
+                <!-- <td>
                     <i-image view class="logo center" ng-model="item.image"></i-image>
-                </td>
+                </td> -->
                 <td class="text-center blue">{{item.code}}</td>
                 <td class="text-center blue">{{item.date|date:'dd/MM/yyyy'}}</td>
                 <td class="text-center">{{item.store.name##session.lang##}}</td>
@@ -43,13 +43,13 @@
                 <td class="text-center not-print">
                     <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
-                    <i-button type="edit" x-permissions="convertUnitsUpdate || convertUnitsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
+                    <i-button type="edit" ng-show="!item.approved" x-permissions="convertUnitsUpdate || convertUnitsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
 
-                    <i-button type="delete" x-permissions="convertUnitsDelete || convertUnitsManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
+                    <i-button type="delete" ng-show="!item.approved" x-permissions="convertUnitsDelete || convertUnitsManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
                 </td>
             </tr>
         </table>
         <i-button x-permissions="convertUnitsPrint || convertUnitsManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
-        <i-button x-permissions="convertUnitsExport || purchaseOrderManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')"> </i-button>
+        <i-button x-permissions="convertUnitsExport || convertUnitsManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')"> </i-button>
     </div>
 </div>

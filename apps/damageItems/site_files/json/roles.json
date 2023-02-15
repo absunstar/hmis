@@ -2,8 +2,8 @@
     {
         "moduleName": "public",
         "name": "damageItemsAdmin",
-        "En": "Sales Invoices Admin",
-        "Ar": "إدارة فواتير المبيعات",
+        "En": "Damage Items Admin",
+        "Ar": "إدارة إتلاف الأصناف",
         "permissions": ["damageItemsManage"]
     }
 ]

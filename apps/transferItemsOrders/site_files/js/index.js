@@ -7,7 +7,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: { url: '/images/transferItemsOrders.png' },
-        orderDate: new Date(),
+
         itemsList: [],
         approved: false,
         active: true,
@@ -37,8 +37,9 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
         $scope.error = '';
         $scope.itemsError = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure };
+        $scope.item = { ...$scope.structure, orderDate: new Date() };
         $scope.resetOrderItem();
+        $scope.canApprove = false;
         site.showModal($scope.modalID);
     };
 
@@ -398,7 +399,10 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
         }
     };
 
-    $scope.getStores = function () {
+    $scope.getStores = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
         $scope.busy = true;
         $scope.storesList = [];
         $http({
@@ -407,13 +411,13 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
+                    search: $search,
                 },
                 select: {
                     id: 1,
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
-                    type: 1,
                 },
             },
         }).then(
@@ -490,8 +494,10 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
                 storesList: elem.storesList,
+                purchaseCost: elem.purchaseCost,
             });
             $scope.orderItem.unit = $scope.unitsList[0];
+            $scope.orderItem.purchaseCost = $scope.unitsList[0].purchaseCost;
         }
         $scope.calculateItemBalance($scope.unitsList[0]);
     };
@@ -549,6 +555,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
             itemGroup: elem.item.itemGroup,
             unit: { id: elem.unit.id, code: elem.unit.code, nameAr: elem.unit.nameAr, nameEn: elem.unit.nameEn },
             count: elem.count,
+            purchaseCost: elem.purchaseCost,
             transferPrice: 0,
             approved: false,
         });
@@ -583,11 +590,10 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     };
 
     $scope.prpepareToApproveOrder = function (_item) {
-        let allApproved = _item.itemsList.every((elem) => elem.approved === true);
-        if (allApproved) {
+        $scope.canApprove = false;
+        const index = _item.itemsList.findIndex((elem) => elem.approved == false);
+        if (index === -1) {
             $scope.canApprove = true;
-        } else {
-            $scope.canApprove = false;
         }
     };
 
@@ -599,7 +605,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     };
 
     $scope.getAll();
-    $scope.getStores();
+    // $scope.getStores();
     $scope.getStoresItems();
     $scope.getpurchaseOrdersSource();
     $scope.getNumberingAuto();

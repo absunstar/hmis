@@ -12,12 +12,12 @@
                         <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="search.code"> </i-control>
                         <i-date class="col2" label="##word.Date##" ng-model="search.orderDate"> </i-date>
 
-                        <i-list class="col2" ng-model="search.store" label="##word.Store##" items="storesList" display="name##session.lang##"></i-list>
+                        <i-list class="col2" ng-model="search.store" label="##word.Store##" ng-get="getStores($search)" items="storesList" display="name##session.lang##"></i-list>
                         <i-list class="col2" ng-model="search.paymentType" label="##word.Payment Type##" items="paymentTypesList" display="name##session.lang##"></i-list>
-                        <i-list class="col2" ng-model="search.vendor" label="##word.Vendor##" items="vendorsList" display="name##session.lang##"></i-list>
+                        <i-list class="col2" ng-model="search.customer" label="##word.Customer##" items="customersList" display="name##session.lang##"></i-list>
                         <div class="col2">
                             <br />
-                            <i-button type="search" label="##word.Search##" ng-click="getStoresSalesInvoices(search)"> </i-button>
+                            <i-button type="search" label="##word.Search##" ng-click="getSalesInvoices(search)"> </i-button>
                         </div>
                     </div>
                 </div>
@@ -35,11 +35,11 @@
                             <th>##word.Payment Type##</th>
                             <th class="not-print">##word.Actions##</th>
                         </tr>
-                        <tr ng-repeat="bill in returnPurchaseOrdersList">
+                        <tr ng-repeat="bill in returnSalesInvoicesList">
                             <td class="text-center">{{$index+1}}</td>
                             <td class="text-center">{{bill.code}}</td>
                             <td class="text-center">{{bill.customer.name##session.lang##}}</td>
-                            <td class="text-center">{{bill.orderDate|date:'dd/MM/yyyy'}} - {{bill.orderDate|date:'hh:mm:ss a'}}</td>
+                            <td class="text-center">{{bill.date|date:'dd/MM/yyyy'}} - {{bill.date|date:'hh:mm:ss a'}}</td>
                             <td class="text-center">{{bill.store.name##session.lang##}}</td>
                             <td class="text-center">{{bill.paymentType.name##session.lang##}}</td>
 

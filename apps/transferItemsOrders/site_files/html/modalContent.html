@@ -36,7 +36,7 @@
 
                             <div class="col2">
                                 <br />
-                                <i-button ng-if="item.sourceType.id === 1 && item.transferItemsRequest.id" type="get" label="##word.Get Items##" ng-click="getRequestItems(item.transferItemsRequest)">
+                                <i-button ng-if="item.sourceType.id === 1 && item.transferItemsRequest.id" type="get" label="##word.Load Items##" ng-click="getRequestItems(item.transferItemsRequest)">
                                 </i-button>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                             display="name##session.lang##"
                             items="storesList"
                             label="##word.From Store##"
-                            ng-search="item.$store"
+                            ng-get="getStores($search)"
                         ></i-list>
                         <i-list
                             v="r"
@@ -73,7 +73,7 @@
                             display="name##session.lang##"
                             items="storesList"
                             label="##word.To Store##"
-                            ng-search="item.$toStore"
+                            ng-get="getStores($search)"
                         ></i-list>
                     </div>
                 </div>
@@ -114,6 +114,7 @@
                     <th>##word.Item##</th>
                     <th>##word.Unit##</th>
                     <th>##word.Transfer Count##</th>
+                    <th>##word.Purchase Cost##</th>
                     <!-- <th>##word.Purchase Price##</th> -->
                     <!-- <th>##word.Bonus Count##</th> -->
                     <!-- <th>##word.Total##</th> -->
@@ -156,6 +157,9 @@
                         <p class="text-center">{{elem.total}}</p>
                     </td> -->
                     <td>
+                        <p class="text-center">{{elem.purchaseCost}}</p>
+                    </td>
+                    <td>
                         <p class="text-center text-success" ng-if="elem.approved">##word.Yes##</p>
                         <p class="text-center text-danger" ng-if="!elem.approved">##word.No##</p>
                     </td>
@@ -176,7 +180,7 @@
                             ng-click="unapproveItem(elem)"
                         >
                         </i-button>
-                        <i-button type="delete" ng-if="item.sourceType.id !== 1" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
+                        <i-button type="delete" ng-if="item.sourceType.id !== 1 && !elem.approved" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
                     </td>
                 </tr>
             </table>

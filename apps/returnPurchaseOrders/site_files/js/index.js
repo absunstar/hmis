@@ -7,7 +7,7 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
     $scope.mode = 'add';
     $scope.search = {};
     $scope.structure = {
-        orderDate: new Date(),
+        approved: false,
         active: true,
     };
     $scope.item = {};
@@ -17,7 +17,7 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
         $scope.error = '';
         $scope.itemsError = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure };
+        $scope.item = { ...$scope.structure, orderDate: new Date() };
         site.showModal($scope.modalID);
     };
 
@@ -75,6 +75,41 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
         $http({
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/update`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+
+    $scope.approve = function (_item) {
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+
+        _item.approved = true;
+        _item.approvedDate = new Date();
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/approve`,
             data: _item,
         }).then(
             function (response) {
@@ -269,7 +304,10 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
         site.hideModal($scope.getPurchaseOrdersModalID);
     };
 
-    $scope.getStores = function () {
+    $scope.getStores = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
         $scope.busy = true;
         $scope.storesList = [];
         $http({
@@ -278,6 +316,7 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
+                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -418,7 +457,7 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
     $scope.getAll();
 
     $scope.getPaymentTypes();
-    $scope.getStores();
+    // $scope.getStores();
     $scope.getStoresItems();
     $scope.getVendors();
     $scope.getNumberingAuto();

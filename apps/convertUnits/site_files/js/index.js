@@ -7,7 +7,6 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: {},
-        date: new Date(),
         approved: false,
         active: true,
     };
@@ -20,9 +19,9 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
         $scope.error = '';
         $scope.itemsError = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, filesList: [], itemsList: [] };
+        $scope.item = { ...$scope.structure, date: new Date(), filesList: [], itemsList: [] };
         $scope.orderItem = { ...$scope.orderItem };
-
+        $scope.canApprove = false;
         site.showModal($scope.modalID);
     };
 
@@ -33,12 +32,10 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-        delete _item.purchaseRequest?.itemsList;
-        delete _item.purchaseRequest?.approved;
-        delete _item.purchaseRequest?.hasTransaction;
-        let dataValid = $scope.validateData(_item);
-        if (!dataValid.success) {
-            return;
+
+        if (!$scope.item.itemsList.length) {
+            alert('##word.Must Enter Items Data##');
+            return success;
         }
         $scope.busy = true;
         $http({
@@ -82,12 +79,10 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-        delete _item.purchaseRequest?.itemsList;
-        delete _item.purchaseRequest?.approved;
-        delete _item.purchaseRequest?.hasTransaction;
-        let dataValid = $scope.validateData(_item);
-        if (!dataValid.success) {
-            return;
+
+        if (!_item.itemsList.length) {
+            alert('##word.Must Enter Items Data##');
+            return success;
         }
         $scope.busy = true;
         $http({
@@ -246,7 +241,10 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getStores = function () {
+    $scope.getStores = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
         $scope.busy = true;
         $scope.storesList = [];
         $http({
@@ -255,6 +253,7 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
+                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -371,9 +370,9 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
             alert('##word.Cannot Make Convert To Same Unit##');
             return;
         }
-
-        if (orderItem.count % orderItem.toUnit.conversion !== 0) {
-            alert('##word.Please Enter Valid Conversion Number##');
+        const index = $scope.item.itemsList.findIndex((_elem) => _elem.id === orderItem.id && _elem.unit.id === orderItem.unit.id);
+        if (index !== -1) {
+            alert('##word.Item Exisit##');
             return;
         }
 
@@ -388,36 +387,44 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
             count: orderItem.count,
             toUnit: orderItem.toUnit,
             conversion: orderItem.toUnit.conversion,
-            newCount: orderItem.toUnit.currentCount + orderItem.count / orderItem.toUnit.conversion,
+            newCount: orderItem.unit.conversion * orderItem.count + orderItem.toUnit.currentCount,
+            approved: false,
         });
         $scope.orderItem = { ...$scope, orderItem };
         $scope.itemsError = '';
     };
 
-    // $scope.approveItem = function (item) {
-    //     if (!item.purchasePrice > 0) {
-    //         $scope.itemsError = '##word.Please Enter Price##';
-    //         return;
-    //     }
-    //     if (item.purchaseCount < 1) {
-    //         $scope.itemsError = '##word.Please Enter Count##';
-    //         return;
-    //     }
-    //     const index = $scope.item.itemsList.findIndex((_elem) => _elem.id === item.id);
-    //     if (index !== -1) {
-    //         $scope.item.itemsList[index].approved = true;
-    //     }
-    //     $scope.prpepareToApproveOrder($scope.item);
-    //     $scope.itemsError = '';
-    // };
+    $scope.approveItem = function (_item) {
+        if (!_item.id) {
+            alert('##word.Please Enter Item##');
+            return;
+        }
+        if (!_item.unit.id) {
+            alert('##word.Please Enter Item Unit##');
+            return;
+        }
 
-    // $scope.unapproveItem = function (item) {
-    //     const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === item.id);
-    //     if (itemIndex !== -1) {
-    //         $scope.item.itemsList[itemIndex].approved = false;
-    //         $scope.canApprove = false;
-    //     }
-    // };
+        if (_item.unit.id === _item.toUnit.id) {
+            alert('##word.Cannot Make Convert To Same Unit##');
+            return;
+        }
+
+        const index = $scope.item.itemsList.findIndex((_elem) => _elem.id === _item.id && _elem.unit.id === _item.unit.id && _elem.toUnit.id === _item.toUnit.id);
+
+        if (index !== -1) {
+            $scope.item.itemsList[index].approved = true;
+        }
+        $scope.prpepareToApproveOrder($scope.item);
+        $scope.itemsError = '';
+    };
+
+    $scope.unapproveItem = function (item) {
+        const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === item.id && _elm.unit.id === item.unit.id && _elm.toUnit.id === item.toUnit.id);
+        if (itemIndex !== -1) {
+            $scope.item.itemsList[itemIndex].approved = false;
+            $scope.canApprove = false;
+        }
+    };
 
     $scope.calculateTotalInItemsList = function (itm) {
         if (itm.purchaseCount < 0 || itm.purchasePrice < 0) {
@@ -433,14 +440,13 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
         $scope.itemsError = '';
     };
 
-    // $scope.prpepareToApproveOrder = function (_item) {
-    //     $scope.canApprove = false;
-    //     const index = _item.itemsList.findIndex((elem) => elem.approved == false);
-
-    //     if (index == -1) {
-    //         $scope.canApprove = true;
-    //     }
-    // };
+    $scope.prpepareToApproveOrder = function (_item) {
+        $scope.canApprove = false;
+        const index = _item.itemsList.findIndex((elem) => elem.approved == false);
+        if (index === -1) {
+            $scope.canApprove = true;
+        }
+    };
 
     $scope.approve = function (_item) {
         $scope.error = '';
@@ -449,12 +455,9 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-        delete _item.purchaseRequest?.itemsList;
-        delete _item.purchaseRequest?.approved;
-        delete _item.purchaseRequest?.hasTransaction;
-        let dataValid = $scope.validateData(_item);
-        if (!dataValid.success) {
-            return;
+        if (!_item.itemsList.length) {
+            alert('##word.Must Enter Items Data##');
+            return success;
         }
         _item.approved = true;
         _item.approvedDate = new Date();
@@ -483,30 +486,8 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.validateData = function (_item) {
-        $scope.itemsError = '';
-        $scope.error = '';
-        let success = false;
-        if (!_item.itemsList.length) {
-            $scope.itemsError = '##word.Must Enter Items Data##';
-            return success;
-        }
-        // if (_item.calculatePurchaseCost) {
-        //     if (!_item.calculatePurchaseCostType) {
-        //         alert('##word.Please Select Calculate Purchase Cost Type##');
-        //         return success;
-        //     }
-        //     if (!_item.purchaseCost > 0) {
-        //         alert('##word.Please Enter Calculate Purchase Cost##');
-        //         return success;
-        //     }
-        // }
-        success = true;
-        return { success, _item };
-    };
-
     $scope.getAll();
-    $scope.getStores();
+    // $scope.getStores();
     $scope.getStoresItems();
     $scope.getNumberingAuto();
 });

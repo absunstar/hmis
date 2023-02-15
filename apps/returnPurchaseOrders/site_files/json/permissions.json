@@ -7,5 +7,6 @@
     { "moduleName": "public", "screenName": "returnPurchaseOrders", "name": "returnPurchaseOrdersSearch", "En": "Search", "Ar": "بحث" },
     { "moduleName": "public", "screenName": "returnPurchaseOrders", "name": "returnPurchaseOrdersExport", "En": "Export", "Ar": "تصدير" },
     { "moduleName": "public", "screenName": "returnPurchaseOrders", "name": "returnPurchaseOrdersPrint", "En": "Print", "Ar": "طباعة" },
-    { "moduleName": "public", "screenName": "returnPurchaseOrders", "name": "returnPurchaseOrdersUi", "En": "UI", "Ar": "الواجهة الرسومية" }
+    { "moduleName": "public", "screenName": "returnPurchaseOrders", "name": "returnPurchaseOrdersUi", "En": "UI", "Ar": "الواجهة الرسومية" },
+    { "moduleName": "public", "screenName": "returnPurchaseOrders", "name": "approveReturnPurchaseOrder", "En": "Approve Return Purchase Order", "Ar": "إعتماد مرتجع فاتورة شراء" }
 ]

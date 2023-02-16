@@ -138,10 +138,8 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
-      site.get({
-        name: '/',
-        path: __dirname + '/site_files/',
-      });
+   
+      
 
       site.get(
         {

@@ -15,7 +15,7 @@
                         <div class="row">
                             <i-list
                                 v="r"
-                                class="col4"
+                                class="col3"
                                 ng-change="item.sourceType.id === 1?getPurchaseRequest():item.itemsList=[];resetOrderItem()"
                                 ng-model="item.sourceType"
                                 display="name##session.lang##"
@@ -26,7 +26,7 @@
                             <i-list
                                 v="r"
                                 ng-if="item.sourceType.id === 1"
-                                class="col4"
+                                class="col3"
                                 ng-model="item.purchaseRequest"
                                 ng-change="item.itemsList=[]"
                                 display="code"
@@ -40,6 +40,14 @@
                                 <br />
                                 <i-button ng-if="item.sourceType.id === 1" type="get" label="##word.Load Items##" ng-click="getRequestItems(item.purchaseRequest)"> </i-button>
                             </div>
+
+                            <i-checkbox
+                                ng-model="item.hasDiscounts"
+                                ng-change="item.hasDiscounts?item.discountsList.push({}):item.discountsList=[]"
+                                class="col2"
+                                label="##word.Has Discounts##"
+                            ></i-checkbox>
+                            <i-checkbox ng-model="item.hasTaxes" ng-change="item.hasTaxes?item.taxesList.push({}):item.taxesList=[]" class="col2" label="##word.Has Taxes##"></i-checkbox>
                         </div>
                     </fieldset>
                     <i-list
@@ -211,11 +219,63 @@
                             ng-click="unapproveItem(elem)"
                         >
                         </i-button>
-                        <i-button type="delete" ng-if="item.sourceType.id !== 1" label="##word.Delete##" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>
+                        <i-button
+                            type="delete"
+                            ng-if="item.sourceType.id !== 1"
+                            label="##word.Delete##"
+                            ng-show="!elem.approved"
+                            ng-click="item.itemsList.splice($index,1);setTotalPrice(-(elem.price * elem.count))"
+                        >
+                        </i-button>
                     </td>
                 </tr>
             </table>
         </fieldset>
+
+        <div class="row">
+            <fieldset>
+                <legend>##word.Total Price##</legend>
+                <div class="row">
+                    <p class="text-center text-success">{{item.totalPrice}}</p>
+                </div>
+            </fieldset>
+        </div>
+        <div class="row">
+            <div class="col6">
+                <fieldset ng-show="item.hasDiscounts">
+                    <legend>
+                        <i-button type="add default" label="##word.Add##" ng-click="item.discountsList.unshift({})"> </i-button>
+
+                        ##word.Discounts Information##
+                    </legend>
+                    <div class="row" ng-repeat="discount in item.discountsList">
+                        <i-list class="col4" ng-model="discount.type" display="name##session.lang##" items="discountTypesList" label="##word.Discount##" ng-get="getDiscountTypes($search)"></i-list>
+
+                        <i-control class="col4" type="number" min="0" ng-model="discount.value" label="##word.Value##"></i-control>
+                        <div class="col4">
+                            <br />
+                            <i-radio class="col6" label="##word.Amount##" group="bt_{{$index}}" ng-value="amount" ng-model="discount.valueType"> </i-radio>
+                            <i-radio class="col6" label="##word.Percent##" group="bt_{{$index}}" ng-value="percent" ng-model="discount.valueType"> </i-radio>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col6">
+                <fieldset ng-show="item.hasTaxes">
+                    <legend>
+                        <i-button type="add default" label="##word.Add##" ng-click="item.taxesList.unshift({})"> </i-button>
+
+                        ##word.Taxes Information##
+                    </legend>
+
+                    <div class="row" ng-repeat="tax in item.taxesList">
+                        <i-list class="col4" ng-model="tax.type" display="name##session.lang##" items="taxTypesList" label="##word.Tax##" ng-get="getTaxTypes($search)"></i-list>
+
+                        <i-control class="col4" type="number" min="0" ng-model="tax.value" label="##word.Value##"></i-control>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
     </div>
     <div class="row padding"></div>
 </div>

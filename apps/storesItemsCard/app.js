@@ -40,8 +40,10 @@ module.exports = function init(site) {
                         transactionType: site.storesTransactionsTypes.find((t) => t.code === screenName),
                         count: _elm.count,
                         price: _elm.price,
-                        totalCount: docs[0] ? docs[0].count + _elm.count : _elm.count,
-                        totalPrice: docs[0] ? docs[0].price + _elm.price : _elm.price,
+                        totalPrice: _elm.total,
+                        currentCount: docs[0] ? docs[0].count + _elm.count : _elm.count,
+                        lastCount: docs[0] ? docs[0].count : 0,
+                        // totalPrice: docs[0] ? docs[0].price + _elm.price : _elm.price,
                         countType: _elm.countType,
                     };
                     if (screenName === 'transferItemsOrders' && _elm.$type == 'transferItemsOrdersTo') {
@@ -57,8 +59,11 @@ module.exports = function init(site) {
                             count: _elm.newCount,
                             countType: 'in',
                         };
+                    } else if (_elm.bonusCount) {
+                        obj.bonusCount = _elm.bonusCount;
+                        obj.count += obj.bonusCount;
+                        obj.totalCount += obj.bonusCount;
                     }
-
                     app.$collection.add(obj);
                     if (screenName === 'transferItemsOrders' && !_elm.$type) {
                         site.setItemCard({ ..._elm, $type: 'transferItemsOrdersTo' }, screenName);

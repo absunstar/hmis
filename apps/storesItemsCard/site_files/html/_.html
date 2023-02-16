@@ -27,8 +27,13 @@
                 <td>
                     <p class="text-center text-success" ng-if="elem.countType =='in'">{{elem.count}}</p>
                     <p class="text-center text-danger" ng-if="elem.countType =='out'">{{elem.count}}</p>
+                    <p class="blue" ng-show="elem.bonusCount">{{elem.count}} + {{elem.bonusCount}}</p>
                 </td>
-                <td class="text-center blue">{{elem.price}}</td>
+                <td class="text-center blue">
+                    <p class="green"> {{totalPrice}} </p>
+                    ( {{elem.price}} )
+
+                </td>
                 <td class="text-center">{{elem.store.name##session.lang##}}</td>
                 <td class="text-center blue">{{elem.date|date:'dd/MM/yyyy'}} - {{elem.date|date:'hh:mm:ss a'}}</td>
                 <td class="text-center">{{elem.transactionType.name##session.lang##}}</td>

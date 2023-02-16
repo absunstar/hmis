@@ -254,25 +254,18 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1, active: 1, discountValue: 1, discountType: 1 };
-                let list = [];
-                app.memoryList
-                    .filter((g) => g.company && g.company.id == site.getCompany(req).id)
-                    .forEach((doc) => {
-                        let obj = { ...doc };
+                where.search = where.search || 'id';
+                let limit = req.body.limit || 10;
+                // let select = req.body.select || { id, code, nameEn, nameAr, image, active };
+                let select = req.body.select || {};
+                let list = app.memoryList.filter(
+                    (g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(where.search)
+                );
+                // .map((s) => ({ ...select }));
 
-                        for (const p in obj) {
-                            if (!Object.hasOwnProperty.call(select, p)) {
-                                delete obj[p];
-                            }
-                        }
-                        if (!where.active || doc.active) {
-                            list.push(obj);
-                        }
-                    });
                 res.json({
                     done: true,
-                    list: list,
+                    list: list.slice(-limit),
                 });
             });
         }

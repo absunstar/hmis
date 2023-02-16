@@ -44,6 +44,7 @@ module.exports = function init(site) {
                         const newCost = _elm.count * _elm.price; // 2000 * 2 = 4000
                         const totalCount = selectedUnit.currentCount + _elm.count; // 1000 +2000
                         doc.unitsList[index].purchaseCost = (oldCost + newCost) / totalCount; // 1500 + 4000 / 3000
+                        doc.unitsList[index].purchaseCost = site.toNumber(doc.unitsList[index].purchaseCost);
                     }
                     if (screenName === 'returnPurchaseOrders') {
                         doc.unitsList[index].storesList[storeIndex].purchaseReturnCost += _elm.cost;

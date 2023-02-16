@@ -7,10 +7,11 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: { url: '/images/purchaseOrders.png' },
-
         importPermitNumber: 0,
-
+        totalPrice: 0,
         hasVendor: true,
+        hasDiscounts: false,
+        hasTaxes: false,
         approved: false,
         // calculatePurchaseCost: false,
         // calculatePurchaseCostType: '',
@@ -49,7 +50,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         $scope.error = '';
         $scope.itemsError = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, orderDate: new Date(), filesList: [], itemsList: [] };
+        $scope.item = { ...$scope.structure, orderDate: new Date(), filesList: [], discountsList: [], taxesList: [], itemsList: [] };
         $scope.orderItem = { ...$scope.orderItem };
         $scope.canApprove = false;
         site.showModal($scope.modalID);
@@ -405,6 +406,80 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         );
     };
 
+    $scope.getDiscountTypes = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
+        $scope.busy = true;
+        $scope.discountTypesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/discountTypes/all',
+            data: {
+                where: {
+                    active: true,
+                    search: $search,
+                },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.discountTypesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.getTaxTypes = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
+        $scope.busy = true;
+        $scope.taxTypesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/taxesTypes/all',
+            data: {
+                where: {
+                    active: true,
+                    search: $search,
+                },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.taxTypesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.setTotalPrice = function (amount) {
+        $scope.item.totalPrice += amount;
+    };
+
     $scope.getStoresItems = function () {
         $scope.busy = true;
         $scope.itemsList = [];
@@ -470,11 +545,13 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         $scope.orderItem.salesPrice = $scope.unitsList[0].salesPrice;
         // $scope.calucualteStoreBalance($scope.unitsList[0]);
     };
+
     $scope.setOrderItemData = function (unit) {
         $scope.orderItem.unit = { id: unit.id, code: unit.code, nameAr: unit.nameAr, nameEn: unit.nameEn };
         $scope.orderItem.price = unit.price;
         $scope.orderItem.salesPrice = unit.salesPrice;
     };
+
     $scope.getPurchaseRequest = function () {
         $scope.busy = true;
         $scope.purchaseRequestList = [];
@@ -549,6 +626,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         }
         // const calcBalance = $scope.calucualteStoreBalance(orderItem.unit);
         delete orderItem.unit.storesList;
+
         $scope.item.itemsList.unshift({
             id: orderItem.item.id,
             code: orderItem.item.code,
@@ -568,6 +646,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             // storesBalanceList: calcBalance.storesBalanceList,
             // totalBalance: calcBalance.totalBalance,
         });
+        const amount = orderItem.count * orderItem.price;
+        $scope.setTotalPrice(amount);
         $scope.orderItem = { ...$scope, orderItem };
         $scope.itemsError = '';
     };

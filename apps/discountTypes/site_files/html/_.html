@@ -16,6 +16,8 @@
                 <th class="w150">##word.Logo##</th>
                 <th>##word.Code##</th>
                 <th>##word.Name##</th>
+                <th>##word.Value##</th>
+                <th>##word.Type##</th>
                 <th>##word.Status##</th>
                 <th class="not-print">##word.Actions##</th>
             </tr>
@@ -25,6 +27,14 @@
                 </td>
                 <td class="text-center blue">{{item.code}}</td>
                 <td class="text-center">{{item.name##session.lang##}}</td>
+                <td>
+                    <p class="text-center">
+                        {{item.discountValue}}
+                        <span class="currency" ng-if="item.discountType == 'amount'"> ##word.SR##</span>
+                        <span ng-if="item.discountType == 'percent'"> ##word.%##</span>
+                    </p>
+                </td>
+                <td class="text-center">{{item.discountType}}</td>
                 <td class="text-center">
                     <span ng-show="item.active" class="text-success">##word.Active##</span>
                     <span ng-show="!item.active" class="text-danger">##word.Not Active##</span>

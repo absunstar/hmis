@@ -475,6 +475,8 @@ module.exports = function init(site) {
                     nameEn: 1,
                     nameAr: 1,
                     image: 1,
+                    unitsList: 1,
+                    itemGroup: 1,
                     active: 1,
                 };
 

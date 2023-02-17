@@ -26,7 +26,6 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
         };
     };
     $scope.showAdd = function (_item) {
-        $scope.canApprove = false;
         $scope.error = '';
         $scope.itemsError = '';
         $scope.mode = 'add';

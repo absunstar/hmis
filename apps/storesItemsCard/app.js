@@ -62,7 +62,7 @@ module.exports = function init(site) {
                     } else if (_elm.bonusCount) {
                         obj.bonusCount = _elm.bonusCount;
                         obj.count += obj.bonusCount;
-                        obj.totalCount += obj.bonusCount;
+                        obj.purshaseCount = _elm.count;
                     }
                     app.$collection.add(obj);
                     if (screenName === 'transferItemsOrders' && !_elm.$type) {

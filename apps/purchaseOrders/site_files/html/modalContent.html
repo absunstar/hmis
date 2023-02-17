@@ -97,7 +97,8 @@
         </fieldset>
         <fieldset>
             <legend>##word.Items Information##</legend>
-            <div class="row" ng-if="item.sourceType.id !== 1">
+          
+            <div class="row" ng-show="item.sourceType.id != 1 ">
                 <div class="col2">
                     <i-list
                         ng-model="orderItem.item"
@@ -214,13 +215,7 @@
                             ng-click="unapproveItem(elem)"
                         >
                         </i-button>
-                        <i-button
-                            type="delete"
-                            ng-if="item.sourceType.id !== 1"
-                            label="##word.Delete##"
-                            ng-show="!elem.approved"
-                            ng-click="item.itemsList.splice($index,1);setTotalPrice(-(elem.price * elem.count))"
-                        >
+                        <i-button type="delete" ng-if="item.sourceType.id !== 1" label="##word.Delete##" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1);setTotalPrice()">
                         </i-button>
                     </td>
                 </tr>
@@ -228,27 +223,27 @@
         </fieldset>
 
         <div class="row">
-            <div class="col8">
+            <div class="col6">
                 <fieldset ng-show="item.hasDiscounts">
                     <legend>##word.Discounts Information##</legend>
                     <div class="row">
                         <i-list
-                            class="col4"
-                            ng-model="discount.discountType"
+                            class="col8"
+                            ng-model="discount"
                             display="name##session.lang##"
                             items="discountTypesList"
                             label="##word.Discount##"
                             ng-get="getDiscountTypes($search)"
                         ></i-list>
 
-                        <i-control class="col3" type="number" min="0" ng-model="discount.value" label="##word.Value##"></i-control>
+                        <!-- <i-control class="col3" type="number" min="0" ng-model="discount.value" label="##word.Value##"></i-control>
                         <div class="col3">
                             <br />
                             <i-radio class="col6" label="##word.Amount##" group="bt_{{$index}}" ng-value="amount" ng-model="discount.valueType"> </i-radio>
                             <i-radio class="col6" label="##word.Percent##" group="bt_{{$index}}" ng-value="percent" ng-model="discount.valueType"> </i-radio>
-                        </div>
+                        </div> -->
 
-                        <div class="col2">
+                        <div class="col4">
                             <br />
                             <i-button type="add" label="##word.Add##" ng-click="addToList(discount,'discount')"> </i-button>
                         </div>
@@ -263,9 +258,9 @@
                                 <th class="not-print">##word.Actions##</th>
                             </tr>
                             <tr ng-repeat="discount in item.discountsList">
-                                <td><p class="text-center">{{discount.discountType.name##session.lang##}}</p></td>
+                                <td><p class="text-center">{{discount.name##session.lang##}}</p></td>
                                 <td><p class="text-center">{{discount.value}}</p></td>
-                                <td><p class="text-center">{{discount.valueType}}</p></td>
+                                <td><p class="text-center">{{discount.type}}</p></td>
                                 <td class="text-center">
                                     <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(discount,'discount');"> </i-button>
                                 </td>
@@ -274,7 +269,7 @@
                     </div>
                 </fieldset>
             </div>
-            <div class="col4">
+            <div class="col6">
                 <fieldset ng-show="item.hasTaxes">
                     <legend>##word.Taxes Information##</legend>
 

@@ -28,7 +28,16 @@
 
                 <div class="row">
                     <div class="row" ng-if="!canApprove">
-                        <i-list class="col4" label="##word.Item##" ng-model="orderItem.item" ng-get="getStoresItems($search)" items="storesItemsList" display="name##session.lang##"> </i-list>
+                        <i-list
+                            class="col4"
+                            label="##word.Item##"
+                            ng-model="orderItem.item"
+                            ng-get="getStoresItems($search)"
+                            ng-change="getItemUnits(orderItem.item)"
+                            items="storesItemsList"
+                            display="name##session.lang##"
+                        >
+                        </i-list>
                         <i-list
                             class="col3"
                             label="##word.Unit##"

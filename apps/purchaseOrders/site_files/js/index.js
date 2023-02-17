@@ -57,7 +57,6 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         $scope.mode = 'add';
         $scope.item = { ...$scope.structure, orderDate: new Date(), filesList: [], discountsList: [], taxesList: [], itemsList: [] };
         $scope.orderItem = { ...$scope.orderItem };
-        $scope.canApprove = false;
         site.showModal($scope.modalID);
     };
 
@@ -218,7 +217,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getAll = function (where) {
+    $scope.getAll = function () {
         $scope.busy = true;
         $scope.list = [];
         $http({
@@ -450,8 +449,17 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
 
     $scope.addToList = function (discount, type) {
         if (type === 'discount') {
-            $scope.item.discountsList.unshift(discount);
-            $scope.item.totalDiscounts += discount.value;
+            console.log('discount', discount);
+
+            $scope.item.discountsList.unshift({
+                id: discount.id,
+                code: discount.code,
+                nameAr: discount.nameAr,
+                nameEn: discount.nameEn,
+                value: discount.discountValue,
+                type: discount.discountType,
+            });
+            $scope.item.totalDiscounts += discount.discountValue;
             $scope.discount = {};
         }
         if (type === 'tax') {
@@ -469,7 +477,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
 
     $scope.spliceFromList = function (discount, type) {
         if (type === 'discount') {
-            const index = $scope.item.discountsList.findIndex((dis) => dis.discountType.id === discount.discountType.id);
+            const index = $scope.item.discountsList.findIndex((dis) => dis.id === discount.id);
             if (index !== -1) {
                 $scope.item.discountsList.splice(index, 1);
                 $scope.item.totalDiscounts -= discount.value;
@@ -521,10 +529,13 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.setTotalPrice = function (amount) {
-        $scope.item.totalPrice += amount;
-        
+    $scope.setTotalPrice = function () {
+        $scope.item.totalPrice = 0;
+        $scope.item.itemsList.forEach((_item) => {
+            $scope.item.totalPrice += _item.price * _item.count;
+        });
 
+        // $scope.item.totalPrice += amount;
     };
 
     $scope.getStoresItems = function () {
@@ -690,11 +701,12 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             approved: orderItem.approved,
             vendorDiscount: orderItem.vendorDiscount,
             purchaseCost: 0,
+            approved: false,
             // storesBalanceList: calcBalance.storesBalanceList,
             // totalBalance: calcBalance.totalBalance,
         });
-        const amount = orderItem.count * orderItem.price;
-        $scope.setTotalPrice(amount);
+
+        $scope.setTotalPrice();
         $scope.orderItem = { ...$scope, orderItem };
         $scope.itemsError = '';
     };
@@ -718,6 +730,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
                 discount: 0,
                 vendorDiscount: 0,
                 total: 0,
+                approved: false,
             });
             $scope.calculateTotalInItemsList($scope.item.itemsList[$scope.item.itemsList.length - 1]);
         }
@@ -758,7 +771,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             const selectdItem = $scope.item.itemsList[itemIndex];
             if (itemIndex !== -1) {
                 selectdItem.total = selectdItem.count * selectdItem.price;
-                $scope.setTotalPrice(selectdItem.total);
+                $scope.setTotalPrice();
             }
             $scope.itemsError = '';
         }, 300);
@@ -767,6 +780,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope.prpepareToApproveOrder = function (_item) {
         $scope.canApprove = false;
         const index = _item.itemsList.findIndex((elem) => elem.approved == false);
+
         if (index === -1) {
             $scope.canApprove = true;
         }

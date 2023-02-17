@@ -191,29 +191,29 @@
         <div class="row center">
           <a title="##word.Vitals Notes##" class="btn btn-primary btn-lg margin-button" ng-click="showVitalsNotes(item)"><i class="fas fa-file-medical-alt"></i></a>
           <br />
-          <a title="##word.Doctor recommendations##" class="btn btn-success btn-lg" ng-click="showRecommendations(item)"><i class="fas fa-vial"></i></a>
+          <a title="##word.Doctor recommendations##" class="btn btn-success btn-lg" ng-click="showRecommendations(item)"><i class="fas fa-x-ray"></i></a>
         </div>
 
         <fieldset>
           <legend>##word.Change Status##</legend>
 
           <div class="row center">
-            <a class="btn btn-secondary btn-lg margin-button" x-permissions="laboratoryDeskTopUpdate || laboratoryDeskTopManage" ng-click="updateStatus(item,1)"
+            <a class="btn btn-secondary btn-lg margin-button" x-permissions="radiologyDeskTopUpdate || radiologyDeskTopManage" ng-click="updateStatus(item,1)"
               >##word.Pending## <i class="fas fa-pen"></i
             ></a>
-            <a class="btn btn-secondary btn-lg margin-button" x-permissions="laboratoryDeskTopUpdate || laboratoryDeskTopManage" ng-click="updateStatus(item,2)"
-              >##word.Entrance laboratory## <i class="fas fa-pen"></i
+            <a class="btn btn-secondary btn-lg margin-button" x-permissions="radiologyDeskTopUpdate || radiologyDeskTopManage" ng-click="updateStatus(item,2)"
+              >##word.Entrance radiology## <i class="fas fa-pen"></i
             ></a>
-            <a class="btn btn-secondary btn-lg margin-button" x-permissions="laboratoryDeskTopUpdate || laboratoryDeskTopManage" ng-click="updateStatus(item,3)"
-              >##word.Complete analysis## <i class="fas fa-pen"></i
+            <a class="btn btn-secondary btn-lg margin-button" x-permissions="radiologyDeskTopUpdate || radiologyDeskTopManage" ng-click="updateStatus(item,3)"
+              >##word.Complete radiology## <i class="fas fa-pen"></i
             ></a>
-            <a class="btn btn-secondary btn-lg margin-button" x-permissions="laboratoryDeskTopUpdate || laboratoryDeskTopManage" ng-click="updateStatus(item,4)"
+            <a class="btn btn-secondary btn-lg margin-button" x-permissions="radiologyDeskTopUpdate || radiologyDeskTopManage" ng-click="updateStatus(item,4)"
               >##word.Put results## <i class="fas fa-pen"></i
             ></a>
-            <a class="btn btn-secondary btn-lg margin-button" x-permissions="laboratoryDeskTopUpdate || laboratoryDeskTopManage" ng-click="updateStatus(item,5)"
+            <a class="btn btn-secondary btn-lg margin-button" x-permissions="radiologyDeskTopUpdate || radiologyDeskTopManage" ng-click="updateStatus(item,5)"
               >##word.Was delivered## <i class="fas fa-pen"></i
             ></a>
-            <a class="btn btn-secondary btn-lg margin-button" x-permissions="laboratoryDeskTopUpdate || laboratoryDeskTopManage" ng-click="updateStatus(item,6)"
+            <a class="btn btn-secondary btn-lg margin-button" x-permissions="radiologyDeskTopUpdate || radiologyDeskTopManage" ng-click="updateStatus(item,6)"
               >##word.Cancel detection## <i class="fas fa-pen"></i
             ></a>
           </div>

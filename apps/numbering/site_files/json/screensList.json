@@ -374,6 +374,12 @@
     {
         "category": "main",
         "feature": "public",
+        "id": "radiologyDeskTop",
+        "name": "Radiology DeskTop"
+    },
+    {
+        "category": "main",
+        "feature": "public",
         "id": "convertUnits",
         "name": "Convert Units"
     },

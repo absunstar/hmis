@@ -1,13 +1,13 @@
-app.controller('laboratoryDeskTop', function ($scope, $http, $timeout) {
+app.controller('radiologyDeskTop', function ($scope, $http, $timeout) {
   $scope.baseURL = '';
-  $scope.appName = 'laboratoryDeskTop';
-  $scope.modalID = '#laboratoryDeskTopManageModal';
-  $scope.modalSearchID = '#laboratoryDeskTopSearchModal';
+  $scope.appName = 'radiologyDeskTop';
+  $scope.modalID = '#radiologyDeskTopManageModal';
+  $scope.modalSearchID = '#radiologyDeskTopSearchModal';
   $scope.mode = 'add';
   $scope.search = {};
   $scope.today = true;
   $scope.structure = {
-    image: { url: '/images/laboratoryDeskTop.png' },
+    image: { url: '/images/radiologyDeskTop.png' },
     active: true,
   };
   $scope.item = {};
@@ -70,7 +70,7 @@ app.controller('laboratoryDeskTop', function ($scope, $http, $timeout) {
     }
 
     if (id > 0) {
-      _item.status = $scope.laboratoryDeskTopTypesList.find((l) => {
+      _item.status = $scope.radiologyDeskTopTypesList.find((l) => {
         return l.id === id;
       });
     }
@@ -103,7 +103,7 @@ app.controller('laboratoryDeskTop', function ($scope, $http, $timeout) {
   $scope.updateStatus = function (_item, id) {
     $scope.error = '';
 
-    _item.status = $scope.laboratoryDeskTopTypesList.find((l) => {
+    _item.status = $scope.radiologyDeskTopTypesList.find((l) => {
       return l.id === id;
     });
 
@@ -343,18 +343,18 @@ app.controller('laboratoryDeskTop', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getLaboratoryDeskTopTypesList = function () {
+  $scope.getradiologyDeskTopTypesList = function () {
     $scope.busy = true;
-    $scope.laboratoryDeskTopTypesList = [];
+    $scope.radiologyDeskTopTypesList = [];
     $http({
       method: 'POST',
-      url: '/api/laboratoryDeskTopTypes',
+      url: '/api/radiologyDeskTopTypes',
       data: {},
     }).then(
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.laboratoryDeskTopTypesList = response.data.list;
+          $scope.radiologyDeskTopTypesList = response.data.list;
         }
       },
       function (err) {
@@ -401,5 +401,5 @@ app.controller('laboratoryDeskTop', function ($scope, $http, $timeout) {
   $scope.getDoctorsList();
   $scope.getDiagnosesList();
   $scope.getRecipientPersonList();
-  $scope.getLaboratoryDeskTopTypesList();
+  $scope.getradiologyDeskTopTypesList();
 });

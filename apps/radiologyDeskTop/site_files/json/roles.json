@@ -1,0 +1,9 @@
+[
+  {
+    "moduleName": "public",
+    "name": "radiologyDeskTopAdmin",
+    "En": "Radiology DeskTop Admin",
+    "Ar": "إدارة مركز الأشعة",
+    "permissions": ["radiologyDeskTopManage"]
+  }
+]

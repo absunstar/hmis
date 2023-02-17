@@ -30,6 +30,7 @@
             "jobsManage",
             "doctorAppointmentsManage",
             "laboratoryDeskTopManage",
+            "radiologyDeskTopManage",
             "employeesManage",
             "employeesBonusesManage",
             "employeesPenaltiesManage",

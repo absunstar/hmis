@@ -138,9 +138,6 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
-   
-      
-
       site.get(
         {
           name: app.name,
@@ -313,8 +310,8 @@ module.exports = function init(site) {
   };
 
   site.post({ name: `/api/serviceMainInsurance`, require: { permissions: ['login'] } }, (req, res) => {
-    site.serviceMainInsurance(req.data, (serviceCallback) => {
-      res.json(serviceCallback);
+    site.serviceMainInsurance(req.data, (servicesCallback) => {
+      res.json(servicesCallback);
     });
   });
 
@@ -325,7 +322,6 @@ module.exports = function init(site) {
       callback(response);
       return;
     }
-
     let appServicesGroup = site.getApp('servicesGroups');
     let appServicesCategory = site.getApp('servicesCategories');
     let mainInsurance = app.memoryList.find((_c) => _data.mainInsuranceCompany && _c.id == _data.mainInsuranceCompany.id);
@@ -454,7 +450,7 @@ module.exports = function init(site) {
         }
         if (!foundService && mainInsurance.discountServicesList && mainInsurance.discountServicesList.length > 0) {
           let discountServiceIndex = mainInsurance.discountServicesList.findIndex((_cService) => _cService.id === _service.id);
-          if (discountServiceIndex !== -1) {
+          if (discountServiceIndex != -1) {
             foundService = true;
             let service = {
               id: _service.id,
@@ -512,7 +508,7 @@ module.exports = function init(site) {
               if (_data.type == 'out') {
                 if (_data.payment == 'cash') {
                   service.price = _service.cashPriceOut;
-                  service.discount =  _cGroup.applyDiscOut ? _cGroup.cashOut : 0;
+                  service.discount = _cGroup.applyDiscOut ? _cGroup.cashOut : 0;
                 } else if (_data.payment == 'credit') {
                   service.price = _service.creditPriceOut;
                   service.discount = _cGroup.applyDiscOut ? _cGroup.creditOut : 0;
@@ -534,7 +530,7 @@ module.exports = function init(site) {
                 group.servicesCategoriesList.forEach((_sCateGory) => {
                   let category = appServicesCategory.memoryList.find((_c) => _c.id == _sCateGory.id);
                   _service.servicesCategoriesList.forEach((_c) => {
-                    if (_c.id == category.id) {
+                    if (_c.id == category.id && !foundService) {
                       foundService = true;
                       let service = {
                         id: _service.id,
@@ -616,6 +612,39 @@ module.exports = function init(site) {
             });
           });
         }
+        if (!foundService) {
+          foundService = true;
+          let service = {
+            id: _service.id,
+            nameAr: _service.nameAr,
+            nameEn: _service.nameEn,
+            serviceGroup: _service.serviceGroup,
+            discount: 0,
+            comVat: 0,
+            pVat: 0,
+            qty: 1,
+          };
+          if (_data.type == 'out') {
+            if (_data.payment == 'cash') {
+              service.price = _service.creditPriceOut;
+            } else if (_data.payment == 'credit') {
+              service.price = _service.creditPriceOut;
+            }
+          } else if (_data.type == 'in') {
+            if (_data.payment == 'cash') {
+              service.price = _service.cashPriceIn;
+            } else if (_data.payment == 'credit') {
+              service.price = _service.creditPriceIn;
+            }
+          }
+          servicesList.push(service);
+        }
+        if (_data.hospitalCenter && _data.hospitalCenter.id) {
+          servicesList[servicesList.length - 1].hospitalCenter = _data.hospitalCenter;
+        }
+
+        servicesList[servicesList.length - 1].total = servicesList[servicesList.length - 1].price + (servicesList[servicesList.length - 1].price * servicesList[servicesList.length - 1].vat) / 100;
+        servicesList[servicesList.length - 1].total = site.toNumber(servicesList[servicesList.length - 1].total);
       });
       if (foundService) {
         response.done = true;

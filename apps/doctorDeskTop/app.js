@@ -139,13 +139,12 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
-
       site.get(
         {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name, appName: 'Doctor Desk Top' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name, appName: 'Doctor DeskTop' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -313,12 +312,45 @@ module.exports = function init(site) {
     let appServices = site.getApp('services');
     let response = { done: false };
     let _data = req.body;
-    let service = appServices.memoryList.find((_c) => _c.id == _data.doctor.consItem.id);
+    let servicesList = [];
+
+    _data.servicesList.forEach((_s) => {
+      let service = appServices.memoryList.find((_sM) => _sM.id == _s.id);
+      if (service) {
+        servicesList.push(service);
+      }
+    });
+
     if (_data.patient.insuranceCompany && _data.patient.insuranceCompany.id) {
+
       site.mainInsurancesFromSub({ insuranceCompanyId: _data.patient.insuranceCompany.id }, (callback) => {
-        callback.service = service;
-        
-        res.json(callback);
+
+        site.nphisElig(req.data, (nphisCallback) => {
+
+          let payment = '';
+          if (nphisCallback.elig) {
+            nphis = 'elig';
+            payment = 'credit';
+          } else {
+            nphis = 'nElig';
+            payment = 'cash';
+          }
+          site.serviceMainInsurance(
+            {
+              mainInsuranceCompany: callback.mainInsuranceCompany,
+              patientClass: _data.patient.insuranceClass,
+              servicesList: servicesList,
+              payment: payment,
+              hospitalCenter: _data.doctor.hospitalCenter,
+              type: _data.type,
+            },
+            (serviceCallback) => {
+              callback.elig = nphisCallback.elig;
+              callback.servicesList = serviceCallback.servicesList;
+              res.json(callback);
+            }
+          );
+        });
       });
     } else {
       response.error = 'There is no insurance company for the patient';
@@ -351,6 +383,7 @@ module.exports = function init(site) {
       (err, docs) => {
         if (!err) {
           obj.code = docs && docs.length > 0 ? docs[0].code + 1 : 1;
+          obj.servicesList = [];
           app.add(obj, (err, doc1) => {});
         }
       }

@@ -21,7 +21,8 @@
             ng-show="item.source.id == 2"
             label="##word.Doctor DeskTop##"
             ng-model="item.doctorDeskTop"
-            display="name##session.lang##"
+            display="patient.fullName##session.lang##"
+            display2="date"
             items="doctorDeskTopList"
             ng-search="item.$doctorDeskTop"
             ng-change="selectDoctorDeskTop(item.doctorDeskTop)"
@@ -90,7 +91,7 @@
               </td>
               <th>##word.Mobile##</th>
               <td class="center">
-                <p class="height-5">{{item.patient.mobileList[0].mobile}}</p>
+                <p class="height-5">{{item.patient.mobile}}</p>
               </td>
             </tr>
             <tr>
@@ -191,19 +192,19 @@
       <fieldset class="col3">
         <div class="row">
           <div class="row margin disabled">
-            <p class="bold col4">##word.NPHIS## :</p>
+            <p class="bold col4">##word.NPHIS##</p>
             <i-radio ng-model="item.nphis" class="col4" ng-value="elig" label="##word.Elig##"> </i-radio>
             <i-radio ng-model="item.nphis" class="col4" ng-value="nElig" label="##word.N/Elig##"></i-radio>
           </div>
 
           <div class="row margin disabled">
-            <p class="bold col4">##word.Payment## :</p>
+            <p class="bold col4">##word.Payment##</p>
             <i-radio ng-model="item.payment" class="col4" ng-value="cash" label="##word.Cash##"></i-radio>
             <i-radio ng-model="item.payment" class="col4" ng-value="credit" label="##word.Credit##"> </i-radio>
           </div>
 
           <div class="row margin">
-            <p class="bold col4">##word.Type## :</p>
+            <p class="bold col4">##word.Type##</p>
             <i-radio ng-model="item.type" class="col4" ng-value="out" label="##word.Out##"> </i-radio>
             <i-radio ng-model="item.type" class="col4" ng-value="in" label="##word.In##"></i-radio>
           </div>
@@ -293,7 +294,6 @@
       <div class="row disabled">
         <i-control class="col3" type="number" label="##word.Net-Amount##" ng-model="item.netAmount"> </i-control>
       </div>
-
     </fieldset>
 
     <i-textarea label="##word.Remarks##" ng-model="item.remarks"></i-textarea>

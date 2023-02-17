@@ -69,10 +69,10 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
       return;
     }
 
-    if (id == 2) {
-      _item.status = { id: 2, nameEn: 'At doctor', nameAr: 'عند الطبيب' };
-    } else if (id == 3) {
-      _item.status = { id: 3, nameEn: 'Detected', nameAr: 'تم الكشف' };
+    if (id > 0) {
+      _item.status = $scope.doctorDeskTopTypesList.find((l) => {
+        return l.id === id;
+      });
     }
 
     $scope.busy = true;
@@ -102,15 +102,9 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
 
   $scope.updateStatus = function (_item, id) {
     $scope.error = '';
-    if (id == 1) {
-      _item.status = { id: 1, nameEn: 'Pending', nameAr: 'قيد الإنتظار' };
-    } else if (id == 2) {
-      _item.status = { id: 2, nameEn: 'At doctor', nameAr: 'عند الطبيب' };
-    } else if (id == 3) {
-      _item.status = { id: 3, nameEn: 'Detected', nameAr: 'تم الكشف' };
-    } else if (id == 4) {
-      _item.status = { id: 4, nameEn: 'Cancel detection', nameAr: 'إلغاء الكشف' };
-    }
+    _item.status = $scope.doctorDeskTopTypesList.find((l) => {
+      return l.id === id;
+    });
     $scope.busy = true;
     $http({
       method: 'POST',
@@ -343,6 +337,28 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
       }
     );
   };
+ 
+  $scope.getDoctorDeskTopTypesList = function () {
+    $scope.busy = true;
+    $scope.doctorDeskTopTypesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/doctorDeskTopTypes',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.doctorDeskTopTypesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
 
   $scope.getDiagnosesList = function () {
     $scope.busy = true;
@@ -632,4 +648,5 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
   $scope.getPatientEducationsList();
   $scope.getDrinksList();
   $scope.getFoodsList();
+  $scope.getDoctorDeskTopTypesList();
 });

@@ -208,7 +208,7 @@ app.controller('doctorAppointments', function ($scope, $http, $timeout) {
           motherNameAr: 1,
           newBorn: 1,
           nationality: 1,
-          mobileList: 1,
+          mobile: 1,
           patientType: 1,
           insuranceCompany: 1,
           insuranceClass: 1,

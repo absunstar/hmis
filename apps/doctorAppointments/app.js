@@ -299,8 +299,12 @@ module.exports = function init(site) {
     let service = appServices.memoryList.find((_c) => _c.id == _data.doctor.consItem.id);
     if (_data.patient.insuranceCompany && _data.patient.insuranceCompany.id) {
       site.mainInsurancesFromSub({ insuranceCompanyId: _data.patient.insuranceCompany.id }, (callback) => {
-        callback.service = service;
-        res.json(callback);
+        site.nphisElig(req.data, (nphisCallback) => {
+         
+          callback.elig = nphisCallback.elig;
+          callback.service = service;
+          res.json(callback);
+        });
       });
     } else {
       response.error = 'There is no insurance company for the patient';

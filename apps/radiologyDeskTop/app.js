@@ -1,9 +1,9 @@
 module.exports = function init(site) {
   let app = {
-    name: 'servicesOrders',
+    name: 'radiologyDeskTop',
     allowMemory: false,
     memoryList: [],
-    allowCache: false,
+    allowCache: true,
     cacheList: [],
     allowRoute: true,
     allowRouteGet: true,
@@ -139,12 +139,13 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
+
       site.get(
         {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name, appName: 'Services Orders' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name, appName: 'Radiology DeskTop' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -156,8 +157,7 @@ module.exports = function init(site) {
         };
 
         let _data = req.data;
-        _data.company = site.getCompany(req);
-        _data.branch = site.getBranch(req);
+
         let numObj = {
           company: site.getCompany(req),
           screen: app.name,
@@ -172,36 +172,11 @@ module.exports = function init(site) {
         } else if (cb.auto) {
           _data.code = cb.code;
         }
+
         _data.addUserInfo = req.getUserFinger();
 
         app.add(_data, (err, doc) => {
           if (!err && doc) {
-            doc.servicesList.forEach((_s, i) => {
-              setTimeout(() => {
-                if (_s.serviceGroup && _s.serviceGroup.type && _s.serviceGroup.type.id) {
-                  let obj = {
-                    orderId: doc.id,
-                    patient: { ...doc.patient },
-                    date: doc.date,
-                    company: doc.company,
-                    branch: doc.branch,
-                    source: doc.source,
-                    addUserInfo: _data.addUserInfo,
-                    service: { ..._s },
-                    doctor: { ...doc.doctor },
-                    status: { id: 1, nameEn: 'Pending', nameAr: 'قيد الإنتظار' },
-                  };
-
-                  if (_s.serviceGroup.type.id == 2) {
-                    site.addDoctorDeskTop(obj);
-                  } else if (_s.serviceGroup.type.id == 3) {
-                    site.addLaboratoryDeskTop(obj);
-                  } else if (_s.serviceGroup.type.id == 4) {
-                    site.addRadiologyDeskTop(obj);
-                  }
-                }
-              }, 1000 * (i + 1));
-            });
             response.done = true;
             response.doc = doc;
           } else {
@@ -262,6 +237,9 @@ module.exports = function init(site) {
         app.view(_data, (err, doc) => {
           if (!err && doc) {
             response.done = true;
+            let newDate = new Date();
+            doc.$hours = parseInt((Math.abs(new Date(doc.date) - newDate) / (1000 * 60 * 60)) % 24);
+            doc.$minutes = parseInt((Math.abs(new Date(doc.date).getTime() - newDate.getTime()) / (1000 * 60)) % 60);
             response.doc = doc;
           } else {
             response.error = err?.message || 'Not Exists';
@@ -274,11 +252,11 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, code: 1, patient: 1 };
+        let select = req.body.select || { id: 1, patient: 1, doctor: 1, code: 1, service: 1, date: 1, status: 1 };
         let list = [];
         if (app.allowMemory) {
           app.memoryList
-            .filter((g) => g.company && g.branch && g.company.id == site.getCompany(req).id && g.branch.code == site.getBranch(req).code)
+            .filter((g) => !where['doctor.id'] || g.doctor.id == where['doctor.id'])
             .forEach((doc) => {
               let obj = { ...doc };
               for (const p in obj) {
@@ -286,16 +264,23 @@ module.exports = function init(site) {
                   delete obj[p];
                 }
               }
-              if (!where.active || doc.active) {
-                list.push(obj);
-              }
+              list.push(obj);
             });
           res.json({
             done: true,
             list: list,
           });
         } else {
-          if (where.date) {
+          if (where && where.dateTo) {
+            let d1 = site.toDate(where.date);
+            let d2 = site.toDate(where.dateTo);
+            d2.setDate(d2.getDate() + 1);
+            where.date = {
+              $gte: d1,
+              $lt: d2,
+            };
+            delete where.dateTo;
+          } else if (where.date) {
             let d1 = site.toDate(where.date);
             let d2 = site.toDate(where.date);
             d2.setDate(d2.getDate() + 1);
@@ -304,8 +289,16 @@ module.exports = function init(site) {
               $lt: d2,
             };
           }
-
-          app.all({ where: where, select }, (err, docs) => {
+          if (where['doctor']) {
+            where['doctor.id'] = where['doctor'].id;
+            delete where['doctor'];
+          }
+          app.all({ where, select, sort: { code: -1 }, limit: req.body.limit }, (err, docs) => {
+            let newDate = new Date();
+            docs.forEach((_d) => {
+              _d.$hours = parseInt((Math.abs(new Date(_d.date) - newDate) / (1000 * 60 * 60)) % 24);
+              _d.$minutes = parseInt((Math.abs(new Date(_d.date).getTime() - newDate.getTime()) / (1000 * 60)) % 60);
+            });
             res.json({
               done: true,
               list: docs,
@@ -316,18 +309,53 @@ module.exports = function init(site) {
     }
   }
 
-  site.post({ name: `/api/nphisElig/patient`, public: true }, (req, res) => {
-    site.nphisElig(req.data, (nphisCallback) => {
-      res.json(nphisCallback);
-    });
+  site.post({ name: `/api/selectRadiologyDeskTop`, require: { permissions: ['login'] } }, (req, res) => {
+    let appServices = site.getApp('services');
+    let response = { done: false };
+    let _data = req.body;
+    let service = appServices.memoryList.find((_c) => _c.id == _data.doctor.consItem.id);
+    if (_data.patient.insuranceCompany && _data.patient.insuranceCompany.id) {
+      site.mainInsurancesFromSub({ insuranceCompanyId: _data.patient.insuranceCompany.id }, (callback) => {
+        callback.service = service;
+        
+        res.json(callback);
+      });
+    } else {
+      response.error = 'There is no insurance company for the patient';
+      res.json(response);
+      return;
+    }
   });
 
-  site.nphisElig = function (obj , callback) {
-    response = {};
-    response.elig = true;
-    response.done = true;
-    callback(response);
-    return
+  site.addRadiologyDeskTop = function (obj) {
+    let date = new Date();
+    let d1 = site.toDate(date);
+    let d2 = site.toDate(date);
+    d2.setDate(d2.getDate() + 1);
+    let where = {};
+    where.date = {
+      $gte: d1,
+      $lt: d2,
+    };
+    // if (obj.doctor && obj.doctor.id) {
+    //   where['doctor.id'] = obj.doctor.id;
+    // }
+    app.all(
+      {
+        where,
+        limit: 1,
+        sort: {
+          id: -1,
+        },
+      },
+      (err, docs) => {
+        if (!err) {
+          obj.code = docs && docs.length > 0 ? docs[0].code + 1 : 1;
+          obj.filesList = [{}];
+          app.add(obj, (err, doc1) => {});
+        }
+      }
+    );
   };
 
   app.init();

@@ -201,8 +201,6 @@ module.exports = function init(site) {
 
     if (app.allowRoute) {
         if (app.allowRouteGet) {
-        
-
             site.get(
                 {
                     name: app.name,

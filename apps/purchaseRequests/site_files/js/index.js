@@ -380,6 +380,8 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
                     unitsList: 1,
                     itemGroup: 1,
                 },
+                search: $search,
+            
             },
         }).then(
             function (response) {

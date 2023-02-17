@@ -124,7 +124,9 @@
                             <td class="text-center">
                                 <span class="text-center"
                                     >{{elem.unit.name##session.lang##}}
-                                    <p class="text-center text-success">({{elem.currentCount}})</p>
+                                    <p class="text-center blue" ng-if="!elem.currentCount">({{elem.currentCount}})</p>
+                                    <p class="text-center text-success" ng-if="elem.currentCount>0">(##word.+##{{elem.currentCount}})</p>
+                                    <p class="text-center text-danger" ng-if="elem.currentCount<0">(##word.-##{{elem.currentCount}})</p>
                                 </span>
                             </td>
                             <td>

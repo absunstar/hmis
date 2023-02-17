@@ -140,7 +140,6 @@ module.exports = function init(site) {
 
     if (app.allowRoute) {
         if (app.allowRouteGet) {
-
             site.get(
                 {
                     name: app.name,
@@ -265,7 +264,7 @@ module.exports = function init(site) {
                                 item.store = { ...result.doc.store };
                                 site.editItemsBalance(item, app.name);
                                 item.invoiceId = result.doc.id;
-                                item.date = result.doc.date;
+                                item.date = result.doc.orderDate;
                                 item.customer = result.doc.customer;
                                 item.countType = 'in';
                                 item.orderCode = result.doc.code;

@@ -437,13 +437,14 @@ app.controller('vendors', function ($scope, $http, $timeout) {
             method: 'POST',
             url: '/api/nationalities/all',
             data: {
-                where: { active: true, search: $search },
+                where: { active: true },
                 select: {
                     id: 1,
                     code: 1,
                     nameAr: 1,
                     nameEn: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {

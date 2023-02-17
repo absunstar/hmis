@@ -9,6 +9,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         image: { url: '/images/purchaseOrders.png' },
         importPermitNumber: 0,
         totalPrice: 0,
+        totalDiscounts: 0,
+        totalTaxes: 0,
+        totalVendorDiscounts: 0,
         hasVendor: true,
         hasDiscounts: false,
         hasTaxes: false,
@@ -19,6 +22,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         active: true,
     };
     $scope.item = {};
+    $scope.discount = {};
+    $scope.tax = {};
     $scope.list = [];
     $scope.orderItem = {
         count: 1,
@@ -280,7 +285,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getpurchaseOrdersSource = function () {
+    $scope.getPurchaseOrdersSource = function () {
         $scope.busy = true;
         $scope.purchaseOrdersSourcesList = [];
         $http({
@@ -348,7 +353,6 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
-                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -356,6 +360,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     nameAr: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {
@@ -383,7 +388,6 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
-                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -391,6 +395,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     nameAr: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {
@@ -418,14 +423,16 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
-                    search: $search,
                 },
                 select: {
                     id: 1,
                     code: 1,
-                    nameEn: 1,
                     nameAr: 1,
+                    nameEn: 1,
+                    discountValue: 1,
+                    discountType: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {
@@ -441,6 +448,43 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         );
     };
 
+    $scope.addToList = function (discount, type) {
+        if (type === 'discount') {
+            $scope.item.discountsList.unshift(discount);
+            $scope.item.totalDiscounts += discount.value;
+            $scope.discount = {};
+        }
+        if (type === 'tax') {
+            $scope.item.taxesList.unshift({
+                id: discount.id,
+                code: discount.code,
+                nameAr: discount.nameAr,
+                nameEn: discount.nameEn,
+                value: discount.value,
+            });
+            $scope.item.totalTaxes += discount.value;
+            $scope.tax = {};
+        }
+    };
+
+    $scope.spliceFromList = function (discount, type) {
+        if (type === 'discount') {
+            const index = $scope.item.discountsList.findIndex((dis) => dis.discountType.id === discount.discountType.id);
+            if (index !== -1) {
+                $scope.item.discountsList.splice(index, 1);
+                $scope.item.totalDiscounts -= discount.value;
+            }
+        }
+
+        if (type === 'tax') {
+            const index = $scope.item.taxesList.findIndex((dis) => dis.id === discount.id);
+            if (index !== -1) {
+                $scope.item.taxesList.splice(index, 1);
+                $scope.item.totalTaxes -= discount.value;
+            }
+        }
+    };
+
     $scope.getTaxTypes = function ($search) {
         if ($search && $search.length < 3) {
             return;
@@ -453,14 +497,15 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
-                    search: $search,
                 },
                 select: {
                     id: 1,
                     code: 1,
-                    nameEn: 1,
                     nameAr: 1,
+                    nameEn: 1,
+                    value: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {
@@ -478,6 +523,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
 
     $scope.setTotalPrice = function (amount) {
         $scope.item.totalPrice += amount;
+        
+
     };
 
     $scope.getStoresItems = function () {
@@ -669,6 +716,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
                 bonusPrice: 0,
                 purchaseCost: 0,
                 discount: 0,
+                vendorDiscount: 0,
                 total: 0,
             });
             $scope.calculateTotalInItemsList($scope.item.itemsList[$scope.item.itemsList.length - 1]);
@@ -710,6 +758,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             const selectdItem = $scope.item.itemsList[itemIndex];
             if (itemIndex !== -1) {
                 selectdItem.total = selectdItem.count * selectdItem.price;
+                $scope.setTotalPrice(selectdItem.total);
             }
             $scope.itemsError = '';
         }, 300);
@@ -788,9 +837,11 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
 
     $scope.getAll();
     $scope.getPaymentTypes();
-    $scope.getpurchaseOrdersSource();
-    // $scope.getVendors();
-    // $scope.getStores();
+    $scope.getPurchaseOrdersSource();
+    $scope.getDiscountTypes();
+    $scope.getVendors();
+    $scope.getStores();
+    $scope.getTaxTypes();
     $scope.getStoresItems();
     $scope.getNumberingAuto();
 });

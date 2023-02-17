@@ -357,7 +357,6 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
-                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -365,6 +364,8 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     nameAr: 1,
                 },
+                search: $search,
+                
             },
         }).then(
             function (response) {
@@ -429,6 +430,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
                 storesList: elem.storesList,
+                purchaseCost: elem.purchaseCost,
             });
             $scope.orderItem.unit = $scope.unitsList[0];
         }
@@ -478,6 +480,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
             itemGroup: elem.item.itemGroup,
             unit: { id: elem.unit.id, code: elem.unit.code, nameAr: elem.unit.nameAr, nameEn: elem.unit.nameEn },
             count: elem.count,
+            purchaseCost: elem.unit.purchaseCost,
             approved: false,
         });
 

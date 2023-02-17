@@ -348,9 +348,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
             url: '/api/stores/all',
             data: {
                 where: {
-                    'type.id': 1,
                     active: true,
-                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -358,6 +356,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     nameAr: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {
@@ -465,7 +464,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
 
     $scope.getAll();
     $scope.getPaymentTypes();
-    // $scope.getStores();
+    $scope.getStores();
     $scope.getStoresItems();
     $scope.getCustomers();
     $scope.getNumberingAuto();

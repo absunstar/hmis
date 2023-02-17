@@ -10,7 +10,11 @@
                 <legend>##word.Item Data By Store##</legend>
                 <div class="row text-center">
                     <h3 class="col4">##word.Current Count##</h3>
-                    <h3 class="col6 blue">{{unit.currentCount}}</h3>
+                    <h3 class="col3">
+                        <p class="text-center blue" ng-if="!unit.currentCount">{{unit.currentCount}}</p>
+                        <p class="text-center text-success" ng-if="unit.currentCount>0"><span class="text-success">##word.+##</span>{{unit.currentCount}}</p>
+                        <p class="text-center text-danger" ng-if="unit.currentCount<0"><span class="text-danger">##word.-##</span>{{unit.currentCount}}</p>
+                    </h3>
                 </div>
                 <div class="row">
                     <div class="table-responsive">
@@ -48,35 +52,104 @@
                             </tr>
 
                             <tr ng-repeat="str in unit.storesList">
-                                <td class="text-center">{{$index+1}}</td>
-                                <td class="text-center">{{str.store.name##session.lang##}}</td>
-                                <td class="text-center bold blue">{{str.currentCount}}</td>
-                                <td class="text-center text-success">{{str.purchaseCount}}</td>
-                                <td class="text-center">{{str.purchasePrice}}</td>
-                                <td class="text-center text-danger">{{str.purchaseReturnCount}}</td>
-                                <td class="text-center">{{str.purchaseReturnPrice}}</td>
-                                <td class="text-center text-danger">{{str.salesReturnCount}}</td>
-                                <td class="text-center">{{str.salesReturnCountPrice}}</td>
-                                <td class="text-center text-success">{{str.bonusCount}}</td>
-                                <td class="text-center">{{str.bonusPrice}}</td>
-                                <td class="text-center text-danger">{{str.bonusReturnCount}}</td>
-                                <td class="text-center">{{str.bonusReturnPrice}}</td>
-                                <td class="text-center text-danger">{{str.salesCount}}</td>
-                                <td class="text-center">{{str.salesPrice}}</td>
-                                <td class="text-center text-danger">{{str.damagedCount}}</td>
-                                <td class="text-center">{{str.damagedPrice}}</td>
-                                <td class="text-center text-danger">{{str.assembledCount}}</td>
-                                <td class="text-center">{{str.assembledPrice}}</td>
-                                <td class="text-center text-success">{{str.unassembledCount}}</td>
-                                <td class="text-center">{{str.unassembledPrice}}</td>
-                                <td class="text-center text-danger">{{str.transferFromCount}}</td>
-                                <td class="text-center">{{str.transferFromPrice}}</td>
-                                <td class="text-center text-success">{{str.transferToCount}}</td>
-                                <td class="text-center">{{str.transferToPrice}}</td>
-                                <td class="text-center text-danger">{{str.convertUnitFromCount}}</td>
-                                <td class="text-center">{{str.convertUnitFromPrice}}</td>
-                                <td class="text-center text-success">{{str.convertUnitToCount}}</td>
-                                <td class="text-center">{{str.convertUnitToPrice}}</td>
+                                <td>{{$index+1}}</td>
+                                <td>{{str.store.name##session.lang##}}</td>
+                                <td>
+                                    <p class="text-center blue" ng-if="!str.currentCount">{{str.currentCount}}</p>
+                                    <p class="text-center text-success" ng-if="str.currentCount>0"><span class="text-success">##word.+##</span>{{str.currentCount}}</p>
+                                    <p class="text-center text-danger" ng-if="str.currentCount<0"><span class="text-danger">##word.-##</span>{{str.currentCount}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-center blue" ng-if="!str.purchaseCount">{{str.purchaseCount}}</p>
+                                    <p class="text-center text-success" ng-if="str.purchaseCount"><span class="text-success">##word.+##</span>{{str.purchaseCount}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">{{str.purchasePrice}} <span class="currency">##word.SR##</span></p>
+                                </td>
+                                <td>
+                                    <p class="text-center blue" ng-if="!str.purchaseReturnCount">{{str.purchaseReturnCount}}</p>
+                                    <p class="text-center text-danger" ng-if="str.purchaseReturnCount"><span class="red">##word.-##</span>{{str.purchaseReturnCount}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">{{str.purchaseReturnPrice}} <span class="currency">##word.SR##</span></p>
+                                </td>
+                                <td>
+                                    <p class="text-center blue" ng-if="!str.salesReturnCount">{{str.salesReturnCount}}</p>
+                                    <p class="text-center text-danger" ng-if="str.salesReturnCount"><span class="red">##word.-##</span>{{str.salesReturnCount}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">{{str.salesReturnCountPrice}} <span class="currency">##word.SR##</span></p>
+                                </td>
+                                <td>
+                                    <p class="text-center blue" ng-if="!str.bonusCount">{{str.bonusCount}}</p>
+                                    <p class="text-center text-success" ng-if="str.bonusCount"><span class="text-success">##word.+##</span>{{str.bonusCount}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">{{str.bonusPrice}} <span class="currency">##word.SR##</span></p>
+                                </td>
+                                <td>
+                                    <p class="text-center blue" ng-if="!str.bonusReturnCount">{{str.bonusReturnCount}}</p>
+                                    <p class="text-center text-danger" ng-if="str.bonusReturnCount"><span class="red">##word.-##</span>{{str.bonusReturnCount}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">{{str.bonusReturnPrice}} <span class="currency">##word.SR##</span></p>
+                                </td>
+                                <td>
+                                    <p class="text-center blue" ng-if="!str.salesCount">{{str.salesCount}}</p>
+                                    <p class="text-center text-danger" ng-if="str.salesCount"><span class="red">##word.-##</span>{{str.salesCount}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">{{str.salesPrice}} <span class="currency">##word.SR##</span></p>
+                                </td>
+                                <td>
+                                    <p class="text-center blue" ng-if="!str.damagedCount">{{str.damagedCount}}</p>
+                                    <p class="text-center text-danger" ng-if="str.damagedCount"><span class="red">##word.-##</span>{{str.damagedCount}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">{{str.damagedPrice}} <span class="currency">##word.SR##</span></p>
+                                </td>
+                                <td>
+                                    <p class="text-center blue" ng-if="!str.assembledCount">{{str.assembledCount}}</p>
+                                    <p class="text-center text-danger" ng-if="str.assembledCount"><span class="red">##word.-##</span>{{str.assembledCount}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">{{str.assembledPrice}} <span class="currency">##word.SR##</span></p>
+                                </td>
+                                <td>
+                                    <p class="text-center blue" ng-if="!str.unassembledCount">{{str.unassembledCount}}</p>
+                                    <p class="text-center text-success" ng-if="str.unassembledCount"><span class="text-success">##word.+##</span>{{str.unassembledCount}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">{{str.unassembledPrice}} <span class="currency">##word.SR##</span></p>
+                                </td>
+                                <td>
+                                    <p class="text-center blue" ng-if="!str.transferFromCount">{{str.transferFromCount}}</p>
+                                    <p class="text-center text-danger" ng-if="str.transferFromCount"><span class="red">##word.-##</span>{{str.transferFromCount}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">{{str.transferFromPrice}} <span class="currency">##word.SR##</span></p>
+                                </td>
+                                <td>
+                                    <p class="text-center blue" ng-if="!str.transferToCount">{{str.transferToCount}}</p>
+                                    <p class="text-center text-success" ng-if="str.transferToCount"><span class="text-success">##word.+##</span>{{str.transferToCount}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">{{str.transferToPrice}} <span class="currency">##word.SR##</span></p>
+                                </td>
+                                <td>
+                                    <p class="text-center blue" ng-if="!str.convertUnitFromCount">{{str.convertUnitFromCount}}</p>
+                                    <p class="text-center text-danger" ng-if="str.convertUnitFromCount"><span class="red">##word.-##</span>{{str.convertUnitFromCount}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">{{str.convertUnitFromPrice}} <span class="currency">##word.SR##</span></p>
+                                </td>
+                                <td>
+                                    <p class="text-center blue" ng-if="!str.convertUnitToCount">{{str.convertUnitToCount}}</p>
+                                    <p class="text-center text-success" ng-if="str.convertUnitToCount"><span class="text-success">##word.+##</span>{{str.convertUnitToCount}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-center">{{str.convertUnitToPrice}} <span class="currency">##word.SR##</span></p>
+                                </td>
                             </tr>
                         </table>
                     </div>

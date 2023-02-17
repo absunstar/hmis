@@ -139,8 +139,6 @@ module.exports = function init(site) {
 
     if (app.allowRoute) {
         if (app.allowRouteGet) {
-        
-
             site.get(
                 {
                     name: app.name,
@@ -252,38 +250,50 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                where.search = where.search || 'id';
+                let search = req.body.search || app.allowMemory ? 'id' : '';
                 let limit = req.body.limit || 10;
-                let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1, active: 1 };
+                let select = req.body.select || {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                    image: 1,
+                    active: 1,
+                };
 
-                // let list = [];
+                if (search) {
+                    where.$or = [];
+
+                    where.$or.push({
+                        id: site.get_RegExp(search, 'i'),
+                    });
+
+                    where.$or.push({
+                        code: site.get_RegExp(search, 'i'),
+                    });
+
+                    where.$or.push({
+                        nameAr: site.get_RegExp(search, 'i'),
+                    });
+
+                    where.$or.push({
+                        nameEn: site.get_RegExp(search, 'i'),
+                    });
+                }
+
                 if (app.allowMemory) {
-                    let list = app.memoryList.filter(
-                        (g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(where.search)
-                    );
-                    // app.memoryList
-                    //     .filter((g) => g.company && g.branch && g.company.id == site.getCompany(req).id && g.branch.code == site.getBranch(req).id)
-                    //     .forEach((doc) => {
-                    //         let obj = { ...doc };
-
-                    //         for (const p in obj) {
-                    //             if (!Object.hasOwnProperty.call(select, p)) {
-                    //                 delete obj[p];
-                    //             }
-                    //         }
-                    //         if (!where.active || doc.active) {
-                    //             list.push(obj);
-                    //         }
-                    //     });
+                    let list = app.memoryList
+                        .filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(search))
+                        .slice(0, limit);
                     res.json({
                         done: true,
-                        list: list.slice(-limit),
+                        list: list,
                     });
                 } else {
-                    app.$collection.findMany({ where: where, select }, (err, docs) => {
+                    app.$collection.findMany({ where, select, limit }, (err, docs) => {
                         res.json({
                             done: true,
-                            list: docs.slice(-limit),
+                            list: docs,
                         });
                     });
                 }

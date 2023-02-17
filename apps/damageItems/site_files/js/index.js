@@ -308,7 +308,6 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
-                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -316,6 +315,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     nameAr: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {
@@ -391,13 +391,14 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
             method: 'POST',
             url: '/api/reasonsDestroyingItems/all',
             data: {
-                where: { active: true, search: $search },
+                where: { active: true },
                 select: {
                     id: 1,
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {
@@ -499,9 +500,10 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
         success = true;
         return { success, _item };
     };
+
     $scope.getReasonsDestroyingItems();
     $scope.getAll();
-    // $scope.getStores();
+    $scope.getStores();
     $scope.getStoresItems();
     $scope.getNumberingAuto();
 });

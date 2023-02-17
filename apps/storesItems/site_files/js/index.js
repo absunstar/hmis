@@ -349,7 +349,6 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
-                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -357,6 +356,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     nameAr: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {
@@ -411,13 +411,14 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             method: 'POST',
             url: '/api/storesUnits/all',
             data: {
-                where: { active: true, search: $search },
+                where: { active: true },
                 select: {
                     id: 1,
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {
@@ -444,13 +445,14 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             method: 'POST',
             url: '/api/stores/all',
             data: {
-                where: { active: true, search: $search },
+                where: { active: true },
                 select: {
                     id: 1,
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {
@@ -477,13 +479,14 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             method: 'POST',
             url: '/api/activeSubstances/all',
             data: {
-                where: { active: true, search: $search },
+                where: { active: true },
                 select: {
                     id: 1,
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {

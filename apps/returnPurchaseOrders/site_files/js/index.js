@@ -316,7 +316,6 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
-                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -324,6 +323,7 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     nameAr: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {
@@ -457,7 +457,7 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
     $scope.getAll();
 
     $scope.getPaymentTypes();
-    // $scope.getStores();
+    $scope.getStores();
     $scope.getStoresItems();
     $scope.getVendors();
     $scope.getNumberingAuto();

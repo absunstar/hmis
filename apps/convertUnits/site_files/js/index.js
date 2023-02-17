@@ -253,7 +253,6 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
-                    search: $search,
                 },
                 select: {
                     id: 1,
@@ -261,6 +260,7 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     nameAr: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {
@@ -276,7 +276,10 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getStoresItems = function () {
+    $scope.getStoresItems = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
         $scope.busy = true;
         $scope.itemsList = [];
         $http({
@@ -295,6 +298,7 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
                     itemGroup: 1,
                     unitsList: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {
@@ -487,7 +491,7 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
     };
 
     $scope.getAll();
-    // $scope.getStores();
+    $scope.getStores();
     $scope.getStoresItems();
     $scope.getNumberingAuto();
 });

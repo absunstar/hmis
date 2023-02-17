@@ -140,7 +140,6 @@ module.exports = function init(site) {
 
     if (app.allowRoute) {
         if (app.allowRouteGet) {
-      
             site.get(
                 {
                     name: app.name,
@@ -281,7 +280,7 @@ module.exports = function init(site) {
                 });
             });
         }
-        
+
         if (app.allowRouteDelete) {
             site.post({ name: `/api/${app.name}/delete`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {

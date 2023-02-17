@@ -29,33 +29,43 @@
         <fieldset>
             <legend>##word.Items Information##</legend>
             <div class="row" ng-if="mode =='add'">
-                <i-list
-                    class="col2"
-                    ng-model="orderItem.item"
-                    ng-change="orderItem.item? getItemUnits(orderItem.item):''"
-                    items="itemsList"
-                    display="name##session.lang##"
-                    label="##word.Item##"
-                    ng-search="orderItem.$selectItem"
-                ></i-list>
+                <fieldset>
+                    <legend>##word.From##</legend>
+                    <div class="row">
+                        <i-list
+                            class="col2"
+                            ng-model="orderItem.item"
+                            ng-change="orderItem.item? getItemUnits(orderItem.item):''"
+                            items="itemsList"
+                            display="name##session.lang##"
+                            label="##word.Item##"
+                            ng-search="orderItem.$selectItem"
+                        ></i-list>
 
-                <i-list
-                    class="col2"
-                    ng-model="orderItem.unit"
-                    items="unitsList"
-                    ng-change="orderItem.currentCount = orderItem.unit.currentCount"
-                    display="name##session.lang##"
-                    label="##word.Unit##"
-                    ng-search="orderItem.$unit"
-                ></i-list>
+                        <i-list
+                            class="col2"
+                            ng-model="orderItem.unit"
+                            items="unitsList"
+                            ng-change="orderItem.currentCount = orderItem.unit.currentCount"
+                            display="name##session.lang##"
+                            label="##word.Unit##"
+                            ng-search="orderItem.$unit"
+                        ></i-list>
 
-                <i-control class="col2" type="number" disabled ng-model="orderItem.currentCount" label="##word.Current Count##"></i-control>
+                        <i-control class="col2" type="number" disabled ng-model="orderItem.currentCount" label="##word.Current Count##"></i-control>
+                        <i-control class="col2" type="number" min="0" ng-model="orderItem.count" label="##word.Count##"></i-control>
+                    </div>
+                </fieldset>
 
-                <i-control class="col2" type="number" min="0" ng-model="orderItem.count" label="##word.Count##"></i-control>
+                <fieldset>
+                    <legend>##word.To##</legend>
+                    <div class="row">
+                        <i-list class="col2" ng-model="orderItem.toUnit" items="unitsList" display="name##session.lang##" label="##word.To Unit##" ng-search="orderItem.$toUnit"></i-list>
 
-                <i-list class="col2" ng-model="orderItem.toUnit" items="unitsList" display="name##session.lang##" label="##word.To Unit##" ng-search="orderItem.$toUnit"></i-list>
-
-                <i-control class="col1" type="number" disabled ng-model="orderItem.toUnit.conversion" label="##word.Conversion##"></i-control>
+                        <i-control class="col2" type="number" disabled ng-model="orderItem.toUnit.conversion" label="##word.Conversion##"></i-control>
+                        <i-control class="col2" type="number" min="0" ng-model="orderItem.count" label="##word.Count##"></i-control>
+                    </div>
+                </fieldset>
 
                 <div class="col1">
                     <br />

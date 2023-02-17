@@ -27,9 +27,8 @@
                 <legend>##word.Items Informations##</legend>
 
                 <div class="row">
-                    <!-- ng-get="getStoresItems($search)" -->
                     <div class="row" ng-if="!canApprove">
-                        <i-list class="col4" label="##word.Item##" ng-model="orderItem.item" ng-change="getItemUnits(orderItem.item)" items="storesItemsList" display="name##session.lang##"> </i-list>
+                        <i-list class="col4" label="##word.Item##" ng-model="orderItem.item" ng-get="getStoresItems($search)" items="storesItemsList" display="name##session.lang##"> </i-list>
                         <i-list
                             class="col3"
                             label="##word.Unit##"
@@ -83,19 +82,19 @@
                             <td class="text-center">
                                 <i-button
                                     type="approve"
-                                    ng-show="elem.approved &&  mode == 'edit'"
+                                    ng-show="elem.approved && !item.approved  && mode == 'edit'"
                                     ng-click="unapproveItem(elem)"
                                     x-permissions="unapprovePurchaseRequests||purchaseRequestsManage"
                                     label="##word.Unapprove##"
                                 ></i-button>
                                 <i-button
                                     type="unapprove"
-                                    ng-show="!elem.approved && mode == 'edit'"
+                                    ng-show="!elem.approved && !item.approved && mode == 'edit'"
                                     ng-click="approveItem(elem)"
                                     x-permissions="approvePurchaseRequests||purchaseRequestsManage"
                                     label="##word.Approve##"
                                 ></i-button>
-                                <i-button type="delete" ng-if="!elem.approved" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
+                                <i-button type="delete" ng-if="!elem.approved && !item.approved" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
                             </td>
                         </tr>
                     </table>

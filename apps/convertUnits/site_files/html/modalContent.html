@@ -29,47 +29,64 @@
         <fieldset>
             <legend>##word.Items Information##</legend>
             <div class="row" ng-if="mode =='add'">
-                <fieldset>
-                    <legend>##word.From##</legend>
-                    <div class="row">
-                        <i-list
-                            class="col2"
-                            ng-model="orderItem.item"
-                            ng-change="orderItem.item? getItemUnits(orderItem.item):''"
-                            items="itemsList"
-                            display="name##session.lang##"
-                            label="##word.Item##"
-                            ng-search="orderItem.$selectItem"
-                        ></i-list>
-
-                        <i-list
-                            class="col2"
-                            ng-model="orderItem.unit"
-                            items="unitsList"
-                            ng-change="orderItem.currentCount = orderItem.unit.currentCount"
-                            display="name##session.lang##"
-                            label="##word.Unit##"
-                            ng-search="orderItem.$unit"
-                        ></i-list>
-
-                        <i-control class="col2" type="number" disabled ng-model="orderItem.currentCount" label="##word.Current Count##"></i-control>
-                        <i-control class="col2" type="number" min="0" ng-model="orderItem.count" label="##word.Count##"></i-control>
+                <div class="row">
+                    <i-list
+                        class="col3"
+                        ng-model="orderItem.item"
+                        ng-change="orderItem.item? getItemUnits(orderItem.item):''"
+                        items="itemsList"
+                        display="name##session.lang##"
+                        label="##word.Item##"
+                        ng-search="orderItem.$selectItem"
+                    ></i-list>
+                    <i-control class="col3" ng-change="calculateConversionUnits()" min="0" type="number" ng-model="orderItem.count" label="##word.Count##"></i-control>
+                    <div class="col2">
+                        <br />
+                        <i-button type="add" label="##word.Add##" ng-show="orderItem.unit.id && orderItem.toUnit.id" ng-click="addToItemsList(orderItem)"> </i-button>
                     </div>
-                </fieldset>
+                </div>
+                <div class="col6" ng-show="orderItem.item && orderItem.item.id">
+                    <fieldset>
+                        <legend>##word.From##</legend>
+                        <div class="row">
+                            <i-list
+                                class="col3"
+                                ng-change="calculateConversionUnits()"
+                                ng-model="orderItem.unit"
+                                items="unitsList"
+                                display="name##session.lang##"
+                                label="##word.Unit##"
+                                ng-search="orderItem.$unit"
+                            ></i-list>
 
-                <fieldset>
-                    <legend>##word.To##</legend>
-                    <div class="row">
-                        <i-list class="col2" ng-model="orderItem.toUnit" items="unitsList" display="name##session.lang##" label="##word.To Unit##" ng-search="orderItem.$toUnit"></i-list>
+                            <i-control class="col3" type="number" disabled ng-model="orderItem.unit.conversion" label="##word.Conversion##"></i-control>
 
-                        <i-control class="col2" type="number" disabled ng-model="orderItem.toUnit.conversion" label="##word.Conversion##"></i-control>
-                        <i-control class="col2" type="number" min="0" ng-model="orderItem.count" label="##word.Count##"></i-control>
-                    </div>
-                </fieldset>
+                            <i-control class="col3" type="number" disabled ng-model="orderItem.unit.currentCount" label="##word.Current Count##"></i-control>
+                            <i-control class="col3" type="number" disabled ng-model="orderItem.unit.newCount" label="##word.New Count##"></i-control>
+                        </div>
+                    </fieldset>
+                </div>
 
-                <div class="col1">
-                    <br />
-                    <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
+                <div class="col6" ng-show="orderItem.item && orderItem.item.id">
+                    <fieldset>
+                        <legend>##word.To##</legend>
+                        <div class="row">
+                            <i-list
+                                class="col3"
+                                ng-change="calculateConversionUnits()"
+                                ng-model="orderItem.toUnit"
+                                items="unitsList"
+                                display="name##session.lang##"
+                                label="##word.To Unit##"
+                                ng-search="orderItem.$toUnit"
+                            ></i-list>
+
+                            <i-control class="col3" type="number" disabled ng-model="orderItem.toUnit.conversion" label="##word.Conversion##"></i-control>
+
+                            <i-control class="col3" type="number" disabled ng-model="orderItem.toUnit.currentCount" label="##word.Current Count##"></i-control>
+                            <i-control class="col3" type="number" disabled ng-model="orderItem.toUnit.newCount" label="##word.New Count##"></i-control>
+                        </div>
+                    </fieldset>
                 </div>
             </div>
 
@@ -78,12 +95,13 @@
                 <tr>
                     <th>##word.S##</th>
                     <th>##word.Item##</th>
-                    <th>##word.Unit##</th>
-                    <th>##word.Current Count##</th>
-                    <th>##word.Count##</th>
+                    <th>##word.From Unit##</th>
+                    <th>##word.Current From Count##</th>
+                    <th>##word.Convert Count##</th>
+                    <th>##word.New From Count##</th>
                     <th>##word.To Unit##</th>
-                    <th>##word.Conversion##</th>
-                    <th>##word.New Count##</th>
+                    <th>##word.Current To Count##</th>
+                    <th>##word.New To Count##</th>
                     <th>##word.Approved##</th>
                     <th class="not-print">##word.Actions##</th>
                 </tr>
@@ -95,16 +113,23 @@
                     <td>
                         <p class="text-center text-danger">{{elem.unit.name##session.lang##}}</p>
                     </td>
-                    <td><p class="text-center">{{elem.currentCount}}</p></td>
-                    <td><p class="text-center text-danger">{{elem.count}}</p></td>
+                    <td>
+                        <p class="text-center text-success">##word.+## {{elem.currentCount}}</p>
+                    </td>
+                    <td>
+                        <p class="text-center text-danger">##word.-## {{elem.currentCount - elem.fromNewCount}}</p>
+                    </td>
+                    <td>
+                        <p class="text-center text-success">##word.+## {{elem.fromNewCount}}</p>
+                    </td>
                     <td>
                         <p class="text-center text-success">{{elem.toUnit.name##session.lang##}}</p>
                     </td>
 
-                    <td><p class="text-center">{{elem.conversion}}</p></td>
+                    <td><p class="text-center">{{elem.toUnitCurrentCount}}</p></td>
 
                     <td class="text-center">
-                        <p class="text-center text-success">{{elem.newCount}}</p>
+                        <p class="text-center text-success">{{elem.toNewCount}}</p>
                     </td>
                     <td>
                         <p class="text-center text-success" ng-if="elem.approved">##word.Yes##</p>

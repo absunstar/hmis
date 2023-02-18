@@ -120,6 +120,11 @@
         "Ar": "يجب ادخال وحدة الصنف"
     },
     {
+        "name": "Please Enter Item To Unit",
+        "En": "Must Enter Item To Unit",
+        "Ar": "يجب إدخال إلي وحدة صنف"
+    },
+    {
         "name": "Conversion Required",
         "En": "Conversion Must Be Greater Than Zero",
         "Ar": "نسبة التحويل يجب ان تكون أكبر من صفر"
@@ -177,6 +182,16 @@
     {
         "name": "Item balance Is Zero",
         "En": "Item balance Is Zero",
-        "Ar": "لايوجد رصيد للصنف في الممخزن"
+        "Ar": "لايوجد رصيد للصنف في المخزن"
+    },
+    {
+        "name": "Please Enter Valid Numbers",
+        "En": "Please Enter Valid Numbers",
+        "Ar": "رجاء إدخال قيم صحيحة"
+    },
+    {
+        "name": "Conversion Value Must Be Integer",
+        "En": "Conversion Value Must Be Integer",
+        "Ar": "يجب ان تكون قيم التحويل صحيحة"
     }
 ]

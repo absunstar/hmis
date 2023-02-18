@@ -20,7 +20,7 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
         $scope.itemsError = '';
         $scope.mode = 'add';
         $scope.item = { ...$scope.structure, date: new Date(), filesList: [], itemsList: [] };
-        $scope.orderItem = { ...$scope.orderItem };
+        $scope.orderItem = { ...$scope.orderItem, count: 0 };
         $scope.canApprove = false;
         site.showModal($scope.modalID);
     };
@@ -327,20 +327,43 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
 
     $scope.getItemUnits = function (item) {
         $scope.unitsList = [];
-        for (const elem of item.unitsList) {
-            $scope.unitsList.push({
-                id: elem.unit.id,
-                code: elem.unit.code,
-                nameAr: elem.unit.nameAr,
-                nameEn: elem.unit.nameEn,
-                currentCount: elem.currentCount,
-                conversion: elem.conversion,
-            });
+        if (item.unitsList) {
+            for (const elem of item.unitsList) {
+                $scope.unitsList.push({
+                    id: elem.unit.id,
+                    code: elem.unit.code,
+                    nameAr: elem.unit.nameAr,
+                    nameEn: elem.unit.nameEn,
+                    currentCount: elem.currentCount,
+                    conversion: elem.conversion,
+                    newCount: elem.newCount || 0,
+                });
+            }
+            $scope.orderItem.unit = $scope.unitsList[0];
+            $scope.orderItem.currentCount = $scope.unitsList[0]?.currentCount;
         }
-        $scope.orderItem.unit = $scope.unitsList[0];
-        $scope.orderItem.currentCount = $scope.unitsList[0]?.currentCount;
-
+        $scope.calculateConversionUnits();
         // $scope.calucualteStoreBalance($scope.unitsList[0]);
+    };
+
+    $scope.calculateConversionUnits = function () {
+        $scope.itemsError = '';
+        $timeout(() => {
+            const unit = $scope.orderItem.unit;
+            const toUnit = $scope.orderItem.toUnit;
+            const count = $scope.orderItem.count;
+
+            if (count < 0) {
+                alert('##word.Please Enter Valid Numbers##');
+                $scope.orderItem.count = 0;
+                return;
+            }
+
+            if (unit && toUnit && unit.id && toUnit.id) {
+                unit.newCount = unit.currentCount - count / unit.conversion;
+                toUnit.newCount = (count * unit.conversion) / toUnit.conversion;
+            }
+        }, 300);
     };
 
     // $scope.calucualteStoreBalance = function (unit) {
@@ -370,13 +393,29 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
             alert('##word.Please Enter Item Unit##');
             return;
         }
+        if (!orderItem.toUnit.id) {
+            alert('##word.Please Enter Item To Unit##');
+            return;
+        }
+
         if (orderItem.unit.id === orderItem.toUnit.id) {
             alert('##word.Cannot Make Convert To Same Unit##');
             return;
         }
+
         const index = $scope.item.itemsList.findIndex((_elem) => _elem.id === orderItem.id && _elem.unit.id === orderItem.unit.id);
         if (index !== -1) {
             alert('##word.Item Exisit##');
+            return;
+        }
+
+        if (orderItem.unit.newCount < 0) {
+            alert('##word.From Unit Balance Insufficient##');
+            return;
+        }
+
+        if (!Number.isInteger(orderItem.toUnit.newCount)) {
+            alert('##word.Conversion Value Must Be Integer##');
             return;
         }
 
@@ -388,10 +427,12 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
             itemGroup: orderItem.item.itemGroup,
             unit: orderItem.unit,
             currentCount: orderItem.unit.currentCount,
-            count: orderItem.count,
+            fromNewCount: orderItem.unit.newCount,
             toUnit: orderItem.toUnit,
-            conversion: orderItem.toUnit.conversion,
-            newCount: orderItem.unit.conversion * orderItem.count + orderItem.toUnit.currentCount,
+            toUnitCurrentCount: orderItem.toUnit.currentCount,
+            toNewCount: orderItem.toUnit.newCount,
+
+            // newCount: orderItem.unit.conversion * orderItem.count + orderItem.toUnit.currentCount,
             approved: false,
         });
         $scope.orderItem = { ...$scope, orderItem };

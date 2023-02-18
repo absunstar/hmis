@@ -449,8 +449,6 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
 
     $scope.addToList = function (discount, type) {
         if (type === 'discount') {
-            console.log('discount', discount);
-
             $scope.item.discountsList.unshift({
                 id: discount.id,
                 code: discount.code,
@@ -690,7 +688,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             code: orderItem.item.code,
             nameAr: orderItem.item.nameAr,
             nameEn: orderItem.item.nameEn,
-            itemGroup: orderItem.itemGroup,
+            itemGroup: orderItem.item.itemGroup,
             unit: orderItem.unit,
             count: orderItem.count,
             price: orderItem.price,
@@ -705,6 +703,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             // storesBalanceList: calcBalance.storesBalanceList,
             // totalBalance: calcBalance.totalBalance,
         });
+        delete orderItem.price;
+        delete orderItem.salesPrice;
 
         $scope.setTotalPrice();
         $scope.orderItem = { ...$scope, orderItem };

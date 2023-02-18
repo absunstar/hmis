@@ -1,6 +1,6 @@
 module.exports = function init(site) {
     let app = {
-        name: 'taxesTypes',
+        name: 'storeOpeningBalances',
         allowMemory: true,
         memoryList: [],
         allowCache: false,
@@ -144,7 +144,7 @@ module.exports = function init(site) {
                     name: app.name,
                 },
                 (req, res) => {
-                    res.render(app.name + '/index.html', { title: app.name, appName: 'Taxes Types' }, { parser: 'html', compres: true });
+                    res.render(app.name + '/index.html', { title: app.name, appName: 'storeOpeningBalances' }, { parser: 'html', compres: true });
                 }
             );
         }
@@ -250,7 +250,6 @@ module.exports = function init(site) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
                 let search = req.body.search || app.allowMemory ? 'id' : '';
-
                 let limit = req.body.limit || 10;
                 let select = req.body.select || {
                     id: 1,
@@ -278,9 +277,6 @@ module.exports = function init(site) {
 
                     where.$or.push({
                         nameEn: site.get_RegExp(search, 'i'),
-                    });
-                    where.$or.push({
-                        value: site.get_RegExp(search, 'i'),
                     });
                 }
 

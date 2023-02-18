@@ -364,6 +364,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
                 if (response.data.done && response.data.list.length > 0) {
                     $scope.itemsgroupsList = response.data.list;
                 }
+        
             },
             function (err) {
                 $scope.busy = false;

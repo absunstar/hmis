@@ -287,6 +287,13 @@ module.exports = function init(site) {
                     let list = app.memoryList
                         .filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(search))
                         .slice(0, limit);
+                    list.map((doc) => {
+                        for (const p in doc) {
+                            if (!Object.hasOwnProperty.call(select, p)) {
+                                delete doc[p];
+                            }
+                        }
+                    });
                     res.json({
                         done: true,
                         list: list,

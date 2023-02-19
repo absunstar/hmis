@@ -46,12 +46,12 @@
                     class="col6"
                     label="##word.Jobs Administration##"
                     ng-model="item.jobsAdministration"
-                    ng-change="getJobsSectionsList(item.jobsAdministration)"
+                    ng-change="getJobsDepartmentsList(item.jobsAdministration)"
                     display="name##session.lang##"
                     items="jobsAdministrationsList"
                     ng-search="item.$jobsAdministration"
                   ></i-list>
-                  <i-list v="r" class="col6" label="##word.Jobs Section##" ng-model="item.jobsSection" display="name##session.lang##" items="jobsSectionsList" ng-search="item.$jobsSection"></i-list>
+                  <i-list v="r" class="col6" label="##word.Jobs Section##" ng-model="item.jobsDepartment" display="name##session.lang##" items="jobsDepartmentsList" ng-search="item.$jobsDepartment"></i-list>
                 </div>
 
                 <i-control type="text" v="r" ng-model="item.purposeJob" label="##word.Purpose of job##"></i-control>

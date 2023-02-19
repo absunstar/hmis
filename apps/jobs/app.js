@@ -253,7 +253,7 @@ module.exports = function init(site) {
         let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1, active: 1 };
         let list = [];
         app.memoryList
-          .filter((g) => (!where['jobsSection'] || g.jobsSection.id == where['jobsSection'].id) && g.company && g.company.id == site.getCompany(req).id)
+          .filter((g) => (!where['jobsDepartment'] || g.jobsDepartment.id == where['jobsDepartment'].id) && g.company && g.company.id == site.getCompany(req).id)
           .forEach((doc) => {
             let obj = { ...doc };
 

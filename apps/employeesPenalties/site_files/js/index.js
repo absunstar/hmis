@@ -194,15 +194,15 @@ app.controller('employeesPenalties', function ($scope, $http, $timeout) {
       method: 'POST',
       url: '/api/employees/all',
       data: {
-        where: { active: true },
+        where: { active: true ,'type.id' : 3 },
         select: {
           id: 1,
           code: 1,
-          nameEn: 1,
-          nameAr: 1,
+          fullNameEn: 1,
+          fullNameAr: 1,
           image: 1,
         },
-        limit : 10,
+        limit: 10,
       },
     }).then(
       function (response) {
@@ -218,12 +218,12 @@ app.controller('employeesPenalties', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getEmployeesPenaltesTypesList = function () {
+  $scope.getEmployeesPenaltiesNamesList = function () {
     $scope.busy = true;
-    $scope.employeesPenaltesTypesList = [];
+    $scope.employeesPenaltiesNamesList = [];
     $http({
       method: 'POST',
-      url: '/api/employeesPenaltesTypes/all',
+      url: '/api/employeesPenaltiesNames/all',
       data: {
         where: { active: true },
         select: {
@@ -236,7 +236,7 @@ app.controller('employeesPenalties', function ($scope, $http, $timeout) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.employeesPenaltesTypesList = response.data.list;
+          $scope.employeesPenaltiesNamesList = response.data.list;
         }
       },
       function (err) {
@@ -246,6 +246,47 @@ app.controller('employeesPenalties', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getSalaryTypesList = function () {
+    $scope.busy = true;
+    $scope.salaryTypesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/salaryTypes',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.salaryTypesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getSalarySourcesList = function () {
+    $scope.busy = true;
+    $scope.salarySourcesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/salarySources',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.salarySourcesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
 
   $scope.getNumberingAuto = function () {
     $scope.error = '';
@@ -284,5 +325,7 @@ app.controller('employeesPenalties', function ($scope, $http, $timeout) {
   $scope.getAll();
   $scope.getNumberingAuto();
   $scope.getEmployeesList();
-  $scope.getEmployeesPenaltesTypesList();
+  $scope.getEmployeesPenaltiesNamesList();
+  $scope.getSalaryTypesList();
+  $scope.getSalarySourcesList();
 });

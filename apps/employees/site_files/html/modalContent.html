@@ -227,7 +227,7 @@
                   class="col6"
                   label="##word.Jobs Administration##"
                   ng-model="item.jobsAdministration"
-                  ng-change="getJobsSectionsList(item.jobsAdministration)"
+                  ng-change="getJobsDepartmentsList(item.jobsAdministration)"
                   display="name##session.lang##"
                   items="jobsAdministrationsList"
                   ng-search="item.$jobsAdministration"
@@ -236,11 +236,11 @@
                   v="r"
                   class="col6"
                   label="##word.Jobs Section##"
-                  ng-change="getJobsList(item.jobsSection)"
-                  ng-model="item.jobsSection"
+                  ng-change="getJobsList(item.jobsDepartment)"
+                  ng-model="item.jobsDepartment"
                   display="name##session.lang##"
-                  items="jobsSectionsList"
-                  ng-search="item.$jobsSection"
+                  items="jobsDepartmentsList"
+                  ng-search="item.$jobsDepartment"
                 ></i-list>
               </div>
               <div class="row">

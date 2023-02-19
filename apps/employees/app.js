@@ -1,7 +1,7 @@
 module.exports = function init(site) {
   let app = {
     name: 'employees',
-    allowMemory: true,
+    allowMemory: false,
     memoryList: [],
     allowCache: false,
     cacheList: [],
@@ -140,13 +140,12 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
-    
       site.get(
         {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name ,appName : 'Employees' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name, appName: 'Employees' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -188,7 +187,6 @@ module.exports = function init(site) {
           return;
         }
 
-
         let cb = site.getNumbering(numObj);
         if (!_data.code && !cb.auto) {
           response.error = 'Must Enter Code';
@@ -204,7 +202,6 @@ module.exports = function init(site) {
         if (!_data.email) {
           _data.email = _data.nameEn + Math.floor(Math.random() * 1000 + 1).toString();
         }
-        
 
         app.add(_data, (err, doc) => {
           if (!err && doc) {
@@ -226,7 +223,7 @@ module.exports = function init(site) {
 
         let _data = req.data;
         _data.editUserInfo = req.getUserFinger();
-        
+
         if (_data.mobileList.length > 0) {
           _data.mobile = _data.mobileList[0].mobile;
         } else {
@@ -291,25 +288,35 @@ module.exports = function init(site) {
         let limit = req.body.limit || 100;
         let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1 };
         let list = [];
-        app.memoryList
-        .slice(-limit)
-          .filter((g) => (!where['type.id'] || (g.type && g.type.id == where['type.id'])) && g.company && g.company.id == site.getCompany(req).id)
-          .forEach((doc) => {
-            let obj = { ...doc };
+        if (app.allowMemory) {
+          app.memoryList
+            .slice(-limit)
+            .filter((g) => (!where['type.id'] || (g.type && g.type.id == where['type.id'])) && g.company && g.company.id == site.getCompany(req).id)
+            .forEach((doc) => {
+              let obj = { ...doc };
 
-            for (const p in obj) {
-              if (!Object.hasOwnProperty.call(select, p)) {
-                delete obj[p];
+              for (const p in obj) {
+                if (!Object.hasOwnProperty.call(select, p)) {
+                  delete obj[p];
+                }
               }
-            }
-            if (!where.active || doc.active) {
-              list.push(obj);
-            }
+              if (!where.active || doc.active) {
+                list.push(obj);
+              }
+            });
+          res.json({
+            done: true,
+            list: list,
           });
-        res.json({
-          done: true,
-          list: list,
-        });
+        } else {
+          
+          app.all({ where, select, sort: { id: -1 }, limit: req.body.limit }, (err, docs) => {
+            res.json({
+              done: true,
+              list: docs,
+            });
+          });
+        }
       });
     }
   }

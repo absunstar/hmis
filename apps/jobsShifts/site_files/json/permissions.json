@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "jobsShifts" , "name":"jobsShiftsManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "jobsShifts" , "name":"jobsShiftsAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "jobsShifts" , "name":"jobsShiftsUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "jobsShifts" , "name":"jobsShiftsDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "jobsShifts" , "name":"jobsShiftsView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "jobsShifts" , "name":"jobsShiftsSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "jobsShifts" , "name":"jobsShiftsExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "jobsShifts" , "name":"jobsShiftsPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "jobsShifts" , "name":"jobsShiftsUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+]

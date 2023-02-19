@@ -5,9 +5,27 @@
       <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
     </div>
     <i-date v="r" ng-model="item.date" label="##word.Date##"></i-date>
-    <i-list label="##word.Employees Bonus Type##" ng-model="item.employeesBonusType" items="employeesBonusTypesList" display="name##session.lang##" ng-search="item.$employeesBonusType"> </i-list>
-    <i-list label="##word.employee##" ng-model="item.employee" items="employeesList" ng-get="getEmployeesList($search)" display="name##session.lang##" ng-search="item.$employee"> </i-list>
-    <i-control type="number" v="r" ng-model="item.price" label="##word.Price##"></i-control>
+    <i-control label="##word.Title##" ng-model="item.nameEn"> </i-control>
+    <i-control label="##word.Title Arabic##" ng-model="item.nameAr"> </i-control>
+
+    <i-list  v="r" label="##word.Employees Bonus Name##" ng-model="item.employeesBonusName" items="employeesBonusNamesList" display="name##session.lang##" ng-search="item.$employeesBonusName"> </i-list>
+    <i-list  v="r" label="##word.employee##" ng-model="item.employee" items="employeesList" ng-get="getEmployeesList($search)" display="fullName##session.lang##" ng-search="item.$employee"> </i-list>
+    <i-list  v="r" label="##word.Type##" ng-model="item.type" items="salaryTypesList" display="name##session.lang##" ng-search="item.$type"> </i-list>
+    <i-list  v="r" label="##word.Source##" ng-model="item.source" items="salarySourcesList" display="name##session.lang##" ng-search="item.$source"> </i-list>
+    <div class="row">
+      <i-control v="r" class="col9" ng-model="item.value" label="##word.Value##" type="number"></i-control>
+      <div class="col3">
+        <br>
+        <br>
+        <p class="bold" ng-show="item.source.id == 1">##word.Hour##</p>
+        <p class="bold" ng-show="item.source.id == 2">##word.Day##</p>
+        <p class="bold" ng-show="item.source.id == 3">##word.%##</p>
+        <p class="bold" ng-show="item.source.id == 4">##word.RS##</p>
+      </div>
+    </div>
+
+    <i-textarea label="##word.Description##" ng-model="item.description"> </i-textarea>
+  
   </div>
 </div>
 <div ng-show="mode !== 'add' " class="row">

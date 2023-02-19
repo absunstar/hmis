@@ -272,6 +272,8 @@ module.exports = function init(site) {
             list: list,
           });
         } else {
+          where['company.id'] = site.getCompany(req).id;
+
           if (where.date) {
             let d1 = site.toDate(where.date);
             let d2 = site.toDate(where.date);

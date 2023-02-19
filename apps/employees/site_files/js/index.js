@@ -198,6 +198,8 @@ app.controller('employees', function ($scope, $http, $timeout) {
   $scope.getAll = function (where) {
     $scope.busy = true;
     $scope.list = [];
+    where = where || {};
+    where['type.id'] = 3;
     $http({
       method: 'POST',
       url: `${$scope.baseURL}/api/${$scope.appName}/all`,
@@ -578,12 +580,12 @@ app.controller('employees', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getJobsSectionsList = function (jobsAdministration) {
+  $scope.getJobsDepartmentsList = function (jobsAdministration) {
     $scope.busy = true;
-    $scope.jobsSectionsList = [];
+    $scope.jobsDepartmentsList = [];
     $http({
       method: 'POST',
-      url: '/api/jobsSections/all',
+      url: '/api/jobsDepartments/all',
       data: {
         where: { active: true, jobsAdministration },
         select: {
@@ -598,7 +600,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.jobsSectionsList = response.data.list;
+          $scope.jobsDepartmentsList = response.data.list;
         }
       },
       function (err) {
@@ -608,14 +610,14 @@ app.controller('employees', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getJobsList = function (jobsSection) {
+  $scope.getJobsList = function (jobsDepartment) {
     $scope.busy = true;
     $scope.jobsList = [];
     $http({
       method: 'POST',
       url: '/api/jobs/all',
       data: {
-        where: { active: true, jobsSection },
+        where: { active: true, jobsDepartment },
         select: {
           id: 1,
           code: 1,

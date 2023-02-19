@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "jobsSections" , "name":"jobsSectionsManage" , "En":"Manage" , "Ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "jobsSections" , "name":"jobsSectionsAdd" , "En":"Add" , "Ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "jobsSections" , "name":"jobsSectionsUpdate" , "En":"Edit" , "Ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "jobsSections" , "name":"jobsSectionsDelete" , "En":"Delete" , "Ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "jobsSections" , "name":"jobsSectionsView" , "En":"View" , "Ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "jobsSections" , "name":"jobsSectionsSearch" , "En":"Search" , "Ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "jobsSections" , "name":"jobsSectionsExport" , "En":"Export" , "Ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "jobsSections" , "name":"jobsSectionsPrint" , "En":"Print" , "Ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "jobsSections" , "name":"jobsSectionsUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "jobsDepartments" , "name":"jobsDepartmentsManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "jobsDepartments" , "name":"jobsDepartmentsAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "jobsDepartments" , "name":"jobsDepartmentsUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "jobsDepartments" , "name":"jobsDepartmentsDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "jobsDepartments" , "name":"jobsDepartmentsView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "jobsDepartments" , "name":"jobsDepartmentsSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "jobsDepartments" , "name":"jobsDepartmentsExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "jobsDepartments" , "name":"jobsDepartmentsPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "jobsDepartments" , "name":"jobsDepartmentsUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

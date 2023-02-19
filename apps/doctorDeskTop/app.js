@@ -270,6 +270,8 @@ module.exports = function init(site) {
             list: list,
           });
         } else {
+          where['company.id'] = site.getCompany(req).id;
+
           if (where && where.dateTo) {
             let d1 = site.toDate(where.date);
             let d2 = site.toDate(where.dateTo);
@@ -322,11 +324,8 @@ module.exports = function init(site) {
     });
 
     if (_data.patient.insuranceCompany && _data.patient.insuranceCompany.id) {
-
       site.mainInsurancesFromSub({ insuranceCompanyId: _data.patient.insuranceCompany.id }, (callback) => {
-
         site.nphisElig(req.data, (nphisCallback) => {
-
           let payment = '';
           if (nphisCallback.elig) {
             nphis = 'elig';

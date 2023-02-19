@@ -17,6 +17,13 @@
   height: 50px;
 }
 
+.app-name {
+  margin: 10px;
+  padding: 0px 10px 0px 10px;
+  color: black;
+  font-size: x-large;
+}
+
 .icon {
   font-size: xx-large;
   color: #10007d;

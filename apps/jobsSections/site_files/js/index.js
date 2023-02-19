@@ -1,12 +1,12 @@
-app.controller('jobsSections', function ($scope, $http, $timeout) {
+app.controller('jobsDepartments', function ($scope, $http, $timeout) {
   $scope.baseURL = '';
-  $scope.appName = 'jobsSections';
-  $scope.modalID = '#jobsSectionsManageModal';
-  $scope.modalSearchID = '#jobsSectionsSearchModal';
+  $scope.appName = 'jobsDepartments';
+  $scope.modalID = '#jobsDepartmentsManageModal';
+  $scope.modalSearchID = '#jobsDepartmentsSearchModal';
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: { url: '/images/jobsSections.png' },
+    image: { url: '/images/jobsDepartments.png' },
     active: true,
   };
   $scope.item = {};

@@ -139,7 +139,6 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
-
       site.get(
         {
           name: app.name,
@@ -271,6 +270,8 @@ module.exports = function init(site) {
             list: list,
           });
         } else {
+          where['company.id'] = site.getCompany(req).id;
+
           if (where && where.dateTo) {
             let d1 = site.toDate(where.date);
             let d2 = site.toDate(where.dateTo);
@@ -317,7 +318,7 @@ module.exports = function init(site) {
     if (_data.patient.insuranceCompany && _data.patient.insuranceCompany.id) {
       site.mainInsurancesFromSub({ insuranceCompanyId: _data.patient.insuranceCompany.id }, (callback) => {
         callback.service = service;
-        
+
         res.json(callback);
       });
     } else {

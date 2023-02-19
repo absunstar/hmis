@@ -1,7 +1,0 @@
-[{
-    "moduleName" : "public" ,
-    "name": "employeesBonusTypesAdmin",
-    "En": "Employees Bonus Types Admin",
-    "Ar": "إدارة أنواع مكافئات الموظفين",
-    "permissions": ["employeesBonusTypesManage"]
-}]

@@ -249,12 +249,12 @@ app.controller('jobs', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getJobsSectionsList = function (jobsAdministration) {
+  $scope.getJobsDepartmentsList = function (jobsAdministration) {
     $scope.busy = true;
-    $scope.jobsSectionsList = [];
+    $scope.jobsDepartmentsList = [];
     $http({
       method: 'POST',
-      url: '/api/jobsSections/all',
+      url: '/api/jobsDepartments/all',
       data: {
         where: { active: true, jobsAdministration },
         select: {
@@ -268,7 +268,7 @@ app.controller('jobs', function ($scope, $http, $timeout) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.jobsSectionsList = response.data.list;
+          $scope.jobsDepartmentsList = response.data.list;
         }
       },
       function (err) {

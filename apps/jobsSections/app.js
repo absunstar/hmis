@@ -1,6 +1,6 @@
 module.exports = function init(site) {
   let app = {
-    name: 'jobsSections',
+    name: 'jobsDepartments',
     allowMemory: true,
     memoryList: [],
     allowCache: false,

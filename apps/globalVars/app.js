@@ -123,6 +123,24 @@ module.exports = function init(site) {
         { id: 3, code: '003', nameEn: 'Bank Account', nameAr: 'حساب بنكي' },
     ];
 
+    site.lateDiscountsTypes = [
+        { id: 1, nameEn: 'Day', nameAr: 'يوم' },
+        { id: 2, nameEn: 'Hour', nameAr: 'ساعة' },
+        { id: 3, nameEn: 'Amount', nameAr: 'مبلغ' },
+    ];
+
+    site.salaryTypes = [
+        { id: 1, nameEn: 'Administrative', nameAr: 'إداري' },
+        { id: 2, nameEn: 'Financial', nameAr: 'مالي' },
+    ];
+
+    site.salarySources = [
+        { id: 1, nameEn: 'Hours', nameAr: 'ساعات' },
+        { id: 2, nameEn: 'Days', nameAr: 'أيام' },
+        { id: 3, nameEn: 'Percentage of salary', nameAr: 'نسبة من المرتب' },
+        { id: 4, nameEn: 'Specific amount', nameAr: 'مبلغ محدد' },
+    ];
+
     site.doctorDeskTopTypes = [
         { id: 1, nameEn: 'Pending', nameAr: 'قيد الإنتظار' },
         { id: 2, nameEn: 'At doctor', nameAr: 'عند الطبيب' },
@@ -186,6 +204,27 @@ module.exports = function init(site) {
         { id: 1, code: '001', nameEn: 'Transfer Items Request', nameAr: 'طلب تحويل أصناف' },
         { id: 2, code: '002', nameEn: 'Transfer Items Order', nameAr: 'أمر تحويل أصناف' },
     ];
+
+    site.post('/api/lateDiscountsTypes', (req, res) => {
+        res.json({
+            done: true,
+            list: site.lateDiscountsTypes,
+        });
+    });
+
+    site.post('/api/salaryTypes', (req, res) => {
+        res.json({
+            done: true,
+            list: site.salaryTypes,
+        });
+    });
+
+    site.post('/api/salarySources', (req, res) => {
+        res.json({
+            done: true,
+            list: site.salarySources,
+        });
+    });
 
     site.post('/api/patientTypes', (req, res) => {
         res.json({

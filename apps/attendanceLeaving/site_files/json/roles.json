@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "attendanceLeavingAdmin",
+    "En": "Attendance & Leaving Admin",
+    "Ar": "إدارة الحضور و الإنصراف",
+    "permissions": ["attendanceLeavingManage"]
+}]

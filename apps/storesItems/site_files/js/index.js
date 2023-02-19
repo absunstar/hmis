@@ -9,17 +9,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: { url: '/images/storesItems.png' },
-        allowSale: true,
-        allowBuy: true,
-        workByBatch: true,
-        unitsList: [],
-        workBySerial: false,
-        showOnTouchScreen: false,
-        collectionItem: false,
-        noVat: false,
-        validityDays: 0,
-        reorderLimit: 0,
-        maxCapacity: 0,
+
         active: true,
     };
     $scope.item = {};
@@ -67,7 +57,20 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure };
+        $scope.item = {
+            ...$scope.structure,
+            allowSale: true,
+            allowBuy: true,
+            workByBatch: true,
+            unitsList: [],
+            workBySerial: false,
+            showOnTouchScreen: false,
+            collectionItem: false,
+            noVat: false,
+            autoPurchasePriceCalculation: true,
+            validityDays: 0,
+            reorderLimit: 0,
+        };
         $scope.resetItemUnit();
         $scope.resetSubstance();
         $scope.resetCollectedItem();
@@ -364,7 +367,6 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
                 if (response.data.done && response.data.list.length > 0) {
                     $scope.itemsgroupsList = response.data.list;
                 }
-        
             },
             function (err) {
                 $scope.busy = false;

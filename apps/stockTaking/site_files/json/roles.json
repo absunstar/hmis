@@ -1,0 +1,9 @@
+[
+    {
+        "moduleName": "public",
+        "name": "stockTakingAdmin",
+        "En": "stockTaking Admin",
+        "Ar": "إدارة الجرد المخزني",
+        "permissions": ["stockTakingManage"]
+    }
+]

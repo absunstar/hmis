@@ -76,7 +76,9 @@
             "transferItemsOrdersManage",
             "transferItemsRequestsManage",
             "vendorsGroupsManage",
-            "reasonsDestroyingItemsManage"
+            "reasonsDestroyingItemsManage",
+            "storesOpeningBalancesManage",
+            "stockTakingManage"
         ]
     }
 ]

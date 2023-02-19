@@ -314,7 +314,7 @@ module.exports = function init(site) {
                 let select = req.body.select || {};
                 let list = [];
                 if (where.item) {
-                    where['item.id'] = where.item.id;
+                    where['itemId'] = where.item.id;
                     delete where.item;
                 }
 
@@ -348,7 +348,7 @@ module.exports = function init(site) {
                     where['toDate'] = { $lt: d2.setDate(d2.getDate() + 1) };
                     delete where.toDate;
                 }
-
+      
                 if (app.allowMemory) {
                     app.memoryList
                         .filter((g) => g.company && g.company.id == site.getCompany(req).id)

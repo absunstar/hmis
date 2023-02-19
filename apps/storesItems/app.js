@@ -91,7 +91,11 @@ module.exports = function init(site) {
                     } else if (screenName === 'damageItems') {
                         doc.unitsList[index].storesList[storeIndex].damagedCount += _elm.count;
                         doc.unitsList[index].storesList[storeIndex].damagedPrice += _elm.price;
+                    } else if (screenName === 'storesOpeningBalances') {
+                        doc.unitsList[index].storesList[storeIndex].openingBalanceCount += _elm.count;
+                        doc.unitsList[index].storesList[storeIndex].openingBalancePrice += _elm.price;
                     }
+
                     // else if (screenName === app.name) {
                     //     doc.unitsList[index].storesList[storeIndex].transferFromCount += _elm.count;
                     //     doc.unitsList[index].storesList[storeIndex].transferFromPrice += _elm.price;
@@ -211,6 +215,8 @@ module.exports = function init(site) {
             convertUnitFromPrice: 0,
             convertUnitToCount: 0,
             convertUnitToPrice: 0,
+            openingBalanceCount: 0,
+            openingBalancePrice: 0,
         };
     };
 

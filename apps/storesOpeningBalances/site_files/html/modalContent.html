@@ -11,7 +11,7 @@
                         <i-checkbox ng-model="item.active" class="col4" label="##word.Active##"></i-checkbox>
                     </div>
 
-                    <fieldset>
+                    <!-- <fieldset>
                         <div class="row">
                             <i-list
                                 v="r"
@@ -19,7 +19,7 @@
                                 ng-change="item.sourceType.id === 1?getPurchaseRequest():item.itemsList=[];resetOrderItem()"
                                 ng-model="item.sourceType"
                                 display="name##session.lang##"
-                                items="purchaseOrdersSourcesList"
+                                items="storesOpeningBalancesSourcesList"
                                 label="##word.Source Type##"
                                 ng-search="item.$source"
                             ></i-list>
@@ -44,8 +44,9 @@
                             <i-checkbox ng-model="item.hasDiscounts" ng-change="item.discountsList=[]" class="col2" label="##word.Has Discounts##"></i-checkbox>
                             <i-checkbox ng-model="item.hasTaxes" ng-change="item.taxesList=[]" class="col2" label="##word.Has Taxes##"></i-checkbox>
                         </div>
-                    </fieldset>
-                    <i-list
+                    </fieldset> -->
+
+                    <!-- <i-list
                         v="r"
                         class="col4"
                         ng-model="item.paymentType"
@@ -53,9 +54,11 @@
                         items="paymentTypesList"
                         label="##word.Payment Type##"
                         ng-search="item.orderPaymentType"
-                    ></i-list>
-                    <i-control class="col4" type="text" ng-model="item.importPermitNumber" label="##word.Import Permit Number##"></i-control>
-                    <i-date class="col4" ng-model="item.importAuthorizationDate" label="##word.Import Authorization Date##"></i-date>
+                    ></i-list> -->
+
+                    <!-- <i-control class="col4" type="text" ng-model="item.importPermitNumber" label="##word.Import Permit Number##"></i-control> -->
+
+                    <!-- <i-date class="col4" ng-model="item.importAuthorizationDate" label="##word.Import Authorization Date##"></i-date> -->
 
                     <i-checkbox ng-model="item.hasVendor" class="col4" label="##word.Has Vendor##"></i-checkbox>
 
@@ -88,7 +91,7 @@
         <fieldset>
             <legend>##word.Items Information##</legend>
 
-            <div class="row" ng-show="item.sourceType.id != 1 ">
+            <div class="row">
                 <div class="col2">
                     <i-list
                         ng-model="orderItem.item"
@@ -140,7 +143,7 @@
                     <th>##word.S##</th>
                     <th>##word.Item##</th>
                     <th>##word.Unit##</th>
-                    <th ng-if="item.sourceType.id === 1">##word.Requestd Count##</th>
+
                     <th>##word.Count##</th>
                     <th>##word.Purchase Price##</th>
                     <th>##word.Sales Price##</th>
@@ -154,10 +157,6 @@
                     <td class="text-center">{{$index+1}}</td>
                     <td class="text-center">{{elem.name##session.lang##}}</td>
                     <td class="text-center">{{elem.unit.name##session.lang##}}</td>
-
-                    <td class="text-center" ng-if="item.sourceType.id === 1">
-                        <p ng-if="item.sourceType.id === 1 || elem.approved" class="text-center">{{elem.requestedCount}}</p>
-                    </td>
 
                     <td class="text-center">
                         <p ng-if=" elem.approved" class="text-center">{{elem.count}}</p>
@@ -190,7 +189,7 @@
                         <i-button
                             type="approve"
                             ng-if="!elem.approved &&!item.approved && mode == 'edit'"
-                            x-permissions="approvepurchaseOrdersItem || purchaseOrdersManage"
+                            x-permissions="approveStoresOpeningBalancesItem || storesOpeningBalancesManage"
                             label="##word.Approve##"
                             ng-click="approveItem(elem)"
                         >
@@ -198,7 +197,7 @@
                         <i-button
                             type="unapprove"
                             ng-if="elem.approved &&!item.approved  && mode =='edit'"
-                            x-permissions="unapprovepurchaseOrdersItem || purchaseOrdersManage"
+                            x-permissions="unapproveStoresOpeningBalancesItem || storesOpeningBalancesManage"
                             label="##word.Unapprove##"
                             ng-click="unapproveItem(elem)"
                         >
@@ -210,20 +209,19 @@
             </table>
         </fieldset>
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="col6">
                 <fieldset ng-show="item.hasDiscounts">
                     <legend>##word.Discounts Information##</legend>
                     <div class="row">
                         <i-list class="col8" ng-model="discount" display="name##session.lang##" items="discountTypesList" label="##word.Discount##" ng-get="getDiscountTypes($search)"></i-list>
 
-                        <!-- <i-control class="col3" type="number" min="0" ng-model="discount.value" label="##word.Value##"></i-control>
+                  <i-control class="col3" type="number" min="0" ng-model="discount.value" label="##word.Value##"></i-control>
                         <div class="col3">
                             <br />
                             <i-radio class="col6" label="##word.Amount##" group="bt_{{$index}}" ng-value="amount" ng-model="discount.valueType"> </i-radio>
                             <i-radio class="col6" label="##word.Percent##" group="bt_{{$index}}" ng-value="percent" ng-model="discount.valueType"> </i-radio>
-                        </div> -->
-
+                        </div> 
                         <div class="col4">
                             <br />
                             <i-button type="add" label="##word.Add##" ng-click="addToList(discount,'discount')"> </i-button>
@@ -283,8 +281,9 @@
                     </div>
                 </fieldset>
             </div>
-        </div>
-        <div class="row">
+        </div> -->
+
+        <!-- <div class="row">
             <fieldset>
                 <legend>##word.Totals##</legend>
                 <div class="row">
@@ -294,7 +293,7 @@
                     <i-control class="col3" type="number" disabled label="##word.Total Vendor Discont##" ng-model="item.totalVendorDiscount"></i-control>
                 </div>
             </fieldset>
-        </div>
+        </div> -->
     </div>
     <div class="row padding"></div>
 </div>

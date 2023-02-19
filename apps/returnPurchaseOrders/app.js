@@ -174,34 +174,10 @@ module.exports = function init(site) {
                     _data.code = cb.code;
                 }
 
-                // let overDraftObj = {
-                //     store: _data.store,
-                //     items: _data.itemsList,
-                // };
-
-                // site.checkOverDraft(req, overDraftObj, (overDraftCb) => {
-                //     if (!overDraftCb.done) {
-                //         let error = '';
-                //         error = overDraftCb.refuseList.map((m) => (req.session.lang == 'Ar' ? m.nameAr : m.nameEn)).join('-');
-                //         response.error = `Item Balance Insufficient ( ${error} )`;
-                //         res.json(response);
-                //         return;
-                //     }
                 _data.addUserInfo = req.getUserFinger();
                 app.add(_data, (err, doc) => {
                     if (!err) {
                         response.done = true;
-                        // doc.itemsList.forEach((_item) => {
-                        //     let item = { ..._item };
-                        //     item.store = { ...doc.store };
-                        //     site.editItemsBalance(item, app.name);
-                        //     item.invoiceId = doc.id;
-                        //     item.date = doc.orderDate;
-                        //     item.vendor = doc.vendor;
-                        //     item.countType = 'out';
-                        //     item.orderCode = doc.code;
-                        //     site.setItemCard(item, app.name);
-                        // });
                         response.doc = doc;
                     } else {
                         response.error = err.message;
@@ -209,7 +185,6 @@ module.exports = function init(site) {
 
                     res.json(response);
                 });
-                // });
             });
         }
 
@@ -241,7 +216,7 @@ module.exports = function init(site) {
                 };
 
                 let _data = req.data;
-                _data.editUserInfo = req.getUserFinger();
+
                 let overDraftObj = {
                     store: _data.store,
                     items: _data.itemsList,
@@ -255,10 +230,15 @@ module.exports = function init(site) {
                         res.json(response);
                         return;
                     }
-                    _data.addUserInfo = req.getUserFinger();
+                    _data.addApprovedInfo = req.getUserFinger();
+
                     app.update(_data, (err, result) => {
                         if (!err) {
                             response.done = true;
+
+                            const purchaseOrdersApp = site.getApp('purchaseOrders');
+                            purchaseOrdersApp.$collection.update({ where: { id: _data.invoiceId, code: _data.invoiceCode }, set: { hasReturnTransaction: true } });
+
                             result.doc.itemsList.forEach((_item) => {
                                 let item = { ..._item };
                                 item.store = { ...result.doc.store };

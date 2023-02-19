@@ -406,5 +406,17 @@
         "feature": "public",
         "id": "reasonsDestroyingItems",
         "name": "Reasons Destroying Items"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "storesOpeningBalances",
+        "name": "Stores Opening Balances"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "stockTaking",
+        "name": "Stock Taking"
     }
 ]

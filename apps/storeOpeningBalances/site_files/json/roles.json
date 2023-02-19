@@ -1,7 +1,0 @@
-[{
-    "moduleName" : "public" ,
-    "name": "storeOpeningBalancesAdmin",
-    "En": "storeOpeningBalances Admin",
-    "Ar": "إدارة الأرصدة الإفتتاحية للمخازن",
-    "permissions": ["storeOpeningBalancesManage"]
-}]

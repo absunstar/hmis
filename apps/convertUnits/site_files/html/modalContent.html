@@ -11,20 +11,6 @@
 
                 <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
             </div>
-
-            <!-- <fieldset>
-                    <legend>##word.Calculate Purchase Price Informations##</legend>
-                    <div class="row">
-                        <i-checkbox ng-model="item.calculatePurchaseCost" class="col3" label="##word.Calculate Purchase Price##"></i-checkbox>
-                        <i-radio ng-if="item.calculatePurchaseCost" class="col1" label="##word.Bill##" ng-value="bill" ng-model="item.calculatePurchaseCostType"> </i-radio>
-                        <i-radio ng-if="item.calculatePurchaseCost" class="col1" label="##word.Items##" ng-value="items" ng-model="item.calculatePurchaseCostType"> </i-radio>
-                        <i-control ng-if="item.calculatePurchaseCost" class="col3" type="number" min="0" ng-model="item.purchaseCost" label="##word.Purchase Cost##"></i-control>
-                    </div>
-                </fieldset> -->
-            <!-- </div> -->
-            <!-- <div class="col3 center">
-                <i-image class="img256 center" ng-model="item.image"></i-image>
-            </div> -->
         </fieldset>
         <fieldset>
             <legend>##word.Items Information##</legend>
@@ -60,7 +46,6 @@
                             ></i-list>
 
                             <i-control class="col3" type="number" disabled ng-model="orderItem.unit.conversion" label="##word.Conversion##"></i-control>
-
                             <i-control class="col3" type="number" disabled ng-model="orderItem.unit.currentCount" label="##word.Current Count##"></i-control>
                             <i-control class="col3" type="number" disabled ng-model="orderItem.unit.newCount" label="##word.New Count##"></i-control>
                         </div>
@@ -114,22 +99,22 @@
                         <p class="text-center text-danger">{{elem.unit.name##session.lang##}}</p>
                     </td>
                     <td>
-                        <p class="text-center text-success">##word.+## {{elem.currentCount}}</p>
+                        <p class="text-center text-success">##word.+## {{elem.unit.currentCount}}</p>
                     </td>
                     <td>
-                        <p class="text-center text-danger">##word.-## {{elem.currentCount - elem.fromNewCount}}</p>
+                        <p class="text-center text-danger">##word.-## {{elem.unit.convertCount}}</p>
                     </td>
                     <td>
-                        <p class="text-center text-success">##word.+## {{elem.fromNewCount}}</p>
+                        <p class="text-center text-success">##word.+## {{elem.unit.newCount}}</p>
                     </td>
                     <td>
                         <p class="text-center text-success">{{elem.toUnit.name##session.lang##}}</p>
                     </td>
 
-                    <td><p class="text-center">{{elem.toUnitCurrentCount}}</p></td>
+                    <td><p class="text-center">{{elem.toUnit.currentCount}}</p></td>
 
                     <td class="text-center">
-                        <p class="text-center text-success">{{elem.toNewCount}}</p>
+                        <p class="text-center text-success">{{elem.toUnit.newCount}}</p>
                     </td>
                     <td>
                         <p class="text-center text-success" ng-if="elem.approved">##word.Yes##</p>

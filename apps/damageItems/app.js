@@ -173,34 +173,11 @@ module.exports = function init(site) {
                 } else if (cb.auto) {
                     _data.code = cb.code;
                 }
-
-                // let overDraftObj = {
-                //     store: _data.store,
-                //     items: _data.itemsList,
-                // };
-
-                // site.checkOverDraft(req, overDraftObj, (overDraftCb) => {
-                //     if (!overDraftCb.done) {
-                //         let error = '';
-                //         error = overDraftCb.refuseList.map((m) => (req.session.lang == 'Ar' ? m.nameAr : m.nameEn)).join('-');
-                //         response.error = `Item Balance Insufficient ( ${error} )`;
-                //         res.json(response);
-                //         return;
-                //     }
                 _data.addUserInfo = req.getUserFinger();
                 app.add(_data, (err, doc) => {
                     if (!err) {
                         response.done = true;
-                        // doc.itemsList.forEach((_item) => {
-                        //     let item = { ..._item };
-                        //     item.store = { ...doc.store };
-                        //     site.editItemsBalance(item, app.name);
-                        //     item.invoiceId = doc.id;
-                        //     item.date = doc.date;
-                        //     item.countType = 'out';
-                        //     item.orderCode = doc.code;
-                        //     site.setItemCard(item, app.name);
-                        // });
+
                         response.doc = doc;
                     } else {
                         response.error = err.message;
@@ -208,7 +185,6 @@ module.exports = function init(site) {
 
                     res.json(response);
                 });
-                // });
             });
         }
 
@@ -325,7 +301,6 @@ module.exports = function init(site) {
                     let list = app.memoryList.filter(
                         (g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(where.search)
                     );
-                    // .map((s) => ({ ...select }));
 
                     res.json({
                         done: true,

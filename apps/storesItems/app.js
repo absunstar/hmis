@@ -40,10 +40,10 @@ module.exports = function init(site) {
                             doc.unitsList[index].purchaseCost = _elm.price;
                         }
                         const selectedUnit = doc.unitsList[index];
-                        const oldCost = selectedUnit.currentCount * selectedUnit.purchaseCost; //1500
-                        const newCost = _elm.count * _elm.price; // 2000 * 2 = 4000
-                        const totalCount = selectedUnit.currentCount + _elm.count; // 1000 +2000
-                        doc.unitsList[index].purchaseCost = (oldCost + newCost) / totalCount; // 1500 + 4000 / 3000
+                        const oldCost = selectedUnit.currentCount * selectedUnit.purchaseCost;
+                        const newCost = _elm.count * _elm.price;
+                        const totalCount = selectedUnit.currentCount + _elm.count;
+                        doc.unitsList[index].purchaseCost = (oldCost + newCost) / totalCount;
                         doc.unitsList[index].purchaseCost = site.toNumber(doc.unitsList[index].purchaseCost);
                     }
                     if (screenName === 'returnPurchaseOrders') {

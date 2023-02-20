@@ -14,7 +14,6 @@ app.controller('storesItemsCard', function ($scope, $http, $timeout) {
     };
 
     $scope.searchAll = function () {
-
         $scope.getAll($scope.search);
         site.hideModal($scope.modalSearchID);
         $scope.search = {};
@@ -186,7 +185,6 @@ app.controller('storesItemsCard', function ($scope, $http, $timeout) {
         );
     };
 
-    // $scope.getAll();
     $scope.getItemsGroup();
     $scope.getStoresItems();
     $scope.getStores();

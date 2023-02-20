@@ -139,7 +139,6 @@ module.exports = function init(site) {
 
     if (app.allowRoute) {
         if (app.allowRouteGet) {
-
             site.get(
                 {
                     name: app.name,
@@ -179,7 +178,7 @@ module.exports = function init(site) {
                     items: _data.itemsList,
                 };
 
-                site.checkOverDraft(req, overDraftObj,(overDraftCb) => {
+                site.checkOverDraft(req, overDraftObj, (overDraftCb) => {
                     if (!overDraftCb.done) {
                         let error = '';
                         error = overDraftCb.refuseList.map((m) => (req.session.lang == 'Ar' ? m.nameAr : m.nameEn)).join('-');
@@ -275,8 +274,6 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                // where.search = where.search || 'id';
-                // let select = req.body.select || { id: 1, code: 1, customer: 1, itemsList: 1, paymentType: 1, store: 1, active: 1, image: 1 };
                 let select = req.body.select || {};
 
                 if (where.date) {
@@ -292,7 +289,6 @@ module.exports = function init(site) {
                     let list = app.memoryList.filter(
                         (g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(where.search)
                     );
-                    // .map((s) => ({ ...select }));
 
                     res.json({
                         done: true,

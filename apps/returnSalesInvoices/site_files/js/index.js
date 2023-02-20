@@ -278,9 +278,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
-                    // commercialCustomer: 1,
-                    // creditLimit: 1,
-                    // group: 1,
+
                 },
             },
         }).then(

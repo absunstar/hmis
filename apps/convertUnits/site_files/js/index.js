@@ -328,10 +328,8 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
     $scope.getItemUnits = function (item) {
         $scope.unitsList = [];
         if (item.unitsList) {
-            console.log('item.unitsList', item.unitsList[0]);
 
             for (const elem of item.unitsList) {
-                console.log('elem', elem);
                 $scope.unitsList.push({
                     id: elem.unit.id,
                     code: elem.unit.code,

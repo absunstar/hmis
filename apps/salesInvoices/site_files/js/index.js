@@ -247,10 +247,10 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
         $scope.search = {};
     };
 
-    $scope.getCustomers = function () {
-        // if ($search && $search.length < 3) {
-        //     return;
-        // }
+    $scope.getCustomers = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
         $scope.busy = true;
         $scope.customersList = [];
         $http({
@@ -259,17 +259,15 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
-                    // search: $search,
                 },
                 select: {
                     id: 1,
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
-                    // commercialCustomer: 1,
-                    // creditLimit: 1,
-                    // group: 1,
+          
                 },
+                search: $search,
             },
         }).then(
             function (response) {

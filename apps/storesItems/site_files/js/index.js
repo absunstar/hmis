@@ -98,7 +98,6 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     };
 
     $scope.validateUnitConversionData = function (_unitConversion) {
-        console.log('validateUnitConversionData', _unitConversion);
 
         $timeout(() => {
             if (_unitConversion.unit && _unitConversion.toUnit && _unitConversion.unit.id === _unitConversion.toUnit.id) {
@@ -712,15 +711,14 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             },
         ];
         $scope.busy = true;
-        console.log('start');
+
         $http({
             method: 'POST',
             url: '/api/convertUnits/add',
             data: _item,
         }).then(
             function (response) {
-                console.log('response', response);
-
+      
                 $scope.busy = false;
                 if (response.data.done) {
                     site.hideModal($scope.modalUnitConversionData);

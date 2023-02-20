@@ -388,8 +388,7 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
                 if (response.data.done && response.data.list.length > 0) {
                     $scope.storesItemsList = response.data.list;
                 }
-                console.log('   $scope.storesItemsList', $scope.storesItemsList);
-            },
+                    },
             function (err) {
                 $scope.busy = false;
                 $scope.error = err;

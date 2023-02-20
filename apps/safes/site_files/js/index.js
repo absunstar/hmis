@@ -7,7 +7,6 @@ app.controller('safes', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: { url: '/images/safes.png' },
-        // type: undefined,
         active: true,
     };
     $scope.item = {};

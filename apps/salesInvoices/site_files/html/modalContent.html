@@ -20,8 +20,17 @@
                         items="storesList"
                         display="name##session.lang##"
                     ></i-list>
-                    <!-- ng-get="getCustomers($search)" -->
-                    <i-list type="text" v="r" class="col4" ng-model="item.customer" label="##word.Customer##" items="customersList" display="name##session.lang##"></i-list>
+
+                    <i-list
+                        type="text"
+                        v="r"
+                        class="col4"
+                        ng-model="item.customer"
+                        label="##word.Customer##"
+                        ng-get="getCustomers($search)"
+                        items="customersList"
+                        display="name##session.lang##"
+                    ></i-list>
                     <i-list type="text" v="r" class="col4" ng-model="item.paymentType" label="##word.Payment Type##" items="paymentTypesList" display="name##session.lang##"></i-list>
                 </div>
             </div>

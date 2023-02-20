@@ -257,7 +257,7 @@ module.exports = function init(site) {
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
-                    // image: 1,
+     
                     active: 1,
                 };
 

@@ -280,62 +280,6 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
         );
     };
 
-    // $scope.getstoresOpeningBalancesSource = function () {
-    //     $scope.busy = true;
-    //     $scope.storesOpeningBalancesSourcesList = [];
-    //     $http({
-    //         method: 'POST',
-    //         url: '/api/storesOpeningBalancesSource',
-    //         data: {
-    //             select: {
-    //                 id: 1,
-    //                 code: 1,
-    //                 nameEn: 1,
-    //                 nameAr: 1,
-    //             },
-    //         },
-    //     }).then(
-    //         function (response) {
-    //             $scope.busy = false;
-    //             if (response.data.done && response.data.list.length > 0) {
-    //                 $scope.storesOpeningBalancesSourcesList = response.data.list;
-    //             }
-    //         },
-    //         function (err) {
-    //             $scope.busy = false;
-    //             $scope.error = err;
-    //         }
-    //     );
-    // };
-
-    // $scope.getPaymentTypes = function () {
-    //     $scope.busy = true;
-    //     $scope.paymentTypesList = [];
-    //     $http({
-    //         method: 'POST',
-    //         url: '/api/paymentTypes',
-    //         data: {
-    //             select: {
-    //                 id: 1,
-    //                 code: 1,
-    //                 nameEn: 1,
-    //                 nameAr: 1,
-    //             },
-    //         },
-    //     }).then(
-    //         function (response) {
-    //             $scope.busy = false;
-    //             if (response.data.done && response.data.list.length > 0) {
-    //                 $scope.paymentTypesList = response.data.list;
-    //             }
-    //         },
-    //         function (err) {
-    //             $scope.busy = false;
-    //             $scope.error = err;
-    //         }
-    //     );
-    // };
-
     $scope.getVendors = function ($search) {
         if ($search && $search.length < 3) {
             return;
@@ -405,123 +349,6 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
             }
         );
     };
-
-    // $scope.getDiscountTypes = function ($search) {
-    //     if ($search && $search.length < 3) {
-    //         return;
-    //     }
-    //     $scope.busy = true;
-    //     $scope.discountTypesList = [];
-    //     $http({
-    //         method: 'POST',
-    //         url: '/api/discountTypes/all',
-    //         data: {
-    //             where: {
-    //                 active: true,
-    //             },
-    //             select: {
-    //                 id: 1,
-    //                 code: 1,
-    //                 nameAr: 1,
-    //                 nameEn: 1,
-    //                 discountValue: 1,
-    //                 discountType: 1,
-    //             },
-    //             search: $search,
-    //         },
-    //     }).then(
-    //         function (response) {
-    //             $scope.busy = false;
-    //             if (response.data.done && response.data.list.length > 0) {
-    //                 $scope.discountTypesList = response.data.list;
-    //             }
-    //         },
-    //         function (err) {
-    //             $scope.busy = false;
-    //             $scope.error = err;
-    //         }
-    //     );
-    // };
-
-    // $scope.addToList = function (discount, type) {
-    //     if (type === 'discount') {
-    //         $scope.item.discountsList.unshift({
-    //             id: discount.id,
-    //             code: discount.code,
-    //             nameAr: discount.nameAr,
-    //             nameEn: discount.nameEn,
-    //             value: discount.discountValue,
-    //             type: discount.discountType,
-    //         });
-    //         $scope.item.totalDiscounts += discount.discountValue;
-    //         $scope.discount = {};
-    //     }
-    //     if (type === 'tax') {
-    //         $scope.item.taxesList.unshift({
-    //             id: discount.id,
-    //             code: discount.code,
-    //             nameAr: discount.nameAr,
-    //             nameEn: discount.nameEn,
-    //             value: discount.value,
-    //         });
-    //         $scope.item.totalTaxes += discount.value;
-    //         $scope.tax = {};
-    //     }
-    // };
-
-    // $scope.spliceFromList = function (discount, type) {
-    //     if (type === 'discount') {
-    //         const index = $scope.item.discountsList.findIndex((dis) => dis.id === discount.id);
-    //         if (index !== -1) {
-    //             $scope.item.discountsList.splice(index, 1);
-    //             $scope.item.totalDiscounts -= discount.value;
-    //         }
-    //     }
-
-    //     if (type === 'tax') {
-    //         const index = $scope.item.taxesList.findIndex((dis) => dis.id === discount.id);
-    //         if (index !== -1) {
-    //             $scope.item.taxesList.splice(index, 1);
-    //             $scope.item.totalTaxes -= discount.value;
-    //         }
-    //     }
-    // };
-
-    // $scope.getTaxTypes = function ($search) {
-    //     if ($search && $search.length < 3) {
-    //         return;
-    //     }
-    //     $scope.busy = true;
-    //     $scope.taxTypesList = [];
-    //     $http({
-    //         method: 'POST',
-    //         url: '/api/taxesTypes/all',
-    //         data: {
-    //             where: {
-    //                 active: true,
-    //             },
-    //             select: {
-    //                 id: 1,
-    //                 code: 1,
-    //                 nameAr: 1,
-    //                 nameEn: 1,
-    //                 value: 1,
-    //             },
-    //             search: $search,
-    //         },
-    //     }).then(
-    //         function (response) {
-    //             $scope.busy = false;
-    //             if (response.data.done && response.data.list.length > 0) {
-    //                 $scope.taxTypesList = response.data.list;
-    //             }
-    //         },
-    //         function (err) {
-    //             $scope.busy = false;
-    //             $scope.error = err;
-    //         }
-    //     );
-    // };
 
     $scope.setTotalPrice = function () {
         $scope.item.totalPrice = 0;
@@ -600,43 +427,6 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
         $scope.orderItem.price = unit.price;
         $scope.orderItem.salesPrice = unit.salesPrice;
     };
-
-    // $scope.getPurchaseRequest = function () {
-    //     $scope.busy = true;
-    //     $scope.purchaseRequestList = [];
-    //     $scope.item.itemsList = [];
-    //     $http({
-    //         method: 'POST',
-    //         url: '/api/purchaseRequests/all',
-    //         data: {
-    //             where: {
-    //                 active: true,
-    //                 approved: true,
-    //                 hasTransaction: false,
-    //             },
-    //             select: {
-    //                 id: 1,
-    //                 code: 1,
-    //                 title: 1,
-    //                 approved: 1,
-    //                 hasTransaction: 1,
-    //                 active: 1,
-    //                 itemsList: 1,
-    //             },
-    //         },
-    //     }).then(
-    //         function (response) {
-    //             $scope.busy = false;
-    //             if (response.data.done && response.data.list.length > 0) {
-    //                 $scope.purchaseRequestList = response.data.list;
-    //             }
-    //         },
-    //         function (err) {
-    //             $scope.busy = false;
-    //             $scope.error = err;
-    //         }
-    //     );
-    // };
 
     $scope.addToItemsList = function (orderItem) {
         $scope.itemsError = '';
@@ -810,27 +600,14 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
             $scope.itemsError = '##word.Must Enter Items Data##';
             return success;
         }
-        // if (_item.calculatePurchaseCost) {
-        //     if (!_item.calculatePurchaseCostType) {
-        //         alert('##word.Please Select Calculate Purchase Cost Type##');
-        //         return success;
-        //     }
-        //     if (!_item.purchaseCost > 0) {
-        //         alert('##word.Please Enter Calculate Purchase Cost##');
-        //         return success;
-        //     }
-        // }
+
         success = true;
         return { success, _item };
     };
 
     $scope.getAll();
-    // $scope.getPaymentTypes();
-    // $scope.getstoresOpeningBalancesSource();
-    // $scope.getDiscountTypes();
     $scope.getVendors();
     $scope.getStores();
-    // $scope.getTaxTypes();
     $scope.getStoresItems();
     $scope.getNumberingAuto();
 });

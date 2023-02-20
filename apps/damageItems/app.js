@@ -284,8 +284,6 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                // where.search = where.search || 'id';
-                // let select = req.body.select || { id: 1, code: 1, customer: 1, itemsList: 1, paymentType: 1, store: 1, active: 1, image: 1 };
                 let select = req.body.select || {};
 
                 if (where.date) {

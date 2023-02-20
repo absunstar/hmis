@@ -117,6 +117,16 @@ module.exports = function init(site) {
         { id: 2, code: '002', nameEn: 'Sub Store', nameAr: 'فرعي' },
     ];
 
+    site.weekDays = [
+        { id: 1,  nameEn: 'Saturday', nameAr: 'السبت' },
+        { id: 2,  nameEn: 'Sonday', nameAr: 'الأحد' },
+        { id: 3,  nameEn: 'Monday', nameAr: 'الإثنين' },
+        { id: 4,  nameEn: 'Tuesday', nameAr: 'الثلاثاء' },
+        { id: 5,  nameEn: 'Wednesday', nameAr: 'الأربعاء' },
+        { id: 6,  nameEn: 'Thursday', nameAr: 'الخميس' },
+        { id: 7,  nameEn: 'Friday', nameAr: 'الجمعة' },
+    ];
+
     site.safesTypes = [
         { id: 1, code: '001', nameEn: 'Cash', nameAr: 'نقدي' },
         { id: 2, code: '002', nameEn: 'Bank', nameAr: 'بنك' },
@@ -126,7 +136,7 @@ module.exports = function init(site) {
     site.lateDiscountsTypes = [
         { id: 1, nameEn: 'Day', nameAr: 'يوم' },
         { id: 2, nameEn: 'Hour', nameAr: 'ساعة' },
-        { id: 3, nameEn: 'Amount', nameAr: 'مبلغ' },
+        { id: 3, nameEn: 'Value', nameAr: 'مبلغ' },
     ];
 
     site.salaryTypes = [
@@ -138,7 +148,7 @@ module.exports = function init(site) {
         { id: 1, nameEn: 'Hours', nameAr: 'ساعات' },
         { id: 2, nameEn: 'Days', nameAr: 'أيام' },
         { id: 3, nameEn: 'Percentage of salary', nameAr: 'نسبة من المرتب' },
-        { id: 4, nameEn: 'Specific amount', nameAr: 'مبلغ محدد' },
+        { id: 4, nameEn: 'Specific value', nameAr: 'مبلغ محدد' },
     ];
 
     site.doctorDeskTopTypes = [
@@ -344,6 +354,14 @@ module.exports = function init(site) {
             list: site.safesTypes,
         });
     });
+
+    site.post('/api/weekDays', (req, res) => {
+        res.json({
+            done: true,
+            list: site.weekDays,
+        });
+    });
+
 
     site.post('/api/itemsTypes', (req, res) => {
         res.json({

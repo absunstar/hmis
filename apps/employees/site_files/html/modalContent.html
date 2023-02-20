@@ -8,8 +8,8 @@
         </div>
 
         <div class="row">
-          <i-control label="##word.Full Name##" ng-model="item.fullNameEn"> </i-control>
-          <i-control label="الإسم بالكامل" ng-model="item.fullNameAr"> </i-control>
+          <i-control label="##word.Full Name##" ng-keydown="changeName('fullNameEn',$event)" ng-model="item.fullNameEn"> </i-control>
+          <i-control label="الإسم بالكامل" ng-keydown="changeName('fullNameAr',$event)" ng-model="item.fullNameAr"> </i-control>
         </div>
 
         <div class="row">
@@ -59,23 +59,23 @@
           <div class="row padding">
             <fieldset>
               <div class="row">
-                <i-control class="col6" label="##word.First Name##" ng-model="item.nameEn"> </i-control>
-                <i-control class="col6" label="الإسم الأول" ng-model="item.nameAr"> </i-control>
+                <i-control class="col6" label="##word.First Name##" ng-keydown="changeName('nameEn',$event)" ng-model="item.nameEn"> </i-control>
+                <i-control class="col6" label="الإسم الأول" ng-keydown="changeName('nameAr',$event)" ng-model="item.nameAr"> </i-control>
               </div>
 
               <div class="row">
-                <i-control class="col6" label="##word.Parent Name##" ng-model="item.parentNameEn"> </i-control>
-                <i-control class="col6" label="إسم الأب" ng-model="item.parentNameAr"> </i-control>
+                <i-control class="col6" label="##word.Parent Name##" ng-keydown="changeName('parentNameEn',$event)" ng-model="item.parentNameEn"> </i-control>
+                <i-control class="col6" label="إسم الأب" ng-keydown="changeName('parentNameAr',$event)" ng-model="item.parentNameAr"> </i-control>
               </div>
 
               <div class="row">
-                <i-control class="col6" label="##word.Grand Father Name##" ng-model="item.grantFatherNameEn"> </i-control>
-                <i-control class="col6" label="إسم الجد" ng-model="item.grantFatherNameAr"> </i-control>
+                <i-control class="col6" label="##word.Grand Father Name##" ng-keydown="changeName('grantFatherNameEn',$event)" ng-model="item.grantFatherNameEn"> </i-control>
+                <i-control class="col6" label="إسم الجد" ng-keydown="changeName('grantFatherNameAr',$event)" ng-model="item.grantFatherNameAr"> </i-control>
               </div>
 
               <div class="row">
-                <i-control class="col6" label="##word.Family Name##" ng-model="item.familyNameEn"> </i-control>
-                <i-control class="col6" label="إسم العائلة" ng-model="item.familyNameAr"> </i-control>
+                <i-control class="col6" label="##word.Family Name##" ng-keydown="changeName('familyNameEn',$event)" ng-model="item.familyNameEn"> </i-control>
+                <i-control class="col6" label="إسم العائلة" ng-keydown="changeName('familyNameAr',$event)" ng-model="item.familyNameAr"> </i-control>
               </div>
             </fieldset>
 
@@ -301,16 +301,17 @@
               <legend>##word.Government health insurance##</legend>
               <div class="row">
                 <i-checkbox class="col3" ng-model="item.insured" label="##word.Insured##"></i-checkbox>
-
               </div>
-              <div class="row" ng-class="{disabled : !item.insured}">
-                <i-date ng-model="item.startDateInsurance" class="col6" label="##word.Start date of insurance##"></i-date>
-                <i-date ng-model="item.endDateInsurance" class="col6" label="##word.End date of insurance##"></i-date>
-              </div>
+              <div class="row" ng-show="item.insured">
+                <div class="row">
+                  <i-date ng-model="item.startDateInsurance" class="col6" label="##word.Start date of insurance##"></i-date>
+                  <i-date ng-model="item.endDateInsurance" class="col6" label="##word.End date of insurance##"></i-date>
+                </div>
 
-              <div class="row" ng-class="{disabled : !item.insured}">
-                <i-file class="col6" ng-show="item.healthHandCardToCompany" label="##word.Health insurance file##" ng-model="item.healthIncuranceFile"></i-file>
-                <i-checkbox class="col4" ng-model="item.healthHandCardToCompany" label="##word.Hand over the card to the company##"></i-checkbox>
+                <div class="row">
+                  <i-file class="col6" ng-show="item.healthHandCardToCompany" label="##word.Health insurance file##" ng-model="item.healthIncuranceFile"></i-file>
+                  <i-checkbox class="col4" ng-model="item.healthHandCardToCompany" label="##word.Hand over the card to the company##"></i-checkbox>
+                </div>
               </div>
             </fieldset>
           </div>
@@ -321,16 +322,15 @@
             <fieldset>
               <div class="row">
                 <i-list v="r" class="col6" label="##word.Current status##" ng-model="item.lastStatus" display="name##session.lang##" items="employeeStatusList" ng-search="item.$lastStatus"></i-list>
-                <i-date ng-model="item.lastStatusDate" label="##word.Last statuse date##"></i-date>
+                <i-date class="col6" ng-model="item.lastStatusDate" label="##word.Last status date##"></i-date>
               </div>
               <fieldset>
                 <legend>##word.Medical classification##</legend>
                 <div class="row">
-                  <i-radio class="col4" label="##word.Does not suffer from chronic diseases##" ng-value="no" ng-model="item.medicalClassification"> </i-radio>
-                  <i-radio class="col4" label="##word.Suffers from chronic diseases##" ng-value="yes" ng-model="item.medicalClassification"> </i-radio>
+                  <i-checkbox class="col4" label="##word.Suffers from chronic diseases##" ng-model="item.medicalClassification"> </i-checkbox>
                 </div>
-                <div class="row">
-                  <i-textarea label="##word.Disease details##" ng-disabled="item.medicalClassification == 'no'" ng-model="item.diseaseDetails"> </i-textarea>
+                <div class="row" ng-hide="!item.medicalClassification">
+                  <i-textarea label="##word.Disease details##"  ng-model="item.diseaseDetails"> </i-textarea>
                 </div>
               </fieldset>
             </fieldset>

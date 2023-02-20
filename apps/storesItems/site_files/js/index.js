@@ -31,7 +31,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             averageCost: 0,
             saleDiscount: 0,
             maxDiscount: 0,
-            discountType: 'amount',
+            discountType: 'value',
             storesList: [],
             active: true,
         };
@@ -598,7 +598,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             averageCost: 0,
             saleDiscount: 0,
             maxDiscount: 0,
-            discountType: 'amount',
+            discountType: 'value',
             storesList: [],
             active: true,
         });

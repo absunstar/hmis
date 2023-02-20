@@ -430,5 +430,11 @@
         "feature": "public",
         "id": "attendanceLeaving",
         "name": "Attendance Leaving"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "namesConversions",
+        "name": "Names Conversions"
     }
 ]

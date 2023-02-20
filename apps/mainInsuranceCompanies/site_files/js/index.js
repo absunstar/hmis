@@ -475,7 +475,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
           cashIn: 0,
           creditIn: 0,
           secondAmnt: 0,
-          secoundAmountPerDay: 0,
+          secoundValuePerDay: 0,
         });
       }
       _item.$discountServiceGroup = {};

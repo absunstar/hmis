@@ -1,53 +1,55 @@
+<div class="row" id="systemSettingManageModal">
+
 <fieldset>
-    <div class="tabs">
-        <div class="tabs-header full">
-            <a class="tab-link" onclick="site.showTabContent(event, '#storesSettings')"> <span>##word.Stores Settings## </span></a>
-            <a class="tab-link" onclick="site.showTabContent(event, '#accountingSettings')"> <span>##word.Accounting Settings## </span></a>
-        </div>
 
-        <div class="tabs-content">
-            <div id="storesSettings" class="tab-content">
-                <fieldset ng-model="item.storesSetting">
-                    <legend>##word.Stores Setting##</legend>
-
-                    <div class="row">
-                        <i-list class="col4" ng-model="item.storesSetting.defaultStore" items="storesList" display="name##session.lang##" label="##word.Store##" ng-search="unt.$store"> </i-list>
-                        <i-list class="col4" ng-model="item.storesSetting.defaultItemType" items="itemsTypesList" display="name##session.lang##" label="##word.Item Type##" ng-search="unt.$itemType">
-                        </i-list>
-
-                        <i-list
-                            class="col4"
-                            ng-model="item.storesSetting.defaultItemGroup"
-                            items="itemsGroupsList"
-                            display="name##session.lang##"
-                            label="##word.Item Group##"
-                            ng-search="unt.$itemGroup"
-                        >
-                        </i-list>
-
-                        <i-list class="col4" ng-model="item.storesSetting.defaultItemUnit" items="storesUnitsList" display="name##session.lang##" label="##word.Item Unit##" ng-search="unt.$itemUnit">
-                        </i-list>
-                        <i-checkbox ng-model="item.storesSetting.hasDefaultVendor" class="col2" label="##word.Default Vendor##"></i-checkbox>
-
-                        <i-list
-                            class="col4"
-                            ng-if="item.storesSetting.hasDefaultVendor"
-                            ng-model="item.storesSetting.defaultVendor"
-                            items="vendorsList"
-                            display="name##session.lang##"
-                            label="##word.Vendor##"
-                            ng-search="unt.$vendor"
-                        >
-                        </i-list>
-
-                        <i-checkbox ng-model="item.storesSetting.cannotExceedMaximumDiscount" class="col4" label="##word.Cannot Exceed Maximum Discount##"></i-checkbox>
-                        <i-checkbox ng-model="item.storesSetting.allowOverdraft" class="col2" label="##word.Allow Overdraft##"></i-checkbox>
-                    </div>
-                </fieldset>
-            </div>
-            <!-- <div id="accountingSettings" class="tab-content">baher1</div> -->
-        </div>
+  <div class="tabs">
+    <div class="tabs-header full">
+      <a class="tab-link" onclick="site.showTabContent(event, '#storesSettings')"> <span>##word.Stores Settings## </span></a>
+      <a class="tab-link" onclick="site.showTabContent(event, '#accountingSettings')"> <span>##word.Accounting Settings## </span></a>
     </div>
+
+    <div class="tabs-content">
+      <div id="storesSettings" class="tab-content">
+        <fieldset ng-model="item.storesSetting">
+          <legend>##word.Stores Setting##</legend>
+
+          <div class="row">
+            <i-list class="col4" ng-model="item.storesSetting.defaultStore" items="storesList" display="name##session.lang##" label="##word.Store##" ng-search="unt.$store"> </i-list>
+            <i-list class="col4" ng-model="item.storesSetting.defaultItemType" items="itemsTypesList" display="name##session.lang##" label="##word.Item Type##" ng-search="unt.$itemType"> </i-list>
+            <i-list class="col4" ng-model="item.storesSetting.defaultItemGroup" items="itemsGroupsList" display="name##session.lang##" label="##word.Item Group##" ng-search="unt.$itemGroup"> </i-list>
+          </div>
+
+          <div class="row">
+            <i-list class="col4" ng-model="item.storesSetting.defaultItemUnit" items="storesUnitsList" display="name##session.lang##" label="##word.Item Unit##" ng-search="unt.$itemUnit"> </i-list>
+            <i-control class="col3" ng-model="item.storesSetting.currencySymbol" label="##word.Currency symbol##"></i-control>
+          </div>
+
+          <div class="row">
+            <i-checkbox ng-model="item.storesSetting.hasDefaultVendor" class="col2" label="##word.Default Vendor##"></i-checkbox>
+
+            <i-list
+              class="col4"
+              ng-if="item.storesSetting.hasDefaultVendor"
+              ng-model="item.storesSetting.defaultVendor"
+              items="vendorsList"
+              display="name##session.lang##"
+              label="##word.Vendor##"
+              ng-search="unt.$vendor"
+            >
+            </i-list>
+          </div>
+          <div class="row">
+            <i-checkbox ng-model="item.storesSetting.cannotExceedMaximumDiscount" class="col4" label="##word.Can`t Exceed Maximum Discount##"></i-checkbox>
+          </div>
+          <div class="row">
+            <i-checkbox ng-model="item.storesSetting.allowOverdraft" class="col3" label="##word.Allow Overdraft##"></i-checkbox>
+          </div>
+        </fieldset>
+      </div>
+      <!-- <div id="accountingSettings" class="tab-content">baher1</div> -->
+    </div>
+  </div>
 </fieldset>
+</div>
 
 <i-button type="save" label="##word.Save##" ng-click="save(item)"></i-button>

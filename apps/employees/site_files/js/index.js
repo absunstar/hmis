@@ -17,11 +17,11 @@ app.controller('employees', function ($scope, $http, $timeout) {
     $scope.mode = 'add';
     $scope.item = {
       ...$scope.structure,
+      lastStatusDate: new Date(),
       allowancesList: [],
       deductionsList: [],
       mobileList: [],
       relativesList: [{}],
-      medicalClassification: 'no',
       idType: 'id',
       totalSubscriptions: 21.5,
       totalSubscriptionsEmployee: 9.75,
@@ -653,6 +653,32 @@ app.controller('employees', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getNamesConversionsList = function () {
+    $scope.busy = true;
+    $scope.namesConversionsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/namesConversions/all',
+      data: {
+        select: {
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.namesConversionsList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getJobsList = function (jobsDepartment) {
     $scope.busy = true;
     $scope.jobsList = [];
@@ -687,6 +713,58 @@ app.controller('employees', function ($scope, $http, $timeout) {
     site.showModal($scope.modalSearchID);
   };
 
+  $scope.changeFullName = function (item, n, i) {
+    if (item.fullNameAr && item.fullNameAr.split(' ')[i]) {
+      item.fullNameAr = item.fullNameAr.replace(item.fullNameAr.split(' ')[i], n.nameAr);
+    } else {
+      item.fullNameAr = !item.fullNameAr ? n.nameAr : item.fullNameAr + ' ' + n.nameAr;
+    }
+    if (item.fullNameEn && item.fullNameEn.split(' ')[i]) {
+      item.fullNameEn = item.fullNameEn.replace(item.fullNameEn.split(' ')[i], n.nameEn);
+    } else {
+      item.fullNameEn = !item.fullNameEn ? n.nameEn : item.fullNameEn + ' ' + n.nameEn;
+    }
+  };
+
+  $scope.changeName = function (type, ev) {
+    $scope.error = '';
+    if (ev.which == 13) {
+      for (let i = 0; i < $scope.namesConversionsList.length; i++) {
+        let n = $scope.namesConversionsList[i];
+
+        if (type == 'nameEn' && $scope.item.nameEn && $scope.item.nameEn.contains(n.nameEn)) {
+          $scope.item.nameAr = n.nameAr;
+          $scope.changeFullName($scope.item, n, 0);
+        } else if (type == 'nameAr' && $scope.item.nameAr && $scope.item.nameAr.contains(n.nameAr)) {
+          $scope.item.nameEn = n.nameEn;
+          $scope.changeFullName($scope.item, n, 0);
+        } else if (type == 'parentNameAr' && $scope.item.parentNameAr && $scope.item.parentNameAr.contains(n.nameAr)) {
+          $scope.item.parentNameEn = n.nameEn;
+          $scope.changeFullName($scope.item, n, 1);
+        } else if (type == 'parentNameEn' && $scope.item.parentNameEn && $scope.item.parentNameEn.contains(n.nameEn)) {
+          $scope.item.parentNameAr = n.nameAr;
+          $scope.changeFullName($scope.item, n, 1);
+        } else if (type == 'grantFatherNameEn' && $scope.item.grantFatherNameEn && $scope.item.grantFatherNameEn.contains(n.nameEn)) {
+          $scope.item.grantFatherNameAr = n.nameAr;
+          $scope.changeFullName($scope.item, n, 2);
+        } else if (type == 'grantFatherNameAr' && $scope.item.grantFatherNameAr && $scope.item.grantFatherNameAr.contains(n.nameAr)) {
+          $scope.item.grantFatherNameEn = n.nameEn;
+          $scope.changeFullName($scope.item, n, 2);
+        } else if (type == 'familyNameEn' && $scope.item.familyNameEn && $scope.item.familyNameEn.contains(n.nameEn)) {
+          $scope.item.familyNameAr = n.nameAr;
+          $scope.changeFullName($scope.item, n, 3);
+        } else if (type == 'familyNameAr' && $scope.item.familyNameAr && $scope.item.familyNameAr.contains(n.nameAr)) {
+          $scope.item.familyNameEn = n.nameEn;
+          $scope.changeFullName($scope.item, n, 3);
+        }/*  else if (type == 'fullNameEn' && $scope.item.fullNameEn && $scope.item.fullNameEn.contains(n.nameEn)) {
+          if($scope.item.fullNameEn.split(' ')[0]) {
+
+          }
+        } */
+      }
+    }
+  };
+
   $scope.searchAll = function () {
     $scope.getAll($scope.search);
     site.hideModal($scope.modalSearchID);
@@ -705,4 +783,5 @@ app.controller('employees', function ($scope, $http, $timeout) {
   $scope.getEmployeeStatusList();
   $scope.getJobsAdministrationsList();
   $scope.getJobsShiftsList();
+  $scope.getNamesConversionsList();
 });

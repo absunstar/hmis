@@ -1,20 +1,18 @@
-app.controller('jobsShifts', function ($scope, $http, $timeout) {
+app.controller('namesConversions', function ($scope, $http, $timeout) {
   $scope.baseURL = '';
-  $scope.appName = 'jobsShifts';
-  $scope.modalID = '#jobsShiftsManageModal';
-  $scope.modalSearchID = '#jobsShiftsSearchModal';
+  $scope.appName = 'namesConversions';
+  $scope.modalID = '#namesConversionsManageModal';
+  $scope.modalSearchID = '#namesConversionsSearchModal';
   $scope.mode = 'add';
   $scope._search = {};
-  $scope.structure = {
-    active: true,
-  };
+  $scope.structure = {};
   $scope.item = {};
   $scope.list = [];
 
   $scope.showAdd = function (_item) {
     $scope.error = '';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure, lateDiscountsList: [], workdays: [] };
+    $scope.item = { ...$scope.structure };
     site.showModal($scope.modalID);
   };
 
@@ -113,8 +111,6 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
         $scope.busy = false;
         if (response.data.done) {
           $scope.item = response.data.doc;
-          $scope.item.start = new Date($scope.item.start);
-          $scope.item.end = new Date($scope.item.end);
         } else {
           $scope.error = response.data.error;
         }
@@ -176,7 +172,6 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
           $scope.list = response.data.list;
-
           $scope.count = response.data.count;
           site.hideModal($scope.modalSearchID);
           $scope.search = {};
@@ -212,48 +207,6 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getWeekDaysList = function () {
-    $scope.busy = true;
-    $scope.weekDaysList = [];
-    $http({
-      method: 'POST',
-      url: '/api/weekDays',
-      data: {},
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done) {
-          $scope.weekDaysList = response.data.list;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
-
-  $scope.getLateDiscountsTypesList = function () {
-    $scope.busy = true;
-    $scope.lateDiscountsTypesList = [];
-    $http({
-      method: 'POST',
-      url: '/api/lateDiscountsTypes',
-      data: {},
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done) {
-          $scope.lateDiscountsTypesList = response.data.list;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
-
   $scope.showSearch = function () {
     $scope.error = '';
     site.showModal($scope.modalSearchID);
@@ -267,6 +220,4 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
 
   $scope.getAll();
   $scope.getNumberingAuto();
-  $scope.getLateDiscountsTypesList();
-  $scope.getWeekDaysList();
 });

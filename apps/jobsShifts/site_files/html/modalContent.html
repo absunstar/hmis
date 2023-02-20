@@ -5,24 +5,46 @@
   </div>
   <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
   <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
+
   <div class="row">
     <i-control type="number" class="col9" v="r" ng-model="item.availableDelayTime" label="##word.Available delay time##"></i-control>
     <div class="col2">
-        <br>
-        <br>
-        <p class="bold">##word.Minute##</p>
+      <br />
+      <br />
+      <p class="bold">##word.Minute##</p>
     </div>
   </div>
+
   <div class="row">
     <fieldset>
       <legend>
-          ##word.Late Discounts##
-          <i-button type="add default" ng-click="item.lateDiscountsList.push({})"></i-button>
+        ##word.Workdays##
+        <i-button type="add default" ng-click="item.workdays.push({})"></i-button>
+      </legend>
+      <div class="row" ng-repeat="l in item.workdays">
+        <i-list label="##word.Day##" class="col3" v="r" ng-model="l.day" display="name##session.lang##" items="weekDaysList" ng-search="l.$day"></i-list>
+        <i-control type="time" class="col4" v="r" ng-model="item.start" label="##word.Start##"></i-control>
+        <i-control type="time" class="col4" v="r" ng-model="item.end" label="##word.End##"></i-control>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="row">
+    <fieldset>
+      <legend>
+        ##word.Late Discounts##
+        <i-button type="add default" ng-click="item.lateDiscountsList.push({})"></i-button>
       </legend>
       <div class="row" ng-repeat="l in item.lateDiscountsList">
-        <i-control type="number" class="col3" v="r" ng-model="l.value" label="##word.value##"></i-control>
         <i-list label="##word.Type##" class="col3" v="r" ng-model="l.type" display="name##session.lang##" items="lateDiscountsTypesList" ng-search="l.$type"></i-list>
-
+        <i-control type="number" class="col3" v="r" ng-model="l.value" label="##word.value##"></i-control>
+        <i-control type="number" class="col2" v="r" ng-model="l.from" label="##word.From##"></i-control>
+        <i-control type="number" class="col2" v="r" ng-model="l.to" label="##word.To##"></i-control>
+        <div class="col2">
+          <br />
+          <br />
+          <p class="bold">##word.Minute##</p>
+        </div>
       </div>
     </fieldset>
   </div>

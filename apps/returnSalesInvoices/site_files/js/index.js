@@ -20,6 +20,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
         $scope.item = { ...$scope.structure, orderDate: new Date() };
         $scope.search = { ...$scope.structure };
         site.showModal($scope.modalID);
+        $scope.returnSalesInvoicesList = [];
     };
 
     $scope.add = function (_item) {
@@ -97,6 +98,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
         $scope.view(_item);
         $scope.item = {};
         site.showModal($scope.modalID);
+        $scope.returnSalesInvoicesList = [];
     };
 
     $scope.update = function (_item) {
@@ -421,46 +423,6 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
                 $scope.busy = false;
                 if (response.data.done && response.data.list.length > 0) {
                     $scope.itemsList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
-    $scope.getStoresSalesInvoices = function (where) {
-        if (where && where.store && where.store.id) {
-            where['store.id'] = where.store.id;
-            delete where.store;
-        }
-
-        if (where && where.paymentType && where.paymentType.id) {
-            where['paymentType.id'] = where.paymentType.id;
-            delete where.paymentType;
-        }
-
-        if (where && where.customer && where.customer.id) {
-            where['customer.id'] = where.customer.id;
-            delete where.customer;
-        }
-
-        delete where['active'];
-        where['hasReturnTransaction'] = { $ne: true };
-        $scope.busy = true;
-        $scope.returnSalesInvoicesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/salesInvoices/all',
-            data: {
-                where: where,
-            },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.returnSalesInvoicesList = response.data.list;
                 }
             },
             function (err) {

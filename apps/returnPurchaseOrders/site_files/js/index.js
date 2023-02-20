@@ -19,6 +19,7 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
         $scope.mode = 'add';
         $scope.item = { ...$scope.structure, orderDate: new Date() };
         site.showModal($scope.modalID);
+        $scope.returnPurchaseOrdersList = [];
     };
 
     $scope.add = function (_item) {
@@ -61,6 +62,7 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
         $scope.view(_item);
         $scope.item = {};
         site.showModal($scope.modalID);
+        $scope.returnPurchaseOrdersList = [];
     };
 
     $scope.update = function (_item) {

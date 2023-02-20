@@ -527,7 +527,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.getAll();
-    // $scope.getStores();
+    $scope.getStores();
     $scope.getStoresItems();
     $scope.getNumberingAuto();
 });

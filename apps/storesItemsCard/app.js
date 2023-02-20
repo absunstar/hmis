@@ -56,7 +56,9 @@ module.exports = function init(site) {
                         obj = {
                             ...obj,
                             unit: _elm.toUnit,
-                            count: _elm.newCount,
+                            count: _elm.toUnit.newCount,
+                            price: _elm.toUnit.price,
+                            totalPrice: _elm.toUnit.newCount * _elm.toUnit.price,
                             countType: 'in',
                         };
                     } else if (_elm.bonusCount) {
@@ -348,7 +350,7 @@ module.exports = function init(site) {
                     where['toDate'] = { $lt: d2.setDate(d2.getDate() + 1) };
                     delete where.toDate;
                 }
-      
+
                 if (app.allowMemory) {
                     app.memoryList
                         .filter((g) => g.company && g.company.id == site.getCompany(req).id)

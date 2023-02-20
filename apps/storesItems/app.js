@@ -59,8 +59,8 @@ module.exports = function init(site) {
                         doc.unitsList[index].storesList[storeIndex].salesReturnCount += _elm.count;
                         doc.unitsList[index].storesList[storeIndex].salesReturnPrice += _elm.price;
                     } else if (screenName === 'convertUnits') {
-                        doc.unitsList[index].storesList[storeIndex].convertUnitFromCount += _elm.count;
-                        doc.unitsList[index].storesList[storeIndex].convertUnitFromPrice += _elm.price;
+                        doc.unitsList[index].storesList[storeIndex].convertUnitFromCount += _elm.unit.count;
+                        doc.unitsList[index].storesList[storeIndex].convertUnitFromPrice += _elm.unit.price;
                         let unitToIndex = doc.unitsList.findIndex((s) => s.unit && s.unit.id === _elm.toUnit.id);
                         if (unitToIndex != -1) {
                             let storeIndexTo = doc.unitsList[unitToIndex].storesList.findIndex((s) => s.store && s.store.id === _elm.store.id);
@@ -71,8 +71,8 @@ module.exports = function init(site) {
                                 storeIndexTo = doc.unitsList[unitToIndex].storesList.length - 1;
                             }
 
-                            doc.unitsList[unitToIndex].storesList[storeIndexTo].convertUnitToCount += _elm.newCount;
-                            doc.unitsList[unitToIndex].storesList[storeIndexTo].convertUnitToPrice += _elm.price;
+                            doc.unitsList[unitToIndex].storesList[storeIndexTo].convertUnitToCount += _elm.toUnit.newCount;
+                            doc.unitsList[unitToIndex].storesList[storeIndexTo].convertUnitToPrice += _elm.toUnit.price;
                         }
                     } else if (screenName === 'transferItemsOrders') {
                         doc.unitsList[index].storesList[storeIndex].transferFromCount += _elm.count;
@@ -510,13 +510,7 @@ module.exports = function init(site) {
                     let list = app.memoryList
                         .filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(search))
                         .slice(0, limit);
-                    list.map((doc) => {
-                        for (const p in doc) {
-                            if (!Object.hasOwnProperty.call(select, p)) {
-                                delete doc[p];
-                            }
-                        }
-                    });
+
                     res.json({
                         done: true,
                         list: list,

@@ -84,7 +84,7 @@
                 <td class="text-center">{{elem.name##session.lang##}}</td>
                 <td class="text-center">{{elem.unit.name##session.lang##}}</td>
                 <td class="text-center">
-                    <i-control ng-if="mode == 'add'" min="0" type="number" ng-model="elem.count"></i-control>
+                    <i-control ng-if="mode == 'add'" min="0" type="number" ng-change="calculateItem(elem)" ng-model="elem.count"></i-control>
                     <p class="text-center" ng-if="mode != 'add'">{{elem.count}}</p>
                 </td>
                 <td class="text-center">

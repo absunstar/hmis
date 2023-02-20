@@ -174,42 +174,8 @@ module.exports = function init(site) {
                     _data.code = cb.code;
                 }
 
-                // let overDraftObj = {
-                //     store: _data.store,
-                //     items: _data.itemsList,
-                // };
-
-                // site.checkOverDraft(req, overDraftObj, (overDraftCb) => {
-                //     if (!overDraftCb.done) {
-                //         let error = '';
-                //         error = overDraftCb.refuseList.map((m) => (req.session.lang == 'Ar' ? m.nameAr : m.nameEn)).join('-');
-                //         response.error = `Item Balance Insufficient ( ${error} )`;
-                //         res.json(response);
-                //         return;
-                //     }
-
-                //     app.$collection.find({ code: _data.code }, (err, doc) => {
-                //         if (doc) {
-                //             response.done = false;
-                //             response.error = 'There Is Order Exisit With Same Code';
-                //             return res.json(response);
-                //         }
-                //         _data.addUserInfo = req.getUserFinger();
-                //         if (!_data.date) {
-                //             _data.date = new Date();
-                //         }
                 app.add(_data, (err, doc) => {
                     if (!err && doc) {
-                        // doc.itemsList.forEach((_item) => {
-                        //     let item = { ..._item };
-                        //     item.store = { ...doc.store };
-                        //     site.editItemsBalance(item, app.name);
-                        //     item.invoiceId = doc.id;
-                        //     item.date = doc.date;
-                        //     item.countType = 'out';
-                        //     site.setItemCard(item, app.name);
-                        // });
-
                         response.done = true;
                         response.doc = doc;
                     } else {
@@ -218,8 +184,6 @@ module.exports = function init(site) {
                     res.json(response);
                 });
             });
-            //     });
-            // });
         }
 
         if (app.allowRouteUpdate) {
@@ -283,6 +247,9 @@ module.exports = function init(site) {
                             site.editItemsBalance(item, app.name);
                             item.invoiceId = result.doc.id;
                             item.date = result.doc.date;
+                            item.count = _item.unit.count;
+                            item.price = _item.unit.price;
+                            item.total = _item.unit.count * _item.unit.price;
                             item.toUnit = _item.toUnit;
                             item.countType = 'out';
                             site.setItemCard(item, app.name);

@@ -328,12 +328,16 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
     $scope.getItemUnits = function (item) {
         $scope.unitsList = [];
         if (item.unitsList) {
+            console.log('item.unitsList', item.unitsList[0]);
+
             for (const elem of item.unitsList) {
+                console.log('elem', elem);
                 $scope.unitsList.push({
                     id: elem.unit.id,
                     code: elem.unit.code,
                     nameAr: elem.unit.nameAr,
                     nameEn: elem.unit.nameEn,
+                    price: elem.purchasePrice,
                     currentCount: elem.currentCount,
                     conversion: elem.conversion,
                     newCount: elem.newCount || 0,
@@ -400,6 +404,9 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
             return;
         }
 
+        console.log('orderItem.unit', orderItem.unit);
+        console.log('orderItem.toUnit', orderItem.toUnit);
+
         $scope.item.itemsList.unshift({
             id: orderItem.item.id,
             code: orderItem.item.code,
@@ -412,7 +419,8 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
                 nameAr: orderItem.unit.nameAr,
                 nameEn: orderItem.unit.nameEn,
                 currentCount: orderItem.unit.currentCount,
-                convertCount: orderItem.unit.conversion * orderItem.count,
+                price: orderItem.unit.price,
+                count: orderItem.unit.conversion * orderItem.count,
                 newCount: orderItem.unit.currentCount - orderItem.unit.conversion * orderItem.count,
             },
             toUnit: {
@@ -422,6 +430,7 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
                 nameEn: orderItem.toUnit.nameEn,
                 currentCount: orderItem.toUnit.currentCount,
                 newCount: orderItem.toUnit.newCount,
+                price: orderItem.toUnit.price,
             },
 
             approved: false,

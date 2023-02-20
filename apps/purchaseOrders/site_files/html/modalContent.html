@@ -40,9 +40,6 @@
                                 <br />
                                 <i-button ng-if="item.sourceType.id === 1" type="get" label="##word.Load Items##" ng-click="getRequestItems(item.purchaseRequest)"> </i-button>
                             </div>
-
-                            <i-checkbox ng-model="item.hasDiscounts" ng-change="item.discountsList=[]" class="col2" label="##word.Has Discounts##"></i-checkbox>
-                            <i-checkbox ng-model="item.hasTaxes" ng-change="item.taxesList=[]" class="col2" label="##word.Has Taxes##"></i-checkbox>
                         </div>
                     </fieldset>
                     <i-list
@@ -212,17 +209,10 @@
 
         <div class="row">
             <div class="col6">
-                <fieldset ng-show="item.hasDiscounts">
+                <fieldset>
                     <legend>##word.Discounts Information##</legend>
                     <div class="row">
                         <i-list class="col8" ng-model="discount" display="name##session.lang##" items="discountTypesList" label="##word.Discount##" ng-get="getDiscountTypes($search)"></i-list>
-
-                        <!-- <i-control class="col3" type="number" min="0" ng-model="discount.value" label="##word.Value##"></i-control>
-                        <div class="col3">
-                            <br />
-                            <i-radio class="col6" label="##word.Amount##" group="bt_{{$index}}" ng-value="amount" ng-model="discount.valueType"> </i-radio>
-                            <i-radio class="col6" label="##word.Percent##" group="bt_{{$index}}" ng-value="percent" ng-model="discount.valueType"> </i-radio>
-                        </div> -->
 
                         <div class="col4">
                             <br />
@@ -251,7 +241,7 @@
                 </fieldset>
             </div>
             <div class="col6">
-                <fieldset ng-show="item.hasTaxes">
+                <fieldset>
                     <legend>##word.Taxes Information##</legend>
 
                     <div class="row">

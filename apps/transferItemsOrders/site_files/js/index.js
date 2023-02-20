@@ -24,8 +24,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     };
     $scope.resetOrderItem = function () {
         $scope.orderItem = {
-            item: {},
-            unit: {},
+
             count: 1,
             transferPrice: 1,
             approved: false,
@@ -522,10 +521,10 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
 
     $scope.addToItemsList = function (elem) {
         $scope.error = '';
-        if (!elem.item.id) {
-            $scope.error = '##word.Please Enter Item##';
-            return;
-        }
+           if (!elem.item || !elem.item?.id) {
+               $scope.error = '##word.Please Enter Item##';
+               return;
+           }
         for (const itm of $scope.item.itemsList) {
             if (itm.item.id === elem.item.id && itm.unit.id === elem.unit.id) {
                 $scope.itemsError = '##word.Item Exisit##';

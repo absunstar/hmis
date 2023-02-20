@@ -9,18 +9,17 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
         active: true,
     };
     $scope.item = {};
-    $scope.orderItem = {};
+    $scope.orderItem = { };
     $scope.list = [];
     $scope.canApprove = false;
+
     $scope.resetOrderItem = function () {
         $scope.orderItem = {
-            item: undefined,
-            unit: undefined,
             count: 1,
             price: 0,
             saleDiscount: 0,
             maxDiscount: 0,
-            discountType: { amount: 'amount', percent: 'percent' },
+            discountType: '',
             total: 0,
         };
     };
@@ -265,7 +264,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
 
     $scope.addToItemsList = function (orderItem) {
         $scope.itemsError = '';
-        if (!orderItem.item.id) {
+        if (!orderItem.item || !orderItem.item?.id) {
             $scope.itemsError = '##word.Please Enter Item##';
             return;
         }

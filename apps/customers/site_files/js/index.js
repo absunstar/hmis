@@ -8,7 +8,6 @@ app.controller('customers', function ($scope, $http, $timeout) {
     $scope.structure = {
         image: { url: '/images/customer.png' },
         commercialCustomer: false,
-        group: undefined,
         purchaseMaturityPeriod: 0,
         creditLimit: 0,
         active: true,

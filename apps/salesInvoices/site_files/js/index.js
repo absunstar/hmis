@@ -7,7 +7,10 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: { url: '/images/salesInvoices.png' },
-
+        totalPrice: 0,
+        totalDiscounts: 0,
+        totalTaxes: 0,
+        totalVendorDiscounts: 0,
         active: true,
     };
     $scope.item = {};
@@ -16,13 +19,11 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
 
     $scope.resetOrderItem = function () {
         $scope.orderItem = {
-            item: undefined,
-            unit: undefined,
             count: 1,
             price: 0,
             saleDiscount: 0,
             maxDiscount: 0,
-            discountType: { amount: 'amount', percent: 'percent' },
+            discountType: '',
             total: 0,
         };
     };
@@ -31,7 +32,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
         $scope.itemsError = '';
         $scope.mode = 'add';
         $scope.resetOrderItem();
-        $scope.item = { ...$scope.structure, date: new Date(), itemsList: [] };
+        $scope.item = { ...$scope.structure, date: new Date(), itemsList: [], discountsList: [], taxesList: [] };
         site.showModal($scope.modalID);
     };
 
@@ -304,7 +305,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
 
     $scope.addToItemsList = function (orderItem) {
         $scope.itemsError = '';
-        if (!orderItem.item.id) {
+        if (!orderItem.item || !orderItem.item?.id) {
             $scope.itemsError = '##word.Please Enter Item##';
             return;
         }
@@ -370,6 +371,129 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
                 $scope.error = err;
             }
         );
+    };
+    $scope.getDiscountTypes = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
+        $scope.busy = true;
+        $scope.discountTypesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/discountTypes/all',
+            data: {
+                where: {
+                    active: true,
+                },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameAr: 1,
+                    nameEn: 1,
+                    discountValue: 1,
+                    discountType: 1,
+                },
+                search: $search,
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.discountTypesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.addToList = function (discount, type) {
+        if (type === 'discount') {
+            $scope.item.discountsList.unshift({
+                id: discount.id,
+                code: discount.code,
+                nameAr: discount.nameAr,
+                nameEn: discount.nameEn,
+                value: discount.discountValue,
+                type: discount.discountType,
+            });
+            $scope.item.totalDiscounts += discount.discountValue;
+            $scope.discount = {};
+        }
+        if (type === 'tax') {
+            $scope.item.taxesList.unshift({
+                id: discount.id,
+                code: discount.code,
+                nameAr: discount.nameAr,
+                nameEn: discount.nameEn,
+                value: discount.value,
+            });
+            $scope.item.totalTaxes += discount.value;
+            $scope.tax = {};
+        }
+    };
+
+    $scope.spliceFromList = function (discount, type) {
+        if (type === 'discount') {
+            const index = $scope.item.discountsList.findIndex((dis) => dis.id === discount.id);
+            if (index !== -1) {
+                $scope.item.discountsList.splice(index, 1);
+                $scope.item.totalDiscounts -= discount.value;
+            }
+        }
+
+        if (type === 'tax') {
+            const index = $scope.item.taxesList.findIndex((dis) => dis.id === discount.id);
+            if (index !== -1) {
+                $scope.item.taxesList.splice(index, 1);
+                $scope.item.totalTaxes -= discount.value;
+            }
+        }
+    };
+
+    $scope.getTaxTypes = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
+        $scope.busy = true;
+        $scope.taxTypesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/taxesTypes/all',
+            data: {
+                where: {
+                    active: true,
+                },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameAr: 1,
+                    nameEn: 1,
+                    value: 1,
+                },
+                search: $search,
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.taxTypesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.setTotalPrice = function () {
+        $scope.item.totalPrice = 0;
+        $scope.item.itemsList.forEach((_item) => {
+            $scope.item.totalPrice += _item.price * _item.count;
+        });
     };
 
     $scope.getStoresItems = function () {
@@ -464,6 +588,8 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
 
     $scope.getAll();
     $scope.getPaymentTypes();
+    $scope.getDiscountTypes();
+    $scope.getTaxTypes();
     $scope.getStores();
     $scope.getStoresItems();
     $scope.getCustomers();

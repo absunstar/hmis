@@ -399,7 +399,7 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
 
     $scope.addToItemsList = function (orderItem) {
         $scope.error = '';
-        if (!orderItem.item.id) {
+        if (!orderItem.item || !orderItem.item?.id) {
             alert('##word.Please Enter Item##');
             return;
         }

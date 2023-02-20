@@ -189,14 +189,14 @@ module.exports = function init(site) {
     ];
 
     site.storesTransactionsTypes = [
-        { id: 1, code: 'purchaseOrders', nameEn: 'Purchase Order / Invoice', nameAr: 'أمر شراء / فاتورة' },
-        { id: 2, code: 'salesInvoices', nameEn: 'Sales Invoice', nameAr: 'فاتورة بيع' },
-        { id: 3, code: 'transferItemsOrders', nameEn: 'Transfer Item Order', nameAr: 'أمر تحويل أصناف' },
-        { id: 4, code: 'convertUnits', nameEn: 'Convert Units', nameAr: 'تحويل وحدات' },
-        { id: 5, code: 'returnPurchaseOrders', nameEn: 'Return Purchase Orders', nameAr: 'مرتجع فاتورة شراء' },
-        { id: 6, code: 'returnSalesInvoices', nameEn: 'Return Sales Invoices', nameAr: 'مرتجع فاتورة مبيعات' },
-        { id: 7, code: 'damageItems', nameEn: 'Damage Items', nameAr: 'إتلاف أصناف' },
-        { id: 8, code: 'storesOpeningBalances', nameEn: 'Stores Opening Balances', nameAr: 'رصيد إفتتاحي' },
+        { id: 1, code: 'storesOpeningBalances', nameEn: 'Stores Opening Balances', nameAr: 'رصيد إفتتاحي' },
+        { id: 2, code: 'purchaseOrders', nameEn: 'Purchase Order / Invoice', nameAr: 'أمر شراء / فاتورة' },
+        { id: 3, code: 'salesInvoices', nameEn: 'Sales Invoice', nameAr: 'فاتورة بيع' },
+        { id: 4, code: 'returnPurchaseOrders', nameEn: 'Return Purchase Orders', nameAr: 'مرتجع فاتورة شراء' },
+        { id: 5, code: 'returnSalesInvoices', nameEn: 'Return Sales Invoices', nameAr: 'مرتجع فاتورة مبيعات' },
+        { id: 6, code: 'transferItemsOrders', nameEn: 'Transfer Item Order', nameAr: 'أمر تحويل أصناف' },
+        { id: 7, code: 'convertUnits', nameEn: 'Convert Units', nameAr: 'تحويل وحدات' },
+        { id: 8, code: 'damageItems', nameEn: 'Damage Items', nameAr: 'إتلاف أصناف' },
         { id: 9, code: 'stockTaking', nameEn: 'Stock Taking', nameAr: 'جرد مخزني' },
     ];
 

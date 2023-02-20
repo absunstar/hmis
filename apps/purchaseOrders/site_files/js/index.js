@@ -13,8 +13,6 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         totalTaxes: 0,
         totalVendorDiscounts: 0,
         hasVendor: true,
-        hasDiscounts: false,
-        hasTaxes: false,
         approved: false,
         // calculatePurchaseCost: false,
         // calculatePurchaseCostType: '',
@@ -532,8 +530,6 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         $scope.item.itemsList.forEach((_item) => {
             $scope.item.totalPrice += _item.price * _item.count;
         });
-
-        // $scope.item.totalPrice += amount;
     };
 
     $scope.getStoresItems = function () {
@@ -646,7 +642,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
 
     $scope.addToItemsList = function (orderItem) {
         $scope.itemsError = '';
-        if (!orderItem.item.id) {
+        if (!orderItem.item || !orderItem.item?.id) {
             alert('##word.Please Enter Item##');
             return;
         }
@@ -834,9 +830,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope.getPaymentTypes();
     $scope.getPurchaseOrdersSource();
     $scope.getDiscountTypes();
+    $scope.getTaxTypes();
     $scope.getVendors();
     $scope.getStores();
-    $scope.getTaxTypes();
     $scope.getStoresItems();
     $scope.getNumberingAuto();
 });

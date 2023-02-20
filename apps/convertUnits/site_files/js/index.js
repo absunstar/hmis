@@ -363,14 +363,14 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
 
             if (unit && toUnit && unit.id && toUnit.id) {
                 unit.newCount = unit.currentCount - count / unit.conversion;
-                toUnit.newCount = (count * unit.conversion) / toUnit.conversion;
+                toUnit.newCount = toUnit.currentCount + (count * unit.conversion) / toUnit.conversion;
             }
         }, 300);
     };
 
     $scope.addToItemsList = function (orderItem) {
         $scope.itemsError = '';
-        if (!orderItem.item.id) {
+        if (!orderItem.item || !orderItem.item?.id) {
             alert('##word.Please Enter Item##');
             return;
         }
@@ -403,9 +403,6 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
             alert('##word.Conversion Value Must Be Integer##');
             return;
         }
-
-        console.log('orderItem.unit', orderItem.unit);
-        console.log('orderItem.toUnit', orderItem.toUnit);
 
         $scope.item.itemsList.unshift({
             id: orderItem.item.id,

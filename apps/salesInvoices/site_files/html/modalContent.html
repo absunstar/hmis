@@ -103,6 +103,85 @@
             </tr>
         </table>
     </fieldset>
+
+    <div class="row">
+        <div class="col6">
+            <fieldset>
+                <legend>##word.Discounts Information##</legend>
+                <div class="row">
+                    <i-list class="col8" ng-model="discount" display="name##session.lang##" items="discountTypesList" label="##word.Discount##" ng-get="getDiscountTypes($search)"></i-list>
+
+                    <div class="col4">
+                        <br />
+                        <i-button type="add" label="##word.Add##" ng-click="addToList(discount,'discount')"> </i-button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <table class="table hover bold">
+                        <tr>
+                            <th>##word.Name##</th>
+                            <th>##word.Value##</th>
+                            <th>##word.Type##</th>
+                            <th class="not-print">##word.Actions##</th>
+                        </tr>
+                        <tr ng-repeat="discount in item.discountsList">
+                            <td><p class="text-center">{{discount.name##session.lang##}}</p></td>
+                            <td><p class="text-center">{{discount.value}}</p></td>
+                            <td><p class="text-center">{{discount.type}}</p></td>
+                            <td class="text-center">
+                                <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(discount,'discount');"> </i-button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col6">
+            <fieldset>
+                <legend>##word.Taxes Information##</legend>
+
+                <div class="row">
+                    <i-list class="col8" ng-model="tax" display="name##session.lang##" items="taxTypesList" label="##word.Tax##" ng-get="getTaxTypes($search)"></i-list>
+
+                    <div class="col4">
+                        <br />
+                        <i-button type="add" label="##word.Add##" ng-click="addToList(tax,'tax')"> </i-button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <table class="table hover bold">
+                        <tr>
+                            <th>##word.Name##</th>
+                            <th>##word.Value##</th>
+
+                            <th class="not-print">##word.Actions##</th>
+                        </tr>
+                        <tr ng-repeat="tax in item.taxesList">
+                            <td><p class="text-center">{{tax.name##session.lang##}}</p></td>
+                            <td><p class="text-center">{{tax.value}}</p></td>
+
+                            <td class="text-center">
+                                <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(tax,'tax');"> </i-button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="row">
+        <fieldset>
+            <legend>##word.Totals##</legend>
+            <div class="row">
+                <i-control class="col3" type="number" disabled label="##word.Total Price##" ng-model="item.totalPrice"></i-control>
+                <i-control class="col3" type="number" disabled label="##word.Total Disconts##" ng-model="item.totalDiscounts"></i-control>
+                <i-control class="col3" type="number" disabled label="##word.Total Taxes##" ng-model="item.totalTaxes"></i-control>
+                <i-control class="col3" type="number" disabled label="##word.Total Vendor Discont##" ng-model="item.totalVendorDiscount"></i-control>
+            </div>
+        </fieldset>
+    </div>
 </div>
 <div ng-show="mode !== 'add' " class="row">
     <table class="table hover border">

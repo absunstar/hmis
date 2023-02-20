@@ -17,9 +17,7 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
     $scope.canApprove = false;
     $scope.resetOrderItem = function () {
         $scope.orderItem = {
-            item: {},
-            unit: {},
-            count: 1,
+             count: 1,
             approved: false,
             currentBalance: 0,
         };
@@ -462,7 +460,7 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
     };
 
     $scope.addToItemsList = function (elem) {
-        if (!elem.item.id) {
+        if (!elem.item || !elem.item?.id) {
             alert('##word.Please Enter Item##');
             return;
         }

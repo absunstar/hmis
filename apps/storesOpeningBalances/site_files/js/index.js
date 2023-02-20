@@ -640,7 +640,7 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
 
     $scope.addToItemsList = function (orderItem) {
         $scope.itemsError = '';
-        if (!orderItem.item.id) {
+        if (!orderItem.item || !orderItem.item?.id) {
             alert('##word.Please Enter Item##');
             return;
         }

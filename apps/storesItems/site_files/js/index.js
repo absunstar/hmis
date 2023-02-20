@@ -23,7 +23,6 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
 
     $scope.resetItemUnit = function () {
         $scope.itemUnit = {
-            unit: {},
             conversion: 1,
             barcode: '',
             purchaseCost: 0,
@@ -40,14 +39,12 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
 
     $scope.resetSubstance = function () {
         $scope.substance = {
-            activeSubstance: {},
             concentration: 0,
         };
     };
 
     $scope.resetCollectedItem = function () {
         $scope.substance = {
-            activeSubstance: {},
             concentration: 0,
         };
     };

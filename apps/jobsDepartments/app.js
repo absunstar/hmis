@@ -145,7 +145,7 @@ module.exports = function init(site) {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name, appName: 'Jobs Sections' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name, appName: 'Jobs Departments' }, { parser: 'html', compres: true });
         }
       );
     }

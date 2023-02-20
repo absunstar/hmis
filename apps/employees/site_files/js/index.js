@@ -6,7 +6,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: { url: '/images/employees.png', medicalClassification: 'no', idType: 'id' },
+    image: { url: '/images/employees.png' },
     active: true,
   };
   $scope.item = {};
@@ -15,7 +15,18 @@ app.controller('employees', function ($scope, $http, $timeout) {
   $scope.showAdd = function (_item) {
     $scope.error = '';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure, allowancesList: [], deductionsList: [], mobileList: [], relativesList: [{}] };
+    $scope.item = {
+      ...$scope.structure,
+      allowancesList: [],
+      deductionsList: [],
+      mobileList: [],
+      relativesList: [{}],
+      medicalClassification: 'no',
+      idType: 'id',
+      totalSubscriptions: 21.5,
+      totalSubscriptionsEmployee: 9.75,
+      totalSubscriptionsOwner: 11.75,
+    };
     site.showModal($scope.modalID);
     document.querySelector(`${$scope.modalID} .tab-link`).click();
   };
@@ -342,6 +353,35 @@ app.controller('employees', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getJobsShiftsList = function () {
+    $scope.busy = true;
+    $scope.jobsShiftsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/jobsShifts/all',
+      data: {
+        where: {
+          active: true,
+        },
+        select: {
+          id: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.jobsShiftsList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
 
   $scope.getCountriesList = function () {
     $scope.busy = true;
@@ -374,6 +414,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
 
   $scope.getGovesList = function (country) {
     $scope.busy = true;
+    $scope.govesList = [];
     $http({
       method: 'POST',
       url: '/api/goves/all',
@@ -404,6 +445,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
 
   $scope.getCitiesList = function (gov) {
     $scope.busy = true;
+    $scope.citiesList = [];
     $http({
       method: 'POST',
       url: '/api/cities/all',
@@ -434,6 +476,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
 
   $scope.getAreasList = function (city) {
     $scope.busy = true;
+    $scope.areasList = [];
     $http({
       method: 'POST',
       url: '/api/areas/all',
@@ -661,4 +704,5 @@ app.controller('employees', function ($scope, $http, $timeout) {
   $scope.getGendersList();
   $scope.getEmployeeStatusList();
   $scope.getJobsAdministrationsList();
+  $scope.getJobsShiftsList();
 });

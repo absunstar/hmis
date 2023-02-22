@@ -1,4 +1,4 @@
-<div id="salaryDeductionsManageModal" class="modal small" fixed>
+<div id="salaryDeductionsNamesManageModal" class="modal small" fixed>
   <div class="modal-content">
     <div class="modal-header">
       <span class="close">&times;</span>
@@ -21,7 +21,7 @@
     </div>
 
     <div class="modal-body">
-      <div x-import="salaryDeductions/modalContent.html"></div>
+      <div x-import="salaryDeductionsNames/modalContent.html"></div>
     </div>
 
     <div class="modal-footer center">
@@ -29,7 +29,7 @@
       <i-button ng-show="mode == 'add' " type="add" label="##word.Add##" ng-click="add(item)"></i-button>
       <i-button ng-show="mode == 'edit' " type="edit" label="##word.Save##" ng-click="update(item)"></i-button>
       <i-button ng-show="mode == 'delete' " type="delete" label="##word.Delete##" ng-click="delete(item)"> </i-button>
-      <i-button type="close" label="##word.Close##" onclick="site.hideModal( '#salaryDeductionsManageModal')"></i-button>
+      <i-button type="close" label="##word.Close##" onclick="site.hideModal( '#salaryDeductionsNamesManageModal')"></i-button>
     </div>
   </div>
 </div>

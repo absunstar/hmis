@@ -193,5 +193,90 @@
         "name": "Conversion Value Must Be Integer",
         "En": "Conversion Value Must Be Integer",
         "Ar": "يجب ان تكون قيم التحويل صحيحة"
+    },
+    {
+        "name": "Please Select File Type",
+        "En": "Please Select File Type",
+        "Ar": "يجب إختيار نوع الملف"
+    },
+    {
+        "name": "Please Enter Renewal Date",
+        "En": "Please Enter Renewal Date",
+        "Ar": "يجب إدخال تاريخ التجديد"
+    },
+    {
+        "name": "File Type Already Exisit",
+        "En": "File Type Already Exisit",
+        "Ar": "نوع الملف موجود بالفعل"
+    },
+    {
+        "name": "Please Upload File",
+        "En": "Please Upload File",
+        "Ar": "يرجي تحميل الملف"
+    },
+    {
+        "name": "Invalid Value",
+        "En": "Invalid Value",
+        "Ar": "قيمة غير صحيحة"
+    },
+    {
+        "name": "Please Enter Skill Name",
+        "En": "Please Enter Skill Name",
+        "Ar": "يرجي إدخال المهارة "
+    },
+    {
+        "name": "Please Enter Skill Description",
+        "En": "Please Enter Skill Description",
+        "Ar": "يرجي إدخال وصف المهارة "
+    },
+    {
+        "name": "Please Enter Bank Name",
+        "En": "Please Enter Bank Name",
+        "Ar": "يرجي إدخال إسم البنك  "
+    },
+    {
+        "name": "Please Enter Account Number",
+        "En": "Please Enter Account Number",
+        "Ar": "يرجي إدخال رقم الحساب  "
+    },
+    {
+        "name": "Please Enter Account Owner",
+        "En": "Please Enter Account Owner",
+        "Ar": "يرجي إدخال إسم صاحب الحساب  "
+    },
+    {
+        "name": "Default Salary Bank Exisit",
+        "En": "Default Salary Bank Exisit",
+        "Ar": "يوجد بنك إفتراضي للمرتب  "
+    },
+    {
+        "name": "Please Enter Experience Company",
+        "En": "Please Enter Experience Company",
+        "Ar": "يرجي إدخال اسم الشركة  "
+    },
+    {
+        "name": "Please Enter Job Title",
+        "En": "Please Enter Job Title",
+        "Ar": "يرجي إدخال المسمي الوظيفي  "
+    },
+    {
+        "name": "Please Select Allowance",
+        "En": "Please Select Allowance",
+        "Ar": "يرجي إختيار البند   "
+    },
+    {
+        "name": "Allowance Exisit",
+        "En": "Allowance Exisit",
+        "Ar": "البند مسجل"
+    },
+    {
+        "name": "Please Select Deduction",
+        "En": "Please Select Deduction",
+        "Ar": "يرجي إختيار بند الخصم   "
+    },
+    {
+        "name": "Deduction Exisit",
+        "En": "Deduction Exisit",
+        "Ar": "بند الخصم مسجل"
     }
 ]

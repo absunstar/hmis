@@ -1,74 +1,77 @@
 <div class="row padding">
-  <div class="row">
-    <i-control ng-hide="disabledCode" class="col9" label="##word.Code##" ng-model="item.code"> </i-control>
-    <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
-  </div>
-  <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
-  <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
-
-  <div class="row">
-    <i-control type="number" class="col9" v="r" ng-model="item.availableDelayTime" label="##word.Available delay time##"></i-control>
-    <div class="col2">
-      <br />
-      <br />
-      <p class="bold">##word.Minute##</p>
+    <div class="row">
+        <i-control ng-hide="disabledCode" class="col9" label="##word.Code##" ng-model="item.code"> </i-control>
+        <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
     </div>
-  </div>
+    <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
+    <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
 
-  <div class="row">
-    <fieldset>
-      <legend>
-        ##word.Workdays##
-        <i-button type="add default" ng-click="item.workdays.push({})"></i-button>
-      </legend>
-      <div class="row" ng-repeat="l in item.workdays">
-        <i-list label="##word.Day##" class="col3" v="r" ng-model="l.day" display="name##session.lang##" items="weekDaysList" ng-search="l.$day"></i-list>
-        <i-control type="time" class="col4" v="r" ng-model="item.start" label="##word.Start##"></i-control>
-        <i-control type="time" class="col4" v="r" ng-model="item.end" label="##word.End##"></i-control>
-      </div>
-    </fieldset>
-  </div>
-
-  <div class="row">
-    <fieldset>
-      <legend>
-        ##word.Late Discounts##
-        <i-button type="add default" ng-click="item.lateDiscountsList.push({})"></i-button>
-      </legend>
-      <div class="row" ng-repeat="l in item.lateDiscountsList">
-        <i-list label="##word.Type##" class="col3" v="r" ng-model="l.type" display="name##session.lang##" items="lateDiscountsTypesList" ng-search="l.$type"></i-list>
-        <i-control type="number" class="col3" v="r" ng-model="l.value" label="##word.value##"></i-control>
-        <i-control type="number" class="col2" v="r" ng-model="l.from" label="##word.From##"></i-control>
-        <i-control type="number" class="col2" v="r" ng-model="l.to" label="##word.To##"></i-control>
+    <div class="row">
+        <i-control type="number" class="col9" v="r" ng-model="item.availableDelayTime" label="##word.Available delay time##"></i-control>
         <div class="col2">
-          <br />
-          <br />
-          <p class="bold">##word.Minute##</p>
+            <br />
+            <br />
+            <p class="bold">##word.Minute##</p>
         </div>
-      </div>
-    </fieldset>
-  </div>
+    </div>
+
+    <div class="row">
+        <fieldset>
+            <legend>
+                ##word.Workdays##
+                <i-button type="add default" ng-click="item.workdays.push({})"></i-button>
+            </legend>
+            <div class="row" ng-repeat="sh in item.workdays">
+                <i-list label="##word.Day##" class="col3" v="r" ng-model="sh.day" display="name##session.lang##" items="weekDaysList" ng-search="sh.$day"></i-list>
+                <i-control type="time" class="col4" v="r" ng-model="sh.start" label="##word.Start##"></i-control>
+                <i-control type="time" class="col4" v="r" ng-model="sh.end" label="##word.End##"></i-control>
+                <i-button type="delete default" ng-click="item.workdays.splice($index,1)"></i-button>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="row">
+        <fieldset>
+            <legend>
+                ##word.Penalties##
+                <i-button type="add default" ng-click="item.penaltiesList.push({})"></i-button>
+            </legend>
+            <div class="row" ng-repeat="pen in item.penaltiesList">
+                <i-control type="number" class="col2" v="r" ng-model="pen.from" label="##word.From##"></i-control>
+                <i-control type="number" class="col2" v="r" ng-model="pen.to" label="##word.To##"></i-control>
+                <i-control type="number" class="col3" v="r" ng-model="pen.value" label="##word.value##"></i-control>
+                <i-list label="##word.Type##" class="col3" v="r" ng-model="pen.type" display="name##session.lang##" items="lateDiscountsTypesList" ng-search="l.$type"></i-list>
+
+                <i-button type="delete default" ng-click="item.penaltiesList.splice($index,1)"></i-button>
+                <!-- <div class="col2">
+                    <br />
+                    <br />
+                    <p class="bold">##word.Minute##</p>
+                </div> -->
+            </div>
+        </fieldset>
+    </div>
 </div>
 <div ng-show="mode !== 'add' " class="row">
-  <table class="table hover border">
-    <tr>
-      <th>##word.Add Info##</th>
-      <th>##word.Last Edit Info##</th>
-    </tr>
-    <tr>
-      <td class="center">
-        <p class="blue">{{item.addUserInfo.name}}</p>
-        <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
-        <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
-        <p class="bold">IP : {{item.addUserInfo.ip}}</p>
-      </td>
+    <table class="table hover border">
+        <tr>
+            <th>##word.Add Info##</th>
+            <th>##word.Last Edit Info##</th>
+        </tr>
+        <tr>
+            <td class="center">
+                <p class="blue">{{item.addUserInfo.name}}</p>
+                <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
+                <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
+                <p class="bold">IP : {{item.addUserInfo.ip}}</p>
+            </td>
 
-      <td class="center">
-        <p class="blue">{{item.editUserInfo.name}}</p>
-        <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
-        <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
-        <p class="bold">IP : {{item.editUserInfo.ip}}</p>
-      </td>
-    </tr>
-  </table>
+            <td class="center">
+                <p class="blue">{{item.editUserInfo.name}}</p>
+                <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
+                <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
+                <p class="bold">IP : {{item.editUserInfo.ip}}</p>
+            </td>
+        </tr>
+    </table>
 </div>

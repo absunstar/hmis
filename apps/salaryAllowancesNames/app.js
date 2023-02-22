@@ -1,6 +1,6 @@
 module.exports = function init(site) {
     let app = {
-        name: 'jobsAdministrations',
+        name: 'salaryAllowancesNames',
         allowMemory: true,
         memoryList: [],
         allowCache: false,
@@ -144,7 +144,7 @@ module.exports = function init(site) {
                     name: app.name,
                 },
                 (req, res) => {
-                    res.render(app.name + '/index.html', { title: app.name, appName: 'Jobs Administrations' }, { parser: 'html', compres: true });
+                    res.render(app.name + '/index.html', { title: app.name, appName: 'Salary Allowances Names' }, { parser: 'html', compres: true });
                 }
             );
         }
@@ -284,9 +284,6 @@ module.exports = function init(site) {
                     let list = app.memoryList
                         .filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(search))
                         .slice(0, limit);
-                    //  .map((s) => {
-                    //      s.name, s.id;
-                    //  });
 
                     res.json({
                         done: true,

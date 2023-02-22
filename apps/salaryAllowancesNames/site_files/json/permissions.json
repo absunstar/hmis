@@ -1,0 +1,11 @@
+[
+  { "moduleName": "public", "screenName": "salaryAllowancesNames", "name": "salaryAllowancesNamesManage", "En": "Manage", "Ar": "إدارة" },
+  { "moduleName": "public", "screenName": "salaryAllowancesNames", "name": "salaryAllowancesNamesAdd", "En": "Add", "Ar": "إضافة" },
+  { "moduleName": "public", "screenName": "salaryAllowancesNames", "name": "salaryAllowancesNamesUpdate", "En": "Edit", "Ar": "تعديل" },
+  { "moduleName": "public", "screenName": "salaryAllowancesNames", "name": "salaryAllowancesNamesDelete", "En": "Delete", "Ar": "حذف" },
+  { "moduleName": "public", "screenName": "salaryAllowancesNames", "name": "salaryAllowancesNamesView", "En": "View", "Ar": "عرض" },
+  { "moduleName": "public", "screenName": "salaryAllowancesNames", "name": "salaryAllowancesNamesSearch", "En": "Search", "Ar": "بحث" },
+  { "moduleName": "public", "screenName": "salaryAllowancesNames", "name": "salaryAllowancesNamesExport", "En": "Export", "Ar": "تصدير" },
+  { "moduleName": "public", "screenName": "salaryAllowancesNames", "name": "salaryAllowancesNamesPrint", "En": "Print", "Ar": "طباعة" },
+  { "moduleName": "public", "screenName": "salaryAllowancesNames", "name": "salaryAllowancesNamesUi", "En": "UI", "Ar": "الواجهة الرسومية" }
+]

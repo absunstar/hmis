@@ -1,12 +1,12 @@
-app.controller('jobsDepartments', function ($scope, $http, $timeout) {
+app.controller('salaryAllowancesNames', function ($scope, $http, $timeout) {
     $scope.baseURL = '';
-    $scope.appName = 'jobsDepartments';
-    $scope.modalID = '#jobsDepartmentsManageModal';
-    $scope.modalSearchID = '#jobsDepartmentsSearchModal';
+    $scope.appName = 'salaryAllowancesNames';
+    $scope.modalID = '#salaryAllowancesNamesManageModal';
+    $scope.modalSearchID = '#salaryAllowancesNamesSearchModal';
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
-        image: { url: '/images/jobsDepartments.png' },
+        image: {},
         active: true,
     };
     $scope.item = {};
@@ -161,72 +161,6 @@ app.controller('jobsDepartments', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getEmployees = function ($search) {
-        if ($search && $search.length < 3) {
-            return;
-        }
-        $scope.busy = true;
-        $scope.employeesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/employees/all',
-            data: {
-                where: { active: true },
-                select: {
-                    id: 1,
-                    code: 1,
-                    fullNameEn: 1,
-                    fullNameAr: 1,
-                },
-                search: $search,
-            },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.employeesList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
-    $scope.getJobsAdministrationsList = function ($search) {
-        if ($search && $search.length < 3) {
-            return;
-        }
-        $scope.busy = true;
-        $scope.jobsAdministrationsList = [];
-        $http({
-            method: 'POST',
-            url: '/api/jobsAdministrations/all',
-            data: {
-                where: { active: true },
-                select: {
-                    id: 1,
-                    code: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                },
-                search: $search,
-            },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.jobsAdministrationsList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
     $scope.getAll = function (where) {
         $scope.busy = true;
         $scope.list = [];
@@ -289,6 +223,4 @@ app.controller('jobsDepartments', function ($scope, $http, $timeout) {
 
     $scope.getAll();
     $scope.getNumberingAuto();
-    $scope.getJobsAdministrationsList();
-    $scope.getEmployees();
 });

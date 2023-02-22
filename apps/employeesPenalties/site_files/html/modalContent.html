@@ -1,53 +1,68 @@
 <div class="row">
-  <div class="row padding">
-    <div class="row">
-      <i-control ng-hide="disabledCode" class="col9" label="##word.Code##" ng-model="item.code"> </i-control>
-      <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
-    </div>
-    <i-date v="r" ng-model="item.date" label="##word.Date##"></i-date>
-    <i-control label="##word.Title##" ng-model="item.nameEn"> </i-control>
-    <i-control label="##word.Title Arabic##" ng-model="item.nameAr"> </i-control>
+    <i-control ng-hide="disabledCode" class="col4" label="##word.Code##" ng-model="item.code"> </i-control>
+    <i-date v="r" class="col4" ng-model="item.date" label="##word.Date##"></i-date>
+    <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
 
-    <i-list label="##word.Employees Penalty Name##" ng-model="item.employeesPenaltyName" items="employeesPenaltiesNamesList" display="name##session.lang##" ng-search="item.$employeesPenaltyName">
+    <i-control class="col6" label="##word.Title##" ng-model="item.nameEn"> </i-control>
+    <i-control class="col6" label="##word.Title Arabic##" ng-model="item.nameAr"> </i-control>
+
+    <i-list label="##word.Penalty Name##" class="col4" ng-model="item.employeesPenaltyName" items="employeesPenaltiesNamesList" display="name##session.lang##" ng-search="item.$employeesPenaltyName">
     </i-list>
-    <i-list label="##word.employee##" ng-model="item.employee" items="employeesList" ng-get="getEmployeesList($search)" display="fullName##session.lang##" ng-search="item.$employee"> </i-list>
-    <i-list v="r" label="##word.Type##" ng-model="item.type" items="salaryTypesList" display="name##session.lang##" ng-search="item.$type"> </i-list>
-    <i-list v="r" label="##word.Source##" ng-model="item.source" items="salarySourcesList" display="name##session.lang##" ng-search="item.$source"> </i-list>
-    <div class="row">
-      <i-control v="r" class="col9" ng-model="item.value" label="##word.Value##" type="number"></i-control>
-      <div class="col3">
-        <br />
-        <br />
-        <p class="bold" ng-show="item.source.id == 1">##word.Hour##</p>
-        <p class="bold" ng-show="item.source.id == 2">##word.Day##</p>
-        <p class="bold" ng-show="item.source.id == 3">##word.%##</p>
-        <p class="bold" ng-show="item.source.id == 4">##word.SR##</p>
-      </div>
+ 
+    <i-list
+        v="r"
+        class="col4"
+        label="##word.Requested By##"
+        ng-model="item.requestedBy"
+        items="employeesList"
+        ng-get="getEmployeesList($search)"
+        display="fullName##session.lang##"
+        ng-search="item.$employee"
+    >
+    </i-list>
+
+    <i-list label="##word.employee##" class="col4" ng-model="item.employee" items="employeesList" ng-get="getEmployeesList($search)" display="fullName##session.lang##" ng-search="item.$employee">
+    </i-list>
+
+    <i-list v="r" class="col4" label="##word.Type##" ng-model="item.type" items="salaryTypesList" display="name##session.lang##" ng-search="item.$type"> </i-list>
+    <i-list v="r" class="col4" label="##word.Source##" ng-model="item.source" items="salarySourcesList" display="name##session.lang##" ng-search="item.$source"> </i-list>
+    <div class="col4">
+        <div class="row">
+            <i-control v="r" class="col9" ng-model="item.value" label="##word.Value##" type="number"></i-control>
+            <div class="col3">
+                <br />
+
+                <p class="bold" ng-show="item.source.id == 1">##word.Hour##</p>
+                <p class="bold" ng-show="item.source.id == 2">##word.Day##</p>
+                <p class="bold" ng-show="item.source.id == 3">##word.%##</p>
+                <p class="bold" ng-show="item.source.id == 4">##word.$##</p>
+            </div>
+        </div>
     </div>
 
     <i-textarea label="##word.Description##" ng-model="item.description"> </i-textarea>
-  </div>
 </div>
-<div ng-show="mode !== 'add' " class="row">
-  <table class="table hover border">
-    <tr>
-      <th>##word.Add Info##</th>
-      <th>##word.Last Edit Info##</th>
-    </tr>
-    <tr>
-      <td class="center">
-        <p class="blue">{{item.addUserInfo.name}}</p>
-        <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
-        <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
-        <p class="bold">IP : {{item.addUserInfo.ip}}</p>
-      </td>
 
-      <td class="center">
-        <p class="blue">{{item.editUserInfo.name}}</p>
-        <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
-        <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
-        <p class="bold">IP : {{item.editUserInfo.ip}}</p>
-      </td>
-    </tr>
-  </table>
+<div ng-show="mode !== 'add' " class="row">
+    <table class="table hover border">
+        <tr>
+            <th>##word.Add Info##</th>
+            <th>##word.Last Edit Info##</th>
+        </tr>
+        <tr>
+            <td class="center">
+                <p class="blue">{{item.addUserInfo.name}}</p>
+                <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
+                <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
+                <p class="bold">IP : {{item.addUserInfo.ip}}</p>
+            </td>
+
+            <td class="center">
+                <p class="blue">{{item.editUserInfo.name}}</p>
+                <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
+                <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
+                <p class="bold">IP : {{item.editUserInfo.ip}}</p>
+            </td>
+        </tr>
+    </table>
 </div>

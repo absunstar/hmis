@@ -53,12 +53,11 @@ module.exports = function init(site) {
     ];
 
     site.maritalStatus = [
-        { id: 'S', nameEn: 'SINGLE', nameAr: 'أعزب' },
-        { id: 'M', nameEn: 'MARRIED', nameAr: 'متزوج' },
-        { id: 'D', nameEn: 'DIV', nameAr: 'أعزب' },
-        { id: 'W', nameEn: 'WID', nameAr: 'أعزب' },
-        { id: 'L', nameEn: 'Legally Separated', nameAr: 'مطلق' },
-        { id: 'U', nameEn: 'Unknown', nameAr: 'مجهول' },
+        { id: 1, code: 's', nameEn: 'Single', nameAr: 'أعزب' },
+        { id: 2, code: 'm', nameEn: 'Married', nameAr: 'متزوج' },
+        { id: 3, code: 'd', nameEn: 'Divorced', nameAr: 'مطلق' },
+        { id: 4, code: 'w', nameEn: 'Widower', nameAr: 'أرمل' },
+        { id: 5, code: 'u', nameEn: 'unknown', nameAr: 'غير معروف' },
     ];
 
     site.filesTypes = [
@@ -103,8 +102,8 @@ module.exports = function init(site) {
     ];
 
     site.genders = [
-        { id: 'm', nameEn: 'Male', nameAr: 'ذكر' },
-        { id: 'f', nameEn: 'Female', nameAr: 'أنثى' },
+        { id: 1, nameEn: 'Male', nameAr: 'ذكر' },
+        { id: 2, nameEn: 'Female', nameAr: 'أنثى' },
     ];
 
     site.recipientPerson = [
@@ -118,13 +117,13 @@ module.exports = function init(site) {
     ];
 
     site.weekDays = [
-        { id: 1,  nameEn: 'Saturday', nameAr: 'السبت' },
-        { id: 2,  nameEn: 'Sonday', nameAr: 'الأحد' },
-        { id: 3,  nameEn: 'Monday', nameAr: 'الإثنين' },
-        { id: 4,  nameEn: 'Tuesday', nameAr: 'الثلاثاء' },
-        { id: 5,  nameEn: 'Wednesday', nameAr: 'الأربعاء' },
-        { id: 6,  nameEn: 'Thursday', nameAr: 'الخميس' },
-        { id: 7,  nameEn: 'Friday', nameAr: 'الجمعة' },
+        { id: 1, nameEn: 'Saturday', nameAr: 'السبت' },
+        { id: 2, nameEn: 'Sonday', nameAr: 'الأحد' },
+        { id: 3, nameEn: 'Monday', nameAr: 'الإثنين' },
+        { id: 4, nameEn: 'Tuesday', nameAr: 'الثلاثاء' },
+        { id: 5, nameEn: 'Wednesday', nameAr: 'الأربعاء' },
+        { id: 6, nameEn: 'Thursday', nameAr: 'الخميس' },
+        { id: 7, nameEn: 'Friday', nameAr: 'الجمعة' },
     ];
 
     site.safesTypes = [
@@ -361,7 +360,6 @@ module.exports = function init(site) {
             list: site.weekDays,
         });
     });
-
 
     site.post('/api/itemsTypes', (req, res) => {
         res.json({

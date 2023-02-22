@@ -1,12 +1,12 @@
-app.controller('salaryAllowances', function ($scope, $http, $timeout) {
+app.controller('salaryDeductionsNames', function ($scope, $http, $timeout) {
   $scope.baseURL = '';
-  $scope.appName = 'salaryAllowances';
-  $scope.modalID = '#salaryAllowancesManageModal';
-  $scope.modalSearchID = '#salaryAllowancesSearchModal';
+  $scope.appName = 'salaryDeductionsNames';
+  $scope.modalID = '#salaryDeductionsNamesManageModal';
+  $scope.modalSearchID = '#salaryDeductionsNamesSearchModal';
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: { price : 0 },
+    image: { },
     active: true,
   };
   $scope.item = {};

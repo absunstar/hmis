@@ -1,9 +1,0 @@
-[
-  {
-    "moduleName": "public",
-    "name": "salaryAllowancesAdmin",
-    "En": "Salary Allowances Admin",
-    "Ar": "إدارة بدلات المرتب",
-    "permissions": ["salaryAllowancesManage"]
-  }
-]

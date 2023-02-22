@@ -296,14 +296,14 @@
     {
         "category": "main",
         "feature": "public",
-        "id": "deductions",
-        "name": "Deductions"
+        "id": "salaryDeductionsNames",
+        "name": "Salary Deductions Names"
     },
     {
         "category": "main",
         "feature": "public",
-        "id": "salaryAllowances",
-        "name": "Salary Allowances"
+        "id": "salaryAllowancesNames",
+        "name": "Salary Allowances Names"
     },
     {
         "category": "main",

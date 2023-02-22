@@ -67,7 +67,7 @@
 
             <div class="col2">
                 <p class="text-center">##word.Sale Discount##</p>
-                <p class="text-center">{{orderItem.unit.saleDiscount || 0}}</p>
+                <p class="text-center">{{orderItem.unit.discount || 0}}</p>
             </div>
 
             <div class="col2">
@@ -100,7 +100,7 @@
                     <p class="text-center">{{elem.price}}</p>
                 </td>
                 <td>
-                    <p class="text-center">{{elem.saleDiscount}} <span ng-if="elem.saleDiscount>0?elem.unit.discountType === 'percent':''"> % </span></p>
+                    <p class="text-center">{{elem.discount}} <span ng-if="elem.discount>0?elem.unit.discountType === 'percent':''"> % </span></p>
                 </td>
                 <td>
                     <p class="text-center">{{elem.total}}</p>

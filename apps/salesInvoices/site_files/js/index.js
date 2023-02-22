@@ -21,7 +21,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
         $scope.orderItem = {
             count: 1,
             price: 0,
-            saleDiscount: 0,
+            discount: 0,
             maxDiscount: 0,
             discountType: '',
             total: 0,
@@ -294,7 +294,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
                 nameAr: elem.unit.nameAr,
                 price: elem.salesPrice,
                 maxDiscount: elem.maxDiscount,
-                saleDiscount: elem.saleDiscount,
+                discount: elem.discount,
                 discountType: elem.discountType,
             });
             $scope.orderItem.unit = $scope.unitsList[0];
@@ -327,7 +327,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
             unit: { id: orderItem.unit.id, code: orderItem.unit.code, nameAr: orderItem.unit.nameAr, nameEn: orderItem.unit.nameEn },
             count: orderItem.count,
             price: orderItem.unit.price,
-            saleDiscount: orderItem.unit.saleDiscount,
+            discount: orderItem.unit.discount,
             maxDiscount: orderItem.unit.maxDiscount,
             discountType: orderItem.unit.discountType,
             total: orderItem.count * orderItem.unit.price,

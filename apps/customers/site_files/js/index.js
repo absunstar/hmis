@@ -27,6 +27,7 @@ app.controller('customers', function ($scope, $http, $timeout) {
         $scope.mode = 'add';
         $scope.item = { ...$scope.structure };
         site.showModal($scope.modalID);
+        document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
     $scope.add = function (_item) {
@@ -68,6 +69,7 @@ app.controller('customers', function ($scope, $http, $timeout) {
         $scope.view(_item);
         $scope.item = {};
         site.showModal($scope.modalID);
+        document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
     $scope.update = function (_item) {
@@ -108,6 +110,7 @@ app.controller('customers', function ($scope, $http, $timeout) {
         $scope.item = {};
         $scope.view(_item);
         site.showModal($scope.modalID);
+        document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
     $scope.view = function (_item) {
@@ -140,6 +143,7 @@ app.controller('customers', function ($scope, $http, $timeout) {
         $scope.item = {};
         $scope.view(_item);
         site.showModal($scope.modalID);
+        document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
     $scope.delete = function (_item) {

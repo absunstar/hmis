@@ -17,7 +17,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
         $scope.orderItem = {
             count: 1,
             price: 0,
-            saleDiscount: 0,
+            discount: 0,
             maxDiscount: 0,
             discountType: '',
             total: 0,
@@ -255,7 +255,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
                 nameAr: elem.unit.nameAr,
                 price: elem.salesPrice,
                 maxDiscount: elem.maxDiscount,
-                saleDiscount: elem.saleDiscount,
+                discount: elem.discount,
                 discountType: elem.discountType,
             });
             $scope.orderItem.unit = $scope.unitsList[0];

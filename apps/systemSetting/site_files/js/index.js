@@ -217,10 +217,32 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getPurchaseOrdersSource = function () {
+    $scope.busy = true;
+    $scope.purchaseOrdersSourcesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/purchaseOrdersSource',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.purchaseOrdersSourcesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getStores();
   $scope.getVendors();
   $scope.getItemsGroups();
   $scope.getItemsTypes();
   $scope.getStoresUnits();
+  $scope.getPurchaseOrdersSource();
   $scope.getSystemSetting();
 });

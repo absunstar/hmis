@@ -1,313 +1,277 @@
 <div class="row">
-    <div class="row padding">
+  <div class="row padding">
+    <fieldset>
+      <legend>##word.Basic Information##</legend>
+      <div class="col9">
+        <div class="row">
+          <div class="row">
+            <i-control ng-hide="disabledCode" class="col4" label="##word.Code##" ng-model="item.code"> </i-control>
+            <i-date ng-model="item.orderDate" class="col6" label="##word.Order Date##"></i-date>
+            <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
+          </div>
+
+          <fieldset>
+            <div class="row">
+              <i-list
+                v="r"
+                class="col4"
+                ng-change="item.sourceType.id === 1?getPurchaseRequest():item.itemsList=[];resetOrderItem()"
+                ng-model="item.sourceType"
+                display="name##session.lang##"
+                items="purchaseOrdersSourcesList"
+                label="##word.Source Type##"
+                ng-search="item.$source"
+              ></i-list>
+              <i-list
+                v="r"
+                ng-if="item.sourceType.id === 1"
+                class="col4"
+                ng-model="item.purchaseRequest"
+                ng-change="item.itemsList=[]"
+                display="code"
+                display2="title"
+                items="purchaseRequestList"
+                label="##word.Purchase Request##"
+                ng-search="item.$purchaseRequests"
+              ></i-list>
+              <div class="col2">
+                <br />
+                <i-button ng-if="item.sourceType.id === 1 && item.purchaseRequest.id" type="get" label="##word.Load Items##" ng-click="getRequestItems(item.purchaseRequest)"> </i-button>
+              </div>
+            </div>
+          </fieldset>
+          <i-list v="r" class="col4" ng-model="item.paymentType" display="name##session.lang##" items="paymentTypesList" label="##word.Payment Type##" ng-search="item.orderPaymentType"></i-list>
+          <i-control class="col4" type="text" ng-model="item.importPermitNumber" label="##word.Import Permit Number##"></i-control>
+          <i-date class="col4" ng-model="item.importAuthorizationDate" label="##word.Import Authorization Date##"></i-date>
+
+          <i-checkbox ng-model="item.hasVendor" class="col4" label="##word.Has Vendor##"></i-checkbox>
+
+          <i-list v="r" class="col4" ng-if="item.hasVendor" display="name##session.lang##" ng-model="item.vendor" items="vendorsList" label="##word.Vendor##" ng-get="getVendors($search)"></i-list>
+          <i-list v="r" class="col4" display="name##session.lang##" ng-model="item.store" ng-get="getStores($search)" items="storesList" label="##word.Store##" ng-search="item.$store"></i-list>
+        </div>
+      </div>
+      <div class="col3 center">
+        <i-image class="img256 center" ng-model="item.image"></i-image>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>##word.Items Information##</legend>
+
+      <div class="row" ng-show="item.sourceType.id != 1 ">
+        <div class="col2">
+          <i-list
+            ng-model="orderItem.item"
+            ng-change="orderItem.item? getItemUnits(orderItem.item):''"
+            items="itemsList"
+            display="name##session.lang##"
+            label="##word.Item##"
+            ng-search="orderItem.$selectItem"
+          ></i-list>
+        </div>
+        <div class="col2">
+          <i-list ng-model="orderItem.unit" ng-change="setOrderItemData(orderItem.unit)" items="unitsList" display="name##session.lang##" label="##word.Unit##" ng-search="orderItem.$unit"></i-list>
+        </div>
+
+        <div class="col1">
+          <i-control type="number" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
+        </div>
+        <div class="col1">
+          <i-control type="number" min="0" ng-model="orderItem.price" label="##word.Price##"></i-control>
+        </div>
+
+        <div class="col2">
+          <i-control type="number" min="0" ng-model="orderItem.salesPrice" label="##word.Sales Price##"></i-control>
+        </div>
+
+        <div class="col1">
+          <i-control type="number" min="0" ng-model="orderItem.bonusCount" label="##word.Bonus Count##"></i-control>
+        </div>
+
+        <div class="col2">
+          <i-control type="number" min="1" ng-model="orderItem.vendorDiscount" label="##word.Vendor Discount##"></i-control>
+        </div>
+        <div class="col1">
+          <br />
+          <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
+        </div>
+      </div>
+
+      <p class="error">{{itemsError}}</p>
+      <table class="table hover bold">
+        <tr>
+          <th>##word.S##</th>
+          <th>##word.Item##</th>
+          <th>##word.Unit##</th>
+          <th ng-if="item.sourceType.id === 1">##word.Requestd Count##</th>
+          <th>##word.Count##</th>
+          <th>##word.Purchase Price##</th>
+          <th>##word.Sales Price##</th>
+          <th>##word.Bonus Count##</th>
+          <th>##word.Vendor Discount##</th>
+          <th>##word.Total##</th>
+          <th>##word.Approved##</th>
+          <th class="not-print">##word.Actions##</th>
+        </tr>
+        <tr ng-repeat="elem in item.itemsList">
+          <td class="text-center">{{$index+1}}</td>
+          <td class="text-center">{{elem.name##session.lang##}}</td>
+          <td class="text-center">{{elem.unit.name##session.lang##}}</td>
+
+          <td class="text-center" ng-if="item.sourceType.id === 1">
+            <p ng-if="item.sourceType.id === 1 || elem.approved" class="text-center">{{elem.requestedCount}}</p>
+          </td>
+
+          <td class="text-center">
+            <p ng-if=" elem.approved" class="text-center">{{elem.count}}</p>
+            <i-control ng-change="calculateTotalInItemsList(elem)" ng-if=" !elem.approved" min="0" type="number" ng-model="elem.count"></i-control>
+          </td>
+          <td class="text-center">
+            <p ng-if=" elem.approved" class="text-center">{{elem.price}}</p>
+            <i-control ng-change="calculateTotalInItemsList(elem)" type="number" ng-if="!elem.approved" min="0" ng-model="elem.price"></i-control>
+          </td>
+          <td class="text-center">
+            <p ng-if=" elem.approved" class="text-center">{{elem.salesPrice}}</p>
+            <i-control type="number" ng-if="!elem.approved" min="0" ng-model="elem.salesPrice"></i-control>
+          </td>
+          <td class="text-center">
+            <p ng-if="elem.approved" class="text-center">{{elem.bonusCount}}</p>
+            <i-control type="number" ng-if="!elem.approved" ng-model="elem.bonusCount"></i-control>
+          </td>
+          <td class="text-center">
+            <p ng-if="elem.approved" class="text-center">{{elem.vendorDiscount}}</p>
+            <i-control type="number" ng-if="!elem.approved" ng-model="elem.vendorDiscount"></i-control>
+          </td>
+          <td>
+            <p class="text-center">{{elem.total}}</p>
+          </td>
+          <td>
+            <p class="text-center text-success" ng-if="elem.approved">##word.Yes##</p>
+            <p class="text-center text-danger" ng-if="!elem.approved">##word.No##</p>
+          </td>
+          <td class="text-center">
+            <i-button
+              type="approve"
+              ng-if="!elem.approved &&!item.approved && mode == 'edit'"
+              x-permissions="approvepurchaseOrdersItem || purchaseOrdersManage"
+              label="##word.Approve##"
+              ng-click="approveItem(elem)"
+            >
+            </i-button>
+            <i-button
+              type="unapprove"
+              ng-if="elem.approved &&!item.approved  && mode =='edit'"
+              x-permissions="unapprovepurchaseOrdersItem || purchaseOrdersManage"
+              label="##word.Unapprove##"
+              ng-click="unapproveItem(elem)"
+            >
+            </i-button>
+            <i-button type="delete" ng-if="item.sourceType.id !== 1" label="##word.Delete##" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1);setTotalPrice()"> </i-button>
+          </td>
+        </tr>
+      </table>
+    </fieldset>
+
+    <div class="row">
+      <div class="col6">
         <fieldset>
-            <legend>##word.Basic Information##</legend>
-            <div class="col9">
-                <div class="row">
-                    <div class="row">
-                        <i-control ng-hide="disabledCode" class="col4" label="##word.Code##" ng-model="item.code"> </i-control>
+          <legend>##word.Discounts Information##</legend>
+          <div class="row">
+            <i-list class="col8" ng-model="discount" display="name##session.lang##" items="discountTypesList" label="##word.Discount##" ng-get="getDiscountTypes($search)"></i-list>
 
-                        <i-date ng-model="item.orderDate" class="col4" label="##word.Order Date##"></i-date>
-                        <i-checkbox ng-model="item.active" class="col4" label="##word.Active##"></i-checkbox>
-                    </div>
-
-                    <fieldset>
-                        <div class="row">
-                            <i-list
-                                v="r"
-                                class="col3"
-                                ng-change="item.sourceType.id === 1?getPurchaseRequest():item.itemsList=[];resetOrderItem()"
-                                ng-model="item.sourceType"
-                                display="name##session.lang##"
-                                items="purchaseOrdersSourcesList"
-                                label="##word.Source Type##"
-                                ng-search="item.$source"
-                            ></i-list>
-                            <i-list
-                                v="r"
-                                ng-if="item.sourceType.id === 1"
-                                class="col3"
-                                ng-model="item.purchaseRequest"
-                                ng-change="item.itemsList=[]"
-                                display="code"
-                                display2="title"
-                                items="purchaseRequestList"
-                                label="##word.Purchase Request##"
-                                ng-search="item.$purchaseRequests"
-                            ></i-list>
-
-                            <div class="col2">
-                                <br />
-                                <i-button ng-if="item.sourceType.id === 1" type="get" label="##word.Load Items##" ng-click="getRequestItems(item.purchaseRequest)"> </i-button>
-                            </div>
-                        </div>
-                    </fieldset>
-                    <i-list
-                        v="r"
-                        class="col4"
-                        ng-model="item.paymentType"
-                        display="name##session.lang##"
-                        items="paymentTypesList"
-                        label="##word.Payment Type##"
-                        ng-search="item.orderPaymentType"
-                    ></i-list>
-                    <i-control class="col4" type="text" ng-model="item.importPermitNumber" label="##word.Import Permit Number##"></i-control>
-                    <i-date class="col4" ng-model="item.importAuthorizationDate" label="##word.Import Authorization Date##"></i-date>
-
-                    <i-checkbox ng-model="item.hasVendor" class="col4" label="##word.Has Vendor##"></i-checkbox>
-
-                    <i-list
-                        v="r"
-                        class="col4"
-                        ng-if="item.hasVendor"
-                        display="name##session.lang##"
-                        ng-model="item.vendor"
-                        items="vendorsList"
-                        label="##word.Vendor##"
-                        ng-get="getVendors($search)"
-                    ></i-list>
-                    <i-list
-                        v="r"
-                        class="col4"
-                        display="name##session.lang##"
-                        ng-model="item.store"
-                        ng-get="getStores($search)"
-                        items="storesList"
-                        label="##word.Store##"
-                        ng-search="item.$store"
-                    ></i-list>
-                </div>
+            <div class="col4">
+              <br />
+              <i-button type="add" label="##word.Add##" ng-click="addToList(discount,'discount')"> </i-button>
             </div>
-            <div class="col3 center">
-                <i-image class="img256 center" ng-model="item.image"></i-image>
-            </div>
-        </fieldset>
-        <fieldset>
-            <legend>##word.Items Information##</legend>
+          </div>
 
-            <div class="row" ng-show="item.sourceType.id != 1 ">
-                <div class="col2">
-                    <i-list
-                        ng-model="orderItem.item"
-                        ng-change="orderItem.item? getItemUnits(orderItem.item):''"
-                        items="itemsList"
-                        display="name##session.lang##"
-                        label="##word.Item##"
-                        ng-search="orderItem.$selectItem"
-                    ></i-list>
-                </div>
-                <div class="col2">
-                    <i-list
-                        ng-model="orderItem.unit"
-                        ng-change="setOrderItemData(orderItem.unit)"
-                        items="unitsList"
-                        display="name##session.lang##"
-                        label="##word.Unit##"
-                        ng-search="orderItem.$unit"
-                    ></i-list>
-                </div>
-
-                <div class="col1">
-                    <i-control type="number" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
-                </div>
-                <div class="col1">
-                    <i-control type="number" min="0" ng-model="orderItem.price" label="##word.Price##"></i-control>
-                </div>
-
-                <div class="col2">
-                    <i-control type="number" min="0" ng-model="orderItem.salesPrice" label="##word.Sales Price##"></i-control>
-                </div>
-
-                <div class="col1">
-                    <i-control type="number" min="0" ng-model="orderItem.bonusCount" label="##word.Bonus Count##"></i-control>
-                </div>
-
-                <div class="col2">
-                    <i-control type="number" min="1" ng-model="orderItem.vendorDiscount" label="##word.Vendor Discount##"></i-control>
-                </div>
-                <div class="col1">
-                    <br />
-                    <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
-                </div>
-            </div>
-
-            <p class="error">{{itemsError}}</p>
+          <div class="row">
             <table class="table hover bold">
-                <tr>
-                    <th>##word.S##</th>
-                    <th>##word.Item##</th>
-                    <th>##word.Unit##</th>
-                    <th ng-if="item.sourceType.id === 1">##word.Requestd Count##</th>
-                    <th>##word.Count##</th>
-                    <th>##word.Purchase Price##</th>
-                    <th>##word.Sales Price##</th>
-                    <th>##word.Bonus Count##</th>
-                    <th>##word.Vendor Discount##</th>
-                    <th>##word.Total##</th>
-                    <th>##word.Approved##</th>
-                    <th class="not-print">##word.Actions##</th>
-                </tr>
-                <tr ng-repeat="elem in item.itemsList">
-                    <td class="text-center">{{$index+1}}</td>
-                    <td class="text-center">{{elem.name##session.lang##}}</td>
-                    <td class="text-center">{{elem.unit.name##session.lang##}}</td>
-
-                    <td class="text-center" ng-if="item.sourceType.id === 1">
-                        <p ng-if="item.sourceType.id === 1 || elem.approved" class="text-center">{{elem.requestedCount}}</p>
-                    </td>
-
-                    <td class="text-center">
-                        <p ng-if=" elem.approved" class="text-center">{{elem.count}}</p>
-                        <i-control ng-change="calculateTotalInItemsList(elem)" ng-if=" !elem.approved" min="0" type="number" ng-model="elem.count"></i-control>
-                    </td>
-                    <td class="text-center">
-                        <p ng-if=" elem.approved" class="text-center">{{elem.price}}</p>
-                        <i-control ng-change="calculateTotalInItemsList(elem)" type="number" ng-if="!elem.approved" min="0" ng-model="elem.price"></i-control>
-                    </td>
-                    <td class="text-center">
-                        <p ng-if=" elem.approved" class="text-center">{{elem.salesPrice}}</p>
-                        <i-control type="number" ng-if="!elem.approved" min="0" ng-model="elem.salesPrice"></i-control>
-                    </td>
-                    <td class="text-center">
-                        <p ng-if="elem.approved" class="text-center">{{elem.bonusCount}}</p>
-                        <i-control type="number" ng-if="!elem.approved" ng-model="elem.bonusCount"></i-control>
-                    </td>
-                    <td class="text-center">
-                        <p ng-if="elem.approved" class="text-center">{{elem.vendorDiscount}}</p>
-                        <i-control type="number" ng-if="!elem.approved" ng-model="elem.vendorDiscount"></i-control>
-                    </td>
-                    <td>
-                        <p class="text-center">{{elem.total}}</p>
-                    </td>
-                    <td>
-                        <p class="text-center text-success" ng-if="elem.approved">##word.Yes##</p>
-                        <p class="text-center text-danger" ng-if="!elem.approved">##word.No##</p>
-                    </td>
-                    <td class="text-center">
-                        <i-button
-                            type="approve"
-                            ng-if="!elem.approved &&!item.approved && mode == 'edit'"
-                            x-permissions="approvepurchaseOrdersItem || purchaseOrdersManage"
-                            label="##word.Approve##"
-                            ng-click="approveItem(elem)"
-                        >
-                        </i-button>
-                        <i-button
-                            type="unapprove"
-                            ng-if="elem.approved &&!item.approved  && mode =='edit'"
-                            x-permissions="unapprovepurchaseOrdersItem || purchaseOrdersManage"
-                            label="##word.Unapprove##"
-                            ng-click="unapproveItem(elem)"
-                        >
-                        </i-button>
-                        <i-button type="delete" ng-if="item.sourceType.id !== 1" label="##word.Delete##" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1);setTotalPrice()">
-                        </i-button>
-                    </td>
-                </tr>
+              <tr>
+                <th>##word.Name##</th>
+                <th>##word.Value##</th>
+                <th>##word.Type##</th>
+                <th class="not-print">##word.Actions##</th>
+              </tr>
+              <tr ng-repeat="discount in item.discountsList">
+                <td><p class="text-center">{{discount.name##session.lang##}}</p></td>
+                <td><p class="text-center">{{discount.value}}</p></td>
+                <td><p class="text-center">{{discount.type}}</p></td>
+                <td class="text-center">
+                  <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(discount,'discount');"> </i-button>
+                </td>
+              </tr>
             </table>
+          </div>
         </fieldset>
+      </div>
+      <div class="col6">
+        <fieldset>
+          <legend>##word.Taxes Information##</legend>
 
-        <div class="row">
-            <div class="col6">
-                <fieldset>
-                    <legend>##word.Discounts Information##</legend>
-                    <div class="row">
-                        <i-list class="col8" ng-model="discount" display="name##session.lang##" items="discountTypesList" label="##word.Discount##" ng-get="getDiscountTypes($search)"></i-list>
+          <div class="row">
+            <i-list class="col8" ng-model="tax" display="name##session.lang##" items="taxTypesList" label="##word.Tax##" ng-get="getTaxTypes($search)"></i-list>
 
-                        <div class="col4">
-                            <br />
-                            <i-button type="add" label="##word.Add##" ng-click="addToList(discount,'discount')"> </i-button>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <table class="table hover bold">
-                            <tr>
-                                <th>##word.Name##</th>
-                                <th>##word.Value##</th>
-                                <th>##word.Type##</th>
-                                <th class="not-print">##word.Actions##</th>
-                            </tr>
-                            <tr ng-repeat="discount in item.discountsList">
-                                <td><p class="text-center">{{discount.name##session.lang##}}</p></td>
-                                <td><p class="text-center">{{discount.value}}</p></td>
-                                <td><p class="text-center">{{discount.type}}</p></td>
-                                <td class="text-center">
-                                    <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(discount,'discount');"> </i-button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </fieldset>
+            <div class="col4">
+              <br />
+              <i-button type="add" label="##word.Add##" ng-click="addToList(tax,'tax')"> </i-button>
             </div>
-            <div class="col6">
-                <fieldset>
-                    <legend>##word.Taxes Information##</legend>
+          </div>
 
-                    <div class="row">
-                        <i-list class="col8" ng-model="tax" display="name##session.lang##" items="taxTypesList" label="##word.Tax##" ng-get="getTaxTypes($search)"></i-list>
+          <div class="row">
+            <table class="table hover bold">
+              <tr>
+                <th>##word.Name##</th>
+                <th>##word.Value##</th>
 
-                        <div class="col4">
-                            <br />
-                            <i-button type="add" label="##word.Add##" ng-click="addToList(tax,'tax')"> </i-button>
-                        </div>
-                    </div>
+                <th class="not-print">##word.Actions##</th>
+              </tr>
+              <tr ng-repeat="tax in item.taxesList">
+                <td><p class="text-center">{{tax.name##session.lang##}}</p></td>
+                <td><p class="text-center">{{tax.value}}</p></td>
 
-                    <div class="row">
-                        <table class="table hover bold">
-                            <tr>
-                                <th>##word.Name##</th>
-                                <th>##word.Value##</th>
-
-                                <th class="not-print">##word.Actions##</th>
-                            </tr>
-                            <tr ng-repeat="tax in item.taxesList">
-                                <td><p class="text-center">{{tax.name##session.lang##}}</p></td>
-                                <td><p class="text-center">{{tax.value}}</p></td>
-
-                                <td class="text-center">
-                                    <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(tax,'tax');"> </i-button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </fieldset>
-            </div>
-        </div>
-        <div class="row">
-            <fieldset>
-                <legend>##word.Totals##</legend>
-                <div class="row">
-                    <i-control class="col3" type="number" disabled label="##word.Total Price##" ng-model="item.totalPrice"></i-control>
-                    <i-control class="col3" type="number" disabled label="##word.Total Disconts##" ng-model="item.totalDiscounts"></i-control>
-                    <i-control class="col3" type="number" disabled label="##word.Total Taxes##" ng-model="item.totalTaxes"></i-control>
-                    <i-control class="col3" type="number" disabled label="##word.Total Vendor Discont##" ng-model="item.totalVendorDiscount"></i-control>
-                </div>
-            </fieldset>
-        </div>
+                <td class="text-center">
+                  <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(tax,'tax');"> </i-button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </fieldset>
+      </div>
     </div>
-    <div class="row padding"></div>
+    <div class="row">
+      <fieldset>
+        <legend>##word.Totals##</legend>
+        <div class="row">
+          <i-control class="col3" type="number" disabled label="##word.Total Price##" ng-model="item.totalPrice"></i-control>
+          <i-control class="col3" type="number" disabled label="##word.Total Disconts##" ng-model="item.totalDiscounts"></i-control>
+          <i-control class="col3" type="number" disabled label="##word.Total Taxes##" ng-model="item.totalTaxes"></i-control>
+          <i-control class="col3" type="number" disabled label="##word.Total Vendor Discont##" ng-model="item.totalVendorDiscount"></i-control>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <div class="row padding"></div>
 </div>
 <div ng-show="mode !== 'add' " class="row">
-    <table class="table hover border">
-        <tr>
-            <th>##word.Add Info##</th>
-            <th>##word.Last Edit Info##</th>
-        </tr>
-        <tr>
-            <td class="center">
-                <p class="blue">{{item.addUserInfo.name}}</p>
-                <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
-                <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
-                <p class="bold">IP : {{item.addUserInfo.ip}}</p>
-            </td>
+  <table class="table hover border">
+    <tr>
+      <th>##word.Add Info##</th>
+      <th>##word.Last Edit Info##</th>
+    </tr>
+    <tr>
+      <td class="center">
+        <p class="blue">{{item.addUserInfo.name}}</p>
+        <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
+        <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
+        <p class="bold">IP : {{item.addUserInfo.ip}}</p>
+      </td>
 
-            <td class="center">
-                <p class="blue">{{item.editUserInfo.name}}</p>
-                <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
-                <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
-                <p class="bold">IP : {{item.editUserInfo.ip}}</p>
-            </td>
-        </tr>
-    </table>
+      <td class="center">
+        <p class="blue">{{item.editUserInfo.name}}</p>
+        <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
+        <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
+        <p class="bold">IP : {{item.editUserInfo.ip}}</p>
+      </td>
+    </tr>
+  </table>
 </div>

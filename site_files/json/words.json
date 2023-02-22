@@ -278,5 +278,65 @@
         "name": "Deduction Exisit",
         "En": "Deduction Exisit",
         "Ar": "بند الخصم مسجل"
+    },
+    {
+        "name": "Are You Sure To Approve Employee Bounus",
+        "En": "Are You Sure To Approve Employee Bounus",
+        "Ar": "هل أنت متأكد من الموافقة على مكافأة الموظف"
+    },
+    {
+        "name": "Are You Sure To Approve Employee Penalty",
+        "En": "Are You Sure To Approve Employee Penalty",
+        "Ar": "هل أنت متأكد من الموافقة على عقوبة الموظف"
+    },
+    {
+        "name": "Please Select Day",
+        "En": "Please Select Day",
+        "Ar": "يرجي إختيار اليوم"
+    },
+    {
+        "name": "Please Select Start Time",
+        "En": "Please Select Start Time",
+        "Ar": "يرجي تحديد بداية الوقت"
+    },
+    {
+        "name": "Please Select End Time",
+        "En": "Please Select End Time",
+        "Ar": "يرجي تحديد نهاية الوقت"
+    },
+    {
+        "name": "Delay From Minute Penalty",
+        "En": "Delay From Minute Penalty",
+        "Ar": " يرجي تحديد بداية مدة التأخير"
+    },
+    {
+        "name": "Delay To Minute Penalty",
+        "En": "Delay To Minute Penalty",
+        "Ar": " يرجي تحديد نهاية مدة التأخير"
+    },
+    {
+        "name": "Please Select Penalty Value",
+        "En": "Please Select Penalty Value",
+        "Ar": " يرجي تحديد قيمة العقوبة"
+    },
+    {
+        "name": "Please Select Delay Discount Type",
+        "En": "Please Select Delay Discount Type",
+        "Ar": "يرجي تحديد نوع خصم عقوبة التأخير"
+    },
+    {
+        "name": "Must Enter At least One Work Time",
+        "En": "Must Enter At least One Work Time",
+        "Ar": "يجب إدخال وقت عمل واحد علي الأقل"
+    },
+    {
+        "name": "Please Enter Task Name",
+        "En": "Please Enter Task Name",
+        "Ar": "يرجي إدخال إسم المهمة"
+    },
+    {
+        "name": "Please Select Tool Name",
+        "En": "Please Select Tool Name",
+        "Ar": "يرجي إختيار الاداة"
     }
 ]

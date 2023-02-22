@@ -25,15 +25,15 @@
                     </a>
 
                     <a class="tab-link" onclick="site.showTabContent(event, '#jobTasks')">
-                        <span> ##word.Job tasks##</span>
+                        <span> ##word.Tasks##</span>
                     </a>
 
                     <a class="tab-link" onclick="site.showTabContent(event, '#jobTools')">
-                        <span> ##word.Job tools##</span>
+                        <span> ##word.Tools##</span>
                     </a>
 
                     <a class="tab-link" onclick="site.showTabContent(event, '#skillsInformations')">
-                        <span> ##word.Job specifications##</span>
+                        <span> ##word.Required Skills##</span>
                     </a>
                 </div>
                 <div class="tabs-content">
@@ -62,7 +62,7 @@
                                     ></i-list>
                                 </div>
 
-                                <i-control type="text" v="r" ng-model="item.jobDescription" label="##word.Job Description##"></i-control>
+                                <i-textarea type="text" v="r" rows="3" ng-model="item.jobDescription" label="##word.Job Description##"></i-textarea>
                                 <!-- <div class="row">
                                     <fieldset>
                                         <legend>##word.Salary limits##</legend>
@@ -76,37 +76,49 @@
                         </div>
                     </div>
                     <div id="jobTasks" class="tab-content">
-                        <div class="row padding">
-                            <fieldset>
-                                <legend>
-                                    <i-button type="add default" ng-click="item.jobTasksList.push({})"></i-button>
-                                </legend>
-                                <table class="table center hover bold">
-                                    <tr>
-                                        <th>##word.S/N##</th>
-                                        <th>##word.Task name##</th>
-                                        <th>##word.Notes##</th>
-                                        <th class="not-print">##word.Actions##</th>
-                                    </tr>
-                                    <tr ng-repeat="t in item.jobTasksList">
-                                        <td class="text-center">{{$index + 1}}</td>
-                                        <td class="text-center">
-                                            <i-control type="text" v="r" ng-model="t.name"></i-control>
-                                        </td>
-                                        <td class="text-center">
-                                            <i-control type="text" ng-model="t.notes"></i-control>
-                                        </td>
-                                        <td>
-                                            <i-button type="delete default" ng-click="item.jobTasksList.splice($index,1)"> </i-button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </fieldset>
-                        </div>
+                        <fieldset>
+                            <legend>##word.Tasks##</legend>
+                            <div class="row">
+                                <i-control class="col4" type="text" ng-model="task.name" label="##word.Task Name##"></i-control>
+                                <i-control class="col6" type="text" ng-model="task.notes" label="##word.Notes##"></i-control>
+                                <div class="col2">
+                                    <br />
+                                    <i-button type="add" label="##word.Add##" ng-click="addTask(task)"></i-button>
+                                </div>
+                            </div>
+                            <table class="table center hover bold">
+                                <tr>
+                                    <th>##word.S##</th>
+                                    <th>##word.Task##</th>
+                                    <th>##word.Notes##</th>
+                                    <th>##word.Status##</th>
+                                    <th class="not-print">##word.Actions##</th>
+                                </tr>
+                                <tr ng-repeat="mission in item.tasksList">
+                                    <td class="text-center">{{$index + 1}}</td>
+                                    <td>
+                                        <p class="text-center">{{mission.name}}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-center">{{mission.notes}}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="row">
+                                            <i-checkbox class="col4" ng-model="mission.active"></i-checkbox>
+                                            <span class="col6 text-success" ng-show="mission.active">##word.Active##</span>
+                                            <span class="col6 text-danger" ng-show="!mission.active">##word.Not Active##</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <i-button type="delete" ng-click="item.tasksList.splice($index,1)"> </i-button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
                     </div>
 
                     <div id="jobTools" class="tab-content">
-                        <div class="row padding">
+                        <!-- <div class="row padding">
                             <fieldset>
                                 <legend>
                                     <i-button type="add default" ng-click="item.jobToolsList.push({})"></i-button>
@@ -132,37 +144,89 @@
                                     </tr>
                                 </table>
                             </fieldset>
-                        </div>
+                        </div> -->
+
+                        <fieldset>
+                            <legend>##word.Tools##</legend>
+                            <div class="row">
+                                <i-list class="col4" ng-model="selectedTool.tool" label="##word.Tool##" display="name##session.lang##" items="jobsToolsList" ng-search="item.$jobsTool"></i-list>
+                                <i-control class="col6" type="text" ng-model="selectedTool.notes" label="##word.Notes##"></i-control>
+                                <div class="col2">
+                                    <br />
+                                    <i-button type="add" label="##word.Add##" ng-click="addTool(selectedTool)"></i-button>
+                                </div>
+                            </div>
+                            <table class="table center hover bold">
+                                <tr>
+                                    <th>##word.S##</th>
+                                    <th>##word.Tool##</th>
+                                    <th>##word.Notes##</th>
+                                    <th>##word.Status##</th>
+                                    <th class="not-print">##word.Actions##</th>
+                                </tr>
+                                <tr ng-repeat="tol in item.toolsList">
+                                    <td class="text-center">{{$index + 1}}</td>
+                                    <td>
+                                        <p class="text-center">{{tol.tool.name##session.lang##}}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-center">{{tol.notes}}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="row">
+                                            <i-checkbox class="col4" ng-model="tol.active"></i-checkbox>
+                                            <span class="col6 text-success" ng-show="tol.active">##word.Active##</span>
+                                            <span class="col6 text-danger" ng-show="!tol.active">##word.Not Active##</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <i-button type="delete" ng-click="item.toolsList.splice($index,1)"> </i-button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
                     </div>
 
                     <div id="skillsInformations" class="tab-content">
-                        <div class="row padding">
-                            <fieldset>
-                                <legend>
-                                    <i-button type="add default" ng-click="item.skillsList.push({})"></i-button>
-                                </legend>
-                                <table class="table center hover bold">
-                                    <tr>
-                                        <th>##word.S/N##</th>
-                                        <th>##word.Task name##</th>
-                                        <th>##word.Notes##</th>
-                                        <th class="not-print">##word.Actions##</th>
-                                    </tr>
-                                    <tr ng-repeat="t in item.skillsList">
-                                        <td class="text-center">{{$index + 1}}</td>
-                                        <td class="text-center">
-                                            <i-control type="text" v="r" ng-model="t.name"></i-control>
-                                        </td>
-                                        <td class="text-center">
-                                            <i-control type="text" ng-model="t.notes"></i-control>
-                                        </td>
-                                        <td>
-                                            <i-button type="delete default" ng-click="item.skillsList.splice($index,1)"> </i-button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </fieldset>
-                        </div>
+                        <fieldset>
+                            <legend>##word.Skills##</legend>
+                            <div class="row">
+                                <i-control class="col4" type="text" ng-model="skill.name" label="##word.Skill Name##"></i-control>
+                                <i-control class="col6" type="text" ng-model="skill.notes" label="##word.Notes##"></i-control>
+                                <div class="col2">
+                                    <br />
+                                    <i-button type="add" label="##word.Add##" ng-click="addSkill(skill)"></i-button>
+                                </div>
+                            </div>
+                            <table class="table center hover bold">
+                                <tr>
+                                    <th>##word.S##</th>
+                                    <th>##word.Skill##</th>
+                                    <th>##word.Notes##</th>
+                                    <th>##word.Status##</th>
+                                    <th class="not-print">##word.Actions##</th>
+                                </tr>
+                                <tr ng-repeat="gift in item.skillsList">
+                                    <td class="text-center">{{$index + 1}}</td>
+                                    <td>
+                                        <p class="text-center">{{gift.name}}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-center">{{gift.notes}}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="row">
+                                            <i-checkbox class="col4" ng-model="gift.active"></i-checkbox>
+                                            <span class="col6 text-success" ng-show="gift.active">##word.Active##</span>
+                                            <span class="col6 text-danger" ng-show="!gift.active">##word.Not Active##</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <i-button type="delete" ng-click="item.skillsList.splice($index,1)"> </i-button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
                     </div>
                 </div>
             </div>

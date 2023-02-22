@@ -13,7 +13,7 @@
                     ng-model="item.jobAdministration"
                     display="name##session.lang##"
                     items="jobsAdministrationsList"
-                    ng-search="item.$jobsAdministration"
+                    ng-get="getJobsAdministrationsList($search)"
                 ></i-list>
                 <i-list label="##word.Manager##" ng-model="item.manager" ng-get="getEmployees($search)" display="fullName##session.lang##" items="employeesList"></i-list>
             </div>

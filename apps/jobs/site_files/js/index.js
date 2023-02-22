@@ -11,11 +11,14 @@ app.controller('jobs', function ($scope, $http, $timeout) {
     };
     $scope.item = {};
     $scope.list = [];
+    $scope.task = {};
+    $scope.selectedTool = {};
+    $scope.skill = {};
 
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, jobTasksList: [], jobToolsList: [], skillsList: [] };
+        $scope.item = { ...$scope.structure, tasksList: [], toolsList: [], skillsList: [] };
         site.showModal($scope.modalID);
         document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
@@ -310,6 +313,46 @@ app.controller('jobs', function ($scope, $http, $timeout) {
         $scope.getAll($scope.search);
         site.hideModal($scope.modalSearchID);
         $scope.search = {};
+    };
+
+    $scope.addTask = function (task) {
+        if (!task.name) {
+            alert('##word.Please Enter Task Name##');
+            return;
+        }
+        $scope.item.tasksList.push({
+            name: task.name,
+            notes: task.notes,
+            active: true,
+        });
+        $scope.task = {};
+    };
+
+    $scope.addTool = function (selectedTool) {
+        if (!selectedTool.tool || !selectedTool.tool.id) {
+            alert('##word.Please Select Tool Name##');
+            return;
+        }
+
+        $scope.item.toolsList.push({
+            tool: selectedTool.tool,
+            notes: selectedTool.notes,
+            active: true,
+        });
+        $scope.selectedTool = {};
+    };
+
+    $scope.addSkill = function (skill) {
+        if (!skill.name) {
+            alert('##word.Please Enter Skill Name##');
+            return;
+        }
+        $scope.item.skillsList.push({
+            name: skill.name,
+            notes: skill.notes,
+            active: true,
+        });
+        $scope.skill = {};
     };
 
     $scope.getAll();

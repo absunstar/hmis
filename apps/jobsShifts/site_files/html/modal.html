@@ -1,4 +1,4 @@
-<div id="jobsShiftsManageModal" class="modal" fixed>
+<div id="jobsShiftsManageModal" class="modal full" fixed>
     <div class="modal-content">
         <div class="modal-header">
             <span class="close">&times;</span>
@@ -27,8 +27,11 @@
         <div class="modal-footer center">
             <p class="error">{{error}}</p>
             <i-button ng-show="mode == 'add' " type="add" label="##word.Add##" ng-click="add(item)"></i-button>
-            <i-button ng-show="mode == 'edit' " type="edit" label="##word.Save##" ng-click="update(item)"></i-button>
-            <i-button ng-show="mode == 'delete' " type="delete" label="##word.Delete##" ng-click="delete(item)"> </i-button>
+            <i-button ng-show="mode == 'edit' && !item.approved " type="edit" label="##word.Save##" ng-click="update(item)"></i-button>
+            <i-button ng-show="mode == 'delete' && !item.approved" type="delete" label="##word.Delete##" ng-click="delete(item)"> </i-button>
+            <i-button type="approve" ng-if="mode == 'edit' && !item.approved" x-permissions="approveShiftData" label="##word.Approve##" ng-click="approve(item)"> </i-button>
+            <i-button type="approve" ng-if="mode == 'edit' && item.approved" x-permissions="unapproveShiftData" label="##word.Unapprove##" ng-click="unapprove(item)"> </i-button>
+
             <i-button type="close" label="##word.Close##" onclick="site.hideModal( '#jobsShiftsManageModal')"></i-button>
         </div>
     </div>

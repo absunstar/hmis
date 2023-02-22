@@ -93,6 +93,44 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
         );
     };
 
+    $scope.approve = function (_item) {
+        let confirm = window.confirm('##word.Are You Sure To Approve Employee Bounus##');
+
+        if (!confirm) {
+            return;
+        }
+        
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/approve`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+    
     $scope.showView = function (_item) {
         $scope.error = '';
         $scope.mode = 'view';
@@ -255,18 +293,18 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getSalaryTypesList = function () {
+    $scope.getAmountCategory = function () {
         $scope.busy = true;
-        $scope.salaryTypesList = [];
+        $scope.amountCategoriesList = [];
         $http({
             method: 'POST',
-            url: '/api/salaryTypes',
+            url: '/api/amountCategory',
             data: {},
         }).then(
             function (response) {
                 $scope.busy = false;
                 if (response.data.done && response.data.list.length > 0) {
-                    $scope.salaryTypesList = response.data.list;
+                    $scope.amountCategoriesList = response.data.list;
                 }
             },
             function (err) {
@@ -276,18 +314,18 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getSalarySourcesList = function () {
+    $scope.getAmountType = function () {
         $scope.busy = true;
-        $scope.salarySourcesList = [];
+        $scope.amountTypesList = [];
         $http({
             method: 'POST',
-            url: '/api/salarySources',
+            url: '/api/amountTypes',
             data: {},
         }).then(
             function (response) {
                 $scope.busy = false;
                 if (response.data.done && response.data.list.length > 0) {
-                    $scope.salarySourcesList = response.data.list;
+                    $scope.amountTypesList = response.data.list;
                 }
             },
             function (err) {
@@ -335,6 +373,6 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
     $scope.getNumberingAuto();
     $scope.getEmployees();
     $scope.getEmployeesBonusNamesList();
-    $scope.getSalaryTypesList();
-    $scope.getSalarySourcesList();
+    $scope.getAmountCategory();
+    $scope.getAmountType();
 });

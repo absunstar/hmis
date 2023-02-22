@@ -118,7 +118,7 @@ module.exports = function init(site) {
 
     site.weekDays = [
         { id: 1, nameEn: 'Saturday', nameAr: 'السبت' },
-        { id: 2, nameEn: 'Sonday', nameAr: 'الأحد' },
+        { id: 2, nameEn: 'Sunday', nameAr: 'الأحد' },
         { id: 3, nameEn: 'Monday', nameAr: 'الإثنين' },
         { id: 4, nameEn: 'Tuesday', nameAr: 'الثلاثاء' },
         { id: 5, nameEn: 'Wednesday', nameAr: 'الأربعاء' },
@@ -132,22 +132,22 @@ module.exports = function init(site) {
         { id: 3, code: '003', nameEn: 'Bank Account', nameAr: 'حساب بنكي' },
     ];
 
-    site.lateDiscountsTypes = [
+    site.delayDiscountsTypes = [
         { id: 1, nameEn: 'Day', nameAr: 'يوم' },
         { id: 2, nameEn: 'Hour', nameAr: 'ساعة' },
         { id: 3, nameEn: 'Value', nameAr: 'مبلغ' },
     ];
 
-    site.salaryTypes = [
+    site.amountCategory = [
         { id: 1, nameEn: 'Administrative', nameAr: 'إداري' },
         { id: 2, nameEn: 'Financial', nameAr: 'مالي' },
     ];
 
-    site.salarySources = [
+    site.amountTypes = [
         { id: 1, nameEn: 'Hours', nameAr: 'ساعات' },
         { id: 2, nameEn: 'Days', nameAr: 'أيام' },
-        { id: 3, nameEn: 'Percentage of salary', nameAr: 'نسبة من المرتب' },
-        { id: 4, nameEn: 'Specific value', nameAr: 'مبلغ محدد' },
+        { id: 3, nameEn: 'Percent', nameAr: 'نسبة' },
+        { id: 4, nameEn: 'Value', nameAr: 'مبلغ' },
     ];
 
     site.doctorDeskTopTypes = [
@@ -214,24 +214,24 @@ module.exports = function init(site) {
         { id: 2, code: '002', nameEn: 'Transfer Items Order', nameAr: 'أمر تحويل أصناف' },
     ];
 
-    site.post('/api/lateDiscountsTypes', (req, res) => {
+    site.post('/api/delayDiscountsTypes', (req, res) => {
         res.json({
             done: true,
-            list: site.lateDiscountsTypes,
+            list: site.delayDiscountsTypes,
         });
     });
 
-    site.post('/api/salaryTypes', (req, res) => {
+    site.post('/api/amountCategory', (req, res) => {
         res.json({
             done: true,
-            list: site.salaryTypes,
+            list: site.amountCategory,
         });
     });
 
-    site.post('/api/salarySources', (req, res) => {
+    site.post('/api/amountTypes', (req, res) => {
         res.json({
             done: true,
-            list: site.salarySources,
+            list: site.amountTypes,
         });
     });
 

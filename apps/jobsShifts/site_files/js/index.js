@@ -6,15 +6,18 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
+        approved: false,
         active: true,
     };
     $scope.item = {};
+    $scope.worktime = {};
+    $scope.delayPenalty = {};
     $scope.list = [];
 
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, penaltiesList: [], workdays: [] };
+        $scope.item = { ...$scope.structure, penaltiesList: [], worktimesList: [] };
         site.showModal($scope.modalID);
     };
 
@@ -26,6 +29,10 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
             return;
         }
 
+        if (!$scope.item.worktimesList || !$scope.item.worktimesList.length) {
+            alert('##word.Must Enter At least One Work Time##');
+            return;
+        }
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -66,10 +73,90 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
+        if (!$scope.item.worktimesList || !$scope.item.worktimesList.length) {
+            alert('##word.Must Enter At least One Work Time##');
+            return;
+        }
         $scope.busy = true;
         $http({
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/update`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+
+    $scope.approve = function (_item) {
+        let confirm = window.confirm('##word.Are You Sure To Approve Shift Data##');
+
+        if (!confirm) {
+            return;
+        }
+
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/approve`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+
+    $scope.unapprove = function (_item) {
+        let confirm = window.confirm('##word.Are You Sure To Unapprove Shift Data##');
+
+        if (!confirm) {
+            return;
+        }
+
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/unapprove`,
             data: _item,
         }).then(
             function (response) {
@@ -113,10 +200,10 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
                 $scope.busy = false;
                 if (response.data.done) {
                     $scope.item = response.data.doc;
-                    $scope.item.workdays.forEach((_w) => {
-                        _w.start = new Date(_w.start);
-                        _w.end = new Date(_w.end);
-                    });
+                    // $scope.item.worktimesList.forEach((_w) => {
+                    //     _w.start = new Date(_w.start);
+                    //     _w.end = new Date(_w.end);
+                    // });
                 } else {
                     $scope.error = response.data.error;
                 }
@@ -235,18 +322,18 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getLateDiscountsTypesList = function () {
+    $scope.getDelayDiscountsTypes = function () {
         $scope.busy = true;
-        $scope.lateDiscountsTypesList = [];
+        $scope.delayDiscountsTypesList = [];
         $http({
             method: 'POST',
-            url: '/api/lateDiscountsTypes',
+            url: '/api/delayDiscountsTypes',
             data: {},
         }).then(
             function (response) {
                 $scope.busy = false;
                 if (response.data.done) {
-                    $scope.lateDiscountsTypesList = response.data.list;
+                    $scope.delayDiscountsTypesList = response.data.list;
                 }
             },
             function (err) {
@@ -267,8 +354,60 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
         $scope.search = {};
     };
 
+    $scope.addWorktime = function (worktime) {
+        if (!worktime.day || !worktime.day.id) {
+            alert('##word.Please Select Day##');
+            return;
+        }
+        if (!worktime.start) {
+            alert('##word.Please Select Start Time##');
+            return;
+        }
+        if (!worktime.end) {
+            alert('##word.Please Select End Time##');
+            return;
+        }
+        $scope.item.worktimesList.push({
+            day: worktime.day,
+            start: worktime.start,
+            end: worktime.end,
+            active: true,
+        });
+        $scope.worktime = {};
+    };
+
+    $scope.addPenalty = function (delayPenalty) {
+        if (!(delayPenalty.fromMinute > 0)) {
+            alert('##word.Delay From Minute Penalty##');
+            return;
+        }
+        if (!(delayPenalty.toMinute > 0) || delayPenalty.toMinute < delayPenalty.fromMinute) {
+            alert('##word.Delay To Minute Penalty##');
+            return;
+        }
+
+        if (!(delayPenalty.value > 0)) {
+            alert('##word.Please Select Penalty Value##');
+            return;
+        }
+
+        if (!delayPenalty.type || !delayPenalty.type.id) {
+            alert('##word.Please Select Penalty Type##');
+            return;
+        }
+
+        $scope.item.penaltiesList.push({
+            fromMinute: delayPenalty.fromMinute,
+            toMinute: delayPenalty.toMinute,
+            value: delayPenalty.value,
+            type: delayPenalty.type,
+            active: true,
+        });
+        $scope.delayPenalty = {};
+    };
+
     $scope.getAll();
     $scope.getNumberingAuto();
-    $scope.getLateDiscountsTypesList();
+    $scope.getDelayDiscountsTypes();
     $scope.getWeekDaysList();
 });

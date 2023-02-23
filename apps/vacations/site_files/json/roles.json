@@ -1,9 +1,0 @@
-[
-    {
-        "moduleName": "public",
-        "name": "vacationsAdmin",
-        "En": "Vacations Admin",
-        "Ar": "إدارة الأجازات",
-        "permissions": ["vacationsManage"]
-    }
-]

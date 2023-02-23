@@ -16,6 +16,7 @@
                 <th class="w150">##word.Logo##</th>
                 <th>##word.Code##</th>
                 <th>##word.Name##</th>
+                <th>##word.Vacation For##</th>
                 <th>##word.From Date##</th>
                 <th>##word.To Date##</th>
                 <th>##word.Approved##</th>
@@ -28,6 +29,10 @@
                 </td>
                 <td class="text-center blue">{{item.code}}</td>
                 <td class="text-center">{{item.vacationName.name##session.lang##}}</td>
+                <td>
+                    <p class="text-center text-success" ng-if="item.vacationFor =='all' ">##word.All Employees##</p>
+                    <p class="text-center text-danger" ng-if="item.vacationFor =='some' ">##word.Some Employees##</p>
+                </td>
                 <td class="text-center blue">{{item.fromDate|date:'dd/MM/yyyy'}}</td>
                 <td class="text-center blue">{{item.toDate|date:'dd/MM/yyyy'}}</td>
                 <td class="text-center">

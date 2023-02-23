@@ -7,6 +7,7 @@ module.exports = function init(site) {
         cacheList: [],
         allowRoute: true,
         allowRouteGet: true,
+        allowRouteGetEmployeeVacationBalance: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
         allowRouteDelete: true,
@@ -284,16 +285,45 @@ module.exports = function init(site) {
             });
         }
 
+        if (app.allowRouteGetEmployeeVacationBalance) {
+            site.post({ name: `/api/${app.name}/getEmployeeVacationBalance`, require: { permissions: ['login'] } }, (req, res) => {
+                let response = {
+                    done: false,
+                };
+
+                let _data = req.data;
+
+                if (!_data.id) {
+                    response.done = false;
+                    response.error = 'Please Select Employee';
+                    res.json(response);
+                    return;
+                }
+
+                app.$collection.find({ id: _data.id }, (err, doc) => {
+                    if (doc) {
+                        const regularVacations = doc.regularVacations || 0;
+                        const casualVacations = doc.casualVacations || 0;
+
+                        response.done = true;
+                        response.doc = { regularVacations, casualVacations };
+
+                        res.json(response);
+                    }
+                });
+            });
+        }
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                let search = req.body.search || app.allowMemory ? 'id' : '';    
+                let search = req.body.search || app.allowMemory ? 'id' : '';
                 let limit = req.body.limit || 10;
                 let select = req.body.select || {
                     id: 1,
                     code: 1,
                     fullNameEn: 1,
                     fullNameAr: 1,
+                    mobile: 1,
                     image: 1,
                     active: 1,
                 };

@@ -1,7 +1,7 @@
 module.exports = function init(site) {
     let app = {
         name: 'createVacations',
-        allowMemory: true,
+        allowMemory: false,
         memoryList: [],
         allowCache: false,
         cacheList: [],
@@ -329,10 +329,13 @@ module.exports = function init(site) {
                 let select = req.body.select || {
                     id: 1,
                     code: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                    image: 1,
+                            image: 1,
                     approvedDate: 1,
+                    vacationFor: 1,
+                    employeesList: 1,
+                    vacationName: 1,
+                    fromDate: 1,
+                    toDate: 1,
                     active: 1,
                 };
 

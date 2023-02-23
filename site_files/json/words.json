@@ -348,5 +348,45 @@
         "name": "Are You Sure To Unapprove Group Vacation",
         "En": "Are You Sure To Unapprove Group Vacation",
         "Ar": "هل تريد إلغاء إعتماد الأجازة المجمعة"
+    },
+    {
+        "name": "Allowed Employees For  Vacation",
+        "En": "Allowed Employees For  Vacation",
+        "Ar": "الموظفين المسموح لهم بالأجازة"
+    },
+    {
+        "name": "Please Select Employee",
+        "En": "Please Select Employee",
+        "Ar": "يرجي إختيار موظف"
+    },
+    {
+        "name": "Can't Select Employee If Vacation For All Employees",
+        "En": "Can't Select Employee If Vacation For All Employees",
+        "Ar": "لايمكن تحديد موظف أثناء تحديد الأجازة لجميع الموظفين"
+    },
+    {
+        "name": "Employee Exisit",
+        "En": "Employee Exisit",
+        "Ar": "الموظف موجود"
+    },
+    {
+        "name": "Please Check Date",
+        "En": "Please Check Date",
+        "Ar": "يرجي التأكد من التاريخ"
+    },
+    {
+        "name": "Must Select One Employee Al Least",
+        "En": "Must Select One Employee Al Least",
+        "Ar": "يجب إختيار موظف واحد علي الأقل"
+    },
+    {
+        "name": "All Employees",
+        "En": "All Employees",
+        "Ar": "جميع الموظفين"
+    },
+    {
+        "name": "Some Employees",
+        "En": "Some Employees",
+        "Ar": "بعض الموظفين"
     }
 ]

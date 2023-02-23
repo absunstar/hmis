@@ -1,24 +1,21 @@
-app.controller('createVacations', function ($scope, $http, $timeout) {
+app.controller('vacationsRequests', function ($scope, $http, $timeout) {
     $scope.baseURL = '';
-    $scope.appName = 'createVacations';
-    $scope.modalID = '#createVacationsManageModal';
-    $scope.modalSearchID = '#createVacationsSearchModal';
+    $scope.appName = 'vacationsRequests';
+    $scope.modalID = '#vacationsRequestsManageModal';
+    $scope.modalSearchID = '#vacationsRequestsSearchModal';
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
-        image: { url: '/images/createVacations.png' },
-        vacationFor: '',
-        approved: false,
+        image: { url: '/images/vacationsRequests.png' },
         active: true,
     };
     $scope.item = {};
-    $scope.selectedEmployee = {};
     $scope.list = [];
 
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, employeesList: [] };
+        $scope.item = { ...$scope.structure, requestDate: new Date() };
         site.showModal($scope.modalID);
     };
 
@@ -30,15 +27,11 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
             return;
         }
 
-        const checkInputData = $scope.validateData($scope.item);
-        if (!checkInputData.success) {
-            return;
-        }
         $scope.busy = true;
         $http({
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/add`,
-            data: checkInputData.data,
+            data: $scope.item,
         }).then(
             function (response) {
                 $scope.busy = false;
@@ -74,15 +67,11 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-        const checkInputData = $scope.validateData(_item);
-        if (!checkInputData.success) {
-            return;
-        }
         $scope.busy = true;
         $http({
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/update`,
-            data: checkInputData.data,
+            data: _item,
         }).then(
             function (response) {
                 $scope.busy = false;
@@ -103,8 +92,16 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
         );
     };
 
+    $scope.showView = function (_item) {
+        $scope.error = '';
+        $scope.mode = 'view';
+        $scope.item = {};
+        $scope.view(_item);
+        site.showModal($scope.modalID);
+    };
+
     $scope.approve = function (_item) {
-        let confirm = window.confirm('##word.Are You Sure To Aapprove Group Vacation##');
+        let confirm = window.confirm('##word.Are You Sure To Approve Shift Data##');
 
         if (!confirm) {
             return;
@@ -132,7 +129,7 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
                         $scope.list[index] = response.data.result.doc;
                     }
                 } else {
-                    $scope.error = response.data.error || 'Please Login First';
+                    $scope.error = 'Please Login First';
                 }
             },
             function (err) {
@@ -142,7 +139,7 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
     };
 
     $scope.unapprove = function (_item) {
-        let confirm = window.confirm('##word.Are You Sure To Unapprove Group Vacation##');
+        let confirm = window.confirm('##word.Are You Sure To Unapprove Shift Data##');
 
         if (!confirm) {
             return;
@@ -170,7 +167,7 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
                         $scope.list[index] = response.data.result.doc;
                     }
                 } else {
-                    $scope.error = response.data.error || 'Please Login First';
+                    $scope.error = 'Please Login First';
                 }
             },
             function (err) {
@@ -179,14 +176,29 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.showView = function (_item) {
-        $scope.error = '';
-        $scope.mode = 'view';
-        $scope.item = {};
-        $scope.view(_item);
-        site.showModal($scope.modalID);
+    $scope.getEmployeeVacationBalance = function (_data) {
+        if (!_data.employee || !_data.employee.id) {
+            return;
+        }
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: '/api/employees/getEmployeeVacationBalance',
+            data: { id: _data.employee.id },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.doc) {
+                    $scope.item.regularVacations = response.data.doc.regularVacations;
+                    $scope.item.casualVacations = response.data.doc.casualVacations;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
     };
-
     $scope.view = function (_item) {
         $scope.busy = true;
         $scope.error = '';
@@ -308,42 +320,6 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
         $scope.search = {};
     };
 
-    $scope.getVacationsNames = function ($search) {
-        if ($search && $search.length < 3) {
-            return;
-        }
-
-        $scope.busy = true;
-        $scope.vacationsNamesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/vacationsNames/all',
-            data: {
-                where: {
-                    active: true,
-                },
-                select: {
-                    id: 1,
-                    code: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                },
-                search: $search,
-            },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.vacationsNamesList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
     $scope.getEmployees = function ($search) {
         if ($search && $search.length < 3) {
             return;
@@ -378,48 +354,29 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.addEmployeeToVacationEmployeesList = function (selectedEmployee) {
-        if ($scope.item.vacationFor !== 'some') {
-            alert('##word.Please Select Employee##');
-            return;
-        }
-
-        if (!selectedEmployee || !selectedEmployee.id) {
-            alert('##word.Please Select Employee##');
-            return;
-        }
-
-        if ($scope.item.employeesList && $scope.item.employeesList.length) {
-            const employeeIndex = $scope.item.employeesList.findIndex((_emp) => _emp.id === selectedEmployee.id);
-            if (employeeIndex !== -1) {
-                alert('##word.Employee Exisit##');
-                return;
+    $scope.getVacationsTypes = function () {
+        $scope.busy = true;
+        $scope.vacationsTypesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/vacationsTypes',
+            data: {},
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    $scope.vacationsTypesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
             }
-        }
-
-        $scope.item.employeesList.unshift(selectedEmployee);
-        $scope.selectedEmployee = {};
+        );
     };
 
-    $scope.validateData = function (_data) {
-        let success = false;
-        if (!_data.fromDate || !_data.toDate || new Date(_data.fromDate) > new Date(_data.toDate)) {
-            alert('##word.Please Check Date##');
-            return success;
-        }
-
-        if (_data.vacationFor == 'some' && (!_data.employeesList || !_data.employeesList.length)) {
-            alert('##word.Must Select One Employee Al Least##');
-            return success;
-        }
-
-        if (_data.vacationFor == 'all') {
-            _data.employeesList = [];
-        }
-        return { success: true, data: _data };
-    };
     $scope.getAll();
+    $scope.getVacationsTypes();
     $scope.getEmployees();
-    $scope.getVacationsNames();
     $scope.getNumberingAuto();
 });

@@ -440,8 +440,8 @@
     {
         "category": "main",
         "feature": "public",
-        "id": "vacations",
-        "name": "Vacations"
+        "id": "vacationsRequests",
+        "name": "Vacations Requests"
     },
     {
         "category": "main",

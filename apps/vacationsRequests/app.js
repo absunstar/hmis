@@ -1,7 +1,7 @@
 module.exports = function init(site) {
     let app = {
-        name: 'vacations',
-        allowMemory: true,
+        name: 'vacationsRequests',
+        allowMemory: false,
         memoryList: [],
         allowCache: false,
         cacheList: [],
@@ -9,6 +9,8 @@ module.exports = function init(site) {
         allowRouteGet: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
+        allowRouteApprove: true,
+        allowRouteUnapprove: true,
         allowRouteDelete: true,
         allowRouteView: true,
         allowRouteAll: true,
@@ -144,7 +146,7 @@ module.exports = function init(site) {
                     name: app.name,
                 },
                 (req, res) => {
-                    res.render(app.name + '/index.html', { title: app.name, appName: 'Vacations' }, { parser: 'html', compres: true });
+                    res.render(app.name + '/index.html', { title: app.name, appName: 'Vacations Requests' }, { parser: 'html', compres: true });
                 }
             );
         }
@@ -208,6 +210,79 @@ module.exports = function init(site) {
             });
         }
 
+        if (app.allowRouteApprove) {
+            site.post({ name: `/api/${app.name}/approve`, require: { permissions: ['login'] } }, (req, res) => {
+                let response = {
+                    done: false,
+                };
+
+                let _data = req.data;
+                app.$collection.find({ id: _data.id }, (err, doc) => {
+                    if (doc) {
+                        if (!doc.fromDate) {
+                            response.done = false;
+                            response.error = 'Please Set Vacation Date';
+                            res.json(response);
+                            return;
+                        }
+                        if (new Date().getTime() > new Date(doc.fromDate).getTime()) {
+                            response.done = false;
+                            response.error = 'Cannot approve Past Date';
+                            res.json(response);
+                            return;
+                        }
+                    }
+                    _data['approved'] = true;
+                    _data['approveDate'] = new Date();
+                    _data.approvedUserInfo = req.getUserFinger();
+
+                    app.update(_data, (err, result) => {
+                        if (!err) {
+                            response.done = true;
+                            response.result = result;
+                        } else {
+                            response.error = err.message;
+                        }
+                        res.json(response);
+                    });
+                });
+            });
+        }
+
+        if (app.allowRouteUnapprove) {
+            site.post({ name: `/api/${app.name}/unapprove`, require: { permissions: ['login'] } }, (req, res) => {
+                let response = {
+                    done: false,
+                };
+
+                let _data = req.data;
+
+                app.$collection.find({ id: _data.id }, (err, doc) => {
+                    if (doc) {
+                        if (new Date().getTime() > new Date(doc.fromDate).getTime()) {
+                            response.done = false;
+                            response.error = 'Cannot Unapprove Past Date';
+                            res.json(response);
+                            return;
+                        }
+                    }
+                    _data['approved'] = false;
+                    _data['approveDate'] = null;
+                    _data.unapprovedUserInfo = req.getUserFinger();
+
+                    app.update(_data, (err, result) => {
+                        if (!err) {
+                            response.done = true;
+                            response.result = result;
+                        } else {
+                            response.error = err.message;
+                        }
+                        res.json(response);
+                    });
+                });
+            });
+        }
+
         if (app.allowRouteDelete) {
             site.post({ name: `/api/${app.name}/delete`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {
@@ -254,9 +329,14 @@ module.exports = function init(site) {
                 let select = req.body.select || {
                     id: 1,
                     code: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                    image: 1,
+                    employee: 1,
+                    vacationType: 1,
+                    days: 1,
+                    requestDate: 1,
+                    fromDate: 1,
+                    approved: 1,
+                    reason: 1,
+                    file: 1,
                     active: 1,
                 };
 

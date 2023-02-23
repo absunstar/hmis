@@ -82,7 +82,7 @@
             "reasonsDestroyingItemsManage",
             "storesOpeningBalancesManage",
             "stockTakingManage",
-            "vacationsManage",
+            "vacationsRequestsManage",
             "vacationsTypesManage",
             "createVacationsManage",
             "vacationsNamesManage"

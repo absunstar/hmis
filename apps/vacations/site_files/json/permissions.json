@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "vacations" , "name":"vacationsManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "vacations" , "name":"vacationsAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "vacations" , "name":"vacationsUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "vacations" , "name":"vacationsDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "vacations" , "name":"vacationsView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "vacations" , "name":"vacationsSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "vacations" , "name":"vacationsExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "vacations" , "name":"vacationsPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "vacations" , "name":"vacationsUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+]

@@ -1,0 +1,13 @@
+[
+    { "moduleName": "public", "screenName": "groupVacations", "name": "groupVacationsManage", "En": "Manage", "Ar": "إدارة" },
+    { "moduleName": "public", "screenName": "groupVacations", "name": "groupVacationsAdd", "En": "Add", "Ar": "إضافة" },
+    { "moduleName": "public", "screenName": "groupVacations", "name": "groupVacationsUpdate", "En": "Edit", "Ar": "تعديل" },
+    { "moduleName": "public", "screenName": "groupVacations", "name": "groupVacationsDelete", "En": "Delete", "Ar": "حذف" },
+    { "moduleName": "public", "screenName": "groupVacations", "name": "groupVacationsView", "En": "View", "Ar": "عرض" },
+    { "moduleName": "public", "screenName": "groupVacations", "name": "groupVacationsSearch", "En": "Search", "Ar": "بحث" },
+    { "moduleName": "public", "screenName": "groupVacations", "name": "groupVacationsExport", "En": "Export", "Ar": "تصدير" },
+    { "moduleName": "public", "screenName": "groupVacations", "name": "groupVacationsPrint", "En": "Print", "Ar": "طباعة" },
+    { "moduleName": "public", "screenName": "groupVacations", "name": "groupVacationsUi", "En": "UI", "Ar": "الواجهة الرسومية" },
+    { "moduleName": "public", "screenName": "groupVacations", "name": "approveGroupVacation", "En": "Approve Group vacation", "Ar": "إعتماد أجازة مجمعة" },
+    { "moduleName": "public", "screenName": "groupVacations", "name": "unapproveGroupVacation", "En": "unapprove Group vacation", "Ar": "إلغاء إعتماد أجازة مجمعة" }
+]

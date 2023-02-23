@@ -8,6 +8,7 @@
     { "moduleName": "public", "screenName": "stockTaking", "name": "stockTakingExport", "En": "Export", "Ar": "تصدير" },
     { "moduleName": "public", "screenName": "stockTaking", "name": "stockTakingPrint", "En": "Print", "Ar": "طباعة" },
     { "moduleName": "public", "screenName": "stockTaking", "name": "stockTakingUi", "En": "UI", "Ar": "الواجهة الرسومية" },
-    { "moduleName": "public", "screenName": "stockTaking", "name": "approveTransferItem", "En": "Approve Item", "Ar": "إعتماد صنف في طلب تحويل الأصناف" },
-    { "moduleName": "public", "screenName": "stockTaking", "name": "unapproveTransferItem", "En": "Unapprove Item", "Ar": "إلغاء إعتماد صنف في طلب تحويل الأصناف" }
+    { "moduleName": "public", "screenName": "stockTaking", "name": "approveStockTakingItem", "En": "Approve Stock Taking Item", "Ar": "إعتماد صنف في جرد الأصناف" },
+    { "moduleName": "public", "screenName": "stockTaking", "name": "unapproveStockTakingItem", "En": "Unapprove Stock Taking Item", "Ar": "إلغاء إعتماد صنف في جرد الأصناف" },
+    { "moduleName": "public", "screenName": "stockTaking", "name": "approveStockTaking", "En": "Approve Stock Taking", "Ar": "إعتماد جرد الأصناف" }
 ]

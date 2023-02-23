@@ -16,5 +16,5 @@
         "En": "Unapprove Transfer Items Order Item",
         "Ar": "إلغاء إعتماد تحويل صنف في أمر تحويل الأصناف"
     },
-    { "moduleName": "public", "screenName": "transferItemsOrders", "name": "approveTransferItemsOrders", "En": "Approve Transfer Items Order", "Ar": "إعتماد أمر تحويل الأصناف" }
+    { "moduleName": "public", "screenName": "transferItemsOrders", "name": "approveTransferItemsOrder", "En": "Approve Transfer Items Order", "Ar": "إعتماد أمر تحويل الأصناف" }
 ]

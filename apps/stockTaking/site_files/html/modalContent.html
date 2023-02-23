@@ -81,14 +81,14 @@
                             type="approve"
                             ng-show="elem.approved &&   mode == 'edit'"
                             ng-click="unapproveItem(elem)"
-                            x-permissions="unapproveTransferItem||stockTakingManage"
+                            x-permissions="unapproveStockTakingItem||stockTakingManage"
                             label="##word.Unapprove##"
                         ></i-button>
                         <i-button
                             type="approve"
                             ng-show="!elem.approved &&  mode == 'edit'"
                             ng-click="approveItem(elem)"
-                            x-permissions="approveTransferItem||stockTakingManage"
+                            x-permissions="approveStockTakingItem||stockTakingManage"
                             label="##word.Approve##"
                         ></i-button>
                         <i-button type="delete" label="##word.Delete##" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>

@@ -81,7 +81,11 @@
             "vendorsGroupsManage",
             "reasonsDestroyingItemsManage",
             "storesOpeningBalancesManage",
-            "stockTakingManage"
+            "stockTakingManage",
+            "vacationsManage",
+            "vacationsTypesManage",
+            "groupVacationsManage",
+            "vacationsNamesManage"
         ]
     }
 ]

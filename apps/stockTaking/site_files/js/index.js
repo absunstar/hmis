@@ -17,7 +17,7 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
     $scope.canApprove = false;
     $scope.resetOrderItem = function () {
         $scope.orderItem = {
-             count: 1,
+            count: 1,
             approved: false,
             currentBalance: 0,
         };
@@ -171,45 +171,6 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
                 console.log(err);
             }
         );
-    };
-
-    $scope.unapprove = function (_item) {
-        $scope.error = '';
-        const v = site.validated($scope.modalID);
-        if (!v.ok) {
-            $scope.error = v.messages[0].ar;
-            return;
-        }
-        if (!_item.itemsList.length) {
-            $scope.error = '##word.Must Enter One Item At Least##';
-            return;
-        }
-
-        _item['approved'] = false;
-        $scope.busy = true;
-        $http({
-            method: 'POST',
-            url: `${$scope.baseURL}/api/${$scope.appName}/unapprove`,
-            data: _item,
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done) {
-                    site.hideModal($scope.modalID);
-                    site.resetValidated($scope.modalID);
-                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
-                    if (index !== -1) {
-                        $scope.list[index] = response.data.result.doc;
-                    }
-                } else {
-                    $scope.error = 'Please Login First';
-                }
-            },
-            function (err) {
-                console.log(err);
-            }
-        );
-        $scope.item = {};
     };
 
     $scope.showView = function (_item) {

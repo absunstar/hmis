@@ -9,5 +9,7 @@
     { "moduleName": "public", "screenName": "transferItemsRequests", "name": "transferItemsRequestsPrint", "En": "Print", "Ar": "طباعة" },
     { "moduleName": "public", "screenName": "transferItemsRequests", "name": "transferItemsRequestsUi", "En": "UI", "Ar": "الواجهة الرسومية" },
     { "moduleName": "public", "screenName": "transferItemsRequests", "name": "approveTransferItem", "En": "Approve Item", "Ar": "إعتماد صنف في طلب تحويل الأصناف" },
-    { "moduleName": "public", "screenName": "transferItemsRequests", "name": "unapproveTransferItem", "En": "Unapprove Item", "Ar": "إلغاء إعتماد صنف في طلب تحويل الأصناف" }
+    { "moduleName": "public", "screenName": "transferItemsRequests", "name": "unapproveTransferItem", "En": "Unapprove Item", "Ar": "إلغاء إعتماد صنف في طلب تحويل الأصناف" },
+    { "moduleName": "public", "screenName": "transferItemsRequests", "name": "approveTransferItemsRequest", "En": "Approve Transfer Items Request", "Ar": "إعتماد طلب تحويل أصناف" },
+    { "moduleName": "public", "screenName": "transferItemsRequests", "name": "ubapproveTransferItemsRequest", "En": "Unapprove Transfer Items Request", "Ar": "إلغاء إعتماد طلب تحويل أصناف" }
 ]

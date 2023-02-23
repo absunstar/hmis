@@ -214,6 +214,18 @@ module.exports = function init(site) {
         { id: 2, code: '002', nameEn: 'Transfer Items Order', nameAr: 'أمر تحويل أصناف' },
     ];
 
+    site.vacationsTypes = [
+        { id: 1, code: '001', nameEn: 'Regular', nameAr: 'إعتيادي' },
+        { id: 2, code: '002', nameEn: 'Casual', nameAr: 'عارضة' },
+        { id: 3, code: '003', nameEn: 'Without Salary', nameAr: 'بدون مرتب' },
+        { id: 4, code: '004', nameEn: 'Rest Allowance', nameAr: 'بدل راحة' },
+        { id: 5, code: '005', nameEn: 'Pilgrimage', nameAr: 'حج' },
+        { id: 6, code: '006', nameEn: 'Sick', nameAr: 'مرضي' },
+        { id: 7, code: '007', nameEn: 'Marriage', nameAr: 'زواج' },
+        { id: 8, code: '008', nameEn: 'Paid', nameAr: 'مدفوعة الأجر' },
+        { id: 9, code: '009', nameEn: 'Annual', nameAr: 'سنوية' },
+        { id: 10, code: '010', nameEn: 'Exams', nameAr: 'إمتحانات' },
+    ];
     site.post('/api/delayDiscountsTypes', (req, res) => {
         res.json({
             done: true,
@@ -385,6 +397,12 @@ module.exports = function init(site) {
         res.json({
             done: true,
             list: site.transferItemsOrdersSource,
+        });
+    });
+    site.post('/api/vacationsTypes', (req, res) => {
+        res.json({
+            done: true,
+            list: site.vacationsTypes,
         });
     });
 };

@@ -78,6 +78,10 @@
   color: cornsilk;
   cursor: pointer;
 }
+.big button {
+  height: 60px;
+  font-size: x-large;
+}
 .margin-button {
   margin: 15px 0px 15px 0px;
   padding: 10px;

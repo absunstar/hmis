@@ -67,27 +67,25 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
       validityDays: 0,
       reorderLimit: 0,
     };
-    if ($scope.settings.storesSetting.defaultItemType && $scope.settings.storesSetting.defaultItemType.id) {
+    if ($scope.settings.storesSetting.itemType && $scope.settings.storesSetting.itemType.id) {
       $scope.item.itemType = $scope.itemsTypesList.find((_t) => {
-        return _t.id == $scope.settings.storesSetting.defaultItemType.id;
+        return _t.id == $scope.settings.storesSetting.itemType.id;
       });
     }
 
-    if ($scope.settings.storesSetting.defaultItemGroup && $scope.settings.storesSetting.defaultItemGroup.id) {
+    if ($scope.settings.storesSetting.itemGroup && $scope.settings.storesSetting.itemGroup.id) {
       $scope.item.itemGroup = $scope.itemsgroupsList.find((_g) => {
-        return _g.id == $scope.settings.storesSetting.defaultItemGroup.id;
+        return _g.id == $scope.settings.storesSetting.itemGroup.id;
       });
     }
 
-    if ($scope.settings.storesSetting.defaultItemUnit && $scope.settings.storesSetting.defaultItemUnit.id) {
+    if ($scope.settings.storesSetting.itemUnit && $scope.settings.storesSetting.itemUnit.id) {
       $scope.item.mainUnit = $scope.storesUnitsList.find((_g) => {
-        return _g.id == $scope.settings.storesSetting.defaultItemUnit.id;
+        return _g.id == $scope.settings.storesSetting.itemUnit.id;
       });
-      if($scope.item.mainUnit){
+      if ($scope.item.mainUnit) {
         $scope.addMainItemUnit($scope.item.mainUnit);
-
       }
-
     }
 
     $scope.resetItemUnit();

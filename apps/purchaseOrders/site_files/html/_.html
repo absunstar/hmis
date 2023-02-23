@@ -2,6 +2,7 @@
     <div class="row" x-permissions="purchaseOrdersUi || purchaseOrdersManage">
         <div x-import="purchaseOrders/modal.html"></div>
         <div x-import="purchaseOrders/modalSearch.html"></div>
+        <div x-import="purchaseOrders/patchModal.html"></div>
 
         <div class="top-actions">
             <i-button type="add" x-permissions="purchaseOrdersAdd || purchaseOrdersManage" label="##word.New##" ng-click="showAdd()"></i-button>

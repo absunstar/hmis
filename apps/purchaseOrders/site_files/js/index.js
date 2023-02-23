@@ -14,8 +14,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     totalVendorDiscounts: 0,
     hasVendor: true,
     approved: false,
-    // calculatePurchaseCost: false,
-    // calculatePurchaseCostType: '',
+    /*  calculatePurchaseCost: false,
+    calculatePurchaseCostType: '', */
     purchaseCost: 0,
     active: true,
   };
@@ -55,6 +55,31 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope.mode = 'add';
     $scope.item = { ...$scope.structure, orderDate: new Date(), filesList: [], discountsList: [], taxesList: [], itemsList: [] };
     $scope.orderItem = { ...$scope.orderItem };
+
+    if ($scope.settings.storesSetting.purchaseSourceType && $scope.settings.storesSetting.purchaseSourceType.id) {
+      $scope.item.sourceType = $scope.purchaseOrdersSourcesList.find((_t) => {
+        return _t.id == $scope.settings.storesSetting.purchaseSourceType.id;
+      });
+    }
+
+    if ($scope.settings.storesSetting.paymentType && $scope.settings.storesSetting.paymentType.id) {
+      $scope.item.paymentType = $scope.paymentTypesList.find((_t) => {
+        return _t.id == $scope.settings.storesSetting.paymentType.id;
+      });
+    }
+
+    if ($scope.settings.storesSetting.store && $scope.settings.storesSetting.store.id) {
+      $scope.item.store = $scope.storesList.find((_t) => {
+        return _t.id == $scope.settings.storesSetting.store.id;
+      });
+    }
+
+    if ($scope.settings.storesSetting.hasDefaultVendor && $scope.settings.storesSetting.vendor && $scope.settings.storesSetting.vendor.id) {
+      $scope.item.vendor = $scope.vendorsList.find((_t) => {
+        return _t.id == $scope.settings.storesSetting.vendor.id;
+      });
+    }
+
     site.showModal($scope.modalID);
   };
 
@@ -535,6 +560,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
           code: 1,
           nameEn: 1,
           nameAr: 1,
+          workByBatch: 1,
+          workBySerial: 1,
+          validityDays: 1,
           itemGroup: 1,
           unitsList: 1,
         },
@@ -646,8 +674,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     }
 
     delete orderItem.unit.storesList;
-
-    $scope.item.itemsList.unshift({
+    let item = {
       id: orderItem.item.id,
       code: orderItem.item.code,
       nameAr: orderItem.item.nameAr,
@@ -664,12 +691,17 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       vendorDiscount: orderItem.vendorDiscount,
       purchaseCost: 0,
       approved: false,
-    });
-    delete orderItem.price;
-    delete orderItem.salesPrice;
+    };
+    if (orderItem.item.workByBatch) {
+      item.workByBatch = true;
+      item.validityDays = orderItem.item.validityDays;
+    } else if (orderItem.item.workBySerial) {
+      item.workBySerial = true;
+    }
+    $scope.item.itemsList.unshift(item);
 
     $scope.setTotalPrice();
-    $scope.orderItem = { ...$scope, orderItem };
+    $scope.resetOrderItem();
     $scope.itemsError = '';
   };
 
@@ -812,6 +844,114 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     return { success, _item };
   };
 
+  $scope.addNewPatch = function (item) {
+    $scope.errorPatch = '';
+    let obj = {};
+    if (item.workByBatch) {
+      obj = {
+        productionDate: new Date(),
+        expiryDate: new Date($scope.addDays(new Date(), item.validityDays || 0)),
+        validityDays: item.validityDays || 0,
+        count: 0,
+      };
+    } else if (item.workBySerial) {
+      obj = {
+        productionDate: new Date(),
+        count: 1,
+      };
+    }
+    item.patchesList.unshift(obj);
+    $scope.calcPatch(item);
+  };
+
+  $scope.savePatch = function (item) {
+    $scope.errorPatch = '';
+    const v = site.validated('#patchModalModal');
+    if (!v.ok) {
+      $scope.error = v.messages[0].ar;
+      return;
+    }
+
+    if (item.$patchCount === item.count + item.bonusCount) {
+      site.hideModal('#patchModalModal');
+    } else {
+      $scope.errorPatch = 'The Count is not correct';
+      return;
+    }
+  };
+
+  $scope.showPatchModal = function (item) {
+    $scope.error = '';
+    $scope.errorPatch = '';
+    $scope.patch = item;
+    item.patchesList = item.patchesList || [];
+    if (item.patchesList.length < 1) {
+      let obj = {};
+      if (item.workByBatch) {
+        obj = {
+          productionDate: new Date(),
+          expiryDate: new Date($scope.addDays(new Date(), item.validityDays || 0)),
+          validityDays: item.validityDays || 0,
+          count: item.count,
+        };
+        item.patchesList = [obj];
+      }
+    }
+    $scope.calcPatch(item);
+    site.showModal('#patchModalModal');
+  };
+
+  $scope.addDays = function (date, days) {
+    let result = new Date(date);
+    result.setTime(result.getTime() + days * 24 * 60 * 60 * 1000);
+    return result;
+  };
+
+  $scope.changeDate = function (i, str) {
+    $timeout(() => {
+      $scope.errorPatch = '';
+      $scope.error = '';
+
+      if (str == 'exp') {
+        let diffTime = Math.abs(new Date(i.expiryDate) - new Date(i.productionDate));
+        i.validityDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      } else if (str == 'pro') {
+        i.expiryDate = new Date($scope.addDays(i.productionDate, i.validityDays || 0));
+      }
+    }, 250);
+  };
+
+  $scope.calcPatch = function (item) {
+    $timeout(() => {
+      $scope.errorPatch = '';
+      $scope.error = '';
+      item.$patchCount = item.patchesList.reduce((a, b) => +a + +b.count, 0);
+
+    }, 250);
+  };
+
+
+  $scope.getSetting = function () {
+    $scope.busy = true;
+    $scope.settings = {};
+    $http({
+      method: 'POST',
+      url: '/api/systemSetting/get',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done) {
+          $scope.settings = response.data.doc;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getAll();
   $scope.getPaymentTypes();
   $scope.getPurchaseOrdersSource();
@@ -821,4 +961,5 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
   $scope.getStores();
   $scope.getStoresItems();
   $scope.getNumberingAuto();
+  $scope.getSetting();
 });

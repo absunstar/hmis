@@ -338,5 +338,15 @@
         "name": "Please Select Tool Name",
         "En": "Please Select Tool Name",
         "Ar": "يرجي إختيار الاداة"
+    },
+    {
+        "name": "Are You Sure To Aapprove Group Vacation",
+        "En": "Are You Sure To Aapprove Group Vacation",
+        "Ar": "هل تريد إعتماد الأجازة المجمعة"
+    },
+    {
+        "name": "Are You Sure To Unapprove Group Vacation",
+        "En": "Are You Sure To Unapprove Group Vacation",
+        "Ar": "هل تريد إلغاء إعتماد الأجازة المجمعة"
     }
 ]

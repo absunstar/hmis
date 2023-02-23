@@ -1,12 +1,12 @@
-app.controller('groupVacations', function ($scope, $http, $timeout) {
+app.controller('createVacations', function ($scope, $http, $timeout) {
     $scope.baseURL = '';
-    $scope.appName = 'groupVacations';
-    $scope.modalID = '#groupVacationsManageModal';
-    $scope.modalSearchID = '#groupVacationsSearchModal';
+    $scope.appName = 'createVacations';
+    $scope.modalID = '#createVacationsManageModal';
+    $scope.modalSearchID = '#createVacationsSearchModal';
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
-        image: { url: '/images/groupVacations.png' },
+        image: { url: '/images/createVacations.png' },
         approved: false,
         active: true,
     };
@@ -85,6 +85,82 @@ app.controller('groupVacations', function ($scope, $http, $timeout) {
                     }
                 } else {
                     $scope.error = 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+
+    $scope.approve = function (_item) {
+        let confirm = window.confirm('##word.Are You Sure To Aapprove Group Vacation##');
+
+        if (!confirm) {
+            return;
+        }
+
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/approve`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = response.data.error || 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+
+    $scope.unapprove = function (_item) {
+        let confirm = window.confirm('##word.Are You Sure To Unapprove Group Vacation##');
+
+        if (!confirm) {
+            return;
+        }
+
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/unapprove`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = response.data.error || 'Please Login First';
                 }
             },
             function (err) {

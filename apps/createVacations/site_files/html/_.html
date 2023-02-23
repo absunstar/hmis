@@ -1,14 +1,14 @@
-<div ng-controller="groupVacations" class="loaded">
-    <div class="row" x-permissions="groupVacationsUi || groupVacationsManage">
-        <div x-import="groupVacations/modal.html"></div>
-        <div x-import="groupVacations/modalSearch.html"></div>
+<div ng-controller="createVacations" class="loaded">
+    <div class="row" x-permissions="createVacationsUi || createVacationsManage">
+        <div x-import="createVacations/modal.html"></div>
+        <div x-import="createVacations/modalSearch.html"></div>
 
         <div class="top-actions">
-            <i-button type="add" x-permissions="groupVacationsAdd || groupVacationsManage" label="##word.New##" ng-click="showAdd()"></i-button>
+            <i-button type="add" x-permissions="createVacationsAdd || createVacationsManage" label="##word.New##" ng-click="showAdd()"></i-button>
         </div>
 
         <div class="row padding">
-            <i-control ng-model="$search" x-permissions="groupVacationsSearch || groupVacationsManage"></i-control>
+            <i-control ng-model="$search" x-permissions="createVacationsSearch || createVacationsManage"></i-control>
         </div>
 
         <table class="table hover bold" id="t1">
@@ -31,7 +31,7 @@
                 <td class="text-center blue">{{item.fromDate|date:'dd/MM/yyyy'}}</td>
                 <td class="text-center blue">{{item.toDate|date:'dd/MM/yyyy'}}</td>
                 <td class="text-center">
-                    <span class="text-success" ng-show="item.approved">##word.Yes##</span>
+                    <span class="text-success" ng-show="item.approved">##word.Yes## - <span> {{item.approveDate|date:'dd/MM/yyyy'}} - {{item.approveDate|date:'hh:mm:ss a'}} </span> </span>
                     <span class="text-danger" ng-show="!item.approved">##word.No##</span>
                 </td>
                 <td class="text-center">
@@ -42,13 +42,13 @@
                 <td class="text-center not-print">
                     <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
-                    <i-button type="edit" x-permissions="groupVacationsUpdate || groupVacationsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
+                    <i-button type="edit" x-permissions="createVacationsUpdate || createVacationsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
 
-                    <i-button type="delete" x-permissions="groupVacationsDelete || groupVacationsManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
+                    <i-button type="delete" ng-if="!item.approved" x-permissions="createVacationsDelete || createVacationsManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
                 </td>
             </tr>
         </table>
-        <i-button x-permissions="groupVacationsPrint || groupVacationsManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
-        <i-button x-permissions="groupVacationsExport || groupVacationsManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')"> </i-button>
+        <i-button x-permissions="createVacationsPrint || createVacationsManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
+        <i-button x-permissions="createVacationsExport || createVacationsManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')"> </i-button>
     </div>
 </div>

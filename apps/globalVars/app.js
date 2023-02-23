@@ -226,6 +226,7 @@ module.exports = function init(site) {
         { id: 9, code: '009', nameEn: 'Annual', nameAr: 'سنوية' },
         { id: 10, code: '010', nameEn: 'Exams', nameAr: 'إمتحانات' },
     ];
+    
     site.post('/api/delayDiscountsTypes', (req, res) => {
         res.json({
             done: true,

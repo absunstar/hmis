@@ -1,0 +1,13 @@
+[
+    { "moduleName": "public", "screenName": "createVacations", "name": "createVacationsManage", "En": "Manage", "Ar": "إدارة" },
+    { "moduleName": "public", "screenName": "createVacations", "name": "createVacationsAdd", "En": "Add", "Ar": "إضافة" },
+    { "moduleName": "public", "screenName": "createVacations", "name": "createVacationsUpdate", "En": "Edit", "Ar": "تعديل" },
+    { "moduleName": "public", "screenName": "createVacations", "name": "createVacationsDelete", "En": "Delete", "Ar": "حذف" },
+    { "moduleName": "public", "screenName": "createVacations", "name": "createVacationsView", "En": "View", "Ar": "عرض" },
+    { "moduleName": "public", "screenName": "createVacations", "name": "createVacationsSearch", "En": "Search", "Ar": "بحث" },
+    { "moduleName": "public", "screenName": "createVacations", "name": "createVacationsExport", "En": "Export", "Ar": "تصدير" },
+    { "moduleName": "public", "screenName": "createVacations", "name": "createVacationsPrint", "En": "Print", "Ar": "طباعة" },
+    { "moduleName": "public", "screenName": "createVacations", "name": "createVacationsUi", "En": "UI", "Ar": "الواجهة الرسومية" },
+    { "moduleName": "public", "screenName": "createVacations", "name": "approveVacation", "En": "Approve  vacation", "Ar": "إعتماد أجازة مجمعة" },
+    { "moduleName": "public", "screenName": "createVacations", "name": "unapproveVacation", "En": "unapprove  vacation", "Ar": "إلغاء إعتماد أجازة مجمعة" }
+]

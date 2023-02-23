@@ -84,7 +84,7 @@
             "stockTakingManage",
             "vacationsManage",
             "vacationsTypesManage",
-            "groupVacationsManage",
+            "createVacationsManage",
             "vacationsNamesManage"
         ]
     }

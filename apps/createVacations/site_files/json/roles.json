@@ -1,9 +1,9 @@
 [
     {
         "moduleName": "public",
-        "name": "groupVacationsAdmin",
+        "name": "createVacationsAdmin",
         "En": "Group Vacations Admin",
         "Ar": "إدارة الأجازات الجماعية",
-        "permissions": ["groupVacationsManage"]
+        "permissions": ["createVacationsManage"]
     }
 ]

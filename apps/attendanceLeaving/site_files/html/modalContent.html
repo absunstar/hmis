@@ -18,8 +18,8 @@
             <tbody>
                 <tr>
                     <td>{{item.shiftData.day.name##session.lang##}}</td>
-                    <td>{{item.shiftData.start | date :'hh:mm:ss'}}</td>
-                    <td>{{item.shiftData.end | date :'hh:mm:ss'}}</td>
+                    <td>{{item.shiftData.start | date :'hh:mm a'}}</td>
+                    <td>{{item.shiftData.end | date :'hh:mm a'}}</td>
                 </tr>
             </tbody>
         </table>
@@ -36,7 +36,7 @@
                 <tr>
                     <td>
                         <i-button type="add" label="##word.Attended##" ng-hide="item.absence || item.attendTime" ng-click="attendTime('attend')"></i-button>
-                        <p class="bold green" ng-show="item.attendTime">{{item.attendTime |date:"hh:mm"}}</p>
+                        <p class="bold " ng-show="item.attendTime">{{item.attendTime |date:"hh:mm a"}}</p>
                     </td>
                     <td>
                         <p class="bold" ng-show="item.attendTime">
@@ -47,7 +47,7 @@
 
                     <td>
                         <i-button type="edit" label="##word.Leave##" ng-show="item.attendTime && !item.leaveDate" ng-click="attendTime('leave')"></i-button>
-                        <p class="bold red" ng-show="item.leaveDate">{{item.leaveDate |date:"hh:mm"}}</p>
+                        <p class="bold " ng-show="item.leaveDate">{{item.leaveDate |date:"hh:mm a"}}</p>
                     </td>
 
                     <td>

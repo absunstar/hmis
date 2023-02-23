@@ -452,7 +452,7 @@
     {
         "category": "main",
         "feature": "public",
-        "id": "groupVacations",
-        "name": "Group Vacations"
+        "id": "createVacations",
+        "name": "Create Vacations"
     }
 ]

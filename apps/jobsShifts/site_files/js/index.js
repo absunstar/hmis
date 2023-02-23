@@ -200,10 +200,6 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
                 $scope.busy = false;
                 if (response.data.done) {
                     $scope.item = response.data.doc;
-                    // $scope.item.worktimesList.forEach((_w) => {
-                    //     _w.start = new Date(_w.start);
-                    //     _w.end = new Date(_w.end);
-                    // });
                 } else {
                     $scope.error = response.data.error;
                 }

@@ -28,7 +28,7 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
         $scope.busy = true;
         $http({
             method: 'POST',
-            url: `${$scope.baseURL}/api/${$scope.appName}/update`,
+            url: `${$scope.baseURL}/api/${$scope.appName}/add`,
             data: $scope.item,
         }).then(
             function (response) {
@@ -36,7 +36,7 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
                 if (response.data.done) {
                     site.hideModal($scope.modalID);
                     site.resetValidated($scope.modalID);
-                    /* $scope.list.push(response.data.result); */
+                    $scope.list.push(response.data.result);
                 } else {
                     $scope.error = response.data.error;
                     if (response.data.error && response.data.error.like('*Must Enter Code*')) {

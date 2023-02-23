@@ -46,14 +46,14 @@
                     </td>
 
                     <td>
-                        <i-button type="close" label="##word.Leave##" ng-show="item.attendTime && !item.leaveDate" ng-click="attendTime('leave')"></i-button>
+                        <i-button type="edit" label="##word.Leave##" ng-show="item.attendTime && !item.leaveDate" ng-click="attendTime('leave')"></i-button>
                         <p class="bold red" ng-show="item.leaveDate">{{item.leaveDate |date:"hh:mm"}}</p>
                     </td>
 
                     <td>
                         <p class="bold" ng-show="item.attendTime">
-                            <span class="green" ng-if="item.leavingTimeDifference>0">{{item.leavingTimeDifference }}</span>
-                            <span class="red" ng-if="item.leavingTimeDifference<0">{{item.leavingTimeDifference }}</span>
+                            <span class="red" ng-if="item.leavingTimeDifference>0">{{item.leavingTimeDifference }}</span>
+                            <span class="green" ng-if="item.leavingTimeDifference<0">{{item.leavingTimeDifference }}</span>
                         </p>
                     </td>
                     <td>

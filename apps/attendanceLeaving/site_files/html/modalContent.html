@@ -1,59 +1,92 @@
 <div class="row padding">
-  <div class="row">
     <div class="row">
-      <i-control ng-hide="disabledCode" class="col9" label="##word.Code##" ng-model="item.code"> </i-control>
-    </div>
-    <i-date label="##word.date##" ng-model="item.date"></i-date>
-    <i-list v="r" label="##word.employee##" ng-change="getEmployeeAttend()" ng-model="item.employee" items="employeesList" ng-get="getEmployeesList($search)" display="fullName##session.lang##" ng-search="item.$employee"> </i-list>
+        <div class="row">
+            <i-control ng-hide="disabledCode" class="col9" label="##word.Code##" ng-model="item.code"> </i-control>
+        </div>
+        <i-date label="##word.date##" ng-model="item.date"></i-date>
+        <!-- getEmployeeAttend() -->
+        <i-list v="r" label="##word.employee##" ng-change="getShiftData(item);" ng-model="item.employee" items="employeesList" ng-get="getEmployeesList($search)" display="fullName##session.lang##">
+        </i-list>
+        <table class="table center hover bold" ng-if="item.employee && item.employee.id">
+            <thead>
+                <tr>
+                    <th>##word.Name##</th>
+                    <th>##word.Start##</th>
+                    <th>##word.End##</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{item.shiftData.day.name##session.lang##}}</td>
+                    <td>{{item.shiftData.start | date :'hh:mm:ss'}}</td>
+                    <td>{{item.shiftData.end | date :'hh:mm:ss'}}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <div class="row">
-      <table class="table center hover bold">
-        <tr>
-          <th>##word.Attendance##</th>
-          <th>##word.leave##</th>
-          <th>##word.Absence##</th>
-        </tr>
-        <tr>
-          <td>
-            <i-button type="add" label="##word.add##" ng-hide="item.absence || item.attendDate" ng-click="attendTime('attend')"></i-button>
-            <p class="bold green" ng-show="item.attendDate">{{item.attendDate  |date:"hh:mm"}}</p>
-          </td>
+        <div class="row">
+            <table class="table center hover bold" ng-if="item.shiftData.day">
+                <tr>
+                    <th>##word.Attendance Time##</th>
+                    <th>##word.Attendance Time Difference Minute##</th>
+                    <th>##word.Leaving Time##</th>
+                    <th>##word.Leaving Time Difference Minute##</th>
+                    <th>##word.Absence##</th>
+                </tr>
+                <tr>
+                    <td>
+                        <i-button type="add" label="##word.Attended##" ng-hide="item.absence || item.attendTime" ng-click="attendTime('attend')"></i-button>
+                        <p class="bold green" ng-show="item.attendTime">{{item.attendTime |date:"hh:mm"}}</p>
+                    </td>
+                    <td>
+                        <p class="bold" ng-show="item.attendTime">
+                            <span class="red" ng-if="item.attendanceTimeDifference>0">{{item.attendanceTimeDifference }}</span>
+                            <span class="green" ng-if="item.attendanceTimeDifference<0">{{item.attendanceTimeDifference }}</span>
+                        </p>
+                    </td>
 
-          <td>
-            <i-button type="close" label="##word.Leave##" ng-show="item.attendDate && !item.leaveDate" ng-click="attendTime('leave')"></i-button>
-            <p class="bold red" ng-show="item.leaveDate">{{item.leaveDate |date:"hh:mm"}}</p>
-          </td>
-          <td>
-            <i-button type="close" label="##word.Absence##" ng-hide="item.absence || item.attendDate" ng-click="attendTime('absence')"></i-button>
-            <p class="bold blue" ng-show="item.absence" >##word.Yes##</p>
-            <p class="bold blue" ng-show="!item.absence && item.attendDate" >##word.No##</p>
-          </td>
-        </tr>
-      </table>
+                    <td>
+                        <i-button type="close" label="##word.Leave##" ng-show="item.attendTime && !item.leaveDate" ng-click="attendTime('leave')"></i-button>
+                        <p class="bold red" ng-show="item.leaveDate">{{item.leaveDate |date:"hh:mm"}}</p>
+                    </td>
+
+                    <td>
+                        <p class="bold" ng-show="item.attendTime">
+                            <span class="green" ng-if="item.leavingTimeDifference>0">{{item.leavingTimeDifference }}</span>
+                            <span class="red" ng-if="item.leavingTimeDifference<0">{{item.leavingTimeDifference }}</span>
+                        </p>
+                    </td>
+                    <td>
+                        <i-button type="close" label="##word.Absence##" ng-hide="item.absence || item.attendTime" ng-click="attendTime('absence')"></i-button>
+                        <p class="bold blue" ng-show="item.absence">##word.Yes##</p>
+                        <p class="bold blue" ng-show="!item.absence && item.attendTime">##word.No##</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
-  </div>
 </div>
 
 <div ng-show="mode !== 'add' " class="row">
-  <table class="table hover border">
-    <tr>
-      <th>##word.Add Info##</th>
-      <th>##word.Last Edit Info##</th>
-    </tr>
-    <tr>
-      <td class="center">
-        <p class="blue">{{item.addUserInfo.name}}</p>
-        <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
-        <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
-        <p class="bold">IP : {{item.addUserInfo.ip}}</p>
-      </td>
+    <table class="table hover border">
+        <tr>
+            <th>##word.Add Info##</th>
+            <th>##word.Last Edit Info##</th>
+        </tr>
+        <tr>
+            <td class="center">
+                <p class="blue">{{item.addUserInfo.name}}</p>
+                <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
+                <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
+                <p class="bold">IP : {{item.addUserInfo.ip}}</p>
+            </td>
 
-      <td class="center">
-        <p class="blue">{{item.editUserInfo.name}}</p>
-        <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
-        <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
-        <p class="bold">IP : {{item.editUserInfo.ip}}</p>
-      </td>
-    </tr>
-  </table>
+            <td class="center">
+                <p class="blue">{{item.editUserInfo.name}}</p>
+                <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
+                <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
+                <p class="bold">IP : {{item.editUserInfo.ip}}</p>
+            </td>
+        </tr>
+    </table>
 </div>

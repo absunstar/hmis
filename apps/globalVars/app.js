@@ -117,13 +117,13 @@ module.exports = function init(site) {
     ];
 
     site.weekDays = [
-        { id: 1, nameEn: 'Saturday', nameAr: 'السبت' },
-        { id: 2, nameEn: 'Sunday', nameAr: 'الأحد' },
-        { id: 3, nameEn: 'Monday', nameAr: 'الإثنين' },
-        { id: 4, nameEn: 'Tuesday', nameAr: 'الثلاثاء' },
-        { id: 5, nameEn: 'Wednesday', nameAr: 'الأربعاء' },
-        { id: 6, nameEn: 'Thursday', nameAr: 'الخميس' },
-        { id: 7, nameEn: 'Friday', nameAr: 'الجمعة' },
+        { id: 1, index: 6, nameEn: 'Saturday', nameAr: 'السبت' },
+        { id: 2, index: 0, nameEn: 'Sunday', nameAr: 'الأحد' },
+        { id: 3, index: 1, nameEn: 'Monday', nameAr: 'الإثنين' },
+        { id: 4, index: 2, nameEn: 'Tuesday', nameAr: 'الثلاثاء' },
+        { id: 5, index: 3, nameEn: 'Wednesday', nameAr: 'الأربعاء' },
+        { id: 6, index: 4, nameEn: 'Thursday', nameAr: 'الخميس' },
+        { id: 7, index: 5, nameEn: 'Friday', nameAr: 'الجمعة' },
     ];
 
     site.safesTypes = [

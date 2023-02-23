@@ -1,7 +1,12 @@
 <div class="row">
     <i-control ng-hide="disabledCode" class="col4" label="##word.Code##" ng-model="item.code"> </i-control>
-
-    <div class="col4" x-permissions="changeDelayTime">
+    <div class="col4" ng-if="item.approved">
+        <div class="row">
+            <p class="text-center">##word.Available Delay By Minute##</p>
+            <p class="text-center">{{item.availableDelayTime}} <span class="bold">##word.Minute##</span></p>
+        </div>
+    </div>
+    <div class="col4" x-permissions="changeDelayTime" ng-if="!item.approved">
         <div class="row">
             <i-control type="number" class="col9" v="r" ng-model="item.availableDelayTime" label="##word.Available Delay By Minute##"></i-control>
             <div class="col2">
@@ -19,7 +24,7 @@
 
     <fieldset>
         <legend>##word.Worktimes##</legend>
-        <div class="row" x-permissions="addShiftWorktimes">
+        <div class="row" ng-if="!item.approved" x-permissions="addShiftWorktimes">
             <i-list label="##word.Day##" class="col3" ng-model="worktime.day" display="name##session.lang##" items="weekDaysList" ng-search="worktime.$day"></i-list>
             <i-control type="time" class="col3" ng-model="worktime.start" label="##word.Start##"></i-control>
             <i-control type="time" class="col3" ng-model="worktime.end" label="##word.End##"></i-control>
@@ -52,10 +57,10 @@
             </tr>
         </table>
     </fieldset>
-    
+
     <fieldset>
         <legend>##word.Penalties##</legend>
-        <div class="row" x-permissions="addDelayPenalty">
+        <div class="row" ng-if="!item.approved" x-permissions="addDelayPenalty">
             <i-control type="number" class="col2" ng-model="delayPenalty.fromMinute" label="##word.From Minute##"></i-control>
             <i-control type="number" class="col2" ng-model="delayPenalty.toMinute" label="##word.To Minute##"></i-control>
             <i-control type="number" class="col3" ng-model="delayPenalty.value" label="##word.Value##"></i-control>

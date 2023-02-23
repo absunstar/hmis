@@ -195,6 +195,7 @@ module.exports = function init(site) {
 
         let _data = req.data;
         _data.editUserInfo = req.getUserFinger();
+console.log('_data', _data);
 
         app.update(_data, (err, result) => {
           if (!err) {

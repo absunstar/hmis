@@ -8,6 +8,7 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
     $scope.structure = {};
     $scope.item = {};
     $scope.list = [];
+    $scope.currentDay = {};
 
     $scope.showAdd = function (_item) {
         $scope.error = '';
@@ -183,11 +184,24 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
             }
         );
     };
+
     $scope.attendTime = function (type) {
+        const now = new Date();
+        const attendTime = new Date($scope.item.shiftData.start);
+        const leavingTime = new Date($scope.item.shiftData.end);
+
         if (type == 'attend') {
-            $scope.item.attendDate = new Date();
+            $scope.item.attendTime = new Date();
+
+            const attendHours = now.getHours() - attendTime.getHours();
+            const attendMinutes = now.getMinutes();
+            $scope.item.attendanceTimeDifference = Math.floor(attendHours * 60 + attendMinutes);
         } else if (type == 'leave') {
             $scope.item.leaveDate = new Date();
+            const leavingHours = now.getHours() - leavingTime.getHours();
+            const leavingMinutes = now.getMinutes();
+
+            $scope.item.leavingTimeDifference = Math.floor(leavingHours * 60 - leavingMinutes);
         } else if (type == 'absence') {
             $scope.item.absence = true;
         }
@@ -216,14 +230,17 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
         }
     };
 
-    $scope.getEmployees = function () {
+    $scope.getEmployees = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
         $scope.busy = true;
         $scope.employeesList = [];
         $http({
             method: 'POST',
             url: '/api/employees/all',
             data: {
-                where: { active: true, 'type.id': 3 },
+                where: { active: true },
                 select: {
                     id: 1,
                     code: 1,
@@ -233,7 +250,7 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
                     fingerprintCode: 1,
                     shift: 1,
                 },
-                limit: 10,
+                search: $search,
             },
         }).then(
             function (response) {
@@ -248,6 +265,48 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
             }
         );
     };
+
+    $scope.getShiftData = function (_data) {
+        if (!_data.date || !_data.employee) {
+            return;
+        }
+        const data = {
+            date: _data.date,
+            id: _data.employee.shift.id,
+        };
+
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: '/api/jobsShifts/get',
+            data,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.doc) {
+                    $scope.item.shiftData = response.data.doc;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    // $scope.getShift(data);
+    // const dayIndex = $scope.item.date.getDay();
+    // const dayName = employee.shift.worktimesList?.findIndex((_d) => _d.day.index == dayIndex);
+    // if (dayName !== -1) {
+    //     const selectedDay = employee.shift.worktimesList[dayName];
+
+    //     $scope.currentDay = {
+    //         day: selectedDay.day,
+    //         start: selectedDay.start,
+    //         end: selectedDay.end,
+    //     };
+    // }
+    // };
 
     $scope.getNumberingAuto = function () {
         $scope.error = '';

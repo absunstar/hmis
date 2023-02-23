@@ -365,7 +365,10 @@ app.controller('employees', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getJobsShiftsList = function () {
+    $scope.getJobsShiftsList = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
         $scope.busy = true;
         $scope.jobsShiftsList = [];
         $http({
@@ -374,12 +377,15 @@ app.controller('employees', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
+                    approved: true,
                 },
                 select: {
                     id: 1,
+                    code: 1,
                     nameEn: 1,
                     nameAr: 1,
                 },
+                search: $search,
             },
         }).then(
             function (response) {

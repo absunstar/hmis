@@ -1,112 +1,114 @@
 <div class="row">
-    <fieldset>
-        <legend>##word.Basic Informations##</legend>
-        <div class="row padding">
-            <i-control ng-hide="disabledCode" class="col3" label="##word.Code##" ng-model="item.code"> </i-control>
-            <i-date class="col3" label="##word.Date##" ng-model="item.date"> </i-date>
-            <i-list type="text" v="r" class="col4" ng-model="item.store" label="##word.Store##" items="storesList" ng-get="getStores($search)" display="name##session.lang##"></i-list>
-            <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
-        </div>
-    </fieldset>
+  <fieldset>
+    <legend>##word.Basic Informations##</legend>
+    <div class="row padding">
+      <i-control ng-hide="disabledCode" class="col3" label="##word.Code##" ng-model="item.code"> </i-control>
+      <i-date class="col3" label="##word.Date##" ng-model="item.date"> </i-date>
+      <i-list type="text" v="r" class="col4" ng-model="item.store" label="##word.Store##" items="storesList" ng-get="getStores($search)" ng-disabled="item.itemsList.length" display="name##session.lang##"></i-list>
+      <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
+    </div>
+  </fieldset>
 
-    <fieldset>
-        <legend>##word.Items Information##</legend>
-        <div class="row" ng-if="mode == 'add'">
-            <i-list
-                class="col2"
-                ng-model="orderItem.item"
-                ng-change="orderItem.item? getItemUnits(orderItem.item):''"
-                items="itemsList"
-                display="name##session.lang##"
-                label="##word.Item##"
-                ng-search="orderItem.$actItem"
-            ></i-list>
+  <fieldset ng-show="item.store && item.store.id">
+    <legend>##word.Items Information##</legend>
+    <div class="row" ng-if="mode == 'add'">
+      <i-list
+        class="col2"
+        ng-model="orderItem.item"
+        ng-change="orderItem.item? getItemUnits(orderItem.item):''"
+        items="itemsList"
+        display="name##session.lang##"
+        label="##word.Item##"
+        ng-search="orderItem.$actItem"
+      ></i-list>
 
-            <i-list class="col2" ng-model="orderItem.unit" items="unitsList" display="name##session.lang##" label="##word.Unit##" ng-get="orderItem.$unit"></i-list>
+      <i-list class="col2" ng-model="orderItem.unit" items="unitsList" display="name##session.lang##" label="##word.Unit##" ng-get="orderItem.$unit"></i-list>
 
-            <i-control class="col2" type="number" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
+      <i-control class="col2" type="number" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
 
-            <i-list
-                class="col2"
-                ng-model="orderItem.destroyingReason"
-                items="destroyingItemsReasonsList"
-                display="name##session.lang##"
-                label="##word.Destorying Reason##"
-                ng-search="orderItem.$resone"
-            ></i-list>
+      <i-list
+        class="col2"
+        ng-model="orderItem.destroyingReason"
+        items="destroyingItemsReasonsList"
+        display="name##session.lang##"
+        label="##word.Destorying Reason##"
+        ng-search="orderItem.$resone"
+      ></i-list>
 
-            <div class="col2">
-                <br />
-                <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
-            </div>
-        </div>
+      <div class="col2">
+        <br />
+        <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
+      </div>
+    </div>
 
-        <p class="error">{{itemsError}}</p>
-        <table class="table hover bold">
-            <tr>
-                <th>##word.S##</th>
-                <th>##word.Item##</th>
-                <th>##word.Unit##</th>
-                <th>##word.Count##</th>
-                <th>##word.Destroying Reason##</th>
-                <th>##word.Approved##</th>
-                <th class="not-print">##word.Actions##</th>
-            </tr>
-            <tr ng-repeat="elem in item.itemsList">
-                <td class="text-center">{{$index+1}}</td>
-                <td class="text-center">{{elem.name##session.lang##}}</td>
-                <td class="text-center">{{elem.unit.name##session.lang##}}</td>
-                <td class="text-center">
-                    <p class="text-center" ng-if="elem.approved">{{elem.count}}</p>
-                    <i-control ng-if="!elem.approved" ng-change="calculateItem(elem)" min="0" type="number" ng-model="elem.count"></i-control>
-                </td>
+    <p class="error">{{itemsError}}</p>
+    <table class="table hover bold">
+      <tr>
+        <th>##word.S##</th>
+        <th>##word.Item##</th>
+        <th>##word.Unit##</th>
+        <th>##word.Count##</th>
+        <th>##word.Destroying Reason##</th>
+        <th>##word.Approved##</th>
+        <th class="not-print">##word.Actions##</th>
+      </tr>
+      <tr ng-repeat="elem in item.itemsList">
+        <td class="text-center">{{$index+1}}</td>
+        <td class="text-center">{{elem.name##session.lang##}}</td>
+        <td class="text-center">{{elem.unit.name##session.lang##}}</td>
+        <td class="text-center">
+          <p class="text-center" ng-if="elem.approved">{{elem.count}}</p>
+          <i-control ng-if="!elem.approved" ng-change="calculateItem(elem)" min="0" type="number" ng-model="elem.count"></i-control>
+        </td>
 
-                <td class="text-center">{{elem.destroyingReason.name##session.lang##}}</td>
-                <td class="text-center">
-                    <span class="text-success" ng-show="elem.approved">##word.Yes##</span>
-                    <span class="text-danger" ng-show="!elem.approved">##word.No##</span>
-                </td>
-                <td class="text-center">
-                    <i-button
-                        type="approve"
-                        ng-show="elem.approved &&  mode == 'edit'"
-                        ng-click="unapproveItem(elem)"
-                        x-permissions="unapproveDamageItem||damageItemsManage"
-                        label="##word.Unapprove##"
-                    ></i-button>
-                    <i-button
-                        type="unapprove"
-                        ng-show="!elem.approved && mode == 'edit'"
-                        ng-click="approveItem(elem)"
-                        x-permissions="approveDamageItem||damageItemsManage"
-                        label="##word.Approve##"
-                    ></i-button>
-                    <i-button type="delete" label="##word.Delete##" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>
-                </td>
-            </tr>
-        </table>
-    </fieldset>
+        <td class="text-center">
+          <i-list
+            ng-model="elem.destroyingReason"
+            items="destroyingItemsReasonsList"
+            display="name##session.lang##"
+            ng-search="elem.$resone"
+          ></i-list>
+        </td>
+        <td class="text-center">
+          <span class="text-success" ng-show="elem.approved">##word.Yes##</span>
+          <span class="text-danger" ng-show="!elem.approved">##word.No##</span>
+        </td>
+        <td class="text-center">
+          <i-button
+            type="approve"
+            ng-show="elem.approved &&  mode == 'edit'"
+            ng-click="unapproveItem(elem)"
+            x-permissions="unapproveDamageItem||damageItemsManage"
+            label="##word.Unapprove##"
+          ></i-button>
+          <i-button type="unapprove" ng-show="!elem.approved && mode == 'edit'" ng-click="approveItem(elem)" x-permissions="approveDamageItem||damageItemsManage" label="##word.Approve##"></i-button>
+          <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial" label="##word.Batch##" ng-click="showBatchModal(elem)"> </i-button>
+          <i-button type="delete" label="##word.Delete##" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>
+        </td>
+      </tr>
+    </table>
+  </fieldset>
 </div>
 <div ng-show="mode !== 'add' " class="row">
-    <table class="table hover border">
-        <tr>
-            <th>##word.Add Info##</th>
-            <th>##word.Last Edit Info##</th>
-        </tr>
-        <tr>
-            <td class="center">
-                <p class="blue">{{item.addUserInfo.name}}</p>
-                <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
-                <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
-                <p class="bold">IP : {{item.addUserInfo.ip}}</p>
-            </td>
+  <table class="table hover border">
+    <tr>
+      <th>##word.Add Info##</th>
+      <th>##word.Last Edit Info##</th>
+    </tr>
+    <tr>
+      <td class="center">
+        <p class="blue">{{item.addUserInfo.name}}</p>
+        <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
+        <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
+        <p class="bold">IP : {{item.addUserInfo.ip}}</p>
+      </td>
 
-            <td class="center">
-                <p class="blue">{{item.editUserInfo.name}}</p>
-                <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
-                <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
-                <p class="bold">IP : {{item.editUserInfo.ip}}</p>
-            </td>
-        </tr>
-    </table>
+      <td class="center">
+        <p class="blue">{{item.editUserInfo.name}}</p>
+        <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
+        <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
+        <p class="bold">IP : {{item.editUserInfo.ip}}</p>
+      </td>
+    </tr>
+  </table>
 </div>

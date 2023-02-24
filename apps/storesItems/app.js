@@ -30,16 +30,6 @@ module.exports = function init(site) {
           }
 
           if (screenName === 'purchaseOrders') {
-            if (doc.workByBatch || doc.workBySerial) {
-              doc.unitsList[index].storesList[storeIndex].batchesList = doc.unitsList[index].storesList[storeIndex].batchesList || [];
-              if (_elm.batchesList && _elm.batchesList.length > 0) {
-                for (let i = 0; i < _elm.batchesList.length; i++) {
-                  let p = _elm.batchesList[i];
-                  doc.unitsList[index].storesList[storeIndex].batchesList.push(p);
-                }
-              }
-            }
-
             doc.unitsList[index].storesList[storeIndex].purchaseCount += _elm.count;
             doc.unitsList[index].storesList[storeIndex].purchasePrice += _elm.price;
             doc.unitsList[index].storesList[storeIndex].bonusCount += _elm.bonusCount;
@@ -55,25 +45,7 @@ module.exports = function init(site) {
             const totalCount = selectedUnit.currentCount + _elm.count;
             doc.unitsList[index].purchaseCost = (oldCost + newCost) / totalCount;
             doc.unitsList[index].purchaseCost = site.toNumber(doc.unitsList[index].purchaseCost);
-          }
-          if (screenName === 'returnPurchaseOrders') {
-            if (doc.workByBatch || doc.workBySerial) {
-              doc.unitsList[index].storesList[storeIndex].batchesList = doc.unitsList[index].storesList[storeIndex].batchesList || [];
-              if (_elm.batchesList && _elm.batchesList.length > 0) {
-                for (let i = 0; i < _elm.batchesList.length; i++) {
-                  let p = _elm.batchesList[i];
-                  doc.unitsList[index].storesList[storeIndex].batchesList.forEach((_p) => {
-                    if (_p.code === p.code) {
-                      _p.count = _p.count - p.count;
-                      // if (_p.count == 0) {
-                      //   delete _p;
-                      // }
-                    }
-                  });
-                }
-              }
-            }
-
+          } else if (screenName === 'returnPurchaseOrders') {
             doc.unitsList[index].storesList[storeIndex].purchaseReturnCost += _elm.cost;
             doc.unitsList[index].storesList[storeIndex].purchaseReturnCount += _elm.count;
             doc.unitsList[index].storesList[storeIndex].purchaseReturnPrice += _elm.price;
@@ -121,6 +93,36 @@ module.exports = function init(site) {
           } else if (screenName === 'storesOpeningBalances') {
             doc.unitsList[index].storesList[storeIndex].openingBalanceCount += _elm.count;
             doc.unitsList[index].storesList[storeIndex].openingBalancePrice += _elm.price;
+          }
+
+          if (doc.workByBatch || doc.workBySerial) {
+            if (screenName === 'purchaseOrders') {
+              doc.unitsList[index].storesList[storeIndex].batchesList = doc.unitsList[index].storesList[storeIndex].batchesList || [];
+              if (_elm.batchesList && _elm.batchesList.length > 0) {
+                for (let i = 0; i < _elm.batchesList.length; i++) {
+                  let p = _elm.batchesList[i];
+                  doc.unitsList[index].storesList[storeIndex].batchesList.push(p);
+                }
+              }
+            } else if (screenName === 'returnPurchaseOrders' || screenName === 'salesInvoices' || screenName === 'returnSalesInvoices' || screenName === 'damageItems') {
+              if (doc.workByBatch || doc.workBySerial) {
+                doc.unitsList[index].storesList[storeIndex].batchesList = doc.unitsList[index].storesList[storeIndex].batchesList || [];
+                if (_elm.batchesList && _elm.batchesList.length > 0) {
+                  for (let i = 0; i < _elm.batchesList.length; i++) {
+                    let p = _elm.batchesList[i];
+                    doc.unitsList[index].storesList[storeIndex].batchesList.forEach((_p) => {
+                      if (_p.code === p.code) {
+                        if (screenName === 'returnSalesInvoices') {
+                          _p.count = _p.count + p.count;
+                        } else {
+                          _p.count = _p.count - p.count;
+                        }
+                      }
+                    });
+                  }
+                }
+              }
+            }
           }
 
           // else if (screenName === app.name) {

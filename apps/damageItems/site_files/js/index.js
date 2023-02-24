@@ -500,6 +500,39 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
         return { success, _item };
     };
 
+    $scope.saveBatch = function (item) {
+        $scope.errorBatch = '';
+        const v = site.validated('#batchModalModal');
+        if (!v.ok) {
+          $scope.error = v.messages[0].ar;
+          return;
+        }
+    
+        if (item.$batchCount === item.count) {
+          site.hideModal('#batchModalModal');
+        } else {
+          $scope.errorBatch = 'The Count is not correct';
+          return;
+        }
+      };
+    
+      $scope.showBatchModal = function (item) {
+        $scope.error = '';
+        $scope.errorBatch = '';
+        $scope.batch = item;
+        item.batchesList = item.batchesList || [];
+        $scope.calcBatch(item);
+        site.showModal('#batchModalModal');
+      };
+    
+      $scope.calcBatch = function (item) {
+        $timeout(() => {
+          $scope.errorBatch = '';
+          $scope.error = '';
+          item.$batchCount = item.batchesList.reduce((a, b) => +a + +b.count, 0);
+        }, 250);
+      };
+
     $scope.getReasonsDestroyingItems();
     $scope.getAll();
     $scope.getStores();

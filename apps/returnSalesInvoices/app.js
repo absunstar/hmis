@@ -344,7 +344,7 @@ module.exports = function init(site) {
                         list: list,
                     });
                 } else {
-                    app.all({ where: where, select }, (err, docs) => {
+                    app.all({ where: where, select , sort : {id : -1} }, (err, docs) => {
                         res.json({ done: true, list: docs });
                     });
                 }

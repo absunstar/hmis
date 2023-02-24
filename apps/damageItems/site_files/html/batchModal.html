@@ -8,9 +8,6 @@
     <div class="modal-body">
       <form class="form">
         <fieldset>
-          <legend>
-            <i-button type="add default" ng-click="addNewBatch(batch)"></i-button>
-          </legend>
           <div class="row">
             <div class="col3">
               <br>
@@ -25,7 +22,7 @@
 
                 <tr>
                   <td>
-                    <p class="green">{{batch.count + batch.bonusCount}}</p>
+                    <p class="green">{{batch.count}}</p>
                   </td>
                   <td>
                     <p class="blue">{{batch.$batchCount}}</p>
@@ -41,34 +38,37 @@
                 <th>##word.Production Date##</th>
                 <th ng-hide="batch.workBySerial">##word.Expiry Date##</th>
                 <th ng-hide="batch.workBySerial">##word.validit##</th>
+                <th>##word.Current QTY.##</th>
                 <th>##word.quantity##</th>
-                <th>##word.actions##</th>
+                <th ng-show="batch.workBySerial">##word.Select##</th>
               </tr>
 
               <tr ng-repeat="c in batch.batchesList">
                 <td>
-                  <i-control v="r" ng-model="c.code"></i-control>
+                  <p>{{c.code}}</p>
                 </td>
 
                 <td>
-                  <i-date ng-click="changeDate(c,'pro')" ng-model="c.productionDate"></i-date>
+                  <p>{{c.productionDate | date: "dd / MM / yyyy"}}</p>
                 </td>
 
                 <td ng-hide="batch.workBySerial">
-                  <i-date ng-click="changeDate(c,'exp')" ng-model="c.expiryDate"></i-date>
+                  <p>{{c.expiryDate | date: "dd / MM / yyyy"}}</p>
                 </td>
 
                 <td ng-hide="batch.workBySerial">
-                  <i-control ng-change="changeDate(c,'pro')" type="number" ng-model="c.validityDays"></i-control>
+                  <p class="green">{{c.validityDays}}</p>
+                </td>
+                <td>
+                  <p>{{c.currentCount}}</p>
                 </td>
 
                 <td>
-                  <i-control type="number" v="r" ng-change="calcBatch(batch)" ng-disabled="batch.workBySerial" ng-model="c.count"> </i-control>
+                  <i-control type="number" ng-change="calcBatch(batch)" ng-disabled="batch.workBySerial" ng-model="c.count"> </i-control>
                 </td>
-                <td>
-                  <p>
-                    <i-button type="delete" ng-click="batch.batchesList.splice($index,1);calcBatch(batch)"> </i-button>
-                  </p>
+
+                <td ng-show="batch.workBySerial">
+                  <i-checkbox ng-model="c.$select" label="##word.Select##" ng-change="c.count = c.$select? 1 : 0 ; calcBatch(batch)"></i-checkbox>
                 </td>
               </tr>
             </table>

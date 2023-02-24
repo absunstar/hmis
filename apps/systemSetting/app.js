@@ -56,9 +56,9 @@ module.exports = function init(site) {
         let branch = site.getBranch(req);
 
         // let setting = app.memoryList.find((s) => s.company.id == company.id && s.branch.id == branch.code);
-        let setting = app.memoryList.find((s) => s.company.id == company.id);
+        site.setting = app.memoryList.find((s) => s.company.id == company.id);
 
-        return setting || app.defaultSystemSetting;
+        return site.setting || app.defaultSystemSetting;
     };
 
     app.save = function (_item, callback) {
@@ -136,15 +136,14 @@ module.exports = function init(site) {
 
         if (app.allowRouteGetSetting) {
             site.post({ name: `/api/${app.name}/get`, public: true }, (req, res) => {
-                let setting = site.getSystemSetting(req);
+                site.setting = site.getSystemSetting(req);
                 res.json({
                     done: true,
-                    doc: setting,
+                    doc: site.setting,
                 });
             });
         }
     }
-
     app.init();
     site.addApp(app);
 };

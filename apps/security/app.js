@@ -450,6 +450,7 @@ module.exports = function init(site) {
                     branch: req.body.branch,
                 };
                 response.done = true;
+                site.getSystemSetting(req);
             } else {
                 response.error = err.message;
             }

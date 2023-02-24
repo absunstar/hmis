@@ -303,6 +303,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
             customer: invoice.customer,
             store: invoice.store,
             sourceType: invoice.sourceType,
+            paymentType: invoice.paymentType,
             itemsList: invoice.itemsList,
         };
         site.hideModal($scope.getSalesInvoicesModalID);

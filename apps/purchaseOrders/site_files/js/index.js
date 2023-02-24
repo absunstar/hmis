@@ -51,6 +51,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
 
   $scope.showAdd = function (_item) {
     $scope.error = '';
+    if(!$scope.settings || !$scope.settings.id){
+      return;
+  }
     $scope.itemsError = '';
     $scope.mode = 'add';
     $scope.item = { ...$scope.structure, orderDate: new Date(), filesList: [], discountsList: [], taxesList: [], itemsList: [] };

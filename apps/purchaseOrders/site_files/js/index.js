@@ -844,8 +844,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     return { success, _item };
   };
 
-  $scope.addNewPatch = function (item) {
-    $scope.errorPatch = '';
+  $scope.addNewBatch = function (item) {
+    $scope.errorBatch = '';
     let obj = {};
     if (item.workByBatch) {
       obj = {
@@ -860,32 +860,32 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         count: 1,
       };
     }
-    item.patchesList.unshift(obj);
-    $scope.calcPatch(item);
+    item.batchesList.unshift(obj);
+    $scope.calcBatch(item);
   };
 
-  $scope.savePatch = function (item) {
-    $scope.errorPatch = '';
-    const v = site.validated('#patchModalModal');
+  $scope.saveBatch = function (item) {
+    $scope.errorBatch = '';
+    const v = site.validated('#batchModalModal');
     if (!v.ok) {
       $scope.error = v.messages[0].ar;
       return;
     }
 
-    if (item.$patchCount === item.count + item.bonusCount) {
-      site.hideModal('#patchModalModal');
+    if (item.$batchCount === item.count + item.bonusCount) {
+      site.hideModal('#batchModalModal');
     } else {
-      $scope.errorPatch = 'The Count is not correct';
+      $scope.errorBatch = 'The Count is not correct';
       return;
     }
   };
 
-  $scope.showPatchModal = function (item) {
+  $scope.showBatchModal = function (item) {
     $scope.error = '';
-    $scope.errorPatch = '';
-    $scope.patch = item;
-    item.patchesList = item.patchesList || [];
-    if (item.patchesList.length < 1) {
+    $scope.errorBatch = '';
+    $scope.batch = item;
+    item.batchesList = item.batchesList || [];
+    if (item.batchesList.length < 1) {
       let obj = {};
       if (item.workByBatch) {
         obj = {
@@ -894,11 +894,11 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
           validityDays: item.validityDays || 0,
           count: item.count,
         };
-        item.patchesList = [obj];
+        item.batchesList = [obj];
       }
     }
-    $scope.calcPatch(item);
-    site.showModal('#patchModalModal');
+    $scope.calcBatch(item);
+    site.showModal('#batchModalModal');
   };
 
   $scope.addDays = function (date, days) {
@@ -909,7 +909,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
 
   $scope.changeDate = function (i, str) {
     $timeout(() => {
-      $scope.errorPatch = '';
+      $scope.errorBatch = '';
       $scope.error = '';
 
       if (str == 'exp') {
@@ -921,11 +921,11 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     }, 250);
   };
 
-  $scope.calcPatch = function (item) {
+  $scope.calcBatch = function (item) {
     $timeout(() => {
-      $scope.errorPatch = '';
+      $scope.errorBatch = '';
       $scope.error = '';
-      item.$patchCount = item.patchesList.reduce((a, b) => +a + +b.count, 0);
+      item.$batchCount = item.batchesList.reduce((a, b) => +a + +b.count, 0);
 
     }, 250);
   };

@@ -803,6 +803,11 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
       }
     );
   };
+  $scope.showBatches = function (_item) {
+    $scope.batch = _item;
+    site.showModal('#batchesModal');
+
+  };
 
   $scope.validateData = function (_item) {
     let success = false;

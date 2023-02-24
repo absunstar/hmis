@@ -155,7 +155,6 @@ module.exports = function init(site) {
         let response = {
           done: false,
         };
-
         let _data = req.data;
         _data.company = site.getCompany(req);
 
@@ -165,6 +164,29 @@ module.exports = function init(site) {
           date: new Date(),
         };
 
+        let errBatchList = [];
+        _data.itemsList.forEach((_item) => {
+          if (_item.workByBatch || _item.workBySerial) {
+            if (_item.batchesList && _item.batchesList.length > 0) {
+              _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
+
+              if (_item.$batchCount != _item.count + _item.bonusCount) {
+                let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
+                errBatchList.push(itemName);
+              }
+            } else {
+              let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
+              errBatchList.push(itemName);
+            }
+          }
+        });
+
+        if (errBatchList.length > 0) {
+          let error = errBatchList.map((m) => m).join('-');
+          response.error = `The Batches Count is not correct in ${error}`;
+          res.json(response);
+          return;
+        }
         let cb = site.getNumbering(numObj);
         if (!_data.code && !cb.auto) {
           response.error = 'Must Enter Code';
@@ -206,6 +228,28 @@ module.exports = function init(site) {
         };
 
         let _data = req.data;
+        let errBatchList = [];
+        _data.itemsList.forEach((_item) => {
+          if (_item.workByBatch || _item.workBySerial) {
+            if (_item.batchesList && _item.batchesList.length > 0) {
+              _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
+
+              if (_item.$batchCount != _item.count + _item.bonusCount) {
+                let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
+                errBatchList.push(itemName);
+              }
+            } else {
+              let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
+              errBatchList.push(itemName);
+            }
+          }
+        });
+        if (errBatchList.length > 0) {
+          let error = errBatchList.map((m) => m).join('-');
+          response.error = `The Batches Count is not correct in ${error}`;
+          res.json(response);
+          return;
+        }
         app.$collection.find({ code: _data.code, id: { $ne: _data.id } }, (err, doc) => {
           if (doc) {
             response.done = false;
@@ -235,6 +279,29 @@ module.exports = function init(site) {
         };
 
         let _data = req.data;
+
+        let errBatchList = [];
+        _data.itemsList.forEach((_item) => {
+          if (_item.workByBatch || _item.workBySerial) {
+            if (_item.batchesList && _item.batchesList.length > 0) {
+              _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
+
+              if (_item.$batchCount != _item.count + _item.bonusCount) {
+                let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
+                errBatchList.push(itemName);
+              }
+            } else {
+              let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
+              errBatchList.push(itemName);
+            }
+          }
+        });
+        if (errBatchList.length > 0) {
+          let error = errBatchList.map((m) => m).join('-');
+          response.error = `The Batches Count is not correct in ${error}`;
+          res.json(response);
+          return;
+        }
 
         _data.approveUserInfo = req.getUserFinger();
         app.update(_data, (err, result) => {
@@ -305,7 +372,7 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-      
+
         let select = req.body.select || {};
         let list = [];
 
@@ -339,7 +406,6 @@ module.exports = function init(site) {
             list: list,
           });
         } else {
-            
           where['company.id'] = site.getCompany(req).id;
 
           app.$collection.findMany({ where: where, select }, (err, docs) => {

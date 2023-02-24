@@ -1,98 +1,98 @@
 <div class="row">
-    <fieldset>
-        <legend>##word.Invoice Informations##</legend>
-        <div class="row padding">
-            <div class="row">
-                <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="item.code"> </i-control>
-                <i-date class="col2" label="##word.Date##" ng-model="item.orderDate"> </i-date>
+  <fieldset>
+    <legend>##word.Invoice Informations##</legend>
+    <div class="row padding">
+      <div class="row">
+        <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="item.code"> </i-control>
+        <i-date class="col2" label="##word.Date##" ng-model="item.orderDate"> </i-date>
 
-                <div class="col2">
-                    <br />
+        <div class="col2">
+          <br />
 
-                    <i-button type="search" label="##word.Search##" ng-click="showModalGetPurchaseOrdersData()"> </i-button>
-                </div>
-            </div>
+          <i-button type="search" label="##word.Search##" ng-click="showModalGetPurchaseOrdersData()"> </i-button>
         </div>
-    </fieldset>
+      </div>
+    </div>
+  </fieldset>
 
-    <fieldset>
-        <legend>##word.Order / Invoice Informations##</legend>
+  <fieldset>
+    <legend>##word.Order / Invoice Informations##</legend>
 
-        <table class="table bold center hover" ng-if="item.itemsList && item.itemsList.length">
-            <tr>
-                <th>##word.Order / Invoice code##</th>
-                <td class="center" colspan="2">
-                    <p class="height-5">{{item.invoiceCode}}</p>
-                </td>
-                <th>##word.Vendor##</th>
-                <td class="center" colspan="2">
-                    <p class="height-5">{{item.vendor.name##session.lang##}}</p>
-                </td>
+    <table class="table bold center hover" ng-if="item.itemsList && item.itemsList.length">
+      <tr>
+        <th>##word.Order / Invoice code##</th>
+        <td class="center" colspan="2">
+          <p class="height-5">{{item.invoiceCode}}</p>
+        </td>
+        <th>##word.Payment Type##</th>
+        <td class="center" colspan="2">
+          <p class="height-5">{{item.paymentType.name##session.lang##}}</p>
+        </td>
 
-                <th>##word.Store##</th>
-                <td class="center" colspan="2">
-                    <p class="height-5">{{item.store.name##session.lang##}}</p>
-                </td>
-            </tr>
+        <th>##word.Store##</th>
+        <td class="center" colspan="2">
+          <p class="height-5">{{item.store.name##session.lang##}}</p>
+        </td>
+      </tr>
 
-            <tr>
-                <th>##word.Order / Invoice Date##</th>
-                <td class="center" colspan="3">
-                    <p class="height-5">{{item.orderDate | date:'dd/MM/yyyy'}} - {{item.orderDate | date:'hh:mm:ss a'}}</p>
-                </td>
-                <th>##word.Order / Invoice Source##</th>
-                <td class="center" colspan="3">
-                    <p class="height-5">{{item.sourceType.name##session.lang##}}</p>
-                </td>
-            </tr>
-        </table>
+      <tr>
+        <th>##word.Order / Invoice Date##</th>
+        <td class="center" colspan="3">
+          <p class="height-5">{{item.orderDate | date:'dd/MM/yyyy'}} - {{item.orderDate | date:'hh:mm:ss a'}}</p>
+        </td>
+        <th>##word.Vendor##</th>
+        <td class="center" colspan="3">
+          <p class="height-5">{{item.vendor.name##session.lang##}} ( <span class="blue">{{item.vendor.code}}</span>  )</p>
+        </td>
+      </tr>
+    </table>
 
-        <table class="table hover bold">
-            <tr>
-                <th>##word.S##</th>
-                <th>##word.Item##</th>
-                <th>##word.Unit##</th>
-                <th>##word.Count##</th>
-                <th>##word.Price##</th>
-                <th>##word.Total##</th>
-            </tr>
-            <tr ng-repeat="elem in item.itemsList">
-                <td class="text-center">{{$index+1}}</td>
-                <td class="text-center">{{elem.name##session.lang##}}</td>
-                <td class="text-center">{{elem.unit.name##session.lang##}}</td>
-                <td class="text-center">
-                    <p class="text-center">{{elem.count}}</p>
-                </td>
-                <td class="text-center">
-                    <p class="text-center">{{elem.price}}</p>
-                </td>
-                <td>
-                    <p class="text-center">{{elem.total}}</p>
-                </td>
-            </tr>
-        </table>
-    </fieldset>
+    <table class="table hover bold">
+      <tr>
+        <th>##word.S##</th>
+        <th>##word.Item##</th>
+        <th>##word.Unit##</th>
+        <th>##word.Count##</th>
+        <th>##word.Price##</th>
+        <th>##word.Total##</th>
+      </tr>
+      <tr ng-repeat="elem in item.itemsList">
+        <td class="text-center">{{$index+1}}</td>
+        <td class="text-center">{{elem.name##session.lang##}}</td>
+        <td class="text-center">{{elem.unit.name##session.lang##}}</td>
+        <td class="text-center">
+          <p class="text-center">{{elem.count}}</p>
+        </td>
+        <td class="text-center">
+          <p class="text-center">{{elem.price}}</p>
+        </td>
+        <td>
+          <p class="text-center">{{elem.total}}</p>
+        </td>
+      </tr>
+    </table>
+  </fieldset>
 </div>
 <div ng-show="mode !== 'add' " class="row">
-    <table class="table hover border">
-        <tr>
-            <th>##word.Add Info##</th>
-            <th>##word.Last Edit Info##</th>
-        </tr>
-        <tr>
-            <td class="center">
-                <p class="blue">{{item.addUserInfo.name}}</p>
-                <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
-                <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
-                <p class="bold">IP : {{item.addUserInfo.ip}}</p>
-            </td>
+  <table class="table hover border">
+    <tr>
+      <th>##word.Add Info##</th>
+      <th>##word.Last Edit Info##</th>
+    </tr>
+    <tr>
+      <td class="center">
+        <p class="blue">{{item.addUserInfo.name}}</p>
+        <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
+        <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
+        <p class="bold">IP : {{item.addUserInfo.ip}}</p>
+      </td>
 
-            <td class="center">
-                <p class="blue">{{item.editUserInfo.name}}</p>
-                <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
-                <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
-                <p class="bold">IP : {{item.editUserInfo.ip}}</p>
-            </td>
-        </tr>
-    </table>
+      <td class="center">
+        <p class="blue">{{item.editUserInfo.name}}</p>
+        <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
+        <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
+        <p class="bold">IP : {{item.editUserInfo.ip}}</p>
+      </td>
+    </tr>
+  </table>
 </div>

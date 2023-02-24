@@ -2,6 +2,7 @@
     <div class="row" x-permissions="storesItemsUi || storesItemsManage">
         <div x-import="storesItems/modal.html"></div>
         <div x-import="storesItems/modalSearch.html"></div>
+        <div x-import="storesItems/batchesModal.html"></div>
 
         <div class="top-actions">
             <i-button type="add" x-permissions="storesItemsAdd || storesItemsManage" label="##word.New##" ng-click="showAdd()"></i-button>
@@ -54,7 +55,7 @@
                 </td>
 
                 <td class="text-center not-print">
-                    <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
+                    <i-button type="view" x-permissions="storesItemsView || storesItemsManage" label="##word.View##" ng-click="showView(item)"></i-button>
 
                     <i-button type="edit" x-permissions="storesItemsUpdate || storesItemsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
 

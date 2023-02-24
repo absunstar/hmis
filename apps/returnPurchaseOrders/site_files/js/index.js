@@ -301,6 +301,7 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
             vendor: invoice.vendor,
             store: invoice.store,
             sourceType: invoice.sourceType,
+            paymentType: invoice.paymentType,
             itemsList: invoice.itemsList,
         };
         site.hideModal($scope.getPurchaseOrdersModalID);

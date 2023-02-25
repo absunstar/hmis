@@ -466,5 +466,11 @@
         "feature": "public",
         "id": "delayRequests",
         "name": "Delay Requests"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "workErrandRequests",
+        "name": "Work Errand Requests"
     }
 ]

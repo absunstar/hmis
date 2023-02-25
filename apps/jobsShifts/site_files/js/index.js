@@ -103,11 +103,6 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
     };
 
     $scope.approve = function (_item) {
-        let confirm = window.confirm('##word.Are You Sure To Approve Shift Data##');
-
-        if (!confirm) {
-            return;
-        }
 
         $scope.error = '';
         const v = site.validated($scope.modalID);
@@ -141,11 +136,6 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
     };
 
     $scope.unapprove = function (_item) {
-        let confirm = window.confirm('##word.Are You Sure To Unapprove Shift Data##');
-
-        if (!confirm) {
-            return;
-        }
 
         $scope.error = '';
         const v = site.validated($scope.modalID);

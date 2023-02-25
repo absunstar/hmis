@@ -102,12 +102,6 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.accept = function (_item) {
-        let confirm = window.confirm('##word.Are You Sure To Approve Shift Data##');
-
-        if (!confirm) {
-            return;
-        }
-
         $scope.error = '';
         const v = site.validated($scope.modalID);
         if (!v.ok) {
@@ -140,12 +134,6 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.reject = function (_item) {
-        let confirm = window.confirm('##word.Are You Sure To Unapprove Shift Data##');
-
-        if (!confirm) {
-            return;
-        }
-
         $scope.error = '';
         const v = site.validated($scope.modalID);
         if (!v.ok) {

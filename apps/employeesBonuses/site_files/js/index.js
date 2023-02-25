@@ -95,11 +95,6 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
     };
 
     $scope.accept = function (_item) {
-        let confirm = window.confirm('##word.Are You Sure To Approve Employee Bounus##');
-
-        if (!confirm) {
-            return;
-        }
 
         $scope.error = '';
         const v = site.validated($scope.modalID);
@@ -133,11 +128,6 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
     };
 
     $scope.reject = function (_item) {
-        let confirm = window.confirm('##word.Are You Sure To Unapprove Shift Data##');
-
-        if (!confirm) {
-            return;
-        }
 
         $scope.error = '';
         const v = site.validated($scope.modalID);

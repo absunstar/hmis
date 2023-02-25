@@ -102,11 +102,6 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.accept = function (_item) {
-        let confirm = window.confirm('##word.Are You Sure To Approve Shift Data##');
-
-        if (!confirm) {
-            return;
-        }
 
         if (!_item.approvedVacationType || !_item.approvedVacationType.id) {
             $scope.error = '##word.Please Select Approved Vacation Type##';
@@ -149,11 +144,6 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.reject = function (_item) {
-        let confirm = window.confirm('##word.Are You Sure To Unapprove Shift Data##');
-
-        if (!confirm) {
-            return;
-        }
 
         $scope.error = '';
         const v = site.validated($scope.modalID);

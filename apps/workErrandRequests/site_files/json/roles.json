@@ -1,0 +1,9 @@
+[
+    {
+        "moduleName": "public",
+        "name": "workErrandRequestsAdmin",
+        "En": "Delay Requests Admin",
+        "Ar": "إدارة أذونات التأخير",
+        "permissions": ["workErrandRequestsManage"]
+    }
+]

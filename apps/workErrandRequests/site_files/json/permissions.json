@@ -1,0 +1,13 @@
+[
+    { "moduleName": "public", "screenName": "workErrandRequests", "name": "workErrandRequestsManage", "En": "Manage", "Ar": "إدارة" },
+    { "moduleName": "public", "screenName": "workErrandRequests", "name": "workErrandRequestsAdd", "En": "Add", "Ar": "إضافة" },
+    { "moduleName": "public", "screenName": "workErrandRequests", "name": "workErrandRequestsUpdate", "En": "Edit", "Ar": "تعديل" },
+    { "moduleName": "public", "screenName": "workErrandRequests", "name": "workErrandRequestsDelete", "En": "Delete", "Ar": "حذف" },
+    { "moduleName": "public", "screenName": "workErrandRequests", "name": "workErrandRequestsView", "En": "View", "Ar": "عرض" },
+    { "moduleName": "public", "screenName": "workErrandRequests", "name": "workErrandRequestsSearch", "En": "Search", "Ar": "بحث" },
+    { "moduleName": "public", "screenName": "workErrandRequests", "name": "workErrandRequestsExport", "En": "Export", "Ar": "تصدير" },
+    { "moduleName": "public", "screenName": "workErrandRequests", "name": "workErrandRequestsPrint", "En": "Print", "Ar": "طباعة" },
+    { "moduleName": "public", "screenName": "workErrandRequests", "name": "workErrandRequestsUi", "En": "UI", "Ar": "الواجهة الرسومية" },
+    { "moduleName": "public", "screenName": "workErrandRequests", "name": "WcceptworkErrandRequest", "En": "Accept Work Errand Request", "Ar": "قبول إذن مأمورية" },
+    { "moduleName": "public", "screenName": "workErrandRequests", "name": "WejectworkErrandRequest", "En": "Reject Work Errand Request", "Ar": "رفض إذن مأمورية" }
+]

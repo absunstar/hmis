@@ -1,0 +1,9 @@
+[
+    {
+        "moduleName": "public",
+        "name": "departmentsAdmin",
+        "En": "Departments Admin",
+        "Ar": "إدارة إدارات الشركة",
+        "permissions": ["departmentsManage"]
+    }
+]

@@ -1,13 +1,12 @@
 module.exports = function init(site) {
     let app = {
-        name: 'employees',
-        allowMemory: false,
+        name: 'departments',
+        allowMemory: true,
         memoryList: [],
         allowCache: false,
         cacheList: [],
         allowRoute: true,
         allowRouteGet: true,
-        allowRouteGetEmployeeVacationBalance: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
         allowRouteDelete: true,
@@ -16,7 +15,6 @@ module.exports = function init(site) {
     };
 
     app.$collection = site.connectCollection(app.name);
-    // app.$collection = site.connectCollection('users_info');
 
     app.init = function () {
         if (app.allowMemory) {
@@ -44,7 +42,6 @@ module.exports = function init(site) {
             if (callback) {
                 callback(err, doc);
             }
-
             if (app.allowMemory && !err && doc) {
                 app.memoryList.push(doc);
             }
@@ -130,7 +127,6 @@ module.exports = function init(site) {
             });
         }
     };
-
     app.all = function (_options, callback) {
         if (callback) {
             if (app.allowMemory) {
@@ -148,7 +144,7 @@ module.exports = function init(site) {
                     name: app.name,
                 },
                 (req, res) => {
-                    res.render(app.name + '/index.html', { title: app.name, appName: 'Employees' }, { parser: 'html', compres: true });
+                    res.render(app.name + '/index.html', { title: app.name, appName: 'Departments' }, { parser: 'html', compres: true });
                 }
             );
         }
@@ -158,37 +154,15 @@ module.exports = function init(site) {
                 let response = {
                     done: false,
                 };
+
                 let _data = req.data;
                 _data.company = site.getCompany(req);
-                _data.branch = site.getBranch(req);
-                _data.branchList = [
-                    {
-                        company: _data.company,
-                        branch: _data.branch,
-                    },
-                ];
+
                 let numObj = {
                     company: site.getCompany(req),
                     screen: app.name,
                     date: new Date(),
                 };
-
-                _data.roles = [
-                    {
-                        moduleName: 'public',
-                        name: 'employeePermissions',
-                        En: 'Employee Permissions',
-                        Ar: 'صلاحيات الموظف',
-                    },
-                ];
-
-                if (_data.mobileList.length > 0) {
-                    _data.mobile = _data.mobileList[0].mobile;
-                } else {
-                    response.error = 'Must Add Mobile Number';
-                    res.json(response);
-                    return;
-                }
 
                 let cb = site.getNumbering(numObj);
                 if (!_data.code && !cb.auto) {
@@ -200,18 +174,13 @@ module.exports = function init(site) {
                 }
 
                 _data.addUserInfo = req.getUserFinger();
-                // _data.type = { id: 3, name: 'Employee' };
-
-                if (!_data.email) {
-                    _data.email = _data.nameEn + Math.floor(Math.random() * 1000 + 1).toString();
-                }
 
                 app.add(_data, (err, doc) => {
                     if (!err && doc) {
                         response.done = true;
                         response.doc = doc;
                     } else {
-                        response.error = err?.message || 'Add Not Exists';
+                        response.error = err.mesage;
                     }
                     res.json(response);
                 });
@@ -227,20 +196,12 @@ module.exports = function init(site) {
                 let _data = req.data;
                 _data.editUserInfo = req.getUserFinger();
 
-                if (_data.mobileList.length > 0) {
-                    _data.mobile = _data.mobileList[0].mobile;
-                } else {
-                    response.error = 'Must Add Mobile Number';
-                    res.json(response);
-                    return;
-                }
-
                 app.update(_data, (err, result) => {
                     if (!err) {
                         response.done = true;
                         response.result = result;
                     } else {
-                        response.error = err?.message || 'Update Not Exists';
+                        response.error = err.message;
                     }
                     res.json(response);
                 });
@@ -285,47 +246,21 @@ module.exports = function init(site) {
             });
         }
 
-        if (app.allowRouteGetEmployeeVacationBalance) {
-            site.post({ name: `/api/${app.name}/getEmployeeVacationBalance`, require: { permissions: ['login'] } }, (req, res) => {
-                let response = {
-                    done: false,
-                };
-
-                let _data = req.data;
-
-                if (!_data.id) {
-                    response.done = false;
-                    response.error = 'Please Select Employee';
-                    res.json(response);
-                    return;
-                }
-
-                app.$collection.find({ id: _data.id }, (err, doc) => {
-                    if (doc) {
-                        const regularVacations = doc.regularVacations || 0;
-                        const casualVacations = doc.casualVacations || 0;
-
-                        response.done = true;
-                        response.doc = { regularVacations, casualVacations };
-
-                        res.json(response);
-                    }
-                });
-            });
-        }
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
                 let search = req.body.search || app.allowMemory ? 'id' : '';
                 let limit = req.body.limit || 10;
                 let select = req.body.select || {
-                    // id: 1,
-                    // code: 1,
-                    // fullNameEn: 1,
-                    // fullNameAr: 1,
-                    // mobile: 1,
-                    // image: 1,
-                    // active: 1,
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                    image: 1,
+                    manager: 1,
+                    deputy: 1,
+                    image: 1,
+                    active: 1,
                 };
 
                 if (search) {
@@ -340,11 +275,11 @@ module.exports = function init(site) {
                     });
 
                     where.$or.push({
-                        fullNameAr: site.get_RegExp(search, 'i'),
+                        nameAr: site.get_RegExp(search, 'i'),
                     });
 
                     where.$or.push({
-                        fullNameEn: site.get_RegExp(search, 'i'),
+                        nameEn: site.get_RegExp(search, 'i'),
                     });
                 }
 

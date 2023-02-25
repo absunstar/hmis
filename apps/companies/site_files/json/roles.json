@@ -26,8 +26,8 @@
             "govesManage",
             "areasManage",
             "nationalitiesManage",
-            "jobsAdministrationsManage",
-            "jobsDepartmentsManage",
+            "departmentsManage",
+            "sectionsManage",
             "employeesBonusNamesManage",
             "employeesPenaltiesNamesManage",
             "jobsManage",
@@ -85,7 +85,8 @@
             "vacationsRequestsManage",
             "vacationsTypesManage",
             "createVacationsManage",
-            "vacationsNamesManage"
+            "vacationsNamesManage",
+            "banksManage"
         ]
     }
 ]

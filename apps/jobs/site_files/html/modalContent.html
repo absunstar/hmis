@@ -3,12 +3,32 @@
         <div class="col9">
             <div class="row">
                 <div class="row">
-                    <i-control ng-hide="disabledCode" class="col6" label="##word.Code##" ng-model="item.code"> </i-control>
-                    <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
-                </div>
-                <div class="row">
-                    <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
-                    <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
+                    <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="item.code"> </i-control>
+                    <i-control type="text" class="col4" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
+                    <i-control type="text" class="col4" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
+                    <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
+
+                    <i-list
+                        v="r"
+                        class="col6"
+                        label="##word.Department##"
+                        ng-model="item.department"
+                        ng-change="getDepartment(item.department)"
+                        display="name##session.lang##"
+                        items="departmentsList"
+                        ng-search="item.$department"
+                    ></i-list>
+                    <i-list
+                        v="r"
+                        class="col6"
+                        label="##word.Department##"
+                        ng-model="item.jobDepartment"
+                        display="name##session.lang##"
+                        items="jobsDepartmentsList"
+                        ng-search="item.$jobDepartment"
+                    ></i-list>
+
+                    <i-textarea type="text" v="r" rows="3" ng-model="item.jobDescription" label="##word.Job Description##"></i-textarea>
                 </div>
             </div>
         </div>
@@ -20,10 +40,6 @@
         <fieldset>
             <div class="tabs">
                 <div class="tabs-header full">
-                    <a class="tab-link" onclick="site.showTabContent(event, '#required')">
-                        <span> ##word.Required##</span>
-                    </a>
-
                     <a class="tab-link" onclick="site.showTabContent(event, '#jobTasks')">
                         <span> ##word.Tasks##</span>
                     </a>
@@ -37,33 +53,10 @@
                     </a>
                 </div>
                 <div class="tabs-content">
-                    <div id="required" class="tab-content">
+                    <!--      <div id="required" class="tab-content">
                         <div class="row padding">
                             <fieldset>
-                                <div class="row">
-                                    <i-list
-                                        v="r"
-                                        class="col6"
-                                        label="##word.Administration##"
-                                        ng-model="item.jobAdministration"
-                                        ng-change="getJobsDepartmentsList(item.jobAdministration)"
-                                        display="name##session.lang##"
-                                        items="jobsAdministrationsList"
-                                        ng-search="item.$jobAdministration"
-                                    ></i-list>
-                                    <i-list
-                                        v="r"
-                                        class="col6"
-                                        label="##word.Department##"
-                                        ng-model="item.jobDepartment"
-                                        display="name##session.lang##"
-                                        items="jobsDepartmentsList"
-                                        ng-search="item.$jobDepartment"
-                                    ></i-list>
-                                </div>
-
-                                <i-textarea type="text" v="r" rows="3" ng-model="item.jobDescription" label="##word.Job Description##"></i-textarea>
-                                <!-- <div class="row">
+                            <div class="row">
                                     <fieldset>
                                         <legend>##word.Salary limits##</legend>
 
@@ -71,10 +64,10 @@
                                         <div class="col1"></div>
                                         <i-control type="number" v="r" class="col3" ng-model="item.SalaryTo" label="##word.Salary To##"></i-control>
                                     </fieldset>
-                                </div> -->
+                                </div> 
                             </fieldset>
                         </div>
-                    </div>
+                    </div>-->
                     <div id="jobTasks" class="tab-content">
                         <fieldset>
                             <legend>##word.Tasks##</legend>
@@ -150,7 +143,8 @@
                             <legend>##word.Tools##</legend>
                             <div class="row">
                                 <i-list class="col4" ng-model="selectedTool.tool" label="##word.Tool##" display="name##session.lang##" items="jobsToolsList" ng-search="item.$jobsTool"></i-list>
-                                <i-control class="col6" type="text" ng-model="selectedTool.notes" label="##word.Notes##"></i-control>
+                                <i-checkbox class="col2" ng-model="selectedTool.companyMustProvide" label="##word.Company Must Provide##"></i-checkbox>
+                                <i-control class="col4" type="text" ng-model="selectedTool.notes" label="##word.Notes##"></i-control>
                                 <div class="col2">
                                     <br />
                                     <i-button type="add" label="##word.Add##" ng-click="addTool(selectedTool)"></i-button>
@@ -160,6 +154,7 @@
                                 <tr>
                                     <th>##word.S##</th>
                                     <th>##word.Tool##</th>
+                                    <th>##word.Company Must Provide##</th>
                                     <th>##word.Notes##</th>
                                     <th>##word.Status##</th>
                                     <th class="not-print">##word.Actions##</th>
@@ -168,6 +163,11 @@
                                     <td class="text-center">{{$index + 1}}</td>
                                     <td>
                                         <p class="text-center">{{tol.tool.name##session.lang##}}</p>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <span class="text-success" ng-show="tol.companyMustProvide">##word.Yes##</span>
+                                        <span class="text-danger" ng-show="!tol.companyMustProvide">##word.No##</span>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-center">{{tol.notes}}</p>
@@ -191,8 +191,9 @@
                         <fieldset>
                             <legend>##word.Skills##</legend>
                             <div class="row">
-                                <i-control class="col4" type="text" ng-model="skill.name" label="##word.Skill Name##"></i-control>
-                                <i-control class="col6" type="text" ng-model="skill.notes" label="##word.Notes##"></i-control>
+                                <i-control class="col3" type="text" ng-model="skill.name" label="##word.Skill Name##"></i-control>
+                                <i-control class="col3" type="number" ng-model="skill.experienceYears" label="##word.Experience Years##"></i-control>
+                                <i-control class="col3" type="text" ng-model="skill.notes" label="##word.Notes##"></i-control>
                                 <div class="col2">
                                     <br />
                                     <i-button type="add" label="##word.Add##" ng-click="addSkill(skill)"></i-button>
@@ -202,6 +203,7 @@
                                 <tr>
                                     <th>##word.S##</th>
                                     <th>##word.Skill##</th>
+                                    <th>##word.Experience Years##</th>
                                     <th>##word.Notes##</th>
                                     <th>##word.Status##</th>
                                     <th class="not-print">##word.Actions##</th>
@@ -210,6 +212,9 @@
                                     <td class="text-center">{{$index + 1}}</td>
                                     <td>
                                         <p class="text-center">{{gift.name}}</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-center">{{gift.experienceYears}}</p>
                                     </td>
                                     <td class="text-center">
                                         <p class="text-center">{{gift.notes}}</p>

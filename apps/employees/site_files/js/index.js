@@ -10,7 +10,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
         active: true,
     };
     $scope.item = {};
-    $scope.bank = {
+    $scope.selectedBank = {
         salaryBank: false,
     };
     $scope.list = [];
@@ -586,44 +586,92 @@ app.controller('employees', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.addAllowances = function (_item) {
+    $scope.addAllowance = function (selectedAllowance) {
         $scope.error = '';
 
-        if (!_item.allowance || !_item.allowance.id) {
+        if (!selectedAllowance.allowance || !selectedAllowance.allowance.id) {
             alert('##word.Please Select Allowance##');
             return;
         }
-        const index = $scope.item.allowancesList.findIndex((_al) => _al.id === _item.id);
+
+        if (!selectedAllowance.type) {
+            alert('##word.Please Select Allowance Type##');
+            return;
+        }
+
+        if (!(selectedAllowance.value > 0)) {
+            alert('##word.Please Enter Value##');
+            return;
+        }
+
+        const index = $scope.item.allowancesList.findIndex((_al) => _al.id === selectedAllowance.id);
         if (index !== -1) {
             alert('##word.Allowance Exisit##');
             return;
         }
 
         $scope.item.allowancesList.push({
-            allowance: _item.allowance,
-            amount: 0,
+            allowance: selectedAllowance.allowance,
+            value: selectedAllowance.value,
+            type: selectedAllowance.type,
+
             active: true,
         });
+        $scope.selectedAllowance = {};
     };
-    $scope.addDeduction = function (_item) {
+
+    $scope.addDeduction = function (selectedDeduction) {
         $scope.error = '';
 
-        if (!_item.deduction || !_item.deduction.id) {
+        if (!selectedDeduction.deduction || !selectedDeduction.deduction.id) {
             alert('##word.Please Select Deduction##');
             return;
         }
-        const index = $scope.item.deductionsList.findIndex((_al) => _al.id === _item.id);
+
+        if (!selectedDeduction.type) {
+            alert('##word.Please Select Deduction Type##');
+            return;
+        }
+
+        if (!(selectedDeduction.value > 0)) {
+            alert('##word.Please Enter Value##');
+            return;
+        }
+
+        const index = $scope.item.deductionsList.findIndex((_al) => _al.id === selectedDeduction.id);
         if (index !== -1) {
             alert('##word.Deduction Exisit##');
             return;
         }
 
         $scope.item.deductionsList.push({
-            deduction: _item.deduction,
-            amount: 0,
+            deduction: selectedDeduction.deduction,
+            value: selectedDeduction.value,
+            type: selectedDeduction.type,
             active: true,
         });
+        $scope.selectedDeduction = {};
     };
+
+    // $scope.addDeduction = function (_item) {
+    //     $scope.error = '';
+
+    //     if (!_item.deduction || !_item.deduction.id) {
+    //         alert('##word.Please Select Deduction##');
+    //         return;
+    //     }
+    //     const index = $scope.item.deductionsList.findIndex((_al) => _al.id === _item.id);
+    //     if (index !== -1) {
+    //         alert('##word.Deduction Exisit##');
+    //         return;
+    //     }
+
+    //     $scope.item.deductionsList.push({
+    //         deduction: _item.deduction,
+    //         amount: 0,
+    //         active: true,
+    //     });
+    // };
 
     // $scope.addDeductions = function (_item) {
     //     $scope.error = '';
@@ -638,12 +686,12 @@ app.controller('employees', function ($scope, $http, $timeout) {
     //     }
     // };
 
-    $scope.getJobsAdministrationsList = function () {
+    $scope.getDepartments = function () {
         $scope.busy = true;
-        $scope.jobsAdministrationsList = [];
+        $scope.departmentsList = [];
         $http({
             method: 'POST',
-            url: '/api/jobsAdministrations/all',
+            url: '/api/departments/all',
             data: {
                 where: { active: true },
                 select: {
@@ -657,7 +705,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
             function (response) {
                 $scope.busy = false;
                 if (response.data.done && response.data.list.length > 0) {
-                    $scope.jobsAdministrationsList = response.data.list;
+                    $scope.departmentsList = response.data.list;
                 }
             },
             function (err) {
@@ -667,14 +715,43 @@ app.controller('employees', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getJobsDepartmentsList = function (jobsAdministration) {
+    $scope.getBanks = function () {
         $scope.busy = true;
-        $scope.jobsDepartmentsList = [];
+        $scope.banksList = [];
         $http({
             method: 'POST',
-            url: '/api/jobsDepartments/all',
+            url: '/api/banks/all',
             data: {
-                where: { active: true, jobsAdministration },
+                where: { active: true },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.banksList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.getSections = function (department) {
+        $scope.busy = true;
+        $scope.sectionsList = [];
+        $http({
+            method: 'POST',
+            url: '/api/sections/all',
+            data: {
+                where: { active: true, department },
                 select: {
                     id: 1,
                     code: 1,
@@ -687,7 +764,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
             function (response) {
                 $scope.busy = false;
                 if (response.data.done && response.data.list.length > 0) {
-                    $scope.jobsDepartmentsList = response.data.list;
+                    $scope.sectionsList = response.data.list;
                 }
             },
             function (err) {
@@ -902,25 +979,25 @@ app.controller('employees', function ($scope, $http, $timeout) {
         $scope.experience = {};
     };
 
-    $scope.addBank = function (bank) {
+    $scope.addBank = function (selectedBank) {
         $scope.error = '';
 
-        if (!bank.name) {
+        if (!selectedBank.bank || !selectedBank.bank.id) {
             alert('##word.Please Enter Bank Name##');
             return;
         }
 
-        if (!bank.accountNumber) {
+        if (!selectedBank.accountNumber) {
             alert('##word.Please Enter Account Number##');
             return;
         }
 
-        if (!bank.accountOwner) {
+        if (!selectedBank.accountOwner) {
             alert('##word.Please Enter Account Owner##');
             return;
         }
 
-        if (bank.salaryBank) {
+        if (selectedBank.salaryBank) {
             const salaryBankIndex = $scope.item.banksList.findIndex((_bnk) => _bnk.salaryBank === true);
             if (salaryBankIndex !== -1) {
                 alert('##word.Default Salary Bank Exisit##');
@@ -928,9 +1005,9 @@ app.controller('employees', function ($scope, $http, $timeout) {
             }
         }
 
-        $scope.item.banksList = $scope.item.banksList || [];
-        $scope.item.banksList.push(bank);
-        $scope.bank = {};
+        // $scope.item.banksList = $scope.item.banksList || [];
+        $scope.item.banksList.push(selectedBank);
+        $scope.selectedBank = {};
     };
 
     $scope.calculateAdditionalSocialDiscountValue = function () {
@@ -981,7 +1058,8 @@ app.controller('employees', function ($scope, $http, $timeout) {
     $scope.getMaritalStatusList();
     $scope.getGendersList();
     // $scope.getEmployeeStatusList();
-    $scope.getJobsAdministrationsList();
+    $scope.getDepartments();
+    $scope.getBanks();
     $scope.getJobsShiftsList();
     $scope.getNamesConversionsList();
 });

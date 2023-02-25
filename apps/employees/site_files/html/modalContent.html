@@ -46,10 +46,6 @@
                     <span> ##word.Documents## + </span>
                 </a>
 
-                <a class="tab-link" onclick="site.showTabContent(event, '#jobData')">
-                    <span> ##word.Job Data## </span>
-                </a>
-
                 <a class="tab-link" onclick="site.showTabContent(event, '#incuranceInformations')">
                     <span> ##word.Incurance## </span>
                 </a>
@@ -60,6 +56,10 @@
 
                 <a class="tab-link" onclick="site.showTabContent(event, '#criticalMedicalInformations')">
                     <span> ##word.Medical Informations## </span>
+                </a>
+
+                <a class="tab-link" onclick="site.showTabContent(event, '#jobData')">
+                    <span> ##word.Job Data## </span>
                 </a>
                 <!-- 
                 <a class="tab-link" onclick="site.showTabContent(event, '#salaryInformations')">
@@ -410,7 +410,7 @@
                             </tr>
                             <tr ng-repeat="document in item.documentsList">
                                 <td class="text-center">{{$index+1}}</td>
-                                <td class="text-center">{{document.fileType.name##session.lang##}}</td>
+                                <td class="text-center">{{document.fileType.name##session.lang##}} - <a download="{{document.file.name}}" href="document.file.url">{{document.file.name}}</a></td>
                                 <td>
                                     <p class="text-center text-success" ng-if="document.renewable">##word.Yes##</p>
                                     <p class="text-center text-danger" ng-if="!document.renewable">##word.No##</p>
@@ -429,6 +429,93 @@
                     </fieldset>
                 </div>
 
+                <div id="incuranceInformations" class="tab-content">
+                    <div class="row padding">
+                        <fieldset>
+                            <legend>##word.Social Insurance##</legend>
+                            <div class="row">
+                                <i-control type="number" class="col4" label="##word.Total percentage of subscriptions %##" ng-model="item.totalSubscriptions"> </i-control>
+
+                                <i-control type="number" class="col4" label="##word.Total percentage of subscriptions from Employee %##" ng-model="item.totalSubscriptionsEmployee"> </i-control>
+
+                                <i-control type="number" class="col4" label="##word.Total percentage of subscriptions from owner %##" ng-model="item.totalSubscriptionsOwner"> </i-control>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>##word.Medical Insurance##</legend>
+
+                            <div class="row">
+                                <i-date ng-model="item.startDateInsurance" class="col6" label="##word.Start date of insurance##"></i-date>
+                                <i-date ng-model="item.endDateInsurance" class="col6" label="##word.End date of insurance##"></i-date>
+                            </div>
+
+                            <div class="row">
+                                <i-file class="col6" ng-show="item.healthHandCardToCompany" label="##word.Health insurance file##" ng-model="item.healthIncuranceFile"></i-file>
+                                <i-checkbox class="col4" ng-model="item.healthHandCardToCompany" label="##word.Hand over the card to the company##"></i-checkbox>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div id="bankInformations" class="tab-content">
+                    <div class="row padding">
+                        <fieldset>
+                            <legend>##word.Bank Information##</legend>
+                            <div class="row">
+                                <i-list class="col4" label="##word.Bank##" items="banksList" display="name##session.lang##" ng-model="selectedBank.bank"></i-list>
+                                <i-control class="col4" label="##word.Account Number##" ng-model="selectedBank.accountNumber"></i-control>
+                                <i-control class="col4" label="##word.Account Owner##" ng-model="selectedBank.accountOwner"></i-control>
+                                <i-control class="col4" label="##word.Swift Code##" ng-model="selectedBank.swiftCode"></i-control>
+                                <i-control class="col4" label="##word.IBAN##" ng-model="selectedBank.iban"></i-control>
+                                <i-checkbox ng-model="selectedBank.salaryBank" class="col2" label="##word.Salary Bank##"></i-checkbox>
+                                <div class="col2">
+                                    <br />
+                                    <i-button type="add" label="##word.Add##" ng-click="addBank(selectedBank)"></i-button>
+                                </div>
+                            </div>
+
+                            <table class="table hover bold">
+                                <tr>
+                                    <th>##word.S##</th>
+                                    <th>##word.Bank##</th>
+                                    <th>##word.Account Number##</th>
+                                    <th>##word.Account Owner##</th>
+                                    <th>##word.Swift Code##</th>
+                                    <th>##word.IBAN##</th>
+                                    <th>##word.Salary Bank##</th>
+                                    <th class="not-print">##word.Actions##</th>
+                                </tr>
+                                <tr ng-repeat="b in item.banksList">
+                                    <td class="text-center">{{$index+1}}</td>
+                                    <td class="text-center">{{b.bank.name##session.lang##}}</td>
+                                    <td class="text-center">{{b.accountNumber}}</td>
+                                    <td class="text-center">{{b.accountOwner}}</td>
+                                    <td class="text-center">{{b.swiftCode}}</td>
+                                    <td class="text-center">{{b.iban}}</td>
+                                    <td>
+                                        <div class="row text-center">
+                                            <i-checkbox ng-model="b.salaryBank" ng-if="b.salaryBank" label="##word.Yes##"></i-checkbox>
+
+                                            <i-checkbox ng-model="b.salaryBank" ng-if="!b.salaryBank" label="##word.No##"></i-checkbox>
+                                        </div>
+                                    </td>
+
+                                    <td class="text-center not-print">
+                                        <i-button type="delete " ng-click="item.banksList.splice($index,1)"> </i-button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div id="criticalMedicalInformations" class="tab-content">
+                    <fieldset>
+                        <legend>##word.Medical Informations##</legend>
+                        <i-textarea label="##word.Medical Informations##" ng-model="item.criticalMedicalInformations"> </i-textarea>
+                    </fieldset>
+                </div>
+
                 <div id="jobData" class="tab-content">
                     <div class="row padding">
                         <fieldset>
@@ -436,22 +523,22 @@
                                 <i-list
                                     v="r"
                                     class="col4"
-                                    label="##word.Administration##"
-                                    ng-model="item.jobAdministration"
-                                    ng-change="getJobsDepartmentsList(item.jobAdministration)"
+                                    label="##word.Department##"
+                                    ng-model="item.department"
+                                    ng-change="getSections(item.department)"
                                     display="name##session.lang##"
-                                    items="jobsAdministrationsList"
-                                    ng-search="item.$jobsAdministration"
+                                    items="departmentsList"
+                                    ng-search="item.$department"
                                 ></i-list>
                                 <i-list
                                     v="r"
                                     class="col4"
-                                    label="##word.Department##"
-                                    ng-change="getJobsList(item.jobDepartment)"
-                                    ng-model="item.jobDepartment"
+                                    label="##word.Section##"
+                                    ng-change="getJobsList(item.department)"
+                                    ng-model="item.section"
                                     display="name##session.lang##"
-                                    items="jobsDepartmentsList"
-                                    ng-search="item.$jobsDepartment"
+                                    items="sectionsList"
+                                    ng-search="item.$section"
                                 ></i-list>
 
                                 <i-list v="r" class="col4" label="##word.Job##" ng-model="item.job" display="name##session.lang##" items="jobsList" ng-search="item.$job"></i-list>
@@ -486,54 +573,145 @@
 
                             <fieldset>
                                 <legend>##word.Allowances##</legend>
+                                <div class="row">
+                                    <i-list
+                                        label="##word.Allowance##"
+                                        class="col4"
+                                        ng-model="selectedAllowance.allowance"
+                                        display="name##session.lang##"
+                                        items="allowancesNamesList"
+                                        ng-search="el.$allowance"
+                                    ></i-list>
 
-                                <div class="row padding">
-                                    <div class="row">
-                                        <i-list
-                                            label="##word.Allowance##"
-                                            class="col8"
-                                            ng-model="selectedAllowance.allowance"
-                                            display="name##session.lang##"
-                                            items="allowancesNamesList"
-                                            ng-search="el.$allowance"
-                                        ></i-list>
-                                        <div class="col4">
-                                            <br />
-                                            <i-button type="add" label="##word.Add##" x-permissions="addEmployeeAllowance" ng-click="addAllowances(selectedAllowance)"></i-button>
-                                        </div>
+                                    <div class="col4">
+                                        <br />
+                                        <fieldset>
+                                            <i-radio class="col6" label="##word.Value##" ng-value="value" ng-model="selectedAllowance.type"> </i-radio>
+                                            <i-radio class="col6" label="##word.Percent##" ng-value="percent" ng-model="selectedAllowance.type"> </i-radio>
+                                        </fieldset>
                                     </div>
-                                    <div class="row">
-                                        <table class="table hover bold">
-                                            <tr>
-                                                <th>##word.s##</th>
-                                                <th>##word.Name##</th>
-                                                <th>##word.Amount##</th>
-                                                <th>##word.Status##</th>
-                                                <th class="not-print">##word.Actions##</th>
-                                            </tr>
-                                            <tr ng-repeat="elem in item.allowancesList">
-                                                <td class="text-center blue">{{$index+1}}</td>
-                                                <td class="text-center">{{elem.allowance.name##session.lang##}}</td>
-                                                <td class="text-center">
-                                                    <i-control type="number" ng-model="elem.amount"> </i-control>
-                                                </td>
-                                                <td>
-                                                    <div class="row">
-                                                        <i-checkbox class="col4 text-center" ng-model="elem.active" x-permissions="changeEmployeeAllowance"></i-checkbox>
-                                                        <span class="col4 text-center text-success" ng-if="elem.active">##word.Active##</span>
-                                                        <span class="col4 text-center text-danger" ng-if="!elem.active">##word.Not Active##</span>
+
+                                    <i-control class="col2" type="number" label="##word.Value##" ng-model="selectedAllowance.value"></i-control>
+
+                                    <div class="col2">
+                                        <br />
+                                        <i-button type="add" label="##word.Add##" x-permissions="addEmployeeAllowance" ng-click="addAllowance(selectedAllowance)"></i-button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <table class="table hover bold">
+                                        <tr>
+                                            <th>##word.s##</th>
+                                            <th>##word.Allowance##</th>
+                                            <th>##word.Type##</th>
+                                            <th>##word.Value##</th>
+                                            <th>##word.Status##</th>
+                                            <th class="not-print">##word.Actions##</th>
+                                        </tr>
+                                        <tr ng-repeat="elem in item.allowancesList">
+                                            <td class="text-center blue">{{$index+1}}</td>
+                                            <td class="text-center">{{elem.allowance.name##session.lang##}}</td>
+                                            <td class="text-center">
+                                                <div class="row">
+                                                    <i-radio class="col6" label="##word.Value##" ng-value="value" ng-model="elem.type"> </i-radio>
+                                                    <i-radio class="col6" label="##word.Percent##" ng-value="percent" ng-model="elem.type"> </i-radio>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="row">
+                                                    <div class="col9"><i-control type="number" ng-model="elem.value"> </i-control></div>
+                                                    <div class="col3">
+                                                        <span class="blue" ng-if="elem.type == 'value'">##word.$##</span>
+                                                        <span class="blue" ng-if="elem.type == 'percent'">##word.%##</span>
                                                     </div>
-                                                </td>
-                                                <td class="text-center not-print">
-                                                    <i-button type="delete default" x-permissions="removeEmployeeAllowance" ng-click="item.allowancesList.splice($index,1)"> </i-button>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <i-checkbox class="col6 text-center" ng-model="elem.active" x-permissions="changeEmployeeAllowance"></i-checkbox>
+                                                    <p class="col6 text-center text-success" ng-if="elem.active">##word.Active##</p>
+                                                    <p class="col6 text-center text-danger" ng-if="!elem.active">##word.Not Active##</p>
+                                                </div>
+                                            </td>
+                                            <td class="text-center not-print">
+                                                <i-button type="delete default" x-permissions="removeEmployeeAllowance" ng-click="item.allowancesList.splice($index,1)"> </i-button>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </fieldset>
 
                             <fieldset>
+                                <legend>##word.Deductions##</legend>
+                                <div class="row">
+                                    <i-list
+                                        label="##word.Deduction##"
+                                        class="col4"
+                                        ng-model="selectedDeduction.deduction"
+                                        display="name##session.lang##"
+                                        items="deductionsNamesList"
+                                        ng-search="el.$deduction"
+                                    ></i-list>
+
+                                    <div class="col4">
+                                        <br />
+                                        <fieldset>
+                                            <i-radio class="col6" label="##word.Value##" ng-value="value" ng-model="selectedDeduction.type"> </i-radio>
+                                            <i-radio class="col6" label="##word.Percent##" ng-value="percent" ng-model="selectedDeduction.type"> </i-radio>
+                                        </fieldset>
+                                    </div>
+
+                                    <i-control class="col2" type="number" label="##word.Value##" ng-model="selectedDeduction.value"></i-control>
+
+                                    <div class="col2">
+                                        <br />
+                                        <i-button type="add" label="##word.Add##" x-permissions="addEmployeeDeduction" ng-click="addDeduction(selectedDeduction)"></i-button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <table class="table hover bold">
+                                        <tr>
+                                            <th>##word.s##</th>
+                                            <th>##word.Deduction##</th>
+                                            <th>##word.Type##</th>
+                                            <th>##word.Value##</th>
+                                            <th>##word.Status##</th>
+                                            <th class="not-print">##word.Actions##</th>
+                                        </tr>
+                                        <tr ng-repeat="elem in item.deductionsList">
+                                            <td class="text-center blue">{{$index+1}}</td>
+                                            <td class="text-center">{{elem.deduction.name##session.lang##}}</td>
+                                            <td class="text-center">
+                                                <div class="row">
+                                                    <i-radio class="col6" label="##word.Value##" ng-value="value" ng-model="elem.type"> </i-radio>
+                                                    <i-radio class="col6" label="##word.Percent##" ng-value="percent" ng-model="elem.type"> </i-radio>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="row">
+                                                    <div class="col9"><i-control type="number" ng-model="elem.value"> </i-control></div>
+                                                    <div class="col3">
+                                                        <span class="blue" ng-if="elem.type == 'value'">##word.$##</span>
+                                                        <span class="blue" ng-if="elem.type == 'percent'">##word.%##</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <i-checkbox class="col6 text-center" ng-model="elem.active" x-permissions="changeEmployeeDeduction"></i-checkbox>
+                                                    <p class="col6 text-center text-success" ng-if="elem.active">##word.Active##</p>
+                                                    <p class="col6 text-center text-danger" ng-if="!elem.active">##word.Not Active##</p>
+                                                </div>
+                                            </td>
+                                            <td class="text-center not-print">
+                                                <i-button type="delete default" x-permissions="removeEmployeeDeduction" ng-click="item.deductionsList.splice($index,1)"> </i-button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- <fieldset>
                                 <legend>##word.Deductions##</legend>
 
                                 <div class="row padding">
@@ -580,7 +758,7 @@
                                         </table>
                                     </div>
                                 </div>
-                            </fieldset>
+                            </fieldset> -->
 
                             <!-- <fieldset>
                                 <legend>##word.Deductions##</legend>
@@ -625,94 +803,6 @@
                         </fieldset>
                     </div>
                 </div>
-
-                <div id="incuranceInformations" class="tab-content">
-                    <div class="row padding">
-                        <fieldset>
-                            <legend>##word.Social Insurance##</legend>
-                            <div class="row">
-                                <i-control type="number" class="col4" label="##word.Total percentage of subscriptions %##" ng-model="item.totalSubscriptions"> </i-control>
-
-                                <i-control type="number" class="col4" label="##word.Total percentage of subscriptions from Employee %##" ng-model="item.totalSubscriptionsEmployee"> </i-control>
-
-                                <i-control type="number" class="col4" label="##word.Total percentage of subscriptions from owner %##" ng-model="item.totalSubscriptionsOwner"> </i-control>
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <legend>##word.Medical Insurance##</legend>
-
-                            <div class="row">
-                                <i-date ng-model="item.startDateInsurance" class="col6" label="##word.Start date of insurance##"></i-date>
-                                <i-date ng-model="item.endDateInsurance" class="col6" label="##word.End date of insurance##"></i-date>
-                            </div>
-
-                            <div class="row">
-                                <i-file class="col6" ng-show="item.healthHandCardToCompany" label="##word.Health insurance file##" ng-model="item.healthIncuranceFile"></i-file>
-                                <i-checkbox class="col4" ng-model="item.healthHandCardToCompany" label="##word.Hand over the card to the company##"></i-checkbox>
-                            </div>
-                        </fieldset>
-                    </div>
-                </div>
-
-                <div id="bankInformations" class="tab-content">
-                    <div class="row padding">
-                        <fieldset>
-                            <legend>##word.Bank Information##</legend>
-                            <div class="row">
-                                <i-control class="col4" label="##word.Bank Name##" ng-model="bank.name"></i-control>
-                                <i-control class="col4" label="##word.Account Number##" ng-model="bank.accountNumber"></i-control>
-                                <i-control class="col4" label="##word.Account Owner##" ng-model="bank.accountOwner"></i-control>
-                                <i-control class="col4" label="##word.Swift Code##" ng-model="bank.swiftCode"></i-control>
-                                <i-control class="col4" label="##word.IBAN##" ng-model="bank.iban"></i-control>
-                                <i-checkbox ng-model="bank.salaryBank" class="col2" label="##word.Salary Bank##"></i-checkbox>
-                                <div class="col2">
-                                    <br />
-                                    <i-button type="add" label="##word.Add##" ng-click="addBank(bank)"></i-button>
-                                </div>
-                            </div>
-
-                            <table class="table hover bold">
-                                <tr>
-                                    <th>##word.S##</th>
-                                    <th>##word.Name##</th>
-                                    <th>##word.Account Number##</th>
-                                    <th>##word.Account Owner##</th>
-                                    <th>##word.Swift Code##</th>
-                                    <th>##word.IBAN##</th>
-                                    <th>##word.Salary Bank##</th>
-                                    <th class="not-print">##word.Actions##</th>
-                                </tr>
-                                <tr ng-repeat="b in item.banksList">
-                                    <td class="text-center">{{$index+1}}</td>
-                                    <td class="text-center">{{b.name}}</td>
-                                    <td class="text-center">{{b.accountNumber}}</td>
-                                    <td class="text-center">{{b.accountOwner}}</td>
-                                    <td class="text-center">{{b.swiftCode}}</td>
-                                    <td class="text-center">{{b.iban}}</td>
-                                    <td>
-                                        <div class="row text-center">
-                                            <i-checkbox ng-model="b.salaryBank" ng-if="b.salaryBank" label="##word.Yes##"></i-checkbox>
-
-                                            <i-checkbox ng-model="b.salaryBank" ng-if="!b.salaryBank" label="##word.No##"></i-checkbox>
-                                        </div>
-                                    </td>
-
-                                    <td class="text-center not-print">
-                                        <i-button type="delete " ng-click="item.banksList.splice($index,1)"> </i-button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </fieldset>
-                    </div>
-                </div>
-
-                <div id="criticalMedicalInformations" class="tab-content">
-                    <fieldset>
-                        <legend>##word.Medical Informations##</legend>
-                        <i-textarea label="##word.Medical Informations##" ng-model="item.criticalMedicalInformations"> </i-textarea>
-                    </fieldset>
-                </div>
-
                 <!-- <div id="salaryInformations" class="tab-content">
                     <fieldset>
                         <legend>##word.Salary Informations##</legend>

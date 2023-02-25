@@ -1,7 +1,0 @@
-[{
-    "moduleName" : "public" ,
-    "name": "jobsAdministrationsAdmin",
-    "En": "Jobs Administrations Admin",
-    "Ar": "إدارة إدارات الوظائف",
-    "permissions": ["jobsAdministrationsManage"]
-}]

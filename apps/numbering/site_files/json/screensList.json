@@ -454,5 +454,11 @@
         "feature": "public",
         "id": "createVacations",
         "name": "Create Vacations"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "banks",
+        "name": "Banks"
     }
 ]

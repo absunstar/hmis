@@ -472,5 +472,11 @@
         "feature": "public",
         "id": "workErrandRequests",
         "name": "Work Errand Requests"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "overtimeRequests",
+        "name": "Overtime Requests"
     }
 ]

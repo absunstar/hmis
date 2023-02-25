@@ -1,6 +1,6 @@
 module.exports = function init(site) {
     let app = {
-        name: 'workErrandRequests',
+        name: 'overtimeRequests',
         allowMemory: false,
         memoryList: [],
         allowCache: false,
@@ -39,7 +39,6 @@ module.exports = function init(site) {
             });
         }
     };
-
     app.add = function (_item, callback) {
         app.$collection.add(_item, (err, doc) => {
             if (callback) {
@@ -50,7 +49,6 @@ module.exports = function init(site) {
             }
         });
     };
-
     app.update = function (_item, callback) {
         app.$collection.edit(
             {
@@ -81,7 +79,6 @@ module.exports = function init(site) {
             }
         );
     };
-
     app.delete = function (_item, callback) {
         app.$collection.delete(
             {
@@ -105,7 +102,6 @@ module.exports = function init(site) {
             }
         );
     };
-
     app.view = function (_item, callback) {
         if (callback) {
             if (app.allowMemory) {
@@ -133,7 +129,6 @@ module.exports = function init(site) {
             });
         }
     };
-
     app.all = function (_options, callback) {
         if (callback) {
             if (app.allowMemory) {
@@ -151,7 +146,7 @@ module.exports = function init(site) {
                     name: app.name,
                 },
                 (req, res) => {
-                    res.render(app.name + '/index.html', { title: app.name, appName: 'Work Errand Requests' }, { parser: 'html', compres: true });
+                    res.render(app.name + '/index.html', { title: app.name, appName: 'Overtime Requests' }, { parser: 'html', compres: true });
                 }
             );
         }
@@ -266,7 +261,6 @@ module.exports = function init(site) {
                 });
             });
         }
-
         if (app.allowRouteDelete) {
             site.post({ name: `/api/${app.name}/delete`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {
@@ -308,56 +302,49 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                let search = req.body.search || app.allowMemory ? 'id' : '';
-                let limit = req.body.limit || 10;
-                let select = req.body.select || {
-                    id: 1,
-                    code: 1,
-                    employee: 1,
-                    vacationType: 1,
-                    days: 1,
-                    requestDate: 1,
-                    fromDate: 1,
-                    approved: 1,
-                    reason: 1,
-                    file: 1,
-                    requestStatus: 1,
-                    approveDate: 1,
-                    rejectDate: 1,
-                    active: 1,
-                };
-
-                if (search) {
-                    where.$or = [];
-
-                    where.$or.push({
-                        id: site.get_RegExp(search, 'i'),
-                    });
-
-                    where.$or.push({
-                        code: site.get_RegExp(search, 'i'),
-                    });
-
-                    where.$or.push({
-                        nameAr: site.get_RegExp(search, 'i'),
-                    });
-
-                    where.$or.push({
-                        nameEn: site.get_RegExp(search, 'i'),
-                    });
-                }
-
+                let select = req.body.select || { id: 1, code: 1, employee: 1, active: 1, date: 1, category: 1, type: 1, value: 1, approved: 1, approveDate: 1, requestStatus: 1 };
+                let list = [];
                 if (app.allowMemory) {
-                    let list = app.memoryList
-                        .filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(search))
-                        .slice(0, limit);
+                    app.memoryList
+                        .filter((g) => g.company && g.company.id == site.getCompany(req).id)
+                        .forEach((doc) => {
+                            let obj = { ...doc };
 
+                            for (const p in obj) {
+                                if (!Object.hasOwnProperty.call(select, p)) {
+                                    delete obj[p];
+                                }
+                            }
+                            if (!where.active || doc.active) {
+                                list.push(obj);
+                            }
+                        });
                     res.json({
                         done: true,
                         list: list,
                     });
                 } else {
-                    app.$collection.findMany({ where, select, limit }, (err, docs) => {
+                    where['company.id'] = site.getCompany(req).id;
+
+                    if (where && where.dateTo) {
+                        let d1 = site.toDate(where.date);
+                        let d2 = site.toDate(where.dateTo);
+                        d2.setDate(d2.getDate() + 1);
+                        where.date = {
+                            $gte: d1,
+                            $lt: d2,
+                        };
+                        delete where.dateTo;
+                    } else if (where.date) {
+                        let d1 = site.toDate(where.date);
+                        let d2 = site.toDate(where.date);
+                        d2.setDate(d2.getDate() + 1);
+                        where.date = {
+                            $gte: d1,
+                            $lt: d2,
+                        };
+                    }
+                    app.all({ where, select, sort: { id: -1 }, limit: req.body.limit }, (err, docs) => {
                         res.json({
                             done: true,
                             list: docs,

@@ -223,26 +223,6 @@ module.exports = function init(site) {
 
                 let _data = req.data;
 
-                if (_data && _data.approvedVacationType && _data.approvedVacationType.id) {
-                    const employeeApp = site.getApp('employees');
-                    employeeApp.$collection.find({ where: { id: _data.employee.id } }, (err, doc) => {
-                        if (doc) {
-                            if (_data.approvedVacationType.id === 1) {
-                                doc.regularVacations -= _data.approvedDays;
-                            } else if (_data.approvedVacationType.id === 2) {
-                                doc.casualVacations -= _data.approvedDays;
-                            }
-                        } else {
-                            response.done = false;
-                            response.error = 'Employee not Found';
-                            res.json(response);
-                            return;
-                        }
-
-                        employeeApp.$collection.update(doc);
-                    });
-                }
-
                 _data['requestStatus'] = 'accepted';
                 _data['acceptDate'] = new Date();
                 _data['approved'] = true;

@@ -4,8 +4,8 @@
             <i-control ng-hide="disabledCode" class="col9" label="##word.Code##" ng-model="item.code"> </i-control>
         </div>
         <i-date label="##word.date##" ng-model="item.date"></i-date>
-
-        <i-list v="r" label="##word.employee##" ng-change="getShiftData(item)" ng-get="getEmployeesList($search)" ng-model="item.employee" items="employeesList" display="fullName##session.lang##">
+<!-- ng-get="getEmployeesList($search)"  -->
+        <i-list v="r" label="##word.employee##" ng-change="getShiftData(item)" ng-model="item.employee" items="employeesList" display="fullName##session.lang##">
         </i-list>
 
         <table class="table center hover bold" ng-show="item.employee && item.employee.id">
@@ -37,7 +37,7 @@
                 <tr>
                     <td>
                         <div class="row">
-                            <i-control type="time" ng-model="item.attendTime" ng-show="!item.attendTime"></i-control>
+                            <i-control type="time"  ng-model="item.$attendTime" ng-show="!item.attendTime"></i-control>
 
                             <i-button type="add" label="##word.Attended##" ng-hide="item.absence || item.attendTime" ng-click="attendTime('attend')"></i-button>
 
@@ -52,7 +52,7 @@
                     </td>
 
                     <td>
-                        <i-control type="time" ng-model="item.leaveDate" ng-show="!item.leaveDate"></i-control>
+                        <i-control type="time" ng-model="item.$leaveDate" ng-show="!item.leaveDate"></i-control>
                         <i-button type="edit" label="##word.Leave##" ng-show="item.attendTime && !item.leaveDate" ng-click="attendTime('leave')"></i-button>
                         <p class="bold" ng-show="item.leaveDate">{{item.leaveDate |date:"shortTime"}}</p>
                     </td>

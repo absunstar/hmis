@@ -182,14 +182,22 @@
 
             <div id="bankingAccounts" class="tab-content">
                 <div class="row">
-                    <i-control class="col2" label="##word.Bank Name##" ng-model="bank.bankName"></i-control>
-                    <i-control class="col2" label="##word.Swift Code##" ng-model="bank.swiftCode"></i-control>
-                    <i-control class="col2" label="##word.IBAN##" ng-model="bank.iban"></i-control>
-                    <i-control class="col2" label="##word.Account Number##" ng-model="bank.accountNumber"></i-control>
-                    <i-control class="col2" label="##word.Account Owner##" ng-model="bank.accountOwner"></i-control>
+                    <i-list
+                        class="col4"
+                        label="##word.Bank##"
+                        items="banksList"
+                        display="name##session.lang##"
+                        ng-model="selectedBank.bank"
+                        ng-change="selectedBank.swiftCode = selectedBank.bank.swiftCode"
+                    ></i-list>
+                    <i-control class="col4" disabled label="##word.Swift Code##" ng-model="selectedBank.swiftCode"></i-control>
+                    <i-control class="col4" label="##word.Account Number##" ng-model="selectedBank.accountNumber"></i-control>
+                    <i-control class="col4" label="##word.Account Name##" ng-model="selectedBank.accountName"></i-control>
+                    <i-control class="col4" label="##word.IBAN##" ng-model="selectedBank.iban"></i-control>
+                    <i-checkbox ng-model="selectedBank.salaryBank" class="col2" label="##word.Salary Bank##"></i-checkbox>
                     <div class="col2">
                         <br />
-                        <i-button type="add" label="##word.Add##" ng-click="addBank(bank)"></i-button>
+                        <i-button type="add" label="##word.Add##" ng-click="addBank(selectedBank)"></i-button>
                     </div>
                 </div>
                 <fieldset>
@@ -202,17 +210,17 @@
                             <th>##word.Branch Code##</th>
                             <th>##word.IBAN##</th>
                             <th>##word.Account Number##</th>
-                            <th>##word.Account Owner##</th>
+                            <th>##word.Account Name##</th>
                             <th>##word.Status##</th>
                             <th class="not-print">##word.Actions##</th>
                         </tr>
                         <tr ng-repeat="bank in item.bankInformationsList">
                             <td class="text-center">{{$index+1}}</td>
-                            <td class="text-center">{{bank.bankName}}</td>
+                            <td class="text-center">{{bank.bank.name##session.lang##}}</td>
                             <td class="text-center">{{bank.swiftCode}}</td>
                             <td class="text-center">{{bank.iban}}</td>
                             <td class="text-center">{{bank.accountNumber}}</td>
-                            <td class="text-center">{{bank.accountOwner}}</td>
+                            <td class="text-center">{{bank.accountName}}</td>
                             <td>
                                 <i-checkbox ng-model="bank.active" class="text-center text-success" label="##word.Active##" ng-if="bank.active"></i-checkbox>
                                 <i-checkbox ng-model="bank.active" class="text-center text-danger" label="##word.Not Active##" ng-if="!bank.active"></i-checkbox>

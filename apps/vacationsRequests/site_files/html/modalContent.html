@@ -10,18 +10,19 @@
             <i-date class="col3" label="##word.From Date##" ng-model="item.fromDate"> </i-date>
             <i-list v="r" ng-model="item.vacationType" class="col3" items="vacationsTypesList" display="name##session.lang##" label="##word.Type##"></i-list>
             <i-control type="number" class="col3" label="##word.Days##" ng-model="item.days"> </i-control>
-
-            <i-file ng-model="item.file" class="col3"></i-file>
-
-            <i-textarea ng-model="item.reason" rows="4" label="##word.Reason##"></i-textarea>
         </div>
+        <div class="row">
+            <i-file ng-model="item.file"></i-file>
+        </div>
+
+        <i-textarea ng-model="item.reason" rows="4" label="##word.Reason##"></i-textarea>
     </fieldset>
 
     <fieldset ng-show="mode !='add'">
         <legend>##word.Approve Informations##</legend>
         <div class="row">
-            <i-list ng-model="item.approvedVacationType"  class="col3" items="vacationsTypesList" display="name##session.lang##" label="##word.Approved Type##"></i-list>
-            <i-control type="number" class="col3"  label="##word.Approved Days##" ng-model="item.approvedDays"> </i-control>
+            <i-list ng-model="item.approvedVacationType" class="col3" items="vacationsTypesList" display="name##session.lang##" label="##word.Approved Type##"></i-list>
+            <i-control type="number" class="col3" label="##word.Approved Days##" ng-model="item.approvedDays"> </i-control>
 
             <div class="col2">
                 <br />

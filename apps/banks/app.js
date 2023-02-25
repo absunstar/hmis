@@ -256,6 +256,8 @@ module.exports = function init(site) {
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
+                    swiftCode: 1,
+                    hotline: 1,
                     image: 1,
                     active: 1,
                 };

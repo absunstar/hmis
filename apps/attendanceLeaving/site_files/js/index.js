@@ -53,8 +53,8 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
     $scope.showUpdate = function (_item) {
         $scope.error = '';
         $scope.mode = 'edit';
-        _item.attendTime = new Date(_item.attendTime);
-        _item.leaveDate = new Date(_item.leaveDate);
+        _item.attendTime = new Date(_item.$attendTime);
+        _item.leaveDate = new Date(_item.$leaveDate);
         _item.shiftData.start = new Date(_item.shiftData.start);
         _item.shiftData.end = new Date(_item.shiftData.end);
         $scope.view(_item);
@@ -199,14 +199,14 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
         const leavingTime = new Date($scope.item.shiftData.end);
 
         if (type == 'attend') {
-            $scope.item.attendTime = new Date();
-            const attendHours = now.getHours() - attendTime.getHours();
-            const attendMinutes = now.getMinutes();
+            $scope.item.attendTime = new Date($scope.item.$attendTime);
+            const attendHours = $scope.item.attendTime.getHours() - attendTime.getHours();
+            const attendMinutes = $scope.item.attendTime.getMinutes();
             $scope.item.attendanceTimeDifference = Math.floor(attendHours * 60 + attendMinutes);
         } else if (type == 'leave') {
-            $scope.item.leaveDate = new Date();
-            const leavingHours = leavingTime.getHours() - now.getHours();
-            const leavingMinutes = now.getMinutes();
+            $scope.item.leaveDate = new Date($scope.item.$leaveDate);
+            const leavingHours = leavingTime.getHours() - $scope.item.leaveDate.getHours();
+            const leavingMinutes = $scope.item.leaveDate.getMinutes();
 
             $scope.item.leavingTimeDifference = Math.floor(leavingHours * 60 - leavingMinutes);
         } else if (type == 'absence') {
@@ -226,8 +226,8 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
                     $scope.busy = false;
                     if (response.data.done) {
                         $scope.item = response.data.result;
-                        $scope.item.attendTime = new Date(response.data.result.attendTime);
-                        $scope.item.leaveDate = new Date(response.data.result.leaveDate);
+                        $scope.item.$attendTime = new Date();
+                        $scope.item.$leaveDate = new Date();
                         $scope.item.shiftData.start = new Date(response.data.result.shiftData.start);
                         $scope.item.shiftData.end = new Date(response.data.result.shiftData.end);
                     }

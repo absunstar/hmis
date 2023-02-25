@@ -16,7 +16,7 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, date: new Date(), requestDate: new Date() };
+        $scope.item = { ...$scope.structure, date: new Date() };
         site.showModal($scope.modalID);
     };
 

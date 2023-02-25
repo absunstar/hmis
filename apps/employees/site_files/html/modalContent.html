@@ -462,10 +462,17 @@
                         <fieldset>
                             <legend>##word.Bank Information##</legend>
                             <div class="row">
-                                <i-list class="col4" label="##word.Bank##" items="banksList" display="name##session.lang##" ng-model="selectedBank.bank"></i-list>
+                                <i-list
+                                    class="col4"
+                                    label="##word.Bank##"
+                                    items="banksList"
+                                    display="name##session.lang##"
+                                    ng-model="selectedBank.bank"
+                                    ng-change="selectedBank.swiftCode = selectedBank.bank.swiftCode"
+                                ></i-list>
+                                <i-control class="col4" disabled label="##word.Swift Code##" ng-model="selectedBank.swiftCode"></i-control>
                                 <i-control class="col4" label="##word.Account Number##" ng-model="selectedBank.accountNumber"></i-control>
-                                <i-control class="col4" label="##word.Account Owner##" ng-model="selectedBank.accountOwner"></i-control>
-                                <i-control class="col4" label="##word.Swift Code##" ng-model="selectedBank.swiftCode"></i-control>
+                                <i-control class="col4" label="##word.Account Name##" ng-model="selectedBank.accountName"></i-control>
                                 <i-control class="col4" label="##word.IBAN##" ng-model="selectedBank.iban"></i-control>
                                 <i-checkbox ng-model="selectedBank.salaryBank" class="col2" label="##word.Salary Bank##"></i-checkbox>
                                 <div class="col2">
@@ -479,7 +486,7 @@
                                     <th>##word.S##</th>
                                     <th>##word.Bank##</th>
                                     <th>##word.Account Number##</th>
-                                    <th>##word.Account Owner##</th>
+                                    <th>##word.Account Name##</th>
                                     <th>##word.Swift Code##</th>
                                     <th>##word.IBAN##</th>
                                     <th>##word.Salary Bank##</th>
@@ -489,7 +496,7 @@
                                     <td class="text-center">{{$index+1}}</td>
                                     <td class="text-center">{{b.bank.name##session.lang##}}</td>
                                     <td class="text-center">{{b.accountNumber}}</td>
-                                    <td class="text-center">{{b.accountOwner}}</td>
+                                    <td class="text-center">{{b.accountName}}</td>
                                     <td class="text-center">{{b.swiftCode}}</td>
                                     <td class="text-center">{{b.iban}}</td>
                                     <td>
@@ -586,8 +593,8 @@
                                     <div class="col4">
                                         <br />
                                         <fieldset>
-                                            <i-radio class="col6" label="##word.Value##" ng-value="value" ng-model="selectedAllowance.type"> </i-radio>
-                                            <i-radio class="col6" label="##word.Percent##" ng-value="percent" ng-model="selectedAllowance.type"> </i-radio>
+                                            <i-radio class="col6" label="##word.$##" ng-value="value" ng-model="selectedAllowance.type"> </i-radio>
+                                            <i-radio class="col6" label="##word.%##" ng-value="percent" ng-model="selectedAllowance.type"> </i-radio>
                                         </fieldset>
                                     </div>
 

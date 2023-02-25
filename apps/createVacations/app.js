@@ -217,34 +217,19 @@ module.exports = function init(site) {
                 };
 
                 let _data = req.data;
-                app.$collection.find({ id: _data.id }, (err, doc) => {
-                    if (doc) {
-                        if (!doc.fromDate || !doc.toDate) {
-                            response.done = false;
-                            response.error = 'Please Set Vacation Date';
-                            res.json(response);
-                            return;
-                        }
-                        if (new Date().getTime() > new Date(doc.fromDate).getTime()) {
-                            response.done = false;
-                            response.error = 'Cannot approve Past Date';
-                            res.json(response);
-                            return;
-                        }
-                    }
-                    _data['approved'] = true;
-                    _data['approveDate'] = new Date();
-                    _data.approvedUserInfo = req.getUserFinger();
 
-                    app.update(_data, (err, result) => {
-                        if (!err) {
-                            response.done = true;
-                            response.result = result;
-                        } else {
-                            response.error = err.message;
-                        }
-                        res.json(response);
-                    });
+                _data['approved'] = true;
+                _data['approveDate'] = new Date();
+                _data.approvedUserInfo = req.getUserFinger();
+
+                app.update(_data, (err, result) => {
+                    if (!err) {
+                        response.done = true;
+                        response.result = result;
+                    } else {
+                        response.error = err.message;
+                    }
+                    res.json(response);
                 });
             });
         }
@@ -329,7 +314,7 @@ module.exports = function init(site) {
                 let select = req.body.select || {
                     id: 1,
                     code: 1,
-                            image: 1,
+                    image: 1,
                     approvedDate: 1,
                     vacationFor: 1,
                     employeesList: 1,

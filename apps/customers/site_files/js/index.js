@@ -345,7 +345,59 @@ app.controller('customers', function ($scope, $http, $timeout) {
         );
     };
 
+    $scope.addBank = function (selectedBank) {
+        $scope.error = '';
+
+        if (!selectedBank.bank || !selectedBank.bank.id) {
+            $scope.error = '##word.Please Enter Bank Name##';
+            return;
+        }
+
+        if (!selectedBank.accountNumber) {
+            $scope.error = '##word.Please Enter Account Number##';
+            return;
+        }
+
+        if (!selectedBank.accountName) {
+            $scope.error = '##word.Please Enter Account Name##';
+            return;
+        }
+        selectedBank['active'] = true;
+        $scope.item.bankInformationsList.push(selectedBank);
+        $scope.selectedBank = {};
+    };
+
+    $scope.getBanks = function () {
+        $scope.busy = true;
+        $scope.banksList = [];
+        $http({
+            method: 'POST',
+            url: '/api/banks/all',
+            data: {
+                where: { active: true },
+                select: {
+                    id: 1,
+                    code: 1,
+                    swiftCode: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.banksList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
     $scope.getAll();
+    $scope.getBanks();
     $scope.getNationalities();
     $scope.getFilesTypes();
     $scope.getFilesTypes();

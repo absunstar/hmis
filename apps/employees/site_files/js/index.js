@@ -706,6 +706,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
                 select: {
                     id: 1,
                     code: 1,
+                    swiftCode: 1,
                     nameEn: 1,
                     nameAr: 1,
                 },
@@ -972,8 +973,8 @@ app.controller('employees', function ($scope, $http, $timeout) {
             return;
         }
 
-        if (!selectedBank.accountOwner) {
-            $scope.error = '##word.Please Enter Account Owner##';
+        if (!selectedBank.accountName) {
+            $scope.error = '##word.Please Enter Account Name##';
             return;
         }
 
@@ -984,8 +985,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
                 return;
             }
         }
-
-        // $scope.item.banksList = $scope.item.banksList || [];
+        selectedBank['active'] = true;
         $scope.item.banksList.push(selectedBank);
         $scope.selectedBank = {};
     };

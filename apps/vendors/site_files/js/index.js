@@ -25,14 +25,14 @@ app.controller('vendors', function ($scope, $http, $timeout) {
         document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
-    $scope.bank = {
-        bankName: '',
-        swiftCode: '',
-        iban: '',
-        accountNumber: '',
-        accountOwner: '',
-        active: true,
-    };
+    // $scope.bank = {
+    //     bankName: '',
+    //     swiftCode: '',
+    //     iban: '',
+    //     accountNumber: '',
+    //     accountName: '',
+    //     active: true,
+    // };
     $scope.add = function (_item) {
         $scope.error = '';
         const v = site.validated($scope.modalID);
@@ -398,33 +398,26 @@ app.controller('vendors', function ($scope, $http, $timeout) {
         });
     };
 
-    $scope.addBank = function (elem) {
+    $scope.addBank = function (selectedBank) {
         $scope.error = '';
 
-        if (elem?.bankName.length < 5) {
-            $scope.error = '##word.Must Enter Bank Name##';
+        if (!selectedBank.bank || !selectedBank.bank.id) {
+            $scope.error = '##word.Please Enter Bank Name##';
             return;
         }
 
-        if (elem?.accountNumber < 5) {
-            $scope.error = '##word.Must Enter Account Number##';
+        if (!selectedBank.accountNumber) {
+            $scope.error = '##word.Please Enter Account Number##';
             return;
         }
 
-        if (elem?.accountOwner < 5) {
-            $scope.error = '##word.Must Enter Account Owner##';
+        if (!selectedBank.accountName) {
+            $scope.error = '##word.Please Enter Account Name##';
             return;
         }
-        $scope.item.bankInformationsList = $scope.item.bankInformationsList || [];
-        $scope.item.bankInformationsList.push({
-            bankName: elem.bankName,
-            swiftCode: elem.swiftCode,
-            iban: elem.iban,
-            accountNumber: elem.accountNumber,
-            accountOwner: elem.accountOwner,
-            active: true,
-        });
-        $scope.error = '';
+        selectedBank['active'] = true;
+        $scope.item.bankInformationsList.push(selectedBank);
+        $scope.selectedBank = {};
     };
 
     $scope.getNationalities = function ($search) {
@@ -460,7 +453,38 @@ app.controller('vendors', function ($scope, $http, $timeout) {
         );
     };
 
+    $scope.getBanks = function () {
+        $scope.busy = true;
+        $scope.banksList = [];
+        $http({
+            method: 'POST',
+            url: '/api/banks/all',
+            data: {
+                where: { active: true },
+                select: {
+                    id: 1,
+                    code: 1,
+                    swiftCode: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.banksList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
     $scope.getAll();
+    $scope.getBanks();
     $scope.getNumberingAuto();
     $scope.getGovs();
     $scope.getFilesTypes();

@@ -75,6 +75,7 @@
   transition: all 0.1s ease;
   max-height: 75vh;
   justify-items: center;
+  z-index: 999999999;
 }
 .menu-bottom.x-show {
   animation: showMenu 0.2s;

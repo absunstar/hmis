@@ -9,8 +9,8 @@ module.exports = function init(site) {
         allowRouteGet: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
-        allowRouteApprove: true,
-        allowRouteUnapprove: true,
+        allowRouteAccept: true,
+        allowRouteRejected: true,
         allowRouteDelete: true,
         allowRouteView: true,
         allowRouteAll: true,
@@ -215,75 +215,74 @@ module.exports = function init(site) {
             });
         }
 
-        if (app.allowRouteApprove) {
-            site.post({ name: `/api/${app.name}/approve`, require: { permissions: ['login'] } }, (req, res) => {
+        if (app.allowRouteAccept) {
+            site.post({ name: `/api/${app.name}/accept`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {
                     done: false,
                 };
 
                 let _data = req.data;
-                app.$collection.find({ id: _data.id }, (err, doc) => {
-                    if (doc) {
-                        if (!doc.fromDate) {
-                            response.done = false;
-                            response.error = 'Please Set Vacation Date';
-                            res.json(response);
-                            return;
-                        }
-                        if (new Date().getTime() > new Date(doc.fromDate).getTime()) {
-                            response.done = false;
-                            response.error = 'Cannot approve Past Date';
-                            res.json(response);
-                            return;
-                        }
-                    }
-                    _data['approved'] = true;
-                    _data['approveDate'] = new Date();
-                    _data.approvedUserInfo = req.getUserFinger();
 
-                    app.update(_data, (err, result) => {
-                        if (!err) {
-                            response.done = true;
-                            response.result = result;
+                if (_data && _data.approvedVacationType && _data.approvedVacationType.id) {
+                    const employeeApp = site.getApp('employees');
+                    employeeApp.$collection.find({ where: { id: _data.employee.id } }, (err, doc) => {
+                        if (doc) {
+                            if (_data.approvedVacationType.id === 1) {
+                                doc.regularVacations -= _data.approvedDays;
+                            } else if (_data.approvedVacationType.id === 2) {
+                                doc.casualVacations -= _data.approvedDays;
+                            }
                         } else {
-                            response.error = err.message;
+                            response.done = false;
+                            response.error = 'Employee not Found';
+                            res.json(response);
+                            return;
                         }
-                        res.json(response);
+
+                        employeeApp.$collection.update(doc);
                     });
+                }
+
+                _data['requestStatus'] = 'accepted';
+                _data['acceptDate'] = new Date();
+                _data['approved'] = true;
+                _data['approveDate'] = new Date();
+                _data.acceptUserInfo = req.getUserFinger();
+
+                app.update(_data, (err, result) => {
+                    if (!err) {
+                        response.done = true;
+                        response.result = result;
+                    } else {
+                        response.error = err.message;
+                    }
+                    res.json(response);
                 });
             });
         }
 
-        if (app.allowRouteUnapprove) {
-            site.post({ name: `/api/${app.name}/unapprove`, require: { permissions: ['login'] } }, (req, res) => {
+        if (app.allowRouteRejected) {
+            site.post({ name: `/api/${app.name}/reject`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {
                     done: false,
                 };
 
                 let _data = req.data;
 
-                app.$collection.find({ id: _data.id }, (err, doc) => {
-                    if (doc) {
-                        if (new Date().getTime() > new Date(doc.fromDate).getTime()) {
-                            response.done = false;
-                            response.error = 'Cannot Unapprove Past Date';
-                            res.json(response);
-                            return;
-                        }
-                    }
-                    _data['approved'] = false;
-                    _data['approveDate'] = null;
-                    _data.unapprovedUserInfo = req.getUserFinger();
+                _data['requestStatus'] = 'rejected';
+                _data['rejectDate'] = new Date();
+                _data['approved'] = true;
+                _data['approveDate'] = new Date();
+                _data.unapprovedUserInfo = req.getUserFinger();
 
-                    app.update(_data, (err, result) => {
-                        if (!err) {
-                            response.done = true;
-                            response.result = result;
-                        } else {
-                            response.error = err.message;
-                        }
-                        res.json(response);
-                    });
+                app.update(_data, (err, result) => {
+                    if (!err) {
+                        response.done = true;
+                        response.result = result;
+                    } else {
+                        response.error = err.message;
+                    }
+                    res.json(response);
                 });
             });
         }
@@ -342,6 +341,9 @@ module.exports = function init(site) {
                     approved: 1,
                     reason: 1,
                     file: 1,
+                    requestStatus: 1,
+                    approveDate: 1,
+                    rejectDate: 1,
                     active: 1,
                 };
 

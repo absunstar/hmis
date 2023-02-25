@@ -1,0 +1,13 @@
+[
+    { "moduleName": "public", "screenName": "delayRequests", "name": "delayRequestsManage", "En": "Manage", "Ar": "إدارة" },
+    { "moduleName": "public", "screenName": "delayRequests", "name": "delayRequestsAdd", "En": "Add", "Ar": "إضافة" },
+    { "moduleName": "public", "screenName": "delayRequests", "name": "delayRequestsUpdate", "En": "Edit", "Ar": "تعديل" },
+    { "moduleName": "public", "screenName": "delayRequests", "name": "delayRequestsDelete", "En": "Delete", "Ar": "حذف" },
+    { "moduleName": "public", "screenName": "delayRequests", "name": "delayRequestsView", "En": "View", "Ar": "عرض" },
+    { "moduleName": "public", "screenName": "delayRequests", "name": "delayRequestsSearch", "En": "Search", "Ar": "بحث" },
+    { "moduleName": "public", "screenName": "delayRequests", "name": "delayRequestsExport", "En": "Export", "Ar": "تصدير" },
+    { "moduleName": "public", "screenName": "delayRequests", "name": "delayRequestsPrint", "En": "Print", "Ar": "طباعة" },
+    { "moduleName": "public", "screenName": "delayRequests", "name": "delayRequestsUi", "En": "UI", "Ar": "الواجهة الرسومية" },
+    { "moduleName": "public", "screenName": "delayRequests", "name": "acceptDelayRequest", "En": "Accept Delay Request", "Ar": "قبول إذن تأخير" },
+    { "moduleName": "public", "screenName": "delayRequests", "name": "rejectDelayRequest", "En": "Reject Delay Request", "Ar": "رفض إذن تأخير" }
+]

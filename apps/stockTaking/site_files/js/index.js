@@ -45,7 +45,7 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
             return;
         }
         if (_item.store && _item.toStore && _item.store.id === _item.toStore.id) {
-            alert('##word.Same Store##');
+            $scope.error = '##word.Same Store##';
             return;
         }
         $scope.busy = true;
@@ -98,7 +98,7 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
         }
 
         if (_item.store && _item.toStore && _item.store.id === _item.toStore.id) {
-            alert('##word.Same Store##');
+            $scope.error = '##word.Same Store##';
             return;
         }
         $scope.busy = true;
@@ -144,7 +144,7 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
         }
 
         if (_item.store && _item.toStore && _item.store.id === _item.toStore.id) {
-            alert('##word.Same Store##');
+            $scope.error = '##word.Same Store##';
             return;
         }
         _item['approved'] = true;
@@ -422,18 +422,18 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
 
     $scope.addToItemsList = function (elem) {
         if (!elem.item || !elem.item?.id) {
-            alert('##word.Please Enter Item##');
+            $scope.error = '##word.Please Enter Item##';
             return;
         }
         for (const itm of $scope.item.itemsList) {
             if (itm.item.id === elem.item.id && itm.unit.id === elem.unit.id) {
-                alert('##word.Item Exisit##');
+                $scope.error = '##word.Item Exisit##';
                 return;
             }
         }
 
         if (elem.count < 1) {
-            alert('##word.Please Enter Count##');
+            $scope.error = '##word.Please Enter Count##';
             return;
         }
 

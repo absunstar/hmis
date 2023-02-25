@@ -317,7 +317,7 @@ app.controller('jobs', function ($scope, $http, $timeout) {
 
     $scope.addTask = function (task) {
         if (!task.name) {
-            alert('##word.Please Enter Task Name##');
+            $scope.error = '##word.Please Enter Task Name##';
             return;
         }
         $scope.item.tasksList.push({
@@ -330,7 +330,7 @@ app.controller('jobs', function ($scope, $http, $timeout) {
 
     $scope.addTool = function (selectedTool) {
         if (!selectedTool.tool || !selectedTool.tool.id) {
-            alert('##word.Please Select Tool Name##');
+            $scope.error = '##word.Please Select Tool Name##';
             return;
         }
 
@@ -345,12 +345,12 @@ app.controller('jobs', function ($scope, $http, $timeout) {
 
     $scope.addSkill = function (skill) {
         if (!skill.name) {
-            alert('##word.Please Enter Skill Name##');
+            $scope.error = '##word.Please Enter Skill Name##';
             return;
         }
 
         if (!(skill.experienceYears > 0)) {
-            alert('##word.Please Enter Experience Years##');
+            $scope.error = '##word.Please Enter Experience Years##';
             return;
         }
 

@@ -7,6 +7,7 @@ app.controller('employeesPenalties', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: {},
+        requestStatus: 'new',
         approved: false,
         active: true,
     };
@@ -92,9 +93,8 @@ app.controller('employeesPenalties', function ($scope, $http, $timeout) {
             }
         );
     };
-
-    $scope.approve = function (_item) {
-        let confirm = window.confirm('##word.Are You Sure To Approve Employee Penalty##');
+    $scope.accept = function (_item) {
+        let confirm = window.confirm('##word.Are You Sure To Approve Employee Bounus##');
 
         if (!confirm) {
             return;
@@ -109,7 +109,45 @@ app.controller('employeesPenalties', function ($scope, $http, $timeout) {
         $scope.busy = true;
         $http({
             method: 'POST',
-            url: `${$scope.baseURL}/api/${$scope.appName}/approve`,
+            url: `${$scope.baseURL}/api/${$scope.appName}/accept`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+
+    $scope.reject = function (_item) {
+        let confirm = window.confirm('##word.Are You Sure To Unapprove Shift Data##');
+
+        if (!confirm) {
+            return;
+        }
+
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/reject`,
             data: _item,
         }).then(
             function (response) {

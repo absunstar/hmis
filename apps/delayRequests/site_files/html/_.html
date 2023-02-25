@@ -1,14 +1,14 @@
-<div ng-controller="vacationsRequests" class="loaded">
-    <div class="row" x-permissions="vacationsRequestsUi || vacationsRequestsManage">
-        <div x-import="vacationsRequests/modal.html"></div>
-        <div x-import="vacationsRequests/modalSearch.html"></div>
+<div ng-controller="delayRequests" class="loaded">
+    <div class="row" x-permissions="delayRequestsUi || delayRequestsManage">
+        <div x-import="delayRequests/modal.html"></div>
+        <div x-import="delayRequests/modalSearch.html"></div>
 
         <div class="top-actions">
-            <i-button type="add" x-permissions="vacationsRequestsAdd || vacationsRequestsManage" label="##word.New##" ng-click="showAdd()"></i-button>
+            <i-button type="add" x-permissions="delayRequestsAdd || delayRequestsManage" label="##word.New##" ng-click="showAdd()"></i-button>
         </div>
 
         <div class="row padding">
-            <i-control ng-model="$search" x-permissions="vacationsRequestsSearch || vacationsRequestsManage"></i-control>
+            <i-control ng-model="$search" x-permissions="delayRequestsSearch || delayRequestsManage"></i-control>
         </div>
 
         <table class="table hover bold" id="t1">
@@ -42,14 +42,14 @@
                 <td class="text-center not-print">
                     <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
-                    <i-button type="edit" ng-if="!item.approved" x-permissions="vacationsRequestsUpdate || vacationsRequestsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
+                    <i-button type="edit" ng-if="!item.approved" x-permissions="delayRequestsUpdate || delayRequestsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
 
-                    <i-button type="delete" ng-if="!item.approved" x-permissions="vacationsRequestsDelete || vacationsRequestsManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
+                    <i-button type="delete" ng-if="!item.approved" x-permissions="delayRequestsDelete || delayRequestsManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
                 </td>
             </tr>
         </table>
-        <i-button x-permissions="vacationsRequestsPrint || vacationsRequestsManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
-        <i-button x-permissions="vacationsRequestsExport || vacationsRequestsManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')">
+        <i-button x-permissions="delayRequestsPrint || delayRequestsManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
+        <i-button x-permissions="delayRequestsExport || delayRequestsManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')">
         </i-button>
     </div>
 </div>

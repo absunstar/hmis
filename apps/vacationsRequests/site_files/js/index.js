@@ -7,6 +7,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: { url: '/images/vacationsRequests.png' },
+        requestStatus: 'new',
         active: true,
     };
     $scope.item = {};
@@ -100,10 +101,19 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
         site.showModal($scope.modalID);
     };
 
-    $scope.approve = function (_item) {
+    $scope.accept = function (_item) {
         let confirm = window.confirm('##word.Are You Sure To Approve Shift Data##');
 
         if (!confirm) {
+            return;
+        }
+
+        if (!_item.approvedVacationType || !_item.approvedVacationType.id) {
+            $scope.error = '##word.Please Select Approved Vacation Type##';
+            return;
+        }
+        if (!(_item.approvedDays > 0) || _item.approvedDays > 21) {
+            $scope.error = '##word.Please Set Approved Days##';
             return;
         }
 
@@ -116,7 +126,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
         $scope.busy = true;
         $http({
             method: 'POST',
-            url: `${$scope.baseURL}/api/${$scope.appName}/approve`,
+            url: `${$scope.baseURL}/api/${$scope.appName}/accept`,
             data: _item,
         }).then(
             function (response) {
@@ -129,7 +139,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
                         $scope.list[index] = response.data.result.doc;
                     }
                 } else {
-                    $scope.error = 'Please Login First';
+                    $scope.error = response.data.error || 'Please Login First';
                 }
             },
             function (err) {
@@ -138,7 +148,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.unapprove = function (_item) {
+    $scope.reject = function (_item) {
         let confirm = window.confirm('##word.Are You Sure To Unapprove Shift Data##');
 
         if (!confirm) {
@@ -154,7 +164,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
         $scope.busy = true;
         $http({
             method: 'POST',
-            url: `${$scope.baseURL}/api/${$scope.appName}/unapprove`,
+            url: `${$scope.baseURL}/api/${$scope.appName}/reject`,
             data: _item,
         }).then(
             function (response) {

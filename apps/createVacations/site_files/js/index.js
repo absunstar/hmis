@@ -380,36 +380,37 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
 
     $scope.addEmployeeToVacationEmployeesList = function (selectedEmployee) {
         if ($scope.item.vacationFor !== 'some') {
-            alert('##word.Please Select Employee##');
+            $scope.error = '##word.Please Select Employee##';
             return;
         }
 
         if (!selectedEmployee || !selectedEmployee.id) {
-            alert('##word.Please Select Employee##');
+            $scope.error = '##word.Please Select Employee##';
             return;
         }
 
         if ($scope.item.employeesList && $scope.item.employeesList.length) {
             const employeeIndex = $scope.item.employeesList.findIndex((_emp) => _emp.id === selectedEmployee.id);
             if (employeeIndex !== -1) {
-                alert('##word.Employee Exisit##');
+                $scope.error = '##word.Employee Exisit##';
                 return;
             }
         }
 
         $scope.item.employeesList.unshift(selectedEmployee);
         $scope.selectedEmployee = {};
+        $scope.error = '';
     };
 
     $scope.validateData = function (_data) {
         let success = false;
         if (!_data.fromDate || !_data.toDate || new Date(_data.fromDate) > new Date(_data.toDate)) {
-            alert('##word.Please Check Date##');
+            $scope.error = '##word.Please Check Date##';
             return success;
         }
 
         if (_data.vacationFor == 'some' && (!_data.employeesList || !_data.employeesList.length)) {
-            alert('##word.Must Select One Employee Al Least##');
+            $scope.error = '##word.Must Select One Employee Al Least##';
             return success;
         }
 

@@ -460,5 +460,11 @@
         "feature": "public",
         "id": "banks",
         "name": "Banks"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "delayRequests",
+        "name": "Delay Requests"
     }
 ]

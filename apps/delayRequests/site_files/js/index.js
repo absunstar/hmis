@@ -1,13 +1,12 @@
-app.controller('employeesBonuses', function ($scope, $http, $timeout) {
+app.controller('delayRequests', function ($scope, $http, $timeout) {
     $scope.baseURL = '';
-    $scope.appName = 'employeesBonuses';
-    $scope.modalID = '#employeesBonusesManageModal';
-    $scope.modalSearchID = '#employeesBonusesSearchModal';
+    $scope.appName = 'delayRequests';
+    $scope.modalID = '#delayRequestsManageModal';
+    $scope.modalSearchID = '#delayRequestsSearchModal';
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
-        image: {},
-        approved: false,
+        image: { url: '/images/delayRequests.png' },
         requestStatus: 'new',
         active: true,
     };
@@ -17,7 +16,7 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, date: new Date() };
+        $scope.item = { ...$scope.structure, date: new Date(), requestDate: new Date() };
         site.showModal($scope.modalID);
     };
 
@@ -94,8 +93,16 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
         );
     };
 
+    $scope.showView = function (_item) {
+        $scope.error = '';
+        $scope.mode = 'view';
+        $scope.item = {};
+        $scope.view(_item);
+        site.showModal($scope.modalID);
+    };
+
     $scope.accept = function (_item) {
-        let confirm = window.confirm('##word.Are You Sure To Approve Employee Bounus##');
+        let confirm = window.confirm('##word.Are You Sure To Approve Shift Data##');
 
         if (!confirm) {
             return;
@@ -123,7 +130,7 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
                         $scope.list[index] = response.data.result.doc;
                     }
                 } else {
-                    $scope.error = 'Please Login First';
+                    $scope.error = response.data.error || 'Please Login First';
                 }
             },
             function (err) {
@@ -170,14 +177,29 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.showView = function (_item) {
-        $scope.error = '';
-        $scope.mode = 'view';
-        $scope.item = {};
-        $scope.view(_item);
-        site.showModal($scope.modalID);
+    $scope.getEmployeeVacationBalance = function (_data) {
+        if (!_data.employee || !_data.employee.id) {
+            return;
+        }
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: '/api/employees/getEmployeeVacationBalance',
+            data: { id: _data.employee.id },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.doc) {
+                    $scope.item.regularVacations = response.data.doc.regularVacations;
+                    $scope.item.casualVacations = response.data.doc.casualVacations;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
     };
-
     $scope.view = function (_item) {
         $scope.busy = true;
         $scope.error = '';
@@ -265,115 +287,6 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getEmployees = function ($search) {
-        if ($search && $search.length < 3) {
-            return;
-        }
-        $scope.busy = true;
-        $scope.employeesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/employees/all',
-            data: {
-                where: { active: true },
-                select: {
-                    id: 1,
-                    code: 1,
-                    fullNameEn: 1,
-                    fullNameAr: 1,
-                    image: 1,
-                },
-                search: $search,
-            },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.employeesList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
-    $scope.getEmployeesBonusNamesList = function ($search) {
-        if ($search && $search.length < 3) {
-            return;
-        }
-        $scope.busy = true;
-        $scope.employeesBonusNamesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/employeesBonusNames/all',
-            data: {
-                where: { active: true },
-                select: {
-                    id: 1,
-                    code: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                },
-                search: $search,
-            },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.employeesBonusNamesList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
-    $scope.getAmountCategory = function () {
-        $scope.busy = true;
-        $scope.amountCategoriesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/amountCategory',
-            data: {},
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.amountCategoriesList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
-    $scope.getAmountType = function () {
-        $scope.busy = true;
-        $scope.amountTypesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/amountTypes',
-            data: {},
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.amountTypesList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
     $scope.getNumberingAuto = function () {
         $scope.error = '';
         $scope.busy = true;
@@ -408,10 +321,63 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
         $scope.search = {};
     };
 
+    $scope.getEmployees = function ($search) {
+        if ($search && $search.length < 3) {
+            return;
+        }
+        $scope.busy = true;
+        $scope.employeesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/employees/all',
+            data: {
+                where: { active: true },
+                select: {
+                    id: 1,
+                    code: 1,
+                    fullNameEn: 1,
+                    fullNameAr: 1,
+                    image: 1,
+                },
+                search: $search,
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.employeesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.getVacationsTypes = function () {
+        $scope.busy = true;
+        $scope.vacationsTypesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/vacationsTypes',
+            data: {},
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    $scope.vacationsTypesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
     $scope.getAll();
-    $scope.getNumberingAuto();
+    $scope.getVacationsTypes();
     $scope.getEmployees();
-    $scope.getEmployeesBonusNamesList();
-    $scope.getAmountCategory();
-    $scope.getAmountType();
+    $scope.getNumberingAuto();
 });

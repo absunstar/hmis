@@ -30,7 +30,7 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
         }
 
         if (!$scope.item.worktimesList || !$scope.item.worktimesList.length) {
-            alert('##word.Must Enter At least One Work Time##');
+            $scope.error = '##word.Must Enter At least One Work Time##';
             return;
         }
         $scope.busy = true;
@@ -74,7 +74,7 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
             return;
         }
         if (!$scope.item.worktimesList || !$scope.item.worktimesList.length) {
-            alert('##word.Must Enter At least One Work Time##');
+            $scope.error = '##word.Must Enter At least One Work Time##';
             return;
         }
         $scope.busy = true;
@@ -352,15 +352,15 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
 
     $scope.addWorktime = function (worktime) {
         if (!worktime.day || !worktime.day.id) {
-            alert('##word.Please Select Day##');
+            $scope.error = '##word.Please Select Day##';
             return;
         }
         if (!worktime.start) {
-            alert('##word.Please Select Start Time##');
+            $scope.error = '##word.Please Select Start Time##';
             return;
         }
         if (!worktime.end) {
-            alert('##word.Please Select End Time##');
+            $scope.error = '##word.Please Select End Time##';
             return;
         }
         $scope.item.worktimesList.push({
@@ -374,21 +374,21 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
 
     $scope.addPenalty = function (delayPenalty) {
         if (!(delayPenalty.fromMinute > 0)) {
-            alert('##word.Delay From Minute Penalty##');
+            $scope.error = '##word.Delay From Minute Penalty##';
             return;
         }
         if (!(delayPenalty.toMinute > 0) || delayPenalty.toMinute < delayPenalty.fromMinute) {
-            alert('##word.Delay To Minute Penalty##');
+            $scope.error = '##word.Delay To Minute Penalty##';
             return;
         }
 
         if (!(delayPenalty.value > 0)) {
-            alert('##word.Please Select Penalty Value##');
+            $scope.error = '##word.Please Select Penalty Value##';
             return;
         }
 
         if (!delayPenalty.type || !delayPenalty.type.id) {
-            alert('##word.Please Select Penalty Type##');
+            $scope.error = '##word.Please Select Penalty Type##';
             return;
         }
 

@@ -590,23 +590,23 @@ app.controller('employees', function ($scope, $http, $timeout) {
         $scope.error = '';
 
         if (!selectedAllowance.allowance || !selectedAllowance.allowance.id) {
-            alert('##word.Please Select Allowance##');
+            $scope.error = '##word.Please Select Allowance##';
             return;
         }
 
         if (!selectedAllowance.type) {
-            alert('##word.Please Select Allowance Type##');
+            $scope.error = '##word.Please Select Allowance Type##';
             return;
         }
 
         if (!(selectedAllowance.value > 0)) {
-            alert('##word.Please Enter Value##');
+            $scope.error = '##word.Please Enter Value##';
             return;
         }
 
         const index = $scope.item.allowancesList.findIndex((_al) => _al.id === selectedAllowance.id);
         if (index !== -1) {
-            alert('##word.Allowance Exisit##');
+            $scope.error = '##word.Allowance Exisit##';
             return;
         }
 
@@ -624,23 +624,23 @@ app.controller('employees', function ($scope, $http, $timeout) {
         $scope.error = '';
 
         if (!selectedDeduction.deduction || !selectedDeduction.deduction.id) {
-            alert('##word.Please Select Deduction##');
+            $scope.error = '##word.Please Select Deduction##';
             return;
         }
 
         if (!selectedDeduction.type) {
-            alert('##word.Please Select Deduction Type##');
+            $scope.error = '##word.Please Select Deduction Type##';
             return;
         }
 
         if (!(selectedDeduction.value > 0)) {
-            alert('##word.Please Enter Value##');
+            $scope.error = '##word.Please Enter Value##';
             return;
         }
 
         const index = $scope.item.deductionsList.findIndex((_al) => _al.id === selectedDeduction.id);
         if (index !== -1) {
-            alert('##word.Deduction Exisit##');
+            $scope.error = '##word.Deduction Exisit##';
             return;
         }
 
@@ -652,26 +652,6 @@ app.controller('employees', function ($scope, $http, $timeout) {
         });
         $scope.selectedDeduction = {};
     };
-
-    // $scope.addDeduction = function (_item) {
-    //     $scope.error = '';
-
-    //     if (!_item.deduction || !_item.deduction.id) {
-    //         alert('##word.Please Select Deduction##');
-    //         return;
-    //     }
-    //     const index = $scope.item.deductionsList.findIndex((_al) => _al.id === _item.id);
-    //     if (index !== -1) {
-    //         alert('##word.Deduction Exisit##');
-    //         return;
-    //     }
-
-    //     $scope.item.deductionsList.push({
-    //         deduction: _item.deduction,
-    //         amount: 0,
-    //         active: true,
-    //     });
-    // };
 
     // $scope.addDeductions = function (_item) {
     //     $scope.error = '';
@@ -924,23 +904,23 @@ app.controller('employees', function ($scope, $http, $timeout) {
         $scope.error = '';
 
         if (!document.fileType || !document.fileType.id) {
-            alert('##word.Please Select File Type##');
+            $scope.error = '##word.Please Select File Type##';
             return;
         }
 
         if (document.renewable && !document.renewalDate) {
-            alert('##word.Please Enter Renewal Date##');
+            $scope.error = '##word.Please Enter Renewal Date##';
             return;
         }
 
         if (!document.file) {
-            alert('##word.Please Upload File##');
+            $scope.error = '##word.Please Upload File##';
             return;
         }
 
         const fileTypeIndex = $scope.item.documentsList.findIndex((_file) => _file.fileType.id === document.fileType.id);
         if (fileTypeIndex !== -1) {
-            alert('##word.File Type Already Exisit##');
+            $scope.error = '##word.File Type Already Exisit##';
             return;
         }
 
@@ -953,7 +933,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
         $scope.error = '';
 
         if (!skill.name) {
-            alert('##word.Please Enter Skill Name##');
+            $scope.error = '##word.Please Enter Skill Name##';
             return;
         }
 
@@ -966,11 +946,11 @@ app.controller('employees', function ($scope, $http, $timeout) {
         $scope.error = '';
 
         if (!experience.company) {
-            alert('##word.Please Enter Experience Company##');
+            $scope.error = '##word.Please Enter Experience Company##';
             return;
         }
         if (!experience.jobTitle) {
-            alert('##word.Please Enter Job Title##');
+            $scope.error = '##word.Please Enter Job Title##';
             return;
         }
 
@@ -983,24 +963,24 @@ app.controller('employees', function ($scope, $http, $timeout) {
         $scope.error = '';
 
         if (!selectedBank.bank || !selectedBank.bank.id) {
-            alert('##word.Please Enter Bank Name##');
+            $scope.error = '##word.Please Enter Bank Name##';
             return;
         }
 
         if (!selectedBank.accountNumber) {
-            alert('##word.Please Enter Account Number##');
+            $scope.error = '##word.Please Enter Account Number##';
             return;
         }
 
         if (!selectedBank.accountOwner) {
-            alert('##word.Please Enter Account Owner##');
+            $scope.error = '##word.Please Enter Account Owner##';
             return;
         }
 
         if (selectedBank.salaryBank) {
             const salaryBankIndex = $scope.item.banksList.findIndex((_bnk) => _bnk.salaryBank === true);
             if (salaryBankIndex !== -1) {
-                alert('##word.Default Salary Bank Exisit##');
+                $scope.error = '##word.Default Salary Bank Exisit##';
                 return;
             }
         }
@@ -1021,7 +1001,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
                 $scope.item.additionalSocialInsuranceDiscount > 100 ||
                 $scope.item.additionalSocialInsuranceDiscount + $scope.item.socialInsuranceClass.companyRatio > 100
             ) {
-                alert('##word.Invalid Value##');
+                $scope.error = '##word.Invalid Value##';
                 $scope.item.additionalSocialInsuranceDiscount = 0;
                 return;
             }
@@ -1039,7 +1019,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
                 $scope.item.additionalMedicalInsuranceDiscount > 100 ||
                 $scope.item.additionalMedicalInsuranceDiscount + $scope.item.medicalInsuranceClass.companyRatio > 100
             ) {
-                alert('##word.Invalid Value##');
+                $scope.error = '##word.Invalid Value##';
                 $scope.item.additionalMedicalInsuranceDiscount = 0;
                 return;
             }

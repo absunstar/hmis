@@ -17,6 +17,7 @@
                 <th>##word.Date##</th>
                 <th>##word.Employee##</th>
                 <th>##word.Type##</th>
+                <th>##word.Request Status##</th>
                 <th>##word.Approved##</th>
                 <th>##word.Status##</th>
                 <th class="not-print">##word.Actions##</th>
@@ -26,6 +27,11 @@
                 <td class="text-center brown">{{item.date | date:"dd / MM / yyyy"}}</td>
                 <td class="text-center">{{item.employee.fullName##session.lang##}}</td>
                 <td class="text-center">{{item.value}} - {{item.type.name##session.lang##}}</td>
+                <td class="text-center">
+                    <span class="blue" ng-show="item.requestStatus == 'new'">##word.New##</span>
+                    <span class="text-success" ng-show="item.requestStatus == 'accepted'">##word.Accepted##</span>
+                    <span class="text-danger" ng-show="item.requestStatus == 'rejected'">##word.Rejected##</span>
+                </td>
                 <td class="text-center">
                     <span class="text-success" ng-show="item.approved">##word.Yes## <span> - {{item.approveDate |date :'dd/MM/yyyy'}} - {{item.approveDate |date :'hh:mm:ss a'}}</span></span>
                     <span class="text-danger" ng-show="!item.approved">##word.No##</span>

@@ -388,5 +388,15 @@
         "name": "Some Employees",
         "En": "Some Employees",
         "Ar": "بعض الموظفين"
+    },
+    {
+        "name": "Please Select Approved Vacation Type",
+        "En": "Please Select Approved Vacation Type",
+        "Ar": "يرجي تحديد نوع الأجازة في الموافقة"
+    },
+    {
+        "name": "Please Set Approved Days",
+        "En": "Please Set Approved Days",
+        "Ar": "يرجي تحديد عدد الأيام الموافق عليها"
     }
 ]

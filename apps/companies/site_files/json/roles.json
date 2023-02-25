@@ -86,7 +86,8 @@
             "vacationsTypesManage",
             "createVacationsManage",
             "vacationsNamesManage",
-            "banksManage"
+            "banksManage",
+            "delayRequestsManage"
         ]
     }
 ]

@@ -9,7 +9,8 @@ module.exports = function init(site) {
         allowRouteGet: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
-        allowRouteApprove: true,
+        allowRouteAccept: true,
+        allowRouteRejected: true,
         allowRouteDelete: true,
         allowRouteView: true,
         allowRouteAll: true,
@@ -209,17 +210,19 @@ module.exports = function init(site) {
             });
         }
 
-        if (app.allowRouteApprove) {
-            site.post({ name: `/api/${app.name}/approve`, require: { permissions: ['login'] } }, (req, res) => {
+        if (app.allowRouteAccept) {
+            site.post({ name: `/api/${app.name}/accept`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {
                     done: false,
                 };
 
                 let _data = req.data;
 
+                _data['requestStatus'] = 'accepted';
+                _data['acceptDate'] = new Date();
                 _data['approved'] = true;
                 _data['approveDate'] = new Date();
-                _data.approvedUserInfo = req.getUserFinger();
+                _data.acceptUserInfo = req.getUserFinger();
 
                 app.update(_data, (err, result) => {
                     if (!err) {
@@ -233,6 +236,31 @@ module.exports = function init(site) {
             });
         }
 
+        if (app.allowRouteRejected) {
+            site.post({ name: `/api/${app.name}/reject`, require: { permissions: ['login'] } }, (req, res) => {
+                let response = {
+                    done: false,
+                };
+
+                let _data = req.data;
+
+                _data['requestStatus'] = 'rejected';
+                _data['rejectDate'] = new Date();
+                _data['approved'] = true;
+                _data['approveDate'] = new Date();
+                _data.unapprovedUserInfo = req.getUserFinger();
+
+                app.update(_data, (err, result) => {
+                    if (!err) {
+                        response.done = true;
+                        response.result = result;
+                    } else {
+                        response.error = err.message;
+                    }
+                    res.json(response);
+                });
+            });
+        }
         if (app.allowRouteDelete) {
             site.post({ name: `/api/${app.name}/delete`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {
@@ -274,7 +302,7 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                let select = req.body.select || { id: 1, code: 1, employee: 1, active: 1, date: 1, category: 1, type: 1, value: 1, approved: 1, approveDate: 1 };
+                let select = req.body.select || { id: 1, code: 1, employee: 1, active: 1, date: 1, category: 1, type: 1, value: 1, approved: 1, approveDate: 1, requestStatus: 1 };
                 let list = [];
                 if (app.allowMemory) {
                     app.memoryList

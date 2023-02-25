@@ -28,7 +28,7 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
         $scope.busy = true;
         $http({
             method: 'POST',
-            url: `${$scope.baseURL}/api/${$scope.appName}/add`,
+            url: `${$scope.baseURL}/api/${$scope.appName}/update`,
             data: $scope.item,
         }).then(
             function (response) {
@@ -36,7 +36,7 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
                 if (response.data.done) {
                     site.hideModal($scope.modalID);
                     site.resetValidated($scope.modalID);
-                    $scope.list.push(response.data.result);
+                    $scope.list.push(response.data.result.doc);
                 } else {
                     $scope.error = response.data.error;
                     if (response.data.error && response.data.error.like('*Must Enter Code*')) {
@@ -53,6 +53,10 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
     $scope.showUpdate = function (_item) {
         $scope.error = '';
         $scope.mode = 'edit';
+        _item.attendTime = new Date(_item.attendTime);
+        _item.leaveDate = new Date(_item.leaveDate);
+        _item.shiftData.start = new Date(_item.shiftData.start);
+        _item.shiftData.end = new Date(_item.shiftData.end);
         $scope.view(_item);
         $scope.item = {};
         site.showModal($scope.modalID);
@@ -112,6 +116,10 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
                 $scope.busy = false;
                 if (response.data.done) {
                     $scope.item = response.data.doc;
+                    $scope.item.attendTime = new Date(response.data.doc.attendTime);
+                    $scope.item.leaveDate = new Date(response.data.doc.leaveDate);
+                    $scope.item.shiftData.start = new Date(response.data.doc.shiftData.start);
+                    $scope.item.shiftData.end = new Date(response.data.doc.shiftData.end);
                 } else {
                     $scope.error = response.data.error;
                 }
@@ -192,13 +200,12 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
 
         if (type == 'attend') {
             $scope.item.attendTime = new Date();
-
             const attendHours = now.getHours() - attendTime.getHours();
             const attendMinutes = now.getMinutes();
             $scope.item.attendanceTimeDifference = Math.floor(attendHours * 60 + attendMinutes);
         } else if (type == 'leave') {
             $scope.item.leaveDate = new Date();
-            const leavingHours = now.getHours() - leavingTime.getHours();
+            const leavingHours = leavingTime.getHours() - now.getHours();
             const leavingMinutes = now.getMinutes();
 
             $scope.item.leavingTimeDifference = Math.floor(leavingHours * 60 - leavingMinutes);
@@ -217,9 +224,12 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
             }).then(
                 function (response) {
                     $scope.busy = false;
-
                     if (response.data.done) {
                         $scope.item = response.data.result;
+                        $scope.item.attendTime = new Date(response.data.result.attendTime);
+                        $scope.item.leaveDate = new Date(response.data.result.leaveDate);
+                        $scope.item.shiftData.start = new Date(response.data.result.shiftData.start);
+                        $scope.item.shiftData.end = new Date(response.data.result.shiftData.end);
                     }
                 },
                 function (err) {
@@ -228,6 +238,37 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
                 }
             );
         }
+    };
+
+    $scope.getShiftData = function (_data) {
+        $scope.item.attendTime = '';
+        $scope.item.leaveDate = '';
+        $scope.item.absence = '';
+        if (!_data.date || !_data.employee) {
+            return;
+        }
+        const data = {
+            date: _data.date,
+            id: _data.employee.shift.id,
+        };
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: '/api/jobsShifts/get',
+            data,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.doc) {
+                    $scope.item.shiftData = response.data.doc;
+                }
+                $scope.getEmployeeAttend();
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
     };
 
     $scope.getEmployees = function ($search) {
@@ -246,7 +287,6 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
                     code: 1,
                     fullNameEn: 1,
                     fullNameAr: 1,
-                    image: 1,
                     fingerprintCode: 1,
                     shift: 1,
                 },
@@ -265,48 +305,6 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
             }
         );
     };
-
-    $scope.getShiftData = function (_data) {
-        if (!_data.date || !_data.employee) {
-            return;
-        }
-        const data = {
-            date: _data.date,
-            id: _data.employee.shift.id,
-        };
-
-        $scope.busy = true;
-        $http({
-            method: 'POST',
-            url: '/api/jobsShifts/get',
-            data,
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.doc) {
-                    $scope.item.shiftData = response.data.doc;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
-    // $scope.getShift(data);
-    // const dayIndex = $scope.item.date.getDay();
-    // const dayName = employee.shift.worktimesList?.findIndex((_d) => _d.day.index == dayIndex);
-    // if (dayName !== -1) {
-    //     const selectedDay = employee.shift.worktimesList[dayName];
-
-    //     $scope.currentDay = {
-    //         day: selectedDay.day,
-    //         start: selectedDay.start,
-    //         end: selectedDay.end,
-    //     };
-    // }
-    // };
 
     $scope.getNumberingAuto = function () {
         $scope.error = '';

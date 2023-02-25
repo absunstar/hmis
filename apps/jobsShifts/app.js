@@ -18,43 +18,6 @@ module.exports = function init(site) {
 
     app.$collection = site.connectCollection(app.name);
 
-    // site.getAttendandTimeByDate = function (data) {
-    //     if (!data.date) {
-    //         return;
-    //     }
-    //     if (!data.id) {
-    //         return;
-    //     }
-    //     const day = new Date(data.date).getDay();
-    //     app.$collection.find({ id: data.id }, (err, doc) => {
-    //         if (doc) {
-    //             const dayIndex = doc.worktimesList.findIndex((_d) => _d.day.index === day);
-    //             if (dayIndex !== -1) {
-    //                 const day = doc.worktimesList[dayIndex].day;
-    //                 const start = doc.worktimesList[dayIndex].start;
-    //                 const end = doc.worktimesList[dayIndex].end;
-
-    //                 console.log('day', day);
-    //                 console.log('start', start);
-    //                 return { day, start, end };
-    //             }
-    //         }
-    //     });
-    // };
-
-    // site.calculateStroeItemBalance = function (item) {
-    //     item.unitsList.forEach((unt) => {
-    //         unt.currentCount = 0;
-    //         unt.storesList.forEach((str) => {
-    //             let totalIncome = str.purchaseCount + str.bonusCount + str.unassembledCount + str.salesReturnCount + str.transferToCount + str.convertUnitToCount;
-    //             let totalOut = str.salesCount + str.purchaseReturnCount + str.damagedCount + str.assembledCount + str.transferFromCount + str.convertUnitFromCount + str.bonusReturnCount;
-    //             str.currentCount = totalIncome - totalOut || 0;
-    //             unt.currentCount += str.currentCount || 0;
-    //         });
-    //     });
-    //     return item;
-    // };
-
     app.init = function () {
         if (app.allowMemory) {
             app.$collection.findMany({}, (err, docs) => {
@@ -351,7 +314,7 @@ module.exports = function init(site) {
                 const day = new Date(_data.date).getDay();
                 app.$collection.find({ id: _data.id }, (err, doc) => {
                     if (doc) {
-                        const dayIndex = doc.worktimesList.findIndex((_d) => _d.day.index === day);
+                        const dayIndex = doc.worktimesList.findIndex((_d) => _d.day.index == day);
                         if (dayIndex !== -1) {
                             const day = doc.worktimesList[dayIndex].day;
                             const start = doc.worktimesList[dayIndex].start;
@@ -359,7 +322,6 @@ module.exports = function init(site) {
 
                             response.done = true;
                             response.doc = { day, start, end };
-
                             res.json(response);
                         }
                     }

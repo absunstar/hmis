@@ -4,10 +4,11 @@
             <i-control ng-hide="disabledCode" class="col9" label="##word.Code##" ng-model="item.code"> </i-control>
         </div>
         <i-date label="##word.date##" ng-model="item.date"></i-date>
-        <!-- getEmployeeAttend() -->
-        <i-list v="r" label="##word.employee##" ng-change="getShiftData(item);" ng-model="item.employee" items="employeesList" ng-get="getEmployeesList($search)" display="fullName##session.lang##">
+
+        <i-list v="r" label="##word.employee##" ng-change="getShiftData(item)" ng-get="getEmployeesList($search)" ng-model="item.employee" items="employeesList" display="fullName##session.lang##">
         </i-list>
-        <table class="table center hover bold" ng-if="item.employee && item.employee.id">
+
+        <table class="table center hover bold" ng-show="item.employee && item.employee.id">
             <thead>
                 <tr>
                     <th>##word.Name##</th>
@@ -18,14 +19,14 @@
             <tbody>
                 <tr>
                     <td>{{item.shiftData.day.name##session.lang##}}</td>
-                    <td>{{item.shiftData.start | date :'hh:mm a'}}</td>
-                    <td>{{item.shiftData.end | date :'hh:mm a'}}</td>
+                    <td>{{item.shiftData.start | date :'shortTime'}}</td>
+                    <td>{{item.shiftData.end | date :'shortTime'}}</td>
                 </tr>
             </tbody>
         </table>
 
-        <div class="row">
-            <table class="table center hover bold" ng-if="item.shiftData.day">
+        <div class="row" ng-if="item.shiftData.day">
+            <table class="table center hover bold">
                 <tr>
                     <th>##word.Attendance Time##</th>
                     <th>##word.Attendance Time Difference Minute##</th>
@@ -35,8 +36,13 @@
                 </tr>
                 <tr>
                     <td>
-                        <i-button type="add" label="##word.Attended##" ng-hide="item.absence || item.attendTime" ng-click="attendTime('attend')"></i-button>
-                        <p class="bold " ng-show="item.attendTime">{{item.attendTime |date:"hh:mm a"}}</p>
+                        <div class="row">
+                            <i-control type="time" ng-model="item.attendTime" ng-show="!item.attendTime"></i-control>
+
+                            <i-button type="add" label="##word.Attended##" ng-hide="item.absence || item.attendTime" ng-click="attendTime('attend')"></i-button>
+
+                            <p class="bold" ng-show="item.attendTime">{{item.attendTime | date :"shortTime"}}</p>
+                        </div>
                     </td>
                     <td>
                         <p class="bold" ng-show="item.attendTime">
@@ -46,8 +52,9 @@
                     </td>
 
                     <td>
+                        <i-control type="time" ng-model="item.leaveDate" ng-show="!item.leaveDate"></i-control>
                         <i-button type="edit" label="##word.Leave##" ng-show="item.attendTime && !item.leaveDate" ng-click="attendTime('leave')"></i-button>
-                        <p class="bold " ng-show="item.leaveDate">{{item.leaveDate |date:"hh:mm a"}}</p>
+                        <p class="bold" ng-show="item.leaveDate">{{item.leaveDate |date:"shortTime"}}</p>
                     </td>
 
                     <td>

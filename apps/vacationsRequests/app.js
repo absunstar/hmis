@@ -39,6 +39,7 @@ module.exports = function init(site) {
             });
         }
     };
+
     app.add = function (_item, callback) {
         app.$collection.add(_item, (err, doc) => {
             if (callback) {
@@ -49,6 +50,7 @@ module.exports = function init(site) {
             }
         });
     };
+
     app.update = function (_item, callback) {
         app.$collection.edit(
             {
@@ -79,6 +81,7 @@ module.exports = function init(site) {
             }
         );
     };
+
     app.delete = function (_item, callback) {
         app.$collection.delete(
             {
@@ -102,6 +105,7 @@ module.exports = function init(site) {
             }
         );
     };
+
     app.view = function (_item, callback) {
         if (callback) {
             if (app.allowMemory) {
@@ -129,6 +133,7 @@ module.exports = function init(site) {
             });
         }
     };
+
     app.all = function (_options, callback) {
         if (callback) {
             if (app.allowMemory) {

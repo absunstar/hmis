@@ -244,7 +244,7 @@ module.exports = function init(site) {
                                 item.store = { ...result.doc.store };
                                 site.editItemsBalance(item, app.name);
                                 item.invoiceId = result.doc.id;
-                                item.date = result.doc.orderDate;
+                                item.date = result.doc.date;
                                 item.customer = result.doc.customer;
                                 item.countType = 'in';
                                 item.orderCode = result.doc.code;
@@ -302,7 +302,7 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                let select = req.body.select || { id: 1, code: 1, invoiceCode: 1, invoiceId: 1, orderDate: 1, customer: 1, itemsList: 1, paymentType: 1, store: 1, active: 1, image: 1, approved: 1 };
+                let select = req.body.select || { id: 1, code: 1, invoiceCode: 1, invoiceId: 1, date: 1, customer: 1, itemsList: 1, paymentType: 1, store: 1, active: 1, image: 1, approved: 1 };
                 let list = [];
 
                 if (where && where.dateTo) {

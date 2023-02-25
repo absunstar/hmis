@@ -37,7 +37,7 @@
                 <th>##word.Batch Code##</th>
                 <th>##word.Production Date##</th>
                 <th ng-hide="batch.workBySerial">##word.Expiry Date##</th>
-                <th ng-hide="batch.workBySerial">##word.validit##</th>
+                <th ng-hide="batch.workBySerial">##word.validit Days##</th>
                 <th>##word.Current QTY.##</th>
                 <th>##word.quantity##</th>
                 <th ng-show="batch.workBySerial">##word.Select##</th>
@@ -49,11 +49,11 @@
                 </td>
 
                 <td>
-                  <p>{{c.productionDate | date: "dd / MM / yyyy"}}</p>
+                  <p class="green">{{c.productionDate | date: "dd / MM / yyyy"}}</p>
                 </td>
 
                 <td ng-hide="batch.workBySerial">
-                  <p>{{c.expiryDate | date: "dd / MM / yyyy"}}</p>
+                  <p class="red">{{c.expiryDate | date: "dd / MM / yyyy"}}</p>
                 </td>
 
                 <td ng-hide="batch.workBySerial">

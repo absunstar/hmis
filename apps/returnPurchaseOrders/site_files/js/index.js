@@ -17,7 +17,7 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
         $scope.error = '';
         $scope.itemsError = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, orderDate: new Date() };
+        $scope.item = { ...$scope.structure, date: new Date() };
         site.showModal($scope.modalID);
         $scope.returnPurchaseOrdersList = [];
     };

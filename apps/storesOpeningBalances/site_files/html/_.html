@@ -1,6 +1,7 @@
 <div ng-controller="storesOpeningBalances" class="loaded">
     <div class="row" x-permissions="storesOpeningBalancesUi || storesOpeningBalancesManage">
         <div x-import="storesOpeningBalances/modal.html"></div>
+        <div x-import="storesOpeningBalances/batchModal.html"></div>
         <div x-import="storesOpeningBalances/modalSearch.html"></div>
 
         <div class="top-actions">
@@ -27,7 +28,7 @@
                 </td> -->
                 <td class="text-center blue">{{item.code}}</td>
 
-                <td class="text-center blue">{{item.orderDate|date:'dd/MM/yyyy'}}</td>
+                <td class="text-center blue">{{item.date|date:'dd/MM/yyyy'}}</td>
                 <td class="text-center">{{item.store.name##session.lang##}}</td>
                 <td class="text-center">
                     <span ng-show="item.approved">

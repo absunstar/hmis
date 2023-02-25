@@ -68,14 +68,15 @@
     </div>
 
     <p class="error">{{itemsError}}</p>
-    <table class="table hover bold">
+    <table class="table hover center bold">
       <tr>
         <th>##word.S##</th>
         <th>##word.Item##</th>
         <th>##word.Unit##</th>
         <th>##word.Sales Count##</th>
-        <th>##word.Sales Price##</th>
-        <th>##word.Sale Discount##</th>
+        <th>##word.Total Price##</th>
+        <th>##word.Total Discount##</th>
+        <th>##word.Total Vat##</th>
         <th>##word.Total##</th>
         <th class="not-print">##word.Actions##</th>
       </tr>
@@ -84,17 +85,29 @@
         <td class="text-center">{{elem.name##session.lang##}}</td>
         <td class="text-center">{{elem.unit.name##session.lang##}}</td>
         <td class="text-center">
-          <i-control ng-if="mode == 'add'" min="0" type="number" ng-change="calculateItem(elem)" ng-model="elem.count"></i-control>
+          <i-control ng-if="mode == 'add'" min="0" type="number" ng-change="calculate(item)" ng-model="elem.count"></i-control>
           <p class="text-center" ng-if="mode != 'add'">{{elem.count}}</p>
         </td>
         <td class="text-center">
-          <p class="text-center">{{elem.price}}</p>
+          <p class="text-center">{{elem.totalPrice}} <span>##word.$##</span></p>
+          <p class="text-center blue" ng-if="elem.count > 1">( {{elem.price}} <span>##word.$##</span> )</p>
         </td>
         <td>
-          <p class="text-center">{{elem.discount}} <span ng-if="elem.discount>0?elem.unit.discountType === 'percent':''"> % </span></p>
+          <p>{{elem.totalDiscount}} ##word.$##</p>
+
+          <p class="text-center green">
+            ( {{elem.discount}}
+            <span ng-if="elem.discountType === 'percent'"> ##word.%## </span>
+            <span ng-if="elem.discountType === 'value'"> ##word.$## </span>
+            )
+          </p>
         </td>
         <td>
-          <p class="text-center">{{elem.total}}</p>
+          <p ng-if="!elem.noVat">{{elem.totalVat}} ##word.$##</p>
+          <p ng-if="elem.noVat">##word.No VAT##</p>
+        </td>
+        <td>
+          <p class="text-center">{{elem.total}} <span>##word.$##</span></p>
         </td>
 
         <td class="text-center">
@@ -131,7 +144,7 @@
               <td><p class="text-center">{{discount.value}}</p></td>
               <td><p class="text-center">{{discount.type}}</p></td>
               <td class="text-center">
-                <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(discount,'discount');"> </i-button>
+                <i-button type="delete" label="##word.Delete##" ng-click="item.discountsList.splice($index,1);calculate(item)"> </i-button>
               </td>
             </tr>
           </table>
@@ -156,7 +169,6 @@
             <tr>
               <th>##word.Name##</th>
               <th>##word.Value##</th>
-
               <th class="not-print">##word.Actions##</th>
             </tr>
             <tr ng-repeat="tax in item.taxesList">
@@ -164,7 +176,7 @@
               <td><p class="text-center">{{tax.value}}</p></td>
 
               <td class="text-center">
-                <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(tax,'tax');"> </i-button>
+                <i-button type="delete" label="##word.Delete##" ng-click="item.taxesList.splice($index,1);calculate(item)"> </i-button>
               </td>
             </tr>
           </table>
@@ -179,7 +191,7 @@
         <i-control class="col3" type="number" disabled label="##word.Total Price##" ng-model="item.totalPrice"></i-control>
         <i-control class="col3" type="number" disabled label="##word.Total Disconts##" ng-model="item.totalDiscounts"></i-control>
         <i-control class="col3" type="number" disabled label="##word.Total Taxes##" ng-model="item.totalTaxes"></i-control>
-        <i-control class="col3" type="number" disabled label="##word.Total Vendor Discont##" ng-model="item.totalVendorDiscount"></i-control>
+        <i-control class="col3" type="number" disabled label="##word.Total Vat##" ng-model="item.totalVat"></i-control>
       </div>
     </fieldset>
   </div>

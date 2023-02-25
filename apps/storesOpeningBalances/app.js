@@ -157,6 +157,31 @@ module.exports = function init(site) {
                 };
 
                 let _data = req.data;
+                let errBatchList = [];
+                
+                _data.itemsList.forEach((_item) => {
+                  if (_item.workByBatch || _item.workBySerial) {
+                    if (_item.batchesList && _item.batchesList.length > 0) {
+                      _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
+                      let notCode = _item.batchesList.some((_b) => !_b.code);
+                      if (_item.$batchCount != _item.count || notCode) {
+                        let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
+                        errBatchList.push(itemName);
+                      }
+                    } else {
+                      let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
+                      errBatchList.push(itemName);
+                    }
+                  }
+                });
+        
+                if (errBatchList.length > 0) {
+                  let error = errBatchList.map((m) => m).join('-');
+                  response.error = `The Batches is not correct in ( ${error} )`;
+                  res.json(response);
+                  return;
+                }
+
                 _data.company = site.getCompany(req);
 
                 let numObj = {
@@ -232,6 +257,30 @@ module.exports = function init(site) {
 
                 let _data = req.data;
 
+                let errBatchList = [];
+                _data.itemsList.forEach((_item) => {
+                  if (_item.workByBatch || _item.workBySerial) {
+                    if (_item.batchesList && _item.batchesList.length > 0) {
+                      _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
+                      let notCode = _item.batchesList.some((_b) => !_b.code);
+                      if (_item.$batchCount != _item.count|| notCode) {
+                        let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
+                        errBatchList.push(itemName);
+                      }
+                    } else {
+                      let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
+                      errBatchList.push(itemName);
+                    }
+                  }
+                });
+        
+                if (errBatchList.length > 0) {
+                  let error = errBatchList.map((m) => m).join('-');
+                  response.error = `The Batches is not correct in ( ${error} )`;
+                  res.json(response);
+                  return;
+                }
+
                 _data.approveUserInfo = req.getUserFinger();
                 app.update(_data, (err, result) => {
                     if (!err) {
@@ -243,7 +292,7 @@ module.exports = function init(site) {
                             item.store = { ...result.doc.store };
                             site.editItemsBalance(item, app.name);
                             item.invoiceId = result.doc.id;
-                            item.date = result.doc.orderDate;
+                            item.date = result.doc.date;
                             item.vendor = result.doc.vendor;
                             item.countType = 'in';
                             item.orderCode = result.doc.code;
@@ -304,11 +353,11 @@ module.exports = function init(site) {
                 let select = req.body.select || {};
                 let list = [];
 
-                if (where.orderDate) {
-                    let d1 = site.toDate(where.orderDate);
-                    let d2 = site.toDate(where.orderDate);
+                if (where.date) {
+                    let d1 = site.toDate(where.date);
+                    let d2 = site.toDate(where.date);
                     d2.setDate(d2.getDate() + 1);
-                    where.orderDate = {
+                    where.date = {
                         $gte: d1,
                         $lt: d2,
                     };

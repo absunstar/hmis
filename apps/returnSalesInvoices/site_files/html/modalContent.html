@@ -3,7 +3,7 @@
         <legend>##word.Invoice Informations##</legend>
             <div class="row">
                 <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="item.code"> </i-control>
-                <i-date class="col2" label="##word.Date##" ng-model="item.orderDate"> </i-date>
+                <i-date class="col2" label="##word.Date##" ng-model="item.date"> </i-date>
           
                 <div class="col2">
                     <br />
@@ -33,7 +33,7 @@
             <tr>
               <th>##word.Order / Invoice Date##</th>
               <td class="center" colspan="3">
-                <p class="height-5">{{item.orderDate | date:'dd/MM/yyyy'}} - {{item.orderDate | date:'hh:mm:ss a'}}</p>
+                <p class="height-5">{{item.date | date:'dd/MM/yyyy'}} - {{item.date | date:'hh:mm:ss a'}}</p>
               </td>
               <th>##word.Customer##</th>
               <td class="center" colspan="3">

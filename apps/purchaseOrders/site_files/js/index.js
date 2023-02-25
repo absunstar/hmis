@@ -56,7 +56,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     }
     $scope.itemsError = '';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure, orderDate: new Date(), filesList: [], discountsList: [], taxesList: [], itemsList: [] };
+    $scope.item = { ...$scope.structure, date: new Date(), filesList: [], discountsList: [], taxesList: [], itemsList: [] };
     $scope.orderItem = { ...$scope.orderItem };
 
     if ($scope.settings.storesSetting.purchaseSourceType && $scope.settings.storesSetting.purchaseSourceType.id) {
@@ -257,7 +257,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
           id: 1,
           code: 1,
           sourceType: 1,
-          orderDate: 1,
+          date: 1,
           paymentType: 1,
           importPermitNumber: 1,
           importAuthorizationDate: 1,
@@ -660,27 +660,25 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
   $scope.addToItemsList = function (orderItem) {
     $scope.itemsError = '';
     if (!orderItem.item || !orderItem.item?.id) {
-      alert('##word.Please Enter Item##');
+      $scope.error = '##word.Please Enter Item##';
       return;
     }
     if (!orderItem.unit.id) {
-      alert('##word.Please Enter Item Unit##');
+      $scope.error = '##word.Please Enter Item Unit##';
       return;
     }
     if (!orderItem.count > 0) {
-      alert('##word.Please Enter Count##');
+      $scope.error = '##word.Please Enter Count##';
       return;
     }
     if (!orderItem.price > 0) {
-      alert('##word.Please Enter Price##');
+      $scope.error = '##word.Please Enter Price##';
       return;
     }
 
-    const storesList = [];
-    orderItem.unit.storesList.forEach((str) => {
-        storesList.push({ store: str.store, currentCount: str.currentCount });
+    let storeBalance = orderItem.unit.storesList.find((str) => {
+      return str.store.id == $scope.item.store.id;
     });
-
 
     delete orderItem.unit.storesList;
     let item = {
@@ -697,8 +695,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       bonusCount: orderItem.bonusCount,
       total: orderItem.count * orderItem.price,
       approved: orderItem.approved,
+      storeBalance: storeBalance.currentCount,
       vendorDiscount: orderItem.vendorDiscount,
-      storesList,
       purchaseCost: 0,
       approved: false,
     };
@@ -720,13 +718,12 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $http({
       method: 'POST',
       url: '/api/handelItemsData/all',
-      data: {items : purchaseRequest.itemsList , storeId : $scope.item.store.id},
+      data: { items: purchaseRequest.itemsList, storeId: $scope.item.store.id },
     }).then(
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
           for (const elem of response.data.list) {
-            console.log(elem.storeBalance);
             $scope.item.itemsList.push({
               id: elem.id,
               code: elem.code,
@@ -759,8 +756,6 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         $scope.error = err;
       }
     );
-
-   
   };
 
   $scope.approveItem = function (item) {
@@ -862,16 +857,6 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       $scope.itemsError = '##word.Must Enter Items Data##';
       return success;
     }
-    // if (_item.calculatePurchaseCost) {
-    //     if (!_item.calculatePurchaseCostType) {
-    //         alert('##word.Please Select Calculate Purchase Cost Type##');
-    //         return success;
-    //     }
-    //     if (!_item.purchaseCost > 0) {
-    //         alert('##word.Please Enter Calculate Purchase Cost##');
-    //         return success;
-    //     }
-    // }
     success = true;
     return { success, _item };
   };
@@ -898,6 +883,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
 
   $scope.saveBatch = function (item) {
     $scope.errorBatch = '';
+    $scope.error = '';
     const v = site.validated('#batchModalModal');
     if (!v.ok) {
       $scope.error = v.messages[0].ar;

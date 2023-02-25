@@ -6,7 +6,6 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    itemsList: [],
     hasTransaction: false,
     approved: false,
     active: true,
@@ -26,7 +25,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
     $scope.itemsError = '';
     $scope.mode = 'add';
     $scope.resetOrderItem();
-    $scope.item = { ...$scope.structure, requestDate: new Date() };
+    $scope.item = { ...$scope.structure, requestDate: new Date(), itemsList: [] };
     $scope.canApprove = false;
     site.showModal($scope.modalID);
   };

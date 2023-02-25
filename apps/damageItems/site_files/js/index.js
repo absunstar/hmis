@@ -528,6 +528,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
 
   $scope.saveBatch = function (item) {
     $scope.errorBatch = '';
+    $scope.error = '';
     const v = site.validated('#batchModalModal');
     if (!v.ok) {
       $scope.error = v.messages[0].ar;

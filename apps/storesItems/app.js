@@ -94,12 +94,15 @@ module.exports = function init(site) {
             if (storeToIndex == -1) {
               const newUitStore = site.setStoresItemsUnitStoreProperties();
               newUitStore.store = _elm.toStore;
-
               doc.unitsList[index].storesList.push(newUitStore);
               storeToIndex = doc.unitsList[index].storesList.length - 1;
             }
             doc.unitsList[index].storesList[storeToIndex].transferToCount += _elm.count;
             doc.unitsList[index].storesList[storeToIndex].transferToPrice += _elm.price;
+            if (_elm.workByBatch || _elm.workBySerial) {
+              doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '-');
+              doc.unitsList[index].storesList[storeToIndex] = site.handelAddBatches(doc.unitsList[index].storesList[storeToIndex], _elm.batchesList);
+            }
           } else if (screenName === 'damageItems') {
             doc.unitsList[index].storesList[storeIndex].damagedCount += _elm.count;
             doc.unitsList[index].storesList[storeIndex].damagedPrice += _elm.price;
@@ -109,8 +112,10 @@ module.exports = function init(site) {
           } else if (screenName === 'storesOpeningBalances') {
             doc.unitsList[index].storesList[storeIndex].openingBalanceCount += _elm.count;
             doc.unitsList[index].storesList[storeIndex].openingBalancePrice += _elm.price;
+            if (_elm.workByBatch || _elm.workBySerial) {
+              doc.unitsList[index].storesList[storeIndex] = site.handelAddBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList);
+            }
           }
-
         }
         site.calculateStroeItemBalance(doc);
         app.update(doc);
@@ -188,15 +193,17 @@ module.exports = function init(site) {
     if (batchesList && batchesList.length > 0) {
       for (let i = 0; i < batchesList.length; i++) {
         let b = batchesList[i];
-        if (obj.batchesList.length > 0) {
-          let batchIndex = obj.batchesList.findIndex((_b) => _b.code === b.code);
-          if (batchIndex != -1) {
-            bj.batchesList[batchIndex].count += b.count;
+        if (b.count > 0) {
+          if (obj.batchesList.length > 0) {
+            let batchIndex = obj.batchesList.findIndex((_b) => _b.code === b.code);
+            if (batchIndex != -1) {
+              bj.batchesList[batchIndex].count += b.count;
+            } else {
+              obj.batchesList.push(b);
+            }
           } else {
             obj.batchesList.push(b);
           }
-        } else {
-          obj.batchesList.push(b);
         }
       }
     }

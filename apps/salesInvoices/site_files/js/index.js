@@ -346,10 +346,10 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       unit: { id: orderItem.unit.id, code: orderItem.unit.code, nameAr: orderItem.unit.nameAr, nameEn: orderItem.unit.nameEn },
       count: orderItem.count,
       price: orderItem.unit.price,
+      noVat: orderItem.item.noVat,
       discount: orderItem.unit.discount,
       maxDiscount: orderItem.unit.maxDiscount,
       discountType: orderItem.unit.discountType,
-      total: orderItem.count * orderItem.unit.price,
     };
     if (orderItem.item.workByBatch || orderItem.item.workBySerial) {
       item.workByBatch = orderItem.item.workByBatch;
@@ -371,6 +371,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       }
     }
     $scope.item.itemsList.unshift(item);
+    $scope.calculate($scope.item);
     $scope.resetOrderItem();
     $scope.itemsError = '';
   };
@@ -447,47 +448,32 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
   };
 
   $scope.addToList = function (discount, type) {
-    if (type === 'discount') {
-      $scope.item.discountsList.unshift({
-        id: discount.id,
-        code: discount.code,
-        nameAr: discount.nameAr,
-        nameEn: discount.nameEn,
-        value: discount.discountValue,
-        type: discount.discountType,
-      });
-      $scope.item.totalDiscounts += discount.discountValue;
-      $scope.discount = {};
-    }
-    if (type === 'tax') {
-      $scope.item.taxesList.unshift({
-        id: discount.id,
-        code: discount.code,
-        nameAr: discount.nameAr,
-        nameEn: discount.nameEn,
-        value: discount.value,
-      });
-      $scope.item.totalTaxes += discount.value;
-      $scope.tax = {};
-    }
-  };
-
-  $scope.spliceFromList = function (discount, type) {
-    if (type === 'discount') {
-      const index = $scope.item.discountsList.findIndex((dis) => dis.id === discount.id);
-      if (index !== -1) {
-        $scope.item.discountsList.splice(index, 1);
-        $scope.item.totalDiscounts -= discount.value;
+    if (discount && discount.id) {
+      if (type === 'discount') {
+        $scope.item.discountsList.unshift({
+          id: discount.id,
+          code: discount.code,
+          nameAr: discount.nameAr,
+          nameEn: discount.nameEn,
+          value: discount.discountValue,
+          type: discount.discountType,
+        });
+        $scope.item.totalDiscounts += discount.discountValue;
+        $scope.discount = {};
+      }
+      if (type === 'tax') {
+        $scope.item.taxesList.unshift({
+          id: discount.id,
+          code: discount.code,
+          nameAr: discount.nameAr,
+          nameEn: discount.nameEn,
+          value: discount.value,
+        });
+        $scope.item.totalTaxes += discount.value;
+        $scope.tax = {};
       }
     }
-
-    if (type === 'tax') {
-      const index = $scope.item.taxesList.findIndex((dis) => dis.id === discount.id);
-      if (index !== -1) {
-        $scope.item.taxesList.splice(index, 1);
-        $scope.item.totalTaxes -= discount.value;
-      }
-    }
+    $scope.calculate($scope.item);
   };
 
   $scope.getTaxTypes = function ($search) {
@@ -549,6 +535,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
           code: 1,
           nameEn: 1,
           nameAr: 1,
+          noVat: 1,
           workByBatch: 1,
           workBySerial: 1,
           validityDays: 1,
@@ -619,16 +606,24 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.calculateItem = function (itm) {
-    if (itm.count < 0 || itm.price < 0) {
-      $scope.itemsError = '##word.Please Enter Valid Numbers##';
-      return;
-    }
+  $scope.calculate = function (obj) {
     $timeout(() => {
-      const index = $scope.item.itemsList.findIndex((elem) => elem.id === itm.id && elem.unit.id === itm.unit.id);
-      if (index !== -1) {
-        $scope.item.itemsList[index].total = $scope.item.itemsList[index].count * $scope.item.itemsList[index].price;
-      }
+      obj.totalVat = 0;
+      obj.itemsList.forEach((item) => {
+        let discountValue = 0;
+        discountValue = item.discountType === 'value' ? item.discount : (item.price * item.discount) / 100;
+        item.totalDiscount = discountValue * item.count;
+        item.totalDiscount = site.toNumber(item.totalDiscount);
+
+        item.totalPrice = item.price * item.count;
+        if (!item.noVat) {
+          item.totalVat = (((item.price - discountValue) * $scope.settings.storesSetting.vat) / 100) * item.count;
+          item.totalVat = site.toNumber(item.totalVat);
+        }
+        obj.totalVat += item.totalVat || 0;
+        item.total = item.totalPrice + (item.totalVat || 0) - item.totalDiscount;
+        item.total = site.toNumber(item.total);
+      });
     }, 300);
 
     $scope.itemsError = '';
@@ -649,6 +644,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
 
   $scope.saveBatch = function (item) {
     $scope.errorBatch = '';
+    $scope.error = '';
     const v = site.validated('#batchModalModal');
     if (!v.ok) {
       $scope.error = v.messages[0].ar;

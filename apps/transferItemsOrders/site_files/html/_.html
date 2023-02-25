@@ -1,6 +1,7 @@
 <div ng-controller="transferItemsOrders" class="loaded">
     <div class="row" x-permissions="transferItemsOrdersUi || transferItemsOrdersManage">
         <div x-import="transferItemsOrders/modal.html"></div>
+        <div x-import="transferItemsOrders/batchModal.html"></div>
         <div x-import="transferItemsOrders/modalSearch.html"></div>
 
         <div class="top-actions">
@@ -13,7 +14,6 @@
 
         <table class="table hover bold" id="t1">
             <tr>
-                <th class="w150">##word.Logo##</th>
                 <th>##word.Code##</th>
                 <th>##word.Order Date##</th>
                 <th>##word.Source Type##</th>
@@ -24,11 +24,8 @@
                 <th class="not-print">##word.Actions##</th>
             </tr>
             <tr ng-repeat="item in list | filter:$search">
-                <td>
-                    <i-image view class="logo center" ng-model="item.image"></i-image>
-                </td>
                 <td class="text-center blue">{{item.code}}</td>
-                <td class="text-center">{{item.orderDate|date:'dd/MM/yyyy'}} - {{item.orderDate|date:'hh:mm:ss a'}}</td>
+                <td class="text-center">{{item.date|date:'dd/MM/yyyy'}} - {{item.date|date:'hh:mm:ss a'}}</td>
                 <td class="text-center">{{item.sourceType.name##session.lang##}}</td>
                 <td class="text-center">{{item.store.name##session.lang##}}</td>
                 <td class="text-center">{{item.toStore.name##session.lang##}}</td>

@@ -10,7 +10,7 @@
                 <div class="row padding">
                     <div class="row">
                         <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="search.code"> </i-control>
-                        <i-date class="col2" label="##word.Date##" ng-model="search.orderDate"> </i-date>
+                        <i-date class="col2" label="##word.Date##" ng-model="search.date"> </i-date>
 
                         <i-list class="col2" ng-model="search.store" label="##word.Store##" items="storesList" ng-get="getStores($search)" display="name##session.lang##"></i-list>
                         <i-list class="col2" ng-model="search.paymentType" label="##word.Payment Type##" items="paymentTypesList" display="name##session.lang##"></i-list>
@@ -39,7 +39,7 @@
                             <td class="text-center">{{$index+1}}</td>
                             <td class="text-center">{{bill.code}}</td>
                             <td class="text-center">{{bill.vendor.name##session.lang##}}</td>
-                            <td class="text-center">{{bill.orderDate|date:'dd/MM/yyyy'}} - {{bill.orderDate|date:'hh:mm:ss a'}}</td>
+                            <td class="text-center">{{bill.date|date:'dd/MM/yyyy'}} - {{bill.date|date:'hh:mm:ss a'}}</td>
                             <td class="text-center">{{bill.store.name##session.lang##}}</td>
                             <td class="text-center">{{bill.paymentType.name##session.lang##}}</td>
 

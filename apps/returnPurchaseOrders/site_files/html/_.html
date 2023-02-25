@@ -24,7 +24,7 @@
             <tr ng-repeat="item in list | filter:$search">
                 <td class="text-center blue">{{item.code}}</td>
                 <td class="text-center">{{item.vendor.name##session.lang##}}</td>
-                <td><p class="text-center">{{item.orderDate |date:'dd/MM/yyyy'}} - {{item.orderDate |date:'hh:mm:ss a'}}</p></td>
+                <td><p class="text-center">{{item.date |date:'dd/MM/yyyy'}} - {{item.date |date:'hh:mm:ss a'}}</p></td>
                 <td class="text-center">
                     <span class="text-success" ng-show="item.approved">##word.Yes##</span>
                     <span class="text-danger" ng-show="!item.approved">##word.No##</span>

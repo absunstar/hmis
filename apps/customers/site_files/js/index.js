@@ -348,7 +348,7 @@ app.controller('customers', function ($scope, $http, $timeout) {
     $scope.addBank = function (selectedBank) {
         $scope.error = '';
 
-        if (!selectedBank.bank || !selectedBank.bank.id) {
+        if (!selectedBank?.bank || !selectedBank.bank.id) {
             $scope.error = '##word.Please Enter Bank Name##';
             return;
         }

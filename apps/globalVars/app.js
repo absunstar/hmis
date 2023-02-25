@@ -226,7 +226,23 @@ module.exports = function init(site) {
         { id: 9, code: '009', nameEn: 'Annual', nameAr: 'سنوية' },
         { id: 10, code: '010', nameEn: 'Exams', nameAr: 'إمتحانات' },
     ];
-    
+
+    site.workflowPositionsList = [
+        { id: 1, code: '001', nameEn: 'CEO', nameAr: 'المدير التنفيذي' },
+        { id: 2, code: '002', nameEn: 'Deputy CEO', nameAr: 'نائب المدير التنفيذي' },
+        { id: 3, code: '003', nameEn: 'Financial Manager', nameAr: 'المدير المالي' },
+        { id: 4, code: '004', nameEn: 'Deputy Financial Manager', nameAr: 'نائب المدير المالي' },
+        { id: 5, code: '005', nameEn: 'HR Manager', nameAr: 'مدير الموارد البشرية' },
+        { id: 6, code: '006', nameEn: 'Deputy HR Manager', nameAr: 'نائب مدير الموارد البشرية' },
+    ];
+
+    site.workflowScreensList = [
+        { id: 1, code: 'employeesBonuses', nameEn: 'Employees Bonuses', nameAr: 'مكافات الموظفين' },
+        { id: 2, code: 'employeesPenalties', nameEn: 'Employees Penalties', nameAr: 'جزاءات الموظفين' },
+        { id: 3, code: 'overtimeRequests', nameEn: 'Overtime Requests', nameAr: 'طلبات الوقت الإضافي' },
+        { id: 4, code: 'vacationsRequests', nameEn: 'Vacations Requests', nameAr: 'طلبات الأجازات' },
+    ];
+
     site.post('/api/delayDiscountsTypes', (req, res) => {
         res.json({
             done: true,
@@ -404,6 +420,18 @@ module.exports = function init(site) {
         res.json({
             done: true,
             list: site.vacationsTypes,
+        });
+    });
+    site.post('/api/workflowPositionsList', (req, res) => {
+        res.json({
+            done: true,
+            list: site.workflowPositionsList,
+        });
+    });
+    site.post('/api/workflowScreensList', (req, res) => {
+        res.json({
+            done: true,
+            list: site.workflowScreensList,
         });
     });
 };

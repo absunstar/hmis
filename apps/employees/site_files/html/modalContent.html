@@ -575,7 +575,9 @@
 
                                         <span class="currency">##word.$##</span>
                                     </div>
+                                    <i-checkbox class="col4 text-center" label="##word.Auto Overtime##" ng-model="item.autoOvertime"></i-checkbox>
                                 </div>
+
                             </fieldset>
 
                             <fieldset>
@@ -590,21 +592,22 @@
                                         ng-search="el.$allowance"
                                     ></i-list>
 
+                                    <i-control class="col2" type="number" label="##word.Value##" ng-model="selectedAllowance.value"></i-control>
+
                                     <div class="col4">
                                         <br />
                                         <fieldset>
-                                            <i-radio class="col6" label="##word.$##" ng-value="value" ng-model="selectedAllowance.type"> </i-radio>
-                                            <i-radio class="col6" label="##word.%##" ng-value="percent" ng-model="selectedAllowance.type"> </i-radio>
+                                            <i-radio class="col6" label="##word.Value##" ng-value="value" ng-model="selectedAllowance.type"> </i-radio>
+                                            <i-radio class="col6" label="##word.Percent##" ng-value="percent" ng-model="selectedAllowance.type"> </i-radio>
                                         </fieldset>
                                     </div>
-
-                                    <i-control class="col2" type="number" label="##word.Value##" ng-model="selectedAllowance.value"></i-control>
 
                                     <div class="col2">
                                         <br />
                                         <i-button type="add" label="##word.Add##" x-permissions="addEmployeeAllowance" ng-click="addAllowance(selectedAllowance)"></i-button>
                                     </div>
                                 </div>
+                                <p class="error">{{allowancesError}}</p>
                                 <div class="row">
                                     <table class="table hover bold">
                                         <tr>
@@ -660,6 +663,8 @@
                                         ng-search="el.$deduction"
                                     ></i-list>
 
+                                    <i-control class="col2" type="number" label="##word.Value##" ng-model="selectedDeduction.value"></i-control>
+
                                     <div class="col4">
                                         <br />
                                         <fieldset>
@@ -667,14 +672,12 @@
                                             <i-radio class="col6" label="##word.Percent##" ng-value="percent" ng-model="selectedDeduction.type"> </i-radio>
                                         </fieldset>
                                     </div>
-
-                                    <i-control class="col2" type="number" label="##word.Value##" ng-model="selectedDeduction.value"></i-control>
-
                                     <div class="col2">
                                         <br />
                                         <i-button type="add" label="##word.Add##" x-permissions="addEmployeeDeduction" ng-click="addDeduction(selectedDeduction)"></i-button>
                                     </div>
                                 </div>
+                                <p class="error">{{deductionsError}}</p>
                                 <div class="row">
                                     <table class="table hover bold">
                                         <tr>

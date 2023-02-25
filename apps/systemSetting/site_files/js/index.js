@@ -18,6 +18,15 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
             paymentType: {},
         },
         generalSystemSetting: {},
+        administrativeStructure: {
+            ceo: {},
+            ceoDeputy: {},
+            hrManager: {},
+            hrManagerDeputy: {},
+            financialManagerDeputy: {},
+            financialManagerDeputy: {},
+        },
+        workflowAssignmentSettings: {},
     };
 
     $scope.save = function (_item) {
@@ -322,6 +331,28 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
             }
         );
     };
+
+    $scope.workflowScreens = function () {
+        $scope.busy = true;
+        $scope.workflowScreensList = [];
+        $http({
+            method: 'POST',
+            url: '/api/workflowScreensList',
+            data: {},
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.workflowScreensList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
     $scope.getStores();
     $scope.getVendors();
     $scope.getCustomers();
@@ -332,4 +363,5 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
     $scope.getPaymentTypes();
     $scope.getSystemSetting();
     $scope.getEmployees();
+    $scope.workflowScreens();
 });

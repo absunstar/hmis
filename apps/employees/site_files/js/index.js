@@ -587,26 +587,26 @@ app.controller('employees', function ($scope, $http, $timeout) {
     };
 
     $scope.addAllowance = function (selectedAllowance) {
-        $scope.error = '';
+        $scope.allowancesError = '';
 
         if (!selectedAllowance.allowance || !selectedAllowance.allowance.id) {
-            $scope.error = '##word.Please Select Allowance##';
+            $scope.allowancesError = '##word.Please Select Allowance##';
             return;
         }
 
         if (!selectedAllowance.type) {
-            $scope.error = '##word.Please Select Allowance Type##';
+            $scope.allowancesError = '##word.Please Select Allowance Type##';
             return;
         }
 
         if (!(selectedAllowance.value > 0)) {
-            $scope.error = '##word.Please Enter Value##';
+            $scope.allowancesError = '##word.Please Enter Value##';
             return;
         }
 
         const index = $scope.item.allowancesList.findIndex((_al) => _al.id === selectedAllowance.id);
         if (index !== -1) {
-            $scope.error = '##word.Allowance Exisit##';
+            $scope.allowancesError = '##word.Allowance Exisit##';
             return;
         }
 
@@ -618,29 +618,30 @@ app.controller('employees', function ($scope, $http, $timeout) {
             active: true,
         });
         $scope.selectedAllowance = {};
+        $scope.allowancesError = '';
     };
 
     $scope.addDeduction = function (selectedDeduction) {
-        $scope.error = '';
+        $scope.deductionsError = '';
 
         if (!selectedDeduction.deduction || !selectedDeduction.deduction.id) {
-            $scope.error = '##word.Please Select Deduction##';
+            $scope.deductionsError = '##word.Please Select Deduction##';
             return;
         }
 
         if (!selectedDeduction.type) {
-            $scope.error = '##word.Please Select Deduction Type##';
+            $scope.deductionsError = '##word.Please Select Deduction Type##';
             return;
         }
 
         if (!(selectedDeduction.value > 0)) {
-            $scope.error = '##word.Please Enter Value##';
+            $scope.deductionsError = '##word.Please Enter Value##';
             return;
         }
 
         const index = $scope.item.deductionsList.findIndex((_al) => _al.id === selectedDeduction.id);
         if (index !== -1) {
-            $scope.error = '##word.Deduction Exisit##';
+            $scope.deductionsError = '##word.Deduction Exisit##';
             return;
         }
 
@@ -651,6 +652,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
             active: true,
         });
         $scope.selectedDeduction = {};
+        $scope.deductionsError = '';
     };
 
     // $scope.addDeductions = function (_item) {
@@ -963,7 +965,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
     $scope.addBank = function (selectedBank) {
         $scope.error = '';
 
-        if (!selectedBank.bank || !selectedBank.bank.id) {
+        if (!selectedBank?.bank || !selectedBank.bank.id) {
             $scope.error = '##word.Please Enter Bank Name##';
             return;
         }

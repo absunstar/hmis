@@ -169,8 +169,8 @@ module.exports = function init(site) {
           if (_item.workByBatch || _item.workBySerial) {
             if (_item.batchesList && _item.batchesList.length > 0) {
               _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
-
-              if (_item.$batchCount != _item.count + _item.bonusCount) {
+              let notCode = _item.batchesList.some((_b) => !_b.code);
+              if (_item.$batchCount != _item.count + _item.bonusCount || notCode) {
                 let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
                 errBatchList.push(itemName);
               }
@@ -183,7 +183,7 @@ module.exports = function init(site) {
 
         if (errBatchList.length > 0) {
           let error = errBatchList.map((m) => m).join('-');
-          response.error = `The Batches Count is not correct in ( ${error} )`;
+          response.error = `The Batches is not correct in ( ${error} )`;
           res.json(response);
           return;
         }
@@ -233,8 +233,8 @@ module.exports = function init(site) {
           if (_item.workByBatch || _item.workBySerial) {
             if (_item.batchesList && _item.batchesList.length > 0) {
               _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
-
-              if (_item.$batchCount != _item.count + _item.bonusCount) {
+              let notCode = _item.batchesList.some((_b) => !_b.code);
+              if (_item.$batchCount != _item.count + _item.bonusCount || notCode) {
                 let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
                 errBatchList.push(itemName);
               }
@@ -285,8 +285,8 @@ module.exports = function init(site) {
           if (_item.workByBatch || _item.workBySerial) {
             if (_item.batchesList && _item.batchesList.length > 0) {
               _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
-
-              if (_item.$batchCount != _item.count + _item.bonusCount) {
+              let notCode = _item.batchesList.some((_b) => !_b.code);
+              if (_item.$batchCount != _item.count + _item.bonusCount || notCode) {
                 let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
                 errBatchList.push(itemName);
               }

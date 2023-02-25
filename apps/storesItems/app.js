@@ -45,18 +45,31 @@ module.exports = function init(site) {
             const totalCount = selectedUnit.currentCount + _elm.count;
             doc.unitsList[index].purchaseCost = (oldCost + newCost) / totalCount;
             doc.unitsList[index].purchaseCost = site.toNumber(doc.unitsList[index].purchaseCost);
+
+            if (_elm.workByBatch || _elm.workBySerial) {
+              doc.unitsList[index].storesList[storeIndex] = site.handelAddBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList);
+            }
           } else if (screenName === 'returnPurchaseOrders') {
             doc.unitsList[index].storesList[storeIndex].purchaseReturnCost += _elm.cost;
             doc.unitsList[index].storesList[storeIndex].purchaseReturnCount += _elm.count;
             doc.unitsList[index].storesList[storeIndex].purchaseReturnPrice += _elm.price;
             doc.unitsList[index].storesList[storeIndex].bonusReturnCount += _elm.bonusCount;
             doc.unitsList[index].storesList[storeIndex].bonusReturnPrice += _elm.bonusPrice;
+            if (_elm.workByBatch || _elm.workBySerial) {
+              doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '-');
+            }
           } else if (screenName === 'salesInvoices') {
             doc.unitsList[index].storesList[storeIndex].salesCount += _elm.count;
             doc.unitsList[index].storesList[storeIndex].salesPrice += _elm.price;
+            if (_elm.workByBatch || _elm.workBySerial) {
+              doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '-');
+            }
           } else if (screenName === 'returnSalesInvoices') {
             doc.unitsList[index].storesList[storeIndex].salesReturnCount += _elm.count;
             doc.unitsList[index].storesList[storeIndex].salesReturnPrice += _elm.price;
+            if (_elm.workByBatch || _elm.workBySerial) {
+              doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '+');
+            }
           } else if (screenName === 'convertUnits') {
             doc.unitsList[index].storesList[storeIndex].convertUnitFromCount += _elm.unit.count;
             doc.unitsList[index].storesList[storeIndex].convertUnitFromPrice += _elm.unit.price;
@@ -90,57 +103,14 @@ module.exports = function init(site) {
           } else if (screenName === 'damageItems') {
             doc.unitsList[index].storesList[storeIndex].damagedCount += _elm.count;
             doc.unitsList[index].storesList[storeIndex].damagedPrice += _elm.price;
+            if (_elm.workByBatch || _elm.workBySerial) {
+              doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '-');
+            }
           } else if (screenName === 'storesOpeningBalances') {
             doc.unitsList[index].storesList[storeIndex].openingBalanceCount += _elm.count;
             doc.unitsList[index].storesList[storeIndex].openingBalancePrice += _elm.price;
           }
 
-          if (doc.workByBatch || doc.workBySerial) {
-            if (screenName === 'purchaseOrders') {
-              doc.unitsList[index].storesList[storeIndex].batchesList = doc.unitsList[index].storesList[storeIndex].batchesList || [];
-              if (_elm.batchesList && _elm.batchesList.length > 0) {
-                for (let i = 0; i < _elm.batchesList.length; i++) {
-                  let p = _elm.batchesList[i];
-                  doc.unitsList[index].storesList[storeIndex].batchesList.push(p);
-                }
-              }
-            } else if (screenName === 'returnPurchaseOrders' || screenName === 'salesInvoices' || screenName === 'returnSalesInvoices' || screenName === 'damageItems') {
-              if (doc.workByBatch || doc.workBySerial) {
-                doc.unitsList[index].storesList[storeIndex].batchesList = doc.unitsList[index].storesList[storeIndex].batchesList || [];
-                if (_elm.batchesList && _elm.batchesList.length > 0) {
-                  for (let i = 0; i < _elm.batchesList.length; i++) {
-                    let p = _elm.batchesList[i];
-                    doc.unitsList[index].storesList[storeIndex].batchesList.forEach((_p) => {
-                      if (_p.code === p.code) {
-                        if (screenName === 'returnSalesInvoices') {
-                          _p.count = _p.count + p.count;
-                        } else {
-                          _p.count = _p.count - p.count;
-                        }
-                      }
-                    });
-                  }
-                }
-              }
-            }
-          }
-
-          // else if (screenName === app.name) {
-          //     doc.unitsList[index].storesList[storeIndex].transferFromCount += _elm.count;
-          //     doc.unitsList[index].storesList[storeIndex].transferFromPrice += _elm.price;
-
-          //     let storeToIndex = doc.unitsList[index].storesList.findIndex((s) => s.store && s.store.id === _elm.toStore.id);
-          //     if (storeToIndex == -1) {
-          //         const newUitStore = site.setStoresItemsUnitStoreProperties();
-          //         newUitStore.store = _elm.store;
-          //         newUitStore.transferToCount += _elm.count;
-          //         newUitStore.transferToPrice += _elm.price;
-          //         doc.unitsList[index].storesList.push(newUitStore);
-          //     } else {
-          //         doc.unitsList[index].storesList[storeToIndex].transferToCount += _elm.count;
-          //         doc.unitsList[index].storesList[storeToIndex].transferToPrice += _elm.price;
-          //     }
-          // }
         }
         site.calculateStroeItemBalance(doc);
         app.update(doc);
@@ -211,6 +181,45 @@ module.exports = function init(site) {
       });
     });
     return item;
+  };
+
+  site.handelAddBatches = function (obj, batchesList) {
+    obj.batchesList = obj.batchesList || [];
+    if (batchesList && batchesList.length > 0) {
+      for (let i = 0; i < batchesList.length; i++) {
+        let b = batchesList[i];
+        if (obj.batchesList.length > 0) {
+          let batchIndex = obj.batchesList.findIndex((_b) => _b.code === b.code);
+          if (batchIndex != -1) {
+            bj.batchesList[batchIndex].count += b.count;
+          } else {
+            obj.batchesList.push(b);
+          }
+        } else {
+          obj.batchesList.push(b);
+        }
+      }
+    }
+    return obj;
+  };
+
+  site.handelBalanceBatches = function (obj, batchesList, type) {
+    obj.batchesList = obj.batchesList || [];
+    if (batchesList && batchesList.length > 0) {
+      for (let i = 0; i < batchesList.length; i++) {
+        let b = batchesList[i];
+        obj.batchesList.forEach((_b) => {
+          if (_b.code === b.code) {
+            if (type == '+') {
+              _b.count = _b.count + b.count;
+            } else if (type == '-') {
+              _b.count = _b.count - b.count;
+            }
+          }
+        });
+      }
+    }
+    return obj;
   };
 
   site.setStoresItemsUnitStoreProperties = function () {
@@ -555,6 +564,55 @@ module.exports = function init(site) {
       });
     }
   }
+
+  site.post({ name: `/api/handelItemsData/all`, require: { permissions: ['login'] } }, (req, res) => {
+    let items = req.body.items;
+    let storeId = req.body.storeId;
+    let itemIds = items.map((_item) => _item.id);
+    app.$collection.findMany({ where: { id: { $in: itemIds } } }, (err, docs) => {
+      for (let item of items) {
+        item.storesList = [];
+        let itemDoc = docs.find((_item) => {
+          return item.id == _item.id;
+        });
+        if (itemDoc) {
+          let unitDoc = itemDoc.unitsList.find((_unit) => {
+            return item.unit.id == _unit.unit.id;
+          });
+          if (unitDoc) {
+            let storeDoc = unitDoc.storesList.find((_store) => {
+              return storeId == _store.store.id;
+            });
+            if (storeDoc) {
+              item.storeBalance = storeDoc.currentCount;
+              if (itemDoc.workByBatch || itemDoc.workBySerial) {
+                item.workByBatch = itemDoc.workByBatch;
+                item.workBySerial = itemDoc.workBySerial;
+                item.validityDays = itemDoc.validityDays;
+                if (req.body.getBatchesList) {
+                  item.batchesList = storeDoc.batchesList;
+                }
+              }
+            }
+            // unitDoc.storesList.forEach((_s) => {
+            //   if (storeId) {
+            //     if (_s.store.id == storeId) {
+            //       item.storeBalance = _s.currentCount;
+            //       if (itemDoc.workByBatch || itemDoc.workBySerial) {
+            //         item.batchesList = _s.batchesList;
+            //       }
+            //     }
+            //   }
+            // });
+          }
+        }
+      }
+      res.json({
+        done: true,
+        list: items,
+      });
+    });
+  });
 
   app.init();
   site.addApp(app);

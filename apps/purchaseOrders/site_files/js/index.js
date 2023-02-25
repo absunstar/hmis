@@ -51,9 +51,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
 
   $scope.showAdd = function (_item) {
     $scope.error = '';
-    if(!$scope.settings || !$scope.settings.id){
+    if (!$scope.settings || !$scope.settings.id) {
       return;
-  }
+    }
     $scope.itemsError = '';
     $scope.mode = 'add';
     $scope.item = { ...$scope.structure, orderDate: new Date(), filesList: [], discountsList: [], taxesList: [], itemsList: [] };
@@ -676,6 +676,12 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       return;
     }
 
+    const storesList = [];
+    orderItem.unit.storesList.forEach((str) => {
+        storesList.push({ store: str.store, currentCount: str.currentCount });
+    });
+
+
     delete orderItem.unit.storesList;
     let item = {
       id: orderItem.item.id,
@@ -692,6 +698,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       total: orderItem.count * orderItem.price,
       approved: orderItem.approved,
       vendorDiscount: orderItem.vendorDiscount,
+      storesList,
       purchaseCost: 0,
       approved: false,
     };
@@ -710,28 +717,50 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
 
   $scope.getRequestItems = function (purchaseRequest) {
     $scope.item.itemsList = [];
-    for (const elem of purchaseRequest.itemsList) {
-      $scope.item.itemsList.push({
-        id: elem.id,
-        code: elem.code,
-        nameAr: elem.nameAr,
-        nameEn: elem.nameEn,
-        itemGroup: elem.itemGroup,
-        unit: elem.unit,
-        requestedCount: elem.count,
-        count: elem.count,
-        price: elem.price,
-        salesPrice: elem.salesPrice,
-        bonusCount: 0,
-        bonusPrice: 0,
-        purchaseCost: 0,
-        discount: 0,
-        vendorDiscount: 0,
-        total: 0,
-        approved: false,
-      });
-      $scope.calculateTotalInItemsList($scope.item.itemsList[$scope.item.itemsList.length - 1]);
-    }
+    $http({
+      method: 'POST',
+      url: '/api/handelItemsData/all',
+      data: {items : purchaseRequest.itemsList , storeId : $scope.item.store.id},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          for (const elem of response.data.list) {
+            console.log(elem.storeBalance);
+            $scope.item.itemsList.push({
+              id: elem.id,
+              code: elem.code,
+              nameAr: elem.nameAr,
+              nameEn: elem.nameEn,
+              itemGroup: elem.itemGroup,
+              requestedCount: elem.count,
+              unit: elem.unit,
+              count: elem.count,
+              price: elem.price,
+              workByBatch: elem.workByBatch,
+              workBySerial: elem.workBySerial,
+              validityDays: elem.validityDays,
+              storeBalance: elem.storeBalance,
+              salesPrice: elem.salesPrice,
+              bonusCount: 0,
+              bonusPrice: 0,
+              purchaseCost: 0,
+              discount: 0,
+              vendorDiscount: 0,
+              total: 0,
+              approved: false,
+            });
+            $scope.calculateTotalInItemsList($scope.item.itemsList[$scope.item.itemsList.length - 1]);
+          }
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+
+   
   };
 
   $scope.approveItem = function (item) {
@@ -929,10 +958,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       $scope.errorBatch = '';
       $scope.error = '';
       item.$batchCount = item.batchesList.reduce((a, b) => +a + +b.count, 0);
-
     }, 250);
   };
-
 
   $scope.getSetting = function () {
     $scope.busy = true;

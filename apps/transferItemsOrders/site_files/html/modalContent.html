@@ -58,8 +58,9 @@
                         <i-list
                             v="r"
                             class="col4"
-                            ng-change="validateStores(); calculateItemBalance(orderItem.unit)"
+                            ng-change="validateStores()"
                             ng-model="item.store"
+                            ng-disabled="item.itemsList.length > 0"
                             display="name##session.lang##"
                             items="storesList"
                             label="##word.From Store##"

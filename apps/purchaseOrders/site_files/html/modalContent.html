@@ -5,12 +5,28 @@
       <div class="col9">
         <div class="row">
           <div class="row">
-            <i-control ng-hide="disabledCode" class="col4" label="##word.Code##" ng-model="item.code"> </i-control>
+            <i-control ng-hide="disabledCode" class="col3" label="##word.Code##" ng-model="item.code"> </i-control>
             <i-date ng-model="item.orderDate" class="col6" label="##word.Order Date##"></i-date>
-            <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
+            <div class="col3">
+              <i-checkbox ng-model="item.active" label="##word.Active##"></i-checkbox>
+            </div>
           </div>
-
-          <fieldset>
+          <div class="row">
+            <i-checkbox ng-model="item.hasVendor" class="col4" label="##word.Has Vendor##"></i-checkbox>
+            <i-list class="col4" ng-if="item.hasVendor" display="name##session.lang##" ng-model="item.vendor" items="vendorsList" label="##word.Vendor##" ng-get="getVendors($search)"></i-list>
+            <i-list
+              v="r"
+              class="col4"
+              ng-disabled="item.itemsList.length > 0"
+              display="name##session.lang##"
+              ng-model="item.store"
+              ng-get="getStores($search)"
+              items="storesList"
+              label="##word.Store##"
+              ng-search="item.$store"
+            ></i-list>
+          </div>
+          <fieldset ng-if="item.store.id">
             <div class="row">
               <i-list
                 v="r"
@@ -43,11 +59,6 @@
           <i-list v="r" class="col4" ng-model="item.paymentType" display="name##session.lang##" items="paymentTypesList" label="##word.Payment Type##" ng-search="item.orderPaymentType"></i-list>
           <i-control class="col4" type="text" ng-model="item.importPermitNumber" label="##word.Import Permit Number##"></i-control>
           <i-date class="col4" ng-model="item.importAuthorizationDate" label="##word.Import Authorization Date##"></i-date>
-
-          <i-checkbox ng-model="item.hasVendor" class="col4" label="##word.Has Vendor##"></i-checkbox>
-
-          <i-list v="r" class="col4" ng-if="item.hasVendor" display="name##session.lang##" ng-model="item.vendor" items="vendorsList" label="##word.Vendor##" ng-get="getVendors($search)"></i-list>
-          <i-list v="r" class="col4" display="name##session.lang##" ng-model="item.store" ng-get="getStores($search)" items="storesList" label="##word.Store##" ng-search="item.$store"></i-list>
         </div>
       </div>
       <div class="col3 center">
@@ -116,7 +127,11 @@
         <tr ng-repeat="elem in item.itemsList">
           <td class="text-center">{{$index+1}}</td>
           <td class="text-center">{{elem.name##session.lang##}}</td>
-          <td class="text-center">{{elem.unit.name##session.lang##}}</td>
+          <td class="text-center">
+            {{elem.unit.name##session.lang##}}
+            <p class="green center" ng-show="elem.storeBalance > 0">( + {{elem.storeBalance}} )</p>
+            <p class="red center" ng-show="elem.storeBalance <= 0">( + {{elem.storeBalance}} )</p>
+          </td>
 
           <td class="text-center" ng-if="item.sourceType.id === 1">
             <p ng-if="item.sourceType.id === 1 || elem.approved" class="text-center">{{elem.requestedCount}}</p>
@@ -157,7 +172,6 @@
               label="##word.Approve##"
               ng-click="approveItem(elem)"
             >
-            </i-button>
             </i-button>
             <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial" label="##word.Batch##" ng-click="showBatchModal(elem)"> </i-button>
             <i-button type="delete" ng-if="item.sourceType.id !== 1" label="##word.Delete##" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1);setTotalPrice()"> </i-button>

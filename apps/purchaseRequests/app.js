@@ -343,7 +343,7 @@ module.exports = function init(site) {
         } else {
           where['company.id'] = site.getCompany(req).id;
 
-          app.$collection.findMany({ where: where, select }, (err, docs) => {
+          app.$collection.findMany({ where: where, select, sort : {id : -1} }, (err, docs) => {
             res.json({
               done: true,
               list: docs,

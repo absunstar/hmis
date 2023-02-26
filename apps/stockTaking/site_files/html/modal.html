@@ -3,7 +3,7 @@
         <div class="modal-header">
             <span class="close">&times;</span>
             <p class="center" ng-show="mode == 'add' ">
-                ##word.New## ##word.Stock Taking##
+                ##word.New## ##word.Stocktaking##
                 <i class="fa fa-plus"></i>
             </p>
             <p class="center" ng-show="mode == 'edit' ">
@@ -11,11 +11,11 @@
                 <i class="fa fa-pencil"></i>
             </p>
             <p class="center" ng-show="mode == 'delete' ">
-                ##word.Delete## ##word.Stock Taking##
+                ##word.Delete## ##word.Stocktaking##
                 <i class="fa fa-trash"></i>
             </p>
             <p class="center" ng-show="mode == 'view' ">
-                ##word.Stock Taking## ##word.Details##
+                ##word.Stocktaking## ##word.Details##
                 <i class="fa fa-file"></i>
             </p>
         </div>
@@ -29,6 +29,7 @@
             <i-button ng-show="mode == 'add' " type="add" label="##word.Add##" ng-click="add(item)"></i-button>
             <i-button ng-show="mode == 'edit' " type="edit" label="##word.Save##" ng-click="update(item)"></i-button>
             <i-button ng-show="mode == 'delete' " type="delete" label="##word.Delete##" ng-click="delete(item)"> </i-button>
+            <i-button ng-show="mode == 'edit' && !item.startStockTaking" label="##word.Start StockTaking##" ng-click="startStockTaking(item)"> </i-button>
             <i-button ng-show="mode == 'edit' && !item.approved && canApprove" x-permissions="approveStockTaking || stockTakingManage" type="approve" label="##word.Approve##" ng-click="approve(item)">
             </i-button>
             <i-button type="close" label="##word.Close##" onclick="site.hideModal( '#stockTakingManageModal')"></i-button>

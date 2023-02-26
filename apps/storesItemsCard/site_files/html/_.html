@@ -17,6 +17,8 @@
                 <th>##word.Unit##</th>
                 <th>##word.Count##</th>
                 <th>##word.Price##</th>
+                <th>##word.Current Count##</th>
+                <th>##word.Last Count##</th>
                 <th>##word.Store##</th>
                 <th>##word.Date##</th>
                 <th>##word.Transaction Type##</th>
@@ -33,6 +35,16 @@
                     <p class="text-center green">{{elem.totalPrice}} <span class="green"> ##word.$##</span></p>
                     <p class="text-center blue">( {{elem.price}} <span class="green"> ##word.$##</span> )</p>
                 </td>
+                <td>
+                    <p class="text-center green" ng-show="elem.currentCount > 0">{{elem.currentCount}} ##word.+##</p>
+                    <p class="text-center red" ng-show="elem.currentCount <= 0">{{elem.currentCount}}</p>
+                </td>
+
+                <td>
+                    <p class="text-center green" ng-show="elem.lastCount > 0">{{elem.lastCount}} ##word.+##</p>
+                    <p class="text-center red" ng-show="elem.lastCount <= 0">{{elem.lastCount}}</p>
+                </td>
+
                 <td class="text-center">{{elem.store.name##session.lang##}}</td>
                 <td class="text-center blue">{{elem.date|date:'dd/MM/yyyy'}} - {{elem.date|date:'hh:mm:ss a'}}</td>
                 <td class="text-center">{{elem.transactionType.name##session.lang##}}</td>

@@ -8,7 +8,7 @@
     { "moduleName": "public", "screenName": "stockTaking", "name": "stockTakingExport", "En": "Export", "Ar": "تصدير" },
     { "moduleName": "public", "screenName": "stockTaking", "name": "stockTakingPrint", "En": "Print", "Ar": "طباعة" },
     { "moduleName": "public", "screenName": "stockTaking", "name": "stockTakingUi", "En": "UI", "Ar": "الواجهة الرسومية" },
-    { "moduleName": "public", "screenName": "stockTaking", "name": "approveStockTakingItem", "En": "Approve Stock Taking Item", "Ar": "إعتماد صنف في جرد الأصناف" },
-    { "moduleName": "public", "screenName": "stockTaking", "name": "unapproveStockTakingItem", "En": "Unapprove Stock Taking Item", "Ar": "إلغاء إعتماد صنف في جرد الأصناف" },
-    { "moduleName": "public", "screenName": "stockTaking", "name": "approveStockTaking", "En": "Approve Stock Taking", "Ar": "إعتماد جرد الأصناف" }
+    { "moduleName": "public", "screenName": "stockTaking", "name": "approveStockTakingItem", "En": "Approve Stocktaking Item", "Ar": "إعتماد صنف في جرد الأصناف" },
+    { "moduleName": "public", "screenName": "stockTaking", "name": "unapproveStockTakingItem", "En": "Unapprove Stocktaking Item", "Ar": "إلغاء إعتماد صنف في جرد الأصناف" },
+    { "moduleName": "public", "screenName": "stockTaking", "name": "approveStockTaking", "En": "Approve Stocktaking", "Ar": "إعتماد جرد الأصناف" }
 ]

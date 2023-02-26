@@ -87,7 +87,6 @@ module.exports = function init(site) {
               doc.unitsList[unitToIndex].storesList[storeIndexTo].convertUnitToPrice += _elm.toPrice;
               doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '-');
               doc.unitsList[unitToIndex].storesList[storeIndexTo] = site.handelAddBatches(doc.unitsList[unitToIndex].storesList[storeIndexTo], _elm.toBatchesList);
-
             }
           } else if (screenName === 'transferItemsOrders') {
             doc.unitsList[index].storesList[storeIndex].transferFromCount += _elm.count;
@@ -117,6 +116,21 @@ module.exports = function init(site) {
             doc.unitsList[index].storesList[storeIndex].openingBalancePrice += _elm.price;
             if (_elm.workByBatch || _elm.workBySerial) {
               doc.unitsList[index].storesList[storeIndex] = site.handelAddBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList);
+            }
+          } else if (screenName === 'stockTaking') {
+            if (_elm.countType == 'in') {
+              doc.unitsList[index].storesList[storeIndex].stockTakingInCount += _elm.count;
+              doc.unitsList[index].storesList[storeIndex].stockTakingInPrice += _elm.price;
+            } else if (_elm.countType == 'out') {
+              doc.unitsList[index].storesList[storeIndex].stockTakingOutCount += _elm.count;
+              doc.unitsList[index].storesList[storeIndex].stockTakingOutPrice += _elm.price;
+            }
+
+            if (_elm.workByBatch || _elm.workBySerial) {
+              doc.unitsList[index].storesList[storeIndex].batchesList = [];
+              for (let b of _elm.batchesList) {
+                doc.unitsList[index].storesList[storeIndex].batchesList.push(b);
+              }
             }
           }
         }
@@ -182,8 +196,9 @@ module.exports = function init(site) {
     item.unitsList.forEach((unt) => {
       unt.currentCount = 0;
       unt.storesList.forEach((str) => {
-        let totalIncome = str.purchaseCount + str.bonusCount + str.unassembledCount + str.salesReturnCount + str.transferToCount + str.convertUnitToCount;
-        let totalOut = str.salesCount + str.purchaseReturnCount + str.damagedCount + str.assembledCount + str.transferFromCount + str.convertUnitFromCount + str.bonusReturnCount;
+        let totalIncome = str.purchaseCount + str.bonusCount + str.unassembledCount + str.salesReturnCount + str.stockTakingInCount + str.transferToCount + str.convertUnitToCount;
+        let totalOut =
+          str.salesCount + str.purchaseReturnCount + str.damagedCount + str.assembledCount + str.stockTakingOutCount + str.transferFromCount + str.convertUnitFromCount + str.bonusReturnCount;
         str.currentCount = totalIncome - totalOut || 0;
         unt.currentCount += str.currentCount || 0;
       });
@@ -265,6 +280,10 @@ module.exports = function init(site) {
       convertUnitToPrice: 0,
       openingBalanceCount: 0,
       openingBalancePrice: 0,
+      stockTakingInCount: 0,
+      stockTakingInPrice: 0,
+      stockTakingOutCount: 0,
+      stockTakingOutPrice: 0,
     };
   };
 

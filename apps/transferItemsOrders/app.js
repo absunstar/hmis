@@ -302,7 +302,6 @@ module.exports = function init(site) {
                 item.toStore = result.doc.toStore;
                 site.editItemsBalance(item, app.name);
                 item.invoiceId = result.doc.id;
-                item.price = _item.purchaseCost;
                 item.date = result.doc.date;
                 item.countType = 'out';
                 site.setItemCard(item, app.name);

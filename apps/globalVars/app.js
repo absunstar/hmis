@@ -206,7 +206,7 @@ module.exports = function init(site) {
         { id: 6, code: 'transferItemsOrders', nameEn: 'Transfer Item Order', nameAr: 'أمر تحويل أصناف' },
         { id: 7, code: 'convertUnits', nameEn: 'Convert Units', nameAr: 'تحويل وحدات' },
         { id: 8, code: 'damageItems', nameEn: 'Damage Items', nameAr: 'إتلاف أصناف' },
-        { id: 9, code: 'stockTaking', nameEn: 'Stock Taking', nameAr: 'جرد مخزني' },
+        { id: 9, code: 'stockTaking', nameEn: 'Stocktaking', nameAr: 'جرد مخزني' },
     ];
 
     site.transferItemsOrdersSource = [

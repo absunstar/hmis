@@ -400,7 +400,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
             unit: elem.unit,
             count: elem.count,
             transferPrice: 0,
-            purchaseCost: elem.purchaseCost,
+            price: elem.purchaseCost,
             workByBatch: elem.workByBatch,
             workBySerial: elem.workBySerial,
             batchesList: elem.batchesList,
@@ -576,7 +576,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
       itemGroup: elem.item.itemGroup,
       unit: { id: elem.unit.id, code: elem.unit.code, nameAr: elem.unit.nameAr, nameEn: elem.unit.nameEn },
       count: elem.count,
-      purchaseCost: elem.purchaseCost,
+      price: elem.purchaseCost,
       storeBalance: storeBalance.currentCount,
       transferPrice: 0,
       approved: false,
@@ -614,7 +614,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
       $scope.itemsError = '##word.Please Enter Valid Numbers##';
       return;
     } else {
-      const index = $scope.item.itemsList.findIndex((_el) => elem.id === elem.id);
+      const index = $scope.item.itemsList.findIndex((_el) => _el.id === elem.id);
       if (index !== -1) {
         $scope.item.itemsList[index].approved = true;
       }

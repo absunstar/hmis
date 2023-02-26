@@ -29,10 +29,17 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
         workflowAssignmentSettings: {},
     };
 
+    $scope.addToAcceptanceList = function (screen) {
+        console.log('screen', screen);
+        $scope.item = { ...$scope.item };
+
+        console.log('$scope.item.workflowAssignmentSettings', $scope.item.workflowAssignmentSettings);
+        $scope.item.workflowAssignmentSettings;
+    };
     $scope.save = function (_item) {
-        if (!_item.storesSetting.hasDefaultVendor) {
-            _item.storesSetting.defaultVendor = $scope.item.storesSetting.defaultVendor;
-        }
+        // if (!_item.storesSetting.hasDefaultVendor) {
+        //     _item.storesSetting.defaultVendor = $scope.item.storesSetting.defaultVendor;
+        // }
         $scope.busy = true;
         $http({
             method: 'POST',

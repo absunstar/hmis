@@ -165,7 +165,25 @@
                         <legend>##word.Acceptance Workflow##</legend>
                         <fieldset ng-repeat="screen in workflowScreensList">
                             <legend>{{screen.name##session.lang##}}</legend>
+                            <div class="row">
+                                <i-list class="col6" ng-model="screen.employee" items="employeesList" display="fullName##session.lang##" label="##word.Employee##" ng-search="ceo.$itemType"> </i-list>
+                                <div class="col3">
+                                    <br />
+                                    <i-button type="add" label="##word.Add##" ng-click="addToAcceptanceList(screen)"></i-button>
+                                </div>
+                            </div>
 
+                            <table class="table hover bold">
+                                <tr>
+                                    <th>##word.S##</th>
+                                    <th>##word.Employee##</th>
+                                    <th class="not-print">##word.Actions##</th>
+                                </tr>
+                                <tr ng-repeat="emp in screen.acceptanceList">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{emp.fullName##session.lang##}}</td>
+                                </tr>
+                            </table>
                         </fieldset>
                     </fieldset>
                 </div>

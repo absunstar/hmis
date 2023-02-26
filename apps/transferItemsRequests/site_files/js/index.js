@@ -514,7 +514,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
     });
   };
 
-  $scope.getAll();
+  $scope.getAll({date : new Date()});
   $scope.getStores();
   $scope.getStoresItems();
   $scope.getNumberingAuto();

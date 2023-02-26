@@ -20,7 +20,7 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
     $scope.itemsError = '';
     $scope.mode = 'add';
     $scope.item = { ...$scope.structure, date: new Date(), filesList: [], itemsList: [] };
-    $scope.orderItem = { ...$scope.orderItem, count: 0 };
+    $scope.orderItem = { ...$scope.orderItem, count: 0, toCount: 0 };
     $scope.canApprove = false;
     site.showModal($scope.modalID);
   };
@@ -181,13 +181,15 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
   $scope.getAll = function (where) {
     $scope.busy = true;
     $scope.list = [];
+    where = where || {};
+    if(!where['approved']){
+      where['approved'] = false
+    }
     $http({
       method: 'POST',
       url: `${$scope.baseURL}/api/${$scope.appName}/all`,
       data: {
-        where: {
-          approved: false,
-        },
+        where: where,
         select: {
           id: 1,
           code: 1,
@@ -295,6 +297,9 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
           code: 1,
           nameEn: 1,
           nameAr: 1,
+          workByBatch: 1,
+          workBySerial: 1,
+          validityDays: 1,
           itemGroup: 1,
           unitsList: 1,
         },
@@ -336,8 +341,9 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
           nameEn: elem.unit.nameEn,
           price: elem.purchasePrice,
           currentCount: elem.currentCount,
+          storesList: elem.storesList,
           conversion: elem.conversion,
-          newCount: elem.newCount || 0,
+          newCount: elem.newCount || 1,
         });
       }
       $scope.orderItem.unit = $scope.unitsList[0];
@@ -346,22 +352,31 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
     $scope.calculateConversionUnits();
   };
 
-  $scope.calculateConversionUnits = function () {
+  $scope.calculateConversionUnits = function (type) {
     $scope.itemsError = '';
     $scope.error = '';
     const unit = $scope.orderItem.unit;
     const toUnit = $scope.orderItem.toUnit;
     $timeout(() => {
-      const count = $scope.orderItem.count;
-      if (count < 0) {
+      if (unit && toUnit && unit.id && toUnit.id) {
+        $scope.orderItem.count = $scope.orderItem.count || 0;
+        $scope.orderItem.toCount = $scope.orderItem.toCount || 0;
+        /* if (count < 1) {
         $scope.itemsError = '##word.Please Enter Valid Numbers##';
         $scope.orderItem.count = 0;
         return;
-      }
+      } */
+        if (type == 'to') {
+          $scope.orderItem.count = ($scope.orderItem.toCount * toUnit.conversion) / unit.conversion;
+        } else if (type == 'from') {
+          $scope.orderItem.toCount = ($scope.orderItem.count * unit.conversion) / toUnit.conversion;
+        }
+        unit.newCount = unit.currentCount - $scope.orderItem.count / unit.conversion;
+        toUnit.newCount = toUnit.currentCount + ($scope.orderItem.count * unit.conversion) / toUnit.conversion;
 
-      if (unit && toUnit && unit.id && toUnit.id) {
-        unit.newCount = unit.currentCount - count / unit.conversion;
-        toUnit.newCount = toUnit.currentCount + (count * unit.conversion) / toUnit.conversion;
+        $scope.orderItem.toCount = site.toNumber($scope.orderItem.toCount);
+        toUnit.newCount = site.toNumber(toUnit.newCount);
+        unit.newCount = site.toNumber(unit.newCount);
       }
     }, 300);
   };
@@ -380,7 +395,10 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
       $scope.itemsError = '##word.Please Enter Item To Unit##';
       return;
     }
-
+    if (!orderItem.count) {
+      $scope.itemsError = '##word.Please Enter Count##';
+      return;
+    }
     if (orderItem.unit.id === orderItem.toUnit.id) {
       $scope.itemsError = '##word.Cannot Make Convert To Same Unit##';
       return;
@@ -402,34 +420,56 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
       return;
     }
 
-    $scope.item.itemsList.unshift({
+    let item = {
       id: orderItem.item.id,
       code: orderItem.item.code,
       nameAr: orderItem.item.nameAr,
       nameEn: orderItem.item.nameEn,
       itemGroup: orderItem.item.itemGroup,
+      count: orderItem.count,
+      toCount: orderItem.toCount,
+      price: orderItem.unit.price,
+      toPrice: orderItem.toUnit.price,
+      total: orderItem.unit.price * orderItem.count,
+      toTotal: orderItem.toUnit.price * orderItem.toCount,
       unit: {
         id: orderItem.unit.id,
         code: orderItem.unit.code,
         nameAr: orderItem.unit.nameAr,
         nameEn: orderItem.unit.nameEn,
-        currentCount: orderItem.unit.currentCount,
-        price: orderItem.unit.price,
-        count: orderItem.unit.conversion * orderItem.count,
-        newCount: orderItem.unit.currentCount - orderItem.unit.conversion * orderItem.count,
       },
       toUnit: {
         id: orderItem.toUnit.id,
         code: orderItem.toUnit.code,
         nameAr: orderItem.toUnit.nameAr,
         nameEn: orderItem.toUnit.nameEn,
-        currentCount: orderItem.toUnit.currentCount,
-        newCount: orderItem.toUnit.newCount,
-        price: orderItem.toUnit.price,
       },
 
       approved: false,
-    });
+    };
+
+    if (orderItem.item.workByBatch || orderItem.item.workBySerial) {
+      item.workByBatch = orderItem.item.workByBatch;
+      item.workBySerial = orderItem.item.workBySerial;
+      item.validityDays = orderItem.item.validityDays;
+      item.batchesList = [];
+      item.toBatchesList = [];
+      orderItem.unit.storesList = orderItem.unit.storesList || [];
+      let unitStore = orderItem.unit.storesList.find((_s) => {
+        return _s.store.id === $scope.item.store.id;
+      });
+      if (unitStore) {
+        unitStore.batchesList = unitStore.batchesList || [];
+        unitStore.batchesList.forEach((_b) => {
+          let batch = { ..._b };
+          batch.currentCount = batch.count;
+          batch.count = 0;
+          item.batchesList.push(batch);
+        });
+      }
+    }
+
+    $scope.item.itemsList.unshift(item);
     $scope.orderItem = { ...$scope, orderItem };
     $scope.itemsError = '';
   };
@@ -527,7 +567,129 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getAll();
+  $scope.saveBatch = function (item) {
+    $scope.errorBatch = '';
+    $scope.error = '';
+
+    if (item.batchesList.some((b) => b.count > b.currentCount)) {
+      $scope.errorBatch = '##word.New quantity cannot be greater than current quantity##';
+      return;
+    }
+
+    if (item.$batchCount === item.count) {
+      site.hideModal('#batchModalModal');
+    } else {
+      $scope.errorBatch = 'The Count is not correct';
+      return;
+    }
+  };
+
+  $scope.showBatchModal = function (item) {
+    $scope.error = '';
+    $scope.errorBatch = '';
+    $scope.batch = item;
+    item.batchesList = item.batchesList || [];
+    $scope.calcBatch(item);
+    site.showModal('#batchModalModal');
+  };
+
+  $scope.calcBatch = function (item) {
+    $timeout(() => {
+      $scope.errorBatch = '';
+      $scope.error = '';
+      item.$batchCount = item.batchesList.reduce((a, b) => +a + +b.count, 0);
+    }, 250);
+  };
+
+  $scope.addNewBatch = function (item) {
+    $scope.errorBatch = '';
+    let obj = {};
+    if (item.workByBatch) {
+      obj = {
+        productionDate: new Date(),
+        expiryDate: new Date($scope.addDays(new Date(), item.validityDays || 0)),
+        validityDays: item.validityDays || 0,
+        count: 0,
+      };
+    } else if (item.workBySerial) {
+      obj = {
+        productionDate: new Date(),
+        count: 1,
+      };
+    }
+    item.toBatchesList.unshift(obj);
+    $scope.calcToBatch(item);
+  };
+
+  $scope.toSaveBatch = function (item) {
+    $scope.errorBatch = '';
+    $scope.error = '';
+    const v = site.validated('#toBatchModal');
+    if (!v.ok) {
+      $scope.error = v.messages[0].ar;
+      return;
+    }
+
+    if (item.$toBatchCount === item.toCount) {
+      site.hideModal('#toBatchModal');
+    } else {
+      $scope.errorBatch = 'The Count is not correct';
+      return;
+    }
+  };
+
+  $scope.showToBatchModal = function (item) {
+    $scope.error = '';
+    $scope.errorBatch = '';
+    $scope.batch = item;
+    item.toBatchesList = item.toBatchesList || [];
+    if (item.toBatchesList.length < 1) {
+      let obj = {};
+      if (item.workByBatch) {
+        obj = {
+          productionDate: new Date(),
+          expiryDate: new Date($scope.addDays(new Date(), item.validityDays || 0)),
+          validityDays: item.validityDays || 0,
+          count: item.toCount,
+        };
+        item.toBatchesList = [obj];
+      }
+    }
+    $scope.calcToBatch(item);
+    site.showModal('#toBatchModal');
+  };
+
+  $scope.addDays = function (date, days) {
+    let result = new Date(date);
+    result.setTime(result.getTime() + days * 24 * 60 * 60 * 1000);
+    return result;
+  };
+
+  $scope.changeDate = function (i, str) {
+    $timeout(() => {
+      $scope.errorBatch = '';
+      $scope.error = '';
+
+      if (str == 'exp') {
+        let diffTime = Math.abs(new Date(i.expiryDate) - new Date(i.productionDate));
+        i.validityDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      } else if (str == 'pro') {
+        i.expiryDate = new Date($scope.addDays(i.productionDate, i.validityDays || 0));
+      }
+    }, 250);
+  };
+
+  $scope.calcToBatch = function (item) {
+    $timeout(() => {
+      $scope.errorBatch = '';
+      $scope.error = '';
+
+        item.$toBatchCount = item.toBatchesList.length > 0 ? item.toBatchesList.reduce((a, b) => +a + +b.count, 0) : 0;
+      
+    }, 250);
+  };
+
+  $scope.getAll({date : new Date()});
   $scope.getStores();
   $scope.getStoresItems();
   $scope.getNumberingAuto();

@@ -32,7 +32,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     $scope.error = '';
     $scope.itemsError = '';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure, date: new Date() ,itemsList: [] };
+    $scope.item = { ...$scope.structure, date: new Date(), itemsList: [] };
     $scope.resetOrderItem();
     $scope.canApprove = false;
     site.showModal($scope.modalID);
@@ -650,9 +650,8 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
   $scope.saveBatch = function (item) {
     $scope.errorBatch = '';
     $scope.error = '';
-    const v = site.validated('#batchModalModal');
-    if (!v.ok) {
-      $scope.error = v.messages[0].ar;
+    if (item.batchesList.some((b) => b.count > b.currentCount)) {
+      $scope.errorBatch = '##word.New quantity cannot be greater than current quantity##';
       return;
     }
 
@@ -677,11 +676,11 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     $timeout(() => {
       $scope.errorBatch = '';
       $scope.error = '';
-      item.$batchCount = item.batchesList.reduce((a, b) => +a + +b.count, 0);
+      item.$batchCount = item.batchesList.length > 0 ? item.batchesList.reduce((a, b) => +a + +b.count, 0) : 0;
     }, 250);
   };
 
-  $scope.getAll();
+  $scope.getAll({date : new Date()});
   $scope.getStores();
   $scope.getStoresItems();
   $scope.getpurchaseOrdersSource();

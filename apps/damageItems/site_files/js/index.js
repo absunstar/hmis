@@ -17,9 +17,6 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
     $scope.orderItem = {
       count: 1,
       price: 0,
-      discount: 0,
-      maxDiscount: 0,
-      discountType: '',
       total: 0,
     };
   };
@@ -253,10 +250,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
         code: elem.unit.code,
         nameEn: elem.unit.nameEn,
         nameAr: elem.unit.nameAr,
-        price: elem.salesPrice,
-        maxDiscount: elem.maxDiscount,
-        discount: elem.discount,
-        discountType: elem.discountType,
+        price: elem.purchasePrice,
         storesList: elem.storesList,
       });
       $scope.orderItem.unit = $scope.unitsList[0];
@@ -529,9 +523,9 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
   $scope.saveBatch = function (item) {
     $scope.errorBatch = '';
     $scope.error = '';
-    const v = site.validated('#batchModalModal');
-    if (!v.ok) {
-      $scope.error = v.messages[0].ar;
+    
+    if (item.batchesList.some((b) => b.count > b.currentCount )) {
+      $scope.errorBatch = '##word.New quantity cannot be greater than current quantity##';
       return;
     }
 
@@ -561,7 +555,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
   };
 
   $scope.getReasonsDestroyingItems();
-  $scope.getAll();
+  $scope.getAll({date : new Date()});
   $scope.getStores();
   $scope.getStoresItems();
   $scope.getNumberingAuto();

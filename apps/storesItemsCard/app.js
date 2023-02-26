@@ -56,9 +56,9 @@ module.exports = function init(site) {
                         obj = {
                             ...obj,
                             unit: _elm.toUnit,
-                            count: _elm.toUnit.newCount,
-                            price: _elm.toUnit.price,
-                            totalPrice: _elm.toUnit.newCount * _elm.toUnit.price,
+                            count: _elm.toCount,
+                            price: _elm.toPrice,
+                            total: _elm.toTotal,
                             countType: 'in',
                         };
                     } else if (_elm.bonusCount) {
@@ -340,16 +340,24 @@ module.exports = function init(site) {
                     delete where.transactionType;
                 }
 
-                if (where.fromDate) {
-                    where['fromDate'] = { $gte: site.toDate(where.fromDate) };
-                    delete where.fromDate;
-                }
-
-                if (where.toDate) {
-                    let d2 = site.toDate(where.toDate);
-                    where['toDate'] = { $lt: d2.setDate(d2.getDate() + 1) };
-                    delete where.toDate;
-                }
+                if (where && where.dateTo) {
+                    let d1 = site.toDate(where.date);
+                    let d2 = site.toDate(where.dateTo);
+                    d2.setDate(d2.getDate() + 1);
+                    where.date = {
+                      $gte: d1,
+                      $lt: d2,
+                    };
+                    delete where.dateTo;
+                  } else if (where.date) {
+                    let d1 = site.toDate(where.date);
+                    let d2 = site.toDate(where.date);
+                    d2.setDate(d2.getDate() + 1);
+                    where.date = {
+                      $gte: d1,
+                      $lt: d2,
+                    };
+                  }
 
                 if (app.allowMemory) {
                     app.memoryList
@@ -371,7 +379,8 @@ module.exports = function init(site) {
                         list: list,
                     });
                 } else {
-                    app.$collection.findMany({ where: where, select, sort : {id : -1} }, (err, docs) => {
+          where['company.id'] = site.getCompany(req).id;
+          app.all({ where: where, select, sort : {id : -1} }, (err, docs) => {
                         res.json({
                             done: true,
                             list: docs,

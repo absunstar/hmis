@@ -457,8 +457,7 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getAll();
-
+    $scope.getAll({date : new Date()});
     $scope.getPaymentTypes();
     $scope.getStores();
     $scope.getStoresItems();

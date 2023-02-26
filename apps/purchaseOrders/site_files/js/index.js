@@ -243,16 +243,18 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getAll = function () {
+  $scope.getAll = function (where) {
     $scope.busy = true;
     $scope.list = [];
+    where = where || {};
+    if(!where['approved']){
+      where['approved'] = false
+    }
     $http({
       method: 'POST',
       url: `${$scope.baseURL}/api/${$scope.appName}/all`,
       data: {
-        where: {
-          approved: false,
-        },
+        where: where,
         select: {
           id: 1,
           code: 1,
@@ -943,7 +945,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $timeout(() => {
       $scope.errorBatch = '';
       $scope.error = '';
-      item.$batchCount = item.batchesList.reduce((a, b) => +a + +b.count, 0);
+      item.$batchCount = item.batchesList.length > 0 ? item.batchesList.reduce((a, b) => +a + +b.count, 0) : 0;
+
     }, 250);
   };
 
@@ -968,7 +971,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getAll();
+  $scope.getAll({date : new Date()});
   $scope.getPaymentTypes();
   $scope.getPurchaseOrdersSource();
   $scope.getDiscountTypes();

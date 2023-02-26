@@ -1,6 +1,8 @@
 <div ng-controller="convertUnits" class="loaded">
     <div class="row" x-permissions="convertUnitsUi || convertUnitsManage">
         <div x-import="convertUnits/modal.html"></div>
+        <div x-import="convertUnits/batchModal.html"></div>
+        <div x-import="convertUnits/toBatchModal.html"></div>
         <div x-import="convertUnits/modalSearch.html"></div>
 
         <div class="top-actions">
@@ -30,7 +32,7 @@
                 <td class="text-center">{{item.store.name##session.lang##}}</td>
                 <td class="text-center">
                     <span ng-show="item.approved">
-                        <span class="text-success text-center">##word.Yes##</span> {{item.approvedDate |date:'dd/MM/yyyy' }} - {{item.approvedDate |date:'hh:mm:ss a' }}
+                        <span class="text-success text-center">( ##word.Yes## )</span> {{item.approvedDate |date:'dd/MM/yyyy' }} - {{item.approvedDate |date:'hh:mm:ss a' }}
                     </span>
 
                     <span class="text-danger" ng-show="!item.approved">##word.No##</span>

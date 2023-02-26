@@ -165,28 +165,6 @@ module.exports = function init(site) {
             if (_item.batchesList && _item.batchesList.length > 0) {
               _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
 
-              if (site.setting.storesSetting.saleEarlyExpiryDateBatch) {
-                if (_item.$batchCount != _item.count) {
-                  let batchCount = _item.count - _item.$batchCount;
-                  if (_item.workByBatch) {
-                    _item.batchesList = _item.batchesList.sort((a, b) => new Date(b.expiryDate) - new Date(a.expiryDate)).reverse();
-                  } else if (_item.workBySerial) {
-                    _item.batchesList = _item.batchesList.sort((a, b) => new Date(b.productionDate) - new Date(a.productionDate)).reverse();
-                  }
-                  _item.batchesList.forEach((_b) => {
-                    _b.count = 0;
-                    if (_b.currentCount > 0) {
-                      if (batchCount > _b.currentCount || batchCount == _b.currentCount) {
-                        _b.count = _b.currentCount;
-                      } else if (batchCount < _b.currentCount && batchCount > 0) {
-                        _b.count = batchCount;
-                      }
-                      batchCount -= _b.count;
-                    }
-                  });
-                }
-              }
-
               let batchCountErr = _item.batchesList.find((b) => {
                 return b.count > b.currentCount;
               });
@@ -202,12 +180,13 @@ module.exports = function init(site) {
           }
         });
 
-        if (errBatchList.length > 0 && !site.setting.storesSetting.saleEarlyExpiryDateBatch) {
+        if (errBatchList.length > 0) {
           let error = errBatchList.map((m) => m).join('-');
           response.error = `The Batches Count is not correct in ( ${error} )`;
           res.json(response);
           return;
         }
+
         let numObj = {
           company: site.getCompany(req),
           screen: app.name,
@@ -276,28 +255,6 @@ module.exports = function init(site) {
             if (_item.batchesList && _item.batchesList.length > 0) {
               _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
 
-              if (site.setting.storesSetting.saleEarlyExpiryDateBatch) {
-                if (_item.$batchCount != _item.count) {
-                  let batchCount = _item.count - _item.$batchCount;
-                  if (_item.workByBatch) {
-                    _item.batchesList = _item.batchesList.sort((a, b) => new Date(b.expiryDate) - new Date(a.expiryDate)).reverse();
-                  } else if (_item.workBySerial) {
-                    _item.batchesList = _item.batchesList.sort((a, b) => new Date(b.productionDate) - new Date(a.productionDate)).reverse();
-                  }
-                  _item.batchesList.forEach((_b) => {
-                    _b.count = 0;
-                    if (_b.currentCount > 0) {
-                      if (batchCount > _b.currentCount || batchCount == _b.currentCount) {
-                        _b.count = _b.currentCount;
-                      } else if (batchCount < _b.currentCount && batchCount > 0) {
-                        _b.count = batchCount;
-                      }
-                      batchCount -= _b.count;
-                    }
-                  });
-                }
-              }
-
               let batchCountErr = _item.batchesList.find((b) => {
                 return b.count > b.currentCount;
               });
@@ -312,7 +269,8 @@ module.exports = function init(site) {
             }
           }
         });
-        if (errBatchList.length > 0 && !site.setting.storesSetting.saleEarlyExpiryDateBatch) {
+
+        if (errBatchList.length > 0) {
           let error = errBatchList.map((m) => m).join('-');
           response.error = `The Batches Count is not correct in ( ${error} )`;
           res.json(response);
@@ -437,7 +395,27 @@ module.exports = function init(site) {
             list: list,
           });
         } else {
-          app.$collection.findMany({ where: where, select, sort: { id: -1 } }, (err, docs) => {
+          where['company.id'] = site.getCompany(req).id;
+          if (where && where.dateTo) {
+            let d1 = site.toDate(where.date);
+            let d2 = site.toDate(where.dateTo);
+            d2.setDate(d2.getDate() + 1);
+            where.date = {
+              $gte: d1,
+              $lt: d2,
+            };
+            delete where.dateTo;
+          } else if (where.date) {
+            let d1 = site.toDate(where.date);
+            let d2 = site.toDate(where.date);
+            d2.setDate(d2.getDate() + 1);
+            where.date = {
+              $gte: d1,
+              $lt: d2,
+            };
+          }
+
+          app.all({ where: where, select, sort: { id: -1 } }, (err, docs) => {
             res.json({
               done: true,
               list: docs,

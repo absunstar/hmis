@@ -71,8 +71,8 @@ module.exports = function init(site) {
               doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '+');
             }
           } else if (screenName === 'convertUnits') {
-            doc.unitsList[index].storesList[storeIndex].convertUnitFromCount += _elm.unit.count;
-            doc.unitsList[index].storesList[storeIndex].convertUnitFromPrice += _elm.unit.price;
+            doc.unitsList[index].storesList[storeIndex].convertUnitFromCount += _elm.count;
+            doc.unitsList[index].storesList[storeIndex].convertUnitFromPrice += _elm.price;
             let unitToIndex = doc.unitsList.findIndex((s) => s.unit && s.unit.id === _elm.toUnit.id);
             if (unitToIndex != -1) {
               let storeIndexTo = doc.unitsList[unitToIndex].storesList.findIndex((s) => s.store && s.store.id === _elm.store.id);
@@ -83,8 +83,11 @@ module.exports = function init(site) {
                 storeIndexTo = doc.unitsList[unitToIndex].storesList.length - 1;
               }
 
-              doc.unitsList[unitToIndex].storesList[storeIndexTo].convertUnitToCount += _elm.toUnit.newCount;
-              doc.unitsList[unitToIndex].storesList[storeIndexTo].convertUnitToPrice += _elm.toUnit.price;
+              doc.unitsList[unitToIndex].storesList[storeIndexTo].convertUnitToCount += _elm.toCount;
+              doc.unitsList[unitToIndex].storesList[storeIndexTo].convertUnitToPrice += _elm.toPrice;
+              doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '-');
+              doc.unitsList[unitToIndex].storesList[storeIndexTo] = site.handelAddBatches(doc.unitsList[unitToIndex].storesList[storeIndexTo], _elm.toBatchesList);
+
             }
           } else if (screenName === 'transferItemsOrders') {
             doc.unitsList[index].storesList[storeIndex].transferFromCount += _elm.count;
@@ -128,7 +131,7 @@ module.exports = function init(site) {
 
     if (!systemSetting.storesSetting.allowOverdraft) {
       let itemIds = obj.items.map((_item) => _item.id);
-      app.$collection.findMany({ where: { id: { $in: itemIds } } }, (err, docs) => {
+      app.all({ where: { id: { $in: itemIds } } }, (err, docs) => {
         let cb = {
           done: false,
           refuseList: [],
@@ -561,7 +564,8 @@ module.exports = function init(site) {
             list: list,
           });
         } else {
-          app.$collection.findMany({ where, select, limit }, (err, docs) => {
+          where['company.id'] = site.getCompany(req).id;
+          app.all({ where, select, limit }, (err, docs) => {
             res.json({
               done: true,
               list: docs,
@@ -576,7 +580,7 @@ module.exports = function init(site) {
     let items = req.body.items;
     let storeId = req.body.storeId;
     let itemIds = items.map((_item) => _item.id);
-    app.$collection.findMany({ where: { id: { $in: itemIds } } }, (err, docs) => {
+    app.all({ where: { id: { $in: itemIds } } }, (err, docs) => {
       for (let item of items) {
         item.storesList = [];
         let itemDoc = docs.find((_item) => {

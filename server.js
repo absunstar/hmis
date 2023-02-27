@@ -33,6 +33,8 @@ site.get(
     res.render('index.html', { title: site.word('Site Title')}, { parser: 'html', compres: true });
   }
 );
+site.importApps(__dirname + '/apps_inventories');
+site.importApps(__dirname + '/apps_hr');
 
 site.loadLocalApp('client-side');
 site.loadLocalApp('ui-print');

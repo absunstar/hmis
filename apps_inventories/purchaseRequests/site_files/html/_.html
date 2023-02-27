@@ -22,7 +22,6 @@
 
         <table class="table hover bold" id="t1">
             <tr>
-                <th class="w150">##word.Logo##</th>
                 <th>##word.Code##</th>
                 <th>##word.Title##</th>
                 <th>##word.Request Date##</th>
@@ -31,9 +30,7 @@
                 <th class="not-print">##word.Actions##</th>
             </tr>
             <tr ng-repeat="item in list | filter:$search">
-                <td>
-                    <i-image view class="logo center" ng-model="item.image"></i-image>
-                </td>
+            
                 <td class="text-center blue">{{item.code}}</td>
                 <td class="text-center">{{item.title}}</td>
                 <td class="text-center">{{item.requestDate |date:'dd/MM/yyyy' }} - {{item.requestDate |date:'hh:mm:ss a' }}</td>

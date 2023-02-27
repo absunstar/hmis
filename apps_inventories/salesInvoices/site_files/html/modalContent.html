@@ -41,7 +41,7 @@
           items="itemsList"
           display="name##session.lang##"
           label="##word.Item##"
-          ng-search="orderItem.$actItem"
+          ng-get="getStoresItems($search)"
         ></i-list>
       </div>
       <div class="col2">
@@ -104,7 +104,7 @@
         </td>
         <td>
           <p ng-if="!elem.noVat">{{elem.totalVat}} ##word.$##</p>
-          <p ng-if="elem.noVat">##word.No VAT##</p>
+          <p ng-if="elem.noVat" class="red">##word.No VAT##</p>
         </td>
         <td>
           <p class="text-center">{{elem.total}} <span>##word.$##</span></p>
@@ -188,10 +188,15 @@
     <fieldset>
       <legend>##word.Totals##</legend>
       <div class="row">
-        <i-control class="col3" type="number" disabled label="##word.Total Price##" ng-model="item.totalPrice"></i-control>
-        <i-control class="col3" type="number" disabled label="##word.Total Disconts##" ng-model="item.totalDiscounts"></i-control>
-        <i-control class="col3" type="number" disabled label="##word.Total Taxes##" ng-model="item.totalTaxes"></i-control>
-        <i-control class="col3" type="number" disabled label="##word.Total Vat##" ng-model="item.totalVat"></i-control>
+        <i-control class="col4" type="number" disabled label="##word.Total Disconts##" ng-model="item.totalDiscounts"></i-control>
+        <i-control class="col4" type="number" disabled label="##word.Total Taxes##" ng-model="item.totalTaxes"></i-control>
+        <i-control class="col4" type="number" disabled label="##word.Total Vat##" ng-model="item.totalVat"></i-control>
+      </div>
+
+      <div class="row">
+        <i-control class="col4" type="number" disabled label="##word.Total After VAT##" ng-model="item.totalAfterVat"></i-control>
+        <i-control class="col4" type="number" disabled label="##word.Total Before VAT##" ng-model="item.totalBeforeVat"></i-control>
+        <i-control class="col4" type="number" disabled label="##word.Total Net##" ng-model="item.totalNet"></i-control>
       </div>
     </fieldset>
   </div>

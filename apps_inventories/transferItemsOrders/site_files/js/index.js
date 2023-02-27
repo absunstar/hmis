@@ -400,7 +400,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
             unit: elem.unit,
             count: elem.count,
             transferPrice: 0,
-            price: elem.purchaseCost,
+            price: elem.price,
             workByBatch: elem.workByBatch,
             workBySerial: elem.workBySerial,
             batchesList: elem.batchesList,
@@ -448,13 +448,23 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getStoresItems = function () {
+  $scope.getStoresItems = function ($search) {
+    $scope.error = '';
+    if ($search && $search.length < 3) {
+      return;
+    }
+
+    if (!$scope.item.store || !$scope.item.store.id) {
+      $scope.error = '##word.Please Select Store';
+      return;
+    }
     $scope.busy = true;
     $scope.storesItemsList = [];
     $http({
       method: 'POST',
       url: '/api/storesItems/all',
       data: {
+        storeId: $scope.item.store.id,
         where: {
           active: true,
         },
@@ -469,6 +479,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
           unitsList: 1,
           itemGroup: 1,
         },
+        search: $search,
       },
     }).then(
       function (response) {
@@ -511,10 +522,10 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
         nameEn: elem.unit.nameEn,
         nameAr: elem.unit.nameAr,
         storesList: elem.storesList,
-        purchaseCost: elem.purchaseCost,
+        price: elem.purchasePrice,
       });
       $scope.orderItem.unit = $scope.unitsList[0];
-      $scope.orderItem.purchaseCost = $scope.unitsList[0].purchaseCost;
+      $scope.orderItem.price = $scope.unitsList[0].price;
     }
     $scope.calculateItemBalance($scope.unitsList[0]);
   };
@@ -526,13 +537,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
       $scope.orderItem.currentBalance = 0;
       return;
     } else {
-      const selectedUnit = unit.storesList[storeIndex];
-      const totalIncome = selectedUnit.purchaseCount + selectedUnit.bonusCount + selectedUnit.unassembledCount + selectedUnit.salesReturnCount;
-
-      const totalOut = selectedUnit.salesCount + selectedUnit.purchaseReturnCount + selectedUnit.damagedCount + selectedUnit.assembledCount;
-
-      const currentBalance = totalIncome - totalOut;
-      $scope.orderItem.currentBalance = currentBalance;
+      $scope.orderItem.currentBalance = unit.storesList[storeIndex].currentCount;
     }
   };
 
@@ -576,7 +581,8 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
       itemGroup: elem.item.itemGroup,
       unit: { id: elem.unit.id, code: elem.unit.code, nameAr: elem.unit.nameAr, nameEn: elem.unit.nameEn },
       count: elem.count,
-      price: elem.purchaseCost,
+      price: elem.price,
+      total: elem.count * elem.price,
       storeBalance: storeBalance.currentCount,
       transferPrice: 0,
       approved: false,
@@ -680,7 +686,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     }, 250);
   };
 
-  $scope.getAll({date : new Date()});
+  $scope.getAll({ date: new Date() });
   $scope.getStores();
   $scope.getStoresItems();
   $scope.getpurchaseOrdersSource();

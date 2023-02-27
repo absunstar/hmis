@@ -116,7 +116,6 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
           function (response) {
             $scope.busy = false;
             if (response.data.done) {
-              console.log('gggggggggggggggggggggggggggggg');
               site.hideModal($scope.modalID);
               let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
               if (index !== -1) {
@@ -469,7 +468,7 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
                     unit: { id: _unit.unit.id, code: _unit.unit.code, nameAr: _unit.unit.nameAr, nameEn: _unit.unit.nameEn },
                     currentCount: _unit.storesList[storeIndex].currentCount,
                     count: 0,
-                    price: _unit.unit.purchaseCost,
+                    price: _unit.unit.purchasePrice,
                     approved: false,
                   };
                   if (_item.workByBatch || _item.workBySerial) {
@@ -489,13 +488,23 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getStoresItems = function () {
+  $scope.getStoresItems = function ($search) {
+    $scope.error = '';
+    if ($search && $search.length < 3) {
+      return;
+    }
+
+    if (!$scope.item.store || !$scope.item.store.id) {
+      $scope.error = '##word.Please Select Store';
+      return;
+    }
     $scope.busy = true;
     $scope.storesItemsList = [];
     $http({
       method: 'POST',
       url: '/api/storesItems/all',
       data: {
+        storeId: $scope.item.store.id,
         where: {
           active: true,
         },
@@ -510,6 +519,7 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
           unitsList: 1,
           itemGroup: 1,
         },
+        search: $search,
       },
     }).then(
       function (response) {
@@ -534,7 +544,7 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
         nameEn: elem.unit.nameEn,
         nameAr: elem.unit.nameAr,
         storesList: elem.storesList,
-        purchaseCost: elem.purchaseCost,
+        purchasePrice: elem.purchasePrice,
       });
       $scope.orderItem.unit = $scope.unitsList[0];
     }
@@ -546,7 +556,7 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
       return;
     }
     for (const itm of $scope.item.itemsList) {
-      if (itm.item.id === elem.item.id && itm.unit.id === elem.unit.id) {
+      if (itm.id === elem.item.id && itm.unit.id === elem.unit.id) {
         $scope.error = '##word.Item Exisit##';
         return;
       }
@@ -564,7 +574,7 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
       itemGroup: elem.item.itemGroup,
       unit: { id: elem.unit.id, code: elem.unit.code, nameAr: elem.unit.nameAr, nameEn: elem.unit.nameEn },
       currentCount: elem.count,
-      price: elem.unit.purchaseCost,
+      price: elem.unit.purchasePrice,
       approved: false,
     });
 
@@ -696,6 +706,5 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
   $scope.getAll({ date: new Date() });
   $scope.getItemsGroups();
   $scope.getStores();
-  $scope.getStoresItems();
   $scope.getNumberingAuto();
 });

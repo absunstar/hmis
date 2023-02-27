@@ -14,9 +14,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     totalVendorDiscounts: 0,
     hasVendor: true,
     approved: false,
-    /*  calculatePurchaseCost: false,
-    calculatePurchaseCostType: '', */
-    purchaseCost: 0,
+    /*  calculatePurchasePrice: false,
+    calculatePurchasePriceType: '', */
+    purchasePrice: 0,
     active: true,
   };
   $scope.item = {};
@@ -247,8 +247,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope.busy = true;
     $scope.list = [];
     where = where || {};
-    if(!where['approved']){
-      where['approved'] = false
+    if (!where['approved']) {
+      where['approved'] = false;
     }
     $http({
       method: 'POST',
@@ -541,20 +541,23 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.setTotalPrice = function () {
-    $scope.item.totalPrice = 0;
-    $scope.item.itemsList.forEach((_item) => {
-      $scope.item.totalPrice += _item.price * _item.count;
-    });
-  };
+  $scope.getStoresItems = function ($search) {
+    $scope.error = '';
+    if ($search && $search.length < 3) {
+      return;
+    }
 
-  $scope.getStoresItems = function () {
+    if (!$scope.item.store || !$scope.item.store.id) {
+      $scope.error = '##word.Please Select Store';
+      return;
+    }
     $scope.busy = true;
     $scope.itemsList = [];
     $http({
       method: 'POST',
       url: '/api/storesItems/all',
       data: {
+        storeId: $scope.item.store.id,
         where: {
           active: true,
           allowBuy: true,
@@ -571,6 +574,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
           itemGroup: 1,
           unitsList: 1,
         },
+        search: $search,
       },
     }).then(
       function (response) {
@@ -697,9 +701,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       bonusCount: orderItem.bonusCount,
       total: orderItem.count * orderItem.price,
       approved: orderItem.approved,
-      storeBalance: storeBalance.currentCount,
+      storeBalance: storeBalance ? storeBalance.currentCount : 0,
       vendorDiscount: orderItem.vendorDiscount,
-      purchaseCost: 0,
+      purchasePrice: 0,
       approved: false,
     };
     if (orderItem.item.workByBatch) {
@@ -710,7 +714,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     }
     $scope.item.itemsList.unshift(item);
 
-    $scope.setTotalPrice();
+    $scope.calculateTotalInItemsList();
     $scope.resetOrderItem();
     $scope.itemsError = '';
   };
@@ -743,7 +747,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
               salesPrice: elem.salesPrice,
               bonusCount: 0,
               bonusPrice: 0,
-              purchaseCost: 0,
+              purchasePrice: 0,
               discount: 0,
               vendorDiscount: 0,
               total: 0,
@@ -769,35 +773,42 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       $scope.itemsError = '##word.Please Enter Count##';
       return;
     }
-    const index = $scope.item.itemsList.findIndex((_elem) => _elem.id === item.id && _elem.unit.id === item.unit.id);
-    if (index !== -1) {
-      $scope.item.itemsList[index].approved = true;
-    }
+    item.approved = true;
     $scope.prpepareToApproveOrder($scope.item);
     $scope.itemsError = '';
   };
 
   $scope.unapproveItem = function (item) {
-    const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === item.id && _elm.unit.id === item.unit.id);
-    if (itemIndex !== -1) {
-      $scope.item.itemsList[itemIndex].approved = false;
-      $scope.canApprove = false;
-    }
+    item.approved = false;
+    $scope.canApprove = false;
   };
 
-  $scope.calculateTotalInItemsList = function (itm) {
+  $scope.calculateTotalInItemsList = function (item) {
     $timeout(() => {
-      if (itm.count < 0 || itm.price < 0) {
-        $scope.itemsError = '##word.Please Enter Valid Numbers##';
-        return;
-      }
-      const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === itm.id && _elm.unit.id === itm.unit.id);
-      const selectdItem = $scope.item.itemsList[itemIndex];
-      if (itemIndex !== -1) {
-        selectdItem.total = selectdItem.count * selectdItem.price;
-        $scope.setTotalPrice();
-      }
       $scope.itemsError = '';
+      item.totalDiscounts = 0;
+      item.totalTaxes = 0;
+      item.totalNet = 0;
+      item.totalPrice = 0;
+      item.totalVendorDiscount = 0;
+      item.itemsList.forEach((_item) => {
+        _item.total = _item.price * _item.count - _item.vendorDiscount;
+        item.totalPrice += _item.total;
+        item.totalVendorDiscount += _item.vendorDiscount;
+      });
+      item.discountsList.forEach((d) => {
+        if (d.type == 'value') {
+          item.totalDiscounts += d.value;
+        } else if (d.type == 'percent') {
+          item.totalDiscounts += (item.totalPrice * d.value) / 100;
+        }
+      });
+
+      item.taxesList.forEach((t) => {
+        item.totalTaxes += (item.totalPrice * t.value) / 100;
+      });
+
+      item.totalNet = item.totalPrice - item.totalDiscounts + item.totalTaxes;
     }, 300);
   };
 
@@ -946,7 +957,6 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       $scope.errorBatch = '';
       $scope.error = '';
       item.$batchCount = item.batchesList.length > 0 ? item.batchesList.reduce((a, b) => +a + +b.count, 0) : 0;
-
     }, 250);
   };
 
@@ -971,14 +981,13 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getAll({date : new Date()});
+  $scope.getAll({ date: new Date() });
   $scope.getPaymentTypes();
   $scope.getPurchaseOrdersSource();
   $scope.getDiscountTypes();
   $scope.getTaxTypes();
   $scope.getVendors();
   $scope.getStores();
-  $scope.getStoresItems();
   $scope.getNumberingAuto();
   $scope.getSetting();
 });

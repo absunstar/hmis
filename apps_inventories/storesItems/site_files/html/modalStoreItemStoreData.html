@@ -51,6 +51,10 @@
                 <th>##word.Transfer Unit From Price##</th>
                 <th>##word.Transfer Unit To Count##</th>
                 <th>##word.Transfer Unit To Price##</th>
+                <th>##word.Stock Taking In Count##</th>
+                <th>##word.Stock Taking In Price##</th>
+                <th>##word.Stock Taking Out Count##</th>
+                <th>##word.Stock Taking Out Price##</th>
                 <th ng-if="item.workByBatch || item.workBySerial">##word.View Batches##</th>
               </tr>
 
@@ -152,6 +156,21 @@
                 </td>
                 <td>
                   <p class="text-center">{{str.convertUnitToPrice}} <span class="currency"> ##word.$##</span></p>
+                </td>
+                <td>
+                  <p class="text-center blue" ng-if="!str.stockTakingInCount">{{str.stockTakingInCount}}</p>
+                  <p class="text-center text-success" ng-if="str.stockTakingInCount"><span class="text-success">##word.+##</span>{{str.stockTakingInCount}}</p>
+                </td>
+                <td>
+                  <p class="text-center">{{str.stockTakingInPrice}} <span class="currency"> ##word.$##</span></p>
+                </td>
+
+                <td>
+                  <p class="text-center blue" ng-if="!str.stockTakingOutCount">{{str.stockTakingOutCount}}</p>
+                  <p class="text-center text-success" ng-if="str.stockTakingOutCount"><span class="text-success">##word.+##</span>{{str.stockTakingOutCount}}</p>
+                </td>
+                <td>
+                  <p class="text-center">{{str.stockTakingOutPrice}} <span class="currency"> ##word.$##</span></p>
                 </td>
                 <td ng-if="item.workByBatch || item.workBySerial">
                   <i-button type="view" label="##word.Batches##" ng-click="showBatches(str)"> </i-button>

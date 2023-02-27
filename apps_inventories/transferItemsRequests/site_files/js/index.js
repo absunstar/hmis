@@ -374,13 +374,23 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getStoresItems = function () {
+  $scope.getStoresItems = function ($search) {
+    $scope.error = '';
+    if ($search && $search.length < 3) {
+      return;
+    }
+
+    if (!$scope.item.store || !$scope.item.store.id) {
+      $scope.error = '##word.Please Select Store';
+      return;
+    }
     $scope.busy = true;
     $scope.storesItemsList = [];
     $http({
       method: 'POST',
       url: '/api/storesItems/all',
       data: {
+        storeId: $scope.item.store.id,
         where: {
           active: true,
         },
@@ -392,6 +402,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
           unitsList: 1,
           itemGroup: 1,
         },
+        search : $search
       },
     }).then(
       function (response) {
@@ -424,7 +435,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
         nameEn: elem.unit.nameEn,
         nameAr: elem.unit.nameAr,
         storesList: elem.storesList,
-        purchaseCost: elem.purchaseCost,
+        price: elem.purchasePrice,
       });
       $scope.orderItem.unit = $scope.unitsList[0];
     }
@@ -474,7 +485,8 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
       itemGroup: elem.item.itemGroup,
       unit: { id: elem.unit.id, code: elem.unit.code, nameAr: elem.unit.nameAr, nameEn: elem.unit.nameEn },
       count: elem.count,
-      purchaseCost: elem.unit.purchaseCost,
+      purchasePrice: elem.unit.price,
+      total: elem.count * elem.unit.price,
       approved: false,
     });
 
@@ -516,6 +528,5 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
 
   $scope.getAll({date : new Date()});
   $scope.getStores();
-  $scope.getStoresItems();
   $scope.getNumberingAuto();
 });

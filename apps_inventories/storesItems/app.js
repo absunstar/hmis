@@ -31,20 +31,20 @@ module.exports = function init(site) {
 
           if (screenName === 'purchaseOrders') {
             doc.unitsList[index].storesList[storeIndex].purchaseCount += _elm.count;
-            doc.unitsList[index].storesList[storeIndex].purchasePrice += _elm.price;
+            doc.unitsList[index].storesList[storeIndex].purchasePrice += _elm.total;
             doc.unitsList[index].storesList[storeIndex].bonusCount += _elm.bonusCount;
             doc.unitsList[index].storesList[storeIndex].bonusPrice += _elm.bonusPrice;
             doc.unitsList[index].purchasePrice = _elm.price;
             doc.unitsList[index].salesPrice = _elm.salesPrice;
-            if (!doc.unitsList[index].purchaseCost) {
-              doc.unitsList[index].purchaseCost = _elm.price;
+            if (!doc.unitsList[index].purchasePrice) {
+              doc.unitsList[index].purchasePrice = _elm.price;
             }
             const selectedUnit = doc.unitsList[index];
-            const oldCost = selectedUnit.currentCount * selectedUnit.purchaseCost;
+            const oldCost = selectedUnit.currentCount * selectedUnit.purchasePrice;
             const newCost = _elm.count * _elm.price;
             const totalCount = selectedUnit.currentCount + _elm.count;
-            doc.unitsList[index].purchaseCost = (oldCost + newCost) / totalCount;
-            doc.unitsList[index].purchaseCost = site.toNumber(doc.unitsList[index].purchaseCost);
+            doc.unitsList[index].purchasePrice = (oldCost + newCost) / totalCount;
+            doc.unitsList[index].purchasePrice = site.toNumber(doc.unitsList[index].purchasePrice);
 
             if (_elm.workByBatch || _elm.workBySerial) {
               doc.unitsList[index].storesList[storeIndex] = site.handelAddBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList);
@@ -52,7 +52,7 @@ module.exports = function init(site) {
           } else if (screenName === 'returnPurchaseOrders') {
             doc.unitsList[index].storesList[storeIndex].purchaseReturnCost += _elm.cost;
             doc.unitsList[index].storesList[storeIndex].purchaseReturnCount += _elm.count;
-            doc.unitsList[index].storesList[storeIndex].purchaseReturnPrice += _elm.price;
+            doc.unitsList[index].storesList[storeIndex].purchaseReturnPrice += _elm.total;
             doc.unitsList[index].storesList[storeIndex].bonusReturnCount += _elm.bonusCount;
             doc.unitsList[index].storesList[storeIndex].bonusReturnPrice += _elm.bonusPrice;
             if (_elm.workByBatch || _elm.workBySerial) {
@@ -60,19 +60,19 @@ module.exports = function init(site) {
             }
           } else if (screenName === 'salesInvoices') {
             doc.unitsList[index].storesList[storeIndex].salesCount += _elm.count;
-            doc.unitsList[index].storesList[storeIndex].salesPrice += _elm.price;
+            doc.unitsList[index].storesList[storeIndex].salesPrice += _elm.total;
             if (_elm.workByBatch || _elm.workBySerial) {
               doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '-');
             }
           } else if (screenName === 'returnSalesInvoices') {
             doc.unitsList[index].storesList[storeIndex].salesReturnCount += _elm.count;
-            doc.unitsList[index].storesList[storeIndex].salesReturnPrice += _elm.price;
+            doc.unitsList[index].storesList[storeIndex].salesReturnPrice += _elm.total;
             if (_elm.workByBatch || _elm.workBySerial) {
               doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '+');
             }
           } else if (screenName === 'convertUnits') {
             doc.unitsList[index].storesList[storeIndex].convertUnitFromCount += _elm.count;
-            doc.unitsList[index].storesList[storeIndex].convertUnitFromPrice += _elm.price;
+            doc.unitsList[index].storesList[storeIndex].convertUnitFromPrice += _elm.total;
             let unitToIndex = doc.unitsList.findIndex((s) => s.unit && s.unit.id === _elm.toUnit.id);
             if (unitToIndex != -1) {
               let storeIndexTo = doc.unitsList[unitToIndex].storesList.findIndex((s) => s.store && s.store.id === _elm.store.id);
@@ -84,13 +84,13 @@ module.exports = function init(site) {
               }
 
               doc.unitsList[unitToIndex].storesList[storeIndexTo].convertUnitToCount += _elm.toCount;
-              doc.unitsList[unitToIndex].storesList[storeIndexTo].convertUnitToPrice += _elm.toPrice;
+              doc.unitsList[unitToIndex].storesList[storeIndexTo].convertUnitToPrice += _elm.toTotal;
               doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '-');
               doc.unitsList[unitToIndex].storesList[storeIndexTo] = site.handelAddBatches(doc.unitsList[unitToIndex].storesList[storeIndexTo], _elm.toBatchesList);
             }
           } else if (screenName === 'transferItemsOrders') {
             doc.unitsList[index].storesList[storeIndex].transferFromCount += _elm.count;
-            doc.unitsList[index].storesList[storeIndex].transferFromPrice += _elm.price;
+            doc.unitsList[index].storesList[storeIndex].transferFromPrice += _elm.total;
 
             let storeToIndex = doc.unitsList[index].storesList.findIndex((s) => s.store && s.store.id === _elm.toStore.id);
             if (storeToIndex == -1) {
@@ -100,30 +100,30 @@ module.exports = function init(site) {
               storeToIndex = doc.unitsList[index].storesList.length - 1;
             }
             doc.unitsList[index].storesList[storeToIndex].transferToCount += _elm.count;
-            doc.unitsList[index].storesList[storeToIndex].transferToPrice += _elm.price;
+            doc.unitsList[index].storesList[storeToIndex].transferToPrice += _elm.total;
             if (_elm.workByBatch || _elm.workBySerial) {
               doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '-');
               doc.unitsList[index].storesList[storeToIndex] = site.handelAddBatches(doc.unitsList[index].storesList[storeToIndex], _elm.batchesList);
             }
           } else if (screenName === 'damageItems') {
             doc.unitsList[index].storesList[storeIndex].damagedCount += _elm.count;
-            doc.unitsList[index].storesList[storeIndex].damagedPrice += _elm.price;
+            doc.unitsList[index].storesList[storeIndex].damagedPrice += _elm.total;
             if (_elm.workByBatch || _elm.workBySerial) {
               doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '-');
             }
           } else if (screenName === 'storesOpeningBalances') {
             doc.unitsList[index].storesList[storeIndex].openingBalanceCount += _elm.count;
-            doc.unitsList[index].storesList[storeIndex].openingBalancePrice += _elm.price;
+            doc.unitsList[index].storesList[storeIndex].openingBalancePrice += _elm.total;
             if (_elm.workByBatch || _elm.workBySerial) {
               doc.unitsList[index].storesList[storeIndex] = site.handelAddBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList);
             }
           } else if (screenName === 'stockTaking') {
             if (_elm.countType == 'in') {
               doc.unitsList[index].storesList[storeIndex].stockTakingInCount += _elm.count;
-              doc.unitsList[index].storesList[storeIndex].stockTakingInPrice += _elm.price;
+              doc.unitsList[index].storesList[storeIndex].stockTakingInPrice += _elm.total;
             } else if (_elm.countType == 'out') {
               doc.unitsList[index].storesList[storeIndex].stockTakingOutCount += _elm.count;
-              doc.unitsList[index].storesList[storeIndex].stockTakingOutPrice += _elm.price;
+              doc.unitsList[index].storesList[storeIndex].stockTakingOutPrice += _elm.total;
             }
 
             if (_elm.workByBatch || _elm.workBySerial) {
@@ -199,7 +199,7 @@ module.exports = function init(site) {
         let totalIncome = str.purchaseCount + str.bonusCount + str.unassembledCount + str.salesReturnCount + str.stockTakingInCount + str.transferToCount + str.convertUnitToCount;
         let totalOut =
           str.salesCount + str.purchaseReturnCount + str.damagedCount + str.assembledCount + str.stockTakingOutCount + str.transferFromCount + str.convertUnitFromCount + str.bonusReturnCount;
-        str.currentCount = totalIncome - totalOut || 0;
+        str.currentCount = totalIncome - totalOut;
         unt.currentCount += str.currentCount || 0;
       });
     });
@@ -250,12 +250,10 @@ module.exports = function init(site) {
   site.setStoresItemsUnitStoreProperties = function () {
     return {
       store: {},
-      purchaseCost: 0,
-      purchaseReturnCost: 0,
-      purchaseReturnCount: 0,
       purchaseCount: 0,
       purchasePrice: 0,
       purchaseReturnPrice: 0,
+      purchaseReturnCount: 0,
       salesCount: 0,
       salesReturnCount: 0,
       salesPrice: 0,
@@ -540,7 +538,7 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let search = req.body.search || app.allowMemory ? 'id' : '';
+        let search = req.body.search || undefined;
         let limit = req.body.limit || 10;
         let select = req.body.select || {
           id: 1,
@@ -552,7 +550,6 @@ module.exports = function init(site) {
           itemGroup: 1,
           active: 1,
         };
-
         if (search) {
           where.$or = [];
 
@@ -584,10 +581,16 @@ module.exports = function init(site) {
           });
         } else {
           where['company.id'] = site.getCompany(req).id;
-          app.all({ where, select, limit }, (err, docs) => {
-            res.json({
-              done: true,
-              list: docs,
+
+          site.getStockTakingHold(req.body.storeId, (stockTakingItemsIdsCb) => {
+            if (stockTakingItemsIdsCb.length > 0) {
+              where['id'] = { $nin: stockTakingItemsIdsCb };
+            }
+            app.all({ where, select, limit }, (err, docs) => {
+              res.json({
+                done: true,
+                list: docs,
+              });
             });
           });
         }
@@ -620,20 +623,18 @@ module.exports = function init(site) {
                 item.workBySerial = itemDoc.workBySerial;
                 item.validityDays = itemDoc.validityDays;
                 if (req.body.getBatchesList) {
-                  item.batchesList = storeDoc.batchesList;
+                  item.batchesList = storeDoc.batchesList || [];
                 }
               }
+            } else {
+              if (itemDoc.workByBatch || itemDoc.workBySerial) {
+                item.batchesList = item.batchesList || [];
+                item.workByBatch = itemDoc.workByBatch;
+                item.workBySerial = itemDoc.workBySerial;
+                item.validityDays = itemDoc.validityDays;
+                item.storeBalance = item.storeBalance || 0;
+              }
             }
-            // unitDoc.storesList.forEach((_s) => {
-            //   if (storeId) {
-            //     if (_s.store.id == storeId) {
-            //       item.storeBalance = _s.currentCount;
-            //       if (itemDoc.workByBatch || itemDoc.workBySerial) {
-            //         item.batchesList = _s.batchesList;
-            //       }
-            //     }
-            //   }
-            // });
           }
         }
       }

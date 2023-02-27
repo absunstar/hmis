@@ -6,7 +6,6 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: { url: '/images/purchaseRequests.png' },
     approved: false,
     hasTransaction: false,
     active: true,
@@ -357,9 +356,11 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
   };
 
   $scope.getStoresItems = function ($search) {
-    if ($search && $search.length < 2) {
+    $scope.error = '';
+    if ($search && $search.length < 3) {
       return;
     }
+
     $scope.busy = true;
     $scope.storesItemsList = [];
     $http({
@@ -496,7 +497,6 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
     // $scope.calucualteStoreBalance($scope.unitsList[0]);
   };
 
-  $scope.getAll({ hasTransaction: false , date : new Date() });
-  $scope.getStoresItems();
+  $scope.getAll({ hasTransaction: false, date: new Date() });
   $scope.getNumberingAuto();
 });

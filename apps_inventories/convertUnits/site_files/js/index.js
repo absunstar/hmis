@@ -182,8 +182,8 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
     $scope.busy = true;
     $scope.list = [];
     where = where || {};
-    if(!where['approved']){
-      where['approved'] = false
+    if (!where['approved']) {
+      where['approved'] = false;
     }
     $http({
       method: 'POST',
@@ -279,15 +279,22 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
   };
 
   $scope.getStoresItems = function ($search) {
-    if ($search && $search.length < 3) {
+    $scope.error = '';
+    if ($search && $search.length < 2) {
       return;
     }
+    if (!$scope.item.store || !$scope.item.store.id) {
+      $scope.error = '##word.Please Select Store';
+      return;
+    }
+
     $scope.busy = true;
     $scope.itemsList = [];
     $http({
       method: 'POST',
       url: '/api/storesItems/all',
       data: {
+        storeId: $scope.item.store.id,
         where: {
           active: true,
           collectionItem: false,
@@ -331,6 +338,7 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
   };
 
   $scope.getItemUnits = function (item) {
+    item.toUnit = {};
     $scope.unitsList = [];
     if (item.unitsList) {
       for (const elem of item.unitsList) {
@@ -507,20 +515,6 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
     }
   };
 
-  $scope.calculateTotalInItemsList = function (itm) {
-    if (itm.purchaseCount < 0 || itm.purchasePrice < 0) {
-      $scope.itemsError = '##word.Please Enter Valid Numbers##';
-      return;
-    }
-    const itemIndex = $scope.item.itemsList.findIndex((_elm) => _elm.id === itm.id);
-    const selectdItem = $scope.item.itemsList[itemIndex];
-    if (itemIndex !== -1) {
-      selectdItem.total = selectdItem.purchaseCount * selectdItem.purchasePrice;
-    }
-
-    $scope.itemsError = '';
-  };
-
   $scope.prpepareToApproveOrder = function (_item) {
     $scope.canApprove = false;
     const index = _item.itemsList.findIndex((elem) => elem.approved == false);
@@ -684,13 +678,11 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
       $scope.errorBatch = '';
       $scope.error = '';
 
-        item.$toBatchCount = item.toBatchesList.length > 0 ? item.toBatchesList.reduce((a, b) => +a + +b.count, 0) : 0;
-      
+      item.$toBatchCount = item.toBatchesList.length > 0 ? item.toBatchesList.reduce((a, b) => +a + +b.count, 0) : 0;
     }, 250);
   };
 
-  $scope.getAll({date : new Date()});
+  $scope.getAll({ date: new Date() });
   $scope.getStores();
-  $scope.getStoresItems();
   $scope.getNumberingAuto();
 });

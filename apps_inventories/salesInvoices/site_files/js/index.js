@@ -519,13 +519,23 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     });
   };
 
-  $scope.getStoresItems = function () {
+  $scope.getStoresItems = function ($search) {
+    $scope.error = '';
+    if ($search && $search.length < 3) {
+      return;
+    }
+
+    if (!$scope.item.store || !$scope.item.store.id) {
+      $scope.error = '##word.Please Select Store';
+      return;
+    }
     $scope.busy = true;
     $scope.itemsList = [];
     $http({
       method: 'POST',
       url: '/api/storesItems/all',
       data: {
+        storeId: $scope.item.store.id,
         where: {
           active: true,
           allowSale: true,
@@ -542,6 +552,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
           unitsList: 1,
           itemGroup: 1,
         },
+        search: $search,
       },
     }).then(
       function (response) {
@@ -608,22 +619,53 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
 
   $scope.calculate = function (obj) {
     $timeout(() => {
+      obj.totalPrice = 0;
       obj.totalVat = 0;
+      obj.totalAfterVat = 0;
+      obj.totalBeforeVat = 0;
+      obj.totalDiscounts = 0;
+      obj.totalTaxes = 0;
+      obj.totalNet = 0;
+
       obj.itemsList.forEach((item) => {
         let discountValue = 0;
+        item.totalVat = 0;
+        obj.totalPrice;
         discountValue = item.discountType === 'value' ? item.discount : (item.price * item.discount) / 100;
         item.totalDiscount = discountValue * item.count;
         item.totalDiscount = site.toNumber(item.totalDiscount);
-
         item.totalPrice = item.price * item.count;
+        obj.totalPrice += item.totalPrice;
         if (!item.noVat) {
           item.totalVat = (((item.price - discountValue) * $scope.settings.storesSetting.vat) / 100) * item.count;
           item.totalVat = site.toNumber(item.totalVat);
         }
-        obj.totalVat += item.totalVat || 0;
-        item.total = item.totalPrice + (item.totalVat || 0) - item.totalDiscount;
+        obj.totalVat += item.totalVat;
+        item.total = item.totalPrice + item.totalVat - item.totalDiscount;
         item.total = site.toNumber(item.total);
+        obj.totalBeforeVat += item.totalPrice - item.totalDiscount;
+        obj.totalAfterVat += item.total;
       });
+
+      obj.discountsList.forEach((d) => {
+        if (d.type == 'value') {
+          obj.totalDiscounts += d.value;
+        } else if (d.type == 'percent') {
+          obj.totalDiscounts += (obj.totalAfterVat * d.value) / 100;
+        }
+      });
+
+      obj.taxesList.forEach((t) => {
+        obj.totalTaxes += (obj.totalAfterVat * t.value) / 100;
+      });
+
+      obj.totalTaxes = site.toNumber(obj.totalTaxes);
+      obj.totalDiscounts = site.toNumber(obj.totalDiscounts);
+      obj.totalBeforeVat = site.toNumber(obj.totalBeforeVat);
+      obj.totalAfterVat = site.toNumber(obj.totalAfterVat);
+
+      obj.totalNet = obj.totalAfterVat - obj.totalDiscounts + obj.totalTaxes;
+      obj.totalNet = site.toNumber(obj.totalNet);
     }, 300);
 
     $scope.itemsError = '';
@@ -645,8 +687,8 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
   $scope.saveBatch = function (item) {
     $scope.errorBatch = '';
     $scope.error = '';
-    
-    if (item.batchesList.some((b) => b.count > b.currentCount )) {
+
+    if (item.batchesList.some((b) => b.count > b.currentCount)) {
       $scope.errorBatch = '##word.New quantity cannot be greater than current quantity##';
       return;
     }
@@ -673,16 +715,14 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       $scope.errorBatch = '';
       $scope.error = '';
       item.$batchCount = item.batchesList.length > 0 ? item.batchesList.reduce((a, b) => +a + +b.count, 0) : 0;
-
     }, 250);
   };
 
-  $scope.getAll({date : new Date()});
+  $scope.getAll({ date: new Date() });
   $scope.getPaymentTypes();
   $scope.getDiscountTypes();
   $scope.getTaxTypes();
   $scope.getStores();
-  $scope.getStoresItems();
   $scope.getCustomers();
   $scope.getNumberingAuto();
   $scope.getSetting();

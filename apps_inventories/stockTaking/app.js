@@ -244,7 +244,7 @@ module.exports = function init(site) {
 
         _data.approvedUserInfo = req.getUserFinger();
         _data.approvedDate = new Date();
-
+        _data.startStockTaking = false;
         app.update(_data, (err, result) => {
           if (!err) {
             response.done = true;
@@ -257,6 +257,7 @@ module.exports = function init(site) {
                 item.countType = item.count > item.currentCount ? 'in' : 'out';
                 item.store = { ...result.doc.store };
                 site.editItemsBalance(item, app.name);
+                item.company = result.doc.company;
                 item.invoiceId = result.doc.id;
                 item.date = result.doc.date;
                 item.orderCode = result.doc.code;
@@ -393,6 +394,26 @@ module.exports = function init(site) {
       });
     }
   }
+
+  site.getStockTakingHold = function (storeId, callback) {
+    let ids = [];
+    if (storeId) {
+      app.all({ where: { 'store.id': storeId, startStockTaking: true } }, (err, docs) => {
+        if (docs && docs.length > 0) {
+          docs.forEach((doc) => {
+            doc.itemsList.forEach((_item) => {
+              ids.push(_item.id);
+            });
+          });
+          callback(ids);
+        } else {
+          callback(ids);
+        }
+      });
+    } else {
+      callback(ids);
+    }
+  };
 
   app.init();
   site.addApp(app);

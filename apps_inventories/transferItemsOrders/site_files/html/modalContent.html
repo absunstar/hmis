@@ -77,10 +77,19 @@
         </div>
       </div>
     </fieldset>
-    <fieldset>
+    <fieldset ng-show="item.store.id">
       <legend>##word.Items Information##</legend>
       <div class="row" ng-if="item.sourceType.id !== 1">
-        <i-list class="col2" label="##word.Item##" ng-model="orderItem.item" ng-change="getItemUnits(orderItem.item)" items="storesItemsList" display="name##session.lang##"> </i-list>
+        <i-list
+          class="col2"
+          label="##word.Item##"
+          ng-model="orderItem.item"
+          ng-change="getItemUnits(orderItem.item)"
+          items="storesItemsList"
+          display="name##session.lang##"
+          ng-get="getStoresItems($search)"
+        >
+        </i-list>
 
         <i-list
           class="col2"
@@ -110,9 +119,7 @@
           <th>##word.Unit##</th>
           <th>##word.Transfer Count##</th>
           <th>##word.Purchase Cost##</th>
-          <!-- <th>##word.Purchase Price##</th> -->
-          <!-- <th>##word.Bonus Count##</th> -->
-          <!-- <th>##word.Total##</th> -->
+
           <th>##word.Approved##</th>
           <th class="not-print" ng-show="item.sourceType.id !== 1">##word.Actions##</th>
         </tr>
@@ -136,27 +143,8 @@
               ng-model="elem.count"
             ></i-control>
           </td>
-          <!-- <td class="text-center">
-                        <p ng-if=" elem.approved" class="text-center">{{elem.purchasePrice}}</p>
-                        <i-control
-                            ng-change="calculateTotalInItemsList(elem)"
-                            ng-keyup="calculateTotalInItemsList(elem)"
-                            ng-click="calculateTotalInItemsList(elem)"
-                            type="number"
-                            ng-if="!elem.approved"
-                            min="0"
-                            ng-model="elem.purchasePrice"
-                        ></i-control>
-                    </td> -->
-          <!-- <td class="text-center">
-                        <p ng-if="elem.approved" class="text-center">{{elem.bonusCount}}</p>
-                        <i-control type="number" ng-if="!elem.approved" ng-model="elem.bonusCount"></i-control>
-                    </td> -->
-          <!-- <td>
-                        <p class="text-center">{{elem.total}}</p>
-                    </td> -->
           <td>
-            <p class="text-center">{{elem.purchaseCost}}</p>
+            <p class="text-center">{{elem.price}}</p>
           </td>
           <td>
             <p class="text-center text-success" ng-if="elem.approved">##word.Yes##</p>

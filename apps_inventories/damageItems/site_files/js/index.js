@@ -284,6 +284,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
       unit: { id: orderItem.unit.id, code: orderItem.unit.code, nameAr: orderItem.unit.nameAr, nameEn: orderItem.unit.nameEn },
       count: orderItem.count,
       price: orderItem.unit.price,
+      total: orderItem.unit.price * orderItem.count,
       approved: false,
     };
 
@@ -347,13 +348,23 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getStoresItems = function () {
+  $scope.getStoresItems = function ($search) {
+    $scope.error = '';
+    if ($search && $search.length < 3) {
+      return;
+    }
+
+    if (!$scope.item.store || !$scope.item.store.id) {
+      $scope.error = '##word.Please Select Store';
+      return;
+    }
     $scope.busy = true;
     $scope.itemsList = [];
     $http({
       method: 'POST',
       url: '/api/storesItems/all',
       data: {
+        storeId: $scope.item.store.id,
         where: {
           active: true,
           allowSale: true,
@@ -369,6 +380,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
           unitsList: 1,
           itemGroup: 1,
         },
+        search: $search,
       },
     }).then(
       function (response) {
@@ -385,18 +397,14 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
   };
 
   $scope.calculateItem = function (itm) {
+    $scope.itemsError = '';
     if (itm.count < 0 || itm.price < 0) {
       $scope.itemsError = '##word.Please Enter Valid Numbers##';
       return;
     }
     $timeout(() => {
-      const index = $scope.item.itemsList.findIndex((elem) => elem.id === itm.id && elem.unit.id === itm.unit.id);
-      if (index !== -1) {
-        $scope.item.itemsList[index].total = $scope.item.itemsList[index].count * $scope.item.itemsList[index].price;
-      }
+      itm.total = itm.count * itm.price;
     }, 300);
-
-    $scope.itemsError = '';
   };
 
   $scope.getReasonsDestroyingItems = function ($search) {
@@ -523,8 +531,8 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
   $scope.saveBatch = function (item) {
     $scope.errorBatch = '';
     $scope.error = '';
-    
-    if (item.batchesList.some((b) => b.count > b.currentCount )) {
+
+    if (item.batchesList.some((b) => b.count > b.currentCount)) {
       $scope.errorBatch = '##word.New quantity cannot be greater than current quantity##';
       return;
     }
@@ -555,8 +563,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
   };
 
   $scope.getReasonsDestroyingItems();
-  $scope.getAll({date : new Date()});
+  $scope.getAll({ date: new Date() });
   $scope.getStores();
-  $scope.getStoresItems();
   $scope.getNumberingAuto();
 });

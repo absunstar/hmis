@@ -314,6 +314,7 @@ module.exports = function init(site) {
               item.store = { ...result.doc.store };
               site.editItemsBalance(item, app.name);
               item.invoiceId = result.doc.id;
+              item.company = result.doc.company;
               item.date = result.doc.date;
               item.vendor = result.doc.vendor;
               item.countType = 'in';

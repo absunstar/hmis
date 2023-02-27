@@ -26,7 +26,7 @@
         ></i-list>
       </div>
     </fieldset>
-    <fieldset>
+    <fieldset ng-if="item.store.id">
       <legend>##word.Items Information##</legend>
 
       <div class="row">
@@ -37,7 +37,7 @@
             items="itemsList"
             display="name##session.lang##"
             label="##word.Item##"
-            ng-search="orderItem.$selectItem"
+            ng-get="getStoresItems($search)"
           ></i-list>
         </div>
         <div class="col2">

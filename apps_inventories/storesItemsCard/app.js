@@ -43,8 +43,7 @@ module.exports = function init(site) {
             totalPrice: _elm.total,
             currentCount: docs[0] ? docs[0].count + _elm.count : _elm.count,
             lastCount: docs[0] ? docs[0].currentCount : 0,
-            company: site.getCompany(req),
-            // totalPrice: docs[0] ? docs[0].price + _elm.price : _elm.price,
+            company: _elm.company,
             countType: _elm.countType,
           };
           if (screenName === 'transferItemsOrders' && _elm.$type == 'transferItemsOrdersTo') {

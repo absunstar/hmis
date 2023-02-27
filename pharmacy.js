@@ -2,14 +2,14 @@ const site = require('../isite')({
   port: [12345],
   lang: 'En',
   version: '2023.01.01',
-  name: 'HMIS',
+  name: 'PHARMACY',
   require: {
     features: [],
     permissions: [],
   },
   theme: 'theme_paper',
   mongodb: {
-    db: 'HMIS',
+    db: 'PHARMACY',
     limit: 100000,
     identity: {
       enabled: !0,
@@ -30,15 +30,13 @@ site.get(
     name: '/',
   },
   (req, res) => {
-    res.render('index.html', { title: site.word('Site Title') }, { parser: 'html', compres: true });
+    res.render('index.html', { title: site.word('Site Title')}, { parser: 'html', compres: true });
   }
 );
-
 site.importApps(__dirname + '/apps_inventories');
 site.importApps(__dirname + '/apps_hr');
-site.importApps(__dirname + '/apps_hmis');
+
 site.loadLocalApp('client-side');
 site.loadLocalApp('ui-print');
-site.addFeature('hmis');
 
 site.run();

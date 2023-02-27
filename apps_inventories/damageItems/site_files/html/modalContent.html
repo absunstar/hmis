@@ -19,7 +19,7 @@
         items="itemsList"
         display="name##session.lang##"
         label="##word.Item##"
-        ng-search="orderItem.$actItem"
+        ng-get="getStoresItems($search)"
       ></i-list>
 
       <i-list class="col2" ng-model="orderItem.unit" items="unitsList" display="name##session.lang##" label="##word.Unit##" ng-get="orderItem.$unit"></i-list>
@@ -48,6 +48,7 @@
         <th>##word.Item##</th>
         <th>##word.Unit##</th>
         <th>##word.Count##</th>
+        <th>##word.Total##</th>
         <th>##word.Destroying Reason##</th>
         <th>##word.Approved##</th>
         <th class="not-print">##word.Actions##</th>
@@ -60,6 +61,7 @@
           <p class="text-center" ng-if="elem.approved">{{elem.count}}</p>
           <i-control ng-if="!elem.approved" ng-change="calculateItem(elem)" min="0" type="number" ng-model="elem.count"></i-control>
         </td>
+        <td class="text-center">{{elem.total}}</td>
 
         <td class="text-center">
           <i-list

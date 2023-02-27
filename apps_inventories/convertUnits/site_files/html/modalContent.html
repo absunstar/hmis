@@ -4,9 +4,7 @@
       <legend>##word.Basic Information##</legend>
       <div class="row">
         <i-control ng-hide="disabledCode" class="col3" label="##word.Code##" ng-model="item.code"> </i-control>
-
         <i-date ng-model="item.date" class="col3" label="##word.Date##"></i-date>
-
         <i-list
           v="r"
           class="col4"
@@ -17,7 +15,6 @@
           label="##word.Store##"
           ng-get="getStores($search)"
         ></i-list>
-
         <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
       </div>
     </fieldset>
@@ -32,11 +29,11 @@
             items="itemsList"
             display="name##session.lang##"
             label="##word.Item##"
-            ng-search="orderItem.$selectItem"
+            ng-get="getStoresItems($search)"
           ></i-list>
           <i-list
             class="col2"
-            ng-change="calculateConversionUnits()"
+            ng-change="calculateConversionUnits('from')"
             ng-model="orderItem.unit"
             items="unitsList"
             display="name##session.lang##"
@@ -45,7 +42,7 @@
           ></i-list>
           <i-list
             class="col2"
-            ng-change="calculateConversionUnits()"
+            ng-change="calculateConversionUnits('to')"
             ng-model="orderItem.toUnit"
             items="unitsList"
             display="name##session.lang##"
@@ -81,9 +78,9 @@
           <fieldset>
             <legend>##word.From##</legend>
             <div class="row">
-              <i-control class="col3" type="number" disabled ng-model="orderItem.unit.conversion" label="##word.Conversion##"></i-control>
-              <i-control class="col3" type="number" disabled ng-model="orderItem.unit.currentCount" label="##word.Current Count##"></i-control>
-              <i-control class="col3" type="number" disabled ng-model="orderItem.unit.newCount" label="##word.New Count##"></i-control>
+              <i-control class="col4" type="number" disabled ng-model="orderItem.unit.conversion" label="##word.Conversion##"></i-control>
+              <i-control class="col4" type="number" disabled ng-model="orderItem.unit.currentCount" label="##word.Current Count##"></i-control>
+              <i-control class="col4" type="number" disabled ng-model="orderItem.unit.newCount" label="##word.New Count##"></i-control>
             </div>
           </fieldset>
         </div>
@@ -92,10 +89,10 @@
           <fieldset>
             <legend>##word.To##</legend>
             <div class="row">
-              <i-control class="col3" type="number" disabled ng-model="orderItem.toUnit.conversion" label="##word.Conversion##"></i-control>
+              <i-control class="col4" type="number" disabled ng-model="orderItem.toUnit.conversion" label="##word.Conversion##"></i-control>
 
-              <i-control class="col3" type="number" disabled ng-model="orderItem.toUnit.currentCount" label="##word.Current Count##"></i-control>
-              <i-control class="col3" type="number" disabled ng-model="orderItem.toUnit.newCount" label="##word.New Count##"></i-control>
+              <i-control class="col4" type="number" disabled ng-model="orderItem.toUnit.currentCount" label="##word.Current Count##"></i-control>
+              <i-control class="col4" type="number" disabled ng-model="orderItem.toUnit.newCount" label="##word.New Count##"></i-control>
             </div>
           </fieldset>
         </div>

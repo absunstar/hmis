@@ -32,6 +32,7 @@
                 v="r"
                 class="col4"
                 ng-change="item.sourceType.id === 1?getPurchaseRequest():item.itemsList=[];resetOrderItem()"
+                ng-disabled="item.itemsList.length > 0"
                 ng-model="item.sourceType"
                 display="name##session.lang##"
                 items="purchaseOrdersSourcesList"
@@ -78,7 +79,7 @@
               class="col4"
               display="name##session.lang##"
               label="##word.Item##"
-              ng-search="orderItem.$selectItem"
+              ng-get="getStoresItems($search)"
             ></i-list>
             <i-list
               ng-model="orderItem.unit"
@@ -139,11 +140,11 @@
 
           <td class="text-center">
             <p ng-if=" elem.approved" class="text-center">{{elem.count}}</p>
-            <i-control ng-change="calculateTotalInItemsList(elem)" ng-if=" !elem.approved" min="0" type="number" ng-model="elem.count"></i-control>
+            <i-control ng-change="calculateTotalInItemsList(item)" ng-if=" !elem.approved" min="0" type="number" ng-model="elem.count"></i-control>
           </td>
           <td class="text-center">
             <p ng-if=" elem.approved" class="text-center">{{elem.price}}</p>
-            <i-control ng-change="calculateTotalInItemsList(elem)" type="number" ng-if="!elem.approved" min="0" ng-model="elem.price"></i-control>
+            <i-control ng-change="calculateTotalInItemsList(item)" type="number" ng-if="!elem.approved" min="0" ng-model="elem.price"></i-control>
           </td>
           <td class="text-center">
             <p ng-if=" elem.approved" class="text-center">{{elem.salesPrice}}</p>
@@ -155,7 +156,7 @@
           </td>
           <td class="text-center">
             <p ng-if="elem.approved" class="text-center">{{elem.vendorDiscount}}</p>
-            <i-control type="number" ng-if="!elem.approved" ng-model="elem.vendorDiscount"></i-control>
+            <i-control type="number" ng-if="!elem.approved" ng-change="calculateTotalInItemsList(item)" ng-model="elem.vendorDiscount"></i-control>
           </td>
           <td>
             <p class="text-center">{{elem.total}}</p>
@@ -251,10 +252,14 @@
       <fieldset>
         <legend>##word.Totals##</legend>
         <div class="row">
-          <i-control class="col3" type="number" disabled label="##word.Total Price##" ng-model="item.totalPrice"></i-control>
-          <i-control class="col3" type="number" disabled label="##word.Total Disconts##" ng-model="item.totalDiscounts"></i-control>
-          <i-control class="col3" type="number" disabled label="##word.Total Taxes##" ng-model="item.totalTaxes"></i-control>
-          <i-control class="col3" type="number" disabled label="##word.Total Vendor Discont##" ng-model="item.totalVendorDiscount"></i-control>
+          <i-control class="col4" type="number" disabled label="##word.Total Disconts##" ng-model="item.totalDiscounts"></i-control>
+          <i-control class="col4" type="number" disabled label="##word.Total Taxes##" ng-model="item.totalTaxes"></i-control>
+          <i-control class="col4" type="number" disabled label="##word.Total Vendor Discont##" ng-model="item.totalVendorDiscount"></i-control>
+        </div>
+        <div class="row">
+          <i-control class="col4" type="number" disabled label="##word.Total Price##" ng-model="item.totalPrice"></i-control>
+          <i-control class="col4" type="number" disabled label="##word.Total Net##" ng-model="item.totalNet"></i-control>
+
         </div>
       </fieldset>
     </div>

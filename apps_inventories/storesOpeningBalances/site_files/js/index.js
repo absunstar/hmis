@@ -14,7 +14,7 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
     totalVendorDiscounts: 0,
     hasVendor: true,
     approved: false,
-    purchaseCost: 0,
+    purchasePrice: 0,
     active: true,
   };
   $scope.item = {};
@@ -366,13 +366,23 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
     });
   };
 
-  $scope.getStoresItems = function () {
+  $scope.getStoresItems = function ($search) {
+    $scope.error = '';
+    if ($search && $search.length < 3) {
+      return;
+    }
+
+    if (!$scope.item.store || !$scope.item.store.id) {
+      $scope.error = '##word.Please Select Store';
+      return;
+    }
     $scope.busy = true;
     $scope.itemsList = [];
     $http({
       method: 'POST',
       url: '/api/storesItems/all',
       data: {
+        storeId: $scope.item.store.id,
         where: {
           active: true,
           allowBuy: true,
@@ -389,6 +399,7 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
           itemGroup: 1,
           unitsList: 1,
         },
+        search : $search
       },
     }).then(
       function (response) {
@@ -473,7 +484,7 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
       total: orderItem.count * orderItem.price,
       approved: orderItem.approved,
       vendorDiscount: orderItem.vendorDiscount,
-      purchaseCost: 0,
+      purchasePrice: 0,
       approved: false,
     };
     if (orderItem.item.workByBatch) {
@@ -505,7 +516,7 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
         count: elem.count,
         price: elem.price,
         salesPrice: elem.salesPrice,
-        purchaseCost: 0,
+        purchasePrice: 0,
         discount: 0,
         vendorDiscount: 0,
         total: 0,
@@ -730,7 +741,6 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
   $scope.getAll({date : new Date()});
   $scope.getVendors();
   $scope.getStores();
-  $scope.getStoresItems();
   $scope.getNumberingAuto();
   $scope.getSetting();
 });

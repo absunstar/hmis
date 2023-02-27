@@ -319,7 +319,7 @@ module.exports = function init(site) {
           };
         }
 
-        let select = req.body.select || { id: 1, code: 1, title: 1, requestDate: 1, approvedDate: 1, itemsList: 1, image: 1, approved: 1, active: 1, hasTransaction: 1 };
+        let select = req.body.select || { id: 1, code: 1, title: 1, requestDate: 1, approvedDate: 1, itemsList: 1, approved: 1, active: 1, hasTransaction: 1 };
         let list = [];
         if (app.allowMemory) {
           app.memoryList

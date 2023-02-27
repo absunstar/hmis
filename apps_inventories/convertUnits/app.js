@@ -295,7 +295,7 @@ module.exports = function init(site) {
               site.editItemsBalance(item, app.name);
               item.invoiceId = result.doc.id;
               item.date = result.doc.date;
-
+              item.company = result.doc.company;
               item.countType = 'out';
               site.setItemCard(item, app.name);
             });

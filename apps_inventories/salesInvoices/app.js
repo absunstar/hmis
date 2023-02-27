@@ -186,7 +186,9 @@ module.exports = function init(site) {
                 }
               }
 
-              let batchCountErr = _item.batchesList.find((b) => {return b.count > b.currentCount});
+              let batchCountErr = _item.batchesList.find((b) => {
+                return b.count > b.currentCount;
+              });
 
               if (_item.$batchCount != _item.count || batchCountErr) {
                 let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
@@ -243,6 +245,7 @@ module.exports = function init(site) {
                 item.store = { ...doc.store };
                 site.editItemsBalance(item, app.name);
                 item.invoiceId = doc.id;
+                item.company = result.doc.company;
                 item.date = doc.date;
                 item.customer = doc.customer;
                 item.countType = 'out';
@@ -360,7 +363,7 @@ module.exports = function init(site) {
               $lt: d2,
             };
           }
-          app.all({ where: where, select , sort : {id : -1} }, (err, docs) => {
+          app.all({ where: where, select, sort: { id: -1 } }, (err, docs) => {
             res.json({ done: true, list: docs });
           });
         }

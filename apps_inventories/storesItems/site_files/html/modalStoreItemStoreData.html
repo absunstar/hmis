@@ -25,6 +25,8 @@
                 <th>##word.S##</th>
                 <th>##word.Store##</th>
                 <th>##word.Current Count##</th>
+                <th>##word.Opening Balance Count##</th>
+                <th>##word.Opening Balance Price##</th>
                 <th>##word.Purchase Count##</th>
                 <th>##word.Purchase Price##</th>
                 <th>##word.Purchase Return Count##</th>
@@ -65,6 +67,13 @@
                   <p class="text-center blue" ng-if="!str.currentCount">{{str.currentCount}}</p>
                   <p class="text-center text-success" ng-if="str.currentCount>0"><span class="text-success">##word.+##</span>{{str.currentCount}}</p>
                   <p class="text-center text-danger" ng-if="str.currentCount<0"><span class="text-danger">##word.-##</span>{{str.currentCount}}</p>
+                </td>
+                <td>
+                  <p class="text-center blue" ng-if="!str.openingBalanceCount">{{str.openingBalanceCount}}</p>
+                  <p class="text-center text-success" ng-if="str.openingBalanceCount"><span class="text-success">##word.+##</span>{{str.openingBalanceCount}}</p>
+                </td>
+                <td>
+                  <p class="text-center">{{str.openingBalancePrice}} <span class="currency"> ##word.$##</span></p>
                 </td>
                 <td>
                   <p class="text-center blue" ng-if="!str.purchaseCount">{{str.purchaseCount}}</p>

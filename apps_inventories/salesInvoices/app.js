@@ -245,7 +245,7 @@ module.exports = function init(site) {
                 item.store = { ...doc.store };
                 site.editItemsBalance(item, app.name);
                 item.invoiceId = doc.id;
-                item.company = result.doc.company;
+                item.company = doc.company;
                 item.date = doc.date;
                 item.customer = doc.customer;
                 item.countType = 'out';

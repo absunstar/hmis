@@ -268,7 +268,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
   };
 
   $scope.getCustomers = function ($search) {
-    if ($search && $search.length < 3) {
+    if (!$search || $search.length < 1) {
       return;
     }
     $scope.busy = true;
@@ -377,7 +377,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
   };
 
   $scope.getStores = function ($search) {
-    if ($search && $search.length < 3) {
+    if (!$search || $search.length < 1) {
       return;
     }
     $scope.busy = true;
@@ -411,7 +411,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     );
   };
   $scope.getDiscountTypes = function ($search) {
-    if ($search && $search.length < 3) {
+    if (!$search || $search.length < 1) {
       return;
     }
     $scope.busy = true;
@@ -477,7 +477,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
   };
 
   $scope.getTaxTypes = function ($search) {
-    if ($search && $search.length < 3) {
+    if (!$search || $search.length < 1) {
       return;
     }
     $scope.busy = true;
@@ -521,7 +521,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
 
   $scope.getStoresItems = function ($search) {
     $scope.error = '';
-    if ($search && $search.length < 3) {
+    if (!$search || $search.length < 1) {
       return;
     }
 

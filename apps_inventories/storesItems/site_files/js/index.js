@@ -358,7 +358,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
   };
 
   $scope.getItemsGroups = function ($search) {
-    if ($search && $search.length < 3) {
+    if (!$search || $search.length < 1) {
       return;
     }
 
@@ -422,7 +422,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
   };
 
   $scope.getStoresUnits = function ($search) {
-    if ($search && $search.length < 3) {
+    if (!$search || $search.length < 1) {
       return;
     }
 
@@ -456,7 +456,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
   };
 
   $scope.getStores = function ($search) {
-    if ($search && $search.length < 3) {
+    if (!$search || $search.length < 1) {
       return;
     }
 
@@ -490,7 +490,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
   };
 
   $scope.getActiveSubstances = function ($search) {
-    if ($search && $search.length < 3) {
+    if (!$search || $search.length < 1) {
       return;
     }
 

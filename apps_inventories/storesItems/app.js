@@ -196,7 +196,7 @@ module.exports = function init(site) {
     item.unitsList.forEach((unt) => {
       unt.currentCount = 0;
       unt.storesList.forEach((str) => {
-        let totalIncome = str.purchaseCount + str.bonusCount + str.unassembledCount + str.salesReturnCount + str.stockTakingInCount + str.transferToCount + str.convertUnitToCount;
+        let totalIncome = str.purchaseCount + str.bonusCount + str.openingBalanceCount + str.unassembledCount + str.salesReturnCount + str.stockTakingInCount + str.transferToCount + str.convertUnitToCount;
         let totalOut =
           str.salesCount + str.purchaseReturnCount + str.damagedCount + str.assembledCount + str.stockTakingOutCount + str.transferFromCount + str.convertUnitFromCount + str.bonusReturnCount;
         str.currentCount = totalIncome - totalOut;
@@ -215,7 +215,7 @@ module.exports = function init(site) {
           if (obj.batchesList.length > 0) {
             let batchIndex = obj.batchesList.findIndex((_b) => _b.code === b.code);
             if (batchIndex != -1) {
-              bj.batchesList[batchIndex].count += b.count;
+              obj.batchesList[batchIndex].count += b.count;
             } else {
               obj.batchesList.push(b);
             }

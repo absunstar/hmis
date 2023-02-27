@@ -321,7 +321,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.getEmployees = function ($search) {
-        if ($search && $search.length < 3) {
+        if (!$search || $search.length < 1) {
             return;
         }
         $scope.busy = true;

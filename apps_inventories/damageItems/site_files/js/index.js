@@ -314,7 +314,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
   };
 
   $scope.getStores = function ($search) {
-    if ($search && $search.length < 3) {
+    if (!$search || $search.length < 1) {
       return;
     }
     $scope.busy = true;
@@ -350,7 +350,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
 
   $scope.getStoresItems = function ($search) {
     $scope.error = '';
-    if ($search && $search.length < 3) {
+    if (!$search || $search.length < 1) {
       return;
     }
 
@@ -408,7 +408,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
   };
 
   $scope.getReasonsDestroyingItems = function ($search) {
-    if ($search && $search.length < 3) {
+    if (!$search || $search.length < 1) {
       return;
     }
 

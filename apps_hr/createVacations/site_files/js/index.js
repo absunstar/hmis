@@ -299,7 +299,7 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
     };
 
     $scope.getVacationsNames = function ($search) {
-        if ($search && $search.length < 3) {
+        if (!$search || $search.length < 1) {
             return;
         }
 
@@ -335,7 +335,7 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
     };
 
     $scope.getEmployees = function ($search) {
-        if ($search && $search.length < 3) {
+        if (!$search || $search.length < 1) {
             return;
         }
         $scope.busy = true;

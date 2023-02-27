@@ -485,7 +485,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
       itemGroup: elem.item.itemGroup,
       unit: { id: elem.unit.id, code: elem.unit.code, nameAr: elem.unit.nameAr, nameEn: elem.unit.nameEn },
       count: elem.count,
-      purchasePrice: elem.unit.price,
+      price: elem.unit.price,
       total: elem.count * elem.unit.price,
       approved: false,
     });

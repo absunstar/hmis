@@ -1,0 +1,42 @@
+<div id="batchesModal" class="modal">
+    <div class="col2"></div>
+    <div class="modal-content col8">
+      <div class="modal-header">
+        <span class="close">&times;</span>
+        <p class="center">##word.Item Batches## <i class="fa fa-file"></i></p>
+      </div>
+  
+      <div class="modal-body">
+        <form class="form">
+          <fieldset>
+            <div class="row">
+              <table class="table center hover bold">
+                <tr>
+                  <th>##word.S##</th>
+                  <th>##word.code##</th>
+                  <th>##word.Production Date##</th>
+                  <th ng-if="item.workByBatch">##word.Expiry Date##</th>
+                  <th ng-if="item.workByBatch">##word.Validity Days##</th>
+                  <th>##word.Count##</th>
+                </tr>
+                <tr ng-repeat="str in batch.batchesList">
+                  <td>{{$index+1}}</td>
+                  <td>{{str.code}}</td>
+                  <td class="green">{{str.productionDate | date:"dd / MM / yyyy" }}</td>
+                  <td ng-if="item.workByBatch" class="red">{{str.expiryDate | date:"dd / MM / yyyy" }}</td>
+                  <td ng-if="item.workByBatch">{{str.validityDays}}</td>
+                  <td>{{str.count}}</td>
+                </tr>
+              </table>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+  
+      <p class="error">{{error}}</p>
+  
+      <div class="modal-footer center">
+        <i-button type="close" label="##word.Close##" onclick="site.hideModal('#batchesModal')"> </i-button>
+      </div>
+    </div>
+  </div>

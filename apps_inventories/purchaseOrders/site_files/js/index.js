@@ -753,7 +753,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
               total: 0,
               approved: false,
             });
-            $scope.calculateTotalInItemsList($scope.item.itemsList[$scope.item.itemsList.length - 1]);
+            $scope.calculateTotalInItemsList($scope.item);
           }
         }
       },

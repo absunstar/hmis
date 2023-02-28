@@ -2,6 +2,12 @@
     {
         "category": "main",
         "feature": "public",
+        "id": "printersPaths",
+        "name": "Printers Paths"
+    },
+    {
+        "category": "main",
+        "feature": "public",
         "id": "services",
         "name": "Services"
     },

@@ -76,11 +76,11 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
       });
     }
 
-    if ($scope.settings.storesSetting.itemGroup && $scope.settings.storesSetting.itemGroup.id) {
+   /*  if ($scope.settings.storesSetting.itemGroup && $scope.settings.storesSetting.itemGroup.id) {
       $scope.item.itemGroup = $scope.itemsgroupsList.find((_g) => {
         return _g.id == $scope.settings.storesSetting.itemGroup.id;
       });
-    }
+    } */
 
     if ($scope.settings.storesSetting.itemUnit && $scope.settings.storesSetting.itemUnit.id) {
       $scope.item.mainUnit = $scope.storesUnitsList.find((_g) => {
@@ -421,10 +421,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getStoresUnits = function ($search) {
-    if (!$search || $search.length < 1) {
-      return;
-    }
+  $scope.getStoresUnits = function () {
 
     $scope.busy = true;
     $scope.storesUnitsList = [];
@@ -439,7 +436,6 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
           nameEn: 1,
           nameAr: 1,
         },
-        search: $search,
       },
     }).then(
       function (response) {
@@ -631,6 +627,8 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
       maxDiscount: 0,
       discountType: 'value',
       storesList: [],
+      purchasePriceList: [],
+      salesPriceList: [],
       active: true,
     });
     $scope.unitsInformationsError = '';
@@ -671,6 +669,8 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
       discount: itemUnit.discount,
       maxDiscount: itemUnit.maxDiscount,
       discountType: itemUnit.discountType,
+      purchasePriceList: [],
+      salesPriceList: [],
       storesList: [],
       active: true,
     });
@@ -934,7 +934,11 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     result.setTime(result.getTime() + days * 24 * 60 * 60 * 1000);
     return result;
   };
-
+  $scope.showPricesList = function (unit, type) {
+    $scope.unitsPrice = unit;
+    $scope.unitsPrice.$showPrice = type == 'sales' ? 'sales' : 'purchase';
+    site.showModal('#pricesModal');
+  };
   $scope.changeDate = function (i, str) {
     $timeout(() => {
       $scope.errorBatch = '';

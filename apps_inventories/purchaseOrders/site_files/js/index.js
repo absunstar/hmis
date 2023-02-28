@@ -11,7 +11,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     totalPrice: 0,
     totalDiscounts: 0,
     totalTaxes: 0,
-    totalVendorDiscounts: 0,
+    totalVendorDiscountss: 0,
+    totalVendorDiscountss: 0,
     hasVendor: true,
     approved: false,
     /*  calculatePurchasePrice: false,
@@ -29,6 +30,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     bonusCount: 0,
     salesPrice: 0,
     vendorDiscount: 0,
+    legalDiscount: 0,
     bonusPrice: 0,
     vat: 0,
     total: 0,
@@ -43,6 +45,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       bonusCount: 0,
       bonusPrice: 0,
       vendorDiscount: 0,
+      legalDiscount: 0,
       vat: 0,
       total: 0,
       approved: false,
@@ -77,11 +80,11 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       });
     }
 
-    if ($scope.settings.storesSetting.hasDefaultVendor && $scope.settings.storesSetting.vendor && $scope.settings.storesSetting.vendor.id) {
+    /*  if ($scope.settings.storesSetting.hasDefaultVendor && $scope.settings.storesSetting.vendor && $scope.settings.storesSetting.vendor.id) {
       $scope.item.vendor = $scope.vendorsList.find((_t) => {
         return _t.id == $scope.settings.storesSetting.vendor.id;
       });
-    }
+    } */
 
     site.showModal($scope.modalID);
   };
@@ -390,9 +393,6 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
   };
 
   $scope.getStores = function ($search) {
-    if (!$search || $search.length < 1) {
-      return;
-    }
     $scope.busy = true;
     $scope.storesList = [];
     $http({
@@ -408,7 +408,6 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
           nameEn: 1,
           nameAr: 1,
         },
-        search: $search,
       },
     }).then(
       function (response) {
@@ -424,10 +423,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getDiscountTypes = function ($search) {
-    if (!$search || $search.length < 1) {
-      return;
-    }
+  $scope.getDiscountTypes = function () {
     $scope.busy = true;
     $scope.discountTypesList = [];
     $http({
@@ -445,7 +441,6 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
           discountValue: 1,
           discountType: 1,
         },
-        search: $search,
       },
     }).then(
       function (response) {
@@ -485,6 +480,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       $scope.item.totalTaxes += discount.value;
       $scope.tax = {};
     }
+    $scope.calculateTotalInItemsList($scope.item);
   };
 
   $scope.spliceFromList = function (discount, type) {
@@ -503,12 +499,10 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         $scope.item.totalTaxes -= discount.value;
       }
     }
+    $scope.calculateTotalInItemsList($scope.item);
   };
 
-  $scope.getTaxTypes = function ($search) {
-    if (!$search || $search.length < 1) {
-      return;
-    }
+  $scope.getTaxTypes = function () {
     $scope.busy = true;
     $scope.taxTypesList = [];
     $http({
@@ -525,7 +519,6 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
           nameEn: 1,
           value: 1,
         },
-        search: $search,
       },
     }).then(
       function (response) {
@@ -703,6 +696,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       approved: orderItem.approved,
       storeBalance: storeBalance ? storeBalance.currentCount : 0,
       vendorDiscount: orderItem.vendorDiscount,
+      legalDiscount: orderItem.legalDiscount,
       purchasePrice: 0,
       approved: false,
     };
@@ -714,7 +708,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     }
     $scope.item.itemsList.unshift(item);
 
-    $scope.calculateTotalInItemsList();
+    $scope.calculateTotalInItemsList($scope.item);
     $scope.resetOrderItem();
     $scope.itemsError = '';
   };
@@ -790,11 +784,17 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       item.totalTaxes = 0;
       item.totalNet = 0;
       item.totalPrice = 0;
-      item.totalVendorDiscount = 0;
+      item.totalVendorDiscounts = 0;
+      item.totalVendorDiscounts = 0;
       item.itemsList.forEach((_item) => {
-        _item.total = _item.price * _item.count - _item.vendorDiscount;
+        _item.totalVendorDiscounts = (_item.price * _item.count * _item.vendorDiscount) / 100;
+        _item.totalVendorDiscounts = (_item.price * _item.count * _item.legalDiscount) / 100;
+        _item.total = _item.price * _item.count - (_item.totalVendorDiscounts - _item.totalVendorDiscounts);
         item.totalPrice += _item.total;
-        item.totalVendorDiscount += _item.vendorDiscount;
+        _item.totalVendorDiscounts = site.toNumber(_item.totalVendorDiscounts);
+        _item.totalVendorDiscounts = site.toNumber(_item.totalVendorDiscounts);
+        item.totalVendorDiscounts += _item.totalVendorDiscounts;
+        item.totalVendorDiscounts += _item.totalVendorDiscounts;
       });
       item.discountsList.forEach((d) => {
         if (d.type == 'value') {
@@ -809,6 +809,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       });
 
       item.totalNet = item.totalPrice - item.totalDiscounts + item.totalTaxes;
+      item.totalNet = site.toNumber(item.totalNet);
     }, 300);
   };
 
@@ -984,8 +985,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
   $scope.getAll({ date: new Date() });
   $scope.getPaymentTypes();
   $scope.getPurchaseOrdersSource();
-  $scope.getDiscountTypes();
   $scope.getTaxTypes();
+  $scope.getDiscountTypes();
   $scope.getVendors();
   $scope.getStores();
   $scope.getNumberingAuto();

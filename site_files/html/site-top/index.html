@@ -1,9 +1,15 @@
 <div class="site-top" ng-controller="sitetop">
   <div x-import="site-top/changeBranchModal.html"></div>
+  <div x-permission="login" class="user-area" ng-click="logout()">
+    <span> Logout </span>
+    <i class="fas fa-sign-out-alt"></i>
+  </div>
+
   <div x-permission="login" class="user-area">
     <span> ##user.nameAr##</span>
     <i class="fas fa-user"></i>
   </div>
+ 
   <div class="branch-bar" x-features="login">
     <a id="btn_change_branch" onclick="site.showModal('#changeBranchModal');">
       <i x-lang="Ar"> ##session.company.nameAr## - ##session.branch.nameAr## </i>
@@ -15,4 +21,5 @@
     <span> Login </span>
     <i class="fas fa-sign-in-alt"></i>
   </div>
+ 
 </div>

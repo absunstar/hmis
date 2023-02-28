@@ -16,7 +16,7 @@
             ng-disabled="item.itemsList.length"
             ng-model="item.store"
             label="##word.Store##"
-            ng-get="getStores($search)"
+            ng-search="item.$store"
             items="storesList"
             display="name##session.lang##"
           ></i-list>
@@ -123,11 +123,21 @@
       <fieldset>
         <legend>##word.Discounts Information##</legend>
         <div class="row">
-          <i-list class="col8" ng-model="discount" display="name##session.lang##" items="discountTypesList" label="##word.Discount##" ng-get="getDiscountTypes($search)"></i-list>
-
-          <div class="col4">
+          <i-list class="col6" ng-model="discount" display="name##session.lang##" items="discountTypesList" label="##word.Discount##" ng-search="$discount"></i-list>
+          <i-control label="##word.Value##" type="number" class="col3" ng-model="discount.discountValue"></i-control>
+          <div class="col3">
             <br />
             <i-button type="add" label="##word.Add##" ng-click="addToList(discount,'discount')"> </i-button>
+          </div>
+        </div>
+        <div class="row" ng-show="discount.id">
+          <div class="col6"></div>
+          <div class="col4">
+            <fieldset>
+              <i-radio class="col6" label="##word.Value##" ng-value="value" ng-model="discount.discountType"> </i-radio>
+
+              <i-radio class="col6" label="##word.Pecent##" ng-value="percent" ng-model="discount.discountType"> </i-radio>
+            </fieldset>
           </div>
         </div>
 
@@ -136,15 +146,19 @@
             <tr>
               <th>##word.Name##</th>
               <th>##word.Value##</th>
-              <th>##word.Type##</th>
               <th class="not-print">##word.Actions##</th>
             </tr>
             <tr ng-repeat="discount in item.discountsList">
               <td><p class="text-center">{{discount.name##session.lang##}}</p></td>
-              <td><p class="text-center">{{discount.value}}</p></td>
-              <td><p class="text-center">{{discount.type}}</p></td>
+              <td>
+                <p class="text-center">
+                  {{discount.value}}
+                  <span ng-if="discount.type == 'value'" class="green">##word.$##</span>
+                  <span ng-if="discount.type == 'percent'" class="green">##word.%##</span>
+                </p>
+              </td>
               <td class="text-center">
-                <i-button type="delete" label="##word.Delete##" ng-click="item.discountsList.splice($index,1);calculate(item)"> </i-button>
+                <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(discount,'discount');"> </i-button>
               </td>
             </tr>
           </table>
@@ -156,9 +170,10 @@
         <legend>##word.Taxes Information##</legend>
 
         <div class="row">
-          <i-list class="col8" ng-model="tax" display="name##session.lang##" items="taxTypesList" label="##word.Tax##" ng-get="getTaxTypes($search)"></i-list>
+          <i-list class="col6" ng-model="tax" display="name##session.lang##" items="taxTypesList" label="##word.Tax##" ng-search="$tax"></i-list>
+          <i-control label="##word.Value##" type="number" class="col3" ng-model="tax.value"></i-control>
 
-          <div class="col4">
+          <div class="col3">
             <br />
             <i-button type="add" label="##word.Add##" ng-click="addToList(tax,'tax')"> </i-button>
           </div>
@@ -169,14 +184,17 @@
             <tr>
               <th>##word.Name##</th>
               <th>##word.Value##</th>
+
               <th class="not-print">##word.Actions##</th>
             </tr>
             <tr ng-repeat="tax in item.taxesList">
               <td><p class="text-center">{{tax.name##session.lang##}}</p></td>
-              <td><p class="text-center">{{tax.value}}</p></td>
+              <td>
+                <p class="text-center">{{tax.value}} <span class="green">##word.%##</span></p>
+              </td>
 
               <td class="text-center">
-                <i-button type="delete" label="##word.Delete##" ng-click="item.taxesList.splice($index,1);calculate(item)"> </i-button>
+                <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(tax,'tax');"> </i-button>
               </td>
             </tr>
           </table>
@@ -187,17 +205,12 @@
   <div class="row">
     <fieldset>
       <legend>##word.Totals##</legend>
-      <div class="row">
-        <i-control class="col4" type="number" disabled label="##word.Total Disconts##" ng-model="item.totalDiscounts"></i-control>
-        <i-control class="col4" type="number" disabled label="##word.Total Taxes##" ng-model="item.totalTaxes"></i-control>
-        <i-control class="col4" type="number" disabled label="##word.Total Vat##" ng-model="item.totalVat"></i-control>
-      </div>
-
-      <div class="row">
-        <i-control class="col4" type="number" disabled label="##word.Total After VAT##" ng-model="item.totalAfterVat"></i-control>
-        <i-control class="col4" type="number" disabled label="##word.Total Before VAT##" ng-model="item.totalBeforeVat"></i-control>
-        <i-control class="col4" type="number" disabled label="##word.Total Net##" ng-model="item.totalNet"></i-control>
-      </div>
+      <p class="bold font-20 text-warning">##word.Total Discounts## : {{item.totalDiscounts}}</p>
+      <p class="bold font-20 text-danger">##word.Total Taxes## : {{item.totalTaxes}}</p>
+      <p class="bold font-20 text-warning">##word.Total LBefore VAT## : {{item.totalBeforeVat}}</p>
+      <p class="bold font-20 text-danger">##word.Total Vat## : {{item.totalVat}}</p>
+      <p class="bold font-20 text-warning">##word.Total After VAT## : {{item.totalAfterVat}}</p>
+      <p class="bold font-24 green">##word.Total Net## : {{item.totalNet}}</p>
     </fieldset>
   </div>
 </div>

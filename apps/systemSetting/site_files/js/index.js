@@ -30,9 +30,7 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
   };
 
   $scope.addToAcceptanceList = function (screen) {
-    console.log('screen', screen);
     $scope.item = { ...$scope.item };
-    console.log('$scope.item.workflowAssignmentSettings', $scope.item.workflowAssignmentSettings);
     $scope.item.workflowAssignmentSettings;
   };
   $scope.save = function (_item) {
@@ -338,6 +336,40 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getPrintersPaths = function () {
+
+    $scope.busy = true;
+    $scope.printersPathsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/printersPaths/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          code: 1,
+          ip: 1,
+          nameEn: 1,
+          nameAr: 1,
+          ipDevice: 1,
+          portDevice: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.printersPathsList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+
   $scope.workflowScreens = function () {
     $scope.busy = true;
     $scope.workflowScreensList = [];
@@ -359,6 +391,74 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
     );
   };
 
+
+
+  $scope.getCountryQRList = function () {
+    $scope.busy = true;
+    $scope.countryQRList = [];
+    $http({
+      method: 'POST',
+      url: '/api/countryQRList',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.countryQRList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getPlaceQRList = function () {
+    $scope.busy = true;
+    $scope.placeQRList = [];
+    $http({
+      method: 'POST',
+      url: '/api/placeQRList',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.placeQRList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getThermalLangList = function () {
+    $scope.busy = true;
+    $scope.thermalLangList = [];
+    $http({
+      method: 'POST',
+      url: '/api/thermalLangList',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.thermalLangList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+  $scope.getPrintersPaths();
+  $scope.getThermalLangList();
+  $scope.getPlaceQRList();
+  $scope.getCountryQRList();
   $scope.getStores();
   $scope.getVendors();
   $scope.getCustomers();
@@ -367,7 +467,7 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
   $scope.getStoresUnits();
   $scope.getPurchaseOrdersSource();
   $scope.getPaymentTypes();
-  $scope.getSystemSetting();
   $scope.getEmployees();
   $scope.workflowScreens();
+  $scope.getSystemSetting();
 });

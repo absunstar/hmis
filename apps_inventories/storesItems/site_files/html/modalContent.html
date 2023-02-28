@@ -72,7 +72,7 @@
             items="storesUnitsList"
             display="name##session.lang##"
             label="##word.Main Unit##"
-            ng-get="getStoresUnits($search)"
+            ng-search="item.$mainUnit"
           >
           </i-list>
 
@@ -85,7 +85,7 @@
         <fieldset>
           <legend>##word.Units Informations##</legend>
           <div class="row">
-            <i-list class="col2" ng-model="itemUnit.unit" items="storesUnitsList" display="name##session.lang##" label="##word.Unit##" ng-get="getStoresUnits($search)"> </i-list>
+            <i-list class="col2" ng-model="itemUnit.unit" items="storesUnitsList" display="name##session.lang##" label="##word.Unit##" ng-search="itemUnit.$unit"> </i-list>
             <i-control type="text" label="##word.Barcode##" class="col2" ng-model="itemUnit.barcode"></i-control>
             <i-control type="number" class="col1" min="1" ng-model="itemUnit.conversion" label="##word.Conversion##"></i-control>
             <i-control type="number" class="col2" min="0" ng-model="itemUnit.discount" label="##word.Sale Discount##"></i-control>
@@ -159,6 +159,8 @@
               <td class="text-center">
                 <div class="row center">
                   <i-button type="list" ng-click="showStoreData(elem)"> </i-button>
+                  <i-button type="list" label="##word.Purchase Prices##" ng-click="showPricesList(elem,'purchase')"> </i-button>
+                  <i-button type="list" label="##word.Sales Prices##" ng-click="showPricesList(elem,'sales')"> </i-button>
 
                   <i-button type="delete" ng-if="elem.purchasePrice == 0" ng-click="item.unitsList.splice($index,1)"> </i-button>
                 </div>

@@ -10,8 +10,15 @@ module.exports = function init(site) {
     allowRouteSave: true,
     allowRouteGetSetting: true,
   };
-
+  let printerProgram = {
+    invoiceHeader : [],
+    invoiceHeader2 : [],
+    invoiceFooter : [],
+    thermalHeader : [],
+    thermalFooter : [],
+  };
   site.setting = {
+    printerProgram : printerProgram,
     storesSetting: {
       hasDefaultVendor: false,
       cannotExceedMaximumDiscount: false,
@@ -57,7 +64,8 @@ module.exports = function init(site) {
     let branch = site.getBranch(req);
 
     // let setting = app.memoryList.find((s) => s.company.id == company.id && s.branch.id == branch.code);
-    site.setting = app.memoryList.find((s) => s.company.id == company.id);
+    site.setting = app.memoryList.find((s) => s.company.id == company.id) || site.setting ;
+  
 
     return site.setting;
   };

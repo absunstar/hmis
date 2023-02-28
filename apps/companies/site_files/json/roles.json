@@ -6,6 +6,7 @@
         "Ar": "َصلاحيات الإدارة",
         "permissions": [
             "systemSettingManage",
+            "printersPathsManage",
             "attendanceLeavingManage",
             "countriesManage",
             "activeSubstancesManage",

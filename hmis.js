@@ -37,6 +37,8 @@ site.get(
 site.importApps(__dirname + '/apps_inventories');
 site.importApps(__dirname + '/apps_hr');
 site.importApps(__dirname + '/apps_hmis');
+site.importApp(__dirname + '/ui-print')
+
 site.loadLocalApp('client-side');
 site.loadLocalApp('ui-print');
 site.addFeature('hmis');

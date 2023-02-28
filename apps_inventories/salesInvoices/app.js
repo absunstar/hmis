@@ -327,15 +327,6 @@ module.exports = function init(site) {
         let where = req.body.where || {};
         let select = req.body.select || {};
 
-        if (where.date) {
-          let d1 = site.toDate(where.date);
-          let d2 = site.toDate(where.date);
-          d2.setDate(d2.getDate() + 1);
-          where.date = {
-            $gte: d1,
-            $lt: d2,
-          };
-        }
         if (app.allowMemory) {
           let list = app.memoryList.filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(where.search));
 

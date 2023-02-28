@@ -31,14 +31,18 @@ module.exports = function init(site) {
 
           if (screenName === 'purchaseOrders') {
             doc.unitsList[index].storesList[storeIndex].purchaseCount += _elm.count;
-            doc.unitsList[index].storesList[storeIndex].purchasePrice += _elm.total;
+            // doc.unitsList[index].storesList[storeIndex].purchasePrice += _elm.total;
             doc.unitsList[index].storesList[storeIndex].bonusCount += _elm.bonusCount;
             doc.unitsList[index].storesList[storeIndex].bonusPrice += _elm.bonusPrice;
+            if (_elm.price != doc.unitsList[index].purchasePrice) {
+              doc.unitsList[index].purchasePriceList.push({ price: _elm.price, date: new Date() });
+            }
+            if (_elm.salesPrice != doc.unitsList[index].salesPrice) {
+              doc.unitsList[index].salesPriceList.push({ price: _elm.salesPrice, date: new Date() });
+            }
             doc.unitsList[index].purchasePrice = _elm.price;
             doc.unitsList[index].salesPrice = _elm.salesPrice;
-            if (!doc.unitsList[index].purchasePrice) {
-              doc.unitsList[index].purchasePrice = _elm.price;
-            }
+
             const selectedUnit = doc.unitsList[index];
             const oldCost = selectedUnit.currentCount * selectedUnit.purchasePrice;
             const newCost = _elm.count * _elm.price;
@@ -196,7 +200,8 @@ module.exports = function init(site) {
     item.unitsList.forEach((unt) => {
       unt.currentCount = 0;
       unt.storesList.forEach((str) => {
-        let totalIncome = str.purchaseCount + str.bonusCount + str.openingBalanceCount + str.unassembledCount + str.salesReturnCount + str.stockTakingInCount + str.transferToCount + str.convertUnitToCount;
+        let totalIncome =
+          str.purchaseCount + str.bonusCount + str.openingBalanceCount + str.unassembledCount + str.salesReturnCount + str.stockTakingInCount + str.transferToCount + str.convertUnitToCount;
         let totalOut =
           str.salesCount + str.purchaseReturnCount + str.damagedCount + str.assembledCount + str.stockTakingOutCount + str.transferFromCount + str.convertUnitFromCount + str.bonusReturnCount;
         str.currentCount = totalIncome - totalOut;
@@ -455,7 +460,10 @@ module.exports = function init(site) {
             return;
           }
           _data.addUserInfo = req.getUserFinger();
-
+          _data.unitsList.forEach((_u) => {
+            _u.purchasePriceList.push({ price: _u.purchasePrice, date: new Date() });
+            _u.salesPriceList.push({ price: _u.salesPrice, date: new Date() });
+          });
           app.add(_data, (err, doc) => {
             if (!err && doc) {
               response.done = true;
@@ -488,6 +496,24 @@ module.exports = function init(site) {
             if (!err) {
               response.done = true;
               response.result = result;
+              let foundDif = false;
+              result.doc.unitsList.forEach((_uDoc) => {
+                result.old_doc.unitsList.forEach((_uOldDoc) => {
+                  if (_uOldDoc.unit.id == _uDoc.unit.id) {
+                    if (_uDoc.purchasePrice != _uOldDoc.purchasePrice) {
+                      foundDif = true;
+                      _uDoc.purchasePriceList.push({ price: _uDoc.purchasePrice, date: new Date() });
+                    }
+                    if (_uDoc.salesPrice != _uOldDoc.salesPrice) {
+                      foundDif = true;
+                      _uDoc.salesPriceList.push({ price: _uDoc.salesPrice, date: new Date() });
+                    }
+                  }
+                });
+              });
+              if (foundDif) {
+                app.update(result.doc);
+              }
             } else {
               response.error = err.message;
             }

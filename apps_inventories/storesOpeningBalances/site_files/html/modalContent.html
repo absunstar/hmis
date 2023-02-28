@@ -19,10 +19,9 @@
           display="name##session.lang##"
           ng-disabled="item.itemsList > 0"
           ng-model="item.store"
-          ng-get="getStores($search)"
+          ng-search="item.$store"
           items="storesList"
           label="##word.Store##"
-          ng-search="item.$store"
         ></i-list>
       </div>
     </fieldset>

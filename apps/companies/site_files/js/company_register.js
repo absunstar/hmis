@@ -71,10 +71,10 @@ app.controller('company_register', function ($scope, $http) {
                 unit: company.unit,
                 currency: company.currency,
                 host: company.host,
-                customers_count: company.customers_count,
-                employees_count: company.employees_count,
+                customersCount: company.customersCount,
+                employeesCount: company.employeesCount,
                 users_count: company.users_count,
-                tax_number: company.tax_number,
+                taxNumber: company.taxNumber,
               }),
               branch: site.to123({
                 code: company.branchList[0].code,

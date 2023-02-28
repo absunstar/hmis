@@ -6,6 +6,8 @@
   height: 40px;
   background: var(--theme-color);
   box-shadow: 1px 1px 8px #000;
+  z-index: 999999;
+
 }
 .site-top .user-area {
   margin: 2px 30px;

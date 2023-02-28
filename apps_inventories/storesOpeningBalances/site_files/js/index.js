@@ -57,11 +57,11 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
       });
     }
 
-    if ($scope.settings.storesSetting.hasDefaultVendor && $scope.settings.storesSetting.vendor && $scope.settings.storesSetting.vendor.id) {
+  /*   if ($scope.settings.storesSetting.hasDefaultVendor && $scope.settings.storesSetting.vendor && $scope.settings.storesSetting.vendor.id) {
       $scope.item.vendor = $scope.vendorsList.find((_t) => {
         return _t.id == $scope.settings.storesSetting.vendor.id;
       });
-    }
+    } */
     $scope.orderItem = { ...$scope.orderItem };
     site.showModal($scope.modalID);
   };
@@ -325,9 +325,6 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
   };
 
   $scope.getStores = function ($search) {
-    if (!$search || $search.length < 1) {
-      return;
-    }
     $scope.busy = true;
     $scope.storesList = [];
     $http({
@@ -343,7 +340,6 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
           nameEn: 1,
           nameAr: 1,
         },
-        search: $search,
       },
     }).then(
       function (response) {

@@ -350,10 +350,8 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
         $scope.search = {};
     };
 
-    $scope.getStores = function ($search) {
-        if ($search && $search.length < 1) {
-            return;
-        }
+    $scope.getStores = function () {
+
         $scope.busy = true;
         $scope.storesList = [];
         $http({
@@ -369,7 +367,6 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     nameAr: 1,
                 },
-                search: $search,
             },
         }).then(
             function (response) {
@@ -385,10 +382,7 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getItemsGroups = function ($search) {
-        if ($search && $search.length < 1) {
-            return;
-        }
+    $scope.getItemsGroups = function () {
         $scope.busy = true;
         $scope.itemsGroupsList = [];
         $http({
@@ -403,8 +397,7 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
-                },
-                search: $search,
+                }
             },
         }).then(
             function (response) {

@@ -308,9 +308,6 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
     };
 
     $scope.getStores = function ($search) {
-        if ($search && $search.length < 1) {
-            return;
-        }
         $scope.busy = true;
         $scope.storesList = [];
         $http({
@@ -326,7 +323,6 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     nameAr: 1,
                 },
-                search: $search,
             },
         }).then(
             function (response) {

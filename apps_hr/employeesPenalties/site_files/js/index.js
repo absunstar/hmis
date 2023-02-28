@@ -252,10 +252,7 @@ app.controller('employeesPenalties', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getEmployees = function ($search) {
-        if ($search && $search.length < 1) {
-            return;
-        }
+    $scope.getEmployees = function () {
         $scope.busy = true;
         $scope.employeesList = [];
         $http({
@@ -269,8 +266,7 @@ app.controller('employeesPenalties', function ($scope, $http, $timeout) {
                     fullNameEn: 1,
                     fullNameAr: 1,
                     image: 1,
-                },
-                search: $search,
+                }
             },
         }).then(
             function (response) {

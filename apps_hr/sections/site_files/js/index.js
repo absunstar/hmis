@@ -161,10 +161,8 @@ app.controller('sections', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getEmployees = function ($search) {
-        if ($search && $search.length < 1) {
-            return;
-        }
+    $scope.getEmployees = function () {
+
         $scope.busy = true;
         $scope.employeesList = [];
         $http({
@@ -178,7 +176,6 @@ app.controller('sections', function ($scope, $http, $timeout) {
                     fullNameEn: 1,
                     fullNameAr: 1,
                 },
-                search: $search,
             },
         }).then(
             function (response) {
@@ -194,10 +191,7 @@ app.controller('sections', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getDepartments = function ($search) {
-        if ($search && $search.length < 1) {
-            return;
-        }
+    $scope.getDepartments = function () {
         $scope.busy = true;
         $scope.departmentsList = [];
         $http({
@@ -210,8 +204,7 @@ app.controller('sections', function ($scope, $http, $timeout) {
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
-                },
-                search: $search,
+                }
             },
         }).then(
             function (response) {

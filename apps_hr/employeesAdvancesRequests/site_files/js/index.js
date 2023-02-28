@@ -28,22 +28,17 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
             return;
         }
 
-        if (!$scope.employee || !$scope.employee.id) {
+        if (!$scope.item.employee || !$scope.item.employee.id) {
             $scope.error = '##word.Please Select Employee##';
             return;
         }
 
-        if ($scope.amount < 1) {
+        if ($scope.item.amount < 1) {
             $scope.error = '##word.Please Enter Amount##';
             return;
         }
 
-        if ($scope.amount < 1) {
-            $scope.error = '##word.Please Enter Amount##';
-            return;
-        }
-
-        if ($scope.numberOfMonths < 1) {
+        if ($scope.item.numberOfMonths < 1) {
             $scope.error = '##word.Please Enter Number Of Payment Months##';
             return;
         }
@@ -88,23 +83,17 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-
-        if (!$scope.employee || !$scope.employee.id) {
+        if (!$scope.item.employee || !$scope.item.employee.id) {
             $scope.error = '##word.Please Select Employee##';
             return;
         }
 
-        if ($scope.amount < 1) {
+        if ($scope.item.amount < 1) {
             $scope.error = '##word.Please Enter Amount##';
             return;
         }
 
-        if ($scope.amount < 1) {
-            $scope.error = '##word.Please Enter Amount##';
-            return;
-        }
-
-        if ($scope.numberOfMonths < 1) {
+        if ($scope.item.numberOfMonths < 1) {
             $scope.error = '##word.Please Enter Number Of Payment Months##';
             return;
         }
@@ -143,12 +132,13 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.accept = function (_item) {
-        if (!_item.approvedVacationType || !_item.approvedVacationType.id) {
-            $scope.error = '##word.Please Select Approved Vacation Type##';
+        if (!_item.approvedAmount || _item.approvedAmount < 1) {
+            $scope.error = '##word.Please Enter Approved Amount##';
             return;
         }
-        if (!(_item.approvedDays > 0) || _item.approvedDays > 21) {
-            $scope.error = '##word.Please Set Approved Days##';
+
+        if (!_item.approvedNumberOfMonths || _item.approvedNumberOfMonths < 1) {
+            $scope.error = '##word.Please Enter Approved Number Of Payment Months##';
             return;
         }
 
@@ -190,6 +180,9 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
+
+        _item.approvedAmount = 0;
+        _item.approvedNumberOfMonths = 0;
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -215,29 +208,6 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getEmployeeVacationBalance = function (_data) {
-        if (!_data.employee || !_data.employee.id) {
-            return;
-        }
-        $scope.busy = true;
-        $http({
-            method: 'POST',
-            url: '/api/employees/getEmployeeVacationBalance',
-            data: { id: _data.employee.id },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.doc) {
-                    $scope.item.regularVacations = response.data.doc.regularVacations;
-                    $scope.item.casualVacations = response.data.doc.casualVacations;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
     $scope.view = function (_item) {
         $scope.busy = true;
         $scope.error = '';
@@ -359,10 +329,7 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
         $scope.search = {};
     };
 
-    $scope.getEmployees = function ($search) {
-        if ($search && $search.length < 1) {
-            return;
-        }
+    $scope.getEmployees = function () {
         $scope.busy = true;
         $scope.employeesList = [];
         $http({
@@ -376,8 +343,7 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
                     fullNameEn: 1,
                     fullNameAr: 1,
                     image: 1,
-                },
-                search: $search,
+                }
             },
         }).then(
             function (response) {
@@ -391,6 +357,20 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
                 $scope.error = err;
             }
         );
+    };
+
+    $scope.setPaymentMonthsList = function (_item) {
+        $timeout(() => {
+            const amount = _item.approvedAmount / _item.approvedNumberOfMonths;
+
+            _item.paymentMonthsList = [];
+            for (let i = 0; i < _item.approvedNumberOfMonths; i++) {
+                _item.paymentMonthsList.push({
+                    date: '',
+                    amount,
+                });
+            }
+        }, 300);
     };
 
     $scope.getAll();

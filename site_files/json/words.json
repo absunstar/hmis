@@ -424,5 +424,15 @@
         "name": "Please Enter Number Of Payment Months",
         "En": "Please Enter Number Of Payment Months",
         "Ar": "يرجي إدخال عدد شهور السداد"
+    },
+    {
+        "name": "Please Enter Approved Amount",
+        "En": "Please Enter Approved Amount",
+        "Ar": "يرجي إدخال المبلغ الموافق عليه"
+    },
+    {
+        "name": "Please Enter Approved Number Of Payment Months",
+        "En": "Please Enter Approved Number Of Payment Months",
+        "Ar": "يرجي إدخال عدد الشهور الموافق عليها"
     }
 ]

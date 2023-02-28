@@ -243,10 +243,7 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getStores = function ($search) {
-        if (!$search || !$search.length) {
-            return;
-        }
+    $scope.getStores = function () {
         $scope.busy = true;
         $scope.storesList = [];
         $http({
@@ -262,7 +259,6 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     nameAr: 1,
                 },
-                search: $search,
             },
         }).then(
             function (response) {

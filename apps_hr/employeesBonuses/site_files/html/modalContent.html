@@ -16,8 +16,8 @@
     >
     </i-list>
 
-    <i-list v="r" class="col4" label="##word.Requested By##" ng-model="item.requestedBy" items="employeesList" ng-get="getEmployees($search)" display="fullName##session.lang##"> </i-list>
-    <i-list v="r" class="col4" label="##word.Employee##" ng-model="item.employee" items="employeesList" ng-get="getEmployees($search)" display="fullName##session.lang##"> </i-list>
+    <i-list v="r" class="col4" label="##word.Requested By##" ng-model="item.requestedBy" items="employeesList" ng-search="item.$requestedBy" display="fullName##session.lang##"> </i-list>
+    <i-list v="r" class="col4" label="##word.Employee##" ng-model="item.employee" items="employeesList" ng-search="item.$employee" display="fullName##session.lang##"> </i-list>
     <i-list v="r" class="col4" label="##word.Category##" ng-model="item.category" items="amountCategoriesList" display="name##session.lang##" ng-search="item.$category"> </i-list>
     <i-list v="r" class="col4" label="##word.Type##" ng-model="item.type" items="amountTypesList" display="name##session.lang##" ng-search="item.$type"> </i-list>
     <div class="col4">

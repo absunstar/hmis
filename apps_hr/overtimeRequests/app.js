@@ -247,8 +247,8 @@ module.exports = function init(site) {
                 _data['requestStatus'] = 'rejected';
                 _data['rejectDate'] = new Date();
                 _data['approved'] = true;
-                _data['approveDate'] = new Date();
-                _data.unapprovedUserInfo = req.getUserFinger();
+                _data['rejectDate'] = new Date();
+                _data.rejectUserInfo = req.getUserFinger();
 
                 app.update(_data, (err, result) => {
                     if (!err) {

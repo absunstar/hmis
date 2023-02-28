@@ -187,11 +187,8 @@ app.controller('departments', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getEmployees = function ($search) {
-        if ($search && $search.length < 1) {
-            return;
-        }
-
+    $scope.getEmployees = function () {
+   
         $scope.busy = true;
         $scope.employeesList = [];
         $http({
@@ -205,7 +202,6 @@ app.controller('departments', function ($scope, $http, $timeout) {
                     fullNameAr: 1,
                     fullNameEn: 1,
                 },
-                search: $search,
             },
         }).then(
             function (response) {

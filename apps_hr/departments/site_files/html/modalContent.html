@@ -8,8 +8,8 @@
                 </div>
                 <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
                 <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
-                <i-list label="##word.Manager##" ng-model="item.manager" ng-get="getEmployees($search)" display="fullName##session.lang##" items="employeesList"></i-list>
-                <i-list label="##word.Deputy##" ng-model="item.deputy" ng-get="getEmployees($search)" display="fullName##session.lang##" items="employeesList"></i-list>
+                <i-list label="##word.Manager##" ng-model="item.manager" ng-search="item.$manager" display="fullName##session.lang##" items="employeesList"></i-list>
+                <i-list label="##word.Deputy##" ng-model="item.deputy" ng-search="item.$deputy" display="fullName##session.lang##" items="employeesList"></i-list>
             </div>
         </div>
         <div class="col5 center">

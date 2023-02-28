@@ -4,7 +4,7 @@
     <div class="row padding">
       <i-control ng-hide="disabledCode" class="col3" label="##word.Code##" ng-model="item.code"> </i-control>
       <i-date class="col3" label="##word.Date##" ng-model="item.date"> </i-date>
-      <i-list type="text" v="r" class="col4" ng-model="item.store" label="##word.Store##" items="storesList" ng-get="getStores($search)" ng-disabled="item.itemsList.length" display="name##session.lang##"></i-list>
+      <i-list type="text" v="r" class="col4" ng-model="item.store" label="##word.Store##" items="storesList"  ng-disabled="item.itemsList.length" display="name##session.lang##"></i-list>
       <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
     </div>
   </fieldset>

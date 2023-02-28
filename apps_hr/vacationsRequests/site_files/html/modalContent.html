@@ -3,7 +3,7 @@
         <legend>##word.Request Informations##</legend>
         <div class="row">
             <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="item.code"> </i-control>
-            <i-list v="r" ng-model="item.employee" class="col4" items="employeesList" display="fullName##session.lang##" ng-get="getEmployees($search)" label="##word.Employee##"></i-list>
+            <i-list v="r" ng-model="item.employee" class="col4" items="employeesList" display="fullName##session.lang##" ng-search="item.$employee" label="##word.Employee##"></i-list>
             <i-date class="col3" label="##word.Request Date##" ng-model="item.requestDate"> </i-date>
             <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
 
@@ -29,7 +29,14 @@
 
             <div class="col2">
                 <br />
-                <i-button ng-show=" !item.approved" label="##word.Check Balance##" x-permissions="approveVacationRequest" type="approve" ng-click="getEmployeeVacationBalance(item)"> </i-button>
+                <i-button
+                    ng-show=" !item.approved"
+                    label="##word.Check Balance##"
+                    x-permissions="acceptVacationRequest || vacationsRequestsManage"
+                    type="approve"
+                    ng-click="getEmployeeVacationBalance(item)"
+                >
+                </i-button>
             </div>
             <i-control type="number" disabled class="col2" label="##word.Regular Balance##" ng-model="item.regularVacations"> </i-control>
             <i-control type="number" disabled class="col2" label="##word.Casual Balance##" ng-model="item.casualVacations"> </i-control>

@@ -393,7 +393,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getStores = function ($search) {
+  $scope.getStores = function () {
     $scope.busy = true;
     $scope.storesList = [];
     $http({

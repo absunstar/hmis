@@ -313,10 +313,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
         $scope.itemsError = '';
     };
 
-    $scope.getStores = function ($search) {
-        if ($search && $search.length < 1) {
-            return;
-        }
+    $scope.getStores = function () {
         $scope.busy = true;
         $scope.storesList = [];
         $http({
@@ -332,7 +329,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
                     nameEn: 1,
                     nameAr: 1,
                 },
-                search: $search,
+          
             },
         }).then(
             function (response) {

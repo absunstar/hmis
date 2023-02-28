@@ -28,6 +28,26 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
             return;
         }
 
+        if (!$scope.employee || !$scope.employee.id) {
+            $scope.error = '##word.Please Select Employee##';
+            return;
+        }
+
+        if ($scope.amount < 1) {
+            $scope.error = '##word.Please Enter Amount##';
+            return;
+        }
+
+        if ($scope.amount < 1) {
+            $scope.error = '##word.Please Enter Amount##';
+            return;
+        }
+
+        if ($scope.numberOfMonths < 1) {
+            $scope.error = '##word.Please Enter Number Of Payment Months##';
+            return;
+        }
+
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -68,6 +88,27 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
+
+        if (!$scope.employee || !$scope.employee.id) {
+            $scope.error = '##word.Please Select Employee##';
+            return;
+        }
+
+        if ($scope.amount < 1) {
+            $scope.error = '##word.Please Enter Amount##';
+            return;
+        }
+
+        if ($scope.amount < 1) {
+            $scope.error = '##word.Please Enter Amount##';
+            return;
+        }
+
+        if ($scope.numberOfMonths < 1) {
+            $scope.error = '##word.Please Enter Number Of Payment Months##';
+            return;
+        }
+
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -102,7 +143,6 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.accept = function (_item) {
-
         if (!_item.approvedVacationType || !_item.approvedVacationType.id) {
             $scope.error = '##word.Please Select Approved Vacation Type##';
             return;
@@ -144,7 +184,6 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.reject = function (_item) {
-
         $scope.error = '';
         const v = site.validated($scope.modalID);
         if (!v.ok) {
@@ -321,7 +360,7 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.getEmployees = function ($search) {
-        if (!$search || $search.length < 1) {
+        if ($search && $search.length < 1) {
             return;
         }
         $scope.busy = true;
@@ -354,29 +393,7 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getVacationsTypes = function () {
-        $scope.busy = true;
-        $scope.vacationsTypesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/vacationsTypes',
-            data: {},
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done) {
-                    $scope.vacationsTypesList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
     $scope.getAll();
-    $scope.getVacationsTypes();
     $scope.getEmployees();
     $scope.getNumberingAuto();
 });

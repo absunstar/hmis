@@ -310,7 +310,7 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.getEmployees = function ($search) {
-        if (!$search || $search.length < 1) {
+        if ($search && $search.length < 1) {
             return;
         }
         $scope.busy = true;

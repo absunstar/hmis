@@ -414,9 +414,9 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
   };
 
   $scope.getStores = function ($search) {
-    if (!$search || $search.length < 1) {
-      return;
-    }
+            if ($search && $search.length < 1) {
+                return;
+            }
     $scope.busy = true;
     $scope.storesList = [];
     $http({
@@ -450,9 +450,9 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
 
   $scope.getStoresItems = function ($search) {
     $scope.error = '';
-    if (!$search || $search.length < 1) {
-      return;
-    }
+            if ($search && $search.length < 1) {
+                return;
+            }
 
     if (!$scope.item.store || !$scope.item.store.id) {
       $scope.error = '##word.Please Select Store';

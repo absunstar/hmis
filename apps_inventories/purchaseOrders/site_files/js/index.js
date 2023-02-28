@@ -359,9 +359,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
   };
 
   $scope.getVendors = function ($search) {
-    if (!$search || $search.length < 1) {
-      return;
-    }
+            if ($search && $search.length < 1) {
+                return;
+            }
     $scope.busy = true;
     $scope.vendorsList = [];
     $http({
@@ -537,9 +537,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
 
   $scope.getStoresItems = function ($search) {
     $scope.error = '';
-    if (!$search || $search.length < 1) {
-      return;
-    }
+            if ($search && $search.length < 1) {
+                return;
+            }
 
     if (!$scope.item.store || !$scope.item.store.id) {
       $scope.error = '##word.Please Select Store';

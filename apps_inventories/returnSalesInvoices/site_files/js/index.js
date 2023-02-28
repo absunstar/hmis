@@ -278,7 +278,6 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
-
                 },
             },
         }).then(
@@ -363,7 +362,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
     };
 
     $scope.getStores = function ($search) {
-        if (!$search || $search.length < 1) {
+        if ($search && $search.length < 1) {
             return;
         }
         $scope.busy = true;
@@ -459,7 +458,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getAll({date : new Date()});
+    $scope.getAll({ date: new Date() });
     $scope.getPaymentTypes();
     $scope.getStores();
     $scope.getStoresItems();

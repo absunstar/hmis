@@ -95,7 +95,6 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
     };
 
     $scope.accept = function (_item) {
-
         $scope.error = '';
         const v = site.validated($scope.modalID);
         if (!v.ok) {
@@ -128,7 +127,6 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
     };
 
     $scope.reject = function (_item) {
-
         $scope.error = '';
         const v = site.validated($scope.modalID);
         if (!v.ok) {
@@ -256,7 +254,7 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
     };
 
     $scope.getEmployees = function ($search) {
-        if (!$search || $search.length < 1) {
+        if ($search && $search.length < 1) {
             return;
         }
         $scope.busy = true;
@@ -290,7 +288,7 @@ app.controller('employeesBonuses', function ($scope, $http, $timeout) {
     };
 
     $scope.getEmployeesBonusNamesList = function ($search) {
-        if (!$search || $search.length < 1) {
+        if ($search && $search.length < 1) {
             return;
         }
         $scope.busy = true;

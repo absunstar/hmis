@@ -188,7 +188,7 @@ app.controller('departments', function ($scope, $http, $timeout) {
     };
 
     $scope.getEmployees = function ($search) {
-        if (!$search || $search.length < 1) {
+        if ($search && $search.length < 1) {
             return;
         }
 

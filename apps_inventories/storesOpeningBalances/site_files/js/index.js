@@ -291,7 +291,7 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
     };
 
     $scope.getVendors = function ($search) {
-        if (!$search || $search.length < 1) {
+        if ($search && $search.length < 1) {
             return;
         }
         $scope.busy = true;
@@ -365,7 +365,7 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
 
     $scope.getStoresItems = function ($search) {
         $scope.error = '';
-        if (!$search || $search.length < 1) {
+        if ($search && $search.length < 1) {
             return;
         }
 

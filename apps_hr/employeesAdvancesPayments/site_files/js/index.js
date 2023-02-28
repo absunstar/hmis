@@ -102,7 +102,6 @@ app.controller('employeesAdvancesPayments', function ($scope, $http, $timeout) {
     };
 
     $scope.accept = function (_item) {
-
         if (!_item.approvedVacationType || !_item.approvedVacationType.id) {
             $scope.error = '##word.Please Select Approved Vacation Type##';
             return;
@@ -144,7 +143,6 @@ app.controller('employeesAdvancesPayments', function ($scope, $http, $timeout) {
     };
 
     $scope.reject = function (_item) {
-
         $scope.error = '';
         const v = site.validated($scope.modalID);
         if (!v.ok) {
@@ -321,7 +319,7 @@ app.controller('employeesAdvancesPayments', function ($scope, $http, $timeout) {
     };
 
     $scope.getEmployees = function ($search) {
-        if (!$search || $search.length < 1) {
+        if ($search && $search.length < 1) {
             return;
         }
         $scope.busy = true;

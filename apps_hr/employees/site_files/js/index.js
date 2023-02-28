@@ -366,9 +366,9 @@ app.controller('employees', function ($scope, $http, $timeout) {
   };
 
   $scope.getJobsShiftsList = function ($search) {
-    if (!$search || $search.length < 1) {
-      return;
-    }
+        if ($search && $search.length < 1) {
+            return;
+        }
     $scope.busy = true;
     $scope.jobsShiftsList = [];
     $http({

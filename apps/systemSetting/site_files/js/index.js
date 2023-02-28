@@ -315,9 +315,9 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
     };
 
     $scope.getEmployees = function ($search) {
-        // if (!$search || $search.length < 1) {
-        //     return;
-        // }
+        if ($search && $search.length < 1) {
+            return;
+        }
         $scope.busy = true;
         $scope.employeesList = [];
         $http({

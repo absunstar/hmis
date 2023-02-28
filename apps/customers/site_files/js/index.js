@@ -313,7 +313,7 @@ app.controller('customers', function ($scope, $http, $timeout) {
     };
 
     $scope.getNationalities = function ($search) {
-        if (!$search || $search.length < 1) {
+        if ($search && $search.length < 1) {
             return;
         }
         $scope.busy = true;

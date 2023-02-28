@@ -302,7 +302,7 @@
                                             ng-get="getEmployees($search)"
                                             display="fullName##session.lang##"
                                             label="##word.CEO##"
-                            
+                                            ng-search="ceo.$itemType"
                                         >
                                         </i-list>
                                         <i-list
@@ -312,7 +312,7 @@
                                             ng-get="getEmployees($search)"
                                             display="fullName##session.lang##"
                                             label="##word.Deputy##"
-                       
+                                            ng-search="ceo.$ceoDeputy"
                                         >
                                         </i-list>
                                     </div>
@@ -330,7 +330,7 @@
                                             ng-get="getEmployees($search)"
                                             display="fullName##session.lang##"
                                             label="##word.Manager##"
-                          
+                                            ng-search="hr.$manager"
                                         >
                                         </i-list>
                                         <i-list
@@ -340,7 +340,7 @@
                                             ng-get="getEmployees($search)"
                                             display="fullName##session.lang##"
                                             label="##word.Deputy##"
-                                    
+                                            ng-search="hr.$hrDeputy"
                                         >
                                         </i-list>
                                     </div>
@@ -358,7 +358,7 @@
                                             ng-get="getEmployees($search)"
                                             display="fullName##session.lang##"
                                             label="##word.Manager##"
-                    
+                                            ng-search="fm.$manager"
                                         >
                                         </i-list>
                                         <i-list
@@ -368,7 +368,7 @@
                                             ng-get="getEmployees($search)"
                                             display="fullName##session.lang##"
                                             label="##word.Deputy##"
-                               
+                                            ng-search="fm.$hrDeputy"
                                         >
                                         </i-list>
                                     </div>
@@ -379,39 +379,39 @@
                 </div>
 
                 <div id="workflowAssignmentSettings" class="tab-content">
-                    <fieldset ng-model="item.workflowAssignmentSettings">
-                        <legend>##word.Acceptance Workflow##</legend>
-                        <fieldset ng-repeat="screen in workflowScreensList">
-                            <legend>{{screen.name##session.lang##}}</legend>
-                            <div class="row">
-                                <i-list
-                                    class="col6"
-                                    ng-model="screen.employee"
-                                    items="employeesList"
-                                    ng-get="getEmployees($search)"
-                                    display="fullName##session.lang##"
-                                    label="##word.Employee##"
-        
-                                >
-                                </i-list>
-                                <div class="col3">
-                                    <br />
-                                    <i-button type="add" label="##word.Add##" ng-click="addToAcceptanceList(screen)"></i-button>
-                                </div>
+                    <h3 class="bold error">{{workflowAssignmentSettingsError}}</h3>
+                    <fieldset ng-repeat="screen in workflowScreensList">
+                        <legend>{{screen.name##session.lang##}}</legend>
+                        <div class="row">
+                            <i-list
+                                class="col4"
+                                ng-model="screen.posiotion"
+                                items="workflowPositionsList"
+                                ng-get="workflowPositions($search)"
+                                display="name##session.lang##"
+                                label="##word.Posiotion##"
+                                ng-search="ceo.$posiotion"
+                            >
+                            </i-list>
+                            <div class="col2">
+                                <br />
+                                <i-button type="add" label="##word.Add##" ng-click="addToApprovalList(screen)"></i-button>
                             </div>
+                        </div>
 
-                            <table class="table hover bold">
-                                <tr>
-                                    <th>##word.S##</th>
-                                    <th>##word.Employee##</th>
-                                    <th class="not-print">##word.Actions##</th>
-                                </tr>
-                                <tr ng-repeat="emp in screen.acceptanceList">
-                                    <td>{{$index+1}}</td>
-                                    <td>{{emp.fullName##session.lang##}}</td>
-                                </tr>
-                            </table>
-                        </fieldset>
+                        <table class="table hover bold">
+                            <tr>
+                                <th>##word.S##</th>
+                                <th>##word.Employee##</th>
+                                <th class="not-print">##word.Actions##</th>
+                            </tr>
+
+                            <tr ng-repeat="emp in screen.approvalList">
+                                <td class="text-center">{{$index+1}}</td>
+                                <td class="text-center">{{emp.name##session.lang##}}</td>
+                                <td class="text-center"><i-button type="delete" ng-click="screen.approvalList.splice($index,1)"></i-button></td>
+                            </tr>
+                        </table>
                     </fieldset>
                 </div>
             </div>

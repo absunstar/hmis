@@ -408,5 +408,15 @@
         "name": "Please Contact System Administrator to Set System Setting",
         "En": "Please Contact System Administrator to Set System Setting",
         "Ar": "يرجي التواصل مع مدير النظام لعمل إعدادات النظام"
+    },
+    {
+        "name": "Please select Position",
+        "En": "Please select Position",
+        "Ar": "يرجي إختيار المنصب"
+    },
+    {
+        "name": "Position Exisit",
+        "En": "Position Exisit",
+        "Ar": "المنصب موجود في قائمة الإعتماد"
     }
 ]

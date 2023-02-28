@@ -1,0 +1,9 @@
+[
+    {
+        "moduleName": "public",
+        "name": "employeesAdvancesPaymentsAdmin",
+        "En": "Employees Advances Payments Admin",
+        "Ar": "إدارة سداد سلف الموظفين",
+        "permissions": ["employeesAdvancesPaymentsManage"]
+    }
+]

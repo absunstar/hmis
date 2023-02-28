@@ -490,5 +490,11 @@
         "feature": "public",
         "id": "employeesAdvancesRequests",
         "name": "Employees Advances Requests"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "employeesAdvancesPayments",
+        "name": "Employees Advances Payments"
     }
 ]

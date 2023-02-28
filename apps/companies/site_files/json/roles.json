@@ -91,7 +91,8 @@
             "delayRequestsManage",
             "workErrandRequestsManage",
             "overtimeRequestsManage",
-            "employeesAdvancesRequestsManage"
+            "employeesAdvancesRequestsManage",
+            "employeesAdvancesPaymentsManage"
         ]
     }
 ]

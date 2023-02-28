@@ -55,6 +55,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
   $scope.showAdd = function (_item) {
     $scope.error = '';
     if (!$scope.settings || !$scope.settings.id) {
+      $scope.mainError = '##word.Please Contact System Administrator to Set System Setting##';
       return;
     }
     $scope.itemsError = '';

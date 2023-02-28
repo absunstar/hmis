@@ -403,5 +403,10 @@
         "name": "Please Set Vacation For Value",
         "En": "Please Set Vacation For Value",
         "Ar": "يرجي تحديد نوع الأجازة بالنسبة للموظفين"
+    },
+    {
+        "name": "Please Contact System Administrator to Set System Setting",
+        "En": "Please Contact System Administrator to Set System Setting",
+        "Ar": "يرجي التواصل مع مدير النظام لعمل إعدادات النظام"
     }
 ]

@@ -104,7 +104,6 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
     };
 
     $scope.approve = function (_item) {
-
         $scope.error = '';
         const v = site.validated($scope.modalID);
         if (!v.ok) {
@@ -137,7 +136,6 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
     };
 
     $scope.unapprove = function (_item) {
-
         $scope.error = '';
         const v = site.validated($scope.modalID);
         if (!v.ok) {
@@ -397,6 +395,10 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
         if (!_data.fromDate || !_data.toDate || new Date(_data.fromDate) > new Date(_data.toDate)) {
             $scope.error = '##word.Please Check Date##';
             return success;
+        }
+        if (!_data.vacationFor) {
+            $scope.error = '##word.Please Set Vacation For Value##';
+            return;
         }
 
         if (_data.vacationFor == 'some' && (!_data.employeesList || !_data.employeesList.length)) {

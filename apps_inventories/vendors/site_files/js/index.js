@@ -421,7 +421,7 @@ app.controller('vendors', function ($scope, $http, $timeout) {
     };
 
     $scope.getNationalities = function ($search) {
-        if ($search && $search.length < 2) {
+        if (!$search || !$search.length) {
             return;
         }
         $scope.busy = true;

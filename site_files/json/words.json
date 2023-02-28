@@ -398,5 +398,10 @@
         "name": "Please Set Approved Days",
         "En": "Please Set Approved Days",
         "Ar": "يرجي تحديد عدد الأيام الموافق عليها"
+    },
+    {
+        "name": "Please Set Vacation For Value",
+        "En": "Please Set Vacation For Value",
+        "Ar": "يرجي تحديد نوع الأجازة بالنسبة للموظفين"
     }
 ]

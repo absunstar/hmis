@@ -1,0 +1,9 @@
+[
+    {
+        "moduleName": "public",
+        "name": "employeesAdvancesRequestsAdmin",
+        "En": "Employees Advances Requests  Admin",
+        "Ar": "إدارة طلبات سلف الموظفين",
+        "permissions": ["employeesAdvancesRequestsManage"]
+    }
+]

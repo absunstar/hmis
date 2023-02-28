@@ -17,7 +17,7 @@ app.controller('overtimeRequests', function ($scope, $http, $timeout) {
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, date: new Date() };
+        $scope.item = { ...$scope.structure, requestDate: new Date() };
         site.showModal($scope.modalID);
     };
 
@@ -95,7 +95,6 @@ app.controller('overtimeRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.accept = function (_item) {
-
         $scope.error = '';
         const v = site.validated($scope.modalID);
         if (!v.ok) {
@@ -128,7 +127,6 @@ app.controller('overtimeRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.reject = function (_item) {
-
         $scope.error = '';
         const v = site.validated($scope.modalID);
         if (!v.ok) {

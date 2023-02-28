@@ -2,6 +2,28 @@
     <fieldset>
         <legend>##word.Request Informations##</legend>
         <div class="row">
+            <i-control ng-hide="disabledCode" class="col3" label="##word.Code##" ng-model="item.code"> </i-control>
+            <i-date class="col3" label="##word.Request Date##" ng-model="item.requestDate"> </i-date>
+            <i-list v="r" ng-model="item.employee" class="col4" items="employeesList" display="fullName##session.lang##" ng-get="getEmployees($search)" label="##word.Employee##"></i-list>
+            <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
+
+            <i-date class="col3" label="##word.Date##" ng-model="item.date"> </i-date>
+            <i-control type="time" class="col3" label="##word.From Time##" ng-model="item.fromTime"> </i-control>
+            <i-control type="time" class="col3" label="##word.To Time##" ng-model="item.toTime"> </i-control>
+        </div>
+
+        <fieldset>
+            <legend>##word.Files##</legend>
+            <div class="row">
+                <i-file ng-model="item.file"></i-file>
+            </div>
+        </fieldset>
+
+        <i-textarea ng-model="item.reason" rows="4" label="##word.Reason##"></i-textarea>
+    </fieldset>
+    <!-- <fieldset>
+        <legend>##word.Request Informations##</legend>
+        <div class="row">
             <i-control ng-hide="disabledCode" class="col4" label="##word.Code##" ng-model="item.code"> </i-control>
             <i-list v="r" ng-model="item.employee" class="col4" items="employeesList" display="fullName##session.lang##" ng-get="getEmployees($search)" label="##word.Employee##"></i-list>
 
@@ -14,7 +36,7 @@
         </div>
 
         <i-textarea ng-model="item.reason" rows="4" label="##word.Reason##"></i-textarea>
-    </fieldset>
+    </fieldset> -->
 
     <fieldset ng-show="mode !='add'">
         <legend>##word.Approve Informations##</legend>

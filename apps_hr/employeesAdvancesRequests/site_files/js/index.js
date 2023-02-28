@@ -1,12 +1,12 @@
-app.controller('workErrandRequests', function ($scope, $http, $timeout) {
+app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
     $scope.baseURL = '';
-    $scope.appName = 'workErrandRequests';
-    $scope.modalID = '#workErrandRequestsManageModal';
-    $scope.modalSearchID = '#workErrandRequestsSearchModal';
+    $scope.appName = 'employeesAdvancesRequests';
+    $scope.modalID = '#employeesAdvancesRequestsManageModal';
+    $scope.modalSearchID = '#employeesAdvancesRequestsSearchModal';
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
-        image: { url: '/images/workErrandRequests.png' },
+        image: { url: '/images/employeesAdvancesRequests.png' },
         requestStatus: 'new',
         active: true,
     };
@@ -102,6 +102,16 @@ app.controller('workErrandRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.accept = function (_item) {
+
+        if (!_item.approvedVacationType || !_item.approvedVacationType.id) {
+            $scope.error = '##word.Please Select Approved Vacation Type##';
+            return;
+        }
+        if (!(_item.approvedDays > 0) || _item.approvedDays > 21) {
+            $scope.error = '##word.Please Set Approved Days##';
+            return;
+        }
+
         $scope.error = '';
         const v = site.validated($scope.modalID);
         if (!v.ok) {
@@ -134,6 +144,7 @@ app.controller('workErrandRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.reject = function (_item) {
+
         $scope.error = '';
         const v = site.validated($scope.modalID);
         if (!v.ok) {

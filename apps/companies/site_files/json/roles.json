@@ -90,7 +90,8 @@
             "banksManage",
             "delayRequestsManage",
             "workErrandRequestsManage",
-            "overtimeRequestsManage"
+            "overtimeRequestsManage",
+            "employeesAdvancesRequestsManage"
         ]
     }
 ]

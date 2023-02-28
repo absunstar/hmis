@@ -484,5 +484,11 @@
         "feature": "public",
         "id": "overtimeRequests",
         "name": "Overtime Requests"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "employeesAdvancesRequests",
+        "name": "Employees Advances Requests"
     }
 ]

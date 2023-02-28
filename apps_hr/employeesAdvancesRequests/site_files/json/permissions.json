@@ -1,0 +1,13 @@
+[
+    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "employeesAdvancesRequestsManage", "En": "Manage", "Ar": "إدارة" },
+    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "employeesAdvancesRequestsAdd", "En": "Add", "Ar": "إضافة" },
+    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "employeesAdvancesRequestsUpdate", "En": "Edit", "Ar": "تعديل" },
+    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "employeesAdvancesRequestsDelete", "En": "Delete", "Ar": "حذف" },
+    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "employeesAdvancesRequestsView", "En": "View", "Ar": "عرض" },
+    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "employeesAdvancesRequestsSearch", "En": "Search", "Ar": "بحث" },
+    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "employeesAdvancesRequestsExport", "En": "Export", "Ar": "تصدير" },
+    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "employeesAdvancesRequestsPrint", "En": "Print", "Ar": "طباعة" },
+    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "employeesAdvancesRequestsUi", "En": "UI", "Ar": "الواجهة الرسومية" },
+    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "acceptemployeeAdvanceRequest", "En": "Accept Employee Advance Request", "Ar": "قبول طلب سلفة موظف" },
+    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "rejectemployeeAdvanceRequest", "En": "Reject Employee Advance Request", "Ar": "رفض طلب سلفة موظف" }
+]

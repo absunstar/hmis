@@ -41,7 +41,7 @@
     </fieldset>
     <fieldset ng-show="mode !='add'">
         <legend>##word.Approve Informations##</legend>
-        <div class="row" ng-show="!item.paymentDataApproved">
+        <div class="row" ng-show="canReject">
             <i-control type="number" class="col3" label="##word.Approved Amount##" ng-model="item.approvedAmount"> </i-control>
             <i-control type="number" class="col3" label="##word.Approved Number Of Months##" ng-model="item.approvedNumberOfMonths"> </i-control>
             <div class="col2">
@@ -53,7 +53,7 @@
         <p class="center error">{{installmentError}}</p>
         <fieldset ng-show="item.installmentsList && item.installmentsList.length">
             <legend>
-                <i-button type="add default" ng-show="canReject" ng-click="item.installmentsList.push({})"></i-button>
+                <i-button type="add default" ng-show="!canReject" ng-click="item.installmentsList.push({})"></i-button>
                 ##word.Payment Data##
             </legend>
             <div class="row" ng-repeat="c in item.installmentsList">

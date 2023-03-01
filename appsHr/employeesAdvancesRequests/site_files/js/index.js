@@ -100,6 +100,11 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
             $scope.error = '##word.Please Enter Number Of Payment Months##';
             return;
         }
+        const check = $scope.validatePaymentData(_item);
+
+        if (!check.success) {
+            return;
+        }
 
         $scope.busy = true;
         $http({
@@ -135,6 +140,12 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.accept = function (_item) {
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
         if (!_item.approvedAmount || _item.approvedAmount < 1) {
             $scope.error = '##word.Please Enter Approved Amount##';
             return;
@@ -145,12 +156,12 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
             return;
         }
 
-        $scope.error = '';
-        const v = site.validated($scope.modalID);
-        if (!v.ok) {
-            $scope.error = v.messages[0].ar;
+        const check = $scope.validatePaymentData(_item);
+
+        if (!check.success) {
             return;
         }
+
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -362,43 +373,72 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.setPaymentMonthsList = function (_item) {
+    $scope.setInstallments = function (_item) {
+        $scope.installmentError = '';
+        if (!_item.approvedAmount || _item.approvedAmount < 1) {
+            $scope.installmentError = '##word.Please Enter Approved Amount##';
+            return;
+        }
+
+        if (!_item.approvedNumberOfMonths || _item.approvedNumberOfMonths < 1) {
+            $scope.installmentError = '##word.Please Enter Approved Number Of Payment Months##';
+            return;
+        }
+
         $timeout(() => {
             const amount = _item.approvedAmount / _item.approvedNumberOfMonths;
-
-            _item.paymentMonthsList = [];
-            for (let i = 0; i < _item.approvedNumberOfMonths; i++) {
-                _item.paymentMonthsList.push({
-                    date: '',
-                    amount,
-                    paid: false,
-                    paidDate: '',
-                });
+            _item.installmentsList = _item.installmentsList || [];
+            if (!_item.installmentsList.length) {
+                for (let i = 0; i < _item.approvedNumberOfMonths; i++) {
+                    _item.installmentsList.push({
+                        date: '',
+                        amount,
+                        paid: false,
+                        paidDate: '',
+                    });
+                }
             }
         }, 300);
     };
 
     $scope.validatePaymentData = function (_item) {
-        $scope.error = '';
-        const installmentDateIndex = _item.paymentMonthsList.findIndex((_item) => _item.date == '');
-        if (installmentDateIndex !== -1) {
-            $scope.error = '##word.Please Enter Installment Date##';
-            return;
-        }
-
+        $scope.installmentError = '';
         const approvedOririonalAmount = _item.approvedAmount;
-
         let checkAmount = 0;
+        let success = false;
+        const installmentDateIndex = _item.installmentsList.findIndex((_item) => _item.date == '');
+        if (installmentDateIndex !== -1) {
+            $scope.installmentError = '##word.Please Enter Installment Date##';
+            return success;
+        } else if (_item.approvedNumberOfMonths !== _item.installmentsList.length) {
+            $scope.installmentError = '##word.Please Check Installments Data##';
+            return success;
+        } else if (_item.installmentsList && _item.installmentsList.length) {
+            _item.installmentsList.forEach((installment) => {
+                checkAmount += installment.amount;
+            });
 
-        _item.paymentMonthsList.forEach((installment) => {
-            checkAmount += installment.amount;
-        });
-
-        if (checkAmount !== approvedOririonalAmount) {
-            $scope.error = '##word.Installment Amounts Not Equal Approved Amount##';
-            return;
+            if (checkAmount !== approvedOririonalAmount) {
+                $scope.installmentError = '##word.Installment Amounts Not Equal Approved Amount##';
+                return success;
+            }
         }
-        _item.paymentDataApproved = true;
+
+        success = true;
+
+        return { success, _item };
+    };
+
+    $scope.approveInstallmentandItem = function (_item) {
+        const check = $scope.validatePaymentData(_item);
+        if (check.success) {
+            _item.paymentDataApproved = true;
+        }
+    };
+
+    $scope.unapproveInstallmentandItem = function (_item) {
+        _item.paymentDataApproved = false;
+        _item.approved = false;
     };
 
     $scope.getAll();

@@ -444,5 +444,20 @@
         "name": "Please Enter Installment Date",
         "En": "Please Enter Installment Date",
         "Ar": "يجب إدخال تاريخ سداد السلفة"
+    },
+    {
+        "name": "Installment",
+        "En": "Installment ",
+        "Ar": "القسط "
+    },
+    {
+        "name": "Please Check Installments Data",
+        "En": "Please Check Installments Data ",
+        "Ar": "يرجي التأكد من بيانات الأقساط "
+    },
+    {
+        "name": "No Installment Available For This Employee",
+        "En": "No Installment Available For This Employee ",
+        "Ar": "لاتوجد اقساط متاحه لهذا الموظف "
     }
 ]

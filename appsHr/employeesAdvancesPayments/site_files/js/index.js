@@ -319,7 +319,6 @@ app.controller('employeesAdvancesPayments', function ($scope, $http, $timeout) {
     };
 
     $scope.getEmployees = function () {
-
         $scope.busy = true;
         $scope.employeesList = [];
         $http({
@@ -333,7 +332,7 @@ app.controller('employeesAdvancesPayments', function ($scope, $http, $timeout) {
                     fullNameEn: 1,
                     fullNameAr: 1,
                     image: 1,
-                }
+                },
             },
         }).then(
             function (response) {
@@ -349,18 +348,30 @@ app.controller('employeesAdvancesPayments', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getVacationsTypes = function () {
+    $scope.getEmployeeAdvances = function (employee) {
         $scope.busy = true;
-        $scope.vacationsTypesList = [];
+        $scope.installmentsList = [];
+        $scope.advancesError = '';
         $http({
             method: 'POST',
-            url: '/api/vacationsTypes',
-            data: {},
+            url: '/api/employeesAdvancesRequests/all',
+            data: {
+                where: { active: true, approved: true, id: employee.id },
+                select: {
+                    employee: 1,
+                    installmentsList: 1,
+                    approvedAmount: 1,
+                    approvedNumberOfMonths: 1,
+                },
+            },
         }).then(
             function (response) {
                 $scope.busy = false;
                 if (response.data.done) {
-                    $scope.vacationsTypesList = response.data.list;
+                    $scope.installmentsList = response.data.list;
+                }
+                if (!response.data.list.length) {
+                    $scope.advancesError = '##word.No Installment Available For This Employee##';
                 }
             },
             function (err) {
@@ -371,7 +382,6 @@ app.controller('employeesAdvancesPayments', function ($scope, $http, $timeout) {
     };
 
     $scope.getAll();
-    $scope.getVacationsTypes();
     $scope.getEmployees();
     $scope.getNumberingAuto();
 });

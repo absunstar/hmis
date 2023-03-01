@@ -34,13 +34,16 @@ site.get(
   }
 );
 
-site.importApps(__dirname + '/apps_inventories');
-site.importApps(__dirname + '/apps_hr');
-site.importApps(__dirname + '/apps_hmis');
+site.importApps(__dirname + '/appsInventories');
+site.importApps(__dirname + '/appsHr');
+site.importApps(__dirname + '/appsHmis');
 site.importApp(__dirname + '/ui-print')
 
 site.loadLocalApp('client-side');
 site.loadLocalApp('ui-print');
-site.addFeature('hmis');
+
+site.addFeature('m-hmis');
+site.addFeature('m-inventory')
+site.addFeature('m-hr')
 
 site.run();

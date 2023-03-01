@@ -35,13 +35,14 @@ site.get(
   }
 );
 
-site.addFeature('inventory')
-site.addFeature('hr')
 
-site.importApps(__dirname + '/apps_inventories');
-site.importApps(__dirname + '/apps_hr');
+site.importApps(__dirname + '/appsInventories');
+site.importApps(__dirname + '/appsHr');
 
 site.loadLocalApp('client-side');
 site.loadLocalApp('ui-print');
+
+site.addFeature('m-inventory')
+site.addFeature('m-hr')
 
 site.run();

@@ -1,6 +1,6 @@
 module.exports = function init(site) {
     let app = {
-        name: 'employeesAdvancesPayments',
+        name: 'employeesAdvances',
         allowMemory: false,
         memoryList: [],
         allowCache: false,
@@ -151,7 +151,7 @@ module.exports = function init(site) {
                     name: app.name,
                 },
                 (req, res) => {
-                    res.render(app.name + '/index.html', { title: app.name, appName: 'Employees Advances Payments' }, { parser: 'html', compres: true });
+                    res.render(app.name + '/index.html', { title: app.name, appName: 'Employees Advances' }, { parser: 'html', compres: true });
                 }
             );
         }
@@ -344,6 +344,8 @@ module.exports = function init(site) {
                     requestStatus: 1,
                     approveDate: 1,
                     rejectDate: 1,
+                    installmentsList: 1,
+                    hasPaidtransaction: 1,
                     active: 1,
                 };
 

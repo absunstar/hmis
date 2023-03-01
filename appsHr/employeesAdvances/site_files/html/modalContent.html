@@ -3,11 +3,32 @@
         <legend>##word.Request Informations##</legend>
         <div class="row">
             <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="item.code"> </i-control>
-            <i-list v="r" ng-model="item.employee" class="col4" items="employeesList" display="fullName##session.lang##" ng-search="item.$employee" label="##word.Employee##"></i-list>
+            <i-list
+                v="r"
+                ng-show="!item.approved"
+                ng-model="item.employee"
+                class="col4"
+                items="employeesList"
+                display="fullName##session.lang##"
+                ng-search="item.$employee"
+                label="##word.Employee##"
+            ></i-list>
+            <div class="col4" ng-show="item.approved">
+                <p class="center">##word.Employee##</p>
+                <p class="center">{{item.employee.fullName##session.lang##}}</p>
+            </div>
             <i-date class="col3" label="##word.Request Date##" ng-model="item.requestDate"> </i-date>
             <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
-            <i-control v="r" type="number" class="col3" min="1" label="##word.Amount##" ng-model="item.amount"> </i-control>
-            <i-control v="r" type="number" class="col3" min="1" label="##word.Number Of Months##" ng-model="item.numberOfMonths"> </i-control>
+            <i-control ng-show="!item.approved" v="r" type="number" class="col3" min="1" label="##word.Amount##" ng-model="item.amount"> </i-control>
+            <i-control ng-show="!item.approved" v="r" type="number" class="col3" min="1" label="##word.Number Of Months##" ng-model="item.numberOfMonths"> </i-control>
+            <div class="col3" ng-show="item.approved">
+                <p class="center">##word.Amount##</p>
+                <p class="center">{{item.amount}}</p>
+            </div>
+            <div class="col3" ng-show="item.approved">
+                <p class="center">##word.Number Of Months##</p>
+                <p class="center">{{item.numberOfMonths}}</p>
+            </div>
         </div>
         <fieldset>
             <legend>##word.Files##</legend>
@@ -32,32 +53,31 @@
         <p class="center error">{{installmentError}}</p>
         <fieldset ng-show="item.installmentsList && item.installmentsList.length">
             <legend>
-                <i-button type="add default" ng-click="item.installmentsList.push({})"></i-button>
+                <i-button type="add default" ng-show="canReject" ng-click="item.installmentsList.push({})"></i-button>
                 ##word.Payment Data##
             </legend>
             <div class="row" ng-repeat="c in item.installmentsList">
-                <fieldset ng-show="!c.paid &&  !item.paymentDataApproved">
+                <fieldset ng-show="  !item.paymentDataApproved">
                     <legend>##word.Installment## ({{$index+1}})</legend>
                     <div class="row">
-                        <i-date class="col6" label="##word.Payment Date##" ng-model="c.date"> </i-date>
-                        <i-control v="r" type="number" class="col3" min="1" label="##word.Amount##" ng-model="c.amount"> </i-control>
+                        <i-date class="col6" ng-show="!c.paid" label="##word.Payment Date##" ng-model="c.date"> </i-date>
+
+                        <div class="col3" ng-show="c.paid">
+                            <p class="center">##word.Payment Date##</p>
+                            <p class="center">{{c.date |date:'dd/MM/yyyy'}}</p>
+                        </div>
+                        <i-control v="r" ng-show="!c.paid" type="number" class="col3" min="1" label="##word.Amount##" ng-model="c.amount"> </i-control>
+                        <div class="col3" ng-show="c.paid">
+                            <p class="center">##word.Amount##</p>
+                            <p class="center">{{c.amount |number:'0.3'}}</p>
+                        </div>
 
                         <div class="col2">
                             <br />
-                            <i-button type="delete" ng-click="item.installmentsList.splice($index,1)"></i-button>
+                            <i-button ng-show="!c.paid" type="delete" ng-click="item.installmentsList.splice($index,1)"></i-button>
                         </div>
                     </div>
                 </fieldset>
-                <div class="row" ng-show="c.paid">
-                    <div class="col3">
-                        <p class="center">##word.Payment Date##</p>
-                        <p class="center">{{c.date |date:'dd/MM/yyyy'}}</p>
-                    </div>
-                    <div class="col3">
-                        <p class="center">##word.Amount##</p>
-                        <p class="center">{{c.amount |number:'0.3'}}</p>
-                    </div>
-                </div>
             </div>
             <table class="table hover border" ng-show="item.paymentDataApproved">
                 <tr>
@@ -66,6 +86,8 @@
                     <th>##word.Amount##</th>
                     <th>##word.Paid Date##</th>
                     <th>##word.Paid##</th>
+                    <th>##word.Approved##</th>
+                    <th>##word.Actions##</th>
                 </tr>
                 <tr ng-repeat="c in item.installmentsList">
                     <td class="center">{{$index+1}}</td>
@@ -82,20 +104,41 @@
                         <p class="bold text-danger" ng-show="!c.paid">##word.No##</p>
                         <p class="bold text-success" ng-show="c.paid">##word.Yes##</p>
                     </td>
+                    <td class="center">
+                        <p class="bold text-danger" ng-show="!c.approved">##word.No##</p>
+                        <p class="bold text-success" ng-show="c.approved">##word.Yes##</p>
+                    </td>
+                    <td class="center">
+                        <i-button group="bt_{{$index}}" type="accept" ng-show="!c.paid" ng-click="payInstallment(c);checkRejectAvilabilty(item)"></i-button>
+                        <i-button
+                            group="bt_{{$index}}"
+                            type="reject"
+                            label="##word.Cancel Payment##"
+                            ng-show="c.paid && !c.approved"
+                            ng-click="cancelPayInstallment(c);checkRejectAvilabilty(item)"
+                        ></i-button>
+                        <i-button
+                            group="bt_{{$index}}"
+                            type="approve"
+                            x-permissions="approveEmployeeAdvance || employeesAdvancesManage"
+                            ng-show="c.paid && !c.approved"
+                            ng-click="approvePayInstallment(c);checkRejectAvilabilty(item)"
+                        ></i-button>
+                    </td>
                 </tr>
             </table>
 
             <i-button
                 type="approve"
                 ng-show="item.installmentsList && !item.hasPaidtransaction &&  item.installmentsList.length && !item.paymentDataApproved"
-                x-permissions="approveEmployeeAdvancePayment || employeesAdvancesRequestsManage"
+                x-permissions="approveEmployeeAdvancePayment || employeesAdvancesManage"
                 label="##word.Approve##"
                 ng-click="approveInstallmentandItem(item)"
             ></i-button>
             <i-button
                 type="unapprove"
                 ng-show="item.installmentsList && !item.hasPaidtransaction && item.installmentsList.length && item.paymentDataApproved"
-                x-permissions="approveEmployeeAdvancePayment || employeesAdvancesRequestsManage"
+                x-permissions="approveEmployeeAdvancePayment || employeesAdvancesManage"
                 label="##word.Unapprove##"
                 ng-click="unapproveInstallmentandItem(item)"
             ></i-button>

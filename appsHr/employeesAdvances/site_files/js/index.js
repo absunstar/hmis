@@ -1,12 +1,12 @@
-app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
+app.controller('employeesAdvances', function ($scope, $http, $timeout) {
     $scope.baseURL = '';
-    $scope.appName = 'employeesAdvancesRequests';
-    $scope.modalID = '#employeesAdvancesRequestsManageModal';
-    $scope.modalSearchID = '#employeesAdvancesRequestsSearchModal';
+    $scope.appName = 'employeesAdvances';
+    $scope.modalID = '#employeesAdvancesManageModal';
+    $scope.modalSearchID = '#employeesAdvancesSearchModal';
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
-        image: { url: '/images/employeesAdvancesRequests.png' },
+        image: { url: '/images/employeesAdvances.png' },
         requestStatus: 'new',
         approved: false,
         hasPaidtransaction: false,
@@ -15,6 +15,7 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
     };
     $scope.item = {};
     $scope.list = [];
+    $scope.canReject = false;
 
     $scope.showAdd = function (_item) {
         $scope.error = '';
@@ -75,6 +76,7 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
         $scope.error = '';
         $scope.mode = 'edit';
         $scope.view(_item);
+        $scope.checkRejectAvilabilty(_item);
         $scope.item = {};
         site.showModal($scope.modalID);
     };
@@ -250,6 +252,7 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
         $scope.error = '';
         $scope.mode = 'delete';
         $scope.item = {};
+        $scope.checkRejectAvilabilty(_item);
         $scope.view(_item);
         site.showModal($scope.modalID);
     };
@@ -439,6 +442,39 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
     $scope.unapproveInstallmentandItem = function (_item) {
         _item.paymentDataApproved = false;
         _item.approved = false;
+    };
+
+    $scope.payInstallment = function (installment) {
+        const selectectedInstallment = $scope.item.installmentsList.findIndex((_item) => _item === installment);
+        if (selectectedInstallment !== -1) {
+            $scope.item.installmentsList[selectectedInstallment].paid = true;
+            $scope.item.installmentsList[selectectedInstallment].paidDate = new Date();
+        }
+    };
+
+    $scope.cancelPayInstallment = function (installment) {
+        const selectectedInstallment = $scope.item.installmentsList.findIndex((_item) => _item === installment);
+        if (selectectedInstallment !== -1) {
+            $scope.item.installmentsList[selectectedInstallment].paid = false;
+            $scope.item.installmentsList[selectectedInstallment].paidDate = '';
+        }
+    };
+
+    $scope.approvePayInstallment = function (installment) {
+        const selectectedInstallment = $scope.item.installmentsList.findIndex((_item) => _item && _item.paid && _item.id === installment.id);
+        if (selectectedInstallment !== -1) {
+            $scope.item.installmentsList[selectectedInstallment]['approved'] = true;
+        }
+    };
+
+    $scope.checkRejectAvilabilty = function (_item) {
+        $scope.canReject = false;
+        if (_item.installmentsList && _item.installmentsList.length) {
+            const selectectedInstallment = _item.installmentsList.findIndex((_elm) => _elm && _elm.paid && _elm.approved);
+            if (selectectedInstallment === -1) {
+                $scope.canReject = true;
+            }
+        }
     };
 
     $scope.getAll();

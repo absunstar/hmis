@@ -30,9 +30,14 @@ site.get(
     name: '/',
   },
   (req, res) => {
-    res.render('index.html', { title: site.word('Site Title')}, { parser: 'html', compres: true });
+    console.log(req.word);
+    res.render('index.html', { title: req.word('Site Title')}, { parser: 'html css js', compres: true });
   }
 );
+
+site.addFeature('inventory')
+site.addFeature('hr')
+
 site.importApps(__dirname + '/apps_inventories');
 site.importApps(__dirname + '/apps_hr');
 

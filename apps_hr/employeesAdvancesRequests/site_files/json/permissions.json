@@ -8,6 +8,7 @@
     { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "employeesAdvancesRequestsExport", "En": "Export", "Ar": "تصدير" },
     { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "employeesAdvancesRequestsPrint", "En": "Print", "Ar": "طباعة" },
     { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "employeesAdvancesRequestsUi", "En": "UI", "Ar": "الواجهة الرسومية" },
-    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "acceptemployeeAdvanceRequest", "En": "Accept Employee Advance Request", "Ar": "قبول طلب سلفة موظف" },
-    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "rejectemployeeAdvanceRequest", "En": "Reject Employee Advance Request", "Ar": "رفض طلب سلفة موظف" }
+    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "approveEmployeeAdvancePayment", "En": "Accept Employee Advance Payment", "Ar": "الموافقة علي بيانات سداد سلفة موظف" },
+    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "acceptEmployeeAdvanceRequest", "En": "Accept Employee Advance Request", "Ar": "قبول طلب سلفة موظف" },
+    { "moduleName": "public", "screenName": "employeesAdvancesRequests", "name": "rejectEmployeeAdvanceRequest", "En": "Reject Employee Advance Request", "Ar": "رفض طلب سلفة موظف" }
 ]

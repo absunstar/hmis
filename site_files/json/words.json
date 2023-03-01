@@ -434,5 +434,15 @@
         "name": "Please Enter Approved Number Of Payment Months",
         "En": "Please Enter Approved Number Of Payment Months",
         "Ar": "يرجي إدخال عدد الشهور الموافق عليها"
+    },
+    {
+        "name": "Installment Amounts Not Equal Approved Amount",
+        "En": "Installment Amounts Not Equal Approved Amount",
+        "Ar": "قيمة الأقساط لاتساوي مبلغ السلفة"
+    },
+    {
+        "name": "Please Enter Installment Date",
+        "En": "Please Enter Installment Date",
+        "Ar": "يجب إدخال تاريخ سداد السلفة"
     }
 ]

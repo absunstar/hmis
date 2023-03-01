@@ -30,7 +30,7 @@
             <i-button ng-show="mode == 'edit' " type="edit" label="##word.Save##" ng-click="update(item)"></i-button>
             <i-button ng-show="mode == 'delete' " type="delete" label="##word.Delete##" ng-click="delete(item)"> </i-button>
             <i-button
-                ng-show="mode == 'edit' && !item.approved"
+                ng-show="mode == 'edit' && item.paymentDataApproved &&  !item.hasPaidtransaction"
                 x-permissions="acceptEmployeeAdvanceRequest || employeesAdvancesRequestsManage"
                 type="approve"
                 label="##word.Accept##"
@@ -38,7 +38,7 @@
             >
             </i-button>
             <i-button
-                ng-show="mode == 'edit' && !item.approved "
+                ng-show="mode == 'edit' && !item.hasPaidtransaction "
                 x-permissions="rejectEmployeeAdvanceRequest || employeesAdvancesRequestsManage"
                 type="approve"
                 label="##word.Reject##"

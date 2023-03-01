@@ -42,7 +42,7 @@
                 <td class="text-center not-print">
                     <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
-                    <i-button type="edit" ng-if="!item.approved" x-permissions="employeesAdvancesRequestsUpdate || employeesAdvancesRequestsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
+                    <i-button type="edit" ng-if="!item.hasPaidtransaction" x-permissions="employeesAdvancesRequestsUpdate || employeesAdvancesRequestsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
 
                     <i-button type="delete" ng-if="!item.approved" x-permissions="employeesAdvancesRequestsDelete || employeesAdvancesRequestsManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
                 </td>

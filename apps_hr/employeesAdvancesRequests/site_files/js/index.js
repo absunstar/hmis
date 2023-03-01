@@ -8,6 +8,9 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
     $scope.structure = {
         image: { url: '/images/employeesAdvancesRequests.png' },
         requestStatus: 'new',
+        approved: false,
+        hasPaidtransaction: false,
+        paymentDataApproved: false,
         active: true,
     };
     $scope.item = {};
@@ -343,7 +346,7 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
                     fullNameEn: 1,
                     fullNameAr: 1,
                     image: 1,
-                }
+                },
             },
         }).then(
             function (response) {
@@ -368,9 +371,34 @@ app.controller('employeesAdvancesRequests', function ($scope, $http, $timeout) {
                 _item.paymentMonthsList.push({
                     date: '',
                     amount,
+                    paid: false,
+                    paidDate: '',
                 });
             }
         }, 300);
+    };
+
+    $scope.validatePaymentData = function (_item) {
+        $scope.error = '';
+        const installmentDateIndex = _item.paymentMonthsList.findIndex((_item) => _item.date == '');
+        if (installmentDateIndex !== -1) {
+            $scope.error = '##word.Please Enter Installment Date##';
+            return;
+        }
+
+        const approvedOririonalAmount = _item.approvedAmount;
+
+        let checkAmount = 0;
+
+        _item.paymentMonthsList.forEach((installment) => {
+            checkAmount += installment.amount;
+        });
+
+        if (checkAmount !== approvedOririonalAmount) {
+            $scope.error = '##word.Installment Amounts Not Equal Approved Amount##';
+            return;
+        }
+        _item.paymentDataApproved = true;
     };
 
     $scope.getAll();

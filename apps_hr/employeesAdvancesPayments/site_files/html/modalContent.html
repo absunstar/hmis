@@ -4,12 +4,8 @@
         <div class="row">
             <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="item.code"> </i-control>
             <i-list v="r" ng-model="item.employee" class="col4" items="employeesList" display="fullName##session.lang##" ng-search="item.$employee" label="##word.Employee##"></i-list>
-            <i-date class="col3" label="##word.Request Date##" ng-model="item.requestDate"> </i-date>
+            <i-date class="col3" label="##word.Paid Date##" ng-model="item.paidDate"> </i-date>
             <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
-
-            <i-date class="col6" label="##word.From Date##" ng-model="item.fromDate"> </i-date>
-            <i-list v="r" ng-model="item.vacationType" class="col3" items="vacationsTypesList" display="name##session.lang##" label="##word.Type##"></i-list>
-            <i-control type="number" class="col3" label="##word.Days##" ng-model="item.days"> </i-control>
         </div>
         <fieldset>
             <legend>##word.Files##</legend>
@@ -17,24 +13,6 @@
                 <i-file ng-model="item.file"></i-file>
             </div>
         </fieldset>
-
-        <i-textarea ng-model="item.reason" rows="4" label="##word.Reason##"></i-textarea>
-    </fieldset>
-
-    <fieldset ng-show="mode !='add'">
-        <legend>##word.Approve Informations##</legend>
-        <div class="row">
-            <i-list ng-model="item.approvedVacationType" class="col3" items="vacationsTypesList" display="name##session.lang##" label="##word.Approved Type##"></i-list>
-            <i-control type="number" class="col3" label="##word.Approved Days##" ng-model="item.approvedDays"> </i-control>
-
-            <div class="col2">
-                <br />
-                <i-button ng-show=" !item.approved" label="##word.Check Balance##" x-permissions="approveVacationRequest" type="approve" ng-click="getEmployeeVacationBalance(item)"> </i-button>
-            </div>
-            <i-control type="number" disabled class="col2" label="##word.Regular Balance##" ng-model="item.regularVacations"> </i-control>
-            <i-control type="number" disabled class="col2" label="##word.Casual Balance##" ng-model="item.casualVacations"> </i-control>
-            <i-textarea ng-model="item.comment" rows="4" label="##word.Comment##"></i-textarea>
-        </div>
     </fieldset>
 </div>
 <div ng-show="mode !== 'add' " class="row">

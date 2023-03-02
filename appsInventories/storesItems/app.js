@@ -122,6 +122,7 @@ module.exports = function init(site) {
               doc.unitsList[index].storesList[storeIndex] = site.handelAddBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList);
             }
           } else if (screenName === 'stockTaking') {
+            console.log(_elm.countType);
             if (_elm.countType == 'in') {
               doc.unitsList[index].storesList[storeIndex].stockTakingInCount += _elm.count;
               doc.unitsList[index].storesList[storeIndex].stockTakingInPrice += _elm.total;

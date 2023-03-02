@@ -90,14 +90,14 @@
                             </td>
                             <td class="text-center">
                                 <i-button
-                                    type="approve"
+                                    type="unapprove"
                                     ng-show="elem.approved && !item.approved  && mode == 'edit'"
                                     ng-click="unapproveItem(elem)"
                                     x-permissions="unapprovePurchaseRequests||purchaseRequestsManage"
                                     label="##word.Unapprove##"
                                 ></i-button>
                                 <i-button
-                                    type="unapprove"
+                                    type="approve"
                                     ng-show="!elem.approved && !item.approved && mode == 'edit'"
                                     ng-click="approveItem(elem)"
                                     x-permissions="approvePurchaseRequests||purchaseRequestsManage"

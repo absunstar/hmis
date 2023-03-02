@@ -32,6 +32,7 @@ module.exports = function init(site) {
     accountingSetting: {
       paymentType: {},
     },
+    accountsSetting : {},
     generalSystemSetting: {},
   };
 

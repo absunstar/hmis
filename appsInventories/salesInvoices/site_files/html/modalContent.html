@@ -103,8 +103,7 @@
           </p>
         </td>
         <td>
-          <p ng-if="!elem.noVat">{{elem.totalVat}} ##word.$##</p>
-          <p ng-if="elem.noVat" class="red">##word.No VAT##</p>
+          <p>{{elem.totalVat}} ##word.$##</p>
         </td>
         <td>
           <p class="text-center">{{elem.total}} <span>##word.$##</span></p>
@@ -205,11 +204,13 @@
   <div class="row">
     <fieldset>
       <legend>##word.Totals##</legend>
-      <p class="bold font-20 text-warning">##word.Total Discounts## : {{item.totalDiscounts}}</p>
-      <p class="bold font-20 text-danger">##word.Total Taxes## : {{item.totalTaxes}}</p>
-      <p class="bold font-20 text-warning">##word.Total LBefore VAT## : {{item.totalBeforeVat}}</p>
+
+      <p class="bold font-20 text-warning">##word.Total## : {{item.totalPrice}}</p>
+      <p class="bold font-20 text-warning">##word.Total Before VAT## : {{item.totalBeforeVat}}</p>
       <p class="bold font-20 text-danger">##word.Total Vat## : {{item.totalVat}}</p>
       <p class="bold font-20 text-warning">##word.Total After VAT## : {{item.totalAfterVat}}</p>
+      <p class="bold font-20 text-warning">##word.Total Discounts## : {{item.totalDiscounts}}</p>
+      <p class="bold font-20 text-danger">##word.Total Taxes## : {{item.totalTaxes}}</p>
       <p class="bold font-24 green">##word.Total Net## : {{item.totalNet}}</p>
     </fieldset>
   </div>

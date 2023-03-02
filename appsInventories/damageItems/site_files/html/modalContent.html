@@ -77,13 +77,13 @@
         </td>
         <td class="text-center">
           <i-button
-            type="approve"
+            type="unapprove"
             ng-show="elem.approved &&  mode == 'edit'"
             ng-click="unapproveItem(elem)"
             x-permissions="unapproveDamageItem||damageItemsManage"
             label="##word.Unapprove##"
           ></i-button>
-          <i-button type="unapprove" ng-show="!elem.approved && mode == 'edit'" ng-click="approveItem(elem)" x-permissions="approveDamageItem||damageItemsManage" label="##word.Approve##"></i-button>
+          <i-button type="approve" ng-show="!elem.approved && mode == 'edit'" ng-click="approveItem(elem)" x-permissions="approveDamageItem||damageItemsManage" label="##word.Approve##"></i-button>
           <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial" label="##word.Batch##" ng-click="showBatchModal(elem)"> </i-button>
           <i-button type="delete" label="##word.Delete##" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>
         </td>

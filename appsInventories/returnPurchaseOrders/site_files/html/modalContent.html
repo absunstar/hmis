@@ -72,6 +72,16 @@
       </tr>
     </table>
   </fieldset>
+
+  <fieldset>
+    <legend>##word.Totals##</legend>
+    <p class="bold font-20 blue">##word.Total Prices## : {{item.totalPrice}}</p>
+    <p class="bold font-20 text-warning">##word.Total Vendor Disconts## : {{item.totalVendorDiscounts}}</p>
+    <p class="bold font-20 text-warning">##word.Total Legal Disconts## : {{item.totalLegalDiscounts}}</p>
+    <p class="bold font-20 text-warning">##word.Total Discounts## : {{item.totalDiscounts}}</p>
+    <p class="bold font-20 text-danger">##word.Total Taxes## : {{item.totalTaxes}}</p>
+    <p class="bold font-24 green">##word.Total Net## : {{item.totalNet}}</p>
+  </fieldset>
 </div>
 <div ng-show="mode !== 'add' " class="row">
   <table class="table hover border">

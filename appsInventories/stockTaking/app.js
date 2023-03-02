@@ -253,8 +253,9 @@ module.exports = function init(site) {
             result.doc.itemsList.forEach((_item) => {
               if (_item.currentCount != _item.count) {
                 let item = { ..._item };
-                item.count = item.count - item.currentCount;
                 item.countType = item.count > item.currentCount ? 'in' : 'out';
+                item.count = item.count - item.currentCount;
+                item.count = Math.abs(item.count);
                 item.store = { ...result.doc.store };
                 site.editItemsBalance(item, app.name);
                 item.company = result.doc.company;
@@ -262,6 +263,8 @@ module.exports = function init(site) {
                 item.date = result.doc.date;
                 item.orderCode = result.doc.code;
                 site.setItemCard(item, app.name);
+                console.log(item.count,item.currentCount,item.countType);
+
               }
             });
           } else {

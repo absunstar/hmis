@@ -228,9 +228,9 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
         $scope.busy = true;
         $scope.list = [];
         where = where || {};
-        if (!where['approved']) {
+        /* if (!where['approved']) {
             where['approved'] = false;
-        }
+        } */
         $http({
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/all`,

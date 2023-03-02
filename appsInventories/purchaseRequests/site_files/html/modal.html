@@ -28,10 +28,10 @@
             <p class="error">{{error}}</p>
             <i-button ng-show="mode == 'add' " type="add" label="##word.Add##" ng-click="add(item)"></i-button>
             <i-button ng-show="mode == 'edit' " type="edit" label="##word.Save##" ng-click="update(item)"></i-button>
-            <i-button ng-show="mode == 'edit' &&  !item.approved && canApprove" type="approved" label="##word.Approve##" ng-click="approve(item)" x-permissions="approvePurchaseRequests||purchaseRequestsManage"></i-button>
+            <i-button ng-show="mode == 'edit' &&  !item.approved && canApprove" type="approve" label="##word.Approve##" ng-click="approve(item)" x-permissions="approvePurchaseRequests||purchaseRequestsManage"></i-button>
             <i-button
                 ng-show="mode == 'edit' &&  item.approved && !item.hasTransaction"
-                type="approved"
+                type="unapprove"
                 label="##word.Unapprove##"
                 ng-click="unapprove(item)"
                 x-permissions="approvePurchaseRequests||purchaseRequestsManage"

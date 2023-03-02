@@ -16,7 +16,14 @@
 .table.branch tr {
   height: 50px;
 }
-
+.borderBlack {
+  border-style: solid;
+  border-color: black;
+}
+.numStr {
+  font-size: 18px !important;
+  font-style: italic;
+}
 .app-name {
   margin: 10px;
   padding: 0px 10px 0px 10px;

@@ -300,10 +300,13 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
             if (unitStore) {
                 unitStore.batchesList = unitStore.batchesList || [];
                 unitStore.batchesList.forEach((_b) => {
+                    if(_b.count > 0){
+
                     let batch = { ..._b };
                     batch.currentCount = batch.count;
                     batch.count = 0;
                     item.batchesList.push(batch);
+                    }
                 });
             }
         }

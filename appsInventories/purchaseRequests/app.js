@@ -309,15 +309,7 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        if (where.requestDate) {
-          let d1 = site.toDate(where.requestDate.from);
-          let d2 = site.toDate(where.requestDate.to);
-          d2.setDate(d2.getDate() + 1);
-          where.requestDate = {
-            $gte: d1,
-            $lt: d2,
-          };
-        }
+    
 
         let select = req.body.select || { id: 1, code: 1, title: 1, requestDate: 1, approvedDate: 1, itemsList: 1, approved: 1, active: 1, hasTransaction: 1 };
         let list = [];
@@ -346,19 +338,21 @@ module.exports = function init(site) {
             let d1 = site.toDate(where.date);
             let d2 = site.toDate(where.dateTo);
             d2.setDate(d2.getDate() + 1);
-            where.date = {
+            where.requestDate = {
               $gte: d1,
               $lt: d2,
             };
+            delete where.date;
             delete where.dateTo;
           } else if (where.date) {
             let d1 = site.toDate(where.date);
             let d2 = site.toDate(where.date);
             d2.setDate(d2.getDate() + 1);
-            where.date = {
+            where.requestDate = {
               $gte: d1,
               $lt: d2,
             };
+            delete where.date;
           }
           app.all({ where: where, select, sort : {id : -1} }, (err, docs) => {
             res.json({

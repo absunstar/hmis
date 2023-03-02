@@ -182,9 +182,9 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
         $scope.busy = true;
         $scope.list = [];
         where = where || {};
-        if (!where['approved']) {
+       /*  if (!where['approved']) {
             where['approved'] = false;
-        }
+        } */
         $http({
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/all`,
@@ -465,10 +465,13 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
             if (unitStore) {
                 unitStore.batchesList = unitStore.batchesList || [];
                 unitStore.batchesList.forEach((_b) => {
-                    let batch = { ..._b };
-                    batch.currentCount = batch.count;
-                    batch.count = 0;
-                    item.batchesList.push(batch);
+                    if(_b.count > 0){
+
+                        let batch = { ..._b };
+                        batch.currentCount = batch.count;
+                        batch.count = 0;
+                        item.batchesList.push(batch);
+                    }
                 });
             }
         }

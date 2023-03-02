@@ -91,6 +91,39 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
         );
     };
 
+    $scope.getCurrencies = function () {
+        $scope.busy = true;
+        $scope.currenciesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/currencies/all',
+            data: {
+                where: {
+                    active: true,
+                },
+                select: {
+                    id: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                    exchangePrice: 1,
+                    smallCurrencyAr: 1,
+                    smallCurrencyEn: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.currenciesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
     $scope.getStores = function () {
         $scope.busy = true;
         $scope.storesList = [];
@@ -495,4 +528,5 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
     $scope.workflowPositions();
     $scope.workflowScreens();
     $scope.getSystemSetting();
+    $scope.getCurrencies();
 });

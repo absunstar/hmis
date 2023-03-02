@@ -8,6 +8,7 @@ module.exports = function init(site) {
         allowRoute: true,
         allowRouteGet: true,
         allowRouteGetEmployeeVacationBalance: true,
+        allowPaySlip: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
         allowRouteDelete: true,
@@ -17,6 +18,30 @@ module.exports = function init(site) {
 
     app.$collection = site.connectCollection(app.name);
     // app.$collection = site.connectCollection('users_info');
+
+    site.calculatePaySlipAllownce = function (item, fixedSalary) {
+        const allowance = { id: item.allowance.id, code: item.allowance.code, nameAr: item.allowance.nameAr, nameEn: item.allowance.nameEn, value: 0 };
+
+        if (item.type == 'percent') {
+            allowance.value = (item.value / 100) * fixedSalary;
+        } else {
+            allowance.value = item.value;
+        }
+
+        return allowance;
+    };
+
+    site.calculatePaySlipDeduction = function (item, fixedSalary) {
+        const deduction = { id: item.deduction.id, code: item.deduction.code, nameAr: item.deduction.nameAr, nameEn: item.deduction.nameEn, value: 0 };
+
+        if (item.type == 'percent') {
+            deduction.value = (item.value / 100) * fixedSalary;
+        } else {
+            deduction.value = item.value;
+        }
+
+        return deduction;
+    };
 
     app.init = function () {
         if (app.allowMemory) {
@@ -313,22 +338,69 @@ module.exports = function init(site) {
                 });
             });
         }
+        if (app.allowPaySlip) {
+            site.post({ name: `/api/${app.name}/calculatePaySlip`, require: { permissions: ['login'] } }, (req, res) => {
+                let response = {
+                    done: false,
+                };
+
+                let _data = req.data;
+
+                if (!_data.id) {
+                    response.done = false;
+                    response.error = 'Please Select Employee';
+                    res.json(response);
+                    return;
+                }
+
+                app.$collection.find({ id: _data.id, active: true }, (err, doc) => {
+                    if (doc) {
+                        const allowancesList = [];
+                        const deductionsList = [];
+                        const fixedSalary = doc.fixedSalary;
+
+                        let totalAllowance = 0;
+                        let totalDeductions = 0;
+                        doc.allowancesList.forEach((_elm) => {
+                            if (_elm && _elm.active) {
+                                const allowance = site.calculatePaySlipAllownce(_elm, fixedSalary);
+                                totalAllowance += allowance.value;
+
+                                allowancesList.push(allowance);
+                            }
+                        });
+
+                        doc.deductionsList.forEach((_elm) => {
+                            if (_elm && _elm.active) {
+                                const deuction = site.calculatePaySlipDeduction(_elm, fixedSalary);
+                                totalDeductions += deuction.value;
+                                deductionsList.push(deuction);
+                            }
+                        });
+
+                        response.done = true;
+                        response.doc = { totalAllowance, totalDeductions, allowancesList, deductionsList };
+
+                        res.json(response);
+                    }
+                });
+            });
+        }
+
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
                 let search = req.body.search || '';
                 let limit = req.body.limit || 10;
-                let select =
-                    req.body.select ||
-                    {
-                        // id: 1,
-                        // code: 1,
-                        // fullNameEn: 1,
-                        // fullNameAr: 1,
-                        // mobile: 1,
-                        // image: 1,
-                        // active: 1,
-                    };
+                let select = req.body.select || {
+                    id: 1,
+                    code: 1,
+                    fullNameEn: 1,
+                    fullNameAr: 1,
+                    mobile: 1,
+                    image: 1,
+                    active: 1,
+                };
 
                 if (search) {
                     where.$or = [];
@@ -364,6 +436,7 @@ module.exports = function init(site) {
                     });
                 } else {
                     where['company.id'] = site.getCompany(req).id;
+
                     app.all({ where, select, limit }, (err, docs) => {
                         res.json({
                             done: true,

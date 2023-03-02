@@ -324,6 +324,7 @@ module.exports = function init(site) {
                     requestStatus: 1,
                     approveDate: 1,
                     rejectDate: 1,
+                    date: 1,
                     active: 1,
                 };
 

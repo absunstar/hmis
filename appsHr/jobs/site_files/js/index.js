@@ -225,10 +225,10 @@ app.controller('jobs', function ($scope, $http, $timeout) {
 
     $scope.getDepartments = function () {
         $scope.busy = true;
-        $scope.sectionsList = [];
+        $scope.departmentsList = [];
         $http({
             method: 'POST',
-            url: '/api/sections/all',
+            url: '/api/departments/all',
             data: {
                 where: { active: true },
                 select: {
@@ -242,7 +242,7 @@ app.controller('jobs', function ($scope, $http, $timeout) {
             function (response) {
                 $scope.busy = false;
                 if (response.data.done && response.data.list.length > 0) {
-                    $scope.sectionsList = response.data.list;
+                    $scope.departmentsList = response.data.list;
                 }
             },
             function (err) {
@@ -252,20 +252,20 @@ app.controller('jobs', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getSection = function (administration) {
+    $scope.getSection = function (department) {
         $scope.busy = true;
         $scope.sectionsList = [];
         $http({
             method: 'POST',
             url: '/api/sections/all',
             data: {
-                where: { active: true, administration },
+                where: { active: true, 'department.id': department.id },
                 select: {
                     id: 1,
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
-                }
+                },
             },
         }).then(
             function (response) {

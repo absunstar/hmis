@@ -1,22 +1,79 @@
 <div class="row">
-    <div class="row padding">
-        <div class="col7">
-            <div class="row">
-                <div class="row">
-                    <i-control ng-hide="disabledCode" class="col9" label="##word.Code##" ng-model="item.code"> </i-control>
-                    <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
-                </div>
-                <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
-                <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
-                <i-list label="##word.Manager##" ng-model="item.manager" ng-search="item.$manager" display="fullName##session.lang##" items="employeesList"></i-list>
-                <i-list label="##word.Deputy##" ng-model="item.deputy" ng-search="item.$deputy" display="fullName##session.lang##" items="employeesList"></i-list>
+    <fieldset>
+        <legend>##word.Basic Informations##</legend>
+        <div class="row">
+            <i-control class="col2" ng-hide="disabledCode" label="##word.Code##" ng-model="item.code"> </i-control>
+            <i-date class="col4" v="r" ng-model="item.fromDate" label="##word.From Date##"></i-date>
+            <i-date class="col4" v="r" ng-model="item.toDate" label="##word.To Date##"></i-date>
+            <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
+
+            <i-list class="col4" label="##word.Employee##" ng-model="item.employee" ng-search="item.$employee" display="fullName##session.lang##" items="employeesList"></i-list>
+            <div class="col3">
+                <br />
+                <i-button type="list" label="##word.Get##" ng-click="calculatePaySlip(item)"></i-button>
             </div>
         </div>
-        <div class="col5 center">
-            <i-image class="img256 center" ng-model="item.image"></i-image>
+
+        <p class="error">{{getDataError}}</p>
+    </fieldset>
+
+    <fieldset>
+        <legend>##word.Allowances Items##</legend>
+
+        <div class="table-responsive">
+            <table class="table hover bold">
+                <tr>
+                    <th>##word.s##</th>
+                    <th>##word.Name##</th>
+                    <th>##word.Value##</th>
+                    <th>##word.Name Arabic##</th>
+                </tr>
+                <tr ng-repeat="itm in paySlip.allowancesList">
+                    <td class="center blue">{{$index+1}}</td>
+                    <td class="center">{{itm.nameEn}}</td>
+                    <td class="center">
+                        <p class="text-success">{{itm.value}} <span>##word.$##</span></p>
+                    </td>
+                    <td class="center">{{itm.nameAr}}</td>
+                </tr>
+                <tr ng-show="paySlip.totalAllowance">
+                    <th colspan="2" class="center">##word.Total Allowance##</th>
+                    <td colspan="2" class="center"><span class="col4 center text-success bold"> {{paySlip.totalAllowance}} ##word.$##</span></td>
+                </tr>
+            </table>
         </div>
-    </div>
-    <div class="row padding"></div>
+    </fieldset>
+
+    <fieldset>
+        <legend>##word.Deductions Items##</legend>
+
+        <div class="table-responsive">
+            <table class="table hover bold">
+                <tr>
+                    <th>##word.s##</th>
+                    <th>##word.Name##</th>
+                    <th>##word.Value##</th>
+                    <th>##word.Name Arabic##</th>
+                </tr>
+                <tr ng-repeat="itm in paySlip.deductionsList">
+                    <td class="center blue">{{$index+1}}</td>
+                    <td class="center">{{itm.nameEn}}</td>
+                    <td class="center">
+                        <p class="text-danger">{{itm.value}} <span>##word.$##</span></p>
+                    </td>
+                    <td class="center">{{itm.nameAr}}</td>
+                </tr>
+
+                <tr ng-show="paySlip.totalDeductions">
+                    <th colspan="2" class="center">##word.Total Deductions##</th>
+                    <td colspan="2" class="center"><span class="col4 center text-danger bold"> {{paySlip.totalDeductions}} ##word.$##</span></td>
+                </tr>
+            </table>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>##word.Total##</legend>
+    </fieldset>
 </div>
 <div ng-show="mode !== 'add' " class="row">
     <table class="table hover border">

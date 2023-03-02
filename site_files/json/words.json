@@ -459,5 +459,10 @@
         "name": "No Installment Available For This Employee",
         "En": "No Installment Available For This Employee ",
         "Ar": "لاتوجد اقساط متاحه لهذا الموظف "
+    },
+    {
+        "name": "Please Select Date",
+        "En": "Please Select Date",
+        "Ar": "يرجي إختيار التاريخ"
     }
 ]

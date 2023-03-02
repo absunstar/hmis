@@ -577,7 +577,6 @@
                                     </div>
                                     <i-checkbox class="col4 text-center" label="##word.Auto Overtime##" ng-model="item.autoOvertime"></i-checkbox>
                                 </div>
-
                             </fieldset>
 
                             <fieldset>
@@ -618,29 +617,29 @@
                                             <th>##word.Status##</th>
                                             <th class="not-print">##word.Actions##</th>
                                         </tr>
-                                        <tr ng-repeat="elem in item.allowancesList">
+                                        <tr ng-repeat="itm in item.allowancesList">
                                             <td class="text-center blue">{{$index+1}}</td>
-                                            <td class="text-center">{{elem.allowance.name##session.lang##}}</td>
+                                            <td class="text-center">{{itm.allowance.name##session.lang##}}</td>
                                             <td class="text-center">
                                                 <div class="row">
-                                                    <i-radio class="col6" label="##word.Value##" ng-value="value" ng-model="elem.type"> </i-radio>
-                                                    <i-radio class="col6" label="##word.Percent##" ng-value="percent" ng-model="elem.type"> </i-radio>
+                                                    <i-radio class="col6" group="itm_{{$index}}" label="##word.Value##" ng-value="value" ng-model="itm.type"> </i-radio>
+                                                    <i-radio class="col6" group="itm_{{$index}}" label="##word.Percent##" ng-value="percent" ng-model="itm.type"> </i-radio>
                                                 </div>
                                             </td>
                                             <td class="text-center">
                                                 <div class="row">
-                                                    <div class="col9"><i-control type="number" ng-model="elem.value"> </i-control></div>
+                                                    <div class="col9"><i-control type="number" ng-model="itm.value"> </i-control></div>
                                                     <div class="col3">
-                                                        <span class="blue" ng-if="elem.type == 'value'">##word.$##</span>
-                                                        <span class="blue" ng-if="elem.type == 'percent'">##word.%##</span>
+                                                        <span class="blue" ng-if="itm.type == 'value'">##word.$##</span>
+                                                        <span class="blue" ng-if="itm.type == 'percent'">##word.%##</span>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="row">
-                                                    <i-checkbox class="col6 text-center" ng-model="elem.active" x-permissions="changeEmployeeAllowance"></i-checkbox>
-                                                    <p class="col6 text-center text-success" ng-if="elem.active">##word.Active##</p>
-                                                    <p class="col6 text-center text-danger" ng-if="!elem.active">##word.Not Active##</p>
+                                                    <i-checkbox class="col6 text-center" ng-model="itm.active" x-permissions="changeEmployeeAllowance"></i-checkbox>
+                                                    <p class="col6 text-center text-success" ng-if="itm.active">##word.Active##</p>
+                                                    <p class="col6 text-center text-danger" ng-if="!itm.active">##word.Not Active##</p>
                                                 </div>
                                             </td>
                                             <td class="text-center not-print">
@@ -693,8 +692,8 @@
                                             <td class="text-center">{{elem.deduction.name##session.lang##}}</td>
                                             <td class="text-center">
                                                 <div class="row">
-                                                    <i-radio class="col6" label="##word.Value##" ng-value="value" ng-model="elem.type"> </i-radio>
-                                                    <i-radio class="col6" label="##word.Percent##" ng-value="percent" ng-model="elem.type"> </i-radio>
+                                                    <i-radio class="col6" group="elem_{{$index}}" label="##word.Value##" ng-value="value" ng-model="elem.type"> </i-radio>
+                                                    <i-radio class="col6" group="elem_{{$index}}" label="##word.Percent##" ng-value="percent" ng-model="elem.type"> </i-radio>
                                                 </div>
                                             </td>
                                             <td class="text-center">

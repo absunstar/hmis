@@ -7,6 +7,7 @@ app.controller('payslips', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: { url: '/images/payslips.png' },
+        approved: false,
         active: true,
     };
     $scope.item = {};
@@ -188,7 +189,6 @@ app.controller('payslips', function ($scope, $http, $timeout) {
     };
 
     $scope.getEmployees = function () {
-   
         $scope.busy = true;
         $scope.employeesList = [];
         $http({
@@ -201,6 +201,9 @@ app.controller('payslips', function ($scope, $http, $timeout) {
                     code: 1,
                     fullNameAr: 1,
                     fullNameEn: 1,
+                    allowancesList: 1,
+                    allowancesList: 1,
+                    deductionsList: 1,
                 },
             },
         }).then(
@@ -209,6 +212,40 @@ app.controller('payslips', function ($scope, $http, $timeout) {
                 if (response.data.done && response.data.list.length > 0) {
                     $scope.employeesList = response.data.list;
                 }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.calculatePaySlip = function (item) {
+        $scope.getDataError = '';
+        if (!item || !item.employee || !item.employee.id) {
+            $scope.getDataError = '##word.Please Select Employee##';
+            return;
+        }
+        if (!item.fromDate || !item.toDate) {
+            $scope.getDataError = '##word.Please Select Date##';
+            return;
+        }
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: '/api/employees/calculatePaySlip',
+            data: {
+                id: item.employee.id,
+                fromDate: item.fromDate,
+                toDate: item.toDate,
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.doc) {
+                    $scope.paySlip = response.data.doc;
+                }
+                console.log('$scope.paySlip', $scope.paySlip);
             },
             function (err) {
                 $scope.busy = false;

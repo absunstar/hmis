@@ -145,6 +145,24 @@ module.exports = function init(site) {
     });
   };
 
+  site.checkBarcode = function (barcodes, callback) {
+    app.all({ where: { 'unitsList.barcode': { $in: barcodes } } }, (err, docs) => {
+      if (docs) {
+        let list = [];
+        docs.forEach((_doc) => {
+          _doc.unitsList.forEach((_unit) => {
+            if (barcodes.some((b) => b == _unit.barcode)) {
+              list.push(_unit.barcode);
+            }
+          });
+        });
+        callback(list);
+      } else {
+        callback(false);
+      }
+    });
+  };
+
   site.checkOverDraft = function (req, obj, callback) {
     const systemSetting = site.getSystemSetting(req);
 
@@ -454,17 +472,60 @@ module.exports = function init(site) {
         } else if (cb.auto) {
           _data.code = cb.code;
         }
-        app.$collection.find({ code: _data.code }, (err, doc) => {
-          if (doc) {
-            response.error = 'Code Exisit';
-            res.json(response);
-            return;
+        let barcodes = [];
+        _data.unitsList.forEach((_u) => {
+          barcodes.push(_u.barcode);
+          _u.purchasePriceList.push({ price: _u.purchasePrice, date: new Date() });
+          _u.salesPriceList.push({ price: _u.salesPrice, date: new Date() });
+        });
+
+        let where = {
+          id: { $ne: _data.id },
+          $or: [
+            {
+              code: _data.code,
+            },
+            {
+              nameAr: _data.nameAr,
+            },
+            {
+              nameEn: _data.nameEn,
+            },
+            {
+              'unitsList.barcode': { $in: barcodes },
+            },
+          ],
+        };
+        app.all(where, (err, docs) => {
+          if (docs) {
+            response.done = false;
+            if (docs[0].nameAr == _data.nameAr) {
+              response.error = 'There is a pre-existing name arabic';
+              return res.json(response);
+            } else if (docs[0].nameEn == _data.nameEn) {
+              response.error = 'There is a pre-existing name english';
+              return res.json(response);
+            } else if (docs[0].code == _data.code) {
+              response.error = 'There is a pre-existing Code';
+              return res.json(response);
+            } else {
+              let barcodesList = [];
+              docs.forEach((_doc) => {
+                _doc.unitsList.forEach((_unit) => {
+                  if (_data.unitsList.some((u) => u.barcode == _unit.barcode)) barcodesList.push(_unit.barcode);
+                });
+              });
+              if (barcodesList.length > 0) {
+                let errorBarcode = '';
+                errorBarcode = barcodesList.map((b) => b).join('-');
+                response.error = `There is a pre-existing barcode ( ${errorBarcode} )`;
+                res.json(response);
+                return;
+              }
+            }
           }
           _data.addUserInfo = req.getUserFinger();
-          _data.unitsList.forEach((_u) => {
-            _u.purchasePriceList.push({ price: _u.purchasePrice, date: new Date() });
-            _u.salesPriceList.push({ price: _u.salesPrice, date: new Date() });
-          });
+
           app.add(_data, (err, doc) => {
             if (!err && doc) {
               response.done = true;
@@ -485,13 +546,61 @@ module.exports = function init(site) {
         };
 
         let _data = req.data;
-        app.$collection.find({ code: _data.code, id: { $ne: _data.id } }, (err, doc) => {
-          if (doc) {
+        let barcodes = [];
+        _data.unitsList.forEach((_u) => {
+          barcodes.push(_u.barcode);
+        });
+
+        let where = {
+          id: { $ne: _data.id },
+          $or: [
+            {
+              code: _data.code,
+            },
+            {
+              nameAr: _data.nameAr,
+            },
+            {
+              nameEn: _data.nameEn,
+            },
+            {
+              'unitsList.barcode': { $in: barcodes },
+            },
+          ],
+        };
+        app.all(where, (err, docs) => {
+          if (docs) {
             response.done = false;
-            response.error = 'Code Exisit';
-            return res.json(response);
+            if (docs[0].nameAr == _data.nameAr) {
+              response.error = 'There is a pre-existing name arabic';
+              return res.json(response);
+            } else if (docs[0].nameEn == _data.nameEn) {
+              response.error = 'There is a pre-existing name english';
+              return res.json(response);
+            } else if (docs[0].code == _data.code) {
+              response.error = 'There is a pre-existing Code';
+              return res.json(response);
+            } else {
+              let barcodesList = [];
+              docs.forEach((_doc) => {
+                _doc.unitsList.forEach((_unit) => {
+                  if (_data.unitsList.some((u) => u.barcode == _unit.barcode)) barcodesList.push(_unit.barcode);
+                });
+              });
+              if (barcodesList.length > 0) {
+                let errorBarcode = '';
+                errorBarcode = barcodesList.map((b) => b).join('-');
+                response.error = `There is a pre-existing barcode ( ${errorBarcode} )`;
+                res.json(response);
+                return;
+              }
+            }
           }
           _data.editUserInfo = req.getUserFinger();
+          _data.unitsList.forEach((_u) => {
+            _u.purchasePriceList.push({ price: _u.purchasePrice, date: new Date() });
+            _u.salesPriceList.push({ price: _u.salesPrice, date: new Date() });
+          });
 
           app.update(_data, (err, result) => {
             if (!err) {

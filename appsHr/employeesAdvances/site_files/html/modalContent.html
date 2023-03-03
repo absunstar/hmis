@@ -23,7 +23,7 @@
             <i-control ng-show="!item.approved" v="r" type="number" class="col3" min="1" label="##word.Number Of Months##" ng-model="item.numberOfMonths"> </i-control>
             <div class="col3" ng-show="item.approved">
                 <p class="center">##word.Amount##</p>
-                <p class="center">{{item.amount}}</p>
+                <p class="center">{{item.amount}} <span>##word.$##</span></p>
             </div>
             <div class="col3" ng-show="item.approved">
                 <p class="center">##word.Number Of Months##</p>
@@ -41,7 +41,7 @@
     </fieldset>
     <fieldset ng-show="mode !='add'">
         <legend>##word.Approve Informations##</legend>
-        <div class="row" ng-show="!item.paymentDataApproved">
+        <div class="row" ng-show="!canReject">
             <i-control type="number" class="col3" label="##word.Approved Amount##" ng-model="item.approvedAmount"> </i-control>
             <i-control type="number" class="col3" label="##word.Approved Number Of Months##" ng-model="item.approvedNumberOfMonths"> </i-control>
             <div class="col2">
@@ -50,10 +50,9 @@
             </div>
         </div>
 
-        <p class="center error">{{installmentError}}</p>
         <fieldset ng-show="item.installmentsList && item.installmentsList.length">
             <legend>
-                <i-button type="add default" ng-show="canReject" ng-click="item.installmentsList.push({})"></i-button>
+                <i-button type="add default" ng-show="!canReject" ng-click="item.installmentsList.push({})"></i-button>
                 ##word.Payment Data##
             </legend>
             <div class="row" ng-repeat="c in item.installmentsList">
@@ -69,7 +68,7 @@
                         <i-control v="r" ng-show="!c.paid" type="number" class="col3" min="1" label="##word.Amount##" ng-model="c.amount"> </i-control>
                         <div class="col3" ng-show="c.paid">
                             <p class="center">##word.Amount##</p>
-                            <p class="center">{{c.amount |number:'0.3'}}</p>
+                            <p class="center">{{c.amount}} <span>##word.$##</span></p>
                         </div>
 
                         <div class="col2">
@@ -94,7 +93,7 @@
                     <td class="center">{{c.date |date:'dd/MM/yyyy'}}</td>
                     <td class="center">
                         <p ng-show="!c.amount">-</p>
-                        <p ng-show="c.amount">{{c.amount |number:'0.3'}}</p>
+                        <p ng-show="c.amount">{{c.amount}} <span>##word.$##</span></p>
                     </td>
                     <td class="center">
                         <p ng-show="!c.paidDate">-</p>
@@ -142,6 +141,7 @@
                 label="##word.Unapprove##"
                 ng-click="unapproveInstallmentandItem(item)"
             ></i-button>
+            <p class="center error">{{installmentError}}</p>
         </fieldset>
         <i-textarea ng-model="item.comment" rows="4" label="##word.Comment##"></i-textarea>
     </fieldset>

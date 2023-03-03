@@ -1,0 +1,100 @@
+<div class="row">
+    <fieldset>
+        <legend>##word.Basic Informations##</legend>
+        <div class="row">
+            <i-control class="col2" ng-hide="disabledCode" label="##word.Code##" ng-model="item.code"> </i-control>
+            <i-date class="col4" v="r" ng-model="item.fromDate" label="##word.From Date##"></i-date>
+            <i-date class="col4" v="r" ng-model="item.toDate" label="##word.To Date##"></i-date>
+            <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
+
+            <i-list class="col4" label="##word.Employee##" ng-model="item.employee" ng-search="item.$employee" display="fullName##session.lang##" items="employeesList"></i-list>
+            <div class="col3">
+                <br />
+                <i-button type="list" label="##word.Get##" ng-click="calculatePaySlip(item)"></i-button>
+            </div>
+        </div>
+
+        <p class="error">{{getDataError}}</p>
+    </fieldset>
+
+    <fieldset>
+        <legend>##word.Allowances Items##</legend>
+
+        <div class="table-responsive">
+            <table class="table hover bold">
+                <tr>
+                    <th>##word.s##</th>
+                    <th>##word.Name##</th>
+                    <th>##word.Value##</th>
+                    <th>##word.Name Arabic##</th>
+                </tr>
+                <tr ng-repeat="itm in paySlip.allowancesList">
+                    <td class="center blue">{{$index+1}}</td>
+                    <td class="center">{{itm.nameEn}}</td>
+                    <td class="center">
+                        <p class="text-success">{{itm.value}} <span>##word.$##</span></p>
+                    </td>
+                    <td class="center">{{itm.nameAr}}</td>
+                </tr>
+                <tr ng-show="paySlip.totalAllowance">
+                    <th colspan="2" class="center">##word.Total Allowance##</th>
+                    <td colspan="2" class="center"><span class="col4 center text-success bold"> {{paySlip.totalAllowance}} ##word.$##</span></td>
+                </tr>
+            </table>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>##word.Deductions Items##</legend>
+
+        <div class="table-responsive">
+            <table class="table hover bold">
+                <tr>
+                    <th>##word.s##</th>
+                    <th>##word.Name##</th>
+                    <th>##word.Value##</th>
+                    <th>##word.Name Arabic##</th>
+                </tr>
+                <tr ng-repeat="itm in paySlip.deductionsList">
+                    <td class="center blue">{{$index+1}}</td>
+                    <td class="center">{{itm.nameEn}}</td>
+                    <td class="center">
+                        <p class="text-danger">{{itm.value}} <span>##word.$##</span></p>
+                    </td>
+                    <td class="center">{{itm.nameAr}}</td>
+                </tr>
+
+                <tr ng-show="paySlip.totalDeductions">
+                    <th colspan="2" class="center">##word.Total Deductions##</th>
+                    <td colspan="2" class="center"><span class="col4 center text-danger bold"> {{paySlip.totalDeductions}} ##word.$##</span></td>
+                </tr>
+            </table>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>##word.Total##</legend>
+    </fieldset>
+</div>
+<div ng-show="mode !== 'add' " class="row">
+    <table class="table hover border">
+        <tr>
+            <th>##word.Add Info##</th>
+            <th>##word.Last Edit Info##</th>
+        </tr>
+        <tr>
+            <td class="center">
+                <p class="blue">{{item.addUserInfo.name}}</p>
+                <small class="green"> {{item.addUserInfo.date |date:"hh:mm"}} </small>
+                <small> {{item.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
+                <p class="bold">IP : {{item.addUserInfo.ip}}</p>
+            </td>
+
+            <td class="center">
+                <p class="blue">{{item.editUserInfo.name}}</p>
+                <small class="green"> {{item.editUserInfo.date |date:"hh:mm"}} </small>
+                <small> {{item.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
+                <p class="bold">IP : {{item.editUserInfo.ip}}</p>
+            </td>
+        </tr>
+    </table>
+</div>

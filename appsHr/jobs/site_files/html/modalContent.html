@@ -13,7 +13,7 @@
                         class="col6"
                         label="##word.Department##"
                         ng-model="item.department"
-                        ng-change="getDepartment(item.department)"
+                        ng-change="getSection(item.department)"
                         display="name##session.lang##"
                         items="departmentsList"
                         ng-search="item.$department"
@@ -21,11 +21,11 @@
                     <i-list
                         v="r"
                         class="col6"
-                        label="##word.Department##"
-                        ng-model="item.jobDepartment"
+                        label="##word.Section##"
+                        ng-model="item.section"
                         display="name##session.lang##"
-                        items="jobsDepartmentsList"
-                        ng-search="item.$jobDepartment"
+                        items="sectionsList"
+                        ng-search="item.$section"
                     ></i-list>
 
                     <i-textarea type="text" v="r" rows="3" ng-model="item.jobDescription" label="##word.Job Description##"></i-textarea>

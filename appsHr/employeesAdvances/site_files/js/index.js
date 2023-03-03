@@ -461,7 +461,7 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
     };
 
     $scope.approvePayInstallment = function (installment) {
-        const selectectedInstallment = $scope.item.installmentsList.findIndex((_item) => _item && _item.paid && _item.id === installment.id);
+        const selectectedInstallment = $scope.item.installmentsList.findIndex((_item) => _item && _item.paid && _item === installment);
         if (selectectedInstallment !== -1) {
             $scope.item.installmentsList[selectectedInstallment]['approved'] = true;
         }

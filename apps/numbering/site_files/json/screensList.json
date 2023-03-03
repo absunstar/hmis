@@ -490,5 +490,11 @@
         "feature": "public",
         "id": "employeesAdvances",
         "name": "Employees Advances"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "payslips",
+        "name": "Payslips"
     }
 ]

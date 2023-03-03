@@ -1,14 +1,12 @@
 module.exports = function init(site) {
     let app = {
-        name: 'employees',
-        allowMemory: false,
+        name: 'payslips',
+        allowMemory: true,
         memoryList: [],
         allowCache: false,
         cacheList: [],
         allowRoute: true,
         allowRouteGet: true,
-        allowRouteGetEmployeeVacationBalance: true,
-        allowPaySlip: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
         allowRouteDelete: true,
@@ -17,31 +15,6 @@ module.exports = function init(site) {
     };
 
     app.$collection = site.connectCollection(app.name);
-    // app.$collection = site.connectCollection('users_info');
-
-    site.calculatePaySlipAllownce = function (item, fixedSalary) {
-        const allowance = { id: item.allowance.id, code: item.allowance.code, nameAr: item.allowance.nameAr, nameEn: item.allowance.nameEn, value: 0 };
-
-        if (item.type == 'percent') {
-            allowance.value = (item.value / 100) * fixedSalary;
-        } else {
-            allowance.value = item.value;
-        }
-
-        return allowance;
-    };
-
-    site.calculatePaySlipDeduction = function (item, fixedSalary) {
-        const deduction = { id: item.deduction.id, code: item.deduction.code, nameAr: item.deduction.nameAr, nameEn: item.deduction.nameEn, value: 0 };
-
-        if (item.type == 'percent') {
-            deduction.value = (item.value / 100) * fixedSalary;
-        } else {
-            deduction.value = item.value;
-        }
-
-        return deduction;
-    };
 
     app.init = function () {
         if (app.allowMemory) {
@@ -69,7 +42,6 @@ module.exports = function init(site) {
             if (callback) {
                 callback(err, doc);
             }
-
             if (app.allowMemory && !err && doc) {
                 app.memoryList.push(doc);
             }
@@ -155,7 +127,6 @@ module.exports = function init(site) {
             });
         }
     };
-
     app.all = function (_options, callback) {
         if (callback) {
             if (app.allowMemory) {
@@ -173,7 +144,7 @@ module.exports = function init(site) {
                     name: app.name,
                 },
                 (req, res) => {
-                    res.render(app.name + '/index.html', { title: app.name, appName: 'Employees' }, { parser: 'html', compres: true });
+                    res.render(app.name + '/index.html', { title: app.name, appName: 'Payslips' }, { parser: 'html', compres: true });
                 }
             );
         }
@@ -183,37 +154,15 @@ module.exports = function init(site) {
                 let response = {
                     done: false,
                 };
+
                 let _data = req.data;
                 _data.company = site.getCompany(req);
-                _data.branch = site.getBranch(req);
-                _data.branchList = [
-                    {
-                        company: _data.company,
-                        branch: _data.branch,
-                    },
-                ];
+
                 let numObj = {
                     company: site.getCompany(req),
                     screen: app.name,
                     date: new Date(),
                 };
-
-                _data.roles = [
-                    {
-                        moduleName: 'public',
-                        name: 'employeePermissions',
-                        En: 'Employee Permissions',
-                        Ar: 'صلاحيات الموظف',
-                    },
-                ];
-
-                if (_data.mobileList.length > 0) {
-                    _data.mobile = _data.mobileList[0].mobile;
-                } else {
-                    response.error = 'Must Add Mobile Number';
-                    res.json(response);
-                    return;
-                }
 
                 let cb = site.getNumbering(numObj);
                 if (!_data.code && !cb.auto) {
@@ -225,18 +174,13 @@ module.exports = function init(site) {
                 }
 
                 _data.addUserInfo = req.getUserFinger();
-                // _data.type = { id: 3, name: 'Employee' };
-
-                if (!_data.email) {
-                    _data.email = _data.nameEn + Math.floor(Math.random() * 1000 + 1).toString();
-                }
 
                 app.add(_data, (err, doc) => {
                     if (!err && doc) {
                         response.done = true;
                         response.doc = doc;
                     } else {
-                        response.error = err?.message || 'Add Not Exists';
+                        response.error = err.mesage;
                     }
                     res.json(response);
                 });
@@ -252,20 +196,12 @@ module.exports = function init(site) {
                 let _data = req.data;
                 _data.editUserInfo = req.getUserFinger();
 
-                if (_data.mobileList.length > 0) {
-                    _data.mobile = _data.mobileList[0].mobile;
-                } else {
-                    response.error = 'Must Add Mobile Number';
-                    res.json(response);
-                    return;
-                }
-
                 app.update(_data, (err, result) => {
                     if (!err) {
                         response.done = true;
                         response.result = result;
                     } else {
-                        response.error = err?.message || 'Update Not Exists';
+                        response.error = err.message;
                     }
                     res.json(response);
                 });
@@ -310,83 +246,6 @@ module.exports = function init(site) {
             });
         }
 
-        if (app.allowRouteGetEmployeeVacationBalance) {
-            site.post({ name: `/api/${app.name}/getEmployeeVacationBalance`, require: { permissions: ['login'] } }, (req, res) => {
-                let response = {
-                    done: false,
-                };
-
-                let _data = req.data;
-
-                if (!_data.id) {
-                    response.done = false;
-                    response.error = 'Please Select Employee';
-                    res.json(response);
-                    return;
-                }
-
-                app.$collection.find({ id: _data.id }, (err, doc) => {
-                    if (doc) {
-                        const regularVacations = doc.regularVacations || 0;
-                        const casualVacations = doc.casualVacations || 0;
-
-                        response.done = true;
-                        response.doc = { regularVacations, casualVacations };
-
-                        res.json(response);
-                    }
-                });
-            });
-        }
-        if (app.allowPaySlip) {
-            site.post({ name: `/api/${app.name}/calculatePaySlip`, require: { permissions: ['login'] } }, (req, res) => {
-                let response = {
-                    done: false,
-                };
-
-                let _data = req.data;
-
-                if (!_data.id) {
-                    response.done = false;
-                    response.error = 'Please Select Employee';
-                    res.json(response);
-                    return;
-                }
-
-                app.$collection.find({ id: _data.id, active: true }, (err, doc) => {
-                    if (doc) {
-                        const allowancesList = [];
-                        const deductionsList = [];
-                        const fixedSalary = doc.fixedSalary;
-
-                        let totalAllowance = 0;
-                        let totalDeductions = 0;
-                        doc.allowancesList.forEach((_elm) => {
-                            if (_elm && _elm.active) {
-                                const allowance = site.calculatePaySlipAllownce(_elm, fixedSalary);
-                                totalAllowance += allowance.value;
-
-                                allowancesList.push(allowance);
-                            }
-                        });
-
-                        doc.deductionsList.forEach((_elm) => {
-                            if (_elm && _elm.active) {
-                                const deuction = site.calculatePaySlipDeduction(_elm, fixedSalary);
-                                totalDeductions += deuction.value;
-                                deductionsList.push(deuction);
-                            }
-                        });
-
-                        response.done = true;
-                        response.doc = { totalAllowance, totalDeductions, allowancesList, deductionsList };
-
-                        res.json(response);
-                    }
-                });
-            });
-        }
-
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
@@ -395,9 +254,11 @@ module.exports = function init(site) {
                 let select = req.body.select || {
                     id: 1,
                     code: 1,
-                    fullNameEn: 1,
-                    fullNameAr: 1,
-                    mobile: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                    image: 1,
+                    manager: 1,
+                    deputy: 1,
                     image: 1,
                     active: 1,
                 };
@@ -414,19 +275,19 @@ module.exports = function init(site) {
                     });
 
                     where.$or.push({
-                        fullNameAr: site.get_RegExp(search, 'i'),
+                        nameAr: site.get_RegExp(search, 'i'),
                     });
 
                     where.$or.push({
-                        fullNameEn: site.get_RegExp(search, 'i'),
+                        nameEn: site.get_RegExp(search, 'i'),
                     });
                 }
 
                 if (app.allowMemory) {
                     if (!search) {
                         search = 'id';
-                    }
-                    let list = app.memoryList
+                      }
+                   let list = app.memoryList
                         .filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(search))
                         .slice(0, limit);
 
@@ -435,9 +296,8 @@ module.exports = function init(site) {
                         list: list,
                     });
                 } else {
-                    where['company.id'] = site.getCompany(req).id;
-
-                    app.all({ where, select, limit }, (err, docs) => {
+          where['company.id'] = site.getCompany(req).id;
+          app.all({ where, select, limit }, (err, docs) => {
                         res.json({
                             done: true,
                             list: docs,

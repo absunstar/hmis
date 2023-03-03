@@ -1,0 +1,9 @@
+[
+    {
+        "moduleName": "public",
+        "name": "payslipsAdmin",
+        "En": "payslips Admin",
+        "Ar": "إدارة إدارات الشركة",
+        "permissions": ["payslipsManage"]
+    }
+]

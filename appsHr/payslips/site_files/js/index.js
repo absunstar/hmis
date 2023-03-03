@@ -1,26 +1,23 @@
-app.controller('jobs', function ($scope, $http, $timeout) {
+app.controller('payslips', function ($scope, $http, $timeout) {
     $scope.baseURL = '';
-    $scope.appName = 'jobs';
-    $scope.modalID = '#jobsManageModal';
-    $scope.modalSearchID = '#jobsSearchModal';
+    $scope.appName = 'payslips';
+    $scope.modalID = '#payslipsManageModal';
+    $scope.modalSearchID = '#payslipsSearchModal';
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
-        image: { url: '/images/jobs.png' },
+        image: { url: '/images/payslips.png' },
+        approved: false,
         active: true,
     };
     $scope.item = {};
     $scope.list = [];
-    $scope.task = {};
-    $scope.selectedTool = {};
-    $scope.skill = {};
 
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, tasksList: [], toolsList: [], skillsList: [] };
+        $scope.item = { ...$scope.structure };
         site.showModal($scope.modalID);
-        document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
     $scope.add = function (_item) {
@@ -62,7 +59,6 @@ app.controller('jobs', function ($scope, $http, $timeout) {
         $scope.view(_item);
         $scope.item = {};
         site.showModal($scope.modalID);
-        document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
     $scope.update = function (_item) {
@@ -103,7 +99,6 @@ app.controller('jobs', function ($scope, $http, $timeout) {
         $scope.item = {};
         $scope.view(_item);
         site.showModal($scope.modalID);
-        document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
     $scope.view = function (_item) {
@@ -136,7 +131,6 @@ app.controller('jobs', function ($scope, $http, $timeout) {
         $scope.item = {};
         $scope.view(_item);
         site.showModal($scope.modalID);
-        document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
     $scope.delete = function (_item) {
@@ -194,26 +188,29 @@ app.controller('jobs', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getJobsToolsList = function () {
+    $scope.getEmployees = function () {
         $scope.busy = true;
-        $scope.jobsToolsList = [];
+        $scope.employeesList = [];
         $http({
             method: 'POST',
-            url: '/api/jobsTools/all',
+            url: '/api/employees/all',
             data: {
                 where: { active: true },
                 select: {
                     id: 1,
                     code: 1,
-                    nameEn: 1,
-                    nameAr: 1,
+                    fullNameAr: 1,
+                    fullNameEn: 1,
+                    allowancesList: 1,
+                    allowancesList: 1,
+                    deductionsList: 1,
                 },
             },
         }).then(
             function (response) {
                 $scope.busy = false;
                 if (response.data.done && response.data.list.length > 0) {
-                    $scope.jobsToolsList = response.data.list;
+                    $scope.employeesList = response.data.list;
                 }
             },
             function (err) {
@@ -223,56 +220,32 @@ app.controller('jobs', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getDepartments = function () {
+    $scope.calculatePaySlip = function (item) {
+        $scope.getDataError = '';
+        if (!item || !item.employee || !item.employee.id) {
+            $scope.getDataError = '##word.Please Select Employee##';
+            return;
+        }
+        if (!item.fromDate || !item.toDate) {
+            $scope.getDataError = '##word.Please Select Date##';
+            return;
+        }
         $scope.busy = true;
-        $scope.departmentsList = [];
         $http({
             method: 'POST',
-            url: '/api/departments/all',
+            url: '/api/employees/calculatePaySlip',
             data: {
-                where: { active: true },
-                select: {
-                    id: 1,
-                    code: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                },
+                id: item.employee.id,
+                fromDate: item.fromDate,
+                toDate: item.toDate,
             },
         }).then(
             function (response) {
                 $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.departmentsList = response.data.list;
+                if (response.data.done && response.data.doc) {
+                    $scope.paySlip = response.data.doc;
                 }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
-    $scope.getSection = function (department) {
-        $scope.busy = true;
-        $scope.sectionsList = [];
-        $http({
-            method: 'POST',
-            url: '/api/sections/all',
-            data: {
-                where: { active: true, 'department.id': department.id },
-                select: {
-                    id: 1,
-                    code: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                },
-            },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.sectionsList = response.data.list;
-                }
+                console.log('$scope.paySlip', $scope.paySlip);
             },
             function (err) {
                 $scope.busy = false;
@@ -315,56 +288,7 @@ app.controller('jobs', function ($scope, $http, $timeout) {
         $scope.search = {};
     };
 
-    $scope.addTask = function (task) {
-        if (!task.name) {
-            $scope.error = '##word.Please Enter Task Name##';
-            return;
-        }
-        $scope.item.tasksList.push({
-            name: task.name,
-            notes: task.notes,
-            active: true,
-        });
-        $scope.task = {};
-    };
-
-    $scope.addTool = function (selectedTool) {
-        if (!selectedTool.tool || !selectedTool.tool.id) {
-            $scope.error = '##word.Please Select Tool Name##';
-            return;
-        }
-
-        $scope.item.toolsList.push({
-            tool: selectedTool.tool,
-            companyMustProvide: selectedTool.companyMustProvide,
-            notes: selectedTool.notes,
-            active: true,
-        });
-        $scope.selectedTool = {};
-    };
-
-    $scope.addSkill = function (skill) {
-        if (!skill.name) {
-            $scope.error = '##word.Please Enter Skill Name##';
-            return;
-        }
-
-        if (!(skill.experienceYears > 0)) {
-            $scope.error = '##word.Please Enter Experience Years##';
-            return;
-        }
-
-        $scope.item.skillsList.push({
-            name: skill.name,
-            experienceYears: skill.experienceYears,
-            notes: skill.notes,
-            active: true,
-        });
-        $scope.skill = {};
-    };
-
     $scope.getAll();
+    $scope.getEmployees();
     $scope.getNumberingAuto();
-    $scope.getDepartments();
-    $scope.getJobsToolsList();
 });

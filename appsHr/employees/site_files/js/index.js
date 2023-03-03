@@ -301,12 +301,12 @@ app.controller('employees', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getQualificationTypesList = function () {
+    $scope.getQualificationsDegrees = function () {
         $scope.busy = true;
-        $scope.qualificationTypesList = [];
+        $scope.qualificationsDegreesList = [];
         $http({
             method: 'POST',
-            url: '/api/qualificationTypes',
+            url: '/api/qualificationsDegrees',
             data: {
                 where: {
                     active: true,
@@ -316,14 +316,13 @@ app.controller('employees', function ($scope, $http, $timeout) {
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
-                    price: 1,
                 },
             },
         }).then(
             function (response) {
                 $scope.busy = false;
                 if (response.data.done && response.data.list.length > 0) {
-                    $scope.qualificationTypesList = response.data.list;
+                    $scope.qualificationsDegreesList = response.data.list;
                 }
             },
             function (err) {
@@ -565,7 +564,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getGendersList = function () {
+    $scope.getGenders = function () {
         $scope.busy = true;
         $scope.gendersList = [];
         $http({
@@ -1019,6 +1018,24 @@ app.controller('employees', function ($scope, $http, $timeout) {
         $scope.skill = {};
     };
 
+    $scope.addCertificate = function (certificate) {
+        $scope.error = '';
+
+        if (!certificate.name) {
+            $scope.error = '##word.Please Enter Certificate Name##';
+            return;
+        }
+
+        if (!certificate.source) {
+            $scope.error = '##word.Please Enter Certificate Source##';
+            return;
+        }
+
+        $scope.item.certificatesList = $scope.item.certificatesList || [];
+        $scope.item.certificatesList.push(certificate);
+        $scope.certificate = {};
+    };
+
     $scope.addExperience = function (experience) {
         $scope.error = '';
 
@@ -1110,9 +1127,9 @@ app.controller('employees', function ($scope, $http, $timeout) {
     $scope.getNationalitiesList();
     $scope.getAllowancesList();
     $scope.getDeductionsList();
-    $scope.getQualificationTypesList();
+    $scope.getQualificationsDegrees();
     $scope.getMaritalStatusList();
-    $scope.getGendersList();
+    $scope.getGenders();
     // $scope.getEmployeeStatusList();
     $scope.getDepartments();
     $scope.getBanks();

@@ -12,17 +12,18 @@ module.exports = function init(site) {
         { id: 16, code: 'S', nameEn: 'S', nameAr: 'Seha' },
     ];
 
-    site.qualificationTypes = [
-        { id: 1, nameEn: 'High qualified', nameAr: 'مؤهل عالي' },
-        { id: 3, nameEn: 'Upper intermediate', nameAr: 'فوق المتوسط' },
-        { id: 4, nameEn: 'Intermediate', nameAr: 'المتوسط' },
-        { id: 5, nameEn: 'Preparatory', nameAr: 'إعدادية' },
-        { id: 6, nameEn: 'Primary', nameAr: 'إبتدائية' },
-        { id: 7, nameEn: 'Student', nameAr: 'طالب' },
-        { id: 8, nameEn: 'Literacy', nameAr: 'محو أمية' },
-        { id: 9, nameEn: 'Without qualified', nameAr: 'بدون مؤهل' },
+    site.qualificationsDegrees = [
+        { id: 1, nameEn: 'PHD', nameAr: 'دكتوراه' },
+        { id: 2, nameEn: "Master's", nameAr: 'ماجيستير' },
+        { id: 3, nameEn: 'High qualified', nameAr: 'مؤهل عالي' },
+        { id: 4, nameEn: 'Upper intermediate', nameAr: 'فوق المتوسط' },
+        { id: 5, nameEn: 'Intermediate', nameAr: 'مؤهل متوسط' },
+        { id: 6, nameEn: 'Preparatory', nameAr: 'إعدادية' },
+        { id: 7, nameEn: 'Primary', nameAr: 'إبتدائية' },
+        { id: 8, nameEn: 'Student', nameAr: 'طالب' },
+        { id: 9, nameEn: 'Literacy', nameAr: 'محو أمية' },
+        { id: 10, nameEn: 'Without qualified', nameAr: 'بدون مؤهل' },
     ];
-
     site.employeeStatus = [
         { id: 1, nameEn: 'Active', nameAr: 'نشط' },
         { id: 2, nameEn: 'Inactive', nameAr: 'خامل' },
@@ -329,10 +330,10 @@ module.exports = function init(site) {
         });
     });
 
-    site.post('/api/qualificationTypes', (req, res) => {
+    site.post('/api/qualificationsDegrees', (req, res) => {
         res.json({
             done: true,
-            list: site.qualificationTypes,
+            list: site.qualificationsDegrees,
         });
     });
 

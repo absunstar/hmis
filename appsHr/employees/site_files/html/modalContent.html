@@ -9,17 +9,11 @@
 
                     <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
 
-                    <!-- <div class="row"> -->
                     <i-control class="col6" label="##word.Full Name##" ng-keydown="changeName('fullNameEn',$event)" ng-model="item.fullNameEn"> </i-control>
                     <i-control class="col6" label="الإسم بالكامل" ng-keydown="changeName('fullNameAr',$event)" ng-model="item.fullNameAr"> </i-control>
-                    <!-- </div> -->
 
                     <i-control class="col4" label="##word.Fingerprint code##" ng-model="item.fingerprintCode"> </i-control>
-
-                    <!-- <div class="row">
-                    <i-date class="col6" label="##word.Contract starting date##" ng-model="item.contractStartingDate"> </i-date>
-                    <i-date class="col6" label="##word.Contract end date##" ng-model="item.contractEndDate"> </i-date>
-                </div> -->
+                    <i-list class="col3" label="##word.Nationality##" ng-model="item.nationality" items="nationalitiesList" display="name##session.lang##" ng-search="item.$nationality"> </i-list>
                 </div>
             </div>
             <div class="col3">
@@ -279,18 +273,19 @@
                             <legend>##word.Qualifications##</legend>
                             <div class="row">
                                 <i-list
-                                    class="col3"
-                                    label="##word.Type##"
-                                    ng-model="item.qualificationType"
-                                    items="qualificationTypesList"
+                                    class="col4"
+                                    label="##word.Degree##"
+                                    ng-model="item.qualificationDegree"
+                                    items="qualificationsDegreesList"
                                     display="name##session.lang##"
-                                    ng-search="item.$qualificationType"
+                                    ng-search="item.$qualificationDegree"
                                 >
                                 </i-list>
+                                <i-control class="col4" label="##word.Major##" ng-model="item.educationalMajor"> </i-control>
                                 <i-control class="col4" label="##word.Educational Qualification##" ng-model="item.educationalQualification"> </i-control>
 
                                 <i-list
-                                    class="col3"
+                                    class="col4"
                                     label="##word.Country Of Qualification##"
                                     ng-model="item.countryOfQualification"
                                     items="nationalitiesList"
@@ -298,7 +293,7 @@
                                     ng-search="item.$countryOfQualification"
                                 >
                                 </i-list>
-                                <i-control ng-model="item.graduationYear" type="number" class="col2" label="##word.Graduation Year##"></i-control>
+                                <i-date ng-model="item.graduationDate" class="col4" label="##word.Graduation Date##"></i-date>
                             </div>
                         </fieldset>
                         <fieldset>
@@ -334,14 +329,53 @@
                         </fieldset>
 
                         <fieldset>
+                            <legend>##word.Certificates##</legend>
+                            <div class="row">
+                                <i-control class="col4" ng-model="certificates.name" label="##word.Name##"></i-control>
+                                <i-control class="col4" ng-model="certificates.source" label="##word.Source##"></i-control>
+                                <i-control class="col4" ng-model="certificates.link" label="##word.Link##"></i-control>
+                                <i-date class="col4" ng-model="certificates.date" label="##word.Date##"></i-date>
+
+                                <div class="col4">
+                                    <br />
+                                    <i-button type="add" label="##word.Add##" ng-click="addCertificate(certificates)"></i-button>
+                                </div>
+                            </div>
+                            <fieldset>
+                                <table class="table hover bold">
+                                    <tr>
+                                        <th>##word.S##</th>
+                                        <th>##word.Name##</th>
+                                        <th>##word.Source##</th>
+                                        <th>##word.Link##</th>
+                                        <th>##word.Years of Experience##</th>
+                                        <th class="not-print">##word.Actions##</th>
+                                    </tr>
+                                    <tr ng-repeat="cer in item.certificatesList">
+                                        <td class="text-center">{{$index+1}}</td>
+                                        <td class="text-center">{{cer.name}}</td>
+                                        <td class="text-center">{{cer.source}}</td>
+                                        <td class="text-center"><a target="_blank" href="{{cer.link}}">Certificate URL</a></td>
+                                        <td class="text-center">{{cer.date| date:'dd/MM/yyyy'}}</td>
+
+                                        <td class="text-center not-print">
+                                            <i-button type="delete default" ng-click="item.certificatesList.splice($index,1)"> </i-button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </fieldset>
+                        </fieldset>
+
+                        <fieldset>
                             <legend>##word.Experiences##</legend>
                             <div class="row">
-                                <i-control class="col3" ng-model="experience.company" label="##word.Company##"></i-control>
-                                <i-control class="col3" ng-model="experience.jobTitle" label="##word.Job Title##"></i-control>
-                                <i-date class="col2" ng-model="experience.from" label="##word.From##"></i-date>
-                                <i-date class="col2" ng-model="experience.to" label="##word.To##"></i-date>
+                                <i-control class="col4" ng-model="experience.company" label="##word.Company##"></i-control>
+                                <i-control class="col4" ng-model="experience.section" label="##word.Section##"></i-control>
+                                <i-control class="col4" ng-model="experience.jobTitle" label="##word.Job Title##"></i-control>
+                                <i-date class="col4" ng-model="experience.from" label="##word.From##"></i-date>
+                                <i-date class="col4" ng-model="experience.to" label="##word.To##"></i-date>
 
-                                <div class="col2">
+                                <div class="col4">
                                     <br />
                                     <i-button type="add" label="##word.Add##" ng-click="addExperience(experience)"></i-button>
                                 </div>
@@ -351,6 +385,7 @@
                                     <tr>
                                         <th>##word.S##</th>
                                         <th>##word.Company##</th>
+                                        <th>##word.Section##</th>
                                         <th>##word.Job Title##</th>
                                         <th>##word.From##</th>
                                         <th>##word.To##</th>
@@ -360,6 +395,7 @@
                                     <tr ng-repeat="experience in item.experiencesList">
                                         <td class="text-center">{{$index+1}}</td>
                                         <td class="text-center">{{experience.company}}</td>
+                                        <td class="text-center">{{experience.section}}</td>
                                         <td class="text-center">{{experience.jobTitle}}</td>
                                         <td>
                                             <p class="text-center" ng-if="experience.from">{{experience.from |date:'dd/MM/yyyy'}}</p>
@@ -443,6 +479,11 @@
                         </fieldset>
                         <fieldset>
                             <legend>##word.Medical Insurance##</legend>
+
+                            <div class="row">
+                                <i-control class="col6" label="##word.Insurance Company##" ng-model="item.insuranceCompany"> </i-control>
+                                <i-control class="col6" type="number" label="##word.Insurance Number##" ng-model="item.insuranceNumber"> </i-control>
+                            </div>
 
                             <div class="row">
                                 <i-date ng-model="item.startDateInsurance" class="col6" label="##word.Start date of insurance##"></i-date>
@@ -553,6 +594,7 @@
                                 <i-list v="r" class="col4" label="##word.Shift##" ng-model="item.shift" display="name##session.lang##" items="jobsShiftsList" ng-search="item.$shift"></i-list>
 
                                 <i-date class="col4" label="##word.Work Start Date ##" ng-model="item.workStartDate"> </i-date>
+                                <i-date class="col4" label="##word.Employment End Date ##" ng-model="item.employmentEndDate"> </i-date>
                             </div>
                         </fieldset>
                         <fieldset>

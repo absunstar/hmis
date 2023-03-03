@@ -464,5 +464,15 @@
         "name": "Please Select Date",
         "En": "Please Select Date",
         "Ar": "يرجي إختيار التاريخ"
+    },
+    {
+        "name": "Please Enter Certificate Name",
+        "En": "Please Enter Certificate Name",
+        "Ar": "يرجي إدخال إسم الشهادة"
+    },
+    {
+        "name": "Please Enter Certificate Source",
+        "En": "Please Enter Certificate Source",
+        "Ar": "يرجي إدخال مصدر الشهادة"
     }
 ]

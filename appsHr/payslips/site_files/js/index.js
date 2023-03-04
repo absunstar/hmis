@@ -13,10 +13,23 @@ app.controller('payslips', function ($scope, $http, $timeout) {
     $scope.item = {};
     $scope.list = [];
 
+    $scope.start = new Date().setDate(1);
+    $scope.end = new Date().setDate(1);
+
+    $scope.getCurrentMonthDate = function () {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        return { firstDay, lastDay };
+    };
+
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure };
+        const date = $scope.getCurrentMonthDate();
+        $scope.item = { ...$scope.structure, fromDate: new Date(date.firstDay), toDate: new Date(date.lastDay) };
         site.showModal($scope.modalID);
     };
 
@@ -235,7 +248,7 @@ app.controller('payslips', function ($scope, $http, $timeout) {
             method: 'POST',
             url: '/api/employees/calculatePaySlip',
             data: {
-                id: item.employee.id,
+                employee: item.employee,
                 fromDate: item.fromDate,
                 toDate: item.toDate,
             },
@@ -243,9 +256,9 @@ app.controller('payslips', function ($scope, $http, $timeout) {
             function (response) {
                 $scope.busy = false;
                 if (response.data.done && response.data.doc) {
-                    $scope.paySlip = response.data.doc;
+                    $scope.item.paySlip = response.data.doc;
                 }
-                console.log('$scope.paySlip', $scope.paySlip);
+                console.log('$scope.item.paySlip', $scope.item.paySlip);
             },
             function (err) {
                 $scope.busy = false;

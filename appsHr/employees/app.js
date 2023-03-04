@@ -43,6 +43,57 @@ module.exports = function init(site) {
         return deduction;
     };
 
+    site.calculateValue = function (doc) {
+        // console.log('doc', doc);
+
+        let value = 0;
+        if (doc) {
+            if (doc.type.id === 1) {
+                value = doc.value * doc.hourValue;
+            }
+            if (doc.type.id === 2) {
+                value = doc.value * doc.dayValue;
+            }
+            if (doc.type.id === 3) {
+                value = (doc.fixedSalary / 100) * doc.value;
+            }
+            if (doc.type.id === 4) {
+                value = doc.value;
+            }
+        }
+
+        return { category: doc.category, type: doc.type, value: site.toNumber(value) };
+    };
+
+    site.calculateEmployeePaySlipItems = function (data, callback) {
+        let items = { bonus: {}, penality: {}, vacation: {} };
+        const fixedSalary = data.employee.fixedSalary;
+        const dayValue = fixedSalary / 30;
+        const hourValue = fixedSalary / 240;
+
+        site.getEmployeeBounus(data, (bonusDocs) => {
+            bonusDocs.forEach((doc) => {
+                doc = { ...doc, fixedSalary, dayValue, hourValue };
+                items.bonus = site.calculateValue(doc);
+            });
+
+            site.getEmployeeVacationsRequests(data, (vacationsRequestsList) => {
+                vacationsRequestsList.forEach((doc) => {
+                    doc = { ...doc, fixedSalary, dayValue, hourValue };
+                    items.vacation = site.calculateValue(doc);
+                });
+            });
+
+            site.getEmployeePenalties(data, (penaltiesList) => {
+                penaltiesList.forEach((doc) => {
+                    doc = { ...doc, fixedSalary, dayValue, hourValue };
+                    items.penality = site.calculateValue(doc);
+                });
+                callback(items);
+            });
+        });
+    };
+
     app.init = function () {
         if (app.allowMemory) {
             app.$collection.findMany({}, (err, docs) => {
@@ -346,42 +397,74 @@ module.exports = function init(site) {
 
                 let _data = req.data;
 
-                if (!_data.id) {
+                if (!_data.employee) {
                     response.done = false;
                     response.error = 'Please Select Employee';
                     res.json(response);
                     return;
                 }
 
-                app.$collection.find({ id: _data.id, active: true }, (err, doc) => {
+                app.$collection.find({ id: _data.employee.id, active: true }, (err, doc) => {
                     if (doc) {
-                        const allowancesList = [];
-                        const deductionsList = [];
-                        const fixedSalary = doc.fixedSalary;
+                        const data = {
+                            employee: { id: doc.id, fixedSalary: doc.fixedSalary },
+                            fromDate: _data.fromDate,
+                            toDate: _data.toDate,
+                        };
 
-                        let totalAllowance = 0;
-                        let totalDeductions = 0;
-                        doc.allowancesList.forEach((_elm) => {
-                            if (_elm && _elm.active) {
-                                const allowance = site.calculatePaySlipAllownce(_elm, fixedSalary);
-                                totalAllowance += allowance.value;
+                        site.calculateEmployeePaySlipItems(data, (result) => {
+                            console.log('result', result);
 
-                                allowancesList.push(allowance);
-                            }
+                            const allowancesList = [];
+                            const deductionsList = [];
+                            const fixedSalary = doc.fixedSalary;
+
+                            let totalAllowance = 0;
+                            let totalDeductions = 0;
+                            doc.allowancesList.forEach((_elm) => {
+                                if (_elm && _elm.active) {
+                                    const allowance = site.calculatePaySlipAllownce(_elm, fixedSalary);
+                                    totalAllowance += allowance.value;
+                                    allowancesList.push(allowance);
+                                }
+                            });
+
+                            doc.deductionsList.forEach((_elm) => {
+                                if (_elm && _elm.active) {
+                                    const deuction = site.calculatePaySlipDeduction(_elm, fixedSalary);
+                                    deductionsList.push(deuction);
+                                }
+                            });
+
+                            allowancesList.push({
+                                code: result.bonus.category.code,
+                                nameAr: result.bonus.category.nameAr,
+                                nameEn: result.bonus.category.nameEn,
+                                value: result.bonus.value,
+                            });
+
+                            deductionsList.push({
+                                code: result.penality.category.code,
+                                nameAr: result.penality.category.nameAr,
+                                nameEn: result.penality.category.nameEn,
+                                value: result.penality.value,
+                            });
+
+                            allowancesList.forEach((_elm) => {
+                                totalAllowance += _elm.value;
+                            });
+
+                            deductionsList.forEach((_elm) => {
+                                totalDeductions += _elm.value;
+                            });
+
+                            response.done = true;
+                            totalAllowance += fixedSalary;
+
+                            response.doc = { fixedSalary, allowancesList, deductionsList, totalAllowance, totalDeductions };
+
+                            res.json(response);
                         });
-
-                        doc.deductionsList.forEach((_elm) => {
-                            if (_elm && _elm.active) {
-                                const deuction = site.calculatePaySlipDeduction(_elm, fixedSalary);
-                                totalDeductions += deuction.value;
-                                deductionsList.push(deuction);
-                            }
-                        });
-
-                        response.done = true;
-                        response.doc = { totalAllowance, totalDeductions, allowancesList, deductionsList };
-
-                        res.json(response);
                     }
                 });
             });

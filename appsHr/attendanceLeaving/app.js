@@ -16,6 +16,27 @@ module.exports = function init(site) {
 
     app.$collection = site.connectCollection(app.name);
 
+    site.getEmployeeAttendance = function (data, callback) {
+        const d1 = site.toDate(data.fromDate);
+        const d2 = site.toDate(data.toDate);
+
+        const attendanceList = [];
+        app.$collection.findMany({ where: { 'employee.id': data.employee.id, date: { $gte: d1, $lt: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
+            docs.forEach((doc) => {
+                attendanceList.push({
+                    category: {
+                        code: app.name,
+                        nameAr: 'تأخير',
+                        nameEn: 'Absent',
+                    },
+                    type: doc.type,
+                    calculationMethod: 'dec',
+                    value: doc.value,
+                });
+            });
+            callback(attendanceList);
+        });
+    };
     app.init = function () {
         if (app.allowMemory) {
             app.$collection.findMany({}, (err, docs) => {
@@ -195,7 +216,7 @@ module.exports = function init(site) {
 
                 let _data = req.data;
                 _data.editUserInfo = req.getUserFinger();
-    
+
                 app.update(_data, (err, result) => {
                     if (!err) {
                         response.done = true;

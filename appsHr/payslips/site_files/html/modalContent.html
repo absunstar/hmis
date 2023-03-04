@@ -17,7 +17,7 @@
         <p class="error">{{getDataError}}</p>
     </fieldset>
 
-    <fieldset>
+    <fieldset ng-show="item.paySlip">
         <legend>##word.Allowances Items##</legend>
 
         <div class="table-responsive">
@@ -28,23 +28,33 @@
                     <th>##word.Value##</th>
                     <th>##word.Name Arabic##</th>
                 </tr>
-                <tr ng-repeat="itm in paySlip.allowancesList">
-                    <td class="center blue">{{$index+1}}</td>
+                <tr class="center">
+                    <td class="center blue">1</td>
+                    <td class="center">##word.Fixed Salary##</td>
+                    <td class="center">
+                        <span class="text-success">{{item.paySlip.fixedSalary}}</span>
+                        <span>##word.$##</span>
+                    </td>
+                    <td class="center">##word.الراتب الأساسي##</td>
+                </tr>
+                <tr ng-repeat="itm in item.paySlip.allowancesList">
+                    <td class="center blue">{{$index+2}}</td>
                     <td class="center">{{itm.nameEn}}</td>
                     <td class="center">
-                        <p class="text-success">{{itm.value}} <span>##word.$##</span></p>
+                        <span class="text-success">{{itm.value}}</span>
+                        <span>##word.$##</span>
                     </td>
                     <td class="center">{{itm.nameAr}}</td>
                 </tr>
-                <tr ng-show="paySlip.totalAllowance">
+                <tr ng-show="item.paySlip.totalAllowance">
                     <th colspan="2" class="center">##word.Total Allowance##</th>
-                    <td colspan="2" class="center"><span class="col4 center text-success bold"> {{paySlip.totalAllowance}} ##word.$##</span></td>
+                    <td colspan="2" class="center"><span class="text-success bold"> {{item.paySlip.totalAllowance}} </span><span>##word.$##</span></td>
                 </tr>
             </table>
         </div>
     </fieldset>
 
-    <fieldset>
+    <fieldset ng-show="item.paySlip">
         <legend>##word.Deductions Items##</legend>
 
         <div class="table-responsive">
@@ -55,7 +65,7 @@
                     <th>##word.Value##</th>
                     <th>##word.Name Arabic##</th>
                 </tr>
-                <tr ng-repeat="itm in paySlip.deductionsList">
+                <tr ng-repeat="itm in item.paySlip.deductionsList">
                     <td class="center blue">{{$index+1}}</td>
                     <td class="center">{{itm.nameEn}}</td>
                     <td class="center">
@@ -64,14 +74,17 @@
                     <td class="center">{{itm.nameAr}}</td>
                 </tr>
 
-                <tr ng-show="paySlip.totalDeductions">
+                <tr ng-show="item.paySlip.totalDeductions">
                     <th colspan="2" class="center">##word.Total Deductions##</th>
-                    <td colspan="2" class="center"><span class="col4 center text-danger bold"> {{paySlip.totalDeductions}} ##word.$##</span></td>
+                    <td colspan="2" class="center">
+                        <span class="text-danger bold"> {{item.paySlip.totalDeductions}} </span>
+                        <span>##word.$##</span>
+                    </td>
                 </tr>
             </table>
         </div>
     </fieldset>
-    <fieldset>
+    <fieldset ng-show="item.paySlip">
         <legend>##word.Total##</legend>
     </fieldset>
 </div>

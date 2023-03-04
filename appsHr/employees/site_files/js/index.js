@@ -1121,7 +1121,6 @@ app.controller('employees', function ($scope, $http, $timeout) {
 
     $scope.getAll();
     $scope.getNumberingAuto();
-
     $scope.getFilesTypes();
     $scope.getCountriesList();
     $scope.getNationalitiesList();

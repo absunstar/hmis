@@ -18,6 +18,28 @@ module.exports = function init(site) {
 
     app.$collection = site.connectCollection(app.name);
 
+    site.getEmployeePenalties = function (data, callback) {
+        const d1 = site.toDate(data.fromDate);
+        const d2 = site.toDate(data.toDate);
+
+        const penaltiesList = [];
+        app.$collection.findMany({ where: { 'employee.id': data.employee.id, date: { $gte: d1, $lt: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
+            docs.forEach((doc) => {
+                penaltiesList.push({
+                    category: {
+                        code: app.name,
+                        nameAr: 'جزاء',
+                        nameEn: 'penality',
+                    },
+                    type: doc.type,
+                    calculationMethod: 'dec',
+                    value: doc.value,
+                });
+            });
+            callback(penaltiesList);
+        });
+    };
+
     app.init = function () {
         if (app.allowMemory) {
             app.$collection.findMany({}, (err, docs) => {

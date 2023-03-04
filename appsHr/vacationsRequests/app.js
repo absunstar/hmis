@@ -17,7 +17,27 @@ module.exports = function init(site) {
     };
 
     app.$collection = site.connectCollection(app.name);
+    site.getEmployeeVacationsRequests = function (data, callback) {
+        const d1 = site.toDate(data.fromDate);
+        const d2 = site.toDate(data.toDate);
 
+        const vacationsRequestsList = [];
+        app.$collection.findMany({ where: { 'employee.id': data.employee.id, date: { $gte: d1, $lt: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
+            docs.forEach((doc) => {
+                vacationsRequestsList.push({
+                    category: {
+                        code: app.name,
+                        nameAr: 'اجازة',
+                        nameEn: 'Vacations',
+                    },
+                    type: doc.type,
+                    calculationMethod: 'dec',
+                    value: doc.value,
+                });
+            });
+            callback(vacationsRequestsList);
+        });
+    };
     app.init = function () {
         if (app.allowMemory) {
             app.$collection.findMany({}, (err, docs) => {

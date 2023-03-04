@@ -480,7 +480,6 @@ module.exports = function init(site) {
         });
 
         let where = {
-          id: { $ne: _data.id },
           $or: [
             {
               code: _data.code,
@@ -497,7 +496,7 @@ module.exports = function init(site) {
           ],
         };
         app.all(where, (err, docs) => {
-          if (docs) {
+          if (docs && docs.length > 0) {
             response.done = false;
             if (docs[0].nameAr == _data.nameAr) {
               response.error = 'There is a pre-existing name arabic';
@@ -569,7 +568,7 @@ module.exports = function init(site) {
           ],
         };
         app.all(where, (err, docs) => {
-          if (docs) {
+          if (docs && docs.length > 0) {
             response.done = false;
             if (docs[0].nameAr == _data.nameAr) {
               response.error = 'There is a pre-existing name arabic';
@@ -717,7 +716,6 @@ module.exports = function init(site) {
           });
         } else {
           where['company.id'] = site.getCompany(req).id;
-
           site.getStockTakingHold(req.body.storeId, (stockTakingItemsIdsCb) => {
             if (stockTakingItemsIdsCb.length > 0) {
               where['id'] = { $nin: stockTakingItemsIdsCb };

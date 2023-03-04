@@ -23,6 +23,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
   $scope.resetOrderItem = function () {
     $scope.orderItem = {
       count: 1,
+      barcode: '',
       price: 0,
       discount: 0,
       maxDiscount: 0,
@@ -347,7 +348,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       return;
     }
 
-    if (!orderItem.unit.id) {
+    if (!orderItem.unit || !orderItem.unit.id) {
       $scope.itemsError = '##word.Please Enter Item Unit##';
       return;
     }
@@ -393,7 +394,12 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
         });
       }
     }
-    $scope.item.itemsList.unshift(item);
+    if ($scope.item.itemsList.some((i) => i.id == item.id && i.unit.id == item.unit.id)) {
+      let index = $scope.item.itemsList.findIndex((_item) => _item.id === item.id);
+      $scope.item.itemsList[index].count += 1;
+    } else {
+      $scope.item.itemsList.unshift(item);
+    }
     $scope.calculate($scope.item);
     $scope.resetOrderItem();
     $scope.itemsError = '';
@@ -547,6 +553,77 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     $scope.item.itemsList.forEach((_item) => {
       $scope.item.totalPrice += _item.price * _item.count;
     });
+  };
+
+  $scope.getBarcode = function (ev) {
+    $scope.error = '';
+    let where = {
+      active: true,
+      allowSale: true,
+    };
+    if (!$scope.item.store || !$scope.item.store.id) {
+      $scope.error = '##word.Please Select Store';
+      return;
+    }
+    if (ev && ev.which != 13) {
+      return;
+    }
+
+    where['unitsList.barcode'] = $scope.orderItem.barcode;
+
+    $scope.busy = true;
+    $scope.itemsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/storesItems/all',
+      data: {
+        storeId: $scope.item.store.id,
+        where: where,
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+          noVat: 1,
+          workByBatch: 1,
+          workBySerial: 1,
+          validityDays: 1,
+          unitsList: 1,
+          itemGroup: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.itemsList = response.data.list;
+          if ($scope.itemsList && $scope.itemsList.length == 1) {
+            let _unit = $scope.itemsList[0].unitsList.find((_u) => {
+              return _u.barcode == $scope.orderItem.barcode;
+            });
+            $scope.addToItemsList({
+              item: $scope.itemsList[0],
+              unit: {
+                id: _unit.unit.id,
+                code: _unit.unit.code,
+                nameEn: _unit.unit.nameEn,
+                nameAr: _unit.unit.nameAr,
+                price: _unit.salesPrice,
+                maxDiscount: _unit.maxDiscount,
+                discount: _unit.discount,
+                discountType: _unit.discountType,
+                storesList: _unit.storesList,
+              },
+              count: 1,
+            });
+          }
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
   };
 
   $scope.getStoresItems = function ($search) {

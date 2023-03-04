@@ -35,7 +35,7 @@
   <fieldset ng-show="item.store && item.store.id">
     <legend>##word.Items Information##</legend>
     <div class="row" ng-if="mode == 'add'">
-      <i-control class="col2"  ng-model="orderItem.barcode" ng-keydown="getBarcode(orderItem.barcode)" label="##word.Barcode##"></i-control>
+      <i-control class="col2"  ng-model="orderItem.barcode" ng-keydown="getBarcode($event)" label="##word.Barcode##"></i-control>
       <i-list
         class="col2"
         ng-model="orderItem.item"

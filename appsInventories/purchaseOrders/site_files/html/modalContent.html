@@ -69,8 +69,9 @@
       <legend>##word.Items Information##</legend>
 
       <div class="row" ng-show="item.sourceType.id != 1 ">
-        <div class="col8">
+        <div class="col9">
           <div class="row">
+            <i-control class="col4"  ng-model="orderItem.barcode" ng-keydown="getBarcode($event)" label="##word.Barcode##"></i-control>
             <i-list
               ng-model="orderItem.item"
               ng-change="orderItem.item? getItemUnits(orderItem.item):''"
@@ -89,15 +90,16 @@
               label="##word.Unit##"
               ng-search="orderItem.$unit"
             ></i-list>
-            <i-control type="number" class="col2" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
-            <i-control type="number" min="0" class="col2" ng-model="orderItem.bonusCount" label="##word.Bonus Count##"></i-control>
           </div>
 
           <div class="row">
-            <i-control type="number" min="0" class="col3" ng-model="orderItem.price" label="##word.Price##"></i-control>
-            <i-control type="number" min="0" class="col3" ng-model="orderItem.salesPrice" label="##word.Sales Price##"></i-control>
-            <i-control type="number" min="1" class="col3" ng-model="orderItem.vendorDiscount" label="##word.Vendor Discount## ##word.%##"></i-control>
-            <i-control type="number" min="1" class="col3" ng-model="orderItem.legalDiscount" label="##word.Legal Discount## ##word.%##"></i-control>
+            <i-control type="number" class="col2" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
+            <i-control type="number" min="0" class="col2" ng-model="orderItem.bonusCount" label="##word.Bonus Count##"></i-control>
+            <i-control type="number" min="0" class="col2" ng-model="orderItem.price" label="##word.Price##"></i-control>
+            <i-control type="number" min="0" class="col2" ng-model="orderItem.salesPrice" label="##word.Sales Price##"></i-control>
+            <i-control type="number" min="1" class="col2" ng-model="orderItem.vendorDiscount" label="##word.Vendor Discount## ##word.%##"></i-control>
+            <i-control type="number" min="1" class="col2" ng-model="orderItem.legalDiscount" label="##word.Legal Discount## ##word.%##"></i-control>
+
           </div>
         </div>
 
@@ -117,11 +119,11 @@
           <th>##word.Unit##</th>
           <th ng-if="item.sourceType.id === 1">##word.Requestd Count##</th>
           <th>##word.Count##</th>
-          <th>##word.Purchase Price##</th>
+          <th>##word.Price##</th>
           <th>##word.Sales Price##</th>
           <th>##word.Bonus Count##</th>
-          <th>##word.Vendor Discount## ##word.%##</th>
-          <th>##word.Legal Discount## ##word.%##</th>
+          <th>##word.Vendor Disc## ##word.%##</th>
+          <th>##word.Legal Disc## ##word.%##</th>
           <th>##word.Total##</th>
           <th>##word.Approved##</th>
           <th class="not-print">##word.Actions##</th>

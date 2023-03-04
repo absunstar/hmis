@@ -29,8 +29,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     price: 0,
     bonusCount: 0,
     salesPrice: 0,
-    vendorDiscount: 0,
-    legalDiscount: 0,
+    totalVendorDiscounts: 0,
+    totalLegalDiscounts: 0,
     bonusPrice: 0,
     vat: 0,
     total: 0,
@@ -39,6 +39,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
   $scope.canApprove = false;
   $scope.resetOrderItem = function () {
     $scope.orderItem = {
+      barcode: '',
       count: 1,
       price: 0,
       salesPrice: 0,
@@ -61,6 +62,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     }
     $scope.itemsError = '';
     $scope.mode = 'add';
+    $scope.resetOrderItem();
     $scope.item = { ...$scope.structure, date: new Date(), filesList: [], discountsList: [], taxesList: [], itemsList: [] };
     $scope.orderItem = { ...$scope.orderItem };
 
@@ -263,7 +265,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope.busy = true;
     $scope.list = [];
     where = where || {};
-   /*  if (!where['approved']) {
+    /*  if (!where['approved']) {
       where['approved'] = false;
     } */
     $http({
@@ -721,7 +723,12 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     } else if (orderItem.item.workBySerial) {
       item.workBySerial = true;
     }
-    $scope.item.itemsList.unshift(item);
+    if ($scope.item.itemsList.some((i) => i.id == item.id && i.unit.id == item.unit.id)) {
+      let index = $scope.item.itemsList.findIndex((_item) => _item.id === item.id);
+      $scope.item.itemsList[index].count += 1;
+    } else {
+      $scope.item.itemsList.unshift(item);
+    }
 
     $scope.calculateTotalInItemsList($scope.item);
     $scope.resetOrderItem();
@@ -764,6 +771,80 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
               approved: false,
             });
             $scope.calculateTotalInItemsList($scope.item);
+          }
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getBarcode = function (ev) {
+    $scope.error = '';
+    let where = {
+      active: true,
+      allowSale: true,
+    };
+    if (!$scope.item.store || !$scope.item.store.id) {
+      $scope.error = '##word.Please Select Store';
+      return;
+    }
+    if (ev && ev.which != 13) {
+      return;
+    }
+
+    where['unitsList.barcode'] = $scope.orderItem.barcode;
+
+    $scope.busy = true;
+    $scope.itemsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/storesItems/all',
+      data: {
+        storeId: $scope.item.store.id,
+        where: where,
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+          noVat: 1,
+          workByBatch: 1,
+          workBySerial: 1,
+          validityDays: 1,
+          unitsList: 1,
+          itemGroup: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.itemsList = response.data.list;
+          if ($scope.itemsList && $scope.itemsList.length == 1) {
+            let _unit = $scope.itemsList[0].unitsList.find((_u) => {
+              return _u.barcode == $scope.orderItem.barcode;
+            });
+
+            $scope.addToItemsList({
+              item: $scope.itemsList[0],
+              unit: {
+                id: _unit.unit.id,
+                code: _unit.unit.code,
+                nameEn: _unit.unit.nameEn,
+                nameAr: _unit.unit.nameAr,
+                storesList: _unit.storesList,
+              },
+              price: _unit.purchasePrice,
+              salesPrice: _unit.salesPrice,
+              bonusCount: 0,
+              bonusPrice: 0,
+              vendorDiscount: 0,
+              legalDiscount: 0,
+              count: 1,
+            });
           }
         }
       },
@@ -1163,9 +1244,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             let datetime = new Date($scope.item.date);
             let formattedDate =
               datetime.getFullYear() + '-' + (datetime.getMonth() + 1) + '-' + datetime.getDate() + ' ' + datetime.getHours() + ':' + datetime.getMinutes() + ':' + datetime.getSeconds();
-            let qrString = `[${'##session.company.nameAr##'}]\nرقم ضريبي : [${$scope.settings.printerProgram.taxNumber}]\nرقم الفاتورة :[${
-              $scope.item.code
-            }]\nتاريخ : [${formattedDate}]\nالصافي : [${$scope.item.totalNet}]`;
+            let qrString = `[${'##session.company.nameAr##'}]\nرقم ضريبي : [${$scope.settings.printerProgram.taxNumber}]\nرقم الفاتورة :[${$scope.item.code}]\nتاريخ : [${formattedDate}]\nالصافي : [${
+              $scope.item.totalNet
+            }]`;
 
             site.qrcode({ width: 150, height: 150, selector: document.querySelectorAll('.qrcode-a4')[$scope.invList.length - 1], text: qrString });
           }

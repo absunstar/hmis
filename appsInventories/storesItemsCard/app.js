@@ -41,8 +41,8 @@ module.exports = function init(site) {
             count: _elm.count,
             price: _elm.price,
             totalPrice: _elm.total,
-            currentCount: docs[0] ? docs[0].count + _elm.count : _elm.count,
-            lastCount: docs[0] ? docs[0].currentCount : 0,
+            currentCount: docs[0] ? docs[0].currentCount + _elm.count : _elm.count,
+            lastCount: docs[0] ? docs[0].lastCount + _elm.count : 0,
             company: _elm.company,
             countType: _elm.countType,
           };

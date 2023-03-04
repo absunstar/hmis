@@ -522,6 +522,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     for (const elem of item.unitsList) {
       $scope.unitsList.push({
         id: elem.unit.id,
+        barcode: elem.barcode,
         code: elem.unit.code,
         nameEn: elem.unit.nameEn,
         nameAr: elem.unit.nameAr,
@@ -583,6 +584,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
       nameAr: elem.item.nameAr,
       nameEn: elem.item.nameEn,
       itemGroup: elem.item.itemGroup,
+      barcode : orderItem.unit.barcode,
       unit: { id: elem.unit.id, code: elem.unit.code, nameAr: elem.unit.nameAr, nameEn: elem.unit.nameEn },
       count: elem.count,
       price: elem.price,

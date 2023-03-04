@@ -112,7 +112,10 @@
             <p>مسلسل</p>
             <p>Serial</p>
           </th>
-
+          <th class="width-15-mm font-10">
+            <p>رقم الصنف</p>
+            <p>Item No.</p>
+          </th>
           <th class="width-60-mm font-10">
             <p>إسم الصنف</p>
             <p>Item Name</p>
@@ -146,10 +149,16 @@
 
         <tr ng-repeat="itm in sInvoice.itemsList">
           <td class="center width-15-mm font-12">{{itm.$index}}</td>
+          <td class="center width-15-mm font-12">{{itm.barcode}}</td>
 
           <td class="center width-60-mm">
             <p class="font-12">{{itm.nameAr}} ( {{itm.unit.nameAr}} )</p>
             <p class="font-12">{{itm.nameEn}} ( {{itm.unit.nameEn}} )</p>
+            <p ng-repeat="b in itm.batchesList" ng-show="b.count > 0">
+              <span class="" ng-show="b.productionDate"> {{b.productionDate| date : 'dd-MM-yyyy'}} &nbsp;  </span>
+              <span class="" ng-show="b.expiryDate"> {{b.expiryDate| date : 'dd-MM-yyyy'}} &nbsp; </span>
+              <span class="" ng-show="b.code"> {{b.code}}  ({{b.count}}##word.+##) </span>
+            </p>
           </td>
 
           <td class="center width-15-mm font-12">

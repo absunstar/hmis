@@ -20,6 +20,13 @@
   border-style: solid;
   border-color: black;
 }
+.space {
+  word-spacing: 7px;
+}
+.tab-space {
+  tab-size: 1; 
+
+}
 .numStr {
   font-size: 18px !important;
   font-style: italic;

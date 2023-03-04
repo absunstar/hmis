@@ -717,7 +717,8 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         for (const elem of item.unitsList) {
             $scope.collectedItemUnits.push({
                 id: elem.unit.id,
-                code: elem.unit.code,
+        barcode: elem.barcode,
+        code: elem.unit.code,
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
             });

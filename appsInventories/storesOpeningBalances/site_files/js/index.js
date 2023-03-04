@@ -429,7 +429,8 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
         for (const elem of item.unitsList) {
             $scope.unitsList.push({
                 id: elem.unit.id,
-                code: elem.unit.code,
+        barcode: elem.barcode,
+        code: elem.unit.code,
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
                 storesList: elem.storesList,
@@ -474,7 +475,8 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
             nameAr: orderItem.item.nameAr,
             nameEn: orderItem.item.nameEn,
             itemGroup: orderItem.item.itemGroup,
-            unit: orderItem.unit,
+      barcode : orderItem.unit.barcode,
+      unit: orderItem.unit,
             count: orderItem.count,
             price: orderItem.price,
             salesPrice: orderItem.salesPrice,

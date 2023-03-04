@@ -617,6 +617,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     for (const elem of item.unitsList) {
       $scope.unitsList.push({
         id: elem.unit.id,
+        barcode: elem.barcode,
         code: elem.unit.code,
         nameEn: elem.unit.nameEn,
         nameAr: elem.unit.nameAr,
@@ -703,6 +704,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       nameAr: orderItem.item.nameAr,
       nameEn: orderItem.item.nameEn,
       itemGroup: orderItem.item.itemGroup,
+      barcode: orderItem.unit.barcode,
       unit: orderItem.unit,
       count: orderItem.count,
       price: orderItem.price,
@@ -832,6 +834,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
               item: $scope.itemsList[0],
               unit: {
                 id: _unit.unit.id,
+                barcode: _unit.barcode,
                 code: _unit.unit.code,
                 nameEn: _unit.unit.nameEn,
                 nameAr: _unit.unit.nameAr,
@@ -1287,7 +1290,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
 
     $scope.busy = false;
     $timeout(() => {
-      $('#purchaseOrdersDetails').addClass('hidden');
+      /* $('#purchaseOrdersDetails').addClass('hidden'); */
     }, 8000);
   };
 

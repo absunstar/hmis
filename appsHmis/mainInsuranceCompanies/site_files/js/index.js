@@ -17,12 +17,10 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     $scope.mode = 'add';
     $scope.item = {
       ...$scope.structure,
-      discountServicesCategoriesList: [],
-      discountServicesGroupsList: [],
-      discountServicesList: [],
-      coverageServicesCategoriesList: [],
-      coverageServicesGroupsList: [],
-      coverageServicesList: [],
+      servicesCategoriesList: [],
+      servicesGroupsList: [],
+      servicesList: [],
+    
       packageServicesGroupsList: [],
     };
     site.showModal($scope.modalID);
@@ -464,12 +462,12 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.addDiscountServicesGroups = function (_item) {
+  $scope.addServicesGroups = function (_item) {
     $scope.error = '';
-    if (_item.$discountServiceGroup && _item.$discountServiceGroup.id) {
-      if (!_item.discountServicesGroupsList.some((s) => s.id === _item.$discountServiceGroup.id)) {
-        _item.discountServicesGroupsList.push({
-          ..._item.$discountServiceGroup,
+    if (_item.$serviceGroup && _item.$serviceGroup.id) {
+      if (!_item.servicesGroupsList.some((s) => s.id === _item.$serviceGroup.id)) {
+        _item.servicesGroupsList.push({
+          ..._item.$serviceGroup,
           cashOut: 0,
           creditOut: 0,
           cashIn: 0,
@@ -478,38 +476,38 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
           secoundValuePerDay: 0,
         });
       }
-      _item.$discountServiceGroup = {};
+      _item.$serviceGroup = {};
     } else {
       $scope.error = 'Must Select Service Group';
       return;
     }
   };
 
-  $scope.addDiscountServicesCategories = function (_item) {
+  $scope.addServicesCategories = function (_item) {
     $scope.error = '';
-    if (_item.$discountServiceCategory && _item.$discountServiceCategory.id) {
-      if (!_item.discountServicesCategoriesList.some((s) => s.id === _item.$discountServiceCategory.id)) {
-        _item.discountServicesCategoriesList.push({
-          ..._item.$discountServiceCategory,
+    if (_item.$serviceCategory && _item.$serviceCategory.id) {
+      if (!_item.servicesCategoriesList.some((s) => s.id === _item.$serviceCategory.id)) {
+        _item.servicesCategoriesList.push({
+          ..._item.$serviceCategory,
           cashOut: 0,
           creditOut: 0,
           cashIn: 0,
           creditIn: 0,
         });
       }
-      _item.$discountServiceCategory = {};
+      _item.$serviceCategory = {};
     } else {
       $scope.error = 'Must Select Service Category';
       return;
     }
   };
 
-  $scope.addDiscountServices = function (_item) {
+  $scope.addServices = function (_item) {
     $scope.error = '';
-    if (_item.$discountService && _item.$discountService.id) {
-      if (!_item.discountServicesList.some((s) => s.id === _item.$discountService.id)) {
-        _item.discountServicesList.push({
-          ..._item.$discountService,
+    if (_item.$service && _item.$service.id) {
+      if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
+        _item.servicesList.push({
+          ..._item.$service,
           cashIn: 0,
           creditIn: 0,
           cashOut: 0,
@@ -521,61 +519,13 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
           creditOutDesk: 0,
         });
       }
-      _item.$discountService = {};
+      _item.$service = {};
     } else {
       $scope.error = 'Must Select Service';
       return;
     }
   };
 
-  $scope.addCoverageServicesGroups = function (_item) {
-    $scope.error = '';
-    if (_item.$coverageServiceGroup && _item.$coverageServiceGroup.id) {
-      if (!_item.coverageServicesGroupsList.some((s) => s.id === _item.$coverageServiceGroup.id)) {
-        _item.coverageServicesGroupsList.push({
-          ..._item.$coverageServiceGroup,
-          insuranceClassesList : [],
-        });
-      }
-      _item.$coverageServiceGroup = {};
-    } else {
-      $scope.error = 'Must Select Service Group';
-      return;
-    }
-  };
-
-  $scope.addCoverageServicesCategories = function (_item) {
-    $scope.error = '';
-    if (_item.$coverageServiceCategory && _item.$coverageServiceCategory.id) {
-      if (!_item.coverageServicesCategoriesList.some((s) => s.id === _item.$coverageServiceCategory.id)) {
-        _item.coverageServicesCategoriesList.push({
-          ..._item.$coverageServiceCategory,
-          insuranceClassesList : [],
-    
-        });
-      }
-      _item.$coverageServiceCategory = {};
-    } else {
-      $scope.error = 'Must Select Service Category';
-      return;
-    }
-  };
-
-  $scope.addCoverageServices = function (_item) {
-    $scope.error = '';
-    if (_item.$coverageService && _item.$coverageService.id) {
-      if (!_item.coverageServicesList.some((s) => s.id === _item.$coverageService.id)) {
-        _item.coverageServicesList.push({
-          ..._item.$coverageService,
-          insuranceClassesList : [],
-        });
-      }
-      _item.$coverageService = {};
-    } else {
-      $scope.error = 'Must Select Service';
-      return;
-    }
-  };
 
   $scope.addPackageServicesGroups = function (_item) {
     $scope.error = '';

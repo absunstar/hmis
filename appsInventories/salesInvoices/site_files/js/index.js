@@ -328,6 +328,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     for (const elem of item.unitsList) {
       $scope.unitsList.push({
         id: elem.unit.id,
+        barcode: elem.barcode,
         code: elem.unit.code,
         nameEn: elem.unit.nameEn,
         nameAr: elem.unit.nameAr,
@@ -363,6 +364,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       nameAr: orderItem.item.nameAr,
       nameEn: orderItem.item.nameEn,
       itemGroup: orderItem.item.itemGroup,
+      barcode : orderItem.unit.barcode,
       unit: { id: orderItem.unit.id, code: orderItem.unit.code, nameAr: orderItem.unit.nameAr, nameEn: orderItem.unit.nameEn },
       count: orderItem.count,
       price: orderItem.unit.price,
@@ -605,6 +607,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
               item: $scope.itemsList[0],
               unit: {
                 id: _unit.unit.id,
+                barcode: _unit.barcode,
                 code: _unit.unit.code,
                 nameEn: _unit.unit.nameEn,
                 nameAr: _unit.unit.nameAr,
@@ -935,10 +938,11 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
 
         so.itemsList = [];
         $scope.item.itemsList.forEach((itm, i) => {
-          itm.$index = i + 1;
-          if (i < (iInv + 1) * $scope.settings.printerProgram.itemsCountA4 && !itm.$doneInv) {
-            itm.$doneInv = true;
-            so.itemsList.push(itm);
+          let item = { ...itm };
+          item.$index = i + 1;
+          if (i < (iInv + 1) * $scope.settings.printerProgram.itemsCountA4 && !item.$doneInv) {
+            item.$doneInv = true;
+            so.itemsList.push(item);
           }
         });
         $scope.invList.push(so);
@@ -947,6 +951,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       $scope.item.itemsList.forEach((_item, i) => {
         _item.$index = i + 1;
       });
+
       $scope.invList = [{ ...$scope.item }];
     }
 

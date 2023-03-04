@@ -131,7 +131,8 @@
                 <td class="text-center"><i-control type="number" ng-model="g.secondAmnt"></i-control></td>
 
                 <td class="text-center not-print">
-                  <i-checkbox label="##word.NeedApproval##" ng-model="g.needApproval"></i-checkbox>
+                  <i-checkbox label="##word.Coverage##" ng-model="g.coverage"></i-checkbox>
+                  <i-checkbox ng-show="g.coverage" label="##word.NeedApproval##" ng-model="g.needApproval"></i-checkbox>
                   <i-button type="delete default" ng-click="item.servicesGroupsList.splice($index,1)"> </i-button>
                 </td>
               </tr>
@@ -177,7 +178,8 @@
                 <td class="text-center"><i-control type="number" ng-model="c.creditIn"></i-control></td>
                 <td class="text-center"><i-checkbox label="##word.ApplyDisc##" ng-model="c.applyDiscIn"></i-checkbox></td>
                 <td class="text-center not-print">
-                  <i-checkbox label="##word.NeedApproval##" ng-model="c.needApproval"></i-checkbox>
+                  <i-checkbox label="##word.Coverage##" ng-model="c.coverage"></i-checkbox>
+                  <i-checkbox ng-show="c.coverage" label="##word.NeedApproval##" ng-model="c.needApproval"></i-checkbox>
                   <i-button type="delete default" ng-click="item.servicesCategoriesList.splice($index,1)"> </i-button>
                 </td>
               </tr>
@@ -245,6 +247,8 @@
                 </td>
                 <td class="text-center"><i-control type="number" ng-model="s.packagePrice"></i-control></td>
                 <td class="text-center not-print">
+                  <i-checkbox label="##word.Coverage##" ng-model="s.coverage"></i-checkbox>
+                  <i-checkbox ng-show="s.coverage" label="##word.NeedApproval##" ng-model="s.needApproval"></i-checkbox>
                   <i-button type="delete default" ng-click="item.servicesList.splice($index,1)"> </i-button>
                 </td>
               </tr>

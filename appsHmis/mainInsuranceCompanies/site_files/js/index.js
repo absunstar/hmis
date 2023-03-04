@@ -20,7 +20,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       servicesCategoriesList: [],
       servicesGroupsList: [],
       servicesList: [],
-    
+
       packageServicesGroupsList: [],
     };
     site.showModal($scope.modalID);
@@ -440,6 +440,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
           code: 1,
           nameEn: 1,
           nameAr: 1,
+          servicesCategoriesList: 1,
           cashPriceOut: 1,
           creditPriceOut: 1,
           cashPriceIn: 1,
@@ -525,7 +526,6 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       return;
     }
   };
-
 
   $scope.addPackageServicesGroups = function (_item) {
     $scope.error = '';

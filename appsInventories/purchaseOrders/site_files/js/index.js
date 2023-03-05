@@ -9,10 +9,11 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     image: { url: '/images/purchaseOrders.png' },
     importPermitNumber: 0,
     totalPrice: 0,
+    totalNet: 0,
     totalDiscounts: 0,
     totalTaxes: 0,
-    totalVendorDiscountss: 0,
-    totalVendorDiscountss: 0,
+    totalVendorDiscounts: 0,
+    totalLegalDiscounts: 0,
     hasVendor: true,
     approved: false,
     /*  calculatePurchasePrice: false,
@@ -725,11 +726,11 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     } else if (orderItem.item.workBySerial) {
       item.workBySerial = true;
     }
-    if ($scope.item.itemsList.some((i) => i.id == item.id && i.unit.id == item.unit.id)) {
-      let index = $scope.item.itemsList.findIndex((_item) => _item.id === item.id);
-      $scope.item.itemsList[index].count += 1;
-    } else {
+    let index = $scope.item.itemsList.findIndex((_item) => _item.id === item.id && _item.unit.id == item.unit.id);
+    if (index == -1) {
       $scope.item.itemsList.unshift(item);
+    } else {
+      $scope.item.itemsList[index].count += 1;
     }
 
     $scope.calculateTotalInItemsList($scope.item);

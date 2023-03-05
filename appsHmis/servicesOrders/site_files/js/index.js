@@ -227,6 +227,27 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getExaminationTypesList = function () {
+    $scope.busy = true;
+    $scope.examinationTypesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/examinationTypes',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.examinationTypesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getNumberingAuto = function () {
     $scope.error = '';
     $scope.busy = true;
@@ -393,8 +414,8 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     $scope.item.patient = doctorAppointment.patient;
     $scope.item.doctor = doctorAppointment.doctor;
     $scope.item.sourceId = doctorAppointment.id;
-    $scope.getMainInsuranceFromSub(doctorAppointment.patient);
-
+    /* $scope.getMainInsuranceFromSub(doctorAppointment.patient);
+     */
     $http({
       method: 'POST',
       url: '/api/selectDoctorAppointment',
@@ -411,13 +432,12 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
             $scope.item.nphis = 'nElig';
             $scope.item.payment = 'cash';
           }
-          if ($scope.item.patient.insuranceClass && $scope.item.patient.insuranceClass.id) {
-            $scope.addServices(response.data.service, $scope.item.mainInsuranceCompany);
-          } else {
+          if (!$scope.item.patient.insuranceClass || !$scope.item.patient.insuranceClass.id) {
             $scope.item.nphis = 'nElig';
             $scope.item.payment = 'cash';
             $scope.item.errMsg = 'There is no incurance class for the patient';
           }
+          $scope.addServices(response.data.service, $scope.item.mainInsuranceCompany);
         } else {
           $scope.item.errMsg = response.data.error;
         }
@@ -443,9 +463,8 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.mainInsuranceCompany && response.data.servicesList) {
-          response.data.servicesList.forEach(_s => {
-            $scope.item.servicesList.push(_s)
-
+          response.data.servicesList.forEach((_s) => {
+            $scope.item.servicesList.push(_s);
           });
           $scope.calc($scope.item);
           $scope.item.mainInsuranceCompany = response.data.mainInsuranceCompany;
@@ -456,7 +475,6 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
             $scope.item.nphis = 'nElig';
             $scope.item.payment = 'cash';
           }
-         
         } else {
           $scope.item.errMsg = response.data.error;
         }
@@ -467,7 +485,6 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
       }
     );
   };
-
 
   $scope.getSource = function (id) {
     if (id == 2) {
@@ -705,7 +722,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     $scope.search = {};
   };
 
-  $scope.getAll();
+  $scope.getAll({ date: new Date() });
   $scope.getNumberingAuto();
   $scope.getservicesOrdersTypeList();
   $scope.getServicesList();
@@ -713,4 +730,5 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
   $scope.getDoctorsList();
   $scope.getHospitalCentersList();
   $scope.getservicesOrdersSourcesList();
+  $scope.getExaminationTypesList();
 });

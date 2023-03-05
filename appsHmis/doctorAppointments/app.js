@@ -139,7 +139,6 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
-
       site.get(
         {
           name: app.name,
@@ -283,7 +282,7 @@ module.exports = function init(site) {
               $lt: d2,
             };
           }
-          app.all({ where: where, select, sort : {id : -1} }, (err, docs) => {
+          app.all({ where: where, select, sort: { id: -1 } }, (err, docs) => {
             res.json({
               done: true,
               list: docs,
@@ -302,7 +301,6 @@ module.exports = function init(site) {
     if (_data.patient.insuranceCompany && _data.patient.insuranceCompany.id) {
       site.mainInsurancesFromSub({ insuranceCompanyId: _data.patient.insuranceCompany.id }, (callback) => {
         site.nphisElig(req.data, (nphisCallback) => {
-         
           callback.elig = nphisCallback.elig;
           callback.service = service;
           res.json(callback);
@@ -310,6 +308,7 @@ module.exports = function init(site) {
       });
     } else {
       response.error = 'There is no insurance company for the patient';
+      response.service = service;
       res.json(response);
       return;
     }

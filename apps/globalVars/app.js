@@ -35,9 +35,13 @@ module.exports = function init(site) {
     ];
 
     site.servicesOrdersSources = [
-        { id: 1, nameEn: 'Direct', nameAr: 'مباشر' },
-        { id: 2, nameEn: 'Doctor DeskTop', nameAr: 'مكتب الطبيب' },
-        { id: 3, nameEn: 'Doctor Appointment', nameAr: 'ميعاد طبيب' },
+        { id: 1, nameEn: 'Doctor DeskTop', nameAr: 'كشف طبيب' },
+        { id: 2, nameEn: 'Doctor DeskTop Order', nameAr: 'طلبات الكشوفات' },
+    ];
+
+    site.examinationTypes = [
+        { id: 1, nameEn: 'Direct booking', nameAr: 'حجز مباشر' },
+        { id: 2, nameEn: 'Doctor Appointment', nameAr: 'ميعاد طبيب' },
     ];
 
     site.doctorTypes = [
@@ -397,6 +401,13 @@ module.exports = function init(site) {
         res.json({
             done: true,
             list: site.servicesOrdersSources,
+        });
+    });
+
+    site.post('/api/examinationTypes', (req, res) => {
+        res.json({
+            done: true,
+            list: site.examinationTypes,
         });
     });
 

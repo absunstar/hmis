@@ -109,18 +109,28 @@
               <tr>
                 <th>##word.Code##</th>
                 <th>##word.Name##</th>
+                <th>##word.insuranceClasses##</th>
                 <th>##word.Cash Out## %</th>
                 <th>##word.Credit Out## %</th>
                 <th>##word.Apply Disc Out##</th>
                 <th>##word.Cash In## %</th>
                 <th>##word.Credit In## %</th>
                 <th>##word.Apply Disc In##</th>
-                <th>##word.Second Amnt Per Day##</th>
                 <th class="not-print">##word.Actions##</th>
               </tr>
               <tr ng-repeat="g in item.servicesGroupsList">
                 <td class="text-center blue">{{g.code}}</td>
                 <td class="text-center">{{g.name##session.lang##}}</td>
+                <td class="text-center">
+                  <i-list ng-selected="addInsuranceClasses(s)" ng-model="s.$insuranceClass" display="name##session.lang##" items="insuranceClassesList" ng-search="s.$insuranceClass"></i-list>
+
+                  <div class="row">
+                    <div class="key-words" ng-repeat="i in s.insuranceClassesList">
+                      <span>{{i.name##session.lang##}}</span>
+                      <i class="fas fa-times delete-key" ng-click="s.insuranceClassesList.splice($index,1)"></i>
+                    </div>
+                  </div>
+                </td>
                 <td class="text-center"><i-control type="number" ng-model="g.cashOut"></i-control></td>
                 <td class="text-center"><i-control type="number" ng-model="g.creditOut"></i-control></td>
                 <td class="text-center"><i-checkbox label="##word.Apply Disc Out##" ng-model="g.applyDiscOut"></i-checkbox></td>
@@ -128,7 +138,6 @@
                 <td class="text-center"><i-control type="number" ng-model="g.cashIn"></i-control></td>
                 <td class="text-center"><i-control type="number" ng-model="g.creditIn"></i-control></td>
                 <td class="text-center"><i-checkbox label="##word.Apply Disc In##" ng-model="g.applyDiscIn"></i-checkbox></td>
-                <td class="text-center"><i-control type="number" ng-model="g.secondAmnt"></i-control></td>
 
                 <td class="text-center not-print">
                   <i-checkbox label="##word.Coverage##" ng-model="g.coverage"></i-checkbox>
@@ -160,6 +169,7 @@
               <tr>
                 <th>##word.Code##</th>
                 <th>##word.Name##</th>
+                <th>##word.insuranceClasses##</th>
                 <th>##word.Cash Out## %</th>
                 <th>##word.Credit Out## %</th>
                 <th>##word.Apply Disc Out##</th>
@@ -171,6 +181,16 @@
               <tr ng-repeat="c in item.servicesCategoriesList">
                 <td class="text-center blue">{{c.code}}</td>
                 <td class="text-center">{{c.name##session.lang##}}</td>
+                <td class="text-center">
+                  <i-list ng-selected="addInsuranceClasses(s)" ng-model="s.$insuranceClass" display="name##session.lang##" items="insuranceClassesList" ng-search="s.$insuranceClass"></i-list>
+
+                  <div class="row">
+                    <div class="key-words" ng-repeat="i in s.insuranceClassesList">
+                      <span>{{i.name##session.lang##}}</span>
+                      <i class="fas fa-times delete-key" ng-click="s.insuranceClassesList.splice($index,1)"></i>
+                    </div>
+                  </div>
+                </td>
                 <td class="text-center"><i-control type="number" ng-model="c.cashOut"></i-control></td>
                 <td class="text-center"><i-control type="number" ng-model="c.creditOut"></i-control></td>
                 <td class="text-center"><i-checkbox label="##word.ApplyDisc##" ng-model="c.applyDiscOut"></i-checkbox></td>
@@ -200,6 +220,7 @@
               <tr>
                 <th>##word.Code## / ##word.Co code##</th>
                 <th>##word.Name## / ##word.Co Name##</th>
+                <th>##word.insuranceClasses##</th>
                 <th>(##word.Cash##/##word.Credit##) ##word.In##</th>
                 <th>##word.Cash In## / ##word.Disc## %</th>
                 <th>##word.Credit In## / ##word.Disc## %</th>
@@ -218,7 +239,16 @@
                   <p class="text-center">{{s.name##session.lang##}}</p>
                   <i-control type="text" ng-model="s.coName"></i-control>
                 </td>
+                <td class="text-center">
+                  <i-list ng-selected="addInsuranceClasses(s)" ng-model="s.$insuranceClass" display="name##session.lang##" items="insuranceClassesList" ng-search="s.$insuranceClass"></i-list>
 
+                  <div class="row">
+                    <div class="key-words" ng-repeat="i in s.insuranceClassesList">
+                      <span>{{i.name##session.lang##}}</span>
+                      <i class="fas fa-times delete-key" ng-click="s.insuranceClassesList.splice($index,1)"></i>
+                    </div>
+                  </div>
+                </td>
                 <td class="text-center">
                   <span class="green">{{s.cashPriceIn}}</span>
                   /

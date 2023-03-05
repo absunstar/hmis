@@ -463,12 +463,22 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     );
   };
 
+    $scope.addInsuranceClasses = function (obj) {
+    $scope.busy = true;
+    obj.insuranceClassesList = obj.insuranceClassesList ||[];
+    if (obj.$insuranceClass && !obj.insuranceClassesList.some((k) => k.id === obj.$insuranceClass.id)) {
+      obj.insuranceClassesList.push(obj.$insuranceClass);
+    }
+    obj.$insuranceClass = '';
+  };
+
   $scope.addServicesGroups = function (_item) {
     $scope.error = '';
     if (_item.$serviceGroup && _item.$serviceGroup.id) {
       if (!_item.servicesGroupsList.some((s) => s.id === _item.$serviceGroup.id)) {
         _item.servicesGroupsList.push({
           ..._item.$serviceGroup,
+          insuranceClassesList: [],
           cashOut: 0,
           creditOut: 0,
           cashIn: 0,
@@ -490,6 +500,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       if (!_item.servicesCategoriesList.some((s) => s.id === _item.$serviceCategory.id)) {
         _item.servicesCategoriesList.push({
           ..._item.$serviceCategory,
+          insuranceClassesList: [],
           cashOut: 0,
           creditOut: 0,
           cashIn: 0,
@@ -509,6 +520,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
         _item.servicesList.push({
           ..._item.$service,
+          insuranceClassesList: [],
           cashIn: 0,
           creditIn: 0,
           cashOut: 0,

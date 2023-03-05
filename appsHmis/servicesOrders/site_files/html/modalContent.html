@@ -8,7 +8,7 @@
         <div class="row">
           <i-list
             v="r"
-            class="col6"
+            class="col4"
             label="##word.Source##"
             ng-change="getSource(item.source.id)"
             ng-model="item.source"
@@ -16,8 +16,19 @@
             items="servicesOrdersSourcesList"
             ng-search="item.$source"
           ></i-list>
+
           <i-list
-            class="col6"
+          v="r"
+          class="col4"
+          label="##word.Examination Type##"
+          ng-change="getSource(item.examinationType.id)"
+          ng-model="item.examinationType"
+          display="name##session.lang##"
+          items="examinationTypesList"
+          ng-search="item.$examinationType"
+        ></i-list>
+          <i-list
+            class="col4"
             ng-show="item.source.id == 2"
             label="##word.Doctor DeskTop##"
             ng-model="item.doctorDeskTop"
@@ -28,8 +39,8 @@
             ng-change="selectDoctorDeskTop(item.doctorDeskTop)"
           ></i-list>
           <i-list
-            class="col6"
-            ng-show="item.source.id == 3"
+            class="col4"
+            ng-show="item.examinationType.id == 2"
             label="##word.Doctor Appointment##"
             ng-model="item.doctorAppointment"
             display="patient.fullName##session.lang##"
@@ -140,6 +151,7 @@
             ng-disabled="item.source.id != 1"
             label="##word.Doctor##"
             ng-model="item.doctor"
+            ng-change="addServices(item.doctor.consItem,item.mainInsuranceCompany)"
             display="name##session.lang##"
             items="doctorsList"
             ng-search="item.$doctor"
@@ -219,14 +231,14 @@
   </div>
   <div class="row padding">
     <fieldset>
-      <div class="row" ng-class="{disabled : item.id}">
+   <!--    <div class="row" ng-class="{disabled : item.id}">
         <i-list help-id="" label="##word.Service##" class="col7" ng-model="item.$service" display="name##session.lang##" items="servicesList" ng-search="item.$services"></i-list>
         <div class="col4">
           <br />
           <i-button type="add" label="##word.Add Service##" ng-click="addServices(item.$service,item.mainInsuranceCompany)"></i-button>
         </div>
-      </div>
-      <div class="row" ng-class="{disabled : item.id}">
+      </div> -->
+      <div class="row disabled">
         <table class="table hover bold">
           <tr>
             <th>##word.Name##</th>

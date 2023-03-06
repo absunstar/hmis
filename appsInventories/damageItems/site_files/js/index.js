@@ -563,7 +563,7 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
   };
 
   $scope.getReasonsDestroyingItems();
-  $scope.getAll({ date: new Date() });
+  $scope.getAll({ });
   $scope.getStores();
   $scope.getNumberingAuto();
 });

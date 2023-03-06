@@ -703,7 +703,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getAll({ date: new Date() });
+  $scope.getAll();
   $scope.getPaymentTypes();
   $scope.getStores();
   $scope.getStoresItems();

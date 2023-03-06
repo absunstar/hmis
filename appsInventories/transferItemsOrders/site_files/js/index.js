@@ -584,7 +584,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
       nameAr: elem.item.nameAr,
       nameEn: elem.item.nameEn,
       itemGroup: elem.item.itemGroup,
-      barcode : orderItem.unit.barcode,
+      barcode : elem.unit.barcode,
       unit: { id: elem.unit.id, code: elem.unit.code, nameAr: elem.unit.nameAr, nameEn: elem.unit.nameEn },
       count: elem.count,
       price: elem.price,
@@ -694,7 +694,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     }, 250);
   };
 
-  $scope.getAll({ date: new Date() });
+  $scope.getAll();
   $scope.getStores();
   $scope.getStoresItems();
   $scope.getpurchaseOrdersSource();

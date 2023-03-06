@@ -1295,7 +1295,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     }, 8000);
   };
 
-  $scope.getAll({ date: new Date() });
+  $scope.getAll();
   $scope.getPaymentTypes();
   $scope.getPurchaseOrdersSource();
   $scope.getTaxTypes();

@@ -499,6 +499,6 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
     // $scope.calucualteStoreBalance($scope.unitsList[0]);
   };
 
-  $scope.getAll({ hasTransaction: false, date: new Date() });
+  $scope.getAll({ hasTransaction: false });
   $scope.getNumberingAuto();
 });

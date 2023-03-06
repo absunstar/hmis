@@ -339,17 +339,14 @@ module.exports = function init(site) {
             let serviceIndex = mainInsurance.servicesList.findIndex((_cService) => _cService.id === serviceMemory.id);
             if (serviceIndex != -1) {
               foundService = true;
-              let _class = mainInsurance.servicesList[serviceIndex].insuranceClassesList.find((_iClass) => {
-                _data.patientClass.id == _iClass.id;
-              });
-              if (mainInsurance.servicesList[serviceIndex].coverage && _class && _class.id) {
+              let _class = mainInsurance.servicesList[serviceIndex].insuranceClassesList.find((_iClass) => _data.patientClass.id == _iClass.id);
+              if (mainInsurance.servicesList[serviceIndex].coverage && _class) {
                 foundCoverage = true;
                 let service = {
                   id: serviceMemory.id,
                   nameAr: mainInsurance.servicesList[serviceIndex].coName || serviceMemory.nameAr,
                   nameEn: mainInsurance.servicesList[serviceIndex].coName || serviceMemory.nameEn,
                   code: mainInsurance.servicesList[serviceIndex].coCode || serviceMemory.code,
-                  type: 'Discount',
                   qty: 1,
                   needApproval: mainInsurance.servicesList[serviceIndex].needApproval,
                   vat: serviceMemory.vat,
@@ -392,11 +389,9 @@ module.exports = function init(site) {
 
                 if (!foundService && categoryInsurance && categoryInsurance.id) {
                   foundService = true;
-                  let _class = categoryInsurance.insuranceClassesList.find((_iClass) => {
-                    _data.patientClass.id == _iClass.id;
-                  });
-                  if (categoryInsurance.coverage && _class && _class.id) {
-                    foundCoverage = true;
+                  let _class = categoryInsurance.insuranceClassesList.find((_iClass) => _data.patientClass.id == _iClass.id);
+                  if (categoryInsurance.coverage && _class) {
+                foundCoverage = true;
                     let service = {
                       id: serviceMemory.id,
                       nameAr: serviceMemory.nameAr,
@@ -437,16 +432,12 @@ module.exports = function init(site) {
           }
           if (!foundService) {
             if (mainInsurance.servicesGroupsList && mainInsurance.servicesGroupsList.length > 0) {
-              let goupInsurance = mainInsurance.servicesGroupsList.find((_cGroup) => {
-                serviceMemory.serviceGroup && _cGroup.id == serviceMemory.serviceGroup.id;
-              });
+              let goupInsurance = mainInsurance.servicesGroupsList.find((_cGroup) => serviceMemory.serviceGroup && _cGroup.id == serviceMemory.serviceGroup.id);
               if (!foundService && goupInsurance && goupInsurance.id) {
                 foundService = true;
 
-                let _class = goupInsurance.insuranceClassesList.find((_iClass) => {
-                  _data.patientClass.id == _iClass.id;
-                });
-                if (goupInsurance.coverage && _class && _class.id) {
+                let _class = goupInsurance.insuranceClassesList.find((_iClass) => _data.patientClass.id == _iClass.id);
+                if (goupInsurance.coverage && _class) {
                   foundCoverage = true;
                   let service = {
                     id: serviceMemory.id,
@@ -454,7 +445,6 @@ module.exports = function init(site) {
                     nameEn: serviceMemory.nameEn,
                     needApproval: goupInsurance.needApproval,
                     code: serviceMemory.code,
-                    type: 'Discount',
                     qty: 1,
                     price: 0,
                     discount: 0,
@@ -467,18 +457,18 @@ module.exports = function init(site) {
                   if (_data.type == 'out') {
                     if (_data.payment == 'cash') {
                       service.price = serviceMemory.cashPriceOut;
-                      service.discount = _cGroup.applyDiscOut ? _cGroup.cashOut : 0;
+                      service.discount = goupInsurance.applyDiscOut ? goupInsurance.cashOut : 0;
                     } else if (_data.payment == 'credit') {
                       service.price = serviceMemory.creditPriceOut;
-                      service.discount = _cGroup.applyDiscOut ? _cGroup.creditOut : 0;
+                      service.discount = goupInsurance.applyDiscOut ? goupInsurance.creditOut : 0;
                     }
                   } else if (_data.type == 'in') {
                     if (_data.payment == 'cash') {
-                      service.price = _cGroup.cashPriceIn;
-                      service.discount = _cGroup.applyDiscIn ? _cGroup.cashIn : 0;
+                      service.price = goupInsurance.cashPriceIn;
+                      service.discount = goupInsurance.applyDiscIn ? goupInsurance.cashIn : 0;
                     } else if (_data.payment == 'credit') {
-                      service.price = _cGroup.creditPriceIn;
-                      service.discount = _cGroup.applyDiscIn ? _cGroup.creditIn : 0;
+                      service.price = goupInsurance.creditPriceIn;
+                      service.discount = goupInsurance.applyDiscIn ? goupInsurance.creditIn : 0;
                     }
                   }
                   service.total = service.price - (service.price * service.discount) / 100;
@@ -493,17 +483,14 @@ module.exports = function init(site) {
                     if (serviceCategory && serviceCategory.id == _gCateGory.id) {
                       foundService = true;
 
-                      let _class = goupInsurance.insuranceClassesList.find((_iClass) => {
-                        _data.patientClass.id == _iClass.id;
-                      });
-                      if (goupInsurance.coverage && _class && _class.id) {
+                      let _class = goupInsurance.insuranceClassesList.find((_iClass) => _data.patientClass.id == _iClass.id);
+                      if (goupInsurance.coverage && _class) {
                         foundCoverage = true;
 
                         let service = {
                           id: serviceMemory.id,
                           nameAr: serviceMemory.nameAr,
                           nameEn: serviceMemory.nameEn,
-                          type: 'Discount',
                           code: serviceMemory.code,
                           qty: 1,
                           vat: serviceMemory.vat,

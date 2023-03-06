@@ -20,7 +20,6 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       servicesCategoriesList: [],
       servicesGroupsList: [],
       servicesList: [],
-
       packageServicesGroupsList: [],
     };
     site.showModal($scope.modalID);
@@ -463,9 +462,9 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     );
   };
 
-    $scope.addInsuranceClasses = function (obj) {
+  $scope.addInsuranceClasses = function (obj) {
     $scope.busy = true;
-    obj.insuranceClassesList = obj.insuranceClassesList ||[];
+    obj.insuranceClassesList = obj.insuranceClassesList || [];
     if (obj.$insuranceClass && !obj.insuranceClassesList.some((k) => k.id === obj.$insuranceClass.id)) {
       obj.insuranceClassesList.push(obj.$insuranceClass);
     }
@@ -553,15 +552,6 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       $scope.error = 'Must Select Service Group';
       return;
     }
-  };
-
-  $scope.addInsuranceClasses = function (obj) {
-    $scope.busy = true;
-
-    if (obj.$insuranceClass && !obj.insuranceClassesList.some((k) => k.id === obj.$insuranceClass.id)) {
-      obj.insuranceClassesList.push(obj.$insuranceClass);
-    }
-    obj.$insuranceClass = '';
   };
 
   $scope.showSearch = function () {

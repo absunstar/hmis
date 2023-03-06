@@ -122,12 +122,12 @@
                 <td class="text-center blue">{{g.code}}</td>
                 <td class="text-center">{{g.name##session.lang##}}</td>
                 <td class="text-center">
-                  <i-list ng-selected="addInsuranceClasses(s)" ng-model="s.$insuranceClass" display="name##session.lang##" items="insuranceClassesList" ng-search="s.$insuranceClass"></i-list>
+                  <i-list ng-selected="addInsuranceClasses(g)" ng-model="g.$insuranceClass" display="name##session.lang##" items="insuranceClassesList" ng-search="g.$insuranceClass"></i-list>
 
                   <div class="row">
-                    <div class="key-words" ng-repeat="i in s.insuranceClassesList">
+                    <div class="key-words" ng-repeat="i in g.insuranceClassesList">
                       <span>{{i.name##session.lang##}}</span>
-                      <i class="fas fa-times delete-key" ng-click="s.insuranceClassesList.splice($index,1)"></i>
+                      <i class="fas fa-times delete-key" ng-click="g.insuranceClassesList.splice($index,1)"></i>
                     </div>
                   </div>
                 </td>
@@ -178,19 +178,20 @@
                 <th>##word.Apply Disc In##</th>
                 <th class="not-print">##word.Actions##</th>
               </tr>
+
               <tr ng-repeat="c in item.servicesCategoriesList">
                 <td class="text-center blue">{{c.code}}</td>
                 <td class="text-center">{{c.name##session.lang##}}</td>
                 <td class="text-center">
-                  <i-list ng-selected="addInsuranceClasses(s)" ng-model="s.$insuranceClass" display="name##session.lang##" items="insuranceClassesList" ng-search="s.$insuranceClass"></i-list>
-
+                  <i-list ng-selected="addInsuranceClasses(c)" ng-model="c.$insuranceClass" display="name##session.lang##" items="insuranceClassesList" ng-search="c.$insuranceClass"></i-list>
                   <div class="row">
-                    <div class="key-words" ng-repeat="i in s.insuranceClassesList">
+                    <div class="key-words" ng-repeat="i in c.insuranceClassesList">
                       <span>{{i.name##session.lang##}}</span>
-                      <i class="fas fa-times delete-key" ng-click="s.insuranceClassesList.splice($index,1)"></i>
+                      <i class="fas fa-times delete-key" ng-click="c.insuranceClassesList.splice($index,1)"></i>
                     </div>
                   </div>
                 </td>
+
                 <td class="text-center"><i-control type="number" ng-model="c.cashOut"></i-control></td>
                 <td class="text-center"><i-control type="number" ng-model="c.creditOut"></i-control></td>
                 <td class="text-center"><i-checkbox label="##word.ApplyDisc##" ng-model="c.applyDiscOut"></i-checkbox></td>

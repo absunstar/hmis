@@ -39,7 +39,7 @@ module.exports = function init(site) {
         { id: 2, nameEn: 'Doctor DeskTop Order', nameAr: 'طلبات الكشوفات' },
     ];
 
-    site.examinationTypes = [
+    site.bookingTypes = [
         { id: 1, nameEn: 'Direct booking', nameAr: 'حجز مباشر' },
         { id: 2, nameEn: 'Doctor Appointment', nameAr: 'ميعاد طبيب' },
     ];
@@ -404,10 +404,10 @@ module.exports = function init(site) {
         });
     });
 
-    site.post('/api/examinationTypes', (req, res) => {
+    site.post('/api/bookingTypes', (req, res) => {
         res.json({
             done: true,
-            list: site.examinationTypes,
+            list: site.bookingTypes,
         });
     });
 

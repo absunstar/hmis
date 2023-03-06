@@ -249,7 +249,7 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, code: 1, patient: 1, doctor: 1, active: 1 };
+        let select = req.body.select || { id: 1, code: 1, patient: 1, doctor: 1, hasTransaction: 1 , active: 1 };
         let list = [];
         if (app.allowMemory) {
           app.memoryList
@@ -273,7 +273,16 @@ module.exports = function init(site) {
         } else {
           where['company.id'] = site.getCompany(req).id;
 
-          if (where.date) {
+          if (where && where.dateTo) {
+            let d1 = site.toDate(where.date);
+            let d2 = site.toDate(where.dateTo);
+            d2.setDate(d2.getDate() + 1);
+            where.date = {
+              $gte: d1,
+              $lt: d2,
+            };
+            delete where.dateTo;
+          } else if (where.date) {
             let d1 = site.toDate(where.date);
             let d2 = site.toDate(where.date);
             d2.setDate(d2.getDate() + 1);
@@ -282,7 +291,27 @@ module.exports = function init(site) {
               $lt: d2,
             };
           }
-          app.all({ where: where, select, sort: { id: -1 } }, (err, docs) => {
+
+          if (where && where.bookingDateTo) {
+            let d1 = site.toDate(where.bookingDate);
+            let d2 = site.toDate(where.bookingDateToTo);
+            d2.setDate(d2.getDate() + 1);
+            where.bookingDate = {
+              $gte: d1,
+              $lt: d2,
+            };
+            delete where.bookingDateTo;
+          } else if (where.bookingDate) {
+            let d1 = site.toDate(where.bookingDate);
+            let d2 = site.toDate(where.bookingDate);
+            d2.setDate(d2.getDate() + 1);
+            where.bookingDate = {
+              $gte: d1,
+              $lt: d2,
+            };
+          }
+
+          app.all({ where, select, sort: { id: -1 } }, (err, docs) => {
             res.json({
               done: true,
               list: docs,
@@ -313,6 +342,11 @@ module.exports = function init(site) {
       return;
     }
   });
+
+  site.hasTransactionDoctorAppointment = function (where) {
+    console.log(where);
+    app.$collection.update({ where, set: { hasTransaction: true } });
+  };
 
   app.init();
   site.addApp(app);

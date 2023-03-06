@@ -10,23 +10,23 @@
             v="r"
             class="col4"
             label="##word.Source##"
-            ng-change="getSource(item.source.id)"
+            ng-change="item.source.id == 2 ?getDoctorDeskTopList() :''"
             ng-model="item.source"
             display="name##session.lang##"
             items="servicesOrdersSourcesList"
             ng-search="item.$source"
           ></i-list>
-
           <i-list
-          v="r"
-          class="col4"
-          label="##word.Examination Type##"
-          ng-change="getSource(item.examinationType.id)"
-          ng-model="item.examinationType"
-          display="name##session.lang##"
-          items="examinationTypesList"
-          ng-search="item.$examinationType"
-        ></i-list>
+            v="r"
+            class="col4"
+            ng-show="item.source.id == 1"
+            label="##word.Booking Type##"
+            ng-change="item.bookingType.id == 2 ?getDoctorAppointmentsList() :''"
+            ng-model="item.bookingType"
+            display="name##session.lang##"
+            items="bookingTypesList"
+            ng-search="item.$bookingType"
+          ></i-list>
           <i-list
             class="col4"
             ng-show="item.source.id == 2"
@@ -40,7 +40,7 @@
           ></i-list>
           <i-list
             class="col4"
-            ng-show="item.examinationType.id == 2"
+            ng-show=" item.source.id ==1 && item.bookingType.id == 2"
             label="##word.Doctor Appointment##"
             ng-model="item.doctorAppointment"
             display="patient.fullName##session.lang##"
@@ -49,7 +49,7 @@
             ng-change="selectDoctorAppointment(item.doctorAppointment)"
           ></i-list>
         </div>
-        <div class="row" ng-class="{ disabled : item.source.id != 1 }">
+        <div class="row">
           <i-list
             v="r"
             class="col6"
@@ -59,7 +59,7 @@
             display="fullName##session.lang##"
             items="patientsList"
             ng-search="item.$patient"
-            ng-disabled="item.source.id != 1"
+            ng-disabled="item.servicesList.length"
           ></i-list>
         </div>
         <div class="row" ng-show="item.patient.id">
@@ -148,10 +148,10 @@
           <i-list
             v="r"
             class="col6"
-            ng-disabled="item.source.id != 1"
+            ng-disabled="item.examinationType.id != 1"
             label="##word.Doctor##"
             ng-model="item.doctor"
-            ng-change="addServices(item.doctor.consItem,item.mainInsuranceCompany)"
+            ng-change="item.servicesList = [];addServices(item.doctor.consItem,item.mainInsuranceCompany)"
             display="name##session.lang##"
             items="doctorsList"
             ng-search="item.$doctor"
@@ -162,13 +162,11 @@
               <td class="center" colspan="2">
                 <p class="height-5">{{item.doctor.nameEn}} ( <span class="blue">{{item.doctor.code}}</span> ) <img class="img-logo" ng-src="{{item.doctor.image.url}}" alt="" /></p>
               </td>
-
               <th>الإسم</th>
               <td class="center" colspan="2">
                 <p class="height-5">{{item.doctor.nameAr}}</p>
               </td>
             </tr>
-
             <tr>
               <th>##word.Specialty##</th>
               <td class="center">
@@ -231,7 +229,7 @@
   </div>
   <div class="row padding">
     <fieldset>
-   <!--    <div class="row" ng-class="{disabled : item.id}">
+      <!--    <div class="row" ng-class="{disabled : item.id}">
         <i-list help-id="" label="##word.Service##" class="col7" ng-model="item.$service" display="name##session.lang##" items="servicesList" ng-search="item.$services"></i-list>
         <div class="col4">
           <br />
@@ -255,8 +253,7 @@
           <tr ng-repeat="s in item.servicesList">
             <td class="text-center">
               {{s.name##session.lang##}}
-              <p class="green">{{s.type}}</p>
-              <span class="red" ng-show="s.needApproval">( ##word.Need Approval##) </span>
+              <p class="red" ng-show="s.needApproval">( ##word.Need Approval##)</p>
             </td>
             <td class="text-center">
               <i-control type="number" ng-change="calc(item)" ng-model="s.qty"> </i-control>

@@ -140,7 +140,6 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
-   
       site.get(
         {
           name: app.name,
@@ -273,8 +272,9 @@ module.exports = function init(site) {
         let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1 };
         let limit = req.body.limit || 10;
         let list = [];
-        app.memoryList.slice(-limit)
-          .filter((g) => (!search || JSON.stringify(g).contains(search) || !where['type.id'] || (g.type && g.type.id == where['type.id'])) && g.company && g.company.id == site.getCompany(req).id)
+        app.memoryList
+          .slice(-limit)
+          .filter((g) => (!search || JSON.stringify(g).contains(search)) && (!where['type.id'] || (g.type && g.type.id == where['type.id'])) && g.company && g.company.id == site.getCompany(req).id)
           .forEach((doc) => {
             let obj = { ...doc };
             for (const p in obj) {

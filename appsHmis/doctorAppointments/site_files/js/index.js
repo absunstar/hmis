@@ -7,6 +7,7 @@ app.controller('doctorAppointments', function ($scope, $http, $timeout) {
   $scope._search = {};
   $scope.structure = {
     active: true,
+    hasTransaction: false,
   };
   $scope.item = {};
   $scope.list = [];
@@ -14,7 +15,7 @@ app.controller('doctorAppointments', function ($scope, $http, $timeout) {
   $scope.showAdd = function (_item) {
     $scope.error = '';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure, date: new Date() };
+    $scope.item = { ...$scope.structure, date: new Date(), bookingDate: new Date() };
     site.showModal($scope.modalID);
   };
 
@@ -231,7 +232,6 @@ app.controller('doctorAppointments', function ($scope, $http, $timeout) {
 
   $scope.getDoctorsList = function ($search) {
     $scope.busy = true;
-    console.log($search);
     $scope.doctorsList = [];
     $http({
       method: 'POST',
@@ -254,7 +254,7 @@ app.controller('doctorAppointments', function ($scope, $http, $timeout) {
           homeTel: 1,
         },
         search: $search,
-         /* limit: 1, */ 
+        /* limit: 1, */
       },
     }).then(
       function (response) {

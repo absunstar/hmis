@@ -227,18 +227,18 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getExaminationTypesList = function () {
+  $scope.getBookingTypesList = function () {
     $scope.busy = true;
-    $scope.examinationTypesList = [];
+    $scope.bookingTypesList = [];
     $http({
       method: 'POST',
-      url: '/api/examinationTypes',
+      url: '/api/bookingTypes',
       data: {},
     }).then(
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.examinationTypesList = response.data.list;
+          $scope.bookingTypesList = response.data.list;
         }
       },
       function (err) {
@@ -486,13 +486,6 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getSource = function (id) {
-    if (id == 2) {
-      $scope.getDoctorDeskTopList();
-    } else if (id == 3) {
-      $scope.getDoctorAppointmentsList();
-    }
-  };
 
   $scope.getDoctorDeskTopList = function (where) {
     $scope.busy = true;
@@ -532,7 +525,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     $scope.busy = true;
     $scope.doctorAppointmentsList = [];
 
-    let where = { date: $scope.item.date };
+    let where = { bookingDate: $scope.item.date , hasTransaction: false,};
 
     $http({
       method: 'POST',
@@ -576,6 +569,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           image: 1,
           nameEn: 1,
           nameAr: 1,
+          consItem: 1,
           specialty: 1,
           hospitalCenter: 1,
           doctorType: 1,
@@ -652,7 +646,6 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
         if ($scope.item.doctor && $scope.item.doctor.hospitalCenter) {
           obj.hospitalCenter = { ...$scope.item.doctor.hospitalCenter };
         }
-
         $http({
           method: 'POST',
           url: '/api/serviceMainInsurance',
@@ -661,6 +654,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           function (response) {
             $scope.busy = false;
             if (response.data.done && response.data.servicesList && response.data.servicesList.length > 0) {
+
               service = { ...response.data.servicesList[0] };
               $scope.item.servicesList.push(service);
               $scope.calc($scope.item);
@@ -730,5 +724,5 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
   $scope.getDoctorsList();
   $scope.getHospitalCentersList();
   $scope.getservicesOrdersSourcesList();
-  $scope.getExaminationTypesList();
+  $scope.getBookingTypesList();
 });

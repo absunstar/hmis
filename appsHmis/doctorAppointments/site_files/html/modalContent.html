@@ -5,7 +5,8 @@
         <i-control ng-hide="disabledCode" class="col6" label="##word.Code##" ng-model="item.code"> </i-control>
         <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
       </div>
-      <i-date v="r" ng-model="item.date" label="##word.date##"></i-date>
+      <i-date v="r" ng-model="item.date" label="##word.Date##"></i-date>
+      <i-date v="r" ng-model="item.bookingDate" label="##word.Booking Date##"></i-date>
       <div class="row">
         <i-list class="col6" v="r" label="##word.Doctor##" ng-model="item.doctor" display="name##session.lang##" items="doctorsList" ng-get="getDoctorsList($search)"></i-list>
         <div class="row" ng-show="item.doctor.id">

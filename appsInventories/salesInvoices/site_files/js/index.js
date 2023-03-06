@@ -396,11 +396,11 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
         });
       }
     }
-    if ($scope.item.itemsList.some((i) => i.id == item.id && i.unit.id == item.unit.id)) {
-      let index = $scope.item.itemsList.findIndex((_item) => _item.id === item.id);
-      $scope.item.itemsList[index].count += 1;
-    } else {
+    let index = $scope.item.itemsList.findIndex((_item) => _item.id === item.id && _item.unit.id == item.unit.id);
+    if (index == -1) {
       $scope.item.itemsList.unshift(item);
+    } else {
+      $scope.item.itemsList[index].count += 1;
     }
     $scope.calculate($scope.item);
     $scope.resetOrderItem();

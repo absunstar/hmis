@@ -554,6 +554,7 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
           image: 1,
           nameEn: 1,
           nameAr: 1,
+          consItem: 1,
           specialty: 1,
           hospitalCenter: 1,
           doctorType: 1,

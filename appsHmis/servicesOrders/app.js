@@ -177,31 +177,34 @@ module.exports = function init(site) {
         app.add(_data, (err, doc) => {
           if (!err && doc) {
             doc.servicesList.forEach((_s, i) => {
-              setTimeout(() => {
-                if (_s.serviceGroup && _s.serviceGroup.type && _s.serviceGroup.type.id) {
-                  let obj = {
-                    orderId: doc.id,
-                    patient: { ...doc.patient },
-                    date: doc.date,
-                    company: doc.company,
-                    branch: doc.branch,
-                    source: doc.source,
-                    addUserInfo: doc.addUserInfo,
-                    service: { ..._s },
-                    doctor: { ...doc.doctor },
-                    status: { id: 1, nameEn: 'Pending', nameAr: 'قيد الإنتظار' },
-                  };
+              if (_s.serviceGroup && _s.serviceGroup.type && _s.serviceGroup.type.id) {
+                let obj = {
+                  orderId: doc.id,
+                  patient: { ...doc.patient },
+                  date: doc.date,
+                  company: doc.company,
+                  branch: doc.branch,
+                  source: doc.source,
+                  addUserInfo: doc.addUserInfo,
+                  service: { ..._s },
+                  doctor: { ...doc.doctor },
+                  status: { id: 1, nameEn: 'Pending', nameAr: 'قيد الإنتظار' },
+                };
 
-                  if (_s.serviceGroup.type.id == 2) {
-                    site.addDoctorDeskTop(obj);
-                  } else if (_s.serviceGroup.type.id == 3) {
-                    site.addLaboratoryDeskTop(obj);
-                  } else if (_s.serviceGroup.type.id == 4) {
-                    site.addRadiologyDeskTop(obj);
-                  }
+                if (_s.serviceGroup.type.id == 2) {
+                  site.addDoctorDeskTop(obj);
+                } else if (_s.serviceGroup.type.id == 3) {
+                  site.addLaboratoryDeskTop(obj);
+                } else if (_s.serviceGroup.type.id == 4) {
+                  site.addRadiologyDeskTop(obj);
                 }
-              }, 1000 * (i + 1));
+              }
             });
+
+            if (doc.source.id == 1 && doc.bookingType && doc.bookingType.id == 2 && doc.doctorAppointment && doc.doctorAppointment.id) {
+              console.log("ggggggggggggggggggggggg");
+              site.hasTransactionDoctorAppointment({ id: doc.doctorAppointment.id });
+            }
             response.done = true;
             response.doc = doc;
           } else {
@@ -314,7 +317,7 @@ module.exports = function init(site) {
             };
           }
 
-          app.all({ where: where, select, sort : {id : -1} }, (err, docs) => {
+          app.all({ where: where, select, sort: { id: -1 } }, (err, docs) => {
             res.json({
               done: true,
               list: docs,
@@ -331,12 +334,12 @@ module.exports = function init(site) {
     });
   });
 
-  site.nphisElig = function (obj , callback) {
+  site.nphisElig = function (obj, callback) {
     response = {};
     response.elig = true;
     response.done = true;
     callback(response);
-    return
+    return;
   };
 
   app.init();

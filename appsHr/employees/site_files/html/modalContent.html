@@ -348,7 +348,7 @@
                                         <th>##word.Name##</th>
                                         <th>##word.Source##</th>
                                         <th>##word.Link##</th>
-                                        <th>##word.Years of Experience##</th>
+                                        <th>##word.Date##</th>
                                         <th class="not-print">##word.Actions##</th>
                                     </tr>
                                     <tr ng-repeat="cer in item.certificatesList">
@@ -370,7 +370,7 @@
                             <legend>##word.Experiences##</legend>
                             <div class="row">
                                 <i-control class="col4" ng-model="experience.company" label="##word.Company##"></i-control>
-                                <i-control class="col4" ng-model="experience.section" label="##word.Section##"></i-control>
+                                <i-control class="col4" ng-model="experience.department" label="##word.Department##"></i-control>
                                 <i-control class="col4" ng-model="experience.jobTitle" label="##word.Job Title##"></i-control>
                                 <i-date class="col4" ng-model="experience.from" label="##word.From##"></i-date>
                                 <i-date class="col4" ng-model="experience.to" label="##word.To##"></i-date>
@@ -385,7 +385,7 @@
                                     <tr>
                                         <th>##word.S##</th>
                                         <th>##word.Company##</th>
-                                        <th>##word.Section##</th>
+                                        <th>##word.Department##</th>
                                         <th>##word.Job Title##</th>
                                         <th>##word.From##</th>
                                         <th>##word.To##</th>
@@ -395,7 +395,7 @@
                                     <tr ng-repeat="experience in item.experiencesList">
                                         <td class="text-center">{{$index+1}}</td>
                                         <td class="text-center">{{experience.company}}</td>
-                                        <td class="text-center">{{experience.section}}</td>
+                                        <td class="text-center">{{experience.department}}</td>
                                         <td class="text-center">{{experience.jobTitle}}</td>
                                         <td>
                                             <p class="text-center" ng-if="experience.from">{{experience.from |date:'dd/MM/yyyy'}}</p>
@@ -482,7 +482,7 @@
 
                             <div class="row">
                                 <i-control class="col6" label="##word.Insurance Company##" ng-model="item.insuranceCompany"> </i-control>
-                                <i-control class="col6" type="number" label="##word.Insurance Number##" ng-model="item.insuranceNumber"> </i-control>
+                                <i-control class="col6" label="##word.Insurance Number##" ng-model="item.insuranceNumber"> </i-control>
                             </div>
 
                             <div class="row">
@@ -594,14 +594,16 @@
                                 <i-list v="r" class="col4" label="##word.Shift##" ng-model="item.shift" display="name##session.lang##" items="jobsShiftsList" ng-search="item.$shift"></i-list>
 
                                 <i-date class="col4" label="##word.Work Start Date ##" ng-model="item.workStartDate"> </i-date>
-                                <i-date class="col4" label="##word.Employment End Date ##" ng-model="item.employmentEndDate"> </i-date>
+                                <i-date class="col4" label="##word.Work End Date ##" ng-model="item.workEndDate"> </i-date>
                             </div>
                         </fieldset>
                         <fieldset>
                             <legend>##word.Vacations Balance##</legend>
                             <div class="row">
-                                <i-control type="number" class="col4" label="##word.Regular##" ng-model="item.regularVacations"> </i-control>
-                                <i-control type="number" class="col4" label="##word.Casual##" ng-model="item.casualVacations"> </i-control>
+                                <i-control type="number" class="col3" label="##word.Regular##" ng-model="item.regularVacations"> </i-control>
+                                <i-control type="number" class="col3" label="##word.Casual##" ng-model="item.casualVacations"> </i-control>
+                                <i-control type="number" class="col3" label="##word.Delay Permissions Count##" ng-model="item.delayPermissionsCount"> </i-control>
+                                <i-control type="number" class="col3" label="##word.Delay Permissions Time##" ng-model="item.delayPermissionsTime"> </i-control>
                             </div>
                         </fieldset>
 
@@ -614,7 +616,18 @@
                                     <div class="col2">
                                         <label></label>
                                         <br />
-
+                                        <span class="currency">##word.$##</span>
+                                    </div>
+                                    <i-control class="col4" v="r" type="number" label="##word.Day Salary##" ng-model="item.daySalary"></i-control>
+                                    <div class="col2">
+                                        <label></label>
+                                        <br />
+                                        <span class="currency">##word.$##</span>
+                                    </div>
+                                    <i-control class="col4" v="r" type="number" label="##word.Hour Salary##" ng-model="item.hourSalary"></i-control>
+                                    <div class="col2">
+                                        <label></label>
+                                        <br />
                                         <span class="currency">##word.$##</span>
                                     </div>
                                     <i-checkbox class="col4 text-center" label="##word.Auto Overtime##" ng-model="item.autoOvertime"></i-checkbox>

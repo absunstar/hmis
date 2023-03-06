@@ -22,7 +22,7 @@ module.exports = function init(site) {
         const d2 = site.toDate(data.toDate);
 
         const vacationsRequestsList = [];
-        app.$collection.findMany({ where: { 'employee.id': data.employee.id, date: { $gte: d1, $lt: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
+        app.$collection.findMany({ where: { 'employee.id': data.employeeId, date: { $gte: d1, $lt: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
             docs.forEach((doc) => {
                 vacationsRequestsList.push({
                     category: {

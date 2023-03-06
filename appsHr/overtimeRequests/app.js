@@ -17,7 +17,34 @@ module.exports = function init(site) {
     };
 
     app.$collection = site.connectCollection(app.name);
+    site.getEmployeeOvertime = function (paySlip, callback) {
+        const d1 = site.toDate(paySlip.fromDate);
+        const d2 = site.toDate(paySlip.toDate);
 
+        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
+            console.log('docs', docs.length);
+
+            if (docs && docs.length) {
+                docs.forEach((doc) => {
+                    const overtime = {
+                        appName: app.name,
+                        type: doc.type,
+                        category: doc.category,
+                        value: doc.value,
+                    };
+                    paySlip.overtimeList.push(overtime);
+                    const obj = {
+                        type: doc.type,
+                        category: doc.category,
+                        value: doc.value,
+                    };
+                    doc = { ...obj, ...paySlip };
+                    paySlip.overtimeValue += site.calculateValue(doc).value;
+                });
+            }
+            callback(paySlip);
+        });
+    };
     app.init = function () {
         if (app.allowMemory) {
             app.$collection.findMany({}, (err, docs) => {
@@ -302,7 +329,7 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                let select = req.body.select || { id: 1, code: 1, employee: 1, active: 1, date: 1, category: 1, type: 1, value: 1, approved: 1, approveDate: 1, requestStatus: 1 };
+                let select = req.body.select || { id: 1, code: 1, employee: 1, active: 1, date: 1, requestDate: 1, category: 1, type: 1, value: 1, approved: 1, approveDate: 1, requestStatus: 1 };
                 let list = [];
                 if (app.allowMemory) {
                     app.memoryList

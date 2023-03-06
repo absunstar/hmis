@@ -18,25 +18,36 @@ module.exports = function init(site) {
 
     app.$collection = site.connectCollection(app.name);
 
-    site.getEmployeeBounus = function (data, callback) {
-        const d1 = site.toDate(data.fromDate);
-        const d2 = site.toDate(data.toDate);
+    site.getEmployeeBounus = function (paySlip, callback) {
+        const d1 = site.toDate(paySlip.fromDate);
+        const d2 = site.toDate(paySlip.toDate);
 
-        const bonusList = [];
-        app.$collection.findMany({ where: { 'employee.id': data.employee.id, date: { $gte: d1, $lt: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
-            docs.forEach((doc) => {
-                bonusList.push({
-                    category: {
-                        code: app.name,
-                        nameAr: 'مكافأة',
-                        nameEn: 'Bounus',
-                    },
-                    type: doc.type,
-                    calculationMethod: 'inc',
-                    value: doc.value,
+        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
+            if (docs && docs.length) {
+                docs.forEach((doc) => {
+                    const bonus = {
+                        appName: app.name,
+                        type: doc.type,
+                        category: doc.category,
+                        employeesBonusName: {
+                            id: doc.employeesBonusName.id,
+                            code: doc.employeesBonusName.code,
+                            nameAr: doc.employeesBonusName.nameAr,
+                            nameEn: doc.employeesBonusName.nameEn,
+                        },
+                        value: doc.value,
+                    };
+                    paySlip.bonusList.push(bonus);
+                    const obj = {
+                        type: doc.type,
+                        category: doc.category,
+                        value: doc.value,
+                    };
+                    doc = { ...obj, ...paySlip };
+                    paySlip.bonusValue += site.calculateValue(doc).value;
                 });
-            });
-            callback(bonusList);
+            }
+            callback(paySlip);
         });
     };
 

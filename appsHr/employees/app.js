@@ -44,15 +44,13 @@ module.exports = function init(site) {
     };
 
     site.calculateValue = function (doc) {
-        // console.log('doc', doc);
-
         let value = 0;
-        if (doc) {
+        if (doc && doc.type) {
             if (doc.type.id === 1) {
-                value = doc.value * doc.hourValue;
+                value = doc.value * doc.hourSalary;
             }
             if (doc.type.id === 2) {
-                value = doc.value * doc.dayValue;
+                value = doc.value * doc.daySalary;
             }
             if (doc.type.id === 3) {
                 value = (doc.fixedSalary / 100) * doc.value;
@@ -62,35 +60,41 @@ module.exports = function init(site) {
             }
         }
 
-        return { category: doc.category, type: doc.type, value: site.toNumber(value) };
+        return { category: doc.category, type: doc.type, value: site.toMoney(value) };
+    };
+
+    site.calculateEmployeefixedSalary = function (employeeDoc) {
+        let fixedSalary = employeeDoc.fixedSalary;
+        let housingAllownce = 0;
+        if (employeeDoc.allowancesList && employeeDoc.allowancesList.length) {
+            employeeDoc.allowancesList.forEach((doc) => {
+                if (doc.allowance && doc.allowance.addToFixedSalary) {
+                    housingAllownce = doc.value;
+                }
+            });
+        }
+
+        const insurceCalculatedPercent = employeeDoc.totalSubscriptionsEmployee / 100;
+        const netSalary = Math.abs(fixedSalary * insurceCalculatedPercent - fixedSalary);
+        const housingAfterInsurce = Math.abs(housingAllownce * insurceCalculatedPercent - housingAllownce);
+
+        return { fixedSalary: site.toMoney(netSalary), housingAllowance: site.toMoney(housingAfterInsurce), netSalary: site.toMoney(netSalary + housingAfterInsurce) };
     };
 
     site.calculateEmployeePaySlipItems = function (data, callback) {
-        let items = { bonus: {}, penality: {}, vacation: {} };
-        const fixedSalary = data.employee.fixedSalary;
-        const dayValue = fixedSalary / 30;
-        const hourValue = fixedSalary / 240;
+        // let paySlip = { bonusValue: 0, bonusList: [], penalityValue: 0, penalityList: [], vacationValue: 0, vacationList: [] };
+        let paySlip = { bonusValue: 0, bonusList: [], penalityValue: 0, penalityList: [], overtimeValue: 0, overtimeList: [] };
+        paySlip = { ...paySlip, ...data };
+        site.getEmployeeBounus(paySlip, (paySlip2) => {
+            site.getEmployeePenalties(paySlip2, (paySlip3) => {
+                site.getEmployeeOvertime(paySlip3, (paySlip4) => {
+                    // site.getEmployeeVacationsRequests(paySlip3, (paySlip4) => {
+                    console.log('paySlip4', paySlip4);
 
-        site.getEmployeeBounus(data, (bonusDocs) => {
-            bonusDocs.forEach((doc) => {
-                doc = { ...doc, fixedSalary, dayValue, hourValue };
-                items.bonus = site.calculateValue(doc);
-            });
-
-            site.getEmployeeVacationsRequests(data, (vacationsRequestsList) => {
-                vacationsRequestsList.forEach((doc) => {
-                    doc = { ...doc, fixedSalary, dayValue, hourValue };
-                    items.vacation = site.calculateValue(doc);
+                    callback(paySlip4);
                 });
             });
-
-            site.getEmployeePenalties(data, (penaltiesList) => {
-                penaltiesList.forEach((doc) => {
-                    doc = { ...doc, fixedSalary, dayValue, hourValue };
-                    items.penality = site.calculateValue(doc);
-                });
-                callback(items);
-            });
+            // });
         });
     };
 
@@ -406,26 +410,40 @@ module.exports = function init(site) {
 
                 app.$collection.find({ id: _data.employee.id, active: true }, (err, doc) => {
                     if (doc) {
+                        const salary = site.calculateEmployeefixedSalary(doc);
+
                         const data = {
-                            employee: { id: doc.id, fixedSalary: doc.fixedSalary },
+                            employeeId: doc.id,
+                            fixedSalary: salary.fixedSalary,
+                            daySalary: doc.daySalary,
+                            hourSalary: doc.hourSalary,
                             fromDate: _data.fromDate,
                             toDate: _data.toDate,
                         };
 
                         site.calculateEmployeePaySlipItems(data, (result) => {
-                            console.log('result', result);
+                            // console.log('result', result);
 
                             const allowancesList = [];
                             const deductionsList = [];
-                            const fixedSalary = doc.fixedSalary;
+                            const fixedSalary = salary.fixedSalary;
 
                             let totalAllowance = 0;
                             let totalDeductions = 0;
                             doc.allowancesList.forEach((_elm) => {
-                                if (_elm && _elm.active) {
+                                if (_elm && _elm.active && !_elm.allowance.addToFixedSalary) {
                                     const allowance = site.calculatePaySlipAllownce(_elm, fixedSalary);
                                     totalAllowance += allowance.value;
                                     allowancesList.push(allowance);
+                                } else if (_elm.allowance.addToFixedSalary) {
+                                    allowancesList.push({
+                                        id: _elm.allowance.id,
+                                        code: _elm.allowance.code,
+                                        nameAr: _elm.allowance.nameAr,
+                                        nameEn: _elm.allowance.nameEn,
+                                        addToFixedSalary: _elm.allowance.addToFixedSalary,
+                                        value: salary.housingAllowance,
+                                    });
                                 }
                             });
 
@@ -436,22 +454,60 @@ module.exports = function init(site) {
                                 }
                             });
 
-                            allowancesList.push({
-                                code: result.bonus.category.code,
-                                nameAr: result.bonus.category.nameAr,
-                                nameEn: result.bonus.category.nameEn,
-                                value: result.bonus.value,
-                            });
+                            if (result.bonusList.length) {
+                                const paySlipItem = {
+                                    code: result.bonusList[0].appName,
+                                    nameAr: 'مكافأت',
+                                    nameEn: 'Bonus',
+                                    list: result.bonusList,
+                                    value: site.toMoney(result.bonusValue),
+                                };
 
-                            deductionsList.push({
-                                code: result.penality.category.code,
-                                nameAr: result.penality.category.nameAr,
-                                nameEn: result.penality.category.nameEn,
-                                value: result.penality.value,
-                            });
+                                allowancesList.push(paySlipItem);
+                            }
+
+                            if (result.penalityList.length) {
+                                const paySlipItem = {
+                                    code: result.penalityList[0].appName,
+                                    nameAr: 'جزاء',
+                                    nameEn: 'Penality',
+                                    list: result.penalityList,
+                                    value: site.toMoney(result.penalityValue),
+                                };
+
+                                deductionsList.push(paySlipItem);
+                            }
+
+                            if (result.overtimeList.length) {
+                                const paySlipItem = {
+                                    code: result.overtimeList[0].appName,
+                                    nameAr: 'إضافي',
+                                    nameEn: 'Overtime',
+                                    list: result.overtimeList,
+                                    value: site.toMoney(result.overtimeValue),
+                                };
+
+                                allowancesList.push(paySlipItem);
+                            }
+
+                            // allowancesList.push({
+                            //     code: result.bonus.category.code,
+                            //     nameAr: result.bonus.category.nameAr,
+                            //     nameEn: result.bonus.category.nameEn,
+                            //     value: result.bonus.value,
+                            // });
+
+                            // deductionsList.push({
+                            //     code: result.penality.category.code,
+                            //     nameAr: result.penality.category.nameAr,
+                            //     nameEn: result.penality.category.nameEn,
+                            //     value: result.penality.value,
+                            // });
 
                             allowancesList.forEach((_elm) => {
-                                totalAllowance += _elm.value;
+                                if (!_elm.addToFixedSalary) {
+                                    totalAllowance += _elm.value;
+                                }
                             });
 
                             deductionsList.forEach((_elm) => {
@@ -459,7 +515,7 @@ module.exports = function init(site) {
                             });
 
                             response.done = true;
-                            totalAllowance += fixedSalary;
+                            totalAllowance += salary.netSalary;
 
                             response.doc = { fixedSalary, allowancesList, deductionsList, totalAllowance, totalDeductions };
 

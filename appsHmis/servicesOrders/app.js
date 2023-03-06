@@ -202,7 +202,6 @@ module.exports = function init(site) {
             });
 
             if (doc.source.id == 1 && doc.bookingType && doc.bookingType.id == 2 && doc.doctorAppointment && doc.doctorAppointment.id) {
-              console.log("ggggggggggggggggggggggg");
               site.hasTransactionDoctorAppointment({ id: doc.doctorAppointment.id });
             }
             response.done = true;

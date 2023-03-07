@@ -1048,7 +1048,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     }, 8000);
   };
 
-  $scope.getAll({ date: new Date() });
+  $scope.getAll();
   $scope.getPaymentTypes();
   $scope.getDiscountTypes();
   $scope.getTaxTypes();

@@ -483,7 +483,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
       code: elem.item.code,
       nameAr: elem.item.nameAr,
       nameEn: elem.item.nameEn,
-      barcode: orderItem.unit.barcode,
+      barcode: elem.unit.barcode,
       itemGroup: elem.item.itemGroup,
       unit: { id: elem.unit.id, code: elem.unit.code, nameAr: elem.unit.nameAr, nameEn: elem.unit.nameEn },
       count: elem.count,
@@ -528,7 +528,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
     });
   };
 
-  $scope.getAll({ date: new Date() });
+  $scope.getAll();
   $scope.getStores();
   $scope.getNumberingAuto();
 });

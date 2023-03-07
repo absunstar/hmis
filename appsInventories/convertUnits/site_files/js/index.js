@@ -682,7 +682,7 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
     }, 250);
   };
 
-  $scope.getAll({ date: new Date() });
+  $scope.getAll();
   $scope.getStores();
   $scope.getNumberingAuto();
 });

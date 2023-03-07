@@ -127,6 +127,11 @@
           </th>
 
           <th class="width-15-mm font-10">
+            <p>Extra DISC ##word.%##</p>
+            <p>T. Extra DISC ##word.$##</p>
+          </th>
+
+          <th class="width-15-mm font-10">
             <p>الكمية</p>
             <p>Qty.</p>
           </th>
@@ -155,9 +160,9 @@
             <p class="font-12">{{itm.nameAr}} ( {{itm.unit.nameAr}} )</p>
             <p class="font-12">{{itm.nameEn}} ( {{itm.unit.nameEn}} )</p>
             <p ng-repeat="b in itm.batchesList" ng-show="b.count > 0">
-              <span class="" ng-show="b.productionDate"> {{b.productionDate| date : 'dd-MM-yyyy'}} &nbsp;  </span>
+              <span class="" ng-show="b.productionDate"> {{b.productionDate| date : 'dd-MM-yyyy'}} &nbsp; </span>
               <span class="" ng-show="b.expiryDate"> {{b.expiryDate| date : 'dd-MM-yyyy'}} &nbsp; </span>
-              <span class="" ng-show="b.code"> {{b.code}}  ({{b.count}}##word.+##) </span>
+              <span class="" ng-show="b.code"> {{b.code}} ({{b.count}}##word.+##) </span>
             </p>
           </td>
 
@@ -168,6 +173,11 @@
               <span ng-show="itm.discountType =='percent'"> ##word.%##</span>
             </p>
             <p>{{itm.totalDiscount}} ##word.$##</p>
+          </td>
+
+          <td class="center width-15-mm font-12">
+            <p>{{itm.extraDiscount}} ##word.%##</p>
+            <p>{{itm.totalExtraDiscount}} ##word.$##</p>
           </td>
           <td class="center width-15-mm font-12">{{itm.count}}</td>
 
@@ -200,11 +210,11 @@
           </div>
           <div class="row">
             <div class="col-8">
-              <p class="txt18 bold black">ضريبة القيمة المضافة / VAT {{settings.storesSetting.vat | xmoney2}}%</p>
+              <p class="txt18 bold black">إجمالي خصم الأصناف/ Total Items Disc</p>
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalVat | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalItemsDiscounts | xmoney2}}</p>
               <hr />
             </div>
           </div>
@@ -219,6 +229,16 @@
             </div>
           </div>
 
+          <div class="row">
+            <div class="col-8">
+              <p class="txt18 bold black">ضريبة القيمة المضافة / VAT {{settings.storesSetting.vat | xmoney2}}%</p>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-3">
+              <p class="txt18 center bold black">{{sInvoice.totalVat | xmoney2}}</p>
+              <hr />
+            </div>
+          </div>
           <div class="row">
             <div class="col-8">
               <p class="txt18 bold black">الإجمالي بعد الضريبة / Total After Tax</p>

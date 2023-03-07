@@ -887,20 +887,39 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       item.totalTaxes = 0;
       item.totalNet = 0;
       item.totalPrice = 0;
-      item.totalAfterDiscounts = 0;
+      item.totalVat = 0;
+      item.totalAfterVat = 0;
+      item.totalBeforeVat = 0;
       item.totalVendorDiscounts = 0;
       item.totalLegalDiscounts = 0;
       item.itemsList.forEach((_item) => {
-        _item.totalVendorDiscounts = (_item.price * _item.count * _item.vendorDiscount) / 100;
-        _item.totalLegalDiscounts = (_item.price * _item.count * _item.legalDiscount) / 100;
+        _item.totalVat = 0;
         _item.totalPrice = _item.price * _item.count;
-        _item.total = _item.totalPrice - (_item.totalLegalDiscounts - _item.totalVendorDiscounts);
+        _item.totalVendorDiscounts = (_item.totalPrice * _item.vendorDiscount) / 100;
+        _item.totalLegalDiscounts = (_item.totalPrice * _item.legalDiscount) / 100;
         _item.totalVendorDiscounts = site.toNumber(_item.totalVendorDiscounts);
         _item.totalLegalDiscounts = site.toNumber(_item.totalLegalDiscounts);
         item.totalPrice += _item.totalPrice;
+
         item.totalVendorDiscounts += _item.totalVendorDiscounts;
         item.totalLegalDiscounts += _item.totalLegalDiscounts;
-        item.totalAfterDiscounts += _item.total;
+        _item.totalAfterDiscounts = _item.totalPrice - (_item.totalLegalDiscounts + _item.totalVendorDiscounts);
+
+        if (!_item.noVat) {
+          _item.vat = $scope.settings.storesSetting.vat;
+          _item.totalVat = ((_item.totalAfterDiscounts * _item.vat) / 100) * _item.count;
+          _item.totalVat = site.toNumber(_item.totalVat);
+        } else {
+          _item.vat = 0;
+        }
+        _item.vat = site.toNumber(_item.vat);
+        _item.totalVat = site.toNumber(_item.totalVat);
+        _item.total = _item.totalAfterDiscounts + _item.totalVat;
+        item.totalBeforeVat += _item.totalAfterDiscounts;
+        _item.total = site.toNumber(_item.total);
+
+        item.totalVat += _item.totalVat;
+        item.totalAfterVat += _item.total;
       });
       item.discountsList.forEach((d) => {
         if (d.type == 'value') {
@@ -914,7 +933,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         item.totalTaxes += (item.totalPrice * t.value) / 100;
       });
 
-      item.totalNet = item.totalPrice - item.totalDiscounts + item.totalTaxes;
+      item.totalNet = item.totalAfterVat - item.totalDiscounts + item.totalTaxes;
       item.totalNet = site.toNumber(item.totalNet);
     }, 300);
   };
@@ -1291,7 +1310,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
 
     $scope.busy = false;
     $timeout(() => {
-       $('#purchaseOrdersDetails').addClass('hidden'); 
+      $('#purchaseOrdersDetails').addClass('hidden');
     }, 8000);
   };
 

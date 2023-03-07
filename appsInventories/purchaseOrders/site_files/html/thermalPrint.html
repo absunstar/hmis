@@ -156,6 +156,10 @@
         <p class="bold center font-10">Vendor DISC.</p>
       </div>
       <div class="col-1">
+        <p class="bold center font-10">الضريبة</p>
+        <p class="bold center font-10">VAT.</p>
+      </div>
+      <div class="col-1">
         <p class="bold center font-10">الكمية/Qty</p>
         <p class="bold center font-10">إضافي/Bonus</p>
       </div>
@@ -185,7 +189,9 @@
         <div class="col-1 black">
           <p class="black center font-10 bold">{{itm.totalVendorDiscounts}} ##word.$##</p>
         </div>
-
+        <div class="col-1 black">
+          <p class="black center font-10 bold">{{itm.totalVat}} ##word.$##</p>
+        </div>
         <div class="col-1 black">
           <p class="black center font-10 bold">{{itm.count}}</p>
           <p class="black center font-10 bold">{{itm.bonusCount}}</p>
@@ -217,7 +223,7 @@
 
     <div class="row">
       <div class="col-8 center">
-        <p class="black bold font-10">إجمالي خصم المورد / Total Vendor Disconts</p>
+        <p class="black bold font-10">إجمالي خصم مورد / Total Vendor Disconts</p>
       </div>
       <div class="col-1"></div>
       <div class="col-3">
@@ -228,7 +234,7 @@
 
     <div class="row">
       <div class="col-8 center">
-        <p class="black bold font-10">إجمالي خصم القانوني / Total Legal Disconts</p>
+        <p class="black bold font-10">إجمالي خصم قانوني / Total Legal Disconts</p>
       </div>
       <div class="col-1"></div>
       <div class="col-3">
@@ -237,7 +243,7 @@
       </div>
     </div>
 
-    <div class="row">
+  <!--   <div class="row">
       <div class="col-8 center">
         <p class="black bold font-10">إجمالي بعد الخصم / Gross Amount</p>
       </div>
@@ -246,7 +252,41 @@
         <p class="black center bold font-11">{{thermal.totalAfterDiscounts | xmoney2}}</p>
         <hr />
       </div>
+    </div> -->
+
+    <div class="row" ng-show="settings.storesSetting.vat">
+      <div class="col-8 center">
+        <p class="black bold font-10">إجمالي بعد الخصم و قبل الضريبة / Gross Amount</p>
+      </div>
+      <div class="col-1"></div>
+      <div class="col-3">
+        <p class="black center bold font-11">{{thermal.totalBeforeVat | xmoney2}}</p>
+        <hr />
+      </div>
     </div>
+
+    <div class="row" ng-show="settings.storesSetting.vat">
+      <div class="col-8 center">
+        <p class="black bold font-11">ضريبة القيمة المضافة / Value VAT : {{settings.storesSetting.vat}}%</p>
+      </div>
+      <div class="col-1"></div>
+      <div class="col-3">
+        <p class="black center bold font-11">{{thermal.totalVat | xmoney2}}</p>
+        <hr />
+      </div>
+    </div>
+
+    <div class="row" ng-show="settings.storesSetting.vat">
+      <div class="col-8 center">
+        <p class="black center bold font-10">الإجمالي شامل الضريبة / Total After VAT</p>
+      </div>
+      <div class="col-1"></div>
+      <div class="col-3">
+        <p class="black center bold font-11">{{thermal.totalAfterVat | xmoney2}}</p>
+        <hr />
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-8 center">
         <p class="black bold font-12">الخصم النقدي / Discount cash</p>

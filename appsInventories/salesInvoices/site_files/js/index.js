@@ -8,6 +8,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
   $scope.structure = {
     image: { url: '/images/salesInvoices.png' },
     totalPrice: 0,
+    totalItemsDiscounts : 0,
     totalDiscounts: 0,
     totalTaxes: 0,
     totalBeforeVat: 0,
@@ -25,6 +26,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       count: 1,
       barcode: '',
       price: 0,
+      extraDiscount: 0,
       discount: 0,
       maxDiscount: 0,
       discountType: '',
@@ -364,7 +366,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       nameAr: orderItem.item.nameAr,
       nameEn: orderItem.item.nameEn,
       itemGroup: orderItem.item.itemGroup,
-      barcode : orderItem.unit.barcode,
+      barcode: orderItem.unit.barcode,
       unit: { id: orderItem.unit.id, code: orderItem.unit.code, nameAr: orderItem.unit.nameAr, nameEn: orderItem.unit.nameEn },
       count: orderItem.count,
       price: orderItem.unit.price,
@@ -614,6 +616,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
                 price: _unit.salesPrice,
                 maxDiscount: _unit.maxDiscount,
                 discount: _unit.discount,
+                extraDiscount: _unit.extraDiscount,
                 discountType: _unit.discountType,
                 storesList: _unit.storesList,
               },
@@ -737,6 +740,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       obj.totalAfterVat = 0;
       obj.totalBeforeVat = 0;
       obj.totalDiscounts = 0;
+      obj.totalItemsDiscounts = 0;
       obj.totalTaxes = 0;
       obj.totalNet = 0;
 
@@ -747,6 +751,10 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
         discountValue = item.discountType === 'value' ? item.discount : (item.price * item.discount) / 100;
         item.totalDiscount = discountValue * item.count;
         item.totalDiscount = site.toNumber(item.totalDiscount);
+        item.totalExtraDiscount = (item.price * item.extraDiscount) / 100;
+        item.totalExtraDiscount = site.toNumber(item.totalExtraDiscount);
+        obj.totalItemsDiscounts += item.totalDiscount;
+        obj.totalItemsDiscounts += item.totalExtraDiscount;
         item.totalPrice = item.price * item.count;
         obj.totalPrice += item.totalPrice;
         if (!item.noVat) {
@@ -761,9 +769,9 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
         item.vat = site.toNumber(item.vat);
         item.totalVat = site.toNumber(item.totalVat);
         obj.totalVat += item.totalVat;
-        item.total = item.totalPrice + item.totalVat - item.totalDiscount;
+        item.total = item.totalPrice + item.totalVat - (item.totalDiscount + item.totalExtraDiscount);
         item.total = site.toNumber(item.total);
-        item.totalBeforeVat = item.totalPrice - item.totalDiscount;
+        item.totalBeforeVat = item.totalPrice - (item.totalDiscount + item.totalExtraDiscount);
         obj.totalBeforeVat += item.totalBeforeVat;
         obj.totalAfterVat += item.total;
       });

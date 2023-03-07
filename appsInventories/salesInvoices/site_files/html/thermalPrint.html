@@ -148,12 +148,16 @@
         <p class="bold center font-10">Item Name</p>
       </div>
       <div class="col-1">
-        <p class="bold center font-10">الضريبة</p>
-        <p class="bold center font-10">VAT.</p>
-      </div>
-      <div class="col-1">
         <p class="bold center font-10">الخصم</p>
         <p class="bold center font-10">DISC.</p>
+      </div>
+      <div class="col-1">
+        <p class="bold center font-10">خصم إضافي</p>
+        <p class="bold center font-10">Extra DISC</p>
+      </div>
+      <div class="col-1">
+        <p class="bold center font-10">الضريبة</p>
+        <p class="bold center font-10">VAT.</p>
       </div>
       <div class="col-1">
         <p class="bold center font-10">الكمية</p>
@@ -177,12 +181,14 @@
           <p class="black bold center font-8">{{itm.nameAr }}</p>
           <p class="black bold center font-8">{{itm.nameEn }}</p>
         </div>
-
-        <div class="col-1 black">
-          <p class="black center font-10 bold">{{itm.totalVat}} ##word.$##</p>
-        </div>
         <div class="col-1 black">
           <p class="black center font-10 bold">{{itm.totalDiscount}} ##word.$##</p>
+        </div>
+        <div class="col-1 black">
+          <p class="black center font-10 bold">{{itm.totalExtraDiscount}} ##word.$##</p>
+        </div>
+        <div class="col-1 black">
+          <p class="black center font-10 bold">{{itm.totalVat}} ##word.$##</p>
         </div>
         <div class="col-1 black">
           <p class="black center font-10 bold">{{itm.count}}</p>
@@ -200,7 +206,7 @@
     </div>
 
     <hr />
-    
+
     <div class="row">
       <div class="col-8 center">
         <p class="black bold font-12">المجموع / Total</p>
@@ -211,7 +217,17 @@
         <hr />
       </div>
     </div>
-   
+
+    <div class="row">
+      <div class="col-8 center">
+        <p class="black bold font-12">إجمالي خصم الأصناف / Total Items Disc.</p>
+      </div>
+      <div class="col-1"></div>
+      <div class="col-3">
+        <p class="black bold center font-12">{{thermal.totalItemsDiscounts | xmoney2}}</p>
+        <hr />
+      </div>
+    </div>
 
     <div class="row" ng-show="settings.storesSetting.vat">
       <div class="col-8 center">

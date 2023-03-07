@@ -55,6 +55,7 @@
         <p class="text-center">##word.Discount##</p>
         <p class="text-center">{{orderItem.unit.discount || 0}}</p>
       </div>
+      <i-control class="col1" type="number" min="1" ng-model="orderItem.extraDiscount" label="##word.Extra Disc## ##word.%##"></i-control>
 
       <div class="col2">
         <br />
@@ -68,10 +69,11 @@
         <th>##word.S##</th>
         <th>##word.Item##</th>
         <th>##word.Unit##</th>
-        <th>##word.Sales Count##</th>
+        <th>##word.Count##</th>
         <th>##word.Total Price##</th>
+        <th>##word.Extra Disc## ##word.%##</th>
         <th>##word.Total Discount##</th>
-        <th>##word.Total Vat##</th>
+        <th>##word.Total VAT##</th>
         <th>##word.Total##</th>
         <th class="not-print">##word.Actions##</th>
       </tr>
@@ -86,6 +88,10 @@
         <td class="text-center">
           <p class="text-center">{{elem.totalPrice}} <span>##word.$##</span></p>
           <p class="text-center blue" ng-if="elem.count > 1">( {{elem.price}} <span>##word.$##</span> )</p>
+        </td>
+        <td>
+          <i-control min="0" type="number" ng-change="calculate(item)" ng-model="elem.extraDiscount"></i-control>
+
         </td>
         <td>
           <p>{{elem.totalDiscount}} ##word.$##</p>
@@ -200,10 +206,11 @@
       <legend>##word.Totals##</legend>
 
       <p class="bold font-20 text-warning">##word.Total## : {{item.totalPrice}}</p>
+      <p class="bold font-20 text-warning">##word.Total Items Disc## : {{item.totalItemsDiscounts}}</p>
       <p class="bold font-20 text-warning">##word.Total Before VAT## : {{item.totalBeforeVat}}</p>
       <p class="bold font-20 text-danger">##word.Total Vat## : {{item.totalVat}}</p>
       <p class="bold font-20 text-warning">##word.Total After VAT## : {{item.totalAfterVat}}</p>
-      <p class="bold font-20 text-warning">##word.Total Discounts## : {{item.totalDiscounts}}</p>
+      <p class="bold font-20 text-warning">##word.Total Cash Discounts## : {{item.totalDiscounts}}</p>
       <p class="bold font-20 text-danger" ng-show="settings.storesSetting.taxesAppearingInInvoices">##word.Total Taxes## : {{item.totalTaxes}}</p>
       <p class="bold font-24 green">##word.Total Net## : {{item.totalNet}}</p>
     </fieldset>

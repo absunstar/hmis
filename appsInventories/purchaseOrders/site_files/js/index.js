@@ -1291,7 +1291,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
 
     $scope.busy = false;
     $timeout(() => {
-      /* $('#purchaseOrdersDetails').addClass('hidden'); */
+       $('#purchaseOrdersDetails').addClass('hidden'); 
     }, 8000);
   };
 

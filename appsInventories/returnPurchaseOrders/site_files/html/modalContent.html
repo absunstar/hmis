@@ -79,7 +79,7 @@
     <p class="bold font-20 text-warning">##word.Total Vendor Disconts## : {{item.totalVendorDiscounts}}</p>
     <p class="bold font-20 text-warning">##word.Total Legal Disconts## : {{item.totalLegalDiscounts}}</p>
     <p class="bold font-20 text-warning">##word.Total Discounts## : {{item.totalDiscounts}}</p>
-    <p class="bold font-20 text-danger">##word.Total Taxes## : {{item.totalTaxes}}</p>
+    <p class="bold font-20 text-danger" ng-show="settings.storesSetting.taxesAppearingInInvoices">##word.Total Taxes## : {{item.totalTaxes}}</p>
     <p class="bold font-24 green">##word.Total Net## : {{item.totalNet}}</p>
   </fieldset>
 </div>

@@ -235,7 +235,7 @@
           </div>
         </fieldset>
       </div>
-      <div class="col6">
+      <div class="col6" ng-show="settings.storesSetting.taxesAppearingInInvoices">
         <fieldset>
           <legend>##word.Taxes Information##</legend>
 
@@ -279,7 +279,7 @@
         <p class="bold font-20 text-warning">##word.Total Vendor Disconts## : {{item.totalVendorDiscounts | xmoney2}}</p>
         <p class="bold font-20 text-warning">##word.Total Legal Disconts## : {{item.totalLegalDiscounts | xmoney2}}</p>
         <p class="bold font-20 text-warning">##word.Total Discounts## : {{item.totalDiscounts | xmoney2}}</p>
-        <p class="bold font-20 text-danger">##word.Total Taxes## : {{item.totalTaxes | xmoney2}}</p>
+        <p class="bold font-20 text-danger" ng-show="settings.storesSetting.taxesAppearingInInvoices">##word.Total Taxes## : {{item.totalTaxes | xmoney2}}</p>
         <p class="bold font-24 green">##word.Total Net## : {{item.totalNet | xmoney2}}</p>
       </fieldset>
     </div>

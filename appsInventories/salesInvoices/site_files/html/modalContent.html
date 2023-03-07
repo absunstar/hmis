@@ -173,12 +173,11 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row" ng-show="settings.storesSetting.taxesAppearingInInvoices">
           <table class="table hover bold">
             <tr>
               <th>##word.Name##</th>
               <th>##word.Value##</th>
-
               <th class="not-print">##word.Actions##</th>
             </tr>
             <tr ng-repeat="tax in item.taxesList">
@@ -205,7 +204,7 @@
       <p class="bold font-20 text-danger">##word.Total Vat## : {{item.totalVat}}</p>
       <p class="bold font-20 text-warning">##word.Total After VAT## : {{item.totalAfterVat}}</p>
       <p class="bold font-20 text-warning">##word.Total Discounts## : {{item.totalDiscounts}}</p>
-      <p class="bold font-20 text-danger">##word.Total Taxes## : {{item.totalTaxes}}</p>
+      <p class="bold font-20 text-danger" ng-show="settings.storesSetting.taxesAppearingInInvoices">##word.Total Taxes## : {{item.totalTaxes}}</p>
       <p class="bold font-24 green">##word.Total Net## : {{item.totalNet}}</p>
     </fieldset>
   </div>

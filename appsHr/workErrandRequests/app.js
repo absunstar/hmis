@@ -17,7 +17,25 @@ module.exports = function init(site) {
     };
 
     app.$collection = site.connectCollection(app.name);
+    site.getEmployeeWorkErrandRequests = function (paySlip, callback) {
+        const d1 = site.toDate(paySlip.fromDate);
+        const d2 = site.toDate(paySlip.toDate);
 
+        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
+            if (docs && docs.length) {
+                docs.forEach((doc) => {
+                    let allwedworkErrandtime = (doc.toTime.getTime() - doc.fromTime.getTime()) / 1000 / 60;
+                    Number(allwedworkErrandtime).toFixed();
+                    const bonus = {
+                        appName: app.name,
+                        allwedworkErrandtime,
+                    };
+                    paySlip.workErrandList.push(bonus);
+                });
+            }
+            callback(paySlip);
+        });
+    };
     app.init = function () {
         if (app.allowMemory) {
             app.$collection.findMany({}, (err, docs) => {

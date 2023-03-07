@@ -90,17 +90,20 @@ module.exports = function init(site) {
             penalityList: [],
             overtimeValue: 0,
             overtimeList: [],
-            // vacationsValue: 0,
-            // vacationsList: [],
+            vacationsValue: 0,
+            vacationsList: [],
             globalVacationsValue: 0,
             globalVacationsList: [],
-            // absentValue: 0,
             absentHours: 0,
             absentDays: 0,
             absentHoursValue: 0,
             absentDaysValue: 0,
             absentHoursList: [],
             absentDaysList: [],
+            delayValue: 0,
+            delayList: [],
+            workErrandValue: 0,
+            workErrandList: [],
         };
         paySlip = { ...paySlip, ...data };
         site.getEmployeeBounus(paySlip, (paySlip2) => {
@@ -108,12 +111,15 @@ module.exports = function init(site) {
                 site.getEmployeeOvertime(paySlip3, (paySlip4) => {
                     site.getEmployeeGlobalVacation(paySlip4, (paySlip5) => {
                         site.getEmployeeVacationsRequests(paySlip5, (paySlip6) => {
-                            // site.getEmployeeAttendance(paySlip4, (paySlip5) => {
-                            // console.log('paySlip6', paySlip6);
-                            callback(paySlip6);
+                            site.getEmployeeDelayRequest(paySlip6, (paySlip7) => {
+                                site.getEmployeeWorkErrandRequests(paySlip7, (paySlip8) => {
+                                    site.getEmployeeAttendance(paySlip8, (paySlip9) => {
+                                        // console.log('paySlip9', paySlip9);
+                                        callback(paySlip9);
+                                    });
+                                });
+                            });
                         });
-                        // });
-                        // });
                     });
                 });
             });
@@ -482,7 +488,7 @@ module.exports = function init(site) {
                                     }
                                 });
 
-                                if (result.bonusList.length) {
+                                if (result.bonusList && result.bonusList.length) {
                                     const paySlipItem = {
                                         code: result.bonusList[0].appName,
                                         nameAr: 'مكافأت',
@@ -494,7 +500,7 @@ module.exports = function init(site) {
                                     allowancesList.push(paySlipItem);
                                 }
 
-                                if (result.overtimeList.length) {
+                                if (result.overtimeList && result.overtimeList.length) {
                                     const paySlipItem = {
                                         code: result.overtimeList[0].appName,
                                         nameAr: 'إضافي',
@@ -506,7 +512,7 @@ module.exports = function init(site) {
                                     allowancesList.push(paySlipItem);
                                 }
 
-                                if (result.penalityList.length) {
+                                if (result.penalityList && result.penalityList.length) {
                                     const paySlipItem = {
                                         code: result.penalityList[0].appName,
                                         nameAr: 'جزاء',
@@ -518,7 +524,7 @@ module.exports = function init(site) {
                                     deductionsList.push(paySlipItem);
                                 }
 
-                                if (result.vacationsList.length) {
+                                if (result.vacationsList && result.vacationsList.length) {
                                     const paySlipItem = {
                                         code: result.vacationsList[0].appName,
                                         nameAr: 'اجازة بدون راتب',
@@ -530,7 +536,7 @@ module.exports = function init(site) {
                                     deductionsList.push(paySlipItem);
                                 }
 
-                                if (result.absentHoursList.length) {
+                                if (result.absentHoursList && result.absentHoursList.length) {
                                     const paySlipItem = {
                                         code: 'attendanceLeaving',
                                         nameAr: 'ساعات الغياب',
@@ -541,13 +547,25 @@ module.exports = function init(site) {
 
                                     deductionsList.push(paySlipItem);
                                 }
-                                if (result.absentDaysList.length) {
+
+                                if (result.absentDaysList && result.absentDaysList.length) {
                                     const paySlipItem = {
                                         code: result.absentDaysList[0].appName,
                                         nameAr: 'أيام الغياب',
                                         nameEn: 'Absent Days',
                                         list: result.absentDaysList,
                                         value: site.toMoney(result.absentDaysValue),
+                                    };
+
+                                    deductionsList.push(paySlipItem);
+                                }
+                                if (result.globalVacationsList && result.globalVacationsList.length) {
+                                    const paySlipItem = {
+                                        code: result.globalVacationsList[0].appName,
+                                        nameAr: 'أجازات مجمعة',
+                                        nameEn: 'Global Vacations',
+                                        list: result.globalVacationsList,
+                                        value: site.toMoney(result.globalVacationsValue),
                                     };
 
                                     deductionsList.push(paySlipItem);

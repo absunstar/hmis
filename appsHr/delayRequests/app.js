@@ -24,26 +24,14 @@ module.exports = function init(site) {
         app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
             if (docs && docs.length) {
                 docs.forEach((doc) => {
+                    let allwedDelaytime = (doc.toTime.getTime() - doc.fromTime.getTime()) / 1000 / 60;
+                    Number(allwedDelaytime).toFixed();
+
                     const bonus = {
                         appName: app.name,
-                        type: doc.type,
-                        category: doc.category,
-                        employeesBonusName: {
-                            id: doc.employeesBonusName.id,
-                            code: doc.employeesBonusName.code,
-                            nameAr: doc.employeesBonusName.nameAr,
-                            nameEn: doc.employeesBonusName.nameEn,
-                        },
-                        value: doc.value,
+                        allwedDelaytime,
                     };
-                    paySlip.bonusList.push(bonus);
-                    const obj = {
-                        type: doc.type,
-                        category: doc.category,
-                        value: doc.value,
-                    };
-                    doc = { ...obj, ...paySlip };
-                    paySlip.bonusValue += site.calculateValue(doc).value;
+                    paySlip.delayList.push(bonus);
                 });
             }
             callback(paySlip);

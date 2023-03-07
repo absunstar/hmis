@@ -45,7 +45,7 @@ module.exports = function init(site) {
                                 nameEn: doc.vacationName.nameEn,
                             },
                         };
-                        paySlip.globalVacationsValue += 1;
+                        paySlip.globalVacationsValue += 1 * 1.5 * paySlip.daySalary;
                     }
 
                     paySlip.globalVacationsList.push(globalVacation);

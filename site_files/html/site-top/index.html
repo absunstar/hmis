@@ -12,11 +12,11 @@
  
   <div class="branch-bar" x-features="login">
     <a id="btn_change_branch" onclick="site.showModal('#changeBranchModal');">
-      <i x-lang="Ar"> ##session.company.nameAr## - ##session.branch.nameAr## </i>
-      <i x-lang="En"> ##session.company.nameEn## - ##session.branch.nameEn## </i>
+      <i x-lang="Ar"> ##session.branch.nameAr## @ ##session.company.nameAr## </i>
+      <i x-lang="En"> ##session.branch.nameEn## @ ##session.company.nameEn## </i>
     </a>
   </div>
-  <span class="app-name">##data.appName##</span>
+  <span class="app-name"> ##word.Screen## : ##data.appName##</span>
   <div x-permission="!login" class="user-area" ng-click="showLogin()">
     <span> Login </span>
     <i class="fas fa-sign-in-alt"></i>

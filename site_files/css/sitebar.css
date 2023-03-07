@@ -85,32 +85,32 @@ font-size: 32px;
   border: var(--border);
   overflow: hidden;
   overflow-y: auto;
-  transition: all 0.1s ease;
   max-height: 75vh;
   justify-items: center;
   z-index: 999999999;
+  transition: all 0s ;
 }
 .menu-bottom.x-show {
-  animation: showMenu 0.2s;
+  animation: showMenu 1s;
 }
 .menu-bottom.x-hide {
-  animation: hideMenu 0.5s;
+  animation: hideMenu 0s;
   visibility: hidden;
 }
 @keyframes showMenu {
   from {
-    bottom: -100px;
+    right: -100vw;
   }
   to {
-    bottom: 90px;
+    right: 0px;
   }
 }
 @keyframes hideMenu {
   from {
-    bottom: 90px;
+    bottom: 0px;
   }
   to {
-    bottom: -1000px;
+    bottom: -100vh;
   }
 }
 
@@ -125,7 +125,6 @@ font-size: 32px;
   color: #272727;
   border-radius: 15px;
   cursor: pointer;
-  transition: all 0.2s ease;
   padding: 5px;
 }
 .menu-bottom .menu-item:hover {

@@ -13,7 +13,7 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, date: new Date() };
+        $scope.item = { ...$scope.structure, date: new Date(), absence: false };
         site.showModal($scope.modalID);
     };
 

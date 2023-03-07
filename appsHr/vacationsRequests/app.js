@@ -18,40 +18,21 @@ module.exports = function init(site) {
 
     app.$collection = site.connectCollection(app.name);
     site.getEmployeeVacationsRequests = function (paySlip, callback) {
-        const d1 = site.toDate(paySlip.fromDate);
-        const d2 = site.toDate(paySlip.toDate);
+        const d1 = site.toDate(paySlip.shiftStart);
+        console.log('d1', d1);
 
-        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, approveDate: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
-            if (docs && docs.length) {
-                docs.forEach((doc) => {
-                    const vacationRequest = {
-                        appName: app.name,
-                        type: doc.vacationType,
-                        fromDate: doc.vacationfromDate,
-                        // category: doc.category,
-                        approvedVacationType: {
-                            id: doc.approvedVacationType.id,
-                            code: doc.approvedVacationType.code,
-                            nameAr: doc.approvedVacationType.nameAr,
-                            nameEn: doc.approvedVacationType.nameEn,
-                        },
-                        value: doc.approvedDays,
-                    };
-                    paySlip.vacationsList.push(vacationRequest);
-                    const obj = {
-                        type: doc.vacationType,
-                        // category: doc.category,
-                        approvedVacationType: doc.approvedVacationType,
-                        value: doc.approvedDays,
-                    };
-                    doc = { ...obj, ...paySlip };
+        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, approveDate: { $eq: d1 }, requestStatus: 'accepted' } }, (err, docs) => {
+            if (!docs.length) {
+                const vacationRequest = {
+                    appName: app.name,
+                    date: new Date(paySlip.shiftStart),
+                };
 
-                    if (doc.approvedVacationType && doc.approvedVacationType.id == 3) {
-                        paySlip.vacationsValue += doc.value * paySlip.daySalary;
-                    }
-                });
+                paySlip.absentDays += 1;
+                paySlip.absentDaysValue += 1 * 1.5 * paySlip.daySalary;
+                paySlip.absentDaysList.push(vacationRequest);
+                callback(paySlip);
             }
-            callback(paySlip);
         });
     };
 

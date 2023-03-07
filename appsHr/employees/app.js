@@ -63,19 +63,6 @@ module.exports = function init(site) {
         return { category: doc.category, type: doc.type, value: site.toMoney(value) };
     };
 
-    // site.getEmployeeWorkCost = function (employee) {
-    //     let hourSalary = 0;
-    //     let daySalary = 0;
-    //     if (employee && employee.hourSalary) {
-    //         hourSalary = employee.hourSalary;
-    //     }
-    //     if (employee && employee.daySalary) {
-    //         daySalary = employee.daySalary;
-    //     }
-
-    //     return { hourSalary: site.toMoney(hourSalary), daySalary: site.toMoney(daySalary) };
-    // };
-
     site.calculateEmployeeBasicSalary = function (employeeDoc) {
         const originalSalary = site.toMoney(employeeDoc.basicSalary);
         let basicSalary = employeeDoc.basicSalary;
@@ -107,18 +94,25 @@ module.exports = function init(site) {
             vacationsList: [],
             globalVacationsValue: 0,
             globalVacationsList: [],
-            absentValue: 0,
-            attendeesList: [],
+            // absentValue: 0,
+            absentHours: 0,
+            absentDays: 0,
+            absentHoursValue: 0,
+            absentDaysValue: 0,
+            absentHoursList: [],
+            absentDaysList: [],
         };
         paySlip = { ...paySlip, ...data };
         site.getEmployeeBounus(paySlip, (paySlip2) => {
             site.getEmployeePenalties(paySlip2, (paySlip3) => {
                 site.getEmployeeOvertime(paySlip3, (paySlip4) => {
-                    site.getEmployeeVacationsRequests(paySlip4, (paySlip5) => {
-                        site.getEmployeeGlobalVacation(paySlip5, (paySlip6) => {
-                            // console.log('paySlip6', paySlip6);
-                            callback(paySlip6);
-                        });
+                    site.getEmployeeAttendance(paySlip4, (paySlip5) => {
+                        // site.getEmployeeVacationsRequests(paySlip4, (paySlip5) => {
+                        // site.getEmployeeGlobalVacation(paySlip5, (paySlip6) => {
+                        // console.log('paySlip6', paySlip6);
+                        callback(paySlip5);
+                        // });
+                        // });
                     });
                 });
             });
@@ -437,143 +431,165 @@ module.exports = function init(site) {
 
                 app.$collection.find({ id: _data.employee.id, active: true }, (err, doc) => {
                     if (doc) {
-                        const salary = site.calculateEmployeeBasicSalary(doc);
-                        // const employeeWorkCost = site.getEmployeeWorkCost(doc);
+                        const jobShiftApp = site.getApp('jobsShifts');
+                        jobShiftApp.$collection.find({ where: { id: doc.shift.id } }, (err, shiftDoc) => {
+                            const salary = site.calculateEmployeeBasicSalary(doc);
+                            // const employeeWorkCost = site.getEmployeeWorkCost(doc);
+                            const data = {
+                                employeeId: doc.id,
+                                basicSalary: salary.basicSalary,
+                                daySalary: site.toMoney(doc.daySalary),
+                                hourSalary: site.toMoney(doc.hourSalary),
+                                fromDate: _data.fromDate,
+                                toDate: _data.toDate,
+                                worktimesList: shiftDoc.worktimesList,
+                                penaltiesList: shiftDoc.penaltiesList,
+                            };
 
-                        const data = {
-                            employeeId: doc.id,
-                            basicSalary: salary.basicSalary,
-                            daySalary: site.toMoney(doc.daySalary),
-                            hourSalary: site.toMoney(doc.hourSalary),
-                            fromDate: _data.fromDate,
-                            toDate: _data.toDate,
-                        };
+                            site.calculateEmployeePaySlipItems(data, (result) => {
+                                // console.log('result', result);
 
-                        site.calculateEmployeePaySlipItems(data, (result) => {
-                            // console.log('result', result);
+                                const allowancesList = [];
+                                const deductionsList = [];
+                                const basicSalary = salary.basicSalary;
+                                const originalSalary = salary.originalSalary;
 
-                            const allowancesList = [];
-                            const deductionsList = [];
-                            const basicSalary = salary.basicSalary;
-                            const originalSalary = salary.originalSalary;
+                                let totalAllowance = 0;
+                                let totalDeductions = 0;
+                                doc.allowancesList.forEach((_elm) => {
+                                    if (_elm && _elm.active && !_elm.allowance.addToBasicSalary) {
+                                        const allowance = site.calculatePaySlipAllownce(_elm, basicSalary);
+                                        totalAllowance += allowance.value;
+                                        allowancesList.push(allowance);
+                                    } else if (_elm.allowance.addToBasicSalary) {
+                                        allowancesList.push({
+                                            id: _elm.allowance.id,
+                                            code: _elm.allowance.code,
+                                            nameAr: _elm.allowance.nameAr,
+                                            nameEn: _elm.allowance.nameEn,
+                                            addToBasicSalary: _elm.allowance.addToBasicSalary,
+                                            value: salary.housingAllowance,
+                                            originalValue: _elm.value,
+                                        });
+                                    }
+                                });
 
-                            let totalAllowance = 0;
-                            let totalDeductions = 0;
-                            doc.allowancesList.forEach((_elm) => {
-                                if (_elm && _elm.active && !_elm.allowance.addToBasicSalary) {
-                                    const allowance = site.calculatePaySlipAllownce(_elm, basicSalary);
-                                    totalAllowance += allowance.value;
-                                    allowancesList.push(allowance);
-                                } else if (_elm.allowance.addToBasicSalary) {
-                                    allowancesList.push({
-                                        id: _elm.allowance.id,
-                                        code: _elm.allowance.code,
-                                        nameAr: _elm.allowance.nameAr,
-                                        nameEn: _elm.allowance.nameEn,
-                                        addToBasicSalary: _elm.allowance.addToBasicSalary,
-                                        value: salary.housingAllowance,
-                                        originalValue: _elm.value,
-                                    });
+                                doc.deductionsList.forEach((_elm) => {
+                                    if (_elm && _elm.active) {
+                                        const deuction = site.calculatePaySlipDeduction(_elm, basicSalary);
+                                        deductionsList.push(deuction);
+                                    }
+                                });
+
+                                if (result.bonusList.length) {
+                                    const paySlipItem = {
+                                        code: result.bonusList[0].appName,
+                                        nameAr: 'مكافأت',
+                                        nameEn: 'Bonus',
+                                        list: result.bonusList,
+                                        value: site.toMoney(result.bonusValue),
+                                    };
+
+                                    allowancesList.push(paySlipItem);
                                 }
-                            });
 
-                            doc.deductionsList.forEach((_elm) => {
-                                if (_elm && _elm.active) {
-                                    const deuction = site.calculatePaySlipDeduction(_elm, basicSalary);
-                                    deductionsList.push(deuction);
+                                if (result.overtimeList.length) {
+                                    const paySlipItem = {
+                                        code: result.overtimeList[0].appName,
+                                        nameAr: 'إضافي',
+                                        nameEn: 'Overtime',
+                                        list: result.overtimeList,
+                                        value: site.toMoney(result.overtimeValue),
+                                    };
+
+                                    allowancesList.push(paySlipItem);
                                 }
-                            });
 
-                            if (result.bonusList.length) {
-                                const paySlipItem = {
-                                    code: result.bonusList[0].appName,
-                                    nameAr: 'مكافأت',
-                                    nameEn: 'Bonus',
-                                    list: result.bonusList,
-                                    value: site.toMoney(result.bonusValue),
-                                };
+                                if (result.penalityList.length) {
+                                    const paySlipItem = {
+                                        code: result.penalityList[0].appName,
+                                        nameAr: 'جزاء',
+                                        nameEn: 'Penality',
+                                        list: result.penalityList,
+                                        value: site.toMoney(result.penalityValue),
+                                    };
 
-                                allowancesList.push(paySlipItem);
-                            }
-
-                            if (result.overtimeList.length) {
-                                const paySlipItem = {
-                                    code: result.overtimeList[0].appName,
-                                    nameAr: 'إضافي',
-                                    nameEn: 'Overtime',
-                                    list: result.overtimeList,
-                                    value: site.toMoney(result.overtimeValue),
-                                };
-
-                                allowancesList.push(paySlipItem);
-                            }
-
-                            if (result.penalityList.length) {
-                                const paySlipItem = {
-                                    code: result.penalityList[0].appName,
-                                    nameAr: 'جزاء',
-                                    nameEn: 'Penality',
-                                    list: result.penalityList,
-                                    value: site.toMoney(result.penalityValue),
-                                };
-
-                                deductionsList.push(paySlipItem);
-                            }
-
-                            if (result.vacationsList.length) {
-                                const paySlipItem = {
-                                    code: result.vacationsList[0].appName,
-                                    nameAr: 'اجازة بدون راتب',
-                                    nameEn: 'Vacation Without Salary',
-                                    list: result.vacationsList,
-                                    value: site.toMoney(result.vacationsValue),
-                                };
-
-                                deductionsList.push(paySlipItem);
-                            }
-
-                            if (result.globalVacationsList.length) {
-                                const paySlipItem = {
-                                    code: result.globalVacationsList[0].appName,
-                                    nameAr: 'غياب اجازة مجمعة',
-                                    nameEn: 'Global Vacations Absent',
-                                    list: result.globalVacationsList,
-                                    value: site.toMoney(result.globalVacationsValue),
-                                };
-
-                                deductionsList.push(paySlipItem);
-                            }
-
-                            // allowancesList.push({
-                            //     code: result.bonus.category.code,
-                            //     nameAr: result.bonus.category.nameAr,
-                            //     nameEn: result.bonus.category.nameEn,
-                            //     value: result.bonus.value,
-                            // });
-
-                            // deductionsList.push({
-                            //     code: result.penality.category.code,
-                            //     nameAr: result.penality.category.nameAr,
-                            //     nameEn: result.penality.category.nameEn,
-                            //     value: result.penality.value,
-                            // });
-
-                            allowancesList.forEach((_elm) => {
-                                if (!_elm.addToBasicSalary) {
-                                    totalAllowance += _elm.value;
+                                    deductionsList.push(paySlipItem);
                                 }
+
+                                if (result.vacationsList.length) {
+                                    const paySlipItem = {
+                                        code: result.vacationsList[0].appName,
+                                        nameAr: 'اجازة بدون راتب',
+                                        nameEn: 'Vacation Without Salary',
+                                        list: result.vacationsList,
+                                        value: site.toMoney(result.vacationsValue),
+                                    };
+
+                                    deductionsList.push(paySlipItem);
+                                }
+
+                                if (result.absentHoursList.length) {
+                                    const paySlipItem = {
+                                        code: 'attendanceLeaving',
+                                        nameAr: 'ساعات الغياب',
+                                        nameEn: 'Absent Hours',
+                                        list: result.absentHoursList,
+                                        value: site.toMoney(result.absentHoursValue),
+                                    };
+
+                                    deductionsList.push(paySlipItem);
+                                }
+                                if (result.absentDaysList.length) {
+                                    const paySlipItem = {
+                                        code: result.absentDaysList[0].appName,
+                                        nameAr: 'أيام الغياب',
+                                        nameEn: 'Absent Days',
+                                        list: result.absentDaysList,
+                                        value: site.toMoney(result.absentDaysValue),
+                                    };
+
+                                    deductionsList.push(paySlipItem);
+                                }
+
+                                // allowancesList.push({
+                                //     code: result.bonus.category.code,
+                                //     nameAr: result.bonus.category.nameAr,
+                                //     nameEn: result.bonus.category.nameEn,
+                                //     value: result.bonus.value,
+                                // });
+
+                                // deductionsList.push({
+                                //     code: result.penality.category.code,
+                                //     nameAr: result.penality.category.nameAr,
+                                //     nameEn: result.penality.category.nameEn,
+                                //     value: result.penality.value,
+                                // });
+
+                                allowancesList.forEach((_elm) => {
+                                    if (!_elm.addToBasicSalary) {
+                                        totalAllowance += _elm.value;
+                                    }
+                                });
+
+                                deductionsList.forEach((_elm) => {
+                                    totalDeductions += _elm.value;
+                                });
+
+                                response.done = true;
+                                totalAllowance += salary.netSalary;
+
+                                response.doc = {
+                                    originalSalary,
+                                    basicSalary,
+                                    allowancesList,
+                                    deductionsList,
+                                    totalAllowance: site.toMoney(totalAllowance),
+                                    totalDeductions: site.toMoney(totalDeductions),
+                                };
+
+                                res.json(response);
                             });
-
-                            deductionsList.forEach((_elm) => {
-                                totalDeductions += _elm.value;
-                            });
-
-                            response.done = true;
-                            totalAllowance += salary.netSalary;
-
-                            response.doc = { originalSalary, basicSalary, allowancesList, deductionsList, totalAllowance, totalDeductions };
-
-                            res.json(response);
                         });
                     }
                 });

@@ -18,72 +18,42 @@ module.exports = function init(site) {
 
     app.$collection = site.connectCollection(app.name);
     site.getEmployeeGlobalVacation = function (paySlip, callback) {
-        const d1 = site.toDate(paySlip.fromDate);
-        const d2 = site.toDate(paySlip.toDate);
-        // 'employee.id': paySlip.employeeId,
-        app.$collection.findMany({ where: { fromDate: { $gte: d1 }, toDate: { $lte: d2 }, approved: true } }, (err, docs) => {
+        const d1 = site.toDate(paySlip.shiftStart);
+        const d2 = site.toDate(paySlip.shiftStart);
+
+        console.log('d2', d2);
+        app.$collection.findMany({ where: { toDate: { $lte: d2 }, approved: true } }, (err, docs) => {
+            console.log('length', docs.length);
+            let globalVacation;
+            if (!docs.length) {
+                globalVacation = {
+                    appName: app.name,
+                    date: new Date(paySlip.shiftStart),
+                };
+                paySlip.absentDays += 1;
+                paySlip.absentDaysValue += 1 * 1.5 * paySlip.daySalary;
+                paySlip.absentDaysList.push(globalVacation);
+            }
+
             if (docs && docs.length) {
                 docs.forEach((doc) => {
-                    const date1 = site.toDate(doc.fromDate);
-                    const date2 = site.toDate(doc.toDate);
-                    const vacationTimes = date2.getTime() - date1.getTime();
-                    const vacationDays = vacationTimes / (1000 * 3600 * 24);
-                    paySlip = { ...paySlip, vacationDays };
+                    if (doc.vacationFor && doc.vacationFor == 'some') {
+                        const employeeIndex = doc.employeesList.findIndex((_employee) => _employee.id === paySlip.employeeId);
+                        console.log('employeeIndex', employeeIndex);
 
-                    let globalVacation;
-                    if (doc.vacationFor && doc.vacationFor == 'all') {
-                        globalVacation = {
-                            appName: app.name,
-                            vacationName: {
-                                id: doc.vacationName.id,
-                                code: doc.vacationName.code,
-                                nameAr: doc.vacationName.nameAr,
-                                nameEn: doc.vacationName.nameEn,
-                            },
-                            value: 0,
-                        };
-                    } else if (doc.vacationFor && doc.vacationFor == 'some') {
-                        const employeeIndex = doc.employeesList.findIndex((_emp) => _emp.id == paySlip.employeeId);
                         if (employeeIndex == -1) {
-                            site.getEmployeeAttendance(paySlip, (data) => {
-                                // console.log('attendeesList', data.attendeesList);
-                                // console.log('absentValue', data.absentValue);
-
-                                data.attendeesList.forEach((_attend) => {
-                                    // console.log('_attend', _attend);
-                                    globalVacation = {
-                                        appName: _attend.appName,
-                                        vacationName: {
-                                            id: doc.vacationName.id,
-                                            code: doc.vacationName.code,
-                                            nameAr: doc.vacationName.nameAr,
-                                            nameEn: doc.vacationName.nameEn,
-                                        },
-                                        value: _attend.value,
-                                    };
-                                    paySlip.globalVacationsValue += _attend.value * 1.5 * paySlip.daySalary;
-                                    paySlip.globalVacationsList.push(globalVacation);
-                                });
-                                callback(paySlip);
-                            });
+                            globalVacation = {
+                                appName: app.name,
+                                date: new Date(paySlip.shiftStart),
+                            };
+                            paySlip.absentDays += 1;
+                            paySlip.absentDaysValue += 1 * 1.5 * paySlip.daySalary;
+                            paySlip.absentDaysList.push(globalVacation);
                         }
                     }
-
-                    // const obj = {
-                    //     type: doc.vacationType,
-                    //     category: doc.category,
-                    //     approvedVacationType: doc.approvedVacationType,
-                    //     value: 1,
-                    // };
-                    // doc = { ...paySlip };
-
-                    // console.log('doc.value', doc.value);
-                    // console.log('paySlip.daySalary', paySlip.daySalary);
-
-                    // paySlip.globalVacationsValue += doc.value * paySlip.daySalary;
-                    // });
                 });
             }
+            callback(paySlip);
         });
     };
     app.init = function () {
@@ -373,11 +343,12 @@ module.exports = function init(site) {
                     id: 1,
                     code: 1,
                     image: 1,
-                    approvedDate: 1,
+                    approveDate: 1,
                     vacationFor: 1,
                     employeesList: 1,
                     vacationName: 1,
                     fromDate: 1,
+                    approved: 1,
                     toDate: 1,
                     active: 1,
                 };

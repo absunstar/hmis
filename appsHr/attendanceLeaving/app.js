@@ -19,36 +19,101 @@ module.exports = function init(site) {
     site.getEmployeeAttendance = function (paySlip, callback) {
         const d1 = site.toDate(paySlip.fromDate);
         const d2 = site.toDate(paySlip.toDate);
+        // console.log('paySlip.fromDate', paySlip.fromDate);
+        // console.log('paySlip.toDate', paySlip.toDate);
 
-        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1 } } }, (err, docs) => {
-            let attencance;
-            site.getEmployeeVacationsRequests(paySlip, (data) => {
-                // console.log('vacationsList', data.vacationsList);
+        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 } } }, (err, docs) => {
+            if (docs.length) {
+                // console.log('paySlip.worktimesList', paySlip.worktimesList);
+                docs.forEach((doc) => {
+                    let attencance;
+                    let absentHours = 0;
+                    paySlip.worktimesList.forEach((workDay) => {
+                        const getDayIndex = new Date(doc.date).getDay();
+                        if (workDay && workDay.active && workDay.day.index === getDayIndex) {
+                            const attendTime = new Date(doc.attendTime);
+                            let leaveTime = new Date(doc.leaveTime);
+                            let shiftStart = new Date(doc.date);
+                            let shiftEnd = new Date(doc.date);
+                            const workStartHour = new Date(workDay.start).getHours();
+                            const workStartMiniute = new Date(workDay.start).getMinutes();
+                            const workEndHour = new Date(workDay.end).getHours();
+                            const workEndMiniute = new Date(workDay.end).getMinutes();
+                            shiftStart.setHours(workStartHour);
+                            shiftStart.setMinutes(workStartMiniute);
+                            shiftEnd.setHours(workEndHour);
+                            shiftEnd.setMinutes(workEndMiniute);
+                            if (!doc.leaveTime) {
+                                leaveTime = new Date(doc.date);
+                                // const attendHour = attendTime.getHours(workStartHour);
+                                // const attendMiniute = attendTime.getMinutes(workStartMiniute);
+                                // leaveTime.setHours(attendHour);
+                                // leaveTime.setMinutes(attendMiniute);
+                            }
 
-                if (!docs.length) {
-                    attencance = {
-                        appName: app.name,
-                        value: paySlip.vacationDays,
-                    };
-                    paySlip.attendeesList.push(attencance);
-                    paySlip.absentValue += paySlip.vacationDays * 1.5 * paySlip.daySalary;
-                }
+                            let attendDiff = ((shiftStart.getTime() - attendTime.getTime()) / 1000 / 60).toFixed();
+                            const attendanceTimeDifference = Number(attendDiff);
+                            let leaveDiff = ((shiftEnd.getTime() - leaveTime.getTime()) / 1000 / 60).toFixed();
+                            const leaveTimeDifference = Number(leaveDiff);
+                            // console.log('attendanceTimeDifference', attendanceTimeDifference);
+                            // console.log('leaveTimeDifference', leaveTimeDifference);
 
-                if (docs.length) {
-                    docs.forEach((doc) => {
-                        attencance = {
-                            appName: app.name,
-                            attendTime: doc.attendTime,
-                            leaveDate: doc.leaveDate,
-                            absence: doc.absence,
-                        };
+                            // console.log('shiftStart', shiftStart);
+                            // console.log('attendTime', attendTime);
+
+                            // console.log('shiftEnd', shiftEnd);
+                            // console.log('leaveTime', leaveTime);
+                            // console.log('leaveDiff', leaveDiff);
+
+                            paySlip = { ...paySlip, shiftStart, shiftEnd };
+
+                            if (!doc.absence) {
+                                // الموظف حضر
+                                // لايوجد بصمة انصراف
+                                if (!doc.leaveTime) {
+                                    attencance = {
+                                        appName: app.name,
+                                        absence: false,
+                                        shiftStart,
+                                        attendTime,
+                                        shiftEnd,
+                                        leaveTime: '',
+                                    };
+                                    absentHours = 2;
+                                    // خصم ساعتين في حالة عدم وجود بصمة انصراف
+                                }
+                                if (doc.leaveTime && leaveTimeDifference > 0) {
+                                    attencance = {
+                                        appName: app.name,
+                                        absence: false,
+                                        shiftStart,
+                                        attendTime,
+                                        shiftEnd,
+                                        leaveTime: doc.leaveTime,
+                                    };
+                                    absentHours = leaveTimeDifference / 60;
+                                }
+
+                                paySlip.absentHours += absentHours;
+                                paySlip.absentHoursValue += absentHours * 1.5 * paySlip.hourSalary;
+                                if (attencance) {
+                                    paySlip.absentHoursList.push(attencance);
+                                }
+                            }
+                            if (doc.absence) {
+                                // الموظف غياب
+                                site.getEmployeeGlobalVacation(paySlip, (paySlip2) => {
+                                    // site.getEmployeeVacationsRequests(paySlip2, (paySlip3) => {
+                                    callback(paySlip2);
+                                });
+                                // });
+                            }
+                        }
                     });
-                    paySlip.attendeesList.push(attencance);
-                    paySlip.absentValue += 1.5 * paySlip.daySalary;
-                }
+                });
 
                 callback(paySlip);
-            });
+            }
         });
     };
     app.init = function () {

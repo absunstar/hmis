@@ -54,7 +54,7 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
         $scope.error = '';
         $scope.mode = 'edit';
         _item.attendTime = new Date(_item.$attendTime);
-        _item.leaveDate = new Date(_item.$leaveDate);
+        _item.leaveTime = new Date(_item.$leaveTime);
         _item.shiftData.start = new Date(_item.shiftData.start);
         _item.shiftData.end = new Date(_item.shiftData.end);
         $scope.view(_item);
@@ -117,7 +117,7 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
                 if (response.data.done) {
                     $scope.item = response.data.doc;
                     $scope.item.attendTime = new Date(response.data.doc.attendTime);
-                    $scope.item.leaveDate = new Date(response.data.doc.leaveDate);
+                    $scope.item.leaveTime = new Date(response.data.doc.leaveTime);
                     $scope.item.shiftData.start = new Date(response.data.doc.shiftData.start);
                     $scope.item.shiftData.end = new Date(response.data.doc.shiftData.end);
                 } else {
@@ -204,9 +204,9 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
             const attendMinutes = $scope.item.attendTime.getMinutes();
             $scope.item.attendanceTimeDifference = Math.floor(attendHours * 60 + attendMinutes);
         } else if (type == 'leave') {
-            $scope.item.leaveDate = new Date($scope.item.$leaveDate);
-            const leavingHours = leavingTime.getHours() - $scope.item.leaveDate.getHours();
-            const leavingMinutes = $scope.item.leaveDate.getMinutes();
+            $scope.item.leaveTime = new Date($scope.item.$leaveTime);
+            const leavingHours = leavingTime.getHours() - $scope.item.leaveTime.getHours();
+            const leavingMinutes = $scope.item.leaveTime.getMinutes();
 
             $scope.item.leavingTimeDifference = Math.floor(leavingHours * 60 - leavingMinutes);
         } else if (type == 'absence') {
@@ -227,7 +227,7 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
                     if (response.data.done) {
                         $scope.item = response.data.result;
                         $scope.item.$attendTime = new Date();
-                        $scope.item.$leaveDate = new Date();
+                        $scope.item.$leaveTime = new Date();
                         $scope.item.shiftData.start = new Date(response.data.result.shiftData.start);
                         $scope.item.shiftData.end = new Date(response.data.result.shiftData.end);
                     }
@@ -242,7 +242,7 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
 
     $scope.getShiftData = function (_data) {
         $scope.item.attendTime = '';
-        $scope.item.leaveDate = '';
+        $scope.item.leaveTime = '';
         $scope.item.absence = '';
         if (!_data.date || !_data.employee) {
             return;
@@ -286,7 +286,7 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
                     fullNameAr: 1,
                     fingerprintCode: 1,
                     shift: 1,
-                }
+                },
             },
         }).then(
             function (response) {

@@ -14,6 +14,11 @@
 
 <script>
   function toggleShow(selector) {
+    document.querySelectorAll(`.menu-bottom:not(${selector})`).forEach((m) => {
+      m.classList.remove('x-show');
+      m.classList.add('x-hide');
+    });
+
     if ((dom = document.querySelector(selector))) {
       dom.classList.toggle('x-show');
       dom.classList.toggle('x-hide');

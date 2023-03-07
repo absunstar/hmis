@@ -26,14 +26,10 @@ module.exports = function init(site) {
                 docs.forEach((doc) => {
                     const overtime = {
                         appName: app.name,
-                        // type: doc.type,
-                        // category: doc.category,
                         value: doc.hours * 60 + doc.minutes,
                     };
                     paySlip.overtimeList.push(overtime);
                     const obj = {
-                        // type: doc.type,
-                        // category: doc.category,
                         value: doc.hours * 60 + doc.minutes,
                     };
                     doc = { ...obj, ...paySlip };

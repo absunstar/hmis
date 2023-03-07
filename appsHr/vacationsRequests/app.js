@@ -19,8 +19,6 @@ module.exports = function init(site) {
     app.$collection = site.connectCollection(app.name);
     site.getEmployeeVacationsRequests = function (paySlip, callback) {
         const d1 = site.toDate(paySlip.shiftStart);
-        console.log('d1', d1);
-
         app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, approveDate: { $eq: d1 }, requestStatus: 'accepted' } }, (err, docs) => {
             if (!docs.length) {
                 const vacationRequest = {

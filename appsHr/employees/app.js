@@ -90,8 +90,8 @@ module.exports = function init(site) {
             penalityList: [],
             overtimeValue: 0,
             overtimeList: [],
-            vacationsValue: 0,
-            vacationsList: [],
+            // vacationsValue: 0,
+            // vacationsList: [],
             globalVacationsValue: 0,
             globalVacationsList: [],
             // absentValue: 0,
@@ -106,11 +106,12 @@ module.exports = function init(site) {
         site.getEmployeeBounus(paySlip, (paySlip2) => {
             site.getEmployeePenalties(paySlip2, (paySlip3) => {
                 site.getEmployeeOvertime(paySlip3, (paySlip4) => {
-                    site.getEmployeeAttendance(paySlip4, (paySlip5) => {
-                        // site.getEmployeeVacationsRequests(paySlip4, (paySlip5) => {
-                        // site.getEmployeeGlobalVacation(paySlip5, (paySlip6) => {
-                        // console.log('paySlip6', paySlip6);
-                        callback(paySlip5);
+                    site.getEmployeeGlobalVacation(paySlip4, (paySlip5) => {
+                        site.getEmployeeVacationsRequests(paySlip5, (paySlip6) => {
+                            // site.getEmployeeAttendance(paySlip4, (paySlip5) => {
+                            // console.log('paySlip6', paySlip6);
+                            callback(paySlip6);
+                        });
                         // });
                         // });
                     });

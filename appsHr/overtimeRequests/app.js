@@ -22,24 +22,22 @@ module.exports = function init(site) {
         const d2 = site.toDate(paySlip.toDate);
 
         app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
-            console.log('docs', docs.length);
-
             if (docs && docs.length) {
                 docs.forEach((doc) => {
                     const overtime = {
                         appName: app.name,
-                        type: doc.type,
-                        category: doc.category,
-                        value: doc.value,
+                        // type: doc.type,
+                        // category: doc.category,
+                        value: doc.hours * 60 + doc.minutes,
                     };
                     paySlip.overtimeList.push(overtime);
                     const obj = {
-                        type: doc.type,
-                        category: doc.category,
-                        value: doc.value,
+                        // type: doc.type,
+                        // category: doc.category,
+                        value: doc.hours * 60 + doc.minutes,
                     };
                     doc = { ...obj, ...paySlip };
-                    paySlip.overtimeValue += site.calculateValue(doc).value;
+                    paySlip.overtimeValue += (doc.value / 60) * 1.5 * paySlip.hourSalary;
                 });
             }
             callback(paySlip);

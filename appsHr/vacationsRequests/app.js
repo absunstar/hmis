@@ -17,27 +17,44 @@ module.exports = function init(site) {
     };
 
     app.$collection = site.connectCollection(app.name);
-    site.getEmployeeVacationsRequests = function (data, callback) {
-        const d1 = site.toDate(data.fromDate);
-        const d2 = site.toDate(data.toDate);
+    site.getEmployeeVacationsRequests = function (paySlip, callback) {
+        const d1 = site.toDate(paySlip.fromDate);
+        const d2 = site.toDate(paySlip.toDate);
 
-        const vacationsRequestsList = [];
-        app.$collection.findMany({ where: { 'employee.id': data.employeeId, date: { $gte: d1, $lt: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
-            docs.forEach((doc) => {
-                vacationsRequestsList.push({
-                    category: {
-                        code: app.name,
-                        nameAr: 'اجازة',
-                        nameEn: 'Vacations',
-                    },
-                    type: doc.type,
-                    calculationMethod: 'dec',
-                    value: doc.value,
+        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, approveDate: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
+            if (docs && docs.length) {
+                docs.forEach((doc) => {
+                    const vacationRequest = {
+                        appName: app.name,
+                        type: doc.vacationType,
+                        fromDate: doc.vacationfromDate,
+                        // category: doc.category,
+                        approvedVacationType: {
+                            id: doc.approvedVacationType.id,
+                            code: doc.approvedVacationType.code,
+                            nameAr: doc.approvedVacationType.nameAr,
+                            nameEn: doc.approvedVacationType.nameEn,
+                        },
+                        value: doc.approvedDays,
+                    };
+                    paySlip.vacationsList.push(vacationRequest);
+                    const obj = {
+                        type: doc.vacationType,
+                        // category: doc.category,
+                        approvedVacationType: doc.approvedVacationType,
+                        value: doc.approvedDays,
+                    };
+                    doc = { ...obj, ...paySlip };
+
+                    if (doc.approvedVacationType && doc.approvedVacationType.id == 3) {
+                        paySlip.vacationsValue += doc.value * paySlip.daySalary;
+                    }
                 });
-            });
-            callback(vacationsRequestsList);
+            }
+            callback(paySlip);
         });
     };
+
     app.init = function () {
         if (app.allowMemory) {
             app.$collection.findMany({}, (err, docs) => {

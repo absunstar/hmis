@@ -25,14 +25,19 @@
                 <tr>
                     <th>##word.s##</th>
                     <th>##word.Name##</th>
+                    <th>##word.original Value##</th>
                     <th>##word.Value##</th>
                     <th>##word.Name Arabic##</th>
                 </tr>
                 <tr class="center">
                     <td class="center blue">1</td>
-                    <td class="center">##word.Fixed Salary##</td>
+                    <td class="center">##word.Basic Salary##</td>
                     <td class="center">
-                        <span class="text-success">{{item.paySlip.fixedSalary}}</span>
+                        <span class="text-success">{{item.paySlip.originalSalary}}</span>
+                        <span>##word.$##</span>
+                    </td>
+                    <td class="center">
+                        <span class="text-success">{{item.paySlip.basicSalary}}</span>
                         <span>##word.$##</span>
                     </td>
                     <td class="center">##word.الراتب الأساسي##</td>
@@ -40,6 +45,10 @@
                 <tr ng-repeat="itm in item.paySlip.allowancesList">
                     <td class="center blue">{{$index+2}}</td>
                     <td class="center">{{itm.nameEn}}</td>
+                    <td class="center">
+                        <p ng-show="itm.originalValue"><span class="text-success">{{itm.originalValue}}</span> <span>##word.$##</span></p>
+                        <p ng-show="!itm.originalValue">-</p>
+                    </td>
                     <td class="center">
                         <span class="text-success">{{itm.value}}</span>
                         <span>##word.$##</span>
@@ -86,6 +95,38 @@
     </fieldset>
     <fieldset ng-show="item.paySlip">
         <legend>##word.Total##</legend>
+        <div class="row">
+            <div class="col2">
+                <div class="row">
+                    <label>##word.Total Allowance##</label>
+                    <p class="text-success bold">{{item.paySlip.totalAllowance}} <span>##word.$##</span></p>
+                </div>
+            </div>
+            <div class="col1">
+                <div class="row">
+                    <label></label>
+                    <h3 class="bold">-</h3>
+                </div>
+            </div>
+            <div class="col2">
+                <div class="row">
+                    <label>##word.Total Deductions##</label>
+                    <p class="text-danger bold">{{item.paySlip.totalDeductions}} <span>##word.$##</span></p>
+                </div>
+            </div>
+            <div class="col1">
+                <div class="row">
+                    <label></label>
+                    <h3 class="bold">=</h3>
+                </div>
+            </div>
+            <div class="col2">
+                <div class="row">
+                    <label>##word.Net Salary##</label>
+                    <p class="text-success bold">{{item.paySlip.totalAllowance - item.paySlip.totalDeductions}} <span>##word.$##</span></p>
+                </div>
+            </div>
+        </div>
     </fieldset>
 </div>
 <div ng-show="mode !== 'add' " class="row">

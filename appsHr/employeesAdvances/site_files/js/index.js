@@ -378,7 +378,7 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
 
     $scope.setInstallments = function (_item) {
         $scope.installmentError = '';
-        if (!_item.approvedAmount || _item.approvedAmount < 1) {
+        if (_item.approvedAmount < 1) {
             $scope.installmentError = '##word.Please Enter Approved Amount##';
             return;
         }

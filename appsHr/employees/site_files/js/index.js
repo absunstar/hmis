@@ -284,7 +284,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
-                    addToFixedSalary: 1,
+                    addToBasicSalary: 1,
                 },
             },
         }).then(

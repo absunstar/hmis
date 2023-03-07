@@ -17,7 +17,75 @@ module.exports = function init(site) {
     };
 
     app.$collection = site.connectCollection(app.name);
+    site.getEmployeeGlobalVacation = function (paySlip, callback) {
+        const d1 = site.toDate(paySlip.fromDate);
+        const d2 = site.toDate(paySlip.toDate);
+        // 'employee.id': paySlip.employeeId,
+        app.$collection.findMany({ where: { fromDate: { $gte: d1 }, toDate: { $lte: d2 }, approved: true } }, (err, docs) => {
+            if (docs && docs.length) {
+                docs.forEach((doc) => {
+                    const date1 = site.toDate(doc.fromDate);
+                    const date2 = site.toDate(doc.toDate);
+                    const vacationTimes = date2.getTime() - date1.getTime();
+                    const vacationDays = vacationTimes / (1000 * 3600 * 24);
+                    paySlip = { ...paySlip, vacationDays };
 
+                    let globalVacation;
+                    if (doc.vacationFor && doc.vacationFor == 'all') {
+                        globalVacation = {
+                            appName: app.name,
+                            vacationName: {
+                                id: doc.vacationName.id,
+                                code: doc.vacationName.code,
+                                nameAr: doc.vacationName.nameAr,
+                                nameEn: doc.vacationName.nameEn,
+                            },
+                            value: 0,
+                        };
+                    } else if (doc.vacationFor && doc.vacationFor == 'some') {
+                        const employeeIndex = doc.employeesList.findIndex((_emp) => _emp.id == paySlip.employeeId);
+                        if (employeeIndex == -1) {
+                            site.getEmployeeAttendance(paySlip, (data) => {
+                                // console.log('attendeesList', data.attendeesList);
+                                // console.log('absentValue', data.absentValue);
+
+                                data.attendeesList.forEach((_attend) => {
+                                    // console.log('_attend', _attend);
+                                    globalVacation = {
+                                        appName: _attend.appName,
+                                        vacationName: {
+                                            id: doc.vacationName.id,
+                                            code: doc.vacationName.code,
+                                            nameAr: doc.vacationName.nameAr,
+                                            nameEn: doc.vacationName.nameEn,
+                                        },
+                                        value: _attend.value,
+                                    };
+                                    paySlip.globalVacationsValue += _attend.value * 1.5 * paySlip.daySalary;
+                                    paySlip.globalVacationsList.push(globalVacation);
+                                });
+                                callback(paySlip);
+                            });
+                        }
+                    }
+
+                    // const obj = {
+                    //     type: doc.vacationType,
+                    //     category: doc.category,
+                    //     approvedVacationType: doc.approvedVacationType,
+                    //     value: 1,
+                    // };
+                    // doc = { ...paySlip };
+
+                    // console.log('doc.value', doc.value);
+                    // console.log('paySlip.daySalary', paySlip.daySalary);
+
+                    // paySlip.globalVacationsValue += doc.value * paySlip.daySalary;
+                    // });
+                });
+            }
+        });
+    };
     app.init = function () {
         if (app.allowMemory) {
             app.$collection.findMany({}, (err, docs) => {
@@ -242,28 +310,18 @@ module.exports = function init(site) {
 
                 let _data = req.data;
 
-                app.$collection.find({ id: _data.id }, (err, doc) => {
-                    if (doc) {
-                        if (new Date().getTime() > new Date(doc.fromDate).getTime()) {
-                            response.done = false;
-                            response.error = 'Cannot Unapprove Past Date';
-                            res.json(response);
-                            return;
-                        }
-                    }
-                    _data['approved'] = false;
-                    _data['approveDate'] = null;
-                    _data.unapprovedUserInfo = req.getUserFinger();
+                _data['approved'] = false;
+                _data['approveDate'] = null;
+                _data.unapprovedUserInfo = req.getUserFinger();
 
-                    app.update(_data, (err, result) => {
-                        if (!err) {
-                            response.done = true;
-                            response.result = result;
-                        } else {
-                            response.error = err.message;
-                        }
-                        res.json(response);
-                    });
+                app.update(_data, (err, result) => {
+                    if (!err) {
+                        response.done = true;
+                        response.result = result;
+                    } else {
+                        response.error = err.message;
+                    }
+                    res.json(response);
                 });
             });
         }
@@ -347,8 +405,8 @@ module.exports = function init(site) {
                 if (app.allowMemory) {
                     if (!search) {
                         search = 'id';
-                      }
-                   let list = app.memoryList
+                    }
+                    let list = app.memoryList
                         .filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(search))
                         .slice(0, limit);
 
@@ -357,8 +415,8 @@ module.exports = function init(site) {
                         list: list,
                     });
                 } else {
-          where['company.id'] = site.getCompany(req).id;
-          app.all({ where, select, limit }, (err, docs) => {
+                    where['company.id'] = site.getCompany(req).id;
+                    app.all({ where, select, limit }, (err, docs) => {
                         res.json({
                             done: true,
                             list: docs,

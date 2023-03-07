@@ -17,7 +17,7 @@ app.controller('overtimeRequests', function ($scope, $http, $timeout) {
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, requestDate: new Date() };
+        $scope.item = { ...$scope.structure, date: new Date() };
         site.showModal($scope.modalID);
     };
 
@@ -254,7 +254,6 @@ app.controller('overtimeRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.getEmployees = function () {
-
         $scope.busy = true;
         $scope.employeesList = [];
         $http({
@@ -284,47 +283,47 @@ app.controller('overtimeRequests', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getAmountCategory = function () {
-        $scope.busy = true;
-        $scope.amountCategoriesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/amountCategory',
-            data: {},
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.amountCategoriesList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
+    // $scope.getAmountCategory = function () {
+    //     $scope.busy = true;
+    //     $scope.amountCategoriesList = [];
+    //     $http({
+    //         method: 'POST',
+    //         url: '/api/amountCategory',
+    //         data: {},
+    //     }).then(
+    //         function (response) {
+    //             $scope.busy = false;
+    //             if (response.data.done && response.data.list.length > 0) {
+    //                 $scope.amountCategoriesList = response.data.list;
+    //             }
+    //         },
+    //         function (err) {
+    //             $scope.busy = false;
+    //             $scope.error = err;
+    //         }
+    //     );
+    // };
 
-    $scope.getAmountType = function () {
-        $scope.busy = true;
-        $scope.amountTypesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/amountTypes',
-            data: {},
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.amountTypesList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
+    // $scope.getAmountType = function () {
+    //     $scope.busy = true;
+    //     $scope.amountTypesList = [];
+    //     $http({
+    //         method: 'POST',
+    //         url: '/api/amountTypes',
+    //         data: {},
+    //     }).then(
+    //         function (response) {
+    //             $scope.busy = false;
+    //             if (response.data.done && response.data.list.length > 0) {
+    //                 $scope.amountTypesList = response.data.list;
+    //             }
+    //         },
+    //         function (err) {
+    //             $scope.busy = false;
+    //             $scope.error = err;
+    //         }
+    //     );
+    // };
 
     $scope.getNumberingAuto = function () {
         $scope.error = '';
@@ -364,6 +363,6 @@ app.controller('overtimeRequests', function ($scope, $http, $timeout) {
     $scope.getNumberingAuto();
     $scope.getEmployees();
 
-    $scope.getAmountCategory();
-    $scope.getAmountType();
+    // $scope.getAmountCategory();
+    // $scope.getAmountType();
 });

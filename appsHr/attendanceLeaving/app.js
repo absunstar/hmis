@@ -16,25 +16,39 @@ module.exports = function init(site) {
 
     app.$collection = site.connectCollection(app.name);
 
-    site.getEmployeeAttendance = function (data, callback) {
-        const d1 = site.toDate(data.fromDate);
-        const d2 = site.toDate(data.toDate);
+    site.getEmployeeAttendance = function (paySlip, callback) {
+        const d1 = site.toDate(paySlip.fromDate);
+        const d2 = site.toDate(paySlip.toDate);
 
-        const attendanceList = [];
-        app.$collection.findMany({ where: { 'employee.id': data.employee.id, date: { $gte: d1, $lt: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
-            docs.forEach((doc) => {
-                attendanceList.push({
-                    category: {
-                        code: app.name,
-                        nameAr: 'تأخير',
-                        nameEn: 'Absent',
-                    },
-                    type: doc.type,
-                    calculationMethod: 'dec',
-                    value: doc.value,
-                });
+        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1 } } }, (err, docs) => {
+            let attencance;
+            site.getEmployeeVacationsRequests(paySlip, (data) => {
+                // console.log('vacationsList', data.vacationsList);
+
+                if (!docs.length) {
+                    attencance = {
+                        appName: app.name,
+                        value: paySlip.vacationDays,
+                    };
+                    paySlip.attendeesList.push(attencance);
+                    paySlip.absentValue += paySlip.vacationDays * 1.5 * paySlip.daySalary;
+                }
+
+                if (docs.length) {
+                    docs.forEach((doc) => {
+                        attencance = {
+                            appName: app.name,
+                            attendTime: doc.attendTime,
+                            leaveDate: doc.leaveDate,
+                            absence: doc.absence,
+                        };
+                    });
+                    paySlip.attendeesList.push(attencance);
+                    paySlip.absentValue += 1.5 * paySlip.daySalary;
+                }
+
+                callback(paySlip);
             });
-            callback(attendanceList);
         });
     };
     app.init = function () {

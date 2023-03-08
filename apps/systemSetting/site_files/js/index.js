@@ -27,6 +27,10 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
             financialManagerDeputy: {},
         },
         workflowAssignmentSettings: {},
+        hrSettings: {
+            delay: 0,
+            overtime: 0,
+        },
     };
 
     $scope.addToApprovalList = function (screen) {
@@ -360,7 +364,7 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
                     code: 1,
                     fullNameEn: 1,
                     fullNameAr: 1,
-                }
+                },
             },
         }).then(
             function (response) {

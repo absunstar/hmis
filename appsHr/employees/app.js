@@ -82,7 +82,7 @@ module.exports = function init(site) {
         return { originalSalary, basicSalary: site.toMoney(netSalary), housingAllowance: site.toMoney(housingAfterInsurce), netSalary: site.toMoney(netSalary + housingAfterInsurce) };
     };
 
-    site.calculateEmployeePaySlipItems = function (data, callback) {
+    site.calculateEmployeePaySlipItems = function (req, data, callback) {
         let paySlip = {
             bonusValue: 0,
             bonusList: [],
@@ -106,7 +106,7 @@ module.exports = function init(site) {
             workErrandList: [],
         };
         paySlip = { ...paySlip, ...data };
-        site.getEmployeeBounus(paySlip, (paySlip2) => {
+        site.getEmployeeBounus(req, paySlip, (paySlip2) => {
             site.getEmployeePenalties(paySlip2, (paySlip3) => {
                 site.getEmployeeOvertime(paySlip3, (paySlip4) => {
                     site.getEmployeeGlobalVacation(paySlip4, (paySlip5) => {
@@ -453,7 +453,7 @@ module.exports = function init(site) {
                                 penaltiesList: shiftDoc.penaltiesList,
                             };
 
-                            site.calculateEmployeePaySlipItems(data, (result) => {
+                            site.calculateEmployeePaySlipItems(req, data, (result) => {
                                 // console.log('result', result);
 
                                 const allowancesList = [];

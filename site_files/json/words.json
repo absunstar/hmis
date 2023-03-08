@@ -474,5 +474,10 @@
         "name": "Please Enter Certificate Source",
         "En": "Please Enter Certificate Source",
         "Ar": "يرجي إدخال مصدر الشهادة"
+    },
+    {
+        "name": "Please Enter Delay Date",
+        "En": "Please Enter Delay Date",
+        "Ar": "يرجي إدخال تاريخ التأخير"
     }
 ]

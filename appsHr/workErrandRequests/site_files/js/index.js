@@ -16,7 +16,7 @@ app.controller('workErrandRequests', function ($scope, $http, $timeout) {
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, requestDate: new Date() };
+        $scope.item = { ...$scope.structure, date: new Date(), delayDate: new Date() };
         site.showModal($scope.modalID);
     };
 
@@ -27,7 +27,23 @@ app.controller('workErrandRequests', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
+        if (new Date($scope.item.delayDate).getTime() < new Date($scope.item.date).getTime()) {
+            $scope.error = '';
+            $scope.error = '##word.Please Enter Delay Date##';
+            return;
+        }
 
+        const delayDate = new Date($scope.item.delayDate).toISOString().slice(0, 10);
+        const startHour = new Date($scope.item.$fromTime).getHours();
+        const startMinute = new Date($scope.item.$fromTime).getMinutes();
+        const endHour = new Date($scope.item.$toTime).getHours();
+        const endMinute = new Date($scope.item.$toTime).getMinutes();
+        $scope.item.fromTime = new Date(delayDate);
+        $scope.item.fromTime.setHours(startHour);
+        $scope.item.fromTime.setMinutes(startMinute);
+        $scope.item.toTime = new Date(delayDate);
+        $scope.item.toTime.setHours(endHour);
+        $scope.item.toTime.setMinutes(endMinute);
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -56,6 +72,8 @@ app.controller('workErrandRequests', function ($scope, $http, $timeout) {
     $scope.showUpdate = function (_item) {
         $scope.error = '';
         $scope.mode = 'edit';
+        _item.$fromTime = new Date(_item.fromTime);
+        _item.$toTime = new Date(_item.toTime);
         $scope.view(_item);
         $scope.item = {};
         site.showModal($scope.modalID);
@@ -68,6 +86,23 @@ app.controller('workErrandRequests', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
+        if (new Date($scope.item.delayDate).getTime() < new Date($scope.item.date).getTime()) {
+            $scope.error = '';
+            $scope.error = '##word.Please Enter Delay Date##';
+            return;
+        }
+
+        const delayDate = new Date($scope.item.delayDate).toISOString().slice(0, 10);
+        const startHour = new Date($scope.item.$fromTime).getHours();
+        const startMinute = new Date($scope.item.$fromTime).getMinutes();
+        const endHour = new Date($scope.item.$toTime).getHours();
+        const endMinute = new Date($scope.item.$toTime).getMinutes();
+        $scope.item.fromTime = new Date(delayDate);
+        $scope.item.fromTime.setHours(startHour);
+        $scope.item.fromTime.setMinutes(startMinute);
+        $scope.item.toTime = new Date(delayDate);
+        $scope.item.toTime.setHours(endHour);
+        $scope.item.toTime.setMinutes(endMinute);
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -310,7 +345,6 @@ app.controller('workErrandRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.getEmployees = function () {
-
         $scope.busy = true;
         $scope.employeesList = [];
         $http({
@@ -324,7 +358,7 @@ app.controller('workErrandRequests', function ($scope, $http, $timeout) {
                     fullNameEn: 1,
                     fullNameAr: 1,
                     image: 1,
-                }
+                },
             },
         }).then(
             function (response) {

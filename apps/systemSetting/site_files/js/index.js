@@ -30,7 +30,7 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
         hrSettings: {
             delay: 0,
             overtime: 0,
-            penalty: 0,
+            penality: 0,
         },
     };
 

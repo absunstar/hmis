@@ -37,7 +37,7 @@ module.exports = function init(site) {
         hrSettings: {
             delay: 0,
             overtime: 0,
-            penalty: 0,
+            penality: 0,
         },
     };
 

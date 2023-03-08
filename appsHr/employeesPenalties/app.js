@@ -18,10 +18,10 @@ module.exports = function init(site) {
 
     app.$collection = site.connectCollection(app.name);
 
-    site.getEmployeePenalties = function (paySlip, callback) {
+    site.getEmployeePenalties = function (req, paySlip, callback) {
         const d1 = site.toDate(paySlip.fromDate);
         const d2 = site.toDate(paySlip.toDate);
-
+        const systemSetting = site.getSystemSetting(req).hrSettings;
         app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
             if (docs && docs.length) {
                 docs.forEach((doc) => {
@@ -44,7 +44,9 @@ module.exports = function init(site) {
                         value: doc.value,
                     };
                     doc = { ...obj, ...paySlip };
-                    paySlip.penalityValue += site.calculateValue(doc).value;
+                    console.log('systemSetting.penality', systemSetting.penality);
+
+                    paySlip.penalityValue += site.calculateValue(doc).value * systemSetting.penality;
                 });
             }
             callback(paySlip);

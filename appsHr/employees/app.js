@@ -106,9 +106,12 @@ module.exports = function init(site) {
             workErrandList: [],
         };
         paySlip = { ...paySlip, ...data };
+        console.log('hour', paySlip.hourSalary);
+        console.log('day', paySlip.daySalary);
+
         site.getEmployeeBounus(req, paySlip, (paySlip2) => {
-            site.getEmployeePenalties(paySlip2, (paySlip3) => {
-                site.getEmployeeOvertime(paySlip3, (paySlip4) => {
+            site.getEmployeePenalties(req, paySlip2, (paySlip3) => {
+                site.getEmployeeOvertime(req, paySlip3, (paySlip4) => {
                     site.getEmployeeGlobalVacation(paySlip4, (paySlip5) => {
                         site.getEmployeeVacationsRequests(paySlip5, (paySlip6) => {
                             site.getEmployeeDelayRequest(paySlip6, (paySlip7) => {

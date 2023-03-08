@@ -44,8 +44,6 @@ module.exports = function init(site) {
                         value: doc.value,
                     };
                     doc = { ...obj, ...paySlip };
-                    console.log('systemSetting.penality', systemSetting.penality);
-
                     paySlip.penalityValue += site.calculateValue(doc).value * systemSetting.penality;
                 });
             }

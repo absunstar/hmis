@@ -38,6 +38,8 @@ module.exports = function init(site) {
             delay: 0,
             overtime: 0,
             penality: 0,
+            absenceHours: 0,
+            absenceDays: 0,
         },
     };
 

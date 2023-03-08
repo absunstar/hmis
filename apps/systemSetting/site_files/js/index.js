@@ -31,6 +31,8 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
             delay: 0,
             overtime: 0,
             penality: 0,
+            absenceHours: 0,
+            absenceDays: 0,
         },
     };
 

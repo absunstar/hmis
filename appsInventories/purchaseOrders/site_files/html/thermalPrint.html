@@ -183,14 +183,14 @@
         </div>
 
         <div class="col-1 black">
-          <p class="black center font-10 bold">{{itm.totalLegalDiscounts}} ##word.$##</p>
+          <p class="black center font-10 bold">{{itm.totalLegalDiscounts}} <span class="currency">##word.$##</span></p>
         </div>
 
         <div class="col-1 black">
-          <p class="black center font-10 bold">{{itm.totalVendorDiscounts}} ##word.$##</p>
+          <p class="black center font-10 bold">{{itm.totalVendorDiscounts}} <span class="currency">##word.$##</span></p>
         </div>
         <div class="col-1 black">
-          <p class="black center font-10 bold">{{itm.totalVat}} ##word.$##</p>
+          <p class="black center font-10 bold">{{itm.totalVat}} <span class="currency">##word.$##</span></p>
         </div>
         <div class="col-1 black">
           <p class="black center font-10 bold">{{itm.count}}</p>
@@ -198,13 +198,13 @@
         </div>
 
         <div class="col-1 black">
-          <p class="black center font-10 bold">{{itm.price | xmoney2}} ##word.$##</p>
+          <p class="black center font-10 bold">{{itm.price | xmoney2}} <span class="currency">##word.$##</span></p>
           <p class="black center font-10 bold">{{itm.unit.name##session.lang##}}</p>
 
         </div>
 
         <div class="col-2 black">
-          <p class="black center font-10 bold">{{itm.total | xmoney2}} ##word.$##</p>
+          <p class="black center font-10 bold">{{itm.total | xmoney2}} <span class="currency">##word.$##</span></p>
         </div>
       </div>
       <hr />
@@ -216,7 +216,7 @@
       </div>
       <div class="col-1"></div>
       <div class="col-3">
-        <p class="black bold center font-12">{{thermal.totalPrice | xmoney2}}</p>
+        <p class="black bold center font-12">{{thermal.totalPrice | xmoney2}} <span class="currency">##word.$##</span></p>
         <hr />
       </div>
     </div>
@@ -227,7 +227,7 @@
       </div>
       <div class="col-1"></div>
       <div class="col-3">
-        <p class="black center bold font-11">{{thermal.totalVendorDiscounts | xmoney2}}</p>
+        <p class="black center bold font-11">{{thermal.totalVendorDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
         <hr />
       </div>
     </div>
@@ -238,7 +238,7 @@
       </div>
       <div class="col-1"></div>
       <div class="col-3">
-        <p class="black center bold font-11">{{thermal.totalLegalDiscounts | xmoney2}}</p>
+        <p class="black center bold font-11">{{thermal.totalLegalDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
         <hr />
       </div>
     </div>
@@ -249,7 +249,7 @@
       </div>
       <div class="col-1"></div>
       <div class="col-3">
-        <p class="black center bold font-11">{{thermal.totalAfterDiscounts | xmoney2}}</p>
+        <p class="black center bold font-11">{{thermal.totalAfterDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
         <hr />
       </div>
     </div> -->
@@ -260,18 +260,18 @@
       </div>
       <div class="col-1"></div>
       <div class="col-3">
-        <p class="black center bold font-11">{{thermal.totalBeforeVat | xmoney2}}</p>
+        <p class="black center bold font-11">{{thermal.totalBeforeVat | xmoney2}} <span class="currency">##word.$##</span></p>
         <hr />
       </div>
     </div>
 
     <div class="row" ng-show="settings.storesSetting.vat">
       <div class="col-8 center">
-        <p class="black bold font-11">ضريبة القيمة المضافة / Value VAT : {{settings.storesSetting.vat}}%</p>
+        <p class="black bold font-11">ضريبة القيمة المضافة / Value VAT : {{settings.storesSetting.vat}} <span class="currency">##word.%##</span></p>
       </div>
       <div class="col-1"></div>
       <div class="col-3">
-        <p class="black center bold font-11">{{thermal.totalVat | xmoney2}}</p>
+        <p class="black center bold font-11">{{thermal.totalVat | xmoney2}} <span class="currency">##word.$##</span></p>
         <hr />
       </div>
     </div>
@@ -282,7 +282,7 @@
       </div>
       <div class="col-1"></div>
       <div class="col-3">
-        <p class="black center bold font-11">{{thermal.totalAfterVat | xmoney2}}</p>
+        <p class="black center bold font-11">{{thermal.totalAfterVat | xmoney2}} <span class="currency">##word.$##</span></p>
         <hr />
       </div>
     </div>
@@ -293,7 +293,7 @@
       </div>
       <div class="col-1"></div>
       <div class="col-3">
-        <p class="black center bold font-12">{{thermal.totalDiscounts | xmoney2}}</p>
+        <p class="black center bold font-12">{{thermal.totalDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
         <hr />
       </div>
     </div>
@@ -304,7 +304,7 @@
       </div>
       <div class="col-1"></div>
       <div class="col-3">
-        <p class="black center bold font-12">{{thermal.totalTaxes | xmoney2}}</p>
+        <p class="black center bold font-12">{{thermal.totalTaxes | xmoney2}} <span class="currency">##word.$##</span></p>
         <hr />
       </div>
     </div>
@@ -315,7 +315,7 @@
       </div>
       <div class="col-1"></div>
       <div class="col-3">
-        <p class="black center bold font-11">{{thermal.totalNet | xmoney2}}</p>
+        <p class="black center bold font-11">{{thermal.totalNet | xmoney2}} <span class="currency">##word.$##</span></p>
         <hr />
       </div>
     </div>

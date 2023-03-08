@@ -6,6 +6,14 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope.structure = {
     type: 'out',
+    grossAmount: 0,
+    totalDiscount: 0,
+    totalPatientVat: 0,
+    totalVat: 0,
+    totalCompanyVat: 0,
+    patientBalance: 0,
+    accBalance: 0,
+    totalNet: 0,
   };
   $scope.item = {};
   $scope.list = [];
@@ -486,7 +494,6 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     );
   };
 
-
   $scope.getDoctorDeskTopList = function (where) {
     $scope.busy = true;
     $scope.doctorDeskTopList = [];
@@ -525,7 +532,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     $scope.busy = true;
     $scope.doctorAppointmentsList = [];
 
-    let where = { bookingDate: $scope.item.date , hasTransaction: false,};
+    let where = { bookingDate: $scope.item.date, hasTransaction: false };
 
     $http({
       method: 'POST',
@@ -654,7 +661,6 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           function (response) {
             $scope.busy = false;
             if (response.data.done && response.data.servicesList && response.data.servicesList.length > 0) {
-
               service = { ...response.data.servicesList[0] };
               $scope.item.servicesList.push(service);
               $scope.calc($scope.item);
@@ -669,9 +675,9 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
         $scope.item.servicesList.forEach((_s) => {
           if (_s.id === service.id) {
             _s.qty += 1;
-            $scope.calc($scope.item);
           }
         });
+        $scope.calc($scope.item);
       }
       service = {};
     } else {
@@ -684,24 +690,42 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     $scope.error = '';
     $timeout(() => {
       _item.grossAmount = 0;
-      _item.discount = 0;
-      _item.deductables = 0;
-      _item.patientVat = 0;
-      _item.companyVat = 0;
-      _item.netAmount = 0;
-      _item.patientBalance = 0;
-      _item.accBalance = 0;
-      _item.vat = 0;
-      _item.servicesList.forEach((_service) => {
-        let net = _service.price - (_service.price * _service.discount) / 100;
-        _service.total = net * _service.qty;
-        _item.grossAmount += _service.price * _service.qty;
-        _item.discount += _service.discount * _service.qty;
-        _item.patientVat += _service.pVat * _service.qty;
-        _item.companyVat += _service.comVat * _service.qty;
-        _item.vat += _service.vat * _service.qty;
+      _item.totalDiscount = 0;
+      _item.totalVat = 0;
+      _item.totalPatientVat = 0;
+      _item.totalCompanyVat = 0;
+        _item.servicesList.forEach((_service) => {
+        _service.totalPrice = _service.price * _service.qty;
+
+        _service.totalDiscount = (_service.totalPrice * _service.discount) / 100;
+        _service.totalDiscount = site.toNumber(_service.totalDiscount);
+
+        _service.grossAmount = _service.totalPrice - _service.totalDiscount;
+        _service.grossAmount = site.toNumber(_service.grossAmount);
+
+        _service.totalPatientVat = (_service.grossAmount * _service.pVat) / 100;
+        _service.totalPatientVat = site.toNumber(_service.totalPatientVat);
+
+        _service.totalVat = (_service.grossAmount * _service.vat) / 100;
+        _service.totalVat = site.toNumber(_service.totalVat);
+
+        _service.totalCompanyVat = (_service.grossAmount * _service.comVat) / 100;
+        _service.totalCompanyVat = site.toNumber(_service.totalCompanyVat);
+
+        _service.total = _service.grossAmount - _service.totalDiscount + (_service.totalPatientVat + _service.totalVat + _service.totalCompanyVat);
+        _service.total = site.toNumber(_service.total);
+
+        _item.grossAmount += _service.grossAmount;
+        _item.totalDiscount += _service.totalDiscount;
+        _item.totalVat += _service.totalVat;
+        _item.totalPatientVat += _service.grossAmount;
+        _item.totalCompanyVat += _service.totalCompanyVat;
       });
-      _item.netAmount = _item.grossAmount - _item.discount;
+      _item.grossAmount = site.toNumber(_item.grossAmount);
+      _item.totalVat = site.toNumber(_item.totalVat);
+      _item.totalPatientVat = site.toNumber(_item.totalPatientVat);
+      _item.totalCompanyVat = site.toNumber(_item.totalCompanyVat);
+      _item.totalNet = _item.grossAmount + _item.totalVat + _item.totalPatientVat + _item.totalCompanyVat;
     }, 300);
   };
 

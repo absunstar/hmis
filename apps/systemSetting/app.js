@@ -11,14 +11,14 @@ module.exports = function init(site) {
     allowRouteGetSetting: true,
   };
   let printerProgram = {
-    invoiceHeader : [],
-    invoiceHeader2 : [],
-    invoiceFooter : [],
-    thermalHeader : [],
-    thermalFooter : [],
+    invoiceHeader: [],
+    invoiceHeader2: [],
+    invoiceFooter: [],
+    thermalHeader: [],
+    thermalFooter: [],
   };
   site.setting = {
-    printerProgram : printerProgram,
+    printerProgram: printerProgram,
     storesSetting: {
       hasDefaultVendor: false,
       cannotExceedMaximumDiscount: false,
@@ -29,15 +29,14 @@ module.exports = function init(site) {
       defaultItemUnit: {},
       defaultVendor: {},
     },
-    accountingSetting: {
+    accountsSetting: {
       paymentType: {},
+      currencySymbol: 'SR',
     },
-    accountsSetting : {},
     generalSystemSetting: {},
   };
 
   app.$collection = site.connectCollection(app.name);
-
   app.init = function () {
     if (app.allowMemory) {
       app.$collection.findMany({}, (err, docs) => {
@@ -58,6 +57,7 @@ module.exports = function init(site) {
         }
       });
     }
+    site.word({ name: '$', Ar: site.setting.accountsSetting.currencySymbol, En: site.setting.accountsSetting.currencySymbol });
   };
 
   site.getSystemSetting = function (req) {
@@ -65,8 +65,7 @@ module.exports = function init(site) {
     let branch = site.getBranch(req);
 
     // let setting = app.memoryList.find((s) => s.company.id == company.id && s.branch.id == branch.code);
-    site.setting = app.memoryList.find((s) => s.company.id == company.id) || site.setting ;
-  
+    site.setting = app.memoryList.find((s) => s.company.id == company.id) || site.setting;
 
     return site.setting;
   };
@@ -81,12 +80,16 @@ module.exports = function init(site) {
           if (app.allowMemory && !err && doc) {
             app.memoryList.push(doc);
           }
+          site.word({ name: '$', Ar: doc.accountsSetting.currencySymbol, En: doc.accountsSetting.currencySymbol });
         });
       } else {
         doc = { ...doc, ..._item };
         app.$collection.edit(doc, (err, result) => {
           if (callback) {
             callback(err, result);
+          }
+          if (result && result.doc) {
+            site.word({ name: '$', Ar: result.doc.accountsSetting.currencySymbol, En: result.doc.accountsSetting.currencySymbol });
           }
 
           if (app.allowMemory && !err && result) {
@@ -135,6 +138,7 @@ module.exports = function init(site) {
           if (!err) {
             response.done = true;
             response.result = result;
+            site.word({ name: '$', Ar: result.doc.accountsSetting.currencySymbol, En: result.doc.accountsSetting.currencySymbol });
           } else {
             response.error = err.message;
           }

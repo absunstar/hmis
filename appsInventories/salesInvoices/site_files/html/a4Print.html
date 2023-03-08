@@ -169,27 +169,27 @@
           <td class="center width-15-mm font-12">
             <p>
               {{itm.discount}}
-              <span ng-show="itm.discountType =='value'"> ##word.$##</span>
-              <span ng-show="itm.discountType =='percent'"> ##word.%##</span>
+              <span ng-show="itm.discountType =='value'" class="currency"> ##word.$##</span>
+              <span ng-show="itm.discountType =='percent'" class="currency"> ##word.%##</span>
             </p>
-            <p>{{itm.totalDiscount}} ##word.$##</p>
+            <p>{{itm.totalDiscount}} <span class="currency">##word.$##</span></p>
           </td>
 
           <td class="center width-15-mm font-12">
-            <p>{{itm.extraDiscount}} ##word.%##</p>
-            <p>{{itm.totalExtraDiscount}} ##word.$##</p>
+            <p>{{itm.extraDiscount}} <span class="currency">##word.%##</span></p>
+            <p>{{itm.totalExtraDiscount}} <span class="currency">##word.$##</span></p>
           </td>
           <td class="center width-15-mm font-12">{{itm.count}}</td>
 
-          <td class="center width-15-mm font-12">{{itm.price | xmoney2}} ##word.$##</td>
+          <td class="center width-15-mm font-12">{{itm.price | xmoney2}} <span class="currency">##word.$##</span></td>
 
           <td class="center width-15-mm font-12" ng-show="settings.storesSetting.vat > 0">
-            <p>{{itm.vat | xmoney2}} ##word.%##</p>
-            <p>{{itm.totalVat | xmoney2}} ##word.$##</p>
+            <p>{{itm.vat | xmoney2}} <span class="currency">##word.%##</span></p>
+            <p>{{itm.totalVat | xmoney2}} <span class="currency">##word.$##</span></p>
           </td>
           <td class="center width-15-mm font-12">
-            <p>{{itm.totalBeforeVat | xmoney2}} ##word.$##</p>
-            <p>{{itm.total | xmoney2}} ##word.$##</p>
+            <p>{{itm.totalBeforeVat | xmoney2}} <span class="currency">##word.$##</span></p>
+            <p>{{itm.total | xmoney2}} <span class="currency">##word.$##</span></p>
           </td>
         </tr>
       </table>
@@ -204,7 +204,7 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalPrice | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalPrice | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>
@@ -214,7 +214,7 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalItemsDiscounts | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalItemsDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>
@@ -224,18 +224,18 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalBeforeVat | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalBeforeVat | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>
 
           <div class="row">
             <div class="col-8">
-              <p class="txt18 bold black">ضريبة القيمة المضافة / VAT {{settings.storesSetting.vat | xmoney2}}%</p>
+              <p class="txt18 bold black">ضريبة القيمة المضافة / VAT {{settings.storesSetting.vat | xmoney2}} <span class="currency">##word.$##</span>%</p>
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalVat | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalVat | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>
@@ -245,7 +245,7 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalAfterVat | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalAfterVat | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>
@@ -256,7 +256,7 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalDiscounts | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>
@@ -267,7 +267,7 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalTaxes | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalTaxes | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>
@@ -278,7 +278,7 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalNet | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalNet | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>

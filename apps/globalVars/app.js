@@ -35,8 +35,8 @@ module.exports = function init(site) {
     ];
 
     site.servicesOrdersSources = [
-        { id: 1, nameEn: 'Doctor DeskTop', nameAr: 'كشف طبيب' },
-        { id: 2, nameEn: 'Doctor DeskTop Order', nameAr: 'طلبات الكشوفات' },
+        { id: 1, nameEn: 'Consultation', nameAr: 'إستشارة' },
+        { id: 2, nameEn: 'Doctor Orders', nameAr: 'طلبات الطبيب' },
     ];
 
     site.bookingTypes = [

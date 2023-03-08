@@ -42,7 +42,7 @@
         </td>
         <th>##word.Vendor##</th>
         <td class="center" colspan="3">
-          <p class="height-5">{{item.vendor.name##session.lang##}} ( <span class="blue">{{item.vendor.code}}</span>  )</p>
+          <p class="height-5">{{item.vendor.name##session.lang##}} ( <span class="blue">{{item.vendor.code}}</span> )</p>
         </td>
       </tr>
     </table>
@@ -75,12 +75,12 @@
 
   <fieldset>
     <legend>##word.Totals##</legend>
-    <p class="bold font-20 blue">##word.Total Prices## : {{item.totalPrice}}</p>
-    <p class="bold font-20 text-warning">##word.Total Vendor Disconts## : {{item.totalVendorDiscounts}}</p>
-    <p class="bold font-20 text-warning">##word.Total Legal Disconts## : {{item.totalLegalDiscounts}}</p>
-    <p class="bold font-20 text-warning">##word.Total Discounts## : {{item.totalDiscounts}}</p>
-    <p class="bold font-20 text-danger" ng-show="settings.storesSetting.taxesAppearingInInvoices">##word.Total Taxes## : {{item.totalTaxes}}</p>
-    <p class="bold font-24 green">##word.Total Net## : {{item.totalNet}}</p>
+    <p class="bold font-20">##word.Total Prices## : {{item.totalPrice}} <span class="currency">##word.$##</span></p>
+    <p class="bold font-20">##word.Total Vendor Disconts## : {{item.totalVendorDiscounts}} <span class="currency">##word.$##</span></p>
+    <p class="bold font-20">##word.Total Legal Disconts## : {{item.totalLegalDiscounts}} <span class="currency">##word.$##</span></p>
+    <p class="bold font-20">##word.Total Discounts## : {{item.totalDiscounts}} <span class="currency">##word.$##</span></p>
+    <p class="bold font-20" ng-show="settings.storesSetting.taxesAppearingInInvoices">##word.Total Taxes## : {{item.totalTaxes}} <span class="currency">##word.$##</span></p>
+    <p class="bold font-24">##word.Total Net## : {{item.totalNet}} <span class="currency">##word.$##</span></p>
   </fieldset>
 </div>
 <div ng-show="mode !== 'add' " class="row">

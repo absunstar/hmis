@@ -4,7 +4,7 @@
       <div class="tabs-header full">
         <a class="tab-link" onclick="site.showTabContent(event, '#printerProgram')"> ##word.Printers Program## </a>
         <a class="tab-link" onclick="site.showTabContent(event, '#storesSettings')"> <span>##word.Stores Settings## </span></a>
-        <a class="tab-link" onclick="site.showTabContent(event, '#accountingSettings')"> <span>##word.Accounting Settings## </span></a>
+        <a class="tab-link" onclick="site.showTabContent(event, '#accountsSettings')"> <span>##word.Accounting Settings## </span></a>
         <a class="tab-link" onclick="site.showTabContent(event, '#administrativeStructureSettings')"> <span>##word.Administrative Structure## </span></a>
         <a class="tab-link" onclick="site.showTabContent(event, '#workflowAssignmentSettings')"> <span>##word.Workflow Assignment## </span></a>
       </div>
@@ -244,7 +244,6 @@
 
             <div class="row">
               <i-list class="col4" ng-model="item.storesSetting.customer" items="customersList" display="name##session.lang##" label="##word.Customer##" ng-search="unt.$customer"> </i-list>
-              <i-control class="col4" ng-model="item.storesSetting.currencySymbol" label="##word.Currency symbol##"></i-control>
               <i-control class="col4" type="number" ng-model="item.storesSetting.vat" label="##word.VAT##"></i-control>
             </div>
 
@@ -276,11 +275,12 @@
             </div>
           </fieldset>
         </div>
-        <div id="accountingSettings" class="tab-content">
+        <div id="accountsSettings" class="tab-content">
           <fieldset>
             <div class="row">
               <i-list class="col4" ng-model="item.accountsSetting.currency" items="currenciesList" display="name##session.lang##" label="##word.Currency##" ng-search="item.accountsSetting.$currency">
               </i-list>
+              <i-control class="col4" ng-model="item.accountsSetting.currencySymbol" label="##word.Currency symbol##"></i-control>
             </div>
             <div class="row">
               <i-control class="col6" label="##word.End number to string ARabic##" ng-model="item.accountsSetting.endNumStrAr"></i-control>

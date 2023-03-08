@@ -15,50 +15,48 @@
     <div class="row padding" ng-hide="'##user.type.id##' == 2">
       <i-list class="col6" label="##word.Doctor##" ng-model="search.doctor" display="name##session.lang##" ng-change="getAll(search)" items="doctorsList" ng-search="search.$doctor"></i-list>
       <div class="row" ng-show="search.doctor.id">
-        <table class="table bold center hover">
-          <tr>
-            <th>##word.Name##</th>
-            <td class="center" colspan="2">
-              <p class="height-5">{{search.doctor.nameEn}} ( <span class="blue">{{search.doctor.code}}</span> ) <img class="img-logo" ng-src="{{search.doctor.image.url}}" alt="" /></p>
-            </td>
-
-            <th>الإسم</th>
-            <td class="center" colspan="2">
-              <p class="height-5">{{search.doctor.nameAr}}</p>
-            </td>
-          </tr>
-
-          <tr>
-            <th>##word.Specialty##</th>
-            <td class="center">
-              <p class="height-5">{{search.doctor.specialty.name##session.lang##}}</p>
-            </td>
-            <th>##word.Hospital Center##</th>
-            <td class="center">
-              <p class="height-5">{{search.doctor.hospitalCenter.name##session.lang##}}</p>
-            </td>
-            <th>##word.Doctor Type##</th>
-            <td class="center">
-              <p class="height-5">{{search.doctor.doctorType.name##session.lang##}}</p>
-            </td>
-          </tr>
-          <tr>
-            <th>##word.Nationality##</th>
-            <td class="center">
-              <p class="height-5">{{search.doctor.nationality.name##session.lang##}} <img class="img-logo" ng-src="{{search.doctor.nationality.image.url}}" alt="" /></p>
-            </td>
-            <th>##word.Mobile##</th>
-            <td class="center">
-              <p class="height-5">{{search.doctor.mobile}}</p>
-            </td>
-
-            <th>##word.Home Tel##</th>
-            <td class="center">
-              <p class="height-5">{{search.doctor.homeTel}}</p>
-            </td>
-          </tr>
-        </table>
+        <div class="cart">
+          <div class="row">
+            <div class="col7">
+              <p class="bold">
+                <span class="darkGray">##word.Name English## : </span> {{search.doctor.nameEn}} ( <span class="blue">{{search.doctor.code}}</span> )
+                <img class="img-logo" ng-src="{{search.doctor.image.url}}" alt="" />
+              </p>
+            </div>
+            <div class="col5">
+              <p class="bold text-right"><span class="darkGray">الإسم بالعربي : </span> {{search.doctor.nameAr}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col6">
+              <p class="bold"><span class="darkGray"> ##word.Home Tel## : </span> {{search.doctor.homeTel}}</p>
+            </div>
+            <div class="col6">
+              <p class="bold text-right"><span class="darkGray">##word.Mobile## : </span> {{search.doctor.mobile}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col6">
+              <p class="bold"><span class="darkGray"> ##word.Doctor Type## : </span> {{search.doctor.doctorType.name##session.lang##}}</p>
+            </div>
+            <div class="col6">
+              <p class="bold text-right"><span class="darkGray"> ##word.Hospital Center## : </span> {{search.doctor.hospitalCenter.name##session.lang##}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col6">
+              <p class="bold"><span class="darkGray"> ##word.Specialty## : </span> {{search.doctor.specialty.name##session.lang##}}</p>
+            </div>
+            <div class="col6">
+              <p class="bold text-right">
+                <span class="darkGray"> ##word.Nationality## : </span> {{search.doctor.nationality.name##session.lang##}}
+                <img class="img-logo" ng-src="{{search.doctor.nationality.image.url}}" alt="" />
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
+     
     </div>
     <div class="row padding">
       <i-control ng-model="$search.text" x-permissions="doctorDeskTopSearch || doctorDeskTopManage"></i-control>
@@ -88,7 +86,9 @@
       </tr>
       <tr ng-repeat="item in list | filter:$search">
         <td class="text-center">
-          <p class="center">( {{item.code}} ) <img class="img-logo" ng-src="{{item.patient.nationality.image.url}}" alt="" /></p>
+          <p class="center">( {{item.code}} ) </p>
+          <p class="center">{{item.service.name##session.lang##}}</p>
+
         </td>
         <td class="text-center">
           <div class="row">
@@ -97,9 +97,8 @@
               <p class="center darkGray">{{item.patient.age}}Y</p>
             </div>
             <div class="col10">
-              <p class="center">{{item.patient.fullNameEn}}</p>
+              <p class="center">{{item.patient.fullNameEn}} <img class="img-logo" ng-src="{{item.patient.nationality.image.url}}" alt="" /></p>
               <p class="center">{{item.patient.fullNameAr}}</p>
-              <p class="center darkGray">{{item.service.name##session.lang##}}</p>
             </div>
           </div>
         </td>

@@ -14,7 +14,7 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
             defaultItemUnit: {},
             defaultVendor: {},
         },
-        accountingSetting: {
+        accountsSetting: {
             paymentType: {},
         },
         generalSystemSetting: {},

@@ -9,24 +9,76 @@
     </div>
 
     <div class="modal-body">
-      <fieldset>
-        <legend>##word.Patient##</legend>
-        <table class="table bold center hover">
-          <tr>
-            <th>##word.Full Name##</th>
-            <td class="center" colspan="5">
-              <p class="height-5">{{item.patient.fullNameEn}} ( <span class="blue">{{item.patient.code}}</span> ) <img class="img-logo" ng-src="{{item.patient.image.url}}" alt="" /></p>
-            </td>
-          </tr>
+      <div class="row" ng-show="item.patient.id">
+        <div class="cart">
+          <div class="row">
+            <div class="col9">
+              <p class="bold">
+                <span class="darkGray">##word.Full Name## : </span> {{item.patient.fullNameEn}} ( <span class="blue">{{item.patient.code}}</span> )
+                <img class="img-logo" ng-src="{{item.patient.image.url}}" alt="" />
+              </p>
+            </div>
+            <div class="col3">
+              <p class="bold text-right"><span class="darkGray">##word.Mobile## : </span> {{item.patient.mobile}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col4">
+              <p class="bold">
+                <span class="darkGray"> ##word.Nationality## : </span> {{item.patient.nationality.name##session.lang##}}
+                <img class="img-logo" ng-src="{{item.patient.nationality.image.url}}" alt="" />
+              </p>
+            </div>
+            <div class="col2">
+              <p class="bold"><span class="darkGray">##word.Age## : </span> {{item.patient.age}}</p>
+            </div>
+            <div class="col6">
+              <p class="bold text-right"><span class="darkGray">الإسم بالكامل : </span> {{item.patient.fullNameAr}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col7">
+              <p class="bold">
+                <span class="darkGray">##word.Mother Name## : </span> {{item.patient.motherNameEn}}
+                <span class="blue" ng-show="item.patient.newBorn">(##word.New Born##)</span>
+              </p>
+            </div>
+            <div class="col5">
+              <p class="bold text-right"><span class="darkGray"> إسم الأم : </span> {{item.patient.motherNameAr}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col6">
+              <p class="bold"><span class="darkGray"> ##word.Marital Status## : </span> {{item.patient.maritalStatus.name##session.lang##}}</p>
+            </div>
 
-          <tr>
-            <th>الإسم بالكامل</th>
-            <td class="center" colspan="5">
-              <p class="height-5">{{item.patient.fullNameAr}}</p>
-            </td>
-          </tr>
-        </table>
-      </fieldset>
+            <div class="col6">
+              <p class="bold text-right"><span class="darkGray"> ##word.Gender## : </span> {{item.patient.gender.name##session.lang##}}</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col8">
+              <p class="bold">
+                <span class="darkGray">##word.Insurance Company##: </span> {{item.patient.insuranceCompany.name##session.lang##}} ( <span class="blue">{{item.patient.insuranceCompany.code}}</span> )
+              </p>
+            </div>
+            <div class="col4">
+              <p class="bold text-right">
+                <span class="darkGray">##word.Patient Type##: </span> {{item.patient.patientType.name##session.lang##}} ( <span class="blue">{{item.patient.patientType.code}}</span> )
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col6">
+              <p class="bold"><span class="darkGray"> ##word.Insurance Class## : </span> {{item.patient.insuranceClass.name##session.lang##}}</p>
+            </div>
+            <div class="col6">
+              <p class="bold text-right"><span class="darkGray"> ##word.Expiry Date## : </span> {{item.patient.expiryDate | date:"dd / MM / yyyy"}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <i-control type="number" label="##word.Weight## / kg" ng-model="item.weight"></i-control>
       <i-control type="number" label="##word.Tall## / cm" ng-model="item.tall"></i-control>
@@ -54,7 +106,12 @@
     <div class="modal-footer center">
       <p class="error">{{error}}</p>
       <i-button type="edit" label="##word.Save##" x-permissions="laboratoryDeskTopUpdate || laboratoryDeskTopManage" ng-click="update(item,'#vitalsNotesModal')"></i-button>
-      <i-button type="save" label="##word.Save## ##word.And## ##word.Entrance to the doctor##" x-permissions="laboratoryDeskTopUpdate || laboratoryDeskTopManage" ng-click="update(item,'#vitalsNotesModal',2)"></i-button>
+      <i-button
+        type="save"
+        label="##word.Save## ##word.And## ##word.Entrance to the doctor##"
+        x-permissions="laboratoryDeskTopUpdate || laboratoryDeskTopManage"
+        ng-click="update(item,'#vitalsNotesModal',2)"
+      ></i-button>
       <i-button type="close" label="##word.Close##" onclick="site.hideModal( '#vitalsNotesModal')"></i-button>
     </div>
   </div>

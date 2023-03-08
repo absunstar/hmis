@@ -153,7 +153,6 @@
         </tr>
 
         <tr ng-repeat="itm in sInvoice.itemsList">
-
           <td class="center width-15-mm font-12">{{itm.$index}}</td>
 
           <td class="center width-15-mm font-12">{{itm.barcode}}</td>
@@ -171,17 +170,17 @@
           <td class="center width-15-mm font-12">
             <p>
               {{itm.legalDiscount}}
-              <span> ##word.%##</span>
+              <span class="currency">##word.%##</span>
             </p>
-            <p>{{itm.totalLegalDiscounts}} ##word.$##</p>
+            <p>{{itm.totalLegalDiscounts}} <span class="currency">##word.$##</span></p>
           </td>
 
           <td class="center width-15-mm font-12">
             <p>
               {{itm.vendorDiscount}}
-              <span> ##word.%##</span>
+              <span class="currency">##word.%##</span>
             </p>
-            <p>{{itm.totalVendorDiscounts}} ##word.$##</p>
+            <p>{{itm.totalVendorDiscounts}} <span class="currency">##word.$##</span></p>
           </td>
 
           <td class="center width-15-mm font-12">
@@ -192,13 +191,13 @@
           <td class="center width-15-mm font-12" ng-hide="sInvoice.type.id ==5">{{itm.price | xmoney2}} ##word.$##</td>
 
           <td class="center width-15-mm font-12" ng-show="settings.storesSetting.vat > 0">
-            <p>{{itm.vat | xmoney2}} ##word.%##</p>
-            <p>{{itm.totalVat | xmoney2}} ##word.$##</p>
+            <p>{{itm.vat | xmoney2}} <span class="currency">##word.%##</span></p>
+            <p>{{itm.totalVat | xmoney2}} <span class="currency">##word.$##</span></p>
           </td>
 
           <td class="center width-15-mm font-12">
-            <p>{{itm.totalBeforeVat | xmoney2}} ##word.$##</p>
-            <p>{{itm.total | xmoney2}} ##word.$##</p>
+            <p>{{itm.totalBeforeVat | xmoney2}} <span class="currency">##word.$##</span></p>
+            <p>{{itm.total | xmoney2}} <span class="currency">##word.$##</span></p>
           </td>
         </tr>
       </table>
@@ -213,7 +212,7 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalPrice | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalPrice | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>
@@ -224,7 +223,7 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalVendorDiscounts | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalVendorDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>
@@ -235,29 +234,29 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalLegalDiscounts | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalLegalDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>
 
-        <!--   <div class="row">
+          <!--   <div class="row">
             <div class="col-8">
               <p class="txt18 bold black">إجمالي بعد الخصم / Gross Amount</p>
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalAfterDiscounts | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalAfterDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div> -->
 
           <div class="row">
             <div class="col-8">
-              <p class="txt18 bold black">ضريبة القيمة المضافة / VAT {{settings.storesSetting.vat | xmoney2}}%</p>
+              <p class="txt18 bold black">ضريبة القيمة المضافة / VAT {{settings.storesSetting.vat | xmoney2}} <span class="currency">##word.%##</span></p>
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalVat | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalVat | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>
@@ -267,7 +266,7 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalBeforeVat | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalBeforeVat | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>
@@ -278,7 +277,7 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalAfterVat | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalAfterVat | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>
@@ -289,7 +288,7 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalDiscounts | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>
@@ -300,7 +299,7 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalTaxes | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalTaxes | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>
@@ -311,7 +310,7 @@
             </div>
             <div class="col-1"></div>
             <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalNet | xmoney2}}</p>
+              <p class="txt18 center bold black">{{sInvoice.totalNet | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>

@@ -36,7 +36,7 @@
                         </tr>
                         <tr>
                             <td class="text-center">
-                                <i-control type="time" ng-model="item.$attendTime" ng-show="!item.attendTime && !item.absence"></i-control>
+                                <i-control type="time" ng-model="item.$attendTime" ng-hide="item.absence || item.attendTime" ng-show="!item.attendTime"></i-control>
 
                                 <i-button type="add" label="##word.Attended##" ng-hide="item.absence || item.attendTime" ng-click="attendTime('attend')"></i-button>
 
@@ -50,8 +50,8 @@
                             </td>
 
                             <td class="text-center">
-                                <i-control type="time" ng-model="item.$leaveTime" ng-show="!item.leaveTime && !item.absence"></i-control>
-                                <i-button type="edit" label="##word.Leave##" ng-show="item.attendTime && !item.leaveTime" ng-click="attendTime('leave')"></i-button>
+                                <i-control type="time" ng-model="item.$leaveTime" ng-hide="item.absence || item.leaveTime" ng-show="!item.leaveTime"></i-control>
+                                <i-button type="edit" label="##word.Leave##" ng-show="item.attendTime && !item.leaveTime " ng-click="attendTime('leave')"></i-button>
                                 <p class="bold" ng-show="item.leaveTime">{{item.leaveTime |date:"shortTime"}}</p>
                             </td>
 

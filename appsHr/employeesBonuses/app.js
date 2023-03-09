@@ -18,7 +18,7 @@ module.exports = function init(site) {
 
     app.$collection = site.connectCollection(app.name);
 
-    site.getEmployeeBounus = function (req, paySlip, callback) {
+    site.getEmployeeBounus = function (paySlip, callback) {
         const d1 = site.toDate(paySlip.fromDate);
         const d2 = site.toDate(paySlip.toDate);
 

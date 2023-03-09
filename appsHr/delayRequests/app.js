@@ -26,12 +26,12 @@ module.exports = function init(site) {
                 docs.forEach((doc) => {
                     let allwedDelaytime = (doc.toTime.getTime() - doc.fromTime.getTime()) / 1000 / 60;
                     Number(allwedDelaytime).toFixed();
-
-                    const bonus = {
+                    const delayrequest = {
                         appName: app.name,
                         allwedDelaytime,
                     };
-                    paySlip.delayList.push(bonus);
+
+                    paySlip.delayDataList.push(delayrequest);
                 });
             }
             callback(paySlip);

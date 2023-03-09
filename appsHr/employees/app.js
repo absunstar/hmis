@@ -82,7 +82,7 @@ module.exports = function init(site) {
         return { originalSalary, basicSalary: site.toMoney(netSalary), housingAllowance: site.toMoney(housingAfterInsurce), netSalary: site.toMoney(netSalary + housingAfterInsurce) };
     };
 
-    site.calculateEmployeePaySlipItems = function (data, callback) {
+    site.getEmployeePaySlipData = function (req, data, callback) {
         let paySlip = {
             bonusValue: 0,
             bonusList: [],
@@ -93,7 +93,7 @@ module.exports = function init(site) {
             vacationsValue: 0,
             vacationsList: [],
             globalVacationsValue: 0,
-            globalVacationsList: [],
+            globalVacationsDataList: [],
             absentHours: 0,
             absentDays: 0,
             absentHoursValue: 0,
@@ -101,21 +101,27 @@ module.exports = function init(site) {
             absentHoursList: [],
             absentDaysList: [],
             delayValue: 0,
-            delayList: [],
+            delayDataList: [],
             workErrandValue: 0,
-            workErrandList: [],
+            workErrandDataList: [],
+            attendanceDataList: [],
         };
         paySlip = { ...paySlip, ...data };
+        console.log('hour', paySlip.hourSalary);
+        console.log('day', paySlip.daySalary);
+
         site.getEmployeeBounus(paySlip, (paySlip2) => {
-            site.getEmployeePenalties(paySlip2, (paySlip3) => {
-                site.getEmployeeOvertime(paySlip3, (paySlip4) => {
+            site.getEmployeePenalties(req, paySlip2, (paySlip3) => {
+                site.getEmployeeOvertime(req, paySlip3, (paySlip4) => {
                     site.getEmployeeGlobalVacation(paySlip4, (paySlip5) => {
                         site.getEmployeeVacationsRequests(paySlip5, (paySlip6) => {
                             site.getEmployeeDelayRequest(paySlip6, (paySlip7) => {
                                 site.getEmployeeWorkErrandRequests(paySlip7, (paySlip8) => {
                                     site.getEmployeeAttendance(paySlip8, (paySlip9) => {
-                                        // console.log('paySlip9', paySlip9);
-                                        callback(paySlip9);
+                                        // console.log('hours', paySlip9.absentHoursList.length);
+                                        app.calculateEmployeePaySlipItems(req, paySlip9, (finalPaySlip) => {
+                                            callback(finalPaySlip);
+                                        });
                                     });
                                 });
                             });
@@ -126,6 +132,16 @@ module.exports = function init(site) {
         });
     };
 
+    app.calculateEmployeePaySlipItems = function (req, paySlip, callback) {
+        const systemSetting = site.getSystemSetting(req).hrSettings;
+
+        paySlip.attendanceDataList.forEach((_att) => {
+            if (_att) {
+                const index = paySlip.globalVacationsDataList.findIndex((global) => site.toDate(global.date) == site.toDate(_att.shiftStart));
+            }
+        });
+        callback(paySlip);
+    };
     app.init = function () {
         if (app.allowMemory) {
             app.$collection.findMany({}, (err, docs) => {
@@ -453,7 +469,7 @@ module.exports = function init(site) {
                                 penaltiesList: shiftDoc.penaltiesList,
                             };
 
-                            site.calculateEmployeePaySlipItems(data, (result) => {
+                            site.getEmployeePaySlipData(req, data, (result) => {
                                 // console.log('result', result);
 
                                 const allowancesList = [];

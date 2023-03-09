@@ -26,11 +26,12 @@ module.exports = function init(site) {
                 docs.forEach((doc) => {
                     let allwedworkErrandtime = (doc.toTime.getTime() - doc.fromTime.getTime()) / 1000 / 60;
                     Number(allwedworkErrandtime).toFixed();
-                    const bonus = {
+
+                    const workErrand = {
                         appName: app.name,
                         allwedworkErrandtime,
                     };
-                    paySlip.workErrandList.push(bonus);
+                    paySlip.workErrandDataList.push(workErrand);
                 });
             }
             callback(paySlip);

@@ -17,10 +17,10 @@ module.exports = function init(site) {
     };
 
     app.$collection = site.connectCollection(app.name);
-    site.getEmployeeOvertime = function (paySlip, callback) {
+    site.getEmployeeOvertime = function (req, paySlip, callback) {
         const d1 = site.toDate(paySlip.fromDate);
         const d2 = site.toDate(paySlip.toDate);
-
+        const systemSetting = site.getSystemSetting(req).hrSettings;
         app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
             if (docs && docs.length) {
                 docs.forEach((doc) => {
@@ -33,7 +33,7 @@ module.exports = function init(site) {
                         value: doc.hours * 60 + doc.minutes,
                     };
                     doc = { ...obj, ...paySlip };
-                    paySlip.overtimeValue += (doc.value / 60) * 1.5 * paySlip.hourSalary;
+                    paySlip.overtimeValue += (doc.value / 60) * systemSetting.overtime * paySlip.hourSalary;
                 });
             }
             callback(paySlip);

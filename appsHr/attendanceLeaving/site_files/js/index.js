@@ -36,7 +36,7 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
                 if (response.data.done) {
                     site.hideModal($scope.modalID);
                     site.resetValidated($scope.modalID);
-                    $scope.list.push(response.data.result.doc);
+                    $scope.getAll();
                 } else {
                     $scope.error = response.data.error;
                     if (response.data.error && response.data.error.like('*Must Enter Code*')) {
@@ -194,23 +194,36 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
     };
 
     $scope.attendTime = function (type) {
-        const now = new Date();
+        const attendDate = new Date($scope.item.date).toISOString().slice(0, 10);
+
+        const attendHour = new Date($scope.item.$attendTime).getHours();
+        const attendMinute = new Date($scope.item.$attendTime).getMinutes();
+
+        const leaveHour = new Date($scope.item.$leaveTime).getHours();
+        const leaveMinute = new Date($scope.item.$leaveTime).getMinutes();
+
         const attendTime = new Date($scope.item.shiftData.start);
         const leavingTime = new Date($scope.item.shiftData.end);
-
         if (type == 'attend') {
-            $scope.item.attendTime = new Date($scope.item.$attendTime);
+            $scope.item.attendTime = new Date(attendDate);
+            $scope.item.attendTime.setHours(attendHour);
+            $scope.item.attendTime.setMinutes(attendMinute);
+
             const attendHours = $scope.item.attendTime.getHours() - attendTime.getHours();
             const attendMinutes = $scope.item.attendTime.getMinutes();
-            $scope.item.attendanceTimeDifference = Math.floor(attendHours * 60 + attendMinutes);
+            $scope.item.attendanceTimeDifference = Math.floor(attendHours * 60 + attendMinutes) || 0;
         } else if (type == 'leave') {
-            $scope.item.leaveTime = new Date($scope.item.$leaveTime);
+            $scope.item.leaveTime = new Date(attendDate);
+            $scope.item.leaveTime.setHours(leaveHour);
+            $scope.item.leaveTime.setMinutes(leaveMinute);
+
             const leavingHours = leavingTime.getHours() - $scope.item.leaveTime.getHours();
             const leavingMinutes = $scope.item.leaveTime.getMinutes();
-
-            $scope.item.leavingTimeDifference = Math.floor(leavingHours * 60 - leavingMinutes);
+            $scope.item.leavingTimeDifference = Math.floor(leavingHours * 60 - leavingMinutes) || 0;
         } else if (type == 'absence') {
             $scope.item.absence = true;
+            $scope.item.attendTime = '';
+            $scope.item.leaveTime = '';
         }
     };
 

@@ -26,7 +26,6 @@ module.exports = function init(site) {
                 docs.forEach((doc) => {
                     const vacationRequest = {
                         appName: app.name,
-                        type: doc.vacationType,
                         fromDate: doc.vacationfromDate,
                         approvedVacationType: {
                             id: doc.approvedVacationType.id,
@@ -34,37 +33,13 @@ module.exports = function init(site) {
                             nameAr: doc.approvedVacationType.nameAr,
                             nameEn: doc.approvedVacationType.nameEn,
                         },
-                        value: doc.approvedDays,
+                        approvedDays: doc.approvedDays,
                     };
                     paySlip.vacationsList.push(vacationRequest);
-                    const obj = {
-                        type: doc.vacationType,
-                        approvedVacationType: doc.approvedVacationType,
-                        value: doc.approvedDays,
-                    };
-                    doc = { ...obj, ...paySlip };
-
-                    if (doc.approvedVacationType && doc.approvedVacationType.id == 3) {
-                        paySlip.vacationsValue += doc.value * paySlip.daySalary;
-                    }
                 });
             }
             callback(paySlip);
         });
-        // const d1 = site.toDate(paySlip.shiftStart);
-        // app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, approveDate: { $eq: d1 }, requestStatus: 'accepted' } }, (err, docs) => {
-        //     if (!docs.length) {
-        //         const vacationRequest = {
-        //             appName: app.name,
-        //             date: new Date(paySlip.shiftStart),
-        //         };
-
-        //         paySlip.vacationsList += 1;
-        //         paySlip.vacationsValue += 1 * 1.5 * paySlip.daySalary;
-        //         paySlip.vacationsList.push(vacationRequest);
-        //         callback(paySlip);
-        //     }
-        // });
     };
 
     app.init = function () {

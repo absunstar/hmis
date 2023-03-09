@@ -18,7 +18,7 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, employeesList: [] };
+        $scope.item = { ...$scope.structure, employeesList: [], fromDate: new Date(), toDate: new Date() };
         site.showModal($scope.modalID);
     };
 
@@ -333,7 +333,6 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
     };
 
     $scope.getEmployees = function () {
-
         $scope.busy = true;
         $scope.employeesList = [];
         $http({
@@ -347,7 +346,7 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
                     fullNameEn: 1,
                     fullNameAr: 1,
                     image: 1,
-                }
+                },
             },
         }).then(
             function (response) {

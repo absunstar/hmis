@@ -44,6 +44,7 @@
                             </td>
                             <td class="text-center">
                                 <p class="bold" ng-show="item.attendTime">
+                                    <span class="blue" ng-if="!item.attendanceTimeDifference">{{item.attendanceTimeDifference }}</span>
                                     <span class="red" ng-if="item.attendanceTimeDifference>0">{{item.attendanceTimeDifference }}</span>
                                     <span class="green" ng-if="item.attendanceTimeDifference<0">{{item.attendanceTimeDifference }}</span>
                                 </p>
@@ -57,6 +58,7 @@
 
                             <td class="text-center">
                                 <p class="bold" ng-show="item.attendTime">
+                                    <span class="blue" ng-if="!item.leavingTimeDifference">{{item.leavingTimeDifference }}</span>
                                     <span class="red" ng-if="item.leavingTimeDifference>0">{{item.leavingTimeDifference }}</span>
                                     <span class="green" ng-if="item.leavingTimeDifference<0">{{item.leavingTimeDifference }}</span>
                                 </p>

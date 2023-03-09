@@ -131,14 +131,16 @@ module.exports = function init(site) {
             });
         });
     };
-    app.calculateEmployeePaySlipItems = function (req, data, callback) {
+
+    app.calculateEmployeePaySlipItems = function (req, paySlip, callback) {
         const systemSetting = site.getSystemSetting(req).hrSettings;
-        data.attendanceDataList.forEach((_att) => {
-            if (_att && !_att.absence) {
-                // console.log('_att', _att);
+
+        paySlip.attendanceDataList.forEach((_att) => {
+            if (_att) {
+                const index = paySlip.globalVacationsDataList.findIndex((global) => site.toDate(global.date) == site.toDate(_att.shiftStart));
             }
         });
-        callback(data);
+        callback(paySlip);
     };
     app.init = function () {
         if (app.allowMemory) {

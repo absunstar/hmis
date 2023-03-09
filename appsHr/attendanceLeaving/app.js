@@ -26,31 +26,24 @@ module.exports = function init(site) {
                     paySlip.worktimesList.forEach((workDay) => {
                         const getDayIndex = new Date(doc.date).getDay();
                         if (workDay && workDay.active && workDay.day.index === getDayIndex) {
-                            const attendTime = new Date(doc.attendTime);
-                            let leaveTime = new Date(doc.leaveTime);
-                            let shiftStart = new Date(doc.date);
-                            let shiftEnd = new Date(doc.date);
-                            const workStartHour = new Date(workDay.start).getHours();
-                            const workStartMiniute = new Date(workDay.start).getMinutes();
-                            const workEndHour = new Date(workDay.end).getHours();
-                            const workEndMiniute = new Date(workDay.end).getMinutes();
-                            shiftStart.setHours(workStartHour);
-                            shiftStart.setMinutes(workStartMiniute);
-                            shiftEnd.setHours(workEndHour);
-                            shiftEnd.setMinutes(workEndMiniute);
+                              const attendTime = new Date(doc.attendTime);
+                            const shiftStart = new Date(doc.shiftData.start);
+                            const shiftEnd = new Date(doc.shiftData.end);
+                            const leaveTime = new Date(doc.leaveTime);
 
                             let attendDiff = ((shiftStart.getTime() - attendTime.getTime()) / 1000 / 60).toFixed();
                             const attendanceTimeDifference = Number(attendDiff);
                             let leaveDiff = ((shiftEnd.getTime() - leaveTime.getTime()) / 1000 / 60).toFixed();
                             const leaveTimeDifference = Number(leaveDiff);
-                            if (workDay.day.index == 4) {
-                                console.log('shiftStart', shiftStart);
-                                console.log('shiftEnd', shiftEnd);
-                                console.log('attendTime', attendTime);
-                                console.log('leaveTime', leaveTime);
-                            }
-                            console.log('attendanceTimeDifference', attendanceTimeDifference);
-                            console.log('leaveTimeDifference', leaveTimeDifference);
+
+                            // if (workDay.day.index == 4) {
+                            //     console.log('shiftStart', shiftStart);
+                            //     console.log('shiftEnd', shiftEnd);
+                            //     console.log('attendTime', attendTime);
+                            //     console.log('leaveTime', leaveTime);
+                            // }
+                            // console.log('attendanceTimeDifference', attendanceTimeDifference);
+                            // console.log('leaveTimeDifference', leaveTimeDifference);
 
                             if (!doc.absence) {
                                 attencance = {

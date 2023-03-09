@@ -15,7 +15,7 @@ app.controller('doctors', function ($scope, $http, $timeout) {
   $scope.showAdd = function (_item) {
     $scope.error = '';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure };
+    $scope.item = { ...$scope.structure, doctorScheduleList: [] };
     site.showModal($scope.modalID);
     document.querySelector(`${$scope.modalID} .tab-link`).click();
   };
@@ -117,6 +117,10 @@ app.controller('doctors', function ($scope, $http, $timeout) {
         $scope.busy = false;
         if (response.data.done) {
           $scope.item = response.data.doc;
+          $scope.item.doctorScheduleList.forEach(s => {
+            s.start = new Date(s.start);
+            s.end = new Date(s.end);
+          });
         } else {
           $scope.error = response.data.error;
         }
@@ -371,6 +375,27 @@ app.controller('doctors', function ($scope, $http, $timeout) {
     $scope.search = {};
   };
 
+  $scope.getWeekDaysList = function () {
+    $scope.busy = true;
+    $scope.weekDaysList = [];
+    $http({
+      method: 'POST',
+      url: '/api/weekDays',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done) {
+          $scope.weekDaysList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getAll();
   $scope.getNumberingAuto();
   $scope.getServicesList();
@@ -378,4 +403,5 @@ app.controller('doctors', function ($scope, $http, $timeout) {
   $scope.getDoctorTypesList();
   $scope.getHospitalCenterList();
   $scope.getSpecialtiesList();
+  $scope.getWeekDaysList();
 });

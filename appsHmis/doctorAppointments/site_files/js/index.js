@@ -15,7 +15,7 @@ app.controller('doctorAppointments', function ($scope, $http, $timeout) {
   $scope.showAdd = function (_item) {
     $scope.error = '';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure, date: new Date(), bookingDate: new Date() };
+    $scope.item = { ...$scope.structure, date: new Date() };
     site.showModal($scope.modalID);
   };
 
@@ -246,6 +246,7 @@ app.controller('doctorAppointments', function ($scope, $http, $timeout) {
           nameAr: 1,
           specialty: 1,
           hospitalCenter: 1,
+          doctorScheduleList: 1,
           consItem: 1,
           doctorType: 1,
           nationality: 1,
@@ -291,6 +292,41 @@ app.controller('doctorAppointments', function ($scope, $http, $timeout) {
         $scope.error = err;
       }
     );
+  };
+
+  $scope.getDatesDays = function (time) {
+    $scope.busy = true;
+    $scope.datesDaysList = [];
+    if (time) {
+      $http({
+        method: 'POST',
+        url: `${$scope.baseURL}/api/${$scope.appName}/datesDay`,
+        data: {
+          day: time.day,
+          doctorId: $scope.item.doctor.id,
+        },
+      }).then(
+        function (response) {
+          $scope.busy = false;
+          if (response.data.done && response.data.list.length > 0) {
+            $scope.datesDaysList = response.data.list;
+            $scope.item.doctorSchedule = time ;
+             site.showModal('#doctorsVisitsDays'); 
+          }
+        },
+        function (err) {
+          $scope.busy = false;
+          $scope.error = err;
+        }
+      );
+    }
+  };
+
+  $scope.booking = function (day) {
+    $scope.item.bookingDate = day.date;
+    $scope.item.bookingNumber = day.previousBooking + 1;
+
+    site.hideModal('#doctorsVisitsDays');
   };
 
   $scope.showSearch = function () {

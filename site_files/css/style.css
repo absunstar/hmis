@@ -100,11 +100,12 @@
 
 .list {
   margin: 10px !important;
-  border-radius: 10px;
   background: white;
+  border-bottom: 1px solid;
   padding: 15px 10px 0px 10px !important;
 }
 .list:hover {
+  border-radius: 10px;
   background: darkgrey;
   color: white;
 }

@@ -316,10 +316,12 @@ module.exports = function init(site) {
     let _data = req.body;
     let servicesList = [];
 
-    _data.servicesList.forEach((_s) => {
-      let service = appServices.memoryList.find((_sM) => _sM.id == _s.id);
-      if (service) {
-        servicesList.push(service);
+    _data.ordersList.forEach((_s) => {
+      if (_s.type == 'LA' || _s.type == 'X-R') {
+        let service = appServices.memoryList.find((_sM) => _sM.id == _s.id);
+        if (service) {
+          servicesList.push(service);
+        }
       }
     });
 

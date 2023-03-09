@@ -294,6 +294,40 @@ module.exports = function init(site) {
     }
   }
 
+  site.post('/api/dates/day', (req, res) => {
+    let response = {};
+    req.headers.language = req.headers.language || 'en';
+    if (!req.session.user) {
+      response.message = site.word('loginFirst')[req.headers.language];
+      response.done = false;
+      res.json(response);
+      return;
+    }
+
+    let day = req.body.day || {};
+
+    let nD = new Date();
+    if (day.code > nD.getDay()) {
+      nD.setTime(nD.getTime() + (day.code - nD.getDay()) * 24 * 60 * 60 * 1000);
+    } else if (day.code < nD.getDay()) {
+      nD.setTime(nD.getTime() + (7 - nD.getDay() + day.code) * 24 * 60 * 60 * 1000);
+    }
+
+    let fD = new Date(nD);
+    let datesList = [fD];
+
+    for (let i = 0; i < 12; i++) {
+      nD.setTime(nD.getTime() + 7 * 24 * 60 * 60 * 1000);
+      let d = new Date(nD);
+      datesList.push(d);
+    }
+
+    response.done = true;
+    response.list = datesList;
+    res.json(response);
+  });
+  
+
   app.init();
   site.addApp(app);
 };

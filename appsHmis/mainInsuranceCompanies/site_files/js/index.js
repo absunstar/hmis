@@ -526,9 +526,9 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
           creditOut: 0,
           packagePrice: 0,
           cashInDesc: 0,
-          creditInDesk: 0,
-          cashOutDesk: 0,
-          creditOutDesk: 0,
+          creditInDesc: 0,
+          cashOutDesc: 0,
+          creditOutDesc: 0,
         });
       }
       _item.$service = {};

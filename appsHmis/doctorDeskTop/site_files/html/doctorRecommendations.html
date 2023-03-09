@@ -246,32 +246,44 @@
                   <div class="row padding">
                     <div class="row padding">
                       <div class="row">
-                        <i-list label="##word.Service##" class="col6" ng-model="item.$service" display="name##session.lang##" items="servicesList" ng-search="item.$services"></i-list>
+                        <i-list label="##word.Order##" class="col6" ng-model="item.$order" display="name##session.lang##" items="ordersList" ng-get="getOrdersList($search)"></i-list>
                         <div class="col6">
                           <br />
                           <div class="row">
-                            <i-button type="add" ng-click="addServices(item)"></i-button>
-                            <i class="fas fa-user-md icon" id="icon1" ng-click="item.$groupTypeId = 2 ; item.$serviceType = 'CO' ;getServicesList('icon1')"></i>
-                            <i class="fas fa-vial icon" id="icon2" ng-click="item.$groupTypeId = 3 ;item.$serviceType = 'LA' ;getServicesList('icon2')"></i>
-                            <i class="fas fa-x-ray icon" id="icon3" ng-click="item.$groupTypeId = 4 ;item.$serviceType = 'X-R' ;getServicesList('icon3')"></i>
+                            <i-button type="add" ng-click="addOrders(item)"></i-button>
+                            <i class="fas fa-user-md icon" id="CO" ng-click="item.$groupTypeId = 2 ; item.$orderType = 'CO' ;getOrdersList('')"></i>
+                            <i class="fas fa-vial icon" id="LA" ng-click="item.$groupTypeId = 3 ;item.$orderType = 'LA' ;getOrdersList('')"></i>
+                            <i class="fas fa-x-ray icon" id="X-R" ng-click="item.$groupTypeId = 4 ;item.$orderType = 'X-R' ;getOrdersList('')"></i>
+                            <i class="fas fa-capsules icon" id="MD" ng-click="item.$orderType = 'MD' ;getOrdersList('')"></i>
                           </div>
                         </div>
                       </div>
-                      <div class="row">
-                        <table class="table hover bold">
-                          <tr>
-                            <th>##word.Type##</th>
-                            <th>##word.Name##</th>
-                            <th class="not-print">##word.Actions##</th>
-                          </tr>
-                          <tr ng-repeat="s in item.servicesList">
-                            <td class="text-center blue">{{s.type}}</td>
-                            <td class="text-center">{{s.name##session.lang##}}</td>
-                            <td class="text-center not-print">
-                              <i-button type="delete default" ng-click="item.servicesList.splice($index,1)"> </i-button>
-                            </td>
-                          </tr>
-                        </table>
+                      <div class="row list" ng-repeat="s in item.ordersList">
+                        <div class="col2">
+                          <br ng-show="s.type == 'MD'" />
+                          <p class="code-list">
+                            <i class="fas fa-user-md" ng-show="s.type== 'CO'"></i>
+                            <i class="fas fa-vial" ng-show="s.type== 'LA'"></i>
+                            <i class="fas fa-x-ray" ng-show="s.type== 'X-R'"></i>
+                            <i class="fas fa-capsules" ng-show="s.type== 'MD'"></i>
+                            {{s.type}}
+                          </p>
+                        </div>
+                        <div class="col4">
+                          <br ng-show="s.type == 'MD'" />
+                          <p class="bold">{{s.code}} -{{s.name##session.lang##}}</p>
+                        </div>
+                        <div class="col5">
+                          <div class="row">
+                            <i-control ng-show="s.type == 'MD'" ng-model="s.diagnosis" type="number" class="center col4" label="##word.Diagnosis##"></i-control>
+                            <i-control ng-show="s.type == 'MD'" ng-model="s.times" type="number" class="center col4" label="##word.Time(s)##"></i-control>
+                            <i-control ng-show="s.type == 'MD'" ng-model="s.days" type="number" class="center col4" label="##word.Day(s)##"></i-control>
+                          </div>
+                        </div>
+                        <div class="col1">
+                          <br ng-show="s.type == 'MD'" />
+                          <i-button type="delete default" ng-click="item.ordersList.splice($index,1)"> </i-button>
+                        </div>
                       </div>
                     </div>
                   </div>

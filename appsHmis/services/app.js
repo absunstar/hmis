@@ -1,9 +1,9 @@
 module.exports = function init(site) {
   let app = {
     name: 'services',
-    allowMemory: true,
+    allowMemory: false,
     memoryList: [],
-    allowCache: false,
+    allowCache: true,
     cacheList: [],
     allowRoute: true,
     allowRouteGet: true,
@@ -139,7 +139,6 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
-  
       site.get(
         {
           name: app.name,
@@ -250,29 +249,77 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
+        let search = req.body.search || undefined;
         let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1 };
-        let list = [];
-        app.memoryList
-          .filter((g) => (!where['groupTypeId'] || where['groupTypeId'] == g.serviceGroup.type.id) && g.company && g.company.id == site.getCompany(req).id)
-          .forEach((doc) => {
-            let obj = { ...doc };
+        let limit = req.body.limit || 10;
+        if (search) {
+          where.$or = [];
 
-            for (const p in obj) {
-              if (!Object.hasOwnProperty.call(select, p)) {
-                delete obj[p];
-              }
-            }
-            if (!where.active || doc.active) {
-              list.push(obj);
-            }
+          where.$or.push({
+            id: site.get_RegExp(search, 'i'),
           });
-        res.json({
-          done: true,
-          list: list,
-        });
+
+          where.$or.push({
+            code: site.get_RegExp(search, 'i'),
+          });
+
+          where.$or.push({
+            nameAr: site.get_RegExp(search, 'i'),
+          });
+
+          where.$or.push({
+            nameEn: site.get_RegExp(search, 'i'),
+          });
+        }
+
+        if (app.allowMemory) {
+          let list = [];
+
+          app.memoryList
+            .filter((g) => (!where['groupTypeId'] || where['groupTypeId'] == g.serviceGroup.type.id) && g.company && g.company.id == site.getCompany(req).id)
+            .forEach((doc) => {
+              let obj = { ...doc };
+
+              for (const p in obj) {
+                if (!Object.hasOwnProperty.call(select, p)) {
+                  delete obj[p];
+                }
+              }
+              if (!where.active || doc.active) {
+                list.push(obj);
+              }
+            });
+          res.json({
+            done: true,
+            list: list,
+          });
+        } else {
+          where['company.id'] = site.getCompany(req).id;
+
+          if (where['groupTypeId']) {
+            where['serviceGroup.type.id'] = where['groupTypeId'];
+            delete where['groupTypeId'];
+          }
+
+          app.all({ where, select, limit }, (err, docs) => {
+            res.json({
+              done: true,
+              list: docs,
+            });
+          });
+        }
       });
     }
   }
+
+  site.getServices = function (where, callBack) {
+    let select = { id: 1, code: 1, nameEn: 1, nameAr: 1, servicesCategoriesList: 1, vat: 1, serviceGroup: 1, cashPriceOut: 1, creditPriceOut: 1, cashPriceIn: 1, creditPriceIn: 1 };
+    app.all({ where, select }, (err, docs) => {
+      if (!err) {
+        callBack(docs);
+      }
+    });
+  };
 
   app.init();
   site.addApp(app);

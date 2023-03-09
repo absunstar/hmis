@@ -249,7 +249,7 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, code: 1, patient: 1, doctor: 1, hasTransaction: 1 , active: 1 };
+        let select = req.body.select || { id: 1, code: 1, patient: 1, doctor: 1, hasTransaction: 1, active: 1, date: 1, bookingDate: 1 };
         let list = [];
         if (app.allowMemory) {
           app.memoryList
@@ -294,7 +294,7 @@ module.exports = function init(site) {
 
           if (where && where.bookingDateTo) {
             let d1 = site.toDate(where.bookingDate);
-            let d2 = site.toDate(where.bookingDateToTo);
+            let d2 = site.toDate(where.bookingDateTo);
             d2.setDate(d2.getDate() + 1);
             where.bookingDate = {
               $gte: d1,
@@ -343,8 +343,67 @@ module.exports = function init(site) {
     }
   });
 
+  site.post(`/api/${app.name}/datesDay`, (req, res) => {
+    let response = {};
+    req.headers.language = req.headers.language || 'en';
+    if (!req.session.user) {
+      response.message = site.word('loginFirst')[req.headers.language];
+      response.done = false;
+      res.json(response);
+      return;
+    }
+
+    let day = req.body.day || {};
+    let doctorId = req.body.doctorId || 0;
+
+    let nD = new Date();
+    if (day.code > nD.getDay()) {
+      nD.setTime(nD.getTime() + (day.code - nD.getDay()) * 24 * 60 * 60 * 1000);
+    } else if (day.code < nD.getDay()) {
+      nD.setTime(nD.getTime() + (7 - nD.getDay() + day.code) * 24 * 60 * 60 * 1000);
+    }
+
+    let fD = new Date(nD);
+    let datesList = [{ date: fD, previousBooking: 0 }];
+
+    for (let i = 0; i < 12; i++) {
+      nD.setTime(nD.getTime() + 7 * 24 * 60 * 60 * 1000);
+      let d = new Date(nD);
+      datesList.push({ date: d, previousBooking: 0 });
+    }
+
+    where = {};
+    let d1 = site.toDate(datesList[0].date);
+    let d2 = site.toDate(datesList[datesList.length - 1].date);
+    d2.setDate(d2.getDate() + 1);
+    where.bookingDate = {
+      $gte: d1,
+      $lt: d2,
+    };
+    where['doctor.id'] = doctorId;
+    let select = { id: 1, bookingDate: 1 };
+    app.all({ where, select }, (err, docs) => {
+      if (docs) {
+        docs.forEach((_doc) => {
+          let index = datesList.findIndex(
+            (itm) =>
+              site.toDate(itm.date).getDate() == site.toDate(_doc.bookingDate).getDate() &&
+              site.toDate(itm.date).getMonth() == site.toDate(_doc.bookingDate).getMonth() &&
+              site.toDate(itm.date).getFullYear() == site.toDate(_doc.bookingDate).getFullYear()
+          );
+          if (index !== -1) {
+            datesList[index].previousBooking += 1;
+          }
+        });
+      }
+      res.json({
+        done: true,
+        list: datesList,
+      });
+    });
+  });
+
   site.hasTransactionDoctorAppointment = function (where) {
-    console.log(where);
     app.$collection.update({ where, set: { hasTransaction: true } });
   };
 

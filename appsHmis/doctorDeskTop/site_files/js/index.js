@@ -216,19 +216,19 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getAll = function (where,type) {
+  $scope.getAll = function (where, type) {
     $scope.busy = true;
     $scope.list = [];
     where = where || {};
     if ('##user.type.id##' == 2) {
       where['doctor.id'] == site.toNumber('##user.id##');
     }
-   
-    if ($scope.today) {
-      where['date'] = new Date();
-    }
 
-    if(type =='all') {
+    /*     if ($scope.today) {
+      where['date'] = new Date();
+    } */
+
+    if (type == 'all') {
       delete where['status.id'];
     }
 
@@ -337,7 +337,7 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
       }
     );
   };
- 
+
   $scope.getDoctorDeskTopTypesList = function () {
     $scope.busy = true;
     $scope.doctorDeskTopTypesList = [];
@@ -358,7 +358,6 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
       }
     );
   };
-
 
   $scope.getDiagnosesList = function () {
     $scope.busy = true;
@@ -472,37 +471,50 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getServicesList = function (iconId) {
+  $scope.getOrdersList = function ($search) {
     $scope.busy = true;
+    console.log($scope.item.$orderType);
+    if (!$scope.item.$orderType) {
+      return;
+    }
+    document.getElementById('CO').classList.remove('icon-select');
+    document.getElementById('LA').classList.remove('icon-select');
+    document.getElementById('X-R').classList.remove('icon-select');
+    document.getElementById('MD').classList.remove('icon-select');
+    document.getElementById($scope.item.$orderType).classList.add('icon-select');
 
-    document.getElementById('icon1').classList.remove('icon-select');
-    document.getElementById('icon2').classList.remove('icon-select');
-    document.getElementById('icon3').classList.remove('icon-select');
-    document.getElementById(iconId).classList.add('icon-select');
+    $scope.ordersList = [];
 
-    $scope.servicesList = [];
     let where = {
       active: true,
     };
-    if ($scope.item.$groupTypeId) {
-      where['groupTypeId'] = $scope.item.$groupTypeId;
+    let url = '/api/services/all';
+    if ($scope.item.$groupTypeId && $scope.item.$orderType != 'MD') {
+      where['serviceGroup.type.id'] = $scope.item.$groupTypeId;
+    } else {
+      url = '/api/storesItems/all';
+      where = {
+        ...where,
+        active: true,
+        allowBuy: true,
+        collectionItem: false,
+      };
     }
+
+    let select = { id: 1, nameEn: 1, nameAr: 1, code: 1 };
     $http({
       method: 'POST',
-      url: '/api/services/all',
+      url: url,
       data: {
         where: where,
-        select: {
-          id: 1,
-          nameEn: 1,
-          nameAr: 1,
-        },
+        select: select,
+        search: $search,
       },
     }).then(
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.servicesList = response.data.list;
+          $scope.ordersList = response.data.list;
         }
       },
       function (err) {
@@ -614,14 +626,18 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     }
   };
 
-  $scope.addServices = function (_item) {
+  $scope.addOrders = function (_item) {
     $scope.error = '';
-    if (_item.$service && _item.$service.id) {
-      _item.servicesList = _item.servicesList || [];
-      if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
-        _item.servicesList.push({ ..._item.$service, type: _item.$serviceType });
+    if (_item.$order && _item.$order.id) {
+      _item.ordersList = _item.ordersList || [];
+      if (!_item.ordersList.some((s) => s.id === _item.$order.id && s.type === _item.$orderType)) {
+        let order = { ..._item.$order, type: _item.$orderType };
+        if (_item.$orderType == 'MD') {
+          order = { ...order, diagnosis: 0, times: 0, days: 0 };
+        }
+        _item.ordersList.push(order);
       }
-      _item.$service = {};
+      _item.$order = {};
     } else {
       $scope.error = 'Must Select Service';
       return;
@@ -639,7 +655,7 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     $scope.search = {};
   };
 
-  $scope.getAll({ date: new Date() });
+  $scope.getAll();
   $scope.getDoctorsList();
   $scope.getChiefComplaintsList();
   $scope.getSignificantSignsList();

@@ -30,7 +30,7 @@ site.get(
     name: '/',
   },
   (req, res) => {
-    res.render('index.html', { title: site.word('Site Title') }, { parser: 'html', compres: true });
+    res.render('index.html', { title: req.word('Site Title'),appName : 'Home Page' }, { parser: 'html', compres: true });
   }
 );
 

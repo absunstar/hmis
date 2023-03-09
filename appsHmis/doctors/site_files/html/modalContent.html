@@ -24,6 +24,9 @@
         <a class="tab-link" onclick="site.showTabContent(event, '#contact')">
           <span> ##word.Contact## +</span>
         </a>
+        <a class="tab-link" onclick="site.showTabContent(event, '#doctorSchedule')">
+          <span> ##word.Doctor's schedule## </span>
+        </a>
       </div>
 
       <div class="tabs-content">
@@ -102,6 +105,22 @@
               <div class="row">
                 <i-control type="number" class="col6" ng-model="item.bleepNumber" label="##word.Bleep Number##"></i-control>
                 <i-control type="text" class="col6" ng-model="item.clinicExt" label="##word.Clinic Ext##"></i-control>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div id="doctorSchedule" class="tab-content">
+          <div class="row padding">
+            <fieldset>
+              <legend><i-button type="add default" ng-click="item.doctorScheduleList.push({})"> </i-button></legend>
+              <div class="row" ng-repeat="s in item.doctorScheduleList">
+                <i-list label="##word.Day##" class="col3" ng-model="s.day" display="name##session.lang##" items="weekDaysList" ng-search="s.$day"></i-list>
+                <i-control type="time" class="col2" ng-model="s.start" label="##word.Start##"></i-control>
+                <i-control type="time" class="col2" ng-model="s.end" label="##word.End##"></i-control>
+                <div class="col2">
+                  <br />
+                  <i-button type="delete default" ng-click="item.doctorScheduleList.splice($index,1)"> </i-button>
+                </div>
               </div>
             </fieldset>
           </div>

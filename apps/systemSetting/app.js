@@ -138,7 +138,6 @@ module.exports = function init(site) {
           if (!err) {
             response.done = true;
             response.result = result;
-            site.word({ name: '$', Ar: result.doc.accountsSetting.currencySymbol, En: result.doc.accountsSetting.currencySymbol });
           } else {
             response.error = err.message;
           }

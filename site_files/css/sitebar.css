@@ -115,7 +115,6 @@
 
 .menu-bottom .menu-item {
   text-align: center;
-  border: var(--border);
   margin: 5px;
   min-width: 140px;
   max-width: 80% !important;
@@ -127,7 +126,7 @@
   padding: 5px;
 }
 .menu-bottom .menu-item:hover {
-  transform: scale(1.1);
+  background: #607d8b;
 }
 .menu-bottom .menu-item i {
   font-size: 50px;
@@ -145,6 +144,9 @@
   margin: 5px;
   font-weight: bold;
   color: #000000;
+}
+.menu-bottom .menu-item:hover span{
+  background: #ffffff;
 }
 .menu-bottom .menu-item img {
   width: 80px;

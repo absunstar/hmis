@@ -253,12 +253,19 @@ module.exports = function init(site) {
             list: list,
           });
         } else {
-          if(where.name){
-            where.nameEn = site.get_RegExp(where.name, 'i');
-            delete where.name
+          if (where.name) {
+            where.$or = [
+              {
+                nameEn: site.get_RegExp(where.name, 'i'),
+              },
+              {
+                nameAr: site.get_RegExp(where.name, 'i'),
+              },
+            ];
+
+            delete where.name;
           }
-          console.log(where)
-          app.$collection.findMany({ select, where, limit: 100 }, (err, docs) => {
+          app.$collection.findMany({ select, where, limit: 500 }, (err, docs) => {
             res.json({
               done: true,
               list: docs,

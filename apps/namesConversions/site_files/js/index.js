@@ -215,7 +215,7 @@ app.controller('namesConversions', function ($scope, $http, $timeout) {
     $timeout(() => {
       $scope.getAll($scope.search);
       site.hideModal($scope.modalSearchID);
-    }, 1000);
+    }, 200);
   };
 
   $scope.getAll();

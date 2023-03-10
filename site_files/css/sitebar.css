@@ -86,7 +86,7 @@
   overflow-y: auto;
   max-height: 75vh;
   justify-items: center;
-  z-index: 999999999;
+  z-index: 999999;
   transition: all 0s;
 }
 .menu-bottom.x-show {

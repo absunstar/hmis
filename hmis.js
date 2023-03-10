@@ -1,7 +1,7 @@
 const site = require('../isite')({
   port: [12345],
   lang: 'En',
-  version: '2023.01.01',
+  version: Date.now(),
   name: 'HMIS',
   require: {
     features: [],

@@ -1,9 +1,9 @@
 module.exports = function init(site) {
   let app = {
-    name: 'doctorDeskTop',
-    allowMemory: false,
+    name: 'countries',
+    allowMemory: true,
     memoryList: [],
-    allowCache: true,
+    allowCache: false,
     cacheList: [],
     allowRoute: true,
     allowRouteGet: true,
@@ -139,12 +139,13 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
+   
       site.get(
         {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name, appName: 'Doctor DeskTop' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name,appName : 'Countries' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -156,11 +157,12 @@ module.exports = function init(site) {
         };
 
         let _data = req.data;
+        _data.company = site.getCompany(req);
 
         let numObj = {
           company: site.getCompany(req),
           screen: app.name,
-          date: new Date(),
+          date: new Date()
         };
 
         let cb = site.getNumbering(numObj);
@@ -168,6 +170,7 @@ module.exports = function init(site) {
           response.error = 'Must Enter Code';
           res.json(response);
           return;
+
         } else if (cb.auto) {
           _data.code = cb.code;
         }
@@ -236,9 +239,6 @@ module.exports = function init(site) {
         app.view(_data, (err, doc) => {
           if (!err && doc) {
             response.done = true;
-            let newDate = new Date();
-            doc.$hours = parseInt((Math.abs(new Date(doc.date) - newDate) / (1000 * 60 * 60)) % 24);
-            doc.$minutes = parseInt((Math.abs(new Date(doc.date).getTime() - newDate.getTime()) / (1000 * 60)) % 60);
             response.doc = doc;
           } else {
             response.error = err?.message || 'Not Exists';
@@ -251,138 +251,29 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, patient: 1, doctor: 1, code: 1, service: 1, date: 1, status: 1 };
+        let select = req.body.select || { id: 1, code: 1, nameEn: 1,nameAr : 1, image: 1 };
         let list = [];
-        if (app.allowMemory) {
-          app.memoryList
-            .filter((g) => !where['doctor.id'] || g.doctor.id == where['doctor.id'])
-            .forEach((doc) => {
-              let obj = { ...doc };
-              for (const p in obj) {
-                if (!Object.hasOwnProperty.call(select, p)) {
-                  delete obj[p];
-                }
-              }
-              list.push(obj);
-            });
-          res.json({
-            done: true,
-            list: list,
-          });
-        } else {
-          where['company.id'] = site.getCompany(req).id;
+        app.memoryList
+        .filter((g) => g.company && g.company.id == site.getCompany(req).id)
+        .forEach((doc) => {
+          let obj = { ...doc };
 
-          if (where && where.dateTo) {
-            let d1 = site.toDate(where.date);
-            let d2 = site.toDate(where.dateTo);
-            d2.setDate(d2.getDate() + 1);
-            where.date = {
-              $gte: d1,
-              $lt: d2,
-            };
-            delete where.dateTo;
-          } else if (where.date) {
-            let d1 = site.toDate(where.date);
-            let d2 = site.toDate(where.date);
-            d2.setDate(d2.getDate() + 1);
-            where.date = {
-              $gte: d1,
-              $lt: d2,
-            };
+          for (const p in obj) {
+            if (!Object.hasOwnProperty.call(select, p)) {
+              delete obj[p];
+            }
           }
-          if (where['doctor']) {
-            where['doctor.id'] = where['doctor'].id;
-            delete where['doctor'];
+          if (!where.active || doc.active) {
+            list.push(obj);
           }
-          app.all({ where, select, sort: { code: -1 }, limit: req.body.limit }, (err, docs) => {
-            let newDate = new Date();
-            docs.forEach((_d) => {
-              _d.$hours = parseInt((Math.abs(new Date(_d.date) - newDate) / (1000 * 60 * 60)) % 24);
-              _d.$minutes = parseInt((Math.abs(new Date(_d.date).getTime() - newDate.getTime()) / (1000 * 60)) % 60);
-            });
-            res.json({
-              done: true,
-              list: docs,
-            });
-          });
-        }
+        });
+        res.json({
+          done: true,
+          list: list,
+        });
       });
     }
   }
-
-  site.post({ name: `/api/selectDoctorDeskTop`, require: { permissions: ['login'] } }, (req, res) => {
-    let response = { done: false };
-    let _data = req.body;
-    let servicesList = [];
-
-    _data.ordersList.forEach((_s) => {
-      if (_s.type == 'LA' || _s.type == 'X-R') {
-        servicesList.push(_s);
-      }
-    });
-    let insuranceCompanyId = 0;
-    if (_data.patient.insuranceCompany && _data.patient.insuranceCompany.id) {
-      insuranceCompanyId = _data.patient.insuranceCompany.id;
-    }
-    site.mainInsurancesFromSub({ insuranceCompanyId: insuranceCompanyId }, (callback) => {
-      site.nphisElig(req.data, (nphisCallback) => {
-        let payment = '';
-        if (nphisCallback.elig) {
-          nphis = 'elig';
-          payment = 'credit';
-        } else {
-          nphis = 'nElig';
-          payment = 'cash';
-        }
-        site.serviceMainInsurance(
-          {
-            mainInsuranceCompany: callback.mainInsuranceCompany,
-            patientClass: _data.patient.insuranceClass,
-            servicesList: servicesList,
-            payment: payment,
-            hospitalCenter: _data.doctor.hospitalCenter,
-            type: _data.type,
-          },
-          (serviceCallback) => {
-            callback.elig = nphisCallback.elig;
-            callback.servicesList = serviceCallback.servicesList;
-            res.json(callback);
-          }
-        );
-      });
-    });
-  });
-
-  site.addDoctorDeskTop = function (obj) {
-    let date = new Date();
-    let d1 = site.toDate(date);
-    let d2 = site.toDate(date);
-    d2.setDate(d2.getDate() + 1);
-    let where = {};
-    where.date = {
-      $gte: d1,
-      $lt: d2,
-    };
-    if (obj.doctor && obj.doctor.id) {
-      where['doctor.id'] = obj.doctor.id;
-    }
-    app.all(
-      {
-        where,
-        limit: 1,
-        sort: {
-          id: -1,
-        },
-      },
-      (err, docs) => {
-        if (!err) {
-          obj.code = docs && docs.length > 0 ? docs[0].code + 1 : 1;
-          obj.servicesList = [];
-          app.add(obj, (err, doc1) => {});
-        }
-      }
-    );
-  };
 
   app.init();
   site.addApp(app);

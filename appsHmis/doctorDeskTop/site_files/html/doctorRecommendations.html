@@ -266,12 +266,12 @@
                             <i class="fas fa-vial" ng-show="s.type== 'LA'"></i>
                             <i class="fas fa-x-ray" ng-show="s.type== 'X-R'"></i>
                             <i class="fas fa-capsules" ng-show="s.type== 'MD'"></i>
-                            {{s.type}}
+                            {{s.type}} -{{s.code}}
                           </p>
                         </div>
                         <div class="col4">
                           <br ng-show="s.type == 'MD'" />
-                          <p class="bold">{{s.code}} -{{s.name##session.lang##}}</p>
+                          <p class="bold">{{s.name##session.lang##}}</p>
                         </div>
                         <div class="col5">
                           <div class="row">

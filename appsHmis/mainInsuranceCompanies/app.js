@@ -333,7 +333,6 @@ module.exports = function init(site) {
         let foundService = false;
         let foundCoverage = false;
         let serviceMemory = servicesCb.find((_s) => _s.id == _service.id);
-        console.log(servicesCb.length);
         if (serviceMemory && serviceMemory.id) {
           if (mainInsurance) {
             serviceMemory.servicesCategoriesList = serviceMemory.servicesCategoriesList || [];

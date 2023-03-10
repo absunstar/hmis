@@ -127,6 +127,7 @@
 }
 .menu-bottom .menu-item:hover {
   background: #ff5722;
+  filter: drop-shadow(2px 4px 6px black);
 }
 .menu-bottom .menu-item i {
   font-size: 50px;
@@ -151,7 +152,7 @@
 .menu-bottom .menu-item img {
   width: 80px;
   height: 64px;
-  filter: grayscale(1);
+  filter: none;
 }
 .menu-bottom .menu-item:hover img{
   filter: none;

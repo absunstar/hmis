@@ -2,6 +2,7 @@ app.controller('payslips', function ($scope, $http, $timeout) {
     $scope.baseURL = '';
     $scope.appName = 'payslips';
     $scope.modalID = '#payslipsManageModal';
+    $scope.payslipItemDetails = '#payslipItemsDetailsModal';
     $scope.modalSearchID = '#payslipsSearchModal';
     $scope.mode = 'add';
     $scope._search = {};
@@ -11,6 +12,7 @@ app.controller('payslips', function ($scope, $http, $timeout) {
         active: true,
     };
     $scope.item = {};
+    $scope.payslipItem = {};
     $scope.list = [];
 
     $scope.start = new Date().setDate(1);
@@ -290,6 +292,13 @@ app.controller('payslips', function ($scope, $http, $timeout) {
         );
     };
 
+    $scope.viewPayslipItemDetails = function (_item) {
+        console.log('_item', _item);
+        $scope.payslipItem = {};
+        $scope.payslipItem = _item;
+        $scope.mode = 'view';
+        site.showModal($scope.payslipItemDetails);
+    };
     $scope.showSearch = function () {
         $scope.error = '';
         site.showModal($scope.modalSearchID);

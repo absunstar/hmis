@@ -25,9 +25,11 @@ module.exports = function init(site) {
         app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
             if (docs && docs.length) {
                 docs.forEach((doc) => {
+                    doc = { ...doc, ...paySlip };
                     const penality = {
                         appName: app.name,
                         type: doc.type,
+                        date: doc.date,
                         category: doc.category,
                         employeesPenalityName: {
                             id: doc.employeesPenalityName.id,
@@ -35,15 +37,10 @@ module.exports = function init(site) {
                             nameAr: doc.employeesPenalityName.nameAr,
                             nameEn: doc.employeesPenalityName.nameEn,
                         },
-                        value: doc.value,
+                        count: doc.value,
+                        value: site.calculateValue(doc).value * systemSetting.penality,
                     };
                     paySlip.penalityList.push(penality);
-                    const obj = {
-                        type: doc.type,
-                        category: doc.category,
-                        value: doc.value,
-                    };
-                    doc = { ...obj, ...paySlip };
                     paySlip.penalityValue += site.calculateValue(doc).value * systemSetting.penality;
                 });
             }

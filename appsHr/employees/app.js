@@ -164,12 +164,12 @@ module.exports = function init(site) {
                     const vacationType = paySlip.globalVacationsDataList[globalVacationIndex] || paySlip.vacationsRequestsDataList[vacationRequestIndex];
                     let absentDay;
                     if (globalVacationIndex != -1 || vacationRequestIndex != -1) {
-                        const date = paySlip.globalVacationsDataList[globalVacationIndex]?.date || paySlip.vacationsRequestsDataList[vacationRequestIndex]?.fromDate;
+                        // const date = paySlip.globalVacationsDataList[globalVacationIndex]?.date || paySlip.vacationsRequestsDataList[vacationRequestIndex]?.fromDate;
                         let absentCount = 0;
                         let absentValue = 0;
                         absentDay = {
                             appName: _att.appName,
-                            date,
+                            date: _att.date,
                         };
 
                         // console.log('vacationType.approvedVacationType.id', vacationType.approvedVacationType.id);
@@ -177,12 +177,16 @@ module.exports = function init(site) {
                         if (vacationType.approvedVacationType && vacationType.approvedVacationType.id === 3) {
                             absentCount = 1;
                             absentValue = paySlip.daySalary;
+                            absentDay['count'] = absentCount;
+                            absentDay['value'] = absentValue;
                             paySlip.unpaidVacationsCount += absentCount;
                             paySlip.unpaidVacationsValue += absentValue;
                             paySlip.unpaidVacationsList.push(absentDay);
                         } else {
                             absentCount = 1;
                             absentValue = 0;
+                            absentDay['count'] = absentCount;
+                            absentDay['value'] = absentValue;
                             paySlip.absentDaysCount += absentCount;
                             paySlip.absentDaysValue += absentValue;
                             paySlip.absentDaysList.push(absentDay);
@@ -194,6 +198,8 @@ module.exports = function init(site) {
                         };
                         absentCount = 1;
                         absentValue = systemSetting.absenceDays * paySlip.daySalary;
+                        absentDay['count'] = absentCount;
+                        absentDay['value'] = absentValue;
                         paySlip.absentDaysCount += absentCount;
                         paySlip.absentDaysValue += absentValue;
                         paySlip.absentDaysList.push(absentDay);
@@ -217,6 +223,7 @@ module.exports = function init(site) {
                                 absentHourObj = {
                                     appName: _att.appName,
                                     date: _att.date,
+
                                     from: delayType.fromTime,
                                     to: delayType.toTime,
                                 };
@@ -224,35 +231,43 @@ module.exports = function init(site) {
                                 absentHourObj = {
                                     appName: _att.appName,
                                     date: _att.date,
+
                                     from: delayType.fromTime,
                                     to: _att.attendTime,
                                 };
-
                                 absentCount = Math.abs(_att.attendanceTimeDifference) - allowdDelayMiniutes;
                                 absentValue = absentCount * systemSetting.absenceHours * (paySlip.hourSalary / 60);
+                                absentHourObj['count'] = site.toNumber(absentCount / 60);
+                                absentHourObj['value'] = absentValue;
                             }
                         } else {
                             if (_att.leaveTimeDifference > 0) {
                                 absentHourObj = {
                                     appName: _att.appName,
                                     date: _att.date,
-                                    from: _att.shiftStart,
-                                    to: _att.attendTime,
+
+                                    from: _att.attendTime,
+                                    to: _att.leaveTime,
                                 };
                                 absentCount = _att.leaveTimeDifference;
                                 absentValue = absentCount * systemSetting.absenceHours * (paySlip.hourSalary / 60);
+                                absentHourObj['count'] = site.toNumber(absentCount / 60);
+                                absentHourObj['value'] = absentValue;
                             } else {
                                 absentHourObj = {
                                     appName: _att.appName,
                                     date: _att.date,
-                                    from: _att.shiftStart,
-                                    to: _att.attendTime,
+
+                                    from: _att.attendTime,
+                                    to: _att.leaveTime,
                                 };
                                 absentCount = Math.abs(_att.attendanceTimeDifference);
                                 absentValue = absentCount * systemSetting.absenceHours * (paySlip.hourSalary / 60);
+
+                                absentHourObj['count'] = site.toNumber(absentCount / 60);
+                                absentHourObj['value'] = absentValue;
                             }
                         }
-
                         paySlip.absentHoursCount += site.toNumber(absentCount / 60);
                         paySlip.absentHoursValue += absentValue;
                         paySlip.absentHoursList.push(absentHourObj);
@@ -662,7 +677,7 @@ module.exports = function init(site) {
 
                                 if (result.unpaidVacationsList && result.unpaidVacationsList.length) {
                                     const paySlipItem = {
-                                        code: result.unpaidVacationsList[0].appName,
+                                        code: 'unpaidVacations',
                                         nameAr: 'اجازة بدون راتب',
                                         nameEn: 'Vacation Without Salary',
                                         list: result.unpaidVacationsList,
@@ -675,7 +690,7 @@ module.exports = function init(site) {
 
                                 if (result.absentDaysList && result.absentDaysList.length) {
                                     const paySlipItem = {
-                                        code: result.absentDaysList[0].appName,
+                                        code: 'absentDays',
                                         nameAr: 'أيام الغياب',
                                         nameEn: 'Absent Days',
                                         list: result.absentDaysList,
@@ -688,7 +703,7 @@ module.exports = function init(site) {
 
                                 if (result.absentHoursList && result.absentHoursList.length) {
                                     const paySlipItem = {
-                                        code: 'attendanceLeaving',
+                                        code: 'absentHours',
                                         nameAr: 'ساعات الغياب',
                                         nameEn: 'Absent Hours',
                                         list: result.absentHoursList,
@@ -698,36 +713,6 @@ module.exports = function init(site) {
 
                                     deductionsList.push(paySlipItem);
                                 }
-
-                                // paySlip.unpaidVacationsCount += 1;
-                                // paySlip.unpaidVacationsValue += paySlip.daySalary;
-                                // paySlip.unpaidVacationsList.push(absentDay);
-
-                                // if (result.globalVacationsList && result.globalVacationsList.length) {
-                                //     const paySlipItem = {
-                                //         code: result.globalVacationsList[0].appName,
-                                //         nameAr: 'أجازات مجمعة',
-                                //         nameEn: 'Global Vacations',
-                                //         list: result.globalVacationsList,
-                                //         value: site.toMoney(result.globalVacationsValue),
-                                //     };
-
-                                //     deductionsList.push(paySlipItem);
-                                // }
-
-                                // allowancesList.push({
-                                //     code: result.bonus.category.code,
-                                //     nameAr: result.bonus.category.nameAr,
-                                //     nameEn: result.bonus.category.nameEn,
-                                //     value: result.bonus.value,
-                                // });
-
-                                // deductionsList.push({
-                                //     code: result.penality.category.code,
-                                //     nameAr: result.penality.category.nameAr,
-                                //     nameEn: result.penality.category.nameEn,
-                                //     value: result.penality.value,
-                                // });
 
                                 allowancesList.forEach((_elm) => {
                                     if (!_elm.addToBasicSalary) {

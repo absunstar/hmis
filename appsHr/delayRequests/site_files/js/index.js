@@ -74,8 +74,6 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
     $scope.showUpdate = function (_item) {
         $scope.error = '';
         $scope.mode = 'edit';
-        _item.$fromTime = new Date(_item.fromTime);
-        _item.$toTime = new Date(_item.toTime);
         $scope.view(_item);
         $scope.item = {};
         site.showModal($scope.modalID);
@@ -136,6 +134,7 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
         $scope.mode = 'view';
         $scope.item = {};
         $scope.view(_item);
+
         site.showModal($scope.modalID);
     };
 
@@ -226,6 +225,7 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
             }
         );
     };
+
     $scope.view = function (_item) {
         $scope.busy = true;
         $scope.error = '';
@@ -240,6 +240,8 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
                 $scope.busy = false;
                 if (response.data.done) {
                     $scope.item = response.data.doc;
+                    $scope.item.$fromTime = new Date($scope.item.fromTime);
+                    $scope.item.$toTime = new Date($scope.item.toTime);
                 } else {
                     $scope.error = response.data.error;
                 }

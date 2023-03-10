@@ -29,9 +29,12 @@ module.exports = function init(site) {
                     const delayrequest = {
                         appName: app.name,
                         allwedDelaytime,
+                        date: doc.delayDate,
+                        fromTime: doc.fromTime,
+                        toTime: doc.toTime,
                     };
 
-                    paySlip.delayDataList.push(delayrequest);
+                    paySlip.delayRequestsDataList.push(delayrequest);
                 });
             }
             callback(paySlip);

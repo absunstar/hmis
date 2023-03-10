@@ -154,6 +154,7 @@ app.controller('workErrandRequests', function ($scope, $http, $timeout) {
                 if (response.data.done) {
                     site.hideModal($scope.modalID);
                     site.resetValidated($scope.modalID);
+
                     let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
                     if (index !== -1) {
                         $scope.list[index] = response.data.result.doc;
@@ -237,6 +238,8 @@ app.controller('workErrandRequests', function ($scope, $http, $timeout) {
                 $scope.busy = false;
                 if (response.data.done) {
                     $scope.item = response.data.doc;
+                    $scope.item.$fromTime = new Date($scope.item.fromTime);
+                    $scope.item.$toTime = new Date($scope.item.toTime);
                 } else {
                     $scope.error = response.data.error;
                 }

@@ -67,24 +67,28 @@ module.exports = function init(site) {
         site.word({ name: '$', Ar: site.setting.accountsSetting.currencySymbol, En: site.setting.accountsSetting.currencySymbol });
     };
 
+    // <<<<<<< HEAD
+
+    // =======
+
+    // >>>>>>> 46f82e5e02aa31732ca782f34dbc355162321221
+
     site.getSystemSetting = function (req) {
         let company = site.getCompany(req);
         let branch = site.getBranch(req);
 
         // let setting = app.memoryList.find((s) => s.company.id == company.id && s.branch.id == branch.code);
         site.setting = app.memoryList.find((s) => s.company.id == company.id) || site.setting;
-
-<<<<<<< HEAD
-        app.save(_data, (err, result) => {
-          if (!err) {
-            response.done = true;
-            response.result = result;
-          } else {
-            response.error = err.message;
-          }
-          res.json(response);
-=======
+        // app.save(_data, (err, result) => {
+        //     if (!err) {
+        //         response.done = true;
+        //         response.result = result;
+        //     } else {
+        //         response.error = err.message;
+        //     }
+        //     res.json(response);
         return site.setting;
+        // });
     };
 
     app.save = function (_item, callback) {
@@ -126,7 +130,6 @@ module.exports = function init(site) {
                     }
                 });
             }
->>>>>>> 46f82e5e02aa31732ca782f34dbc355162321221
         });
     };
 

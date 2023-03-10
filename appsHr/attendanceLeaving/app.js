@@ -26,7 +26,7 @@ module.exports = function init(site) {
                     paySlip.worktimesList.forEach((workDay) => {
                         const getDayIndex = new Date(doc.date).getDay();
                         if (workDay && workDay.active && workDay.day.index === getDayIndex) {
-                              const attendTime = new Date(doc.attendTime);
+                            const attendTime = new Date(doc.attendTime);
                             const shiftStart = new Date(doc.shiftData.start);
                             const shiftEnd = new Date(doc.shiftData.end);
                             const leaveTime = new Date(doc.leaveTime);
@@ -48,6 +48,7 @@ module.exports = function init(site) {
                             if (!doc.absence) {
                                 attencance = {
                                     appName: app.name,
+                                    date: doc.date,
                                     absence: false,
                                     shiftStart,
                                     shiftEnd,
@@ -59,6 +60,7 @@ module.exports = function init(site) {
                             } else {
                                 attencance = {
                                     appName: app.name,
+                                    date: doc.date,
                                     absence: true,
                                     shiftStart,
                                     shiftEnd,

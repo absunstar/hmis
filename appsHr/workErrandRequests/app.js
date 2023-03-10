@@ -30,6 +30,9 @@ module.exports = function init(site) {
                     const workErrand = {
                         appName: app.name,
                         allwedworkErrandtime,
+                        date: doc.delayDate,
+                        fromTime: doc.fromTime,
+                        toTime: doc.toTime,
                     };
                     paySlip.workErrandDataList.push(workErrand);
                 });

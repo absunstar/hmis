@@ -28,25 +28,29 @@ module.exports = function init(site) {
                     const endDate = site.toDate(doc.toDate);
                     const diffTime = Math.abs(endDate - startDate) + 1;
                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    const employeeIndex = doc.employeesList.findIndex((employee) => employee.id === paySlip.employeeId);
 
-                    for (let i = 0; i < diffDays; i++) {
-                        let date = new Date(doc.fromDate);
-                        let day = new Date(date).getDate();
-                        date.setDate(day + i);
-                        const globalVacation = {
-                            appName: app.name,
-                            fromDate: doc.fromDate,
-                            toDate: doc.toDate,
-                            date,
-                            employeesList: doc.employeesList,
-                            vacationName: {
-                                id: doc.vacationName.id,
-                                code: doc.vacationName.code,
-                                nameAr: doc.vacationName.nameAr,
-                                nameEn: doc.vacationName.nameEn,
-                            },
-                        };
-                        paySlip.globalVacationsDataList.push(globalVacation);
+                    if (doc.vacationFor == 'all' || employeeIndex != -1) {
+                        for (let i = 0; i < diffDays; i++) {
+                            let date = new Date(doc.fromDate);
+                            let day = new Date(date).getDate();
+                            date.setDate(day + i);
+                            const globalVacation = {
+                                appName: app.name,
+                                fromDate: doc.fromDate,
+                                toDate: doc.toDate,
+                                vacationFor: doc.vacationFor,
+                                date,
+                                employeesList: doc.employeesList,
+                                vacationName: {
+                                    id: doc.vacationName.id,
+                                    code: doc.vacationName.code,
+                                    nameAr: doc.vacationName.nameAr,
+                                    nameEn: doc.vacationName.nameEn,
+                                },
+                            };
+                            paySlip.globalVacationsDataList.push(globalVacation);
+                        }
                     }
                 });
             }

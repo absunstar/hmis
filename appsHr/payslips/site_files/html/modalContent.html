@@ -71,12 +71,14 @@
                 <tr>
                     <th>##word.s##</th>
                     <th>##word.Name##</th>
+                    <th>##word.Count##</th>
                     <th>##word.Value##</th>
                     <th>##word.Name Arabic##</th>
                 </tr>
                 <tr ng-repeat="itm in item.paySlip.deductionsList">
                     <td class="center blue">{{$index+1}}</td>
                     <td class="center">{{itm.nameEn}}</td>
+                    <td class="center">{{itm.count}}</td>
                     <td class="center">
                         <p class="text-danger">{{itm.value}} <span>##word.$##</span></p>
                     </td>

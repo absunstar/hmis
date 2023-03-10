@@ -24,18 +24,22 @@ module.exports = function init(site) {
         app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, approveDate: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
             if (docs && docs.length) {
                 docs.forEach((doc) => {
-                    const vacationRequest = {
-                        appName: app.name,
-                        fromDate: doc.vacationfromDate,
-                        approvedVacationType: {
-                            id: doc.approvedVacationType.id,
-                            code: doc.approvedVacationType.code,
-                            nameAr: doc.approvedVacationType.nameAr,
-                            nameEn: doc.approvedVacationType.nameEn,
-                        },
-                        approvedDays: doc.approvedDays,
-                    };
-                    paySlip.vacationsList.push(vacationRequest);
+                    for (let i = 0; i < doc.approvedDays + 1; i++) {
+                        let date = new Date(doc.fromDate);
+                        let day = new Date(date).getDate();
+                        date.setDate(day + i);
+                        const vacationRequest = {
+                            appName: app.name,
+                            date,
+                            approvedVacationType: {
+                                id: doc.approvedVacationType.id,
+                                code: doc.approvedVacationType.code,
+                                nameAr: doc.approvedVacationType.nameAr,
+                                nameEn: doc.approvedVacationType.nameEn,
+                            },
+                        };
+                        paySlip.vacationsRequestsDataList.push(vacationRequest);
+                    }
                 });
             }
             callback(paySlip);

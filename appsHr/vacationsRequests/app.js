@@ -21,7 +21,7 @@ module.exports = function init(site) {
         const d1 = site.toDate(paySlip.fromDate);
         const d2 = site.toDate(paySlip.toDate);
 
-        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, approveDate: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
+        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, approveDate: { $gte: d1, $lte: d2 }, active: true, requestStatus: 'accepted' } }, (err, docs) => {
             if (docs && docs.length) {
                 docs.forEach((doc) => {
                     for (let i = 0; i < doc.approvedDays + 1; i++) {
@@ -363,6 +363,7 @@ module.exports = function init(site) {
                     code: 1,
                     employee: 1,
                     vacationType: 1,
+                    date: 1,
                     days: 1,
                     requestDate: 1,
                     fromDate: 1,

@@ -86,7 +86,9 @@ module.exports = function init(site) {
         let paySlip = {
             bonusValue: 0,
             bonusList: [],
+            // جزاءات
             penalityValue: 0,
+            penalityCount: 0,
             penalityList: [],
             overtimeValue: 0,
             overtimeList: [],
@@ -669,6 +671,7 @@ module.exports = function init(site) {
                                         nameAr: 'جزاء',
                                         nameEn: 'Penality',
                                         list: result.penalityList,
+                                        count: result.penalityCount,
                                         value: site.toMoney(result.penalityValue),
                                     };
 

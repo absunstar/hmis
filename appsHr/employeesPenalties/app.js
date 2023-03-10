@@ -22,7 +22,7 @@ module.exports = function init(site) {
         const d1 = site.toDate(paySlip.fromDate);
         const d2 = site.toDate(paySlip.toDate);
         const systemSetting = site.getSystemSetting(req).hrSettings;
-        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
+        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, active: true, requestStatus: 'accepted' } }, (err, docs) => {
             if (docs && docs.length) {
                 docs.forEach((doc) => {
                     doc = { ...doc, ...paySlip };
@@ -40,6 +40,7 @@ module.exports = function init(site) {
                         count: doc.value,
                         value: site.calculateValue(doc).value * systemSetting.penality,
                     };
+                    paySlip.penalityCount += doc.value;
                     paySlip.penalityList.push(penality);
                     paySlip.penalityValue += site.calculateValue(doc).value * systemSetting.penality;
                 });

@@ -47,7 +47,7 @@
 .site-bottom .icons button {
   position: relative;
   margin-right: 20px;
-  top: -30px;
+  top: -35px;
   font-size: 20px;
   padding: 5px 20px;
   background: var(--theme-color);
@@ -61,7 +61,7 @@
   min-width: 200px;
 }
 .site-bottom .icons button:hover {
-  top: -45px;
+  transform: scale(1.1);
 }
 .site-bottom .icons button i {
   font-size: 32px;
@@ -146,7 +146,7 @@
   font-weight: bold;
   color: #000000;
 }
-.menu-bottom .menu-item:hover span{
+.menu-bottom .menu-item:hover span {
   color: #ffffff;
 }
 .menu-bottom .menu-item img {
@@ -154,7 +154,7 @@
   height: 64px;
   filter: none;
 }
-.menu-bottom .menu-item:hover img{
+.menu-bottom .menu-item:hover img {
   filter: none;
 }
 .branch-bar {

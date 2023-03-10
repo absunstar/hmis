@@ -1,9 +1,9 @@
 module.exports = function init(site) {
   let app = {
     name: 'namesConversions',
-    allowMemory: true,
+    allowMemory: false,
     memoryList: [],
-    allowCache: false,
+    allowCache: true,
     cacheList: [],
     allowRoute: true,
     allowRouteGet: true,
@@ -139,14 +139,12 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
-
-
       site.get(
         {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name,appName:'Names Conversions' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name, appName: 'Names Conversions' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -235,27 +233,88 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, nameEn: 1, nameAr: 1};
+        let select = req.body.select || { id: 1, nameEn: 1, nameAr: 1 };
         let list = [];
-        app.memoryList
-        .forEach((doc) => {
-          let obj = { ...doc };
+        if (app.allowMemory) {
+          app.memoryList.forEach((doc) => {
+            let obj = { ...doc };
 
-          for (const p in obj) {
-            if (!Object.hasOwnProperty.call(select, p)) {
-              delete obj[p];
+            for (const p in obj) {
+              if (!Object.hasOwnProperty.call(select, p)) {
+                delete obj[p];
+              }
             }
+            if (!where.active || doc.active) {
+              list.push(obj);
+            }
+          });
+          res.json({
+            done: true,
+            list: list,
+          });
+        } else {
+          if(where.name){
+            where.nameEn = site.get_RegExp(where.name, 'i');
+            delete where.name
           }
-          if (!where.active || doc.active) {
-            list.push(obj);
-          }
-        });
-        res.json({
-          done: true,
-          list: list,
-        });
+          console.log(where)
+          app.$collection.findMany({ select, where, limit: 100 }, (err, docs) => {
+            res.json({
+              done: true,
+              list: docs,
+            });
+          });
+        }
       });
     }
+
+    site.post('api/names/import', (req, res) => {
+      let response = {
+        done: false,
+        file: req.form.files.fileToUpload,
+      };
+
+      if (site.isFileExistsSync(response.file.filepath)) {
+        let docs = [];
+        if (response.file.originalFilename.like('*.xls*')) {
+          let workbook = site.XLSX.readFile(response.file.filepath);
+          docs = site.XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+        } else {
+          docs = site.fromJson(site.readFileSync(response.file.filepath).toString());
+        }
+
+        if (Array.isArray(docs)) {
+          console.log('Importing Array Count : ' + docs.length);
+          docs.forEach((doc) => {
+            let newDoc = {
+              nameAr: doc.ArbName,
+              nameEn: doc.EngName,
+            };
+            newDoc.company = site.getCompany(req);
+            newDoc.branch = site.getBranch(req);
+            newDoc.addUserInfo = req.getUserFinger();
+
+            app.$collection.add(newDoc, (err, doc2) => {
+              if (!err && doc2) {
+                site.dbMessage = 'import doc id : ' + doc2.id;
+                console.log(site.dbMessage);
+              } else {
+                site.dbMessage = err.message;
+                console.log(site.dbMessage);
+              }
+            });
+          });
+        } else {
+          site.dbMessage = 'can not import unknown type : ' + site.typeof(docs);
+          console.log(site.dbMessage);
+        }
+      } else {
+        site.dbMessage = 'file not exists : ' + response.file.filepath;
+        console.log(site.dbMessage);
+      }
+
+      res.json(response);
+    });
   }
 
   app.init();

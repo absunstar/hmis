@@ -474,7 +474,6 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           response.data.servicesList.forEach((_s) => {
             $scope.item.servicesList.push(_s);
           });
-          $scope.calc($scope.item);
           $scope.item.mainInsuranceCompany = response.data.mainInsuranceCompany;
           if (response.data.elig) {
             $scope.item.nphis = 'elig';
@@ -511,7 +510,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           date: 1,
           patient: 1,
           doctor: 1,
-          servicesList: 1,
+          ordersList: 1,
         },
       },
     }).then(

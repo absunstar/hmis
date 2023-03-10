@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "budgetClassifications" , "name":"budgetClassificationsManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "budgetClassifications" , "name":"budgetClassificationsAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "budgetClassifications" , "name":"budgetClassificationsUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "budgetClassifications" , "name":"budgetClassificationsDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "budgetClassifications" , "name":"budgetClassificationsView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "budgetClassifications" , "name":"budgetClassificationsSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "budgetClassifications" , "name":"budgetClassificationsExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "budgetClassifications" , "name":"budgetClassificationsPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "budgetClassifications" , "name":"budgetClassificationsUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+]

@@ -21,19 +21,19 @@ module.exports = function init(site) {
         const d1 = site.toDate(paySlip.fromDate);
         const d2 = site.toDate(paySlip.toDate);
         const systemSetting = site.getSystemSetting(req).hrSettings;
-        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
+        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, active: true, requestStatus: 'accepted' } }, (err, docs) => {
             if (docs && docs.length) {
                 docs.forEach((doc) => {
+                    doc = { ...doc, ...paySlip };
                     const overtime = {
                         appName: app.name,
-                        value: doc.hours * 60 + doc.minutes,
+                        date: doc.date,
+                        count: (doc.hours * 60 + doc.minutes) / 60,
+                        value: site.toNumber((doc.hours * 60 + doc.minutes) * (paySlip.hourSalary / 60)),
                     };
+
                     paySlip.overtimeList.push(overtime);
-                    const obj = {
-                        value: doc.hours * 60 + doc.minutes,
-                    };
-                    doc = { ...obj, ...paySlip };
-                    paySlip.overtimeValue += (doc.value / 60) * systemSetting.overtime * paySlip.hourSalary;
+                    paySlip.overtimeValue += site.toNumber((doc.hours * 60 + doc.minutes) * (paySlip.hourSalary / 60) * systemSetting.overtime);
                 });
             }
             callback(paySlip);
@@ -323,7 +323,7 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                let select = req.body.select || { id: 1, code: 1, employee: 1, active: 1, date: 1, requestDate: 1, category: 1, type: 1, value: 1, approved: 1, approveDate: 1, requestStatus: 1 };
+                let select = req.body.select || { id: 1, code: 1, employee: 1, active: 1, date: 1, requestDate: 1, category: 1, hours: 1, minutes: 1, approved: 1, approveDate: 1, requestStatus: 1 };
                 let list = [];
                 if (app.allowMemory) {
                     app.memoryList

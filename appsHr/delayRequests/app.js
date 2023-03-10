@@ -21,7 +21,7 @@ module.exports = function init(site) {
         const d1 = site.toDate(paySlip.fromDate);
         const d2 = site.toDate(paySlip.toDate);
 
-        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
+        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, active: true, requestStatus: 'accepted' } }, (err, docs) => {
             if (docs && docs.length) {
                 docs.forEach((doc) => {
                     let allwedDelaytime = (doc.toTime.getTime() - doc.fromTime.getTime()) / 1000 / 60;
@@ -339,6 +339,7 @@ module.exports = function init(site) {
                     vacationType: 1,
                     days: 1,
                     date: 1,
+                    delayDate: 1,
                     approved: 1,
                     reason: 1,
                     file: 1,

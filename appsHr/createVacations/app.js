@@ -21,7 +21,7 @@ module.exports = function init(site) {
         const d1 = site.toDate(paySlip.fromDate);
         const d2 = site.toDate(paySlip.toDate);
 
-        app.$collection.findMany({ where: { fromDate: { $gte: d1 }, toDate: { $lte: d2 }, approved: true } }, (err, docs) => {
+        app.$collection.findMany({ where: { fromDate: { $gte: d1 }, toDate: { $lte: d2 }, active: true, approved: true } }, (err, docs) => {
             if (docs && docs.length) {
                 docs.forEach((doc) => {
                     const startDate = site.toDate(doc.fromDate);

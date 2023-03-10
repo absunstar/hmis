@@ -22,12 +22,14 @@ module.exports = function init(site) {
         const d1 = site.toDate(paySlip.fromDate);
         const d2 = site.toDate(paySlip.toDate);
 
-        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
+        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, active: true, requestStatus: 'accepted' } }, (err, docs) => {
             if (docs && docs.length) {
                 docs.forEach((doc) => {
+                    doc = { ...doc, ...paySlip };
                     const bonus = {
                         appName: app.name,
                         type: doc.type,
+                        date: doc.date,
                         category: doc.category,
                         employeesBonusName: {
                             id: doc.employeesBonusName.id,
@@ -35,15 +37,10 @@ module.exports = function init(site) {
                             nameAr: doc.employeesBonusName.nameAr,
                             nameEn: doc.employeesBonusName.nameEn,
                         },
-                        value: doc.value,
+                        count: doc.value,
+                        value: site.calculateValue(doc).value,
                     };
                     paySlip.bonusList.push(bonus);
-                    const obj = {
-                        type: doc.type,
-                        category: doc.category,
-                        value: doc.value,
-                    };
-                    doc = { ...obj, ...paySlip };
                     paySlip.bonusValue += site.calculateValue(doc).value;
                 });
             }

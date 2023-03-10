@@ -22,12 +22,14 @@ module.exports = function init(site) {
         const d1 = site.toDate(paySlip.fromDate);
         const d2 = site.toDate(paySlip.toDate);
         const systemSetting = site.getSystemSetting(req).hrSettings;
-        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, requestStatus: 'accepted' } }, (err, docs) => {
+        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, active: true, requestStatus: 'accepted' } }, (err, docs) => {
             if (docs && docs.length) {
                 docs.forEach((doc) => {
+                    doc = { ...doc, ...paySlip };
                     const penality = {
                         appName: app.name,
                         type: doc.type,
+                        date: doc.date,
                         category: doc.category,
                         employeesPenalityName: {
                             id: doc.employeesPenalityName.id,
@@ -35,15 +37,11 @@ module.exports = function init(site) {
                             nameAr: doc.employeesPenalityName.nameAr,
                             nameEn: doc.employeesPenalityName.nameEn,
                         },
-                        value: doc.value,
+                        count: doc.value,
+                        value: site.calculateValue(doc).value * systemSetting.penality,
                     };
+                    paySlip.penalityCount += doc.value;
                     paySlip.penalityList.push(penality);
-                    const obj = {
-                        type: doc.type,
-                        category: doc.category,
-                        value: doc.value,
-                    };
-                    doc = { ...obj, ...paySlip };
                     paySlip.penalityValue += site.calculateValue(doc).value * systemSetting.penality;
                 });
             }

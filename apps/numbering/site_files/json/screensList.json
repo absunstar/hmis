@@ -14,6 +14,12 @@
     {
         "category": "main",
         "feature": "public",
+        "id": "accountsGuide",
+        "name": "Accounts Guide"
+    },
+    {
+        "category": "main",
+        "feature": "public",
         "id": "generalLedger",
         "name": "General Ledger"
     },
@@ -22,6 +28,18 @@
         "feature": "public",
         "id": "assistantGeneralLedger",
         "name": "Assistant General Ledger"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "budgetClassifications",
+        "name": "Budget Classifications"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "incomeList",
+        "name": "Income List"
     },
     {
         "category": "main",

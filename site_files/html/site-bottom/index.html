@@ -9,6 +9,22 @@
 </div>
 
 <div id="m-accounting" class="menu-bottom loaded x-hide">
+
+  <a x-feature="m-accounting" class="menu-item no-line" x-permissions="safesUi || safesManage" href="/safes">
+    <img src="/images/safes.png" alt="" />
+    <span> ##word.Safes## </span>
+  </a>
+
+  <a x-feature="m-accounting" class="menu-item no-line" x-permissions="accountsGuideUi || accountsGuideManage" href="/accountsGuide">
+    <img src="/images/accountsGuide.png" alt="" />
+    <span> ##word.Accounts Guide## </span>
+  </a>
+
+  <a x-feature="m-accounting" class="menu-item no-line" x-permissions="costCentersUi || costCentersManage" href="/costCenters">
+    <img src="/images/costCenters.png" alt="" />
+    <span> ##word.Cost Centers## </span>
+  </a>
+
   <a x-feature="m-accounting" class="menu-item no-line" x-permissions="generalLedgerUi || generalLedgerManage" href="/generalLedger">
     <img src="/images/generalLedger.png" alt="" />
     <span> ##word.General Ledger## </span>
@@ -19,9 +35,14 @@
     <span> ##word.Assistant General Ledger## </span>
   </a>
 
-  <a x-feature="m-accounting" class="menu-item no-line" x-permissions="costCentersUi || costCentersManage" href="/costCenters">
-    <img src="/images/costCenters.png" alt="" />
-    <span> ##word.Cost Centers## </span>
+  <a x-feature="m-accounting" class="menu-item no-line" x-permissions="budgetClassificationsUi || budgetClassificationsManage" href="/budgetClassifications">
+    <img src="/images/budgetClassifications.png" alt="" />
+    <span> ##word.Budget Classifications## </span>
+  </a>
+
+  <a x-feature="m-accounting" class="menu-item no-line" x-permissions="incomeListUi || incomeListManage" href="/incomeList">
+    <img src="/images/incomeList.png" alt="" />
+    <span> ##word.Income Lists## </span>
   </a>
 </div>
 
@@ -436,10 +457,6 @@
     <span> ##word.Currencies## </span>
   </a>
 
-  <a class="menu-item no-line" x-permissions="safesUi || safesManage" href="/safes">
-    <img src="/images/safes.png" alt="" />
-    <span> ##word.Safes## </span>
-  </a>
   <a class="menu-item no-line" x-permissions="systemSettingManage" href="/systemSetting">
     <img src="/images/systemSetting.png" alt="" />
     <span> ##word.System Setting## </span>

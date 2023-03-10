@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "incomeListAdmin",
+    "En": "Budget Classifications Admin",
+    "Ar": "إدارة قائمة الدخل",
+    "permissions": ["incomeListManage"]
+}]

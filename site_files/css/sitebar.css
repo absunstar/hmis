@@ -126,7 +126,7 @@
   padding: 5px;
 }
 .menu-bottom .menu-item:hover {
-  background: #607d8b;
+  background: #272727;
 }
 .menu-bottom .menu-item i {
   font-size: 50px;
@@ -146,13 +146,16 @@
   color: #000000;
 }
 .menu-bottom .menu-item:hover span{
-  background: #ffffff;
+  color: #ffffff;
 }
 .menu-bottom .menu-item img {
   width: 80px;
   height: 64px;
+  filter: grayscale(1);
 }
-
+.menu-bottom .menu-item:hover img{
+  filter: none;
+}
 .branch-bar {
   display: inline-block;
   position: relative;

@@ -1,23 +1,25 @@
 <div ng-controller="namesConversions" class="loaded">
   <div class="row" x-permissions="namesConversionsUi || namesConversionsManage">
     <div x-import="namesConversions/modal.html"></div>
-    <div x-import="namesConversions/modalSearch.html"></div>
 
     <div class="top-actions">
       <i-button type="add" x-permissions="namesConversionsAdd || namesConversionsManage" label="##word.New##" ng-click="showAdd()"></i-button>
+      <i-upload api="api/names/import" label="Import"></i-upload>
     </div>
 
     <div class="row padding">
-      <i-control ng-model="$search" x-permissions="namesConversionsSearch || namesConversionsManage"></i-control>
+      <i-control ng-model="search.name" ng-change="searchAll()" x-permissions="namesConversionsSearch || namesConversionsManage"></i-control>
     </div>
 
     <table class="table hover bold" id="t1">
       <tr>
-        <th>##word.Name##</th>
+        <th>##word.Name AR##</th>
+        <th>##word.Name EN##</th>
         <th class="not-print">##word.Actions##</th>
       </tr>
-      <tr ng-repeat="item in list | filter:$search">
-        <td class="text-center">{{item.name##session.lang##}}</td>
+      <tr ng-repeat="item in list ">
+        <td class="text-center">{{item.nameAr}}</td>
+        <td class="text-center">{{item.nameEn}}</td>
 
         <td class="text-center not-print">
           <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>

@@ -174,7 +174,6 @@ app.controller('namesConversions', function ($scope, $http, $timeout) {
           $scope.list = response.data.list;
           $scope.count = response.data.count;
           site.hideModal($scope.modalSearchID);
-          $scope.search = {};
         }
       },
       function (err) {
@@ -213,9 +212,10 @@ app.controller('namesConversions', function ($scope, $http, $timeout) {
   };
 
   $scope.searchAll = function () {
-    $scope.getAll($scope.search);
-    site.hideModal($scope.modalSearchID);
-    $scope.search = {};
+    $timeout(() => {
+      $scope.getAll($scope.search);
+      site.hideModal($scope.modalSearchID);
+    }, 1000);
   };
 
   $scope.getAll();

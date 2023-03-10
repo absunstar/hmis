@@ -86,7 +86,7 @@
   overflow-y: auto;
   max-height: 75vh;
   justify-items: center;
-  z-index: 999999999;
+  z-index: 999999;
   transition: all 0s;
 }
 .menu-bottom.x-show {
@@ -115,7 +115,6 @@
 
 .menu-bottom .menu-item {
   text-align: center;
-  border: var(--border);
   margin: 5px;
   min-width: 140px;
   max-width: 80% !important;
@@ -127,7 +126,8 @@
   padding: 5px;
 }
 .menu-bottom .menu-item:hover {
-  transform: scale(1.1);
+  background: #ff5722;
+  filter: drop-shadow(2px 4px 6px black);
 }
 .menu-bottom .menu-item i {
   font-size: 50px;
@@ -146,11 +146,17 @@
   font-weight: bold;
   color: #000000;
 }
+.menu-bottom .menu-item:hover span{
+  color: #ffffff;
+}
 .menu-bottom .menu-item img {
   width: 80px;
   height: 64px;
+  filter: none;
 }
-
+.menu-bottom .menu-item:hover img{
+  filter: none;
+}
 .branch-bar {
   display: inline-block;
   position: relative;

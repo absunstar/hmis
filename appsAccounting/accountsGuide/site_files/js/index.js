@@ -222,70 +222,70 @@ app.controller('accountsGuide', function ($scope, $http, $timeout) {
 
   $scope.getCostCentersList = function (report) {
     $scope.error = '';
-      $scope.costCentersList = [];
-      $scope.busy = true;
-      $http({
-        method: 'POST',
-        url: '/api/costCenters/all',
-        data: {
-          where: {
-            status: 'active',
-          },
-          select: {
-            id: 1,
-            code: 1,
-            nameEn: 1,
-            nameAr: 1,
-          },
+    $scope.costCentersList = [];
+    $scope.busy = true;
+    $http({
+      method: 'POST',
+      url: '/api/costCenters/all',
+      data: {
+        where: {
+          status: 'active',
         },
-      }).then(
-        function (response) {
-          $scope.busy = false;
-          $scope.costCentersList = response.data.list;
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
         },
-        function (err) {
-          $scope.error = err;
-        }
-      );
-    
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        $scope.costCentersList = response.data.list;
+      },
+      function (err) {
+        $scope.error = err;
+      }
+    );
   };
 
-
-  $scope.getCategoryList = function (report) {
+  $scope.getCategoryList = function () {
     $scope.error = '';
-    if ($scope.settings.accountsSetting.linkGlWithIncomeStatementAndBudget) {
-      let url = '/api/incomeList/all';
-      if (report == 'budget') {
-        url = '/api/budgetClassifications/all';
-      } else if (report == 'incomeList') {
-        url = '/api/incomeList/all';
-      }
-
-      $scope.categoryList = [];
-      $scope.busy = true;
-      $http({
-        method: 'POST',
-        url: url,
-        data: {
-          where: {
-            active: true,
-          },
-          select: {
-            id: 1,
-            nameEn: 1,
-            nameAr: 1,
-          },
-        },
-      }).then(
-        function (response) {
-          $scope.busy = false;
-          $scope.categoryList = response.data.list;
-        },
-        function (err) {
-          $scope.error = err;
+    $timeout(() => {
+      if ($scope.settings.accountsSetting.linkGlWithIncomeStatementAndBudget) {
+        let url = '/api/incomeList/all';
+        if ($scope.item.report == 'budget') {
+          url = '/api/budgetClassifications/all';
+        } else if ($scope.item.report == 'incomeList') {
+          url = '/api/incomeList/all';
         }
-      );
-    }
+
+        $scope.categoryList = [];
+        $scope.busy = true;
+        $http({
+          method: 'POST',
+          url: url,
+          data: {
+            where: {
+              active: true,
+            },
+            select: {
+              id: 1,
+              nameEn: 1,
+              nameAr: 1,
+            },
+          },
+        }).then(
+          function (response) {
+            $scope.busy = false;
+            $scope.categoryList = response.data.list;
+          },
+          function (err) {
+            $scope.error = err;
+          }
+        );
+      }
+    }, 250);
   };
 
   $scope.getSetting = function () {

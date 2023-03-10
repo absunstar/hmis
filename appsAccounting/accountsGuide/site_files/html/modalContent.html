@@ -43,9 +43,9 @@
       <div class="row">
         <fieldset>
           <legend>##word.Report Type##</legend>
-          <i-radio class="col3" ng-value="budget" ng-click="getCategoryList(item.report)" label="##word.Budget##" ng-model="item.report"> </i-radio>
+          <i-radio class="col3" ng-value="budget" ng-change="getCategoryList()" label="##word.Budget##" ng-model="item.report"> </i-radio>
 
-          <i-radio class="col3" ng-value="incomeList" ng-click="getCategoryList(item.report)" label="##word.IncomeList##" ng-model="item.report"> </i-radio>
+          <i-radio class="col3" ng-value="incomeList" ng-change="getCategoryList()" label="##word.IncomeList##" ng-model="item.report"> </i-radio>
           <i-list
             ng-show="settings.accountsSetting.linkGlWithIncomeStatementAndBudget == true"
             class="col4"

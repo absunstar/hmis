@@ -8,7 +8,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
   $scope.structure = {
     image: { url: '/images/salesInvoices.png' },
     totalPrice: 0,
-    totalItemsDiscounts : 0,
+    totalItemsDiscounts: 0,
     totalDiscounts: 0,
     totalTaxes: 0,
     totalBeforeVat: 0,
@@ -751,10 +751,9 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
         discountValue = item.discountType === 'value' ? item.discount : (item.price * item.discount) / 100;
         item.totalDiscount = discountValue * item.count;
         item.totalDiscount = site.toNumber(item.totalDiscount);
-        item.totalExtraDiscount = (item.price * item.extraDiscount) / 100;
+        item.totalExtraDiscount = (item.totalPrice * item.extraDiscount) / 100;
         item.totalExtraDiscount = site.toNumber(item.totalExtraDiscount);
-        obj.totalItemsDiscounts += item.totalDiscount;
-        obj.totalItemsDiscounts += item.totalExtraDiscount;
+        obj.totalItemsDiscounts += item.totalDiscount + item.totalExtraDiscount;
         item.totalPrice = item.price * item.count;
         obj.totalPrice += item.totalPrice;
         if (!item.noVat) {
@@ -788,6 +787,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
         obj.totalTaxes += (obj.totalAfterVat * t.value) / 100;
       });
 
+      obj.totalItemsDiscounts = site.toNumber(obj.totalItemsDiscounts);
       obj.totalTaxes = site.toNumber(obj.totalTaxes);
       obj.totalDiscounts = site.toNumber(obj.totalDiscounts);
       obj.totalBeforeVat = site.toNumber(obj.totalBeforeVat);

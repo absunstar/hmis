@@ -38,12 +38,14 @@ site.get(
 );
 
 
+site.importApps(__dirname + '/appsAccounting');
 site.importApps(__dirname + '/appsInventories');
 site.importApps(__dirname + '/appsHr');
 
 site.loadLocalApp('client-side');
 site.loadLocalApp('ui-print');
 
+site.addFeature('m-accounting')
 site.addFeature('m-inventory')
 site.addFeature('m-hr')
 

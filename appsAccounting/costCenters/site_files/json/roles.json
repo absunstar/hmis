@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "costCentersAdmin",
+    "En": "Cost Centers Admin",
+    "Ar": "إدارة مراكز التكلفة",
+    "permissions": ["costCentersManage"]
+}]

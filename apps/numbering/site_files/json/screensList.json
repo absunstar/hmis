@@ -14,6 +14,24 @@
     {
         "category": "main",
         "feature": "public",
+        "id": "generalLedger",
+        "name": "General Ledger"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "assistantGeneralLedger",
+        "name": "Assistant General Ledger"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "costCenters",
+        "name": "Cost Centers"
+    },
+    {
+        "category": "main",
+        "feature": "public",
         "id": "doctors",
         "name": "Doctors"
     },

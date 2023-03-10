@@ -34,6 +34,7 @@ site.get(
   }
 );
 
+site.importApps(__dirname + '/appsAccounting');
 site.importApps(__dirname + '/appsInventories');
 site.importApps(__dirname + '/appsHr');
 site.importApps(__dirname + '/appsHmis');
@@ -44,6 +45,7 @@ site.loadLocalApp('ui-print');
 
 site.addFeature('m-hmis');
 site.addFeature('m-inventory')
+site.addFeature('m-accounting')
 site.addFeature('m-hr')
 
 site.run();

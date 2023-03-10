@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "assistantGeneralLedger" , "name":"assistantGeneralLedgerManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "assistantGeneralLedger" , "name":"assistantGeneralLedgerAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "assistantGeneralLedger" , "name":"assistantGeneralLedgerUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "assistantGeneralLedger" , "name":"assistantGeneralLedgerDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "assistantGeneralLedger" , "name":"assistantGeneralLedgerView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "assistantGeneralLedger" , "name":"assistantGeneralLedgerSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "assistantGeneralLedger" , "name":"assistantGeneralLedgerExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "assistantGeneralLedger" , "name":"assistantGeneralLedgerPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "assistantGeneralLedger" , "name":"assistantGeneralLedgerUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+]

@@ -1,7 +1,7 @@
 module.exports = function init(site) {
   let app = {
-    name: 'salesInvoices',
-    allowMemory: false,
+    name: 'assistantGeneralLedger',
+    allowMemory: true,
     memoryList: [],
     allowCache: false,
     cacheList: [],
@@ -139,12 +139,13 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
+ 
       site.get(
         {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name, appName: 'Sales Invoices' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name,appName:'Assistant General Ledger' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -156,59 +157,8 @@ module.exports = function init(site) {
         };
 
         let _data = req.data;
+
         _data.company = site.getCompany(req);
-        const storesSetting = site.getSystemSetting(req).storesSetting;
-
-        let errBatchList = [];
-        _data.itemsList.forEach((_item) => {
-          if (_item.workByBatch || _item.workBySerial) {
-            if (_item.batchesList && _item.batchesList.length > 0) {
-              _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
-
-              if (storesSetting.saleEarlyExpiryDateBatch) {
-                if (_item.$batchCount != _item.count) {
-                  let batchCount = _item.count - _item.$batchCount;
-                  if (_item.workByBatch) {
-                    _item.batchesList = _item.batchesList.sort((a, b) => new Date(b.expiryDate) - new Date(a.expiryDate)).reverse();
-                  } else if (_item.workBySerial) {
-                    _item.batchesList = _item.batchesList.sort((a, b) => new Date(b.productionDate) - new Date(a.productionDate)).reverse();
-                  }
-                  _item.batchesList.forEach((_b) => {
-                    _b.count = 0;
-                    if (_b.currentCount > 0) {
-                      if (batchCount > _b.currentCount || batchCount == _b.currentCount) {
-                        _b.count = _b.currentCount;
-                      } else if (batchCount < _b.currentCount && batchCount > 0) {
-                        _b.count = batchCount;
-                      }
-                      batchCount -= _b.count;
-                    }
-                  });
-                }
-              }
-
-              let batchCountErr = _item.batchesList.find((b) => {
-                return b.count > b.currentCount;
-              });
-
-              if (_item.$batchCount != _item.count || batchCountErr) {
-                let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
-                errBatchList.push(itemName);
-              }
-            } else {
-              let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
-              errBatchList.push(itemName);
-            }
-          }
-        });
-
-        if (errBatchList.length > 0) {
-          let error = errBatchList.map((m) => m).join('-');
-          response.error = `The Batches Count is not correct in ( ${error} )`;
-          res.json(response);
-          return;
-        }
-
         let numObj = {
           company: site.getCompany(req),
           screen: app.name,
@@ -224,42 +174,16 @@ module.exports = function init(site) {
           _data.code = cb.code;
         }
 
-        let overDraftObj = {
-          store: _data.store,
-          items: _data.itemsList,
-        };
+        _data.addUserInfo = req.getUserFinger();
 
-        site.checkOverDraft(req, overDraftObj, (overDraftCb) => {
-          if (!overDraftCb.done) {
-            let error = '';
-            error = overDraftCb.refuseList.map((m) => (req.session.lang == 'Ar' ? m.nameAr : m.nameEn)).join('-');
-            response.error = `Item Balance Insufficient ( ${error} )`;
-            res.json(response);
-            return;
+        app.add(_data, (err, doc) => {
+          if (!err && doc) {
+            response.done = true;
+            response.doc = doc;
+          } else {
+            response.error = err.mesage;
           }
-          _data.addUserInfo = req.getUserFinger();
-          app.add(_data, (err, doc) => {
-            if (!err) {
-              response.done = true;
-              doc.itemsList.forEach((_item) => {
-                let item = { ..._item };
-                item.store = { ...doc.store };
-                site.editItemsBalance(item, app.name);
-                item.invoiceId = doc.id;
-                item.company = doc.company;
-                item.date = doc.date;
-                item.customer = doc.customer;
-                item.countType = 'out';
-                item.orderCode = doc.code;
-                site.setItemCard(item, app.name);
-              });
-              response.doc = doc;
-            } else {
-              response.error = err.message;
-            }
-
-            res.json(response);
-          });
+          res.json(response);
         });
       });
     }
@@ -326,39 +250,26 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || {};
+        let select = req.body.select || { id: 1, code: 1, generalLedger: 1, nameEn: 1, nameAr: 1, image: 1, active: 1 };
+        let list = [];
+        app.memoryList
+          .filter((g) => (!where['generalLedger'] || g.generalLedger.id == where['generalLedger'].id) && g.company && g.company.id == site.getCompany(req).id)
+          .forEach((doc) => {
+            let obj = { ...doc };
 
-        if (app.allowMemory) {
-          let list = app.memoryList.filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(where.search));
-
-          res.json({
-            done: true,
-            list: list.slice(-limit),
+            for (const p in obj) {
+              if (!Object.hasOwnProperty.call(select, p)) {
+                delete obj[p];
+              }
+            }
+            if (!where.active || doc.active) {
+              list.push(obj);
+            }
           });
-        } else {
-          where['company.id'] = site.getCompany(req).id;
-          if (where && where.dateTo) {
-            let d1 = site.toDate(where.date);
-            let d2 = site.toDate(where.dateTo);
-            d2.setDate(d2.getDate() + 1);
-            where.date = {
-              $gte: d1,
-              $lt: d2,
-            };
-            delete where.dateTo;
-          } else if (where.date) {
-            let d1 = site.toDate(where.date);
-            let d2 = site.toDate(where.date);
-            d2.setDate(d2.getDate() + 1);
-            where.date = {
-              $gte: d1,
-              $lt: d2,
-            };
-          }
-          app.all({ where: where, select, sort: { id: -1 } }, (err, docs) => {
-            res.json({ done: true, list: docs });
-          });
-        }
+        res.json({
+          done: true,
+          list: list,
+        });
       });
     }
   }

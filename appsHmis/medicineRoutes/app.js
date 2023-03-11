@@ -251,7 +251,7 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, code: 1, nameEn: 1,nameAr : 1, image: 1 };
+        let select = req.body.select || { id: 1, code: 1, nameEn: 1,nameAr : 1};
         let list = [];
         app.memoryList
         .filter((g) => g.company && g.company.id == site.getCompany(req).id)

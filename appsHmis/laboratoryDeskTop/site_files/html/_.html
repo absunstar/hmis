@@ -88,7 +88,7 @@
       </tr>
       <tr ng-repeat="item in list | filter:$search">
         <td class="text-center">
-          <p class="center">( {{item.code}} ) </p>
+          <p class="center">( {{item.code}} )</p>
           <p class="center darkGray">{{item.service.name##session.lang##}}</p>
         </td>
         <td class="text-center">
@@ -100,6 +100,7 @@
             <div class="col10">
               <p class="center">{{item.patient.fullNameEn}} <img class="img-logo" ng-src="{{item.patient.nationality.image.url}}" alt="" /></p>
               <p class="center">{{item.patient.fullNameAr}}</p>
+              <p class="center">( {{item.mainInsuranceCompany.name##session.lang##}} )</p>
             </div>
           </div>
         </td>
@@ -126,7 +127,7 @@
             >##word.Hand over to## <i class="fas fa-pen"></i
           ></a>
           <a title="##word.Vitals Notes##" ng-show="item.status.id == 1" class="btn btn-primary btn-lg" ng-click="showVitalsNotes(item)"><i class="fas fa-file-medical-alt"></i></a>
-          <a ng-hide="item.status.id == 1"  title="##word.Doctor recommendations##" class="btn btn-success btn-lg" ng-click="showRecommendations(item)"><i class="fas fa-vial font-22 pointer"></i></a>
+          <a ng-hide="item.status.id == 1" title="##word.Doctor recommendations##" class="btn btn-success btn-lg" ng-click="showRecommendations(item)"><i class="fas fa-vial font-22 pointer"></i></a>
           <a title="##word.View##" class="btn btn-info btn-lg" x-permissions="laboratoryDeskTopView || laboratoryDeskTopManage" ng-click="showView(item)"><i class="fas fa-eye"></i></a>
           <a title="##word.Delete##" class="btn btn-danger btn-lg" x-permissions="laboratoryDeskTopDelete || laboratoryDeskTopManage" ng-click="showDelete(item)"><i class="fas fa-trash-alt"></i></a>
         </td>

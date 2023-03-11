@@ -290,7 +290,12 @@ module.exports = function init(site) {
         app.view({ id: insuranceContract.mainInsuranceCompany.id }, (err, doc) => {
           if (!err && doc) {
             response.done = true;
-            response.mainInsuranceCompany = doc;
+            response.mainInsuranceCompany = {
+              id: doc.id,
+              code: doc.code,
+              nameAr: doc.nameAr,
+              nameEn: doc.nameEn,
+            };
           } else {
             response.error = err?.message || 'Not Exists';
           }

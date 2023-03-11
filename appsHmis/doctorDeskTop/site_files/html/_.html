@@ -56,7 +56,6 @@
           </div>
         </div>
       </div>
-     
     </div>
     <div class="row padding">
       <i-control ng-model="$search.text" x-permissions="doctorDeskTopSearch || doctorDeskTopManage"></i-control>
@@ -69,11 +68,11 @@
       <i-button x-permissions="doctorDeskTopSearch || doctorDeskTopManage" type="search" label="##word.All Status##" ng-click="getAll(search,'all')"></i-button>
       <i-checkbox class="col2" ng-model="today" ng-click="getAll(search)" label="##word.today's date##"></i-checkbox>
     </div>
-    <div class="row" ng-show="!today"  x-permissions="doctorDeskTopSearch || doctorDeskTopManage">
+    <div class="row" ng-show="!today" x-permissions="doctorDeskTopSearch || doctorDeskTopManage">
       <i-date ng-model="search.date" label="##word.Date From##" class="col4"></i-date>
       <i-date ng-model="search.dateTo" label="##word.Date To##" class="col4"></i-date>
       <div class="col2">
-        <br>
+        <br />
         <i-button x-permissions="doctorDeskTopSearch || doctorDeskTopManage" type="search" label="##word.Search Date##" ng-click="getAll(search)"></i-button>
       </div>
     </div>
@@ -86,9 +85,8 @@
       </tr>
       <tr ng-repeat="item in list | filter:$search">
         <td class="text-center">
-          <p class="center">( {{item.code}} ) </p>
+          <p class="center">( {{item.code}} )</p>
           <p class="center">{{item.service.name##session.lang##}}</p>
-
         </td>
         <td class="text-center">
           <div class="row">
@@ -99,6 +97,7 @@
             <div class="col10">
               <p class="center">{{item.patient.fullNameEn}} <img class="img-logo" ng-src="{{item.patient.nationality.image.url}}" alt="" /></p>
               <p class="center">{{item.patient.fullNameAr}}</p>
+              <p class="center">( {{item.mainInsuranceCompany.name##session.lang##}} )</p>
             </div>
           </div>
         </td>
@@ -119,7 +118,9 @@
             >##word.Detected## <i class="fas fa-pen"></i
           ></a>
           <a title="##word.Vitals Notes##" ng-show="item.status.id == 1" class="btn btn-primary btn-lg" ng-click="showVitalsNotes(item)"><i class="fas fa-file-medical-alt"></i></a>
-          <a ng-hide="item.status.id == 1" title="##word.Doctor recommendations##" class="btn btn-success btn-lg" ng-click="showDoctorRecommendations(item)"><i class="fas fa-stethoscope font-22 pointer"></i></a>
+          <a ng-hide="item.status.id == 1" title="##word.Doctor recommendations##" class="btn btn-success btn-lg" ng-click="showDoctorRecommendations(item)"
+            ><i class="fas fa-stethoscope font-22 pointer"></i
+          ></a>
           <a title="##word.View##" class="btn btn-info btn-lg" x-permissions="doctorDeskTopView || doctorDeskTopManage" ng-click="showView(item)"><i class="fas fa-eye"></i></a>
           <a title="##word.Delete##" class="btn btn-danger btn-lg" x-permissions="doctorDeskTopDelete || doctorDeskTopManage" ng-click="showDelete(item)"><i class="fas fa-trash-alt"></i></a>
           <!-- <a title="##word.Edit##"  class="btn btn-warning btn-lg" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" ng-click="showUpdate(item)"><i class="fas fa-edit"></i></a>-->

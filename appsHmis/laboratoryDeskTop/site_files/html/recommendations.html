@@ -70,15 +70,13 @@
               </div>
             </div>
           </div>
-
-      
         </div>
         <div class="col3">
           <fieldset>
             <legend>##word.Patient##</legend>
             <img class="img-logo" ng-src="{{item.patient.image.url}}" alt="" />
             <p class="bold">{{item.patient.fullName##session.lang##}} ( <span class="blue">{{item.patient.code}}</span> )</p>
-            <p class="bold">{{item.patient.insuranceCompany.name##session.lang##}} ( <span class="blue">{{item.patient.insuranceCompany.code}}</span> )</p>
+            <p class="bold">{{item.mainInsuranceCompany.name##session.lang##}} ( <span class="blue">{{item.mainInsuranceCompany.code}}</span> )</p>
             <p class="bold">##word.Class## : {{item.patient.insuranceClass.name##session.lang##}}</p>
             <p class="bold brown">##word.EXP## : {{item.patient.expiryDate | date:"dd / MM / yyyy"}}</p>
             <p class="bold blue">{{item.patient.mobile}}</p>
@@ -88,28 +86,18 @@
           <fieldset>
             <legend>##word.Vitals Notes##</legend>
             <div class="row">
-              <i-control type="number" label="##word.Weight## / kg" ng-model="item.weight"></i-control>
-              <i-control type="number" label="##word.Tall## / cm" ng-model="item.tall"></i-control>
-              <i-control type="number" label="##word.Body Temperature## / %" ng-model="item.bodyTemperature"></i-control>
-              <i-control label="##word.Oxygen percentage## / %" type="number" ng-model="item.oxygenPercentage"></i-control>
-              <i-control label="##word.Heart Beats##" ng-model="item.heartBeats"></i-control>
+              <i-control type="text" label="##word.Height## / CM" ng-model="item.Height"></i-control>
+              <i-control type="text" label="##word.Weight## / KG" ng-model="item.weight"></i-control>
+              <i-control type="text" label="##word.Temperature##" ng-model="item.temperature"></i-control>
+              <i-control type="text" label="##word.Pulse##" ng-model="item.pulse"></i-control>
+              <i-control type="text" label="##word.Blood Pressure Low##" ng-model="item.bloodPressureLow"></i-control>
+              <i-control type="text" label="##word.Respiratory Rate##" ng-model="item.respiratoryRate"></i-control>
+              <i-control type="text" label="##word.Oxygen Saturation##" ng-model="item.oxygenSaturation"></i-control>
+              <i-control type="text" label="##word.BMI##" ng-model="item.bmi"></i-control>
+              <i-control type="text" label="##word.FBS##" ng-model="item.fbs"></i-control>
+              <i-control type="text" label="##word.Rbs##" ng-model="item.rbs"></i-control>
+              <i-textarea label="##word.notes##" ng-model="item.notesAfter"></i-textarea>
             </div>
-
-            <fieldset>
-              <legend>##word.Blood Pressure##</legend>
-              <i-control class="col5" type="number" ng-model="item.bloodPressureFrom"></i-control>
-              <div class="col2 center">/</div>
-              <i-control class="col5" type="number" ng-model="item.bloodPressureTo"></i-control>
-            </fieldset>
-
-            <fieldset>
-              <legend>##word.Sugar Pressure##</legend>
-              <i-control class="col5" type="number" ng-model="item.sugarFrom"></i-control>
-              <div class="col2 center">/</div>
-              <i-control class="col5" type="number" ng-model="item.sugarTo"></i-control>
-            </fieldset>
-
-            <i-textarea label="##word.notes##" ng-model="item.notesAfter"></i-textarea>
           </fieldset>
         </div>
       </div>
@@ -117,7 +105,13 @@
 
     <div class="modal-footer center">
       <p class="error">{{error}}</p>
-      <i-button type="edit" ng-hide="mode == 'view'|| item.$view" label="##word.Save##" x-permissions="laboratoryDeskTopUpdate || laboratoryDeskTopManage" ng-click="update(item,'#recommendationsModal')"></i-button>
+      <i-button
+        type="edit"
+        ng-hide="mode == 'view'|| item.$view"
+        label="##word.Save##"
+        x-permissions="laboratoryDeskTopUpdate || laboratoryDeskTopManage"
+        ng-click="update(item,'#recommendationsModal')"
+      ></i-button>
       <i-button
         type="save"
         ng-show="item.status.id == 3 && !item.$view"

@@ -189,7 +189,7 @@ body {
   border: 3px solid #00856a;
   display: inline-block;
   width: 50vw !important;
-  margin: 1vw !important;
+  margin: 10px 0px 10px 0px !important;
   box-shadow: 2px 2px 5px 0px #00856a;
   background: white;
   padding: 25px;

@@ -552,6 +552,88 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getMedicineDurationsList = function () {
+    $scope.busy = true;
+    $scope.medicineDurationsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/medicineDurations/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.medicineDurationsList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+  $scope.getMedicineFrequenciesList = function () {
+    $scope.busy = true;
+    $scope.medicineFrequenciesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/medicineFrequencies/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.medicineFrequenciesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+  $scope.getMedicineRoutesList = function () {
+    $scope.busy = true;
+    $scope.medicineRoutesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/medicineRoutes/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.medicineRoutesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getDoctorsList = function () {
     $scope.busy = true;
     $scope.doctorsList = [];
@@ -628,12 +710,13 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
 
   $scope.addOrders = function (_item) {
     $scope.error = '';
+
     if (_item.$order && _item.$order.id) {
       _item.ordersList = _item.ordersList || [];
       if (!_item.ordersList.some((s) => s.id === _item.$order.id && s.type === _item.$orderType)) {
         let order = { ..._item.$order, type: _item.$orderType };
         if (_item.$orderType == 'MD') {
-          order = { ...order, diagnosis: 0, times: 0, days: 0 };
+          order = { ...order, qty: 0, times: 0, days: 0 };
         }
         _item.ordersList.push(order);
       }
@@ -666,4 +749,7 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
   $scope.getDrinksList();
   $scope.getFoodsList();
   $scope.getDoctorDeskTopTypesList();
+  $scope.getMedicineDurationsList();
+  $scope.getMedicineFrequenciesList();
+  $scope.getMedicineRoutesList();
 });

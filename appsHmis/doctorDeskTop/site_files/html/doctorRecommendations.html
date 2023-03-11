@@ -259,30 +259,62 @@
                         </div>
                       </div>
                       <div class="row list" ng-repeat="s in item.ordersList">
-                        <div class="col2">
-                          <br ng-show="s.type == 'MD'" />
-                          <p class="code-list">
-                            <i class="fas fa-user-md" ng-show="s.type== 'CO'"></i>
-                            <i class="fas fa-vial" ng-show="s.type== 'LA'"></i>
-                            <i class="fas fa-x-ray" ng-show="s.type== 'X-R'"></i>
-                            <i class="fas fa-capsules" ng-show="s.type== 'MD'"></i>
-                            {{s.type}} -{{s.code}}
-                          </p>
-                        </div>
-                        <div class="col4">
-                          <br ng-show="s.type == 'MD'" />
-                          <p class="bold">{{s.name##session.lang##}}</p>
-                        </div>
-                        <div class="col5">
-                          <div class="row">
-                            <i-control ng-show="s.type == 'MD'" ng-model="s.diagnosis" type="number" class="center col4" label="##word.Diagnosis##"></i-control>
-                            <i-control ng-show="s.type == 'MD'" ng-model="s.times" type="number" class="center col4" label="##word.Time(s)##"></i-control>
-                            <i-control ng-show="s.type == 'MD'" ng-model="s.days" type="number" class="center col4" label="##word.Day(s)##"></i-control>
+                        <div class="row">
+                          <div class="col2">
+                            <br />
+                            <p class="code-list">
+                              <i class="fas fa-user-md" ng-show="s.type== 'CO'"></i>
+                              <i class="fas fa-vial" ng-show="s.type== 'LA'"></i>
+                              <i class="fas fa-x-ray" ng-show="s.type== 'X-R'"></i>
+                              <i class="fas fa-capsules" ng-show="s.type== 'MD'"></i>
+                              {{s.type}} -{{s.code}}
+                            </p>
+                          </div>
+                          <div class="col4">
+                            <br />
+                            <p class="bold">{{s.name##session.lang##}}</p>
+                          </div>
+                          <div class="col5">
+                            <div class="row">
+                              <i-control type="number" class="col3" label="##word.QTY.##" ng-model="s.count"></i-control>
+                              <div class="col3">
+                                <p class="bold center">##word.Price##</p>
+                                <p class="bold center">{{s.price || 0}}</p>
+                              </div>
+                              <div class="col3">
+                                <p class="bold center">##word.Desc##</p>
+                                <p class="bold center">{{s.discount || 0}}</p>
+                              </div>
+                              <div class="col3">
+                                <p class="bold center">##word.Total##</p>
+                                <p class="bold center">{{s.total || 0}}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col1">
+                            <br />
+                            <i-button type="delete default" ng-click="item.ordersList.splice($index,1)"> </i-button>
                           </div>
                         </div>
-                        <div class="col1">
-                          <br ng-show="s.type == 'MD'" />
-                          <i-button type="delete default" ng-click="item.ordersList.splice($index,1)"> </i-button>
+                        <div class="row" ng-show="s.type == 'MD'">
+                          <i-list
+                            label="##word.Duration##"
+                            class="col3"
+                            ng-model="s.medicineDuration"
+                            display="name##session.lang##"
+                            items="medicineDurationsList"
+                            ng-search="s.$medicineDuration"
+                          ></i-list>
+                          <i-list
+                            label="##word.Frequency##"
+                            class="col3"
+                            ng-model="s.medicineFrequency"
+                            display="name##session.lang##"
+                            items="medicineFrequenciesList"
+                            ng-search="s.$medicineFrequency"
+                          ></i-list>
+
+                          <i-list label="##word.Route##" class="col3" ng-model="s.medicineRoute" display="name##session.lang##" items="medicineRoutesList" ng-search="s.$medicineRoute"></i-list>
                         </div>
                       </div>
                     </div>
@@ -297,7 +329,7 @@
             <legend>##word.Patient##</legend>
             <img class="img-logo" ng-src="{{item.patient.image.url}}" alt="" />
             <p class="bold">{{item.patient.fullName##session.lang##}} ( <span class="blue">{{item.patient.code}}</span> )</p>
-            <p class="bold">{{item.patient.insuranceCompany.name##session.lang##}} ( <span class="blue">{{item.patient.insuranceCompany.code}}</span> )</p>
+            <p class="bold">{{item.mainInsuranceCompany.name##session.lang##}} ( <span class="blue">{{item.mainInsuranceCompany.code}}</span> )</p>
             <p class="bold">##word.Class## : {{item.patient.insuranceClass.name##session.lang##}}</p>
             <p class="bold brown">##word.EXP## : {{item.patient.expiryDate | date:"dd / MM / yyyy"}}</p>
             <p class="bold blue">{{item.patient.mobile}}</p>
@@ -307,28 +339,18 @@
           <fieldset>
             <legend>##word.Vitals Notes##</legend>
             <div class="row">
-              <i-control type="number" label="##word.Weight## / kg" ng-model="item.weight"></i-control>
-              <i-control type="number" label="##word.Tall## / cm" ng-model="item.tall"></i-control>
-              <i-control type="number" label="##word.Body Temperature## / %" ng-model="item.bodyTemperature"></i-control>
-              <i-control label="##word.Oxygen percentage## / %" type="number" ng-model="item.oxygenPercentage"></i-control>
-              <i-control label="##word.Heart Beats##" ng-model="item.heartBeats"></i-control>
+              <i-control type="text" label="##word.Height## / CM" ng-model="item.Height"></i-control>
+              <i-control type="text" label="##word.Weight## / KG" ng-model="item.weight"></i-control>
+              <i-control type="text" label="##word.Temperature##" ng-model="item.temperature"></i-control>
+              <i-control type="text" label="##word.Pulse##" ng-model="item.pulse"></i-control>
+              <i-control type="text" label="##word.Blood Pressure Low##" ng-model="item.bloodPressureLow"></i-control>
+              <i-control type="text" label="##word.Respiratory Rate##" ng-model="item.respiratoryRate"></i-control>
+              <i-control type="text" label="##word.Oxygen Saturation##" ng-model="item.oxygenSaturation"></i-control>
+              <i-control type="text" label="##word.BMI##" ng-model="item.bmi"></i-control>
+              <i-control type="text" label="##word.FBS##" ng-model="item.fbs"></i-control>
+              <i-control type="text" label="##word.Rbs##" ng-model="item.rbs"></i-control>
+              <i-textarea label="##word.notes##" ng-model="item.notesAfter"></i-textarea>
             </div>
-
-            <fieldset>
-              <legend>##word.Blood Pressure##</legend>
-              <i-control class="col5" type="number" ng-model="item.bloodPressureFrom"></i-control>
-              <div class="col2 center">/</div>
-              <i-control class="col5" type="number" ng-model="item.bloodPressureTo"></i-control>
-            </fieldset>
-
-            <fieldset>
-              <legend>##word.Sugar Pressure##</legend>
-              <i-control class="col5" type="number" ng-model="item.sugarFrom"></i-control>
-              <div class="col2 center">/</div>
-              <i-control class="col5" type="number" ng-model="item.sugarTo"></i-control>
-            </fieldset>
-
-            <i-textarea label="##word.notes##" ng-model="item.notesAfter"></i-textarea>
           </fieldset>
         </div>
       </div>
@@ -336,7 +358,13 @@
 
     <div class="modal-footer center">
       <p class="error">{{error}}</p>
-      <i-button type="edit" ng-hide="mode == 'view'|| item.$view" label="##word.Save##" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" ng-click="update(item,'#doctorRecommendationsModal')"></i-button>
+      <i-button
+        type="edit"
+        ng-hide="mode == 'view'|| item.$view"
+        label="##word.Save##"
+        x-permissions="doctorDeskTopUpdate || doctorDeskTopManage"
+        ng-click="update(item,'#doctorRecommendationsModal')"
+      ></i-button>
       <i-button
         type="save"
         ng-show="item.status.id == 2 && !item.$view"

@@ -185,6 +185,7 @@ module.exports = function init(site) {
                   company: doc.company,
                   branch: doc.branch,
                   source: doc.source,
+                  mainInsuranceCompany : doc.mainInsuranceCompany,
                   addUserInfo: doc.addUserInfo,
                   service: { ..._s },
                   doctor: { ...doc.doctor },

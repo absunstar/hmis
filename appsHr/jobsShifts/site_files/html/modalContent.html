@@ -74,10 +74,10 @@
     <fieldset ng-show="!item.useSystemSetting">
         <legend>##word.Bonuses And Discounts##</legend>
         <div class="row">
-            <i-control class="col4" type="number" min="0" ng-disabled="item.approved" ng-model="item.overtime" label="##word.Overtime Value##"> </i-control>
-            <i-control class="col4" type="number" min="0" ng-disabled="item.approved" ng-model="item.penality" label="##word.Penality Value##"> </i-control>
-            <i-control class="col4" type="number" min="0" ng-disabled="item.approved" ng-model="item.absenceHours" label="##word.Absence hours Value##"> </i-control>
-            <i-control class="col4" type="number" min="0" ng-disabled="item.approved" ng-model="item.absenceDays" label="##word.Absence Days Value##"> </i-control>
+            <i-control class="col4" type="number" min="0" ng-disabled="item.approved" ng-model="item.salaryAccountSettings.overtime" label="##word.Overtime Value##"> </i-control>
+            <i-control class="col4" type="number" min="0" ng-disabled="item.approved" ng-model="item.salaryAccountSettings.penality" label="##word.Penality Value##"> </i-control>
+            <i-control class="col4" type="number" min="0" ng-disabled="item.approved" ng-model="item.salaryAccountSettings.absenceHours" label="##word.Absence hours Value##"> </i-control>
+            <i-control class="col4" type="number" min="0" ng-disabled="item.approved" ng-model="item.salaryAccountSettings.absenceDays" label="##word.Absence Days Value##"> </i-control>
         </div>
         <fieldset>
             <legend>##word.Penalties##</legend>

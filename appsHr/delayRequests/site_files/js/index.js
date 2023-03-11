@@ -34,18 +34,33 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
             return;
         }
 
-        const delayDate = new Date($scope.item.delayDate).toISOString().slice(0, 10);
-        const startHour = new Date($scope.item.$fromTime).getHours();
-        const startMinute = new Date($scope.item.$fromTime).getMinutes();
-        const endHour = new Date($scope.item.$toTime).getHours();
-        const endMinute = new Date($scope.item.$toTime).getMinutes();
-        $scope.item.fromTime = new Date(delayDate);
-        $scope.item.fromTime.setHours(startHour);
-        $scope.item.fromTime.setMinutes(startMinute);
-        $scope.item.toTime = new Date(delayDate);
-        $scope.item.toTime.setHours(endHour);
-        $scope.item.toTime.setMinutes(endMinute);
+        // const delayDate = new Date($scope.item.delayDate).toISOString().slice(0, 10);
+        // const startHour = new Date($scope.item.$fromTime).getHours();
+        // const startMinute = new Date($scope.item.$fromTime).getMinutes();
+        // const endHour = new Date($scope.item.$toTime).getHours();
+        // const endMinute = new Date($scope.item.$toTime).getMinutes();
+        // $scope.item.fromTime = new Date(delayDate);
+        // $scope.item.fromTime.setHours(startHour);
+        // $scope.item.fromTime.setMinutes(startMinute);
+        // $scope.item.toTime = new Date(delayDate);
+        // $scope.item.toTime.setHours(endHour);
+        // $scope.item.toTime.setMinutes(endMinute);
 
+        $scope.item.fromTime = new Date(
+            new Date($scope.item.delayDate).getFullYear(),
+            new Date($scope.item.delayDate).getMonth(),
+            new Date($scope.item.delayDate).getDate(),
+            new Date($scope.item.$fromTime).getHours(),
+            new Date($scope.item.$fromTime).getMinutes()
+        );
+
+        $scope.item.toTime = new Date(
+            new Date($scope.item.delayDate).getFullYear(),
+            new Date($scope.item.delayDate).getMonth(),
+            new Date($scope.item.delayDate).getDate(),
+            new Date($scope.item.$toTime).getHours(),
+            new Date($scope.item.$toTime).getMinutes()
+        );
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -92,18 +107,33 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
             return;
         }
 
-        const delayDate = new Date(_item.delayDate).toISOString().slice(0, 10);
-        const startHour = new Date(_item.fromTime).getHours();
-        const startMinute = new Date(_item.fromTime).getMinutes();
-        const endHour = new Date(_item.toTime).getHours();
-        const endMinute = new Date(_item.toTime).getMinutes();
-        _item.fromTime = new Date(delayDate);
-        _item.fromTime.setHours(startHour);
-        _item.fromTime.setMinutes(startMinute);
-        _item.toTime = new Date(delayDate);
-        _item.toTime.setHours(endHour);
-        _item.toTime.setMinutes(endMinute);
+        // const delayDate = new Date(_item.delayDate).toISOString().slice(0, 10);
+        // const startHour = new Date(_item.fromTime).getHours();
+        // const startMinute = new Date(_item.fromTime).getMinutes();
+        // const endHour = new Date(_item.toTime).getHours();
+        // const endMinute = new Date(_item.toTime).getMinutes();
+        // _item.fromTime = new Date(delayDate);
+        // _item.fromTime.setHours(startHour);
+        // _item.fromTime.setMinutes(startMinute);
+        // _item.toTime = new Date(delayDate);
+        // _item.toTime.setHours(endHour);
+        // _item.toTime.setMinutes(endMinute);
 
+        _item.fromTime = new Date(
+            new Date(_item.delayDate).getFullYear(),
+            new Date(_item.delayDate).getMonth(),
+            new Date(_item.delayDate).getDate(),
+            new Date(_item.$fromTime).getHours(),
+            new Date(_item.$fromTime).getMinutes()
+        );
+
+        _item.toTime = new Date(
+            new Date(_item.delayDate).getFullYear(),
+            new Date(_item.delayDate).getMonth(),
+            new Date(_item.delayDate).getDate(),
+            new Date(_item.$toTime).getHours(),
+            new Date(_item.$toTime).getMinutes()
+        );
         $scope.busy = true;
         $http({
             method: 'POST',

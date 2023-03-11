@@ -20,12 +20,7 @@ module.exports = function init(site) {
         const d1 = site.toDate(paySlip.fromDate);
         const d2 = site.toDate(paySlip.toDate);
         app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 } } }, (err, docs) => {
-            // if (docs.length) {
-            // console.log('1111111111', paySlip.worktimesList[0]);
-
-            paySlip.worktimesList.forEach((workDay) => {
-                // console.log('workDay', workDay);
-
+            paySlip.realWorkTimesList.forEach((workDay) => {
                 let attencance;
                 let docIndex = docs.findIndex((_doc) => {
                     const getDayIndex = new Date(_doc.date).getDay();
@@ -33,30 +28,30 @@ module.exports = function init(site) {
                         return _doc;
                     }
                 });
-                // console.log('0000000', docIndex);
                 const shiftStart = new Date(workDay.shiftData.start);
                 const shiftEnd = new Date(workDay.shiftData.end);
-                if (docIndex != -1) {
-                    // console.log('docs[docIndex].date', docs[docIndex].date);
-                    // console.log('docs[docIndex].attendTime', docs[docIndex].attendTime);
-                    // console.log('docs[docIndex].leaveTime', docs[docIndex].leaveTime);
 
+                if (docIndex == -1) {
+                    attencance = {
+                        appName: app.name,
+                        date: workDay.date,
+                        absence: true,
+                        shiftStart,
+                        shiftEnd,
+                    };
+                    paySlip.attendanceDataList.push(attencance);
+                } else if (docIndex != -1) {
                     const attendTime = new Date(docs[docIndex].attendTime);
                     const leaveTime = new Date(docs[docIndex].leaveTime);
                     let attendDiff = ((shiftStart.getTime() - attendTime.getTime()) / 1000 / 60).toFixed();
                     const attendanceTimeDifference = Number(attendDiff - 1440);
                     let leaveDiff = ((shiftEnd.getTime() - leaveTime.getTime()) / 1000 / 60).toFixed();
                     const leaveTimeDifference = Number(1440 - leaveDiff);
-                    // console.log('attendTime', attendTime);
-                    // console.log('leaveTime', leaveTime);
-                    // console.log('attendanceTimeDifference', attendanceTimeDifference);
-                    // console.log('leaveTimeDifference', leaveTimeDifference);
-
-                    // console.log('foundDoc', docs[docIndex]);
+                
 
                     if (!docs[docIndex].absence) {
                         attencance = {
-                            appName: app.name,
+                            // appName: app.name,
                             date: docs[docIndex].date,
                             absence: false,
                             shiftStart,
@@ -68,7 +63,7 @@ module.exports = function init(site) {
                         };
                     } else {
                         attencance = {
-                            appName: app.name,
+                            // appName: app.name,
                             date: docs[docIndex].date,
                             absence: true,
                             shiftStart,
@@ -78,19 +73,18 @@ module.exports = function init(site) {
                         };
                     }
                     paySlip.attendanceDataList.push(attencance);
-                } else {
-                    // console.log('shiftStart', shiftStart);
-                    // console.log('workDay.date', workDay.date);
-
-                    attencance = {
-                        appName: app.name,
-                        date: workDay.date,
-                        absence: true,
-                        shiftStart,
-                        shiftEnd,
-                    };
-                    paySlip.attendanceDataList.push(attencance);
                 }
+                //  else {
+                //     console.log('docIndex', docIndex);
+                //     attencance = {
+                //         appName: app.name,
+                //         date: workDay.date,
+                //         absence: true,
+                //         shiftStart,
+                //         shiftEnd,
+                //     };
+                //     paySlip.attendanceDataList.push(attencance);
+                // }
 
                 // paySlip.worktimesList.forEach((workDay) => {
                 //     if (workDay && workDay.active && workDay.day.index === getDayIndex) {

@@ -17,7 +17,7 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, penaltiesList: [], worktimesList: [], useSystemSetting: false, overtime: 1, penality: 1, absenceHours: 1, absenceDays: 1 };
+        $scope.item = { ...$scope.structure, penaltiesList: [], worktimesList: [], useSystemSetting: false, salaryAccountSettings: { overtime: 1, penality: 1, absenceHours: 1, absenceDays: 1 } };
         site.showModal($scope.modalID);
     };
 

@@ -28,7 +28,7 @@ module.exports = function init(site) {
                     const endDate = site.toDate(doc.toDate);
                     const diffTime = Math.abs(endDate - startDate) + 1;
                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                    const employeeIndex = doc.employeesList.findIndex((employee) => employee.id === paySlip.employeeId);
+                    const employeeIndex = doc.employeesList.findIndex((employee) => employee.id == paySlip.employeeId);
 
                     if (doc.vacationFor == 'all' || employeeIndex != -1) {
                         for (let i = 0; i < diffDays; i++) {

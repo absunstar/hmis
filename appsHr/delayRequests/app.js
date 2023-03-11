@@ -24,11 +24,11 @@ module.exports = function init(site) {
         app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, active: true, requestStatus: 'accepted' } }, (err, docs) => {
             if (docs && docs.length) {
                 docs.forEach((doc) => {
-                    let allwedDelaytime = (doc.toTime.getTime() - doc.fromTime.getTime()) / 1000 / 60;
-                    Number(allwedDelaytime).toFixed();
+                    let allwedTime = (doc.toTime.getTime() - doc.fromTime.getTime()) / 1000 / 60;
+                    Number(allwedTime).toFixed();
                     const delayrequest = {
                         appName: app.name,
-                        allwedDelaytime,
+                        allwedTime,
                         date: doc.delayDate,
                         fromTime: doc.fromTime,
                         toTime: doc.toTime,

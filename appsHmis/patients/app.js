@@ -1,9 +1,9 @@
 module.exports = function init(site) {
   let app = {
     name: 'patients',
-    allowMemory: true,
+    allowMemory: false,
     memoryList: [],
-    allowCache: false,
+    allowCache: true,
     cacheList: [],
     allowRoute: true,
     allowRouteGet: true,
@@ -139,13 +139,12 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
- 
       site.get(
         {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name,appName:'Patients' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name, appName: 'Patients' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -278,34 +277,78 @@ module.exports = function init(site) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || { 'type.id': 1 };
         let select = req.body.select || { id: 1, code: 1, fullNameEn: 1, fullNameAr: 1, image: 1 };
-        let list = [];
-        app.memoryList
-          .filter((g) => (!where['type.id'] || (g.type && g.type.id == where['type.id'])) && g.company && g.company.id == site.getCompany(req).id)
+        let search = req.body.search || undefined;
 
-          .forEach((doc) => {
-            let obj = { ...doc };
-            if (doc.dateOfBirth) {
-              let birthYear = new Date(doc.dateOfBirth).getFullYear();
-              obj.age = new Date().getFullYear() - birthYear;
-            }
-            for (const p in obj) {
-              if (!Object.hasOwnProperty.call(select, p)) {
-                delete obj[p];
+        if (app.allowMemory) {
+          let list = [];
+          app.memoryList
+            .filter((g) => (!where['type.id'] || (g.type && g.type.id == where['type.id'])) && g.company && g.company.id == site.getCompany(req).id)
+            .forEach((doc) => {
+              let obj = { ...doc };
+              if (doc.dateOfBirth) {
+                let birthYear = new Date(doc.dateOfBirth).getFullYear();
+                obj.age = new Date().getFullYear() - birthYear;
               }
-            }
-            if (!where.active || doc.active) {
-              if (obj.expiryDate) {
-                if (new Date(obj.expiryDate) < new Date()) {
-                  obj.expirePatient = true;
+              for (const p in obj) {
+                if (!Object.hasOwnProperty.call(select, p)) {
+                  delete obj[p];
                 }
               }
-              list.push(obj);
-            }
+              if (!where.active || doc.active) {
+                if (obj.expiryDate) {
+                  if (new Date(obj.expiryDate) < new Date()) {
+                    obj.expirePatient = true;
+                  }
+                }
+                list.push(obj);
+              }
+            });
+          res.json({
+            done: true,
+            list: list,
           });
-        res.json({
-          done: true,
-          list: list,
-        });
+        } else {
+          where['company.id'] = site.getCompany(req).id;
+
+          if (search) {
+            where.$or = [];
+  
+            where.$or.push({
+              id: site.get_RegExp(search, 'i'),
+            });
+            where.$or.push({
+              code: site.get_RegExp(search, 'i'),
+            });
+            where.$or.push({
+              fullNameAr: site.get_RegExp(search, 'i'),
+            });
+            where.$or.push({
+              fullNameEn: site.get_RegExp(search, 'i'),
+            });
+
+            where.$or.push({
+              'mobileList.mobile': site.get_RegExp(search, 'i'),
+            });
+            where.$or.push({
+              motherNameEn: site.get_RegExp(search, 'i'),
+            });
+            where.$or.push({
+              motherNameAr: site.get_RegExp(search, 'i'),
+            });
+            where.$or.push({
+              email: site.get_RegExp(search, 'i'),
+            });
+          
+          }
+
+          app.all({ where, select, sort: { id: -1 }, limit: req.body.limit }, (err, docs) => {
+          
+            res.json({
+              done: true,
+              list: docs,
+            });
+          });
+        }
       });
     }
   }

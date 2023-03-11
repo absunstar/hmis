@@ -1,6 +1,6 @@
 module.exports = function init(site) {
   let app = {
-    name: 'patientHistory',
+    name: 'medicineRoutes',
     allowMemory: true,
     memoryList: [],
     allowCache: false,
@@ -142,10 +142,10 @@ module.exports = function init(site) {
    
       site.get(
         {
-          name: [app.name,`${app.name}/:id`],
+          name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name,appName : 'Patient History' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name,appName : 'Medicine Routes' }, { parser: 'html', compres: true });
         }
       );
     }

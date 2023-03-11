@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "medicineFrequenciesAdmin",
+    "En": "Medicine Frequencies Admin",
+    "Ar": "إدارة تكرارات الدواء",
+    "permissions": ["medicineFrequenciesManage"]
+}]

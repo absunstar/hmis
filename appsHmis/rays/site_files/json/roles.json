@@ -1,7 +1,0 @@
-[{
-    "moduleName" : "public" ,
-    "name": "raysAdmin",
-    "En": "Rays Admin",
-    "Ar": "إدارة الأشعة",
-    "permissions": ["raysManage"]
-}]

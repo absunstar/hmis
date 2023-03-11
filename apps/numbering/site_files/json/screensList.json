@@ -302,14 +302,27 @@
     {
         "category": "main",
         "feature": "public",
-        "id": "analyses",
-        "name": "Analyses"
+        "id": "medicineDurations",
+        "name": "Medicine Durations"
     },
     {
         "category": "main",
         "feature": "public",
-        "id": "rays",
-        "name": "Rays"
+        "id": "medicineFrequencies",
+        "name": "Medicine Frequencies"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "medicineRoutes",
+        "name": "Medicine Routes"
+    },
+
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "patientHistory",
+        "name": "Patient History"
     },
     {
         "category": "main",

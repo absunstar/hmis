@@ -182,7 +182,7 @@ body {
 }
 
 .cart:hover {
-  background: #e0e0e0;
+  background: #f7f7f7;
 }
 
 .cart {
@@ -191,7 +191,7 @@ body {
   width: 50vw !important;
   margin: 1vw !important;
   box-shadow: 2px 2px 5px 0px #00856a;
-  background: #f7f7f7;
+  background: white;
   padding: 25px;
   height: auto;
   border-radius: 10px;
@@ -244,6 +244,16 @@ p {
   word-break: keep-all;
 }
 
+.a-btn {
+  border: 1px solid;
+  margin: 5px;
+  padding: 7px;
+  border-radius: 10px;
+  text-decoration-line: none;
+  color: black;
+  font-size: large;
+  display: inline-table;
+}
 
 .table-cart:hover {
   background: #69def6;

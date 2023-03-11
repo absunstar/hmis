@@ -1,7 +1,7 @@
 [{
     "moduleName" : "public" ,
-    "name": "countriesAdmin",
-    "En": "Countries Admin",
-    "Ar": "إدارة الدول",
-    "permissions": ["countriesManage"]
+    "name": "patientHistoryAdmin",
+    "En": "Patient History Admin",
+    "Ar": "إدارة تاريخ المريض",
+    "permissions": ["patientHistoryManage"]
 }]

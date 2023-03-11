@@ -60,6 +60,10 @@
             ng-search="item.$patient"
             ng-disabled="item.servicesList.length"
           ></i-list>
+          <div class="col2" ng-show="item.patient.id">
+            <br />
+            <a target="_blank" class="a-btn" href="/patientHistory/{{item.patient.id}}">##word.Patient History## <i class="fas fa-notes-medical"></i></a>
+          </div>
         </div>
         <div class="row" ng-show="item.patient.id">
           <div class="cart">
@@ -192,6 +196,9 @@
       </fieldset>
       <fieldset class="col3">
         <div class="row">
+          <div class="row margin">
+            <i-date label="##word.Date##" ng-model="item.date"> </i-date>
+          </div>
           <div class="row margin disabled">
             <p class="bold col4">##word.NPHIS##</p>
             <i-radio ng-model="item.nphis" class="col4" ng-value="elig" label="##word.Elig##"> </i-radio>
@@ -208,10 +215,6 @@
             <p class="bold col4">##word.Type##</p>
             <i-radio ng-model="item.type" class="col4" ng-value="out" label="##word.Out##"> </i-radio>
             <i-radio ng-model="item.type" class="col4" ng-value="in" label="##word.In##"></i-radio>
-          </div>
-
-          <div class="row margin">
-            <i-date label="##word.Date##" ng-model="item.date"> </i-date>
           </div>
         </div>
       </fieldset>
@@ -257,7 +260,6 @@
             </td>
             <td class="text-center">
               <p class="center">{{s.hospitalCenter.name##session.lang##}}</p>
-
             </td>
             <td class="text-center">
               <p class="center">{{s.vat}} <span class="currency">##word.%##</span></p>

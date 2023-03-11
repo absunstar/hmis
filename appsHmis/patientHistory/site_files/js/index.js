@@ -1,111 +1,184 @@
-app.controller('countries', function ($scope, $http, $timeout) {
+app.controller('patientHistory', function ($scope, $http, $timeout) {
   $scope.baseURL = '';
-  $scope.appName = 'countries';
-  $scope.modalID = '#countriesManageModal';
-  $scope.modalSearchID = '#countriesSearchModal';
-  $scope.mode = 'add';
-  $scope._search = {};
-  $scope.structure = {
-    image: { url: '/images/countries.png' },
-    active: true,
-  };
-  $scope.item = {};
-  $scope.list = [];
+  $scope.appName = 'patientHistory';
+  $scope.modalID = '#patientHistoryManageModal';
+  $scope.modalSearchID = '#patientHistorySearchModal';
+  $scope.patientId = site.toNumber('##params.id##');
+  $scope.patient = {};
 
-  $scope.showAdd = function (_item) {
-    $scope.error = '';
-    $scope.mode = 'add';
-    $scope.item = { ...$scope.structure };
-    site.showModal($scope.modalID);
-  };
+  if ($scope.patientId > 0) {
+    $scope.getPatient = function (id) {
+      $scope.busy = true;
+      $http({
+        method: 'POST',
+        url: '/api/patients/view',
+        data: {
+          id: site.toNumber(id),
+        },
+      }).then(
+        function (response) {
+          $scope.busy = false;
 
-  $scope.add = function (_item) {
-    $scope.error = '';
-    const v = site.validated($scope.modalID);
-    if (!v.ok) {
-      $scope.error = v.messages[0].ar;
+          if (response.data.done && response.data.doc) {
+            $scope.patient = response.data.doc;
+            document.querySelector(`#patientHistory .tab-link`).click();
+            $scope.getDoctorDeskTopList($scope.patient.id);
+            $scope.getLaboratoryDeskTopList($scope.patient.id);
+            $scope.getRadiologyDeskTopList($scope.patient.id);
+          }
+        },
+        function (err) {
+          $scope.busy = false;
+          $scope.error = err;
+        }
+      );
+    };
+    $scope.getPatient($scope.patientId);
+  }
+
+  $scope.getPatientsList = function ($search) {
+    $scope.busy = true;
+    if ($search && $search.length < 1) {
       return;
     }
-
-    $scope.busy = true;
+    $scope.patientsList = [];
     $http({
       method: 'POST',
-      url: `${$scope.baseURL}/api/${$scope.appName}/add`,
-      data: $scope.item,
+      url: '/api/patients/all',
+      data: {
+        where: { active: true, 'type.id': 1 },
+        select: {
+          id: 1,
+          code: 1,
+          image: 1,
+          fullNameEn: 1,
+          fullNameAr: 1,
+          patientType: 1,
+          maritalStatus: 1,
+          gender: 1,
+          age: 1,
+          motherNameEn: 1,
+          motherNameAr: 1,
+          newBorn: 1,
+          nationality: 1,
+          mobile: 1,
+          patientType: 1,
+          insuranceCompany: 1,
+          insuranceClass: 1,
+          expiryDate: 1,
+        },
+        search: $search,
+      },
     }).then(
       function (response) {
         $scope.busy = false;
-        if (response.data.done) {
-          site.hideModal($scope.modalID);
-          site.resetValidated($scope.modalID);
-          $scope.list.push(response.data.doc);
-        } else {
-          $scope.error = response.data.error;
-          if (response.data.error &&response.data.error.like('*Must Enter Code*')) {
-            $scope.error = '##word.Must Enter Code##';
-          }
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.patientsList = response.data.list;
         }
       },
       function (err) {
-        console.log(err);
+        $scope.busy = false;
+        $scope.error = err;
       }
     );
   };
 
-  $scope.showUpdate = function (_item) {
-    $scope.error = '';
-    $scope.mode = 'edit';
-    $scope.view(_item);
-    $scope.item = {};
-    site.showModal($scope.modalID);
-  };
-
-  $scope.update = function (_item) {
-    $scope.error = '';
-    const v = site.validated($scope.modalID);
-    if (!v.ok) {
-      $scope.error = v.messages[0].ar;
-      return;
-    }
-    $scope.busy = true;
+  $scope.getDoctorDeskTopList = function (id) {
+    $scope.doctorDeskTopList = [];
+    $scope.medicineOrderList = [];
     $http({
       method: 'POST',
-      url: `${$scope.baseURL}/api/${$scope.appName}/update`,
-      data: _item,
+      url: '/api/doctorDeskTop/all',
+      data: {
+        where: { 'patient.id': id },
+        select: {
+          id: 1,
+          doctor: 1,
+          service: 1,
+          status: 1,
+          ordersList: 1,
+          date : 1
+        },
+      },
     }).then(
       function (response) {
-        $scope.busy = false;
-        if (response.data.done) {
-          site.hideModal($scope.modalID);
-          site.resetValidated($scope.modalID);
-          let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
-          if (index !== -1) {
-            $scope.list[index] = response.data.result.doc;
-          }
-        } else {
-          $scope.error = 'Please Login First';
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.doctorDeskTopList = response.data.list;
+          $scope.doctorDeskTopList.forEach(_d => {
+            _d.ordersList = _d.ordersList || [];
+            _d.ordersList.forEach(_o => {
+              if(_o.type== 'MD') {
+                $scope.medicineOrderList.push(_o)
+              }
+            });
+          });
         }
       },
       function (err) {
-        console.log(err);
+        $scope.error = err;
       }
     );
   };
 
-  $scope.showView = function (_item) {
-    $scope.error = '';
-    $scope.mode = 'view';
-    $scope.item = {};
-    $scope.view(_item);
-    site.showModal($scope.modalID);
+  $scope.getLaboratoryDeskTopList = function (id) {
+    $scope.laboratoryDeskTopList = [];
+    $http({
+      method: 'POST',
+      url: '/api/laboratoryDeskTop/all',
+      data: {
+        where: { 'patient.id': id },
+        select: {
+          id: 1,
+          doctor: 1,
+          service: 1,
+          status: 1,
+          date : 1
+        },
+      },
+    }).then(
+      function (response) {
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.laboratoryDeskTopList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.error = err;
+      }
+    );
   };
 
-  $scope.view = function (_item) {
-    $scope.busy = true;
+  $scope.getRadiologyDeskTopList = function (id) {
+    $scope.radiologyDeskTopList = [];
+    $http({
+      method: 'POST',
+      url: '/api/radiologyDeskTop/all',
+      data: {
+        where: { 'patient.id': id },
+        select: {
+          id: 1,
+          doctor: 1,
+          service: 1,
+          status: 1,
+          date : 1
+        },
+      },
+    }).then(
+      function (response) {
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.radiologyDeskTopList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.showDoctorRecommendations = function (_item) {
     $scope.error = '';
     $http({
       method: 'POST',
-      url: `${$scope.baseURL}/api/${$scope.appName}/view`,
+      url: `/api/doctorDeskTop/view`,
       data: {
         id: _item.id,
       },
@@ -114,6 +187,9 @@ app.controller('countries', function ($scope, $http, $timeout) {
         $scope.busy = false;
         if (response.data.done) {
           $scope.item = response.data.doc;
+          $scope.item.$view = true;
+          site.showModal('#doctorRecommendationsModal');
+          document.querySelector(`#doctorRecommendationsModal .tab-link`).click();
         } else {
           $scope.error = response.data.error;
         }
@@ -124,33 +200,22 @@ app.controller('countries', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.showDelete = function (_item) {
+  $scope.showLaboratoryRecommendations = function (_item) {
     $scope.error = '';
-    $scope.mode = 'delete';
-    $scope.item = {};
-    $scope.view(_item);
-    site.showModal($scope.modalID);
-  };
-
-  $scope.delete = function (_item) {
-    $scope.busy = true;
-    $scope.error = '';
-
     $http({
       method: 'POST',
-      url: `${$scope.baseURL}/api/${$scope.appName}/delete`,
+      url: `/api/laboratoryDeskTop/view`,
       data: {
-        id: $scope.item.id,
+        id: _item.id,
       },
     }).then(
       function (response) {
         $scope.busy = false;
         if (response.data.done) {
-          site.hideModal($scope.modalID);
-          let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
-          if (index !== -1) {
-            $scope.list.splice(index, 1);
-          }
+          $scope.item = response.data.doc;
+          $scope.item.$view = true;
+          site.showModal('#recommendationsModal');
+          document.querySelector(`#recommendationsModal .tab-link`).click();
         } else {
           $scope.error = response.data.error;
         }
@@ -161,66 +226,29 @@ app.controller('countries', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getAll = function (where) {
-    $scope.busy = true;
-    $scope.list = [];
-    $http({
-      method: 'POST',
-      url: `${$scope.baseURL}/api/${$scope.appName}/all`,
-      data: {
-        where: where,
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.list.length > 0) {
-          $scope.list = response.data.list;
-          $scope.count = response.data.count;
-          site.hideModal($scope.modalSearchID);
-          $scope.search = {};
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
-
-  $scope.getNumberingAuto = function () {
+  $scope.showRadiologyRecommendations = function (_item) {
     $scope.error = '';
-    $scope.busy = true;
     $http({
       method: 'POST',
-      url: '/api/numbering/getAutomatic',
+      url: `/api/radiologyDeskTop/view`,
       data: {
-        screen: $scope.appName,
+        id: _item.id,
       },
     }).then(
       function (response) {
         $scope.busy = false;
         if (response.data.done) {
-          $scope.disabledCode = response.data.isAuto;
+          $scope.item = response.data.doc;
+          $scope.item.$view = true;
+          site.showModal('#recommendationsModal');
+          document.querySelector(`#recommendationsModal .tab-link`).click();
+        } else {
+          $scope.error = response.data.error;
         }
       },
       function (err) {
-        $scope.busy = false;
-        $scope.error = err;
+        console.log(err);
       }
     );
   };
-
-  $scope.showSearch = function () {
-    $scope.error = '';
-    site.showModal($scope.modalSearchID);
-  };
-
-  $scope.searchAll = function () {
-    $scope.getAll($scope.search);
-    site.hideModal($scope.modalSearchID);
-    $scope.search = {};
-  };
-
-  $scope.getAll();
-  $scope.getNumberingAuto();
 });

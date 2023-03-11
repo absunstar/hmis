@@ -1,11 +1,11 @@
 [
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesManage" , "En":"Manage" , "Ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesAdd" , "En":"Add" , "Ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesUpdate" , "En":"Edit" , "Ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesDelete" , "En":"Delete" , "Ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesView" , "En":"View" , "Ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesSearch" , "En":"Search" , "Ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesExport" , "En":"Export" , "Ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesPrint" , "En":"Print" , "Ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "countries" , "name":"countriesUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+    { "moduleName" : "public" , "screenName" : "patientHistory" , "name":"patientHistoryManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "patientHistory" , "name":"patientHistoryAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "patientHistory" , "name":"patientHistoryUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "patientHistory" , "name":"patientHistoryDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "patientHistory" , "name":"patientHistoryView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "patientHistory" , "name":"patientHistorySearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "patientHistory" , "name":"patientHistoryExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "patientHistory" , "name":"patientHistoryPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "patientHistory" , "name":"patientHistoryUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
 ]

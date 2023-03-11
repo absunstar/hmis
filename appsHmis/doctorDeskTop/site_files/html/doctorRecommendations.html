@@ -336,10 +336,10 @@
 
     <div class="modal-footer center">
       <p class="error">{{error}}</p>
-      <i-button type="edit" label="##word.Save##" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" ng-click="update(item,'#doctorRecommendationsModal')"></i-button>
+      <i-button type="edit" ng-hide="mode == 'view'|| item.$view" label="##word.Save##" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" ng-click="update(item,'#doctorRecommendationsModal')"></i-button>
       <i-button
         type="save"
-        ng-show="item.status.id == 2"
+        ng-show="item.status.id == 2 && !item.$view"
         label="##word.Save## ##word.And## ##word.End detection##"
         x-permissions="doctorDeskTopUpdate || doctorDeskTopManage"
         ng-click="update(item,'#doctorRecommendationsModal',3)"

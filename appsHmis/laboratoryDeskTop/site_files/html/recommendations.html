@@ -117,10 +117,10 @@
 
     <div class="modal-footer center">
       <p class="error">{{error}}</p>
-      <i-button type="edit" label="##word.Save##" x-permissions="laboratoryDeskTopUpdate || laboratoryDeskTopManage" ng-click="update(item,'#recommendationsModal')"></i-button>
+      <i-button type="edit" ng-hide="mode == 'view'|| item.$view" label="##word.Save##" x-permissions="laboratoryDeskTopUpdate || laboratoryDeskTopManage" ng-click="update(item,'#recommendationsModal')"></i-button>
       <i-button
         type="save"
-        ng-show="item.status.id == 3"
+        ng-show="item.status.id == 3 && !item.$view"
         label="##word.Save## ##word.And## ##word.Put results##"
         x-permissions="laboratoryDeskTopUpdate || laboratoryDeskTopManage"
         ng-click="update(item,'#recommendationsModal',4)"

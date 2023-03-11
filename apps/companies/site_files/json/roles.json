@@ -9,6 +9,7 @@
             "printersPathsManage",
             "attendanceLeavingManage",
             "countriesManage",
+            "journalEntryManage",
             "generalLedgerManage",
             "assistantGeneralLedgerManage",
             "costCentersManage",

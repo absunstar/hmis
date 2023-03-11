@@ -20,6 +20,12 @@
     {
         "category": "main",
         "feature": "public",
+        "id": "journalEntry",
+        "name": "Journal Entry"
+    },
+    {
+        "category": "main",
+        "feature": "public",
         "id": "generalLedger",
         "name": "General Ledger"
     },

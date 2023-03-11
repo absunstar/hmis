@@ -230,6 +230,7 @@ app.controller('accountsGuide', function ($scope, $http, $timeout) {
       data: {
         where: {
           status: 'active',
+          type: 'detailed',
         },
         select: {
           id: 1,

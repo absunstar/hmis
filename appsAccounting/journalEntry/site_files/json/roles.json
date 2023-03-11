@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "journalEntryAdmin",
+    "En": "Journal Entry Admin",
+    "Ar": "إدارة قيود اليومية",
+    "permissions": ["journalEntryManage"]
+}]

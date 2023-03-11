@@ -1,5 +1,5 @@
 <div class="row">
-    <i-control ng-hide="disabledCode" class="col4" label="##word.Code##" ng-model="item.code"> </i-control>
+    <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="item.code"> </i-control>
     <div class="col4" ng-if="item.approved">
         <div class="row">
             <p class="text-center">##word.Available Delay By Minute##</p>
@@ -17,7 +17,20 @@
         </div>
     </div>
 
-    <i-checkbox ng-model="item.active" class="col4" label="##word.Active##"></i-checkbox>
+    <div class="col4" x-permissions=" jobsShiftsManage" ng-if="!item.approved">
+        <i-checkbox ng-if="!item.approved" ng-model="item.useSystemSetting" label="##word.Use System Setting In Calculating Payslip##"></i-checkbox>
+    </div>
+
+    <div class="col4" ng-if="item.approved">
+        <div class="row">
+            <p class="text-center">##word.Use System Setting In Calculating Payslip##</p>
+            <p class="text-center">
+                <span class="bold text-success" ng-if="item.useSystemSetting">##word.Yes##</span>
+                <span class="bold text-danger" ng-if="!item.useSystemSetting">##word.No##</span>
+            </p>
+        </div>
+    </div>
+    <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
 
     <i-control type="text" v="r" class="col6" ng-model="item.nameEn" label="##word.Name##"></i-control>
     <i-control type="text" v="r" class="col6" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
@@ -58,64 +71,53 @@
         </table>
     </fieldset>
 
-    <fieldset>
-        <legend>##word.Penalties##</legend>
-        <div class="row" ng-if="!item.approved" x-permissions="addDelayPenalty || jobsShiftsManage">
-            <i-control type="number" class="col2" ng-model="delayPenalty.fromMinute" label="##word.From Minute##"></i-control>
-            <i-control type="number" class="col2" ng-model="delayPenalty.toMinute" label="##word.To Minute##"></i-control>
-            <i-control type="number" class="col3" ng-model="delayPenalty.value" label="##word.Value##"></i-control>
-            <i-list label="##word.Type##" class="col3" ng-model="delayPenalty.type" display="name##session.lang##" items="delayDiscountsTypesList" ng-search="delayPenalty.$discountType"></i-list>
-            <div class="col2">
-                <br />
-                <i-button type="add" label="##word.Add##" ng-click="addPenalty(delayPenalty)"></i-button>
-            </div>
+    <fieldset ng-show="!item.useSystemSetting">
+        <legend>##word.Bonuses And Discounts##</legend>
+        <div class="row">
+            <i-control class="col4" type="number" min="0" ng-disabled="item.approved" ng-model="item.overtime" label="##word.Overtime Value##"> </i-control>
+            <i-control class="col4" type="number" min="0" ng-disabled="item.approved" ng-model="item.penality" label="##word.Penality Value##"> </i-control>
+            <i-control class="col4" type="number" min="0" ng-disabled="item.approved" ng-model="item.absenceHours" label="##word.Absence hours Value##"> </i-control>
+            <i-control class="col4" type="number" min="0" ng-disabled="item.approved" ng-model="item.absenceDays" label="##word.Absence Days Value##"> </i-control>
         </div>
-        <table class="table hover bold">
-            <tr>
-                <th>##word.S##</th>
-                <th>##word.From Minute##</th>
-                <th>##word.To Minute##</th>
-                <th>##word.Value##</th>
-                <th>##word.Status##</th>
-                <th class="not-print">##word.Actions##</th>
-            </tr>
-            <tr ng-repeat="time in item.penaltiesList">
-                <td><p class="text-center">{{$index+1}}</p></td>
-                <td><p class="text-center">{{time.fromMinute}}</p></td>
-                <td><p class="text-center">{{time.toMinute }}</p></td>
-                <td><p class="text-center">{{time.value}} - {{time.type.name##session.lang##}}</p></td>
-
-                <td class="text-center">
-                    <span class="text-success" ng-show="time.active">##word.Active##</span>
-                    <span class="text-danger" ng-show="!time.active">##word.Not Active##</span>
-                </td>
-
-                <td class="text-center">
-                    <i-button type="delete" ng-if="!item.approved" x-permissions="removeDelayPenalty || jobsShiftsManage" ng-click="item.penaltiesList.splice($index,1)"></i-button>
-                </td>
-            </tr>
-        </table>
-    </fieldset>
-
-    <!-- <fieldset>
-        <legend>
-            ##word.Penalties##
-            <i-button type="add default" ng-click="item.penaltiesList.push({})"></i-button>
-        </legend>
-        <div class="row" ng-repeat="pen in item.penaltiesList">
-            <i-control type="number" class="col2" v="r" ng-model="pen.from" label="##word.From##"></i-control>
-            <i-control type="number" class="col2" v="r" ng-model="pen.to" label="##word.To##"></i-control>
-            <i-control type="number" class="col3" v="r" ng-model="pen.value" label="##word.Value##"></i-control>
-            <i-list label="##word.Type##" class="col3" v="r" ng-model="pen.type" display="name##session.lang##" items="lateDiscountsTypesList" ng-search="l.$type"></i-list>
-
-            <i-button type="delete default" ng-click="item.penaltiesList.splice($index,1)"></i-button>
-           <div class="col2">
+        <fieldset>
+            <legend>##word.Penalties##</legend>
+            <div class="row" ng-if="!item.approved" x-permissions="addDelayPenalty || jobsShiftsManage">
+                <i-control type="number" class="col2" ng-model="delayPenalty.fromMinute" label="##word.From Minute##"></i-control>
+                <i-control type="number" class="col2" ng-model="delayPenalty.toMinute" label="##word.To Minute##"></i-control>
+                <i-control type="number" class="col3" ng-model="delayPenalty.value" label="##word.Value##"></i-control>
+                <i-list label="##word.Type##" class="col3" ng-model="delayPenalty.type" display="name##session.lang##" items="delayDiscountsTypesList" ng-search="delayPenalty.$discountType"></i-list>
+                <div class="col2">
                     <br />
-                    <br />
-                    <p class="bold">##word.Minute##</p>
+                    <i-button type="add" label="##word.Add##" ng-click="addPenalty(delayPenalty)"></i-button>
                 </div>
-        </div>
-    </fieldset> -->
+            </div>
+            <table class="table hover bold">
+                <tr>
+                    <th>##word.S##</th>
+                    <th>##word.From Minute##</th>
+                    <th>##word.To Minute##</th>
+                    <th>##word.Value##</th>
+                    <th>##word.Status##</th>
+                    <th class="not-print">##word.Actions##</th>
+                </tr>
+                <tr ng-repeat="time in item.penaltiesList">
+                    <td><p class="text-center">{{$index+1}}</p></td>
+                    <td><p class="text-center">{{time.fromMinute}}</p></td>
+                    <td><p class="text-center">{{time.toMinute }}</p></td>
+                    <td><p class="text-center">{{time.value}} - {{time.type.name##session.lang##}}</p></td>
+
+                    <td class="text-center">
+                        <span class="text-success" ng-show="time.active">##word.Active##</span>
+                        <span class="text-danger" ng-show="!time.active">##word.Not Active##</span>
+                    </td>
+
+                    <td class="text-center">
+                        <i-button type="delete" ng-if="!item.approved" x-permissions="removeDelayPenalty || jobsShiftsManage" ng-click="item.penaltiesList.splice($index,1)"></i-button>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </fieldset>
 </div>
 
 <div ng-show="mode !== 'add' " class="row">

@@ -24,8 +24,8 @@
     <fieldset ng-show="mode !='add'">
         <legend>##word.Approve Informations##</legend>
         <div class="row">
-            <i-list ng-model="item.approvedVacationType" class="col3" disabled="item.approved" items="vacationsTypesList" display="name##session.lang##" label="##word.Approved Type##"></i-list>
-            <i-control type="number" class="col3" disabled="item.approved" label="##word.Approved Days##" ng-model="item.approvedDays"> </i-control>
+            <i-list ng-model="item.approvedVacationType" class="col3" ng-disabled="item.approved" items="vacationsTypesList" display="name##session.lang##" label="##word.Approved Type##"></i-list>
+            <i-control type="number" class="col3" ng-disabled="item.approved" label="##word.Approved Days##" ng-model="item.approvedDays"> </i-control>
 
             <div class="col2">
                 <br />

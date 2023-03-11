@@ -4,3 +4,5 @@ node_modules/
 run.bat
 *.zip
 *.rar
+
+*.xls

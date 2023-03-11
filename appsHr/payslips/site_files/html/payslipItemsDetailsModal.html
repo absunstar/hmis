@@ -131,10 +131,10 @@
                             <tr>
                                 <th>##word.s##</th>
                                 <th>##word.Date##</th>
-                                <th>##word.From##</th>
-                                <th>##word.To##</th>
-                                <th>##word.Count##</th>
-                                <!-- <th>##word.Source##</th> -->
+                                <th>##word.Reqruired##</th>
+                                <th>##word.Action##</th>
+                                <th>##word.Minute##</th>
+                                <th>##word.Source##</th>
                                 <th>##word.Value##</th>
                             </tr>
                             <tr ng-repeat="itm in payslipItem.list">
@@ -143,7 +143,7 @@
                                 <td class="center">{{itm.from |date:'hh:mm a'}}</td>
                                 <td class="center">{{itm.to |date:'hh:mm a'}}</td>
                                 <td class="center">{{itm.count}}</td>
-                                <!-- <td class="center">{{itm.source.nameEn}} - {{itm.source.nameAr}}</td> -->
+                                <td class="center">{{itm.source.nameEn}} - {{itm.source.nameAr}}</td>
                                 <td class="center">{{itm.value}} <span class="currency">##word.$##</span></td>
                             </tr>
                         </table>

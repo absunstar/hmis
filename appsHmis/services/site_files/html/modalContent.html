@@ -12,13 +12,13 @@
             <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
             <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
             <i-list class="col6" v="r" label="##word.Service Group##" ng-model="item.serviceGroup" display="name##session.lang##" items="servicesGroupsList" ng-search="item.$serviceGroup"></i-list>
-            <i-list class="col6" v="r" label="##word.ACHI##" ng-model="item.achi" display="name##session.lang##" items="achiCodesList" ng-search="item.$achi"></i-list>
-            <i-control type="text" v="r" class="col6" ng-model="item.sfdaCode" label="##word.SFDA Code##"></i-control>
-            <i-list class="col6" label="##word.CPT Code##" ng-model="item.cptCode" display="name##session.lang##" items="CptCodeList" ng-search="item.$achi"></i-list>
+            <i-list class="col6" label="##word.ACHI##" ng-model="item.achi" display="name##session.lang##" items="achiCodesList" ng-search="item.$achi"></i-list>
+            <i-control type="text"  class="col6" ng-model="item.sfdaCode" label="##word.SFDA Code##"></i-control>
+            <i-control class="col6" label="##word.CPT Code##" ng-model="item.cptCode" display="name##session.lang##" ></i-control>
           </div>
         </div>
         <div class="col3">
-          <i-image class="img128" ng-model="item.image"></i-image>
+          <i-image class="img256" ng-model="item.image"></i-image>
         </div>
       </div>
     </fieldset>

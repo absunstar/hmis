@@ -174,6 +174,8 @@ app.controller('services', function ($scope, $http, $timeout) {
       url: `${$scope.baseURL}/api/${$scope.appName}/all`,
       data: {
         where: where,
+        select: { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1, vat: 1 , cashPriceOut : 1},
+        limit: 50,
       },
     }).then(
       function (response) {

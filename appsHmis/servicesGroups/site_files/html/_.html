@@ -5,6 +5,8 @@
 
         <div class="top-actions">
             <i-button type="add" x-permissions="servicesGroupsAdd || servicesGroupsManage" label="##word.New##" ng-click="showAdd()"></i-button>
+            <i-upload api="api/servicesGroups/import" label="Import"></i-upload>
+
         </div>
 
         <div class="row padding">
@@ -14,7 +16,8 @@
             <tr>
                 <th class="w150">##word.Logo##</th>
                 <th>##word.Code##</th>
-                <th>##word.Name##</th>
+                <th>##word.Name Ar##</th>
+                <th>##word.Name En##</th>
                 <th class="not-print">##word.Actions##</th>
             </tr>
             <tr ng-repeat="item in list | filter:$search">
@@ -22,7 +25,8 @@
                     <i-image view class="logo center" ng-model="item.image"></i-image>
                 </td>
                 <td class="text-center blue">{{item.code}}</td>
-                <td class="text-center">{{item.name##session.lang##}}</td>
+                <td class="text-center">{{item.nameAr}}</td>
+                <td class="text-center">{{item.nameEn}}</td>
 
                 <td class="text-center not-print">
                     <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>

@@ -275,7 +275,7 @@ module.exports = function init(site) {
       });
     }
 
-    site.post('api/names/import', (req, res) => {
+    site.post(`api/${app.name}/import`, (req, res) => {
       let response = {
         done: false,
         file: req.form.files.fileToUpload,

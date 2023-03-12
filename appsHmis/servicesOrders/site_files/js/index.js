@@ -14,6 +14,8 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     patientBalance: 0,
     accBalance: 0,
     totalNet: 0,
+    approved: false,
+    doneApproval: false,
   };
   $scope.item = {};
   $scope.list = [];
@@ -97,6 +99,48 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
         console.log(err);
       }
     );
+  };
+
+  $scope.approved = function (_item) {
+    $scope.error = '';
+    const v = site.validated($scope.modalID);
+    if (!v.ok) {
+      $scope.error = v.messages[0].ar;
+      return;
+    }
+    $scope.busy = true;
+    $http({
+      method: 'POST',
+      url: `${$scope.baseURL}/api/${$scope.appName}/approved`,
+      data: _item,
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done) {
+          site.hideModal($scope.modalID);
+          site.resetValidated($scope.modalID);
+          let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+          if (index !== -1) {
+            $scope.list[index] = response.data.result.doc;
+          }
+        } else {
+          $scope.error = 'Please Login First';
+        }
+      },
+      function (err) {
+        console.log(err);
+      }
+    );
+  };
+
+  $scope.approveService = function (_service) {
+    $scope.error = '';
+    _service.approved = true;
+    if ($scope.item.servicesList.some((s) => !s.approved)) {
+      $scope.item.doneApproval = false;
+    } else {
+      $scope.item.doneApproval = true;
+    }
   };
 
   $scope.showView = function (_item) {
@@ -330,12 +374,15 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
         url: '/api/mainInsurances/fromSub',
         data: {
           insuranceCompanyId: patient.insuranceCompany.id,
+          insuranceClassId: patient.insuranceClass.id,
         },
       }).then(
         function (response) {
           $scope.busy = false;
           if (response.data.done && response.data.mainInsuranceCompany) {
             $scope.item.mainInsuranceCompany = response.data.mainInsuranceCompany;
+            $scope.item.insuranceContract = response.data.insuranceContract;
+
             if ($scope.item.patient.insuranceClass && $scope.item.patient.insuranceClass.id) {
               $scope.getNphisElig($scope.item.patient.insuranceClass.id);
             } else {
@@ -431,8 +478,9 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     }).then(
       function (response) {
         $scope.busy = false;
-        if (response.data.done && response.data.mainInsuranceCompany && response.data.service) {
+        if (response.data.done && response.data.mainInsuranceCompany) {
           $scope.item.mainInsuranceCompany = response.data.mainInsuranceCompany;
+          $scope.item.insuranceContract = response.data.insuranceContract;
           if (response.data.elig) {
             $scope.item.nphis = 'elig';
             $scope.item.payment = 'credit';
@@ -445,7 +493,16 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
             $scope.item.payment = 'cash';
             $scope.item.errMsg = 'There is no incurance class for the patient';
           }
-          $scope.addServices(response.data.service, $scope.item.mainInsuranceCompany);
+          $scope.item.servicesList = response.data.servicesList;
+          if ($scope.item.servicesList.some((s) => !s.approved)) {
+            $scope.item.doneApproval = false;
+          } else {
+            $scope.item.doneApproval = true;
+          }
+          $scope.calc($scope.item);
+
+          /*           $scope.addServices(response.data.service, $scope.item.mainInsuranceCompany);
+           */
         } else {
           $scope.item.errMsg = response.data.error;
         }
@@ -461,8 +518,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     $scope.item.patient = doctorDeskTop.patient;
     $scope.item.doctor = doctorDeskTop.doctor;
     $scope.item.sourceId = doctorDeskTop.id;
-    $scope.getMainInsuranceFromSub(doctorDeskTop.patient);
-    doctorDeskTop.type = $scope.item.type;
+    $scope.item.type = doctorDeskTop.type;
     $http({
       method: 'POST',
       url: '/api/selectDoctorDeskTop',
@@ -474,7 +530,13 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           response.data.servicesList.forEach((_s) => {
             $scope.item.servicesList.push(_s);
           });
+          if ($scope.item.servicesList.some((s) => !s.approved)) {
+            $scope.item.doneApproval = false;
+          } else {
+            $scope.item.doneApproval = true;
+          }
           $scope.item.mainInsuranceCompany = response.data.mainInsuranceCompany;
+          $scope.item.insuranceContract = response.data.insuranceContract;
           if (response.data.elig) {
             $scope.item.nphis = 'elig';
             $scope.item.payment = 'credit';
@@ -511,6 +573,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           patient: 1,
           doctor: 1,
           ordersList: 1,
+          type: 1,
         },
       },
     }).then(
@@ -644,6 +707,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
         let obj = {
           mainInsuranceCompany: mainInsuranceCompany,
           patientClass: $scope.item.patient.insuranceClass,
+          insuranceContract: $scope.item.insuranceContract,
           servicesList: [s],
           payment: $scope.item.payment,
           type: $scope.item.type,
@@ -652,6 +716,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
         if ($scope.item.doctor && $scope.item.doctor.hospitalCenter) {
           obj.hospitalCenter = { ...$scope.item.doctor.hospitalCenter };
         }
+
         $http({
           method: 'POST',
           url: '/api/serviceMainInsurance',
@@ -678,6 +743,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
         });
         $scope.calc($scope.item);
       }
+
       service = {};
     } else {
       $scope.error = 'Must Select Service';
@@ -693,7 +759,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
       _item.totalVat = 0;
       _item.totalPatientVat = 0;
       _item.totalCompanyVat = 0;
-        _item.servicesList.forEach((_service) => {
+      _item.servicesList.forEach((_service) => {
         _service.totalPrice = _service.price * _service.qty;
 
         _service.totalDiscount = (_service.totalPrice * _service.discount) / 100;
@@ -720,11 +786,18 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
         _item.totalPatientVat += _service.grossAmount;
         _item.totalCompanyVat += _service.totalCompanyVat;
       });
+
       _item.grossAmount = site.toNumber(_item.grossAmount);
       _item.totalVat = site.toNumber(_item.totalVat);
       _item.totalPatientVat = site.toNumber(_item.totalPatientVat);
       _item.totalCompanyVat = site.toNumber(_item.totalCompanyVat);
       _item.totalNet = _item.grossAmount + _item.totalVat + _item.totalPatientVat + _item.totalCompanyVat;
+
+      if ($scope.item.servicesList.some((s) => !s.approved)) {
+        $scope.item.doneApproval = false;
+      } else {
+        $scope.item.doneApproval = true;
+      }
     }, 300);
   };
 

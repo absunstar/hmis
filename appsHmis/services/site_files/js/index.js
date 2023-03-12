@@ -174,7 +174,7 @@ app.controller('services', function ($scope, $http, $timeout) {
       url: `${$scope.baseURL}/api/${$scope.appName}/all`,
       data: {
         where: where,
-        select: { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1, vat: 1 , cashPriceOut : 1},
+        select: { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1, vat: 1, cashPriceOut: 1 },
         limit: 50,
       },
     }).then(
@@ -304,7 +304,6 @@ app.controller('services', function ($scope, $http, $timeout) {
 
   $scope.addServicesCategories = function (_item) {
     $scope.error = '';
-    console.log($scope.servicesCategoriesList);
     if (_item.$serviceCategory && _item.$serviceCategory.id) {
       _item.servicesCategoriesList = _item.servicesCategoriesList || [];
       if (!_item.servicesCategoriesList.some((s) => s.id === _item.$serviceCategory.id)) {
@@ -315,6 +314,12 @@ app.controller('services', function ($scope, $http, $timeout) {
       $scope.error = 'Must Select Service Category';
       return;
     }
+  };
+
+  $scope.addNormalRange = function (_item) {
+    $scope.error = '';
+    _item.normalRangeList = _item.normalRangeList || [];
+    _item.normalRangeList.push({});
   };
 
   $scope.showSearch = function () {

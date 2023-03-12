@@ -317,7 +317,12 @@
         "id": "medicineRoutes",
         "name": "Medicine Routes"
     },
-
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "patientsApproval",
+        "name": "Patients Approval"
+    },
     {
         "category": "main",
         "feature": "public",

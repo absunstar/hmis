@@ -60,7 +60,7 @@
             ng-search="item.$patient"
             ng-disabled="item.servicesList.length"
           ></i-list>
-          <div class="col2" ng-show="item.patient.id">
+          <div class="col3" ng-show="item.patient.id">
             <br />
             <a target="_blank" class="a-btn" href="/patientHistory/{{item.patient.id}}">##word.Patient History## <i class="fas fa-notes-medical"></i></a>
           </div>
@@ -241,13 +241,17 @@
             <th>##word.PVAT##</th>
             <th>##word.Com-VAT##</th>
             <th>##word.Total##</th>
+            <th>##word.Patient Cash##</th>
             <!-- <th class="not-print">##word.Actions##</th> -->
           </tr>
 
           <tr ng-repeat="s in item.servicesList">
             <td class="text-center word-line">
-              {{s.name##session.lang##}}
+              <p>{{s.code}}-{{s.name##session.lang##}}</p>
               <p class="red" ng-show="s.needApproval">( ##word.Need Approval##)</p>
+              <p ng-show="s.needApproval && s.approved">##word.Approved##</p>
+              <p ng-show="s.needApproval && !s.approved">##word.Not Approved##</p>
+              <i-button x-permissions="servicesOrdersApprove || servicesOrdersManage" label="##word.Approve##" ng-show="!s.approved" type="approve" ng-click="approveService(s)"> </i-button>
             </td>
             <td class="text-center">
               <p class="green">{{s.qty}} ##word.+##</p>
@@ -270,7 +274,6 @@
                 <span class="col2 currency">##word.%##</span>
               </div>
             </td>
-
             <td class="text-center">
               <p class="center">{{s.comVat}} <span class="currency">##word.%##</span></p>
             </td>
@@ -280,6 +283,9 @@
             <!--  <td class="text-center not-print">
               <i-button type="delete default" ng-click="item.servicesList.splice($index,1)"> </i-button>
             </td> -->
+            <td class="text-center">
+              <p class="center">{{s.patientCash}} <span class="currency">##word.$##</span></p>
+            </td>
           </tr>
         </table>
       </div>

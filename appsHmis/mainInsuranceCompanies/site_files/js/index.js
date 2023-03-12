@@ -475,7 +475,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     $scope.error = '';
     if (_item.$serviceGroup && _item.$serviceGroup.id) {
       if (!_item.servicesGroupsList.some((s) => s.id === _item.$serviceGroup.id)) {
-        _item.servicesGroupsList.push({
+        _item.servicesGroupsList.unshift({
           ..._item.$serviceGroup,
           insuranceClassesList: [],
           cashOut: 0,
@@ -497,7 +497,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     $scope.error = '';
     if (_item.$serviceCategory && _item.$serviceCategory.id) {
       if (!_item.servicesCategoriesList.some((s) => s.id === _item.$serviceCategory.id)) {
-        _item.servicesCategoriesList.push({
+        _item.servicesCategoriesList.unshift({
           ..._item.$serviceCategory,
           insuranceClassesList: [],
           cashOut: 0,
@@ -517,7 +517,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     $scope.error = '';
     if (_item.$service && _item.$service.id) {
       if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
-        _item.servicesList.push({
+        _item.servicesList.unshift({
           ..._item.$service,
           insuranceClassesList: [],
           cashIn: 0,
@@ -542,7 +542,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     $scope.error = '';
     if (_item.$packageServiceGroup && _item.$packageServiceGroup.id) {
       if (!_item.packageServicesGroupsList.some((s) => s.id === _item.$packageServiceGroup.id)) {
-        _item.packageServicesGroupsList.push({
+        _item.packageServicesGroupsList.unshift({
           ..._item.$packageServiceGroup,
           discount: 0,
         });

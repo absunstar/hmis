@@ -290,6 +290,14 @@ module.exports = function init(site) {
         app.view({ id: insuranceContract.mainInsuranceCompany.id }, (err, doc) => {
           if (!err && doc) {
             response.done = true;
+            response.insuranceContract = {
+              id: insuranceContract.id,
+              code: insuranceContract.code,
+              nameAr: insuranceContract.nameAr,
+              nameEn: insuranceContract.nameEn,
+              insuranceClass: insuranceContract.insuranceClassesList.find((_c) => _c.id == _data.insuranceClassId),
+            };
+
             response.mainInsuranceCompany = {
               id: doc.id,
               code: doc.code,
@@ -328,7 +336,6 @@ module.exports = function init(site) {
     //   return;
     // }
     let appServicesGroup = site.getApp('servicesGroups');
-    let appServicesCategory = site.getApp('servicesCategories');
     let mainInsurance = app.memoryList.find((_c) => _data.mainInsuranceCompany && _c.id == _data.mainInsuranceCompany.id);
     response.done = true;
     let servicesList = [];
@@ -355,6 +362,7 @@ module.exports = function init(site) {
                     code: mainInsurance.servicesList[serviceIndex].coCode || serviceMemory.code,
                     qty: 1,
                     needApproval: mainInsurance.servicesList[serviceIndex].needApproval,
+                    approved: mainInsurance.servicesList[serviceIndex].needApproval ? false : true,
                     vat: serviceMemory.vat,
                     serviceGroup: serviceMemory.serviceGroup,
                     pVat: 0,
@@ -377,7 +385,9 @@ module.exports = function init(site) {
                       service.discount = mainInsurance.servicesList[serviceIndex].creditInDesc;
                     }
                   }
+
                   service.total = service.price - (service.price * service.discount) / 100;
+
                   servicesList.push(service);
                 }
               }
@@ -405,6 +415,7 @@ module.exports = function init(site) {
                         code: serviceMemory.code,
                         type: 'Discount',
                         needApproval: categoryInsurance.needApproval,
+                        approved: categoryInsurance.needApproval ? false : true,
                         qty: 1,
                         vat: serviceMemory.vat,
                         serviceGroup: serviceMemory.serviceGroup,
@@ -450,6 +461,7 @@ module.exports = function init(site) {
                       nameAr: serviceMemory.nameAr,
                       nameEn: serviceMemory.nameEn,
                       needApproval: goupInsurance.needApproval,
+                      approved: goupInsurance.needApproval ? false : true,
                       code: serviceMemory.code,
                       qty: 1,
                       price: 0,
@@ -503,6 +515,8 @@ module.exports = function init(site) {
                             pVat: 0,
                             serviceGroup: serviceMemory.serviceGroup,
                             comVat: mainInsurance.vat,
+                            needApproval: goupInsurance.needApproval,
+                            approved: goupInsurance.needApproval ? false : true,
                           };
 
                           if (_data.type == 'out') {
@@ -539,9 +553,11 @@ module.exports = function init(site) {
               nameAr: serviceMemory.nameAr,
               nameEn: serviceMemory.nameEn,
               serviceGroup: serviceMemory.serviceGroup,
+              approved: true,
               discount: 0,
               comVat: 0,
               pVat: 0,
+              vat: 0,
               qty: 1,
             };
             if (_data.type == 'out') {
@@ -557,14 +573,41 @@ module.exports = function init(site) {
                 service.price = serviceMemory.creditPriceIn;
               }
             }
+            service.total = service.price + (service.price * service.vat) / 100;
+            service.total = site.toNumber(service.total);
+            service.patientCash = site.toNumber(service.total);
             servicesList.push(service);
+          } else {
+            servicesList[servicesList.length - 1].total = servicesList[servicesList.length - 1].price + (servicesList[servicesList.length - 1].price * servicesList[servicesList.length - 1].vat) / 100;
+            servicesList[servicesList.length - 1].total = site.toNumber(servicesList[servicesList.length - 1].total);
+            let datuct = 0;
+            if (serviceMemory.serviceGroup.type && serviceMemory.serviceGroup.type.id == 2) {
+              if (_data.insuranceContract.insuranceClass.serviceType == 'percent') {
+                datuct = (servicesList[servicesList.length - 1].total * _data.insuranceContract.insuranceClass.serviceDeduct) / 100;
+              } else {
+                datuct = _data.insuranceContract.insuranceClass.serviceDeduct;
+              }
+            } else {
+              if (_data.insuranceContract.insuranceClass.consultationType == 'percent') {
+                datuct = (servicesList[servicesList.length - 1].total * _data.insuranceContract.insuranceClass.consultationDeduct) / 100;
+              } else {
+                datuct = _data.insuranceContract.insuranceClass.consultationDeduct;
+              }
+            }
+            if (
+              _data.insuranceContract.insuranceClass &&
+              _data.insuranceContract.insuranceClass.maxDeductAmount &&
+              _data.insuranceContract.insuranceClass.maxDeductAmount < servicesList[servicesList.length - 1].total - datuct
+            ) {
+              servicesList[servicesList.length - 1].patientCash = _data.insuranceContract.insuranceClass.maxDeductAmount;
+            } else {
+              servicesList[servicesList.length - 1].patientCash = servicesList[servicesList.length - 1].total - datuct;
+            }
           }
           if (_data.hospitalCenter && _data.hospitalCenter.id) {
             servicesList[servicesList.length - 1].hospitalCenter = _data.hospitalCenter;
           }
-
-          servicesList[servicesList.length - 1].total = servicesList[servicesList.length - 1].price + (servicesList[servicesList.length - 1].price * servicesList[servicesList.length - 1].vat) / 100;
-          servicesList[servicesList.length - 1].total = site.toNumber(servicesList[servicesList.length - 1].total);
+          servicesList[servicesList.length - 1].normalRangeList = serviceMemory.normalRangeList;
         }
       });
       if (servicesList.length > 0) {

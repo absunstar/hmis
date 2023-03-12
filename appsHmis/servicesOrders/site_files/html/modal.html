@@ -15,7 +15,7 @@
         <i class="fa fa-trash"></i>
       </p>
       <p class="center" ng-show="mode == 'view' ">
-        ##word.Service Order## ##word.Details## 
+        ##word.Service Order## ##word.Details##
         <i class="fa fa-file"></i>
       </p>
     </div>
@@ -26,9 +26,10 @@
 
     <div class="modal-footer center">
       <p class="error">{{error}}</p>
-      <i-button ng-show="mode == 'add' "  type="add" label="##word.Add##" ng-click="add(item)"></i-button>
-      <i-button ng-show="mode == 'edit' "  type="edit" label="##word.Save##" ng-click="update(item)"></i-button>
-      <i-button ng-show="mode == 'delete' "  type="delete" label="##word.Delete##" ng-click="delete(item)"> </i-button>
+      <i-button ng-show="mode == 'add' " type="add" label="##word.Add##" ng-click="add(item)"></i-button>
+      <i-button ng-show="mode == 'edit' " type="edit" label="##word.Save##" ng-click="update(item)"></i-button>
+      <i-button ng-show="mode == 'delete' " type="delete" label="##word.Delete##" ng-click="delete(item)"> </i-button>
+      <i-button ng-show="mode == 'edit' && !item.approved && item.doneApproval" type="approve" label="##word.Approve##" ng-click="approved(item)"> </i-button>
       <i-button type="close" label="##word.Close##" onclick="site.hideModal( '#servicesOrdersManageModal')"></i-button>
     </div>
   </div>

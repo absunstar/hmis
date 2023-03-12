@@ -13,8 +13,8 @@
             <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
             <i-list class="col6" v="r" label="##word.Service Group##" ng-model="item.serviceGroup" display="name##session.lang##" items="servicesGroupsList" ng-search="item.$serviceGroup"></i-list>
             <i-list class="col6" label="##word.ACHI##" ng-model="item.achi" display="name##session.lang##" items="achiCodesList" ng-search="item.$achi"></i-list>
-            <i-control type="text"  class="col6" ng-model="item.sfdaCode" label="##word.SFDA Code##"></i-control>
-            <i-control class="col6" label="##word.CPT Code##" ng-model="item.cptCode" display="name##session.lang##" ></i-control>
+            <i-control type="text" class="col6" ng-model="item.sfdaCode" label="##word.SFDA Code##"></i-control>
+            <i-control class="col6" label="##word.CPT Code##" ng-model="item.cptCode" display="name##session.lang##"></i-control>
           </div>
         </div>
         <div class="col3">
@@ -44,6 +44,7 @@
               <i-control v="r" class="col6" type="number" ng-model="item.creditPriceOut" label="##word.Credit Price##"></i-control>
             </div>
           </fieldset>
+
           <fieldset>
             <legend>##word.in Patient##</legend>
             <div class="row">
@@ -60,6 +61,28 @@
           <div class="row">
             <i-control type="number" v="r" class="col6" ng-model="item.vat" label="##word.VAT## %"></i-control>
             <i-control type="number" v="r" class="col6" ng-model="item.cost" label="##word.Cost##"></i-control>
+          </div>
+
+          <div class="row" ng-show="item.serviceGroup.type.id == 3">
+            <fieldset>
+              <legend><i-button type="add default" ng-click="addNormalRange()"></i-button></legend>
+              <table class="table hover bold">
+                <tr>
+                  <th>##word.Name##</th>
+                  <th>##word.Unit##</th>
+                  <th>##word.Normal Value##</th>
+                  <th class="not-print">##word.Actions##</th>
+                </tr>
+                <tr ng-repeat="n in item.normalRangeList">
+                  <td class="text-center"><i-control v="r" ng-model="n.name"></i-control></td>
+                  <td class="text-center"><i-control v="r" ng-model="n.unit"></i-control></td>
+                  <td class="text-center"><i-control v="r" ng-model="n.normalValue"></i-control></td>
+                  <td class="text-center not-print">
+                    <i-button type="delete default" ng-click="item.normalRangeList.splice($index,1)"> </i-button>
+                  </td>
+                </tr>
+              </table>
+            </fieldset>
           </div>
         </div>
       </div>

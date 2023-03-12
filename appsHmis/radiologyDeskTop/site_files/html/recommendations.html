@@ -13,7 +13,7 @@
         <div class="col9">
           <fieldset>
             <legend>##word.Treatment##</legend>
-            <i-textarea ng-model="item.treatment"></i-textarea>
+            <i-content ng-model="item.treatment"></i-content>
           </fieldset>
 
           <div class="row padding">
@@ -27,51 +27,49 @@
                   <span> ##word.Files## </span>
                 </a>
               </div>
-            </div>
-          </div>
 
-          <div class="tabs-content">
-            <div id="diagnoses" class="tab-content">
-              <div class="col6">
-                <div class="row">
-                  <i-list label="##word.Diagnoses##" class="col10" ng-model="item.$diagnoses" display="name##session.lang##" items="diagnosesList" ng-search="item.$diagnoses"></i-list>
-                  <div class="col2">
-                    <br />
-                    <i-button type="add" ng-click="addDiagnoses()"></i-button>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="row list" ng-repeat="s in item.diagnosesList">
-                  <div class="col1 code-list">
-                    <p>{{s.code}}</p>
-                  </div>
-                  <div class="col10">
-                    <p class="bold">{{s.name##session.lang##}}</p>
-                  </div>
-                  <div class="col1">
-                    <i-button type="delete default" ng-click="item.diagnosesList.splice($index,1)"> </i-button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div id="files" class="tab-content">
-              <div class="col8">
-                <fieldset>
-                  <legend><i-button type="add default" ng-click="item.filesList.push({})"></i-button></legend>
-                  <div class="row" ng-repeat="f in item.filesList">
-                    <i-file class="col10" ng-model="f.file"></i-file>
-                    <div class="col2">
-                      <i-button type="delete default" ng-click="item.filesList.splice($index,1)"> </i-button>
+              <div class="tabs-content">
+                <div id="diagnoses" class="tab-content">
+                  <div class="col6">
+                    <div class="row">
+                      <i-list label="##word.Diagnoses##" class="col10" ng-model="item.$diagnoses" display="name##session.lang##" items="diagnosesList" ng-search="item.$diagnose"></i-list>
+                      <div class="col2">
+                        <br />
+                        <i-button type="add" ng-click="addDiagnoses()"></i-button>
+                      </div>
                     </div>
                   </div>
-                </fieldset>
+                  <div class="row">
+                    <div class="row list" ng-repeat="s in item.diagnosesList">
+                      <div class="col1 code-list">
+                        <p>{{s.code}}</p>
+                      </div>
+                      <div class="col10">
+                        <p class="bold">{{s.name##session.lang##}}</p>
+                      </div>
+                      <div class="col1">
+                        <i-button type="delete default" ng-click="item.diagnosesList.splice($index,1)"> </i-button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="files" class="tab-content">
+                  <div class="col8">
+                    <fieldset>
+                      <legend><i-button type="add default" ng-click="item.filesList.push({})"></i-button></legend>
+                      <div class="row" ng-repeat="f in item.filesList">
+                        <i-file class="col10" ng-model="f.file"></i-file>
+                        <div class="col2">
+                          <i-button type="delete default" ng-click="item.filesList.splice($index,1)"> </i-button>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
-      
         </div>
         <div class="col3">
           <fieldset>

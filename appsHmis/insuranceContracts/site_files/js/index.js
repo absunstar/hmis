@@ -247,6 +247,35 @@ app.controller('insuranceContracts', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getInsuranceClassesList = function () {
+    $scope.busy = true;
+    $scope.insuranceClassesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/insuranceClasses/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          nameEn: 1,
+          nameAr: 1,
+          code: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.insuranceClassesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getNumberingAuto = function () {
     $scope.error = '';
     $scope.busy = true;
@@ -270,6 +299,30 @@ app.controller('insuranceContracts', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.addInsuranceClass = function () {
+    $scope.error = '';
+    $scope.item.insuranceClassesList = $scope.item.insuranceClassesList || [];
+    if ($scope.item.$insuranceClass && $scope.item.$insuranceClass.id) {
+      if (!$scope.item.insuranceClassesList.some((s) => s.id === $scope.item.$insuranceClass.id && code == s.code)) {
+        $scope.item.insuranceClassesList.push({
+          id: $scope.item.$insuranceClass.id,
+          nameAr: $scope.item.$insuranceClass.nameAr,
+          nameEn: $scope.item.$insuranceClass.nameEn,
+          code: $scope.item.$insuranceClass.code,
+          freeRevisitAmount : 0,
+          maxDeductAmount : 0,
+          serviceDeduct : 0,
+          serviceType : 'percent',
+          consultationDeduct : 0,
+          consultationType : 'percent',
+        });
+      }
+      delete $scope.item.$insuranceClass;
+    } else {
+      return;
+    }
+  };
+
   $scope.showSearch = function () {
     $scope.error = '';
     site.showModal($scope.modalSearchID);
@@ -285,4 +338,5 @@ app.controller('insuranceContracts', function ($scope, $http, $timeout) {
   $scope.getMainInsuranceCompaniesList();
   $scope.getInsuranceCompaniesList();
   $scope.getNumberingAuto();
+  $scope.getInsuranceClassesList();
 });

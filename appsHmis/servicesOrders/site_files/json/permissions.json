@@ -4,6 +4,7 @@
     { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersUpdate" , "En":"Edit" , "Ar":"تعديل"},
     { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersDelete" , "En":"Delete" , "Ar":"حذف"},
     { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersApprove" , "En":"Approve" , "Ar":"موافقة"},
     { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersSearch" , "En":"Search" , "Ar":"بحث"},
     { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersExport" , "En":"Export" , "Ar":"تصدير"},
     { "moduleName" : "public" , "screenName" : "servicesOrders" , "name":"servicesOrdersPrint" , "En":"Print" , "Ar":"طباعة"},

@@ -24,9 +24,9 @@
         <td class="text-center not-print">
           <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
-          <i-button type="edit" x-permissions="servicesOrdersUpdate || servicesOrdersManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
+          <i-button type="edit" ng-hide="item.approved" x-permissions="servicesOrdersUpdate || servicesOrdersManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
 
-          <i-button type="delete" x-permissions="servicesOrdersDelete || servicesOrdersManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
+          <i-button type="delete" ng-hide="item.approved"  x-permissions="servicesOrdersDelete || servicesOrdersManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
         </td>
       </tr>
     </table>

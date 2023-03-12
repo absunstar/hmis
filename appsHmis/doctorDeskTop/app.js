@@ -324,7 +324,14 @@ module.exports = function init(site) {
     if (_data.patient.insuranceCompany && _data.patient.insuranceCompany.id) {
       insuranceCompanyId = _data.patient.insuranceCompany.id;
     }
-    site.mainInsurancesFromSub({ insuranceCompanyId: insuranceCompanyId }, (callback) => {
+    let insuranceClassId = 0;
+    if (_data.patient.insuranceClass && _data.patient.insuranceClass.id) {
+      insuranceClassId = _data.patient.insuranceClass.id;
+    }
+
+    let where = { insuranceCompanyId: insuranceCompanyId, insuranceClassId: insuranceClassId };
+
+    site.mainInsurancesFromSub(where, (callback) => {
       site.nphisElig(req.data, (nphisCallback) => {
         let payment = '';
         if (nphisCallback.elig) {
@@ -337,6 +344,7 @@ module.exports = function init(site) {
         site.serviceMainInsurance(
           {
             mainInsuranceCompany: callback.mainInsuranceCompany,
+            insuranceContract: callback.insuranceContract,
             patientClass: _data.patient.insuranceClass,
             servicesList: servicesList,
             payment: payment,

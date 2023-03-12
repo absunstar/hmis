@@ -67,6 +67,7 @@
             "significantSignsManage",
             "patientRecommendationsManage",
             "patientEducationsManage",
+            "patientsApprovalManage",
             "otherConditionsManage",
             "medicineDurationsManage",
             "medicineFrequenciesManage",

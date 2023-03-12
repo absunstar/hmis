@@ -1,4 +1,5 @@
 module.exports = function init(site) {
+
   site.accountingScreensList = [
     {
       id: 1,
@@ -37,6 +38,7 @@ module.exports = function init(site) {
     { id: 9, nameEn: 'Literacy', nameAr: 'محو أمية' },
     { id: 10, nameEn: 'Without qualified', nameAr: 'بدون مؤهل' },
   ];
+
   site.employeeStatus = [
     { id: 1, nameEn: 'Active', nameAr: 'نشط' },
     { id: 2, nameEn: 'Inactive', nameAr: 'خامل' },

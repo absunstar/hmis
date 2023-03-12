@@ -715,9 +715,6 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
       _item.ordersList = _item.ordersList || [];
       if (!_item.ordersList.some((s) => s.id === _item.$order.id && s.type === _item.$orderType)) {
         let order = { ..._item.$order, type: _item.$orderType };
-        if (_item.$orderType == 'MD') {
-          order = { ...order, qty: 0, times: 0, days: 0 };
-        }
         _item.ordersList.push(order);
       }
       _item.$order = {};

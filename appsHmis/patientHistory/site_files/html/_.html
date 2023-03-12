@@ -13,6 +13,10 @@
         items="patientsList"
         ng-get="getPatientsList($search)"
       ></i-list>
+      <div class="col3" ng-show="patient.id">
+        <br />
+        <a target="_blank" class="a-btn" href="/patientHistory/{{item.patient.id}}">##word.Patient History## <i class="fas fa-notes-medical"></i></a>
+      </div>
     </div>
     <div class="row" ng-show="patient.id">
       <div class="cart">

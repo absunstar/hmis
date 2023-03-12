@@ -323,24 +323,48 @@ module.exports = function init(site) {
   }
 
   site.post({ name: `/api/selectDoctorAppointment`, require: { permissions: ['login'] } }, (req, res) => {
-    let appServices = site.getApp('services');
-    let response = { done: false };
     let _data = req.body;
-    let service = appServices.memoryList.find((_c) => _c.id == _data.doctor.consItem.id);
+
+    let insuranceCompanyId = 0;
     if (_data.patient.insuranceCompany && _data.patient.insuranceCompany.id) {
-      site.mainInsurancesFromSub({ insuranceCompanyId: _data.patient.insuranceCompany.id }, (callback) => {
-        site.nphisElig(req.data, (nphisCallback) => {
-          callback.elig = nphisCallback.elig;
-          callback.service = service;
-          res.json(callback);
-        });
-      });
-    } else {
-      response.error = 'There is no insurance company for the patient';
-      response.service = service;
-      res.json(response);
-      return;
+      insuranceCompanyId = _data.patient.insuranceCompany.id;
     }
+    let insuranceClassId = 0;
+    if (_data.patient.insuranceClass && _data.patient.insuranceClass.id) {
+      insuranceClassId = _data.patient.insuranceClass.id;
+    }
+
+    let where = { insuranceCompanyId: insuranceCompanyId, insuranceClassId: insuranceClassId };
+
+    site.mainInsurancesFromSub(where, (insuranceCallback) => {
+      site.nphisElig(req.data, (nphisCallback) => {
+        let payment = '';
+        if (nphisCallback.elig) {
+          nphis = 'elig';
+          payment = 'credit';
+        } else {
+          nphis = 'nElig';
+          payment = 'cash';
+        }
+        site.serviceMainInsurance(
+          {
+            mainInsuranceCompany: insuranceCallback.mainInsuranceCompany,
+            insuranceContract: insuranceCallback.insuranceContract,
+            patientClass: _data.patient.insuranceClass,
+            servicesList: [_data.doctor.consItem],
+            payment: payment,
+            hospitalCenter: _data.doctor.hospitalCenter,
+            type: 'out',
+          },
+          (serviceCallback) => {
+            serviceCallback.elig = nphisCallback.elig;
+            serviceCallback.mainInsuranceCompany = insuranceCallback.mainInsuranceCompany;
+            serviceCallback.insuranceContract = insuranceCallback.insuranceContract;
+            res.json(serviceCallback);
+          }
+        );
+      });
+    });
   });
 
   site.post(`/api/${app.name}/datesDay`, (req, res) => {

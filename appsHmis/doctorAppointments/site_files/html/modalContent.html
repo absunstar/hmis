@@ -17,6 +17,10 @@
           ng-search="item.$patient"
           ng-change="getMainInsuranceFromSub(item.patient)"
         ></i-list>
+        <div class="col3" ng-show="item.patient.id">
+          <br />
+          <a target="_blank" class="a-btn" href="/patientHistory/{{item.patient.id}}">##word.Patient History## <i class="fas fa-notes-medical"></i></a>
+        </div>
       </div>
       <div class="row" ng-show="item.patient.id">
         <div class="cart">

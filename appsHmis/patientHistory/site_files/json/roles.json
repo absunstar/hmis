@@ -2,6 +2,6 @@
     "moduleName" : "public" ,
     "name": "patientHistoryAdmin",
     "En": "Patient History Admin",
-    "Ar": "إدارة تاريخ المريض",
+    "Ar": "إدارة سجل المريض",
     "permissions": ["patientHistoryManage"]
 }]

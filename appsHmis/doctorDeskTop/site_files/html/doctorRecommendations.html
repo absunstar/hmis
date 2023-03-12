@@ -29,7 +29,7 @@
           </fieldset>
           <fieldset>
             <legend>##word.Treatment##</legend>
-            <i-textarea ng-model="item.treatment"></i-textarea>
+            <i-content ng-model="item.treatment"></i-content>
           </fieldset>
 
           <div class="row padding">
@@ -243,79 +243,79 @@
                   </div>
                 </div>
                 <div id="orders" class="tab-content">
-                  <div class="row padding">
-                    <div class="row padding">
+                  <div class="row">
+                    <i-list label="##word.Order##" class="col6" ng-model="item.$order" display="name##session.lang##" items="ordersList" ng-get="getOrdersList($search)"></i-list>
+                    <div class="col6">
+                      <br />
                       <div class="row">
-                        <i-list label="##word.Order##" class="col6" ng-model="item.$order" display="name##session.lang##" items="ordersList" ng-get="getOrdersList($search)"></i-list>
-                        <div class="col6">
-                          <br />
-                          <div class="row">
-                            <i-button type="add" ng-click="addOrders(item)"></i-button>
-                            <i class="fas fa-user-md icon" id="CO" ng-click="item.$groupTypeId = 2 ; item.$orderType = 'CO' ;getOrdersList('')"></i>
-                            <i class="fas fa-vial icon" id="LA" ng-click="item.$groupTypeId = 3 ;item.$orderType = 'LA' ;getOrdersList('')"></i>
-                            <i class="fas fa-x-ray icon" id="X-R" ng-click="item.$groupTypeId = 4 ;item.$orderType = 'X-R' ;getOrdersList('')"></i>
-                            <i class="fas fa-capsules icon" id="MD" ng-click="item.$orderType = 'MD' ;getOrdersList('')"></i>
+                        <i-button type="add" ng-click="addOrders(item)"></i-button>
+                        <i class="fas fa-user-md icon" id="CO" ng-click="item.$groupTypeId = 2 ; item.$orderType = 'CO' ;getOrdersList('')"></i>
+                        <i class="fas fa-vial icon" id="LA" ng-click="item.$groupTypeId = 3 ;item.$orderType = 'LA' ;getOrdersList('')"></i>
+                        <i class="fas fa-x-ray icon" id="X-R" ng-click="item.$groupTypeId = 4 ;item.$orderType = 'X-R' ;getOrdersList('')"></i>
+                        <i class="fas fa-capsules icon" id="MD" ng-click="item.$orderType = 'MD' ;getOrdersList('')"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row list" ng-repeat="s in item.ordersList">
+                    <div class="row">
+                      <div class="col2">
+                        <br />
+                        <p class="code-list">
+                          <i class="fas fa-user-md" ng-show="s.type== 'CO'"></i>
+                          <i class="fas fa-vial" ng-show="s.type== 'LA'"></i>
+                          <i class="fas fa-x-ray" ng-show="s.type== 'X-R'"></i>
+                          <i class="fas fa-capsules" ng-show="s.type== 'MD'"></i>
+                          {{s.type}}-{{s.code}}
+                        </p>
+                      </div>
+                      <div class="col4">
+                        <br />
+                        <p class="bold">{{s.name##session.lang##}}</p>
+                      </div>
+                      <div class="col6">
+                        <div class="row">
+                          <i-control type="number" ng-show="s.type == 'MD'" class="col3" label="##word.QTY.##" ng-model="s.count"></i-control>
+                          <div class="col3">
+                            <p class="bold center">##word.Price##</p>
+                            <p class="bold center">{{s.price || 0}}</p>
+                          </div>
+                          <div class="col3">
+                            <p class="bold center">##word.Desc##</p>
+                            <p class="bold center">{{s.discount || 0}}</p>
+                          </div>
+                          <div class="col3">
+                            <p class="bold center">##word.Total##</p>
+                            <p class="bold center">{{s.total || 0}}</p>
                           </div>
                         </div>
                       </div>
-                      <div class="row list" ng-repeat="s in item.ordersList">
-                        <div class="row">
-                          <div class="col2">
-                            <br />
-                            <p class="code-list">
-                              <i class="fas fa-user-md" ng-show="s.type== 'CO'"></i>
-                              <i class="fas fa-vial" ng-show="s.type== 'LA'"></i>
-                              <i class="fas fa-x-ray" ng-show="s.type== 'X-R'"></i>
-                              <i class="fas fa-capsules" ng-show="s.type== 'MD'"></i>
-                              {{s.type}} -{{s.code}}
-                            </p>
-                          </div>
-                          <div class="col4">
-                            <br />
-                            <p class="bold">{{s.name##session.lang##}}</p>
-                          </div>
-                          <div class="col5">
-                            <div class="row">
-                              <i-control type="number" class="col3" label="##word.QTY.##" ng-model="s.count"></i-control>
-                              <div class="col3">
-                                <p class="bold center">##word.Price##</p>
-                                <p class="bold center">{{s.price || 0}}</p>
-                              </div>
-                              <div class="col3">
-                                <p class="bold center">##word.Desc##</p>
-                                <p class="bold center">{{s.discount || 0}}</p>
-                              </div>
-                              <div class="col3">
-                                <p class="bold center">##word.Total##</p>
-                                <p class="bold center">{{s.total || 0}}</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col1">
-                            <br />
-                            <i-button type="delete default" ng-click="item.ordersList.splice($index,1)"> </i-button>
-                          </div>
-                        </div>
-                        <div class="row" ng-show="s.type == 'MD'">
-                          <i-list
-                            label="##word.Duration##"
-                            class="col3"
-                            ng-model="s.medicineDuration"
-                            display="name##session.lang##"
-                            items="medicineDurationsList"
-                            ng-search="s.$medicineDuration"
-                          ></i-list>
-                          <i-list
-                            label="##word.Frequency##"
-                            class="col3"
-                            ng-model="s.medicineFrequency"
-                            display="name##session.lang##"
-                            items="medicineFrequenciesList"
-                            ng-search="s.$medicineFrequency"
-                          ></i-list>
+                    </div>
+                    <div class="row" ng-show="s.type == 'MD'">
+                      <i-list
+                        label="##word.Duration##"
+                        class="col3"
+                        ng-model="s.medicineDuration"
+                        display="name##session.lang##"
+                        items="medicineDurationsList"
+                        ng-search="s.$medicineDuration"
+                      ></i-list>
+                      <i-list
+                        label="##word.Frequency##"
+                        class="col3"
+                        ng-model="s.medicineFrequency"
+                        display="name##session.lang##"
+                        items="medicineFrequenciesList"
+                        ng-search="s.$medicineFrequency"
+                      ></i-list>
 
-                          <i-list label="##word.Route##" class="col3" ng-model="s.medicineRoute" display="name##session.lang##" items="medicineRoutesList" ng-search="s.$medicineRoute"></i-list>
-                        </div>
+                      <i-list label="##word.Route##" class="col3" ng-model="s.medicineRoute" display="name##session.lang##" items="medicineRoutesList" ng-search="s.$medicineRoute"></i-list>
+                    </div>
+                    <div class="row">
+                      <i-control class="col10" ng-model="s.notes" label="##word.Notes##"></i-control>
+                      <div class="col1"></div>
+                      <div class="col1">
+                        <br />
+                        <i-button type="delete default" ng-click="item.ordersList.splice($index,1)"> </i-button>
                       </div>
                     </div>
                   </div>

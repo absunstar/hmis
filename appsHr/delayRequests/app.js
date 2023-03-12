@@ -9,6 +9,7 @@ module.exports = function init(site) {
         allowRouteGet: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
+        allowRouteCancel: true,
         allowRouteAccept: true,
         allowRouteRejected: true,
         allowRouteDelete: true,
@@ -37,8 +38,10 @@ module.exports = function init(site) {
                     paySlip.delayRequestsDataList.push(delayrequest);
                 });
             }
-            callback(paySlip);
         });
+        console.log('paySlip.delayRequestsDataList', paySlip.delayRequestsDataList.length);
+
+        callback(paySlip);
     };
     app.init = function () {
         if (app.allowMemory) {
@@ -237,6 +240,31 @@ module.exports = function init(site) {
             });
         }
 
+        if (app.allowRouteCancel) {
+            site.post({ name: `/api/${app.name}/cancel`, require: { permissions: ['login'] } }, (req, res) => {
+                let response = {
+                    done: false,
+                };
+
+                let _data = req.data;
+
+                _data['requestStatus'] = 'canceled';
+                _data['cancelDate'] = new Date();
+                _data['active'] = false;
+                _data.cancelUserInfo = req.getUserFinger();
+
+                app.update(_data, (err, result) => {
+                    if (!err) {
+                        response.done = true;
+                        response.result = result;
+                    } else {
+                        response.error = err.message;
+                    }
+                    res.json(response);
+                });
+            });
+        }
+
         if (app.allowRouteAccept) {
             site.post({ name: `/api/${app.name}/accept`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {
@@ -346,6 +374,7 @@ module.exports = function init(site) {
                     requestStatus: 1,
                     approveDate: 1,
                     rejectDate: 1,
+                    cancelDate: 1,
                     fromTime: 1,
                     toTime: 1,
                     active: 1,

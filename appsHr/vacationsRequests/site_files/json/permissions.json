@@ -9,5 +9,6 @@
     { "moduleName": "public", "screenName": "vacationsRequests", "name": "vacationsRequestsPrint", "En": "Print", "Ar": "طباعة" },
     { "moduleName": "public", "screenName": "vacationsRequests", "name": "vacationsRequestsUi", "En": "UI", "Ar": "الواجهة الرسومية" },
     { "moduleName": "public", "screenName": "vacationsRequests", "name": "acceptVacationRequest", "En": "Accept Vacation Request", "Ar": "قبول طلب أجازة" },
-    { "moduleName": "public", "screenName": "vacationsRequests", "name": "rejectVacationRequest", "En": "Reject Vacation Request", "Ar": "رفض طلب أجازة" }
+    { "moduleName": "public", "screenName": "vacationsRequests", "name": "rejectVacationRequest", "En": "Reject Vacation Request", "Ar": "رفض طلب أجازة" },
+    { "moduleName": "public", "screenName": "vacationsRequests", "name": "vacationsRequestsCancel", "En": "Cancel Vacation Request", "Ar": "ألغاء طلب أجازة" }
 ]

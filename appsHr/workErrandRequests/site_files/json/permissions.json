@@ -8,6 +8,7 @@
     { "moduleName": "public", "screenName": "workErrandRequests", "name": "workErrandRequestsExport", "En": "Export", "Ar": "تصدير" },
     { "moduleName": "public", "screenName": "workErrandRequests", "name": "workErrandRequestsPrint", "En": "Print", "Ar": "طباعة" },
     { "moduleName": "public", "screenName": "workErrandRequests", "name": "workErrandRequestsUi", "En": "UI", "Ar": "الواجهة الرسومية" },
-    { "moduleName": "public", "screenName": "workErrandRequests", "name": "WcceptworkErrandRequest", "En": "Accept Work Errand Request", "Ar": "قبول إذن مأمورية" },
-    { "moduleName": "public", "screenName": "workErrandRequests", "name": "WejectworkErrandRequest", "En": "Reject Work Errand Request", "Ar": "رفض إذن مأمورية" }
+    { "moduleName": "public", "screenName": "workErrandRequests", "name": "acceptworkErrandRequest", "En": "Accept Work Errand Request", "Ar": "قبول إذن مأمورية" },
+    { "moduleName": "public", "screenName": "workErrandRequests", "name": "rejectworkErrandRequest", "En": "Reject Work Errand Request", "Ar": "رفض إذن مأمورية" },
+    { "moduleName": "public", "screenName": "workErrandRequests", "name": "workErrandRequestCancel", "En": "Cancel Work Errand Request", "Ar": "إلغاء إذن مأمورية" }
 ]

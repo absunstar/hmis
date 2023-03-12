@@ -56,8 +56,15 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
     $scope.showUpdate = function (_item) {
         $scope.error = '';
         $scope.mode = 'edit';
+
         $scope.view(_item);
         $scope.item = {};
+
+        $scope.getEmployeeVacationBalance(_item);
+
+        $scope.item['approvedVacationType'] = $scope.item.approvedVacationType || _item.vacationType;
+        $scope.item['approvedDays'] = $scope.item.approvedDays || _item.days;
+
         site.showModal($scope.modalID);
     };
 
@@ -68,6 +75,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
+
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -101,12 +109,38 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
         site.showModal($scope.modalID);
     };
 
+    $scope.cancelVacation = function (_item) {
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/cancelVacation`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = response.data.error || 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+
     $scope.accept = function (_item) {
         if (!_item.approvedVacationType || !_item.approvedVacationType.id) {
             $scope.error = '##word.Please Select Approved Vacation Type##';
             return;
         }
-        if (!(_item.approvedDays > 0) || _item.approvedDays > 21) {
+        if (!(_item.approvedDays > 0) || _item.approvedDays > _item.regularVacations + _item.casualVacations) {
             $scope.error = '##word.Please Set Approved Days##';
             return;
         }

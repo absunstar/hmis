@@ -8,5 +8,6 @@
     { "moduleName": "public", "screenName": "employeesPenalties", "name": "employeesPenaltiesExport", "En": "Export", "Ar": "تصدير" },
     { "moduleName": "public", "screenName": "employeesPenalties", "name": "employeesPenaltiesPrint", "En": "Print", "Ar": "طباعة" },
     { "moduleName": "public", "screenName": "employeesPenalties", "name": "employeesPenaltiesUi", "En": "UI", "Ar": "الواجهة الرسومية" },
-    { "moduleName": "public", "screenName": "employeesPenalties", "name": "approveEmployeePenalty", "En": "Approve Employee Penalty", "Ar": "إعتماد جزاء لموظف" }
+    { "moduleName": "public", "screenName": "employeesPenalties", "name": "approveEmployeePenalty", "En": "Approve Employee Penalty", "Ar": "إعتماد جزاء لموظف" },
+    { "moduleName": "public", "screenName": "employeesPenalties", "name": "employeesPenaltiesCancel", "En": "Cancel Employee Penalty", "Ar": "إلغاء جزاء لموظف" }
 ]

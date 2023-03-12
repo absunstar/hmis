@@ -336,7 +336,7 @@ module.exports = function init(site) {
                     employee: 1,
                     vacationType: 1,
                     days: 1,
-                    requestDate: 1,
+                    date: 1,
                     fromDate: 1,
                     approved: 1,
                     reason: 1,

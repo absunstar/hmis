@@ -9,6 +9,7 @@ module.exports = function init(site) {
         allowRouteGet: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
+        allowRouteCancel: true,
         allowRouteAccept: true,
         allowRouteRejected: true,
         allowRouteDelete: true,
@@ -32,6 +33,9 @@ module.exports = function init(site) {
                         const vacationRequest = {
                             appName: app.name,
                             date,
+                            approvedDays: doc.approvedDays,
+                            vacationType: doc.vacationType,
+                            days: doc.days,
                             approvedVacationType: {
                                 id: doc.approvedVacationType.id,
                                 code: doc.approvedVacationType.code,
@@ -244,6 +248,51 @@ module.exports = function init(site) {
             });
         }
 
+        if (app.allowRouteCancel) {
+            site.post({ name: `/api/${app.name}/cancelVacation`, require: { permissions: ['login'] } }, (req, res) => {
+                let response = {
+                    done: false,
+                };
+
+                let _data = req.data;
+
+                if (_data && _data.approvedVacationType && _data.approvedVacationType.id) {
+                    const employeeApp = site.getApp('employees');
+                    employeeApp.$collection.find({ where: { id: _data.employee.id } }, (err, doc) => {
+                        if (doc) {
+                            if (_data.approvedVacationType.id === 1) {
+                                doc.regularVacations += _data.approvedDays;
+                            } else if (_data.approvedVacationType.id === 2) {
+                                doc.casualVacations += _data.approvedDays;
+                            }
+                        } else {
+                            response.done = false;
+                            response.error = 'Employee not Found';
+                            res.json(response);
+                            return;
+                        }
+
+                        employeeApp.$collection.update(doc);
+                    });
+                }
+
+                _data['requestStatus'] = 'canceled';
+                _data['cancelDate'] = new Date();
+                _data['active'] = false;
+                _data.cancelUserInfo = req.getUserFinger();
+
+                app.update(_data, (err, result) => {
+                    if (!err) {
+                        response.done = true;
+                        response.result = result;
+                    } else {
+                        response.error = err.message;
+                    }
+                    res.json(response);
+                });
+            });
+        }
+
         if (app.allowRouteAccept) {
             site.post({ name: `/api/${app.name}/accept`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {
@@ -374,6 +423,7 @@ module.exports = function init(site) {
                     requestStatus: 1,
                     approveDate: 1,
                     rejectDate: 1,
+                    cancelDate: 1,
                     active: 1,
                 };
 

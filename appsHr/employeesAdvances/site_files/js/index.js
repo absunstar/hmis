@@ -20,7 +20,7 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, requestDate: new Date() };
+        $scope.item = { ...$scope.structure, date: new Date() };
         site.showModal($scope.modalID);
     };
 
@@ -394,7 +394,7 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
             if (!_item.installmentsList.length) {
                 for (let i = 0; i < _item.approvedNumberOfMonths; i++) {
                     _item.installmentsList.push({
-                        date: '',
+                        date: new Date(new Date(_item.date).getFullYear(), new Date(_item.date).getMonth() + i, new Date(_item.date).getDate()),
                         amount,
                         paid: false,
                         paidDate: '',

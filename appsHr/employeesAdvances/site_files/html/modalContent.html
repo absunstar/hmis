@@ -17,7 +17,7 @@
                 <p class="center">##word.Employee##</p>
                 <p class="center">{{item.employee.fullName##session.lang##}}</p>
             </div>
-            <i-date class="col4" label="##word.Request Date##" ng-model="item.requestDate"> </i-date>
+            <i-date class="col4" label="##word.Date##" ng-model="item.date"> </i-date>
             <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
             <i-control ng-show="!item.approved" v="r" type="number" class="col3" min="1" label="##word.Amount##" ng-model="item.amount"> </i-control>
             <i-control ng-show="!item.approved" v="r" type="number" class="col3" min="1" label="##word.Number Of Months##" ng-model="item.numberOfMonths"> </i-control>
@@ -42,7 +42,7 @@
     <fieldset ng-show="mode !='add'">
         <legend>##word.Approve Informations##</legend>
         <div class="row" ng-show="!canReject">
-            <i-control type="number" class="col3" label="##word.Approved Amount##" ng-model="item.approvedAmount"> </i-control>
+            <i-control type="number" class="col3" ng-disabled="item.approveDate" label="##word.Approved Amount##" ng-model="item.approvedAmount"> </i-control>
             <i-control type="number" class="col3" label="##word.Approved Number Of Months##" ng-model="item.approvedNumberOfMonths"> </i-control>
             <div class="col2">
                 <br />

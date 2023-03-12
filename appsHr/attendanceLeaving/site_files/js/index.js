@@ -205,17 +205,30 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
         const attendTime = new Date($scope.item.shiftData.start);
         const leavingTime = new Date($scope.item.shiftData.end);
         if (type == 'attend') {
-            $scope.item.attendTime = new Date(attendDate);
-            $scope.item.attendTime.setHours(attendHour);
-            $scope.item.attendTime.setMinutes(attendMinute);
-
+            // $scope.item.attendTime = new Date(attendDate);
+            // $scope.item.attendTime.setHours(attendHour);
+            // $scope.item.attendTime.setMinutes(attendMinute);
+            $scope.item.attendTime = new Date(
+                new Date($scope.item.date).getFullYear(),
+                new Date($scope.item.date).getMonth(),
+                new Date($scope.item.date).getDate(),
+                new Date($scope.item.$attendTime).getHours(),
+                new Date($scope.item.$attendTime).getMinutes()
+            );
             const attendHours = $scope.item.attendTime.getHours() - attendTime.getHours();
             const attendMinutes = $scope.item.attendTime.getMinutes();
             $scope.item.attendanceTimeDifference = Math.floor(attendHours * 60 + attendMinutes) || 0;
         } else if (type == 'leave') {
-            $scope.item.leaveTime = new Date(attendDate);
-            $scope.item.leaveTime.setHours(leaveHour);
-            $scope.item.leaveTime.setMinutes(leaveMinute);
+            $scope.item.leaveTime = new Date(
+                new Date($scope.item.date).getFullYear(),
+                new Date($scope.item.date).getMonth(),
+                new Date($scope.item.date).getDate(),
+                new Date($scope.item.$leaveTime).getHours(),
+                new Date($scope.item.$leaveTime).getMinutes()
+            );
+            // $scope.item.leaveTime = new Date(attendDate);
+            // $scope.item.leaveTime.setHours(leaveHour);
+            // $scope.item.leaveTime.setMinutes(leaveMinute);
 
             const leavingHours = leavingTime.getHours() - $scope.item.leaveTime.getHours();
             const leavingMinutes = $scope.item.leaveTime.getMinutes();

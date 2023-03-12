@@ -18,6 +18,15 @@
     </fieldset>
 
     <fieldset ng-show="item.paySlip">
+        <legend>##word.Details##</legend>
+        <div class="row">
+            <i-button type="list" label="##word.Delay Requests##" ng-show="item.paySlip.delayRequests" ng-click="viewPayslipItemDetails(item.paySlip.delayRequests)"></i-button>
+            <i-button type="list" label="##word.Work Errands##" ng-show="item.paySlip.workErrands" ng-click="viewPayslipItemDetails(item.paySlip.workErrands)"></i-button>
+            <i-button type="list" label="##word.Vacations Requests##" ng-show="item.paySlip.vacationsRequests" ng-click="viewPayslipItemDetails(item.paySlip.vacationsRequests)"></i-button>
+        </div>
+    </fieldset>
+
+    <fieldset ng-show="item.paySlip">
         <legend>##word.Allowances Items##</legend>
 
         <div class="table-responsive">

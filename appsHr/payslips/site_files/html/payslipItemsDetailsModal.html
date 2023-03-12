@@ -148,6 +148,65 @@
                             </tr>
                         </table>
                     </div>
+
+                    <div class="table-responsive" ng-show="payslipItem.code == 'delayRequests'">
+                        <table class="table hover bold">
+                            <tr>
+                                <th>##word.s##</th>
+                                <th>##word.Date##</th>
+                                <th>##word.From##</th>
+                                <th>##word.To##</th>
+                                <th>##word.Minute##</th>
+                            </tr>
+                            <tr ng-repeat="itm in payslipItem.list">
+                                <td class="center blue">{{$index+1}}</td>
+                                <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
+                                <td class="center">{{itm.fromTime |date:'hh:mm a'}}</td>
+                                <td class="center">{{itm.toTime |date:'hh:mm a'}}</td>
+                                <td class="center">{{itm.allwedTime}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="table-responsive" ng-show="payslipItem.code == 'workErrands'">
+                        <table class="table hover bold">
+                            <tr>
+                                <th>##word.s##</th>
+                                <th>##word.Date##</th>
+                                <th>##word.From##</th>
+                                <th>##word.To##</th>
+                                <th>##word.Minute##</th>
+                            </tr>
+                            <tr ng-repeat="itm in payslipItem.list">
+                                <td class="center blue">{{$index+1}}</td>
+                                <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
+                                <td class="center">{{itm.fromTime |date:'hh:mm a'}}</td>
+                                <td class="center">{{itm.toTime |date:'hh:mm a'}}</td>
+                                <td class="center">{{itm.allwedTime}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="table-responsive" ng-show="payslipItem.code == 'vacationsRequests'">
+                        <table class="table hover bold">
+                            <tr>
+                                <th>##word.s##</th>
+                                <th>##word.Date##</th>
+                                <th>##word.Request Vacation Type##</th>
+                                <th>##word.Request Days##</th>
+                                <th>##word.Approved Vacation Type##</th>
+                                <th>##word.Approved Days##</th>
+                            </tr>
+                            <tr ng-repeat="itm in payslipItem.list">
+                                <td class="center blue">{{$index+1}}</td>
+                                <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
+                                <td class="center">{{itm.vacationType.nameEn}} - {{itm.vacationType.nameAr}}</td>
+                                <td class="center">{{itm.days}}</td>
+                                <td class="center">{{itm.approvedVacationType.nameEn}} - {{itm.approvedVacationType.nameAr}}</td>    
+                                <td class="center">{{itm.approvedDays}}</td>
+                            </tr>
+                        </table>
+                    </div>
                 </fieldset>
             </form>
         </div>

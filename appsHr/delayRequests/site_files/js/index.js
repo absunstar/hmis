@@ -28,12 +28,6 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
             return;
         }
 
-        if (new Date($scope.item.delayDate).getTime() < new Date($scope.item.date).getTime()) {
-            $scope.error = '';
-            $scope.error = '##word.Please Enter Delay Date##';
-            return;
-        }
-
         // const delayDate = new Date($scope.item.delayDate).toISOString().slice(0, 10);
         // const startHour = new Date($scope.item.$fromTime).getHours();
         // const startMinute = new Date($scope.item.$fromTime).getMinutes();
@@ -101,11 +95,6 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-        if (new Date(_item.delayDate).getTime() < new Date(_item.date).getTime()) {
-            $scope.error = '';
-            $scope.error = '##word.Please Enter Delay Date##';
-            return;
-        }
 
         // const delayDate = new Date(_item.delayDate).toISOString().slice(0, 10);
         // const startHour = new Date(_item.fromTime).getHours();
@@ -168,6 +157,31 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
         site.showModal($scope.modalID);
     };
 
+    $scope.cancel = function (_item) {
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/cancel`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = response.data.error || 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
     $scope.accept = function (_item) {
         $scope.error = '';
         const v = site.validated($scope.modalID);

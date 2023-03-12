@@ -9,5 +9,6 @@
     { "moduleName": "public", "screenName": "overtimeRequests", "name": "overtimeRequestsPrint", "En": "Print", "Ar": "طباعة" },
     { "moduleName": "public", "screenName": "overtimeRequests", "name": "overtimeRequestsUi", "En": "UI", "Ar": "الواجهة الرسومية" },
     { "moduleName": "public", "screenName": "overtimeRequests", "name": "acceptOvertimeRequest", "En": "Accept Overtime Request", "Ar": "الموافقة علي مكافأة وقت إضافي" },
-    { "moduleName": "public", "screenName": "overtimeRequests", "name": "rejectOvertimeRequest", "En": "Reject Overtime Request", "Ar": "رفض  مكافأة وقت إضافي" }
+    { "moduleName": "public", "screenName": "overtimeRequests", "name": "rejectOvertimeRequest", "En": "Reject Overtime Request", "Ar": "رفض  مكافأة وقت إضافي" },
+    { "moduleName": "public", "screenName": "overtimeRequests", "name": "overtimeRequestsCancel", "En": "Cance Overtime Request", "Ar": "إلغاء  مكافأة وقت إضافي" }
 ]

@@ -9,5 +9,6 @@
     { "moduleName": "public", "screenName": "delayRequests", "name": "delayRequestsPrint", "En": "Print", "Ar": "طباعة" },
     { "moduleName": "public", "screenName": "delayRequests", "name": "delayRequestsUi", "En": "UI", "Ar": "الواجهة الرسومية" },
     { "moduleName": "public", "screenName": "delayRequests", "name": "acceptDelayRequest", "En": "Accept Delay Request", "Ar": "قبول إذن تأخير" },
-    { "moduleName": "public", "screenName": "delayRequests", "name": "rejectDelayRequest", "En": "Reject Delay Request", "Ar": "رفض إذن تأخير" }
+    { "moduleName": "public", "screenName": "delayRequests", "name": "rejectDelayRequest", "En": "Reject Delay Request", "Ar": "رفض إذن تأخير" },
+    { "moduleName": "public", "screenName": "delayRequests", "name": "cancelDelayRequest", "En": "Cancel Delay Request", "Ar": "إلغاء إذن تأخير" }
 ]

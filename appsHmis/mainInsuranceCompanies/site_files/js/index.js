@@ -525,10 +525,10 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
           cashOut: 0,
           creditOut: 0,
           packagePrice: 0,
-          cashInDesc: 0,
-          creditInDesc: 0,
-          cashOutDesc: 0,
-          creditOutDesc: 0,
+          cashInDisc: 0,
+          creditInDisc: 0,
+          cashOutDisc: 0,
+          creditOutDisc: 0,
         });
       }
       _item.$service = {};

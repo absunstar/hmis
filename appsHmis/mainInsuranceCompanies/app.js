@@ -371,18 +371,18 @@ module.exports = function init(site) {
                   if (_data.type == 'out') {
                     if (_data.payment == 'cash') {
                       service.price = mainInsurance.servicesList[serviceIndex].cashOut;
-                      service.discount = mainInsurance.servicesList[serviceIndex].cashOutDesc;
+                      service.discount = mainInsurance.servicesList[serviceIndex].cashOutDisc;
                     } else if (_data.payment == 'credit') {
                       service.price = mainInsurance.servicesList[serviceIndex].creditOut;
-                      service.discount = mainInsurance.servicesList[serviceIndex].creditOutDesc;
+                      service.discount = mainInsurance.servicesList[serviceIndex].creditOutDisc;
                     }
                   } else if (_data.type == 'in') {
                     if (_data.payment == 'cash') {
                       service.price = mainInsurance.servicesList[serviceIndex].cashIn;
-                      service.discount = mainInsurance.servicesList[serviceIndex].cashInDesc;
+                      service.discount = mainInsurance.servicesList[serviceIndex].cashInDisc;
                     } else if (_data.payment == 'credit') {
                       service.price = mainInsurance.servicesList[serviceIndex].creditIn;
-                      service.discount = mainInsurance.servicesList[serviceIndex].creditInDesc;
+                      service.discount = mainInsurance.servicesList[serviceIndex].creditInDisc;
                     }
                   }
 
@@ -413,7 +413,6 @@ module.exports = function init(site) {
                         nameAr: serviceMemory.nameAr,
                         nameEn: serviceMemory.nameEn,
                         code: serviceMemory.code,
-                        type: 'Discount',
                         needApproval: categoryInsurance.needApproval,
                         approved: categoryInsurance.needApproval ? false : true,
                         qty: 1,
@@ -607,7 +606,9 @@ module.exports = function init(site) {
           if (_data.hospitalCenter && _data.hospitalCenter.id) {
             servicesList[servicesList.length - 1].hospitalCenter = _data.hospitalCenter;
           }
-          servicesList[servicesList.length - 1].normalRangeList = serviceMemory.normalRangeList;
+          if (serviceMemory.normalRangeList && serviceMemory.normalRangeList.length > 0) {
+            servicesList[servicesList.length - 1].normalRangeList = serviceMemory.normalRangeList;
+          }
         }
       });
       if (servicesList.length > 0) {

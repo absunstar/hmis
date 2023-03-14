@@ -473,7 +473,6 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
 
   $scope.getOrdersList = function ($search) {
     $scope.busy = true;
-    console.log($scope.item.$orderType);
     if (!$scope.item.$orderType) {
       return;
     }
@@ -488,6 +487,8 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     let where = {
       active: true,
     };
+    let select = { id: 1, nameEn: 1, nameAr: 1, code: 1 };
+
     let url = '/api/services/all';
     if ($scope.item.$groupTypeId && $scope.item.$orderType != 'MD') {
       where['serviceGroup.type.id'] = $scope.item.$groupTypeId;
@@ -499,9 +500,9 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
         allowBuy: true,
         collectionItem: false,
       };
+      select = { ...select, unitsList: 1 };
     }
 
-    let select = { id: 1, nameEn: 1, nameAr: 1, code: 1 };
     $http({
       method: 'POST',
       url: url,
@@ -714,14 +715,76 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
     if (_item.$order && _item.$order.id) {
       _item.ordersList = _item.ordersList || [];
       if (!_item.ordersList.some((s) => s.id === _item.$order.id && s.type === _item.$orderType)) {
-        let order = { ..._item.$order, type: _item.$orderType };
-        _item.ordersList.push(order);
+        let order = { ..._item.$order, type: _item.$orderType, count: 1 };
+        if (order.type == 'MD') {
+          order.price = _item.$order.unitsList[0].salesPrice;
+          order.discount = _item.$order.unitsList[0].discount;
+          order.discountType = _item.$order.unitsList[0].discountType;
+          _item.ordersList.unshift(order);
+          $scope.calc(_item.ordersList[0]);
+
+        } else {
+          let obj = {
+            mainInsuranceCompany: _item.mainInsuranceCompany,
+            patientClass: _item.patient.insuranceClass,
+            insuranceContract: _item.insuranceContract,
+            servicesList: [_item.$order],
+            payment: _item.payment,
+            type: _item.type,
+          };
+  
+          if (_item.doctor && _item.doctor.hospitalCenter) {
+            obj.hospitalCenter = { ..._item.doctor.hospitalCenter };
+          }
+  
+          $http({
+            method: 'POST',
+            url: '/api/serviceMainInsurance',
+            data: obj,
+          }).then(
+            function (response) {
+              $scope.busy = false;
+              if (response.data.done && response.data.servicesList && response.data.servicesList.length > 0) {
+                _item.ordersList.unshift({
+                 id: order.id,
+                 code: order.code,
+                 nameAr: order.nameAr,
+                 nameEn: order.nameEn,
+                 type: order.type,
+                 price: response.data.servicesList[0].price,
+                 discount: response.data.servicesList[0].discount,
+                 total: response.data.servicesList[0].total,
+                });
+              }
+            },
+            function (err) {
+              $scope.busy = false;
+              $scope.error = err;
+            }
+          );
+        }
+
       }
       _item.$order = {};
     } else {
       $scope.error = 'Must Select Service';
       return;
     }
+  };
+
+  $scope.calc = function (_item) {
+    $scope.error = '';
+    $timeout(() => {
+      let afterPrice = 0;
+      if (_item.discountType == 'value') {
+        afterPrice = _item.price - _item.discount;
+      } else {
+        let discount = (_item.price * _item.discount) / 100;
+        afterPrice = _item.price - discount;
+      }
+
+      _item.total = afterPrice * _item.count;
+    }, 300);
   };
 
   $scope.showSearch = function () {

@@ -178,6 +178,36 @@ module.exports = function init(site) {
           if (!err && doc) {
             response.done = true;
             response.doc = doc;
+            if (doc.approved) {
+              doc.servicesList.forEach((_s, i) => {
+                if (_s.serviceGroup && _s.serviceGroup.type && _s.serviceGroup.type.id) {
+                  let obj = {
+                    orderId: doc.id,
+                    patient: { ...doc.patient },
+                    date: doc.date,
+                    type: doc.type,
+                    company: doc.company,
+                    branch: doc.branch,
+                    source: doc.source,
+                    mainInsuranceCompany: doc.mainInsuranceCompany,
+                    insuranceContract: doc.insuranceContract,
+                    payment: doc.payment,
+                    addUserInfo: doc.addUserInfo,
+                    service: { ..._s },
+                    doctor: { ...doc.doctor },
+                    status: { id: 1, nameEn: 'Pending', nameAr: 'قيد الإنتظار' },
+                  };
+
+                  if (_s.serviceGroup.type.id == 2) {
+                    site.addDoctorDeskTop(obj);
+                  } else if (_s.serviceGroup.type.id == 3) {
+                    site.addLaboratoryDeskTop(obj);
+                  } else if (_s.serviceGroup.type.id == 4) {
+                    site.addRadiologyDeskTop(obj);
+                  }
+                }
+              });
+            }
           } else {
             response.error = err.mesage;
           }

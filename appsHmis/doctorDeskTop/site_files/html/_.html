@@ -122,7 +122,7 @@
             ><i class="fas fa-stethoscope font-22 pointer"></i
           ></a>
           <a title="##word.View##" class="btn btn-info btn-lg" x-permissions="doctorDeskTopView || doctorDeskTopManage" ng-click="showView(item)"><i class="fas fa-eye"></i></a>
-          <a title="##word.Delete##" class="btn btn-danger btn-lg" x-permissions="doctorDeskTopDelete || doctorDeskTopManage" ng-click="showDelete(item)"><i class="fas fa-trash-alt"></i></a>
+          <a title="##word.Delete##" class="btn btn-danger btn-lg" ng-show="item.status.id == 1" x-permissions="doctorDeskTopDelete || doctorDeskTopManage" ng-click="showDelete(item)"><i class="fas fa-trash-alt"></i></a>
           <!-- <a title="##word.Edit##"  class="btn btn-warning btn-lg" x-permissions="doctorDeskTopUpdate || doctorDeskTopManage" ng-click="showUpdate(item)"><i class="fas fa-edit"></i></a>-->
         </td>
       </tr>

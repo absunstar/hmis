@@ -139,7 +139,6 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
-
       site.get(
         {
           name: app.name,
@@ -252,7 +251,7 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, patient: 1, doctor: 1, code: 1, service: 1, date: 1, status: 1 };
+        let select = req.body.select || { id: 1, patient: 1, doctor: 1, code: 1, service: 1, mainInsuranceCompany: 1, date: 1, status: 1 };
         let list = [];
         if (app.allowMemory) {
           app.memoryList
@@ -271,7 +270,6 @@ module.exports = function init(site) {
             list: list,
           });
         } else {
-          
           where['company.id'] = site.getCompany(req).id;
 
           if (where && where.dateTo) {
@@ -320,7 +318,7 @@ module.exports = function init(site) {
     if (_data.patient.insuranceCompany && _data.patient.insuranceCompany.id) {
       site.mainInsurancesFromSub({ insuranceCompanyId: _data.patient.insuranceCompany.id }, (callback) => {
         callback.service = service;
-        
+
         res.json(callback);
       });
     } else {

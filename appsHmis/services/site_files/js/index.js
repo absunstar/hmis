@@ -316,10 +316,10 @@ app.controller('services', function ($scope, $http, $timeout) {
     }
   };
 
-  $scope.addNormalRange = function (_item) {
+  $scope.addNormalRange = function () {
     $scope.error = '';
-    _item.normalRangeList = _item.normalRangeList || [];
-    _item.normalRangeList.push({});
+    $scope.item.normalRangeList = $scope.item.normalRangeList || [];
+    $scope.item.normalRangeList.push({});
   };
 
   $scope.showSearch = function () {

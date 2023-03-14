@@ -1,5 +1,6 @@
 [
     { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopChangeStatus" , "En":"Change Status" , "Ar":"تفيير الحالة"},
     { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopUpdate" , "En":"Edit" , "Ar":"تعديل"},
     { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopDelete" , "En":"Delete" , "Ar":"حذف"},
     { "moduleName" : "public" , "screenName" : "doctorDeskTop" , "name":"doctorDeskTopView" , "En":"View" , "Ar":"عرض"},

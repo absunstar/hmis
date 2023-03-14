@@ -547,6 +547,8 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
         } else {
           $scope.item.errMsg = response.data.error;
         }
+        $scope.calc($scope.item);
+
       },
       function (err) {
         $scope.busy = false;
@@ -560,6 +562,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     $scope.doctorDeskTopList = [];
     where = where || {};
     where['status.id'] = 3;
+    where['hasOrder'] = false;
     $http({
       method: 'POST',
       url: '/api/doctorDeskTop/all',
@@ -573,6 +576,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           patient: 1,
           doctor: 1,
           ordersList: 1,
+          diagnosis: 1,
           type: 1,
         },
       },

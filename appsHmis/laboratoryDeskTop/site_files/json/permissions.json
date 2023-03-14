@@ -1,5 +1,6 @@
 [
     { "moduleName" : "public" , "screenName" : "laboratoryDeskTop" , "name":"laboratoryDeskTopManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "laboratoryDeskTop" , "name":"laboratoryDeskTopChangeStatus" , "En":"Change Status" , "Ar":"تغيير الحالة"},
     { "moduleName" : "public" , "screenName" : "laboratoryDeskTop" , "name":"laboratoryDeskTopUpdate" , "En":"Edit" , "Ar":"تعديل"},
     { "moduleName" : "public" , "screenName" : "laboratoryDeskTop" , "name":"laboratoryDeskTopDelete" , "En":"Delete" , "Ar":"حذف"},
     { "moduleName" : "public" , "screenName" : "laboratoryDeskTop" , "name":"laboratoryDeskTopView" , "En":"View" , "Ar":"عرض"},

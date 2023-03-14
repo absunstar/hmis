@@ -1,5 +1,6 @@
 [
     { "moduleName" : "public" , "screenName" : "radiologyDeskTop" , "name":"radiologyDeskTopManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "radiologyDeskTop" , "name":"radiologyDeskTopChangeStatus" , "En":"Change Status" , "Ar":"تغيير الحالة"},
     { "moduleName" : "public" , "screenName" : "radiologyDeskTop" , "name":"radiologyDeskTopUpdate" , "En":"Edit" , "Ar":"تعديل"},
     { "moduleName" : "public" , "screenName" : "radiologyDeskTop" , "name":"radiologyDeskTopDelete" , "En":"Delete" , "Ar":"حذف"},
     { "moduleName" : "public" , "screenName" : "radiologyDeskTop" , "name":"radiologyDeskTopView" , "En":"View" , "Ar":"عرض"},

@@ -251,7 +251,7 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, patient: 1, doctor: 1, code: 1, service: 1,mainInsuranceCompany:1, date: 1, status: 1 };
+        let select = req.body.select || { id: 1, patient: 1, doctor: 1, code: 1, service: 1, mainInsuranceCompany: 1, date: 1, status: 1 };
         let list = [];
         if (app.allowMemory) {
           app.memoryList
@@ -371,6 +371,7 @@ module.exports = function init(site) {
       $gte: d1,
       $lt: d2,
     };
+    obj.hasOrder = false;
     if (obj.doctor && obj.doctor.id) {
       where['doctor.id'] = obj.doctor.id;
     }
@@ -390,6 +391,10 @@ module.exports = function init(site) {
         }
       }
     );
+  };
+
+  site.hasOrderDoctorDeskTop = function (where) {
+    app.$collection.update({ where, set: { hasOrder: true } });
   };
 
   app.init();

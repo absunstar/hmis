@@ -207,6 +207,11 @@ module.exports = function init(site) {
                   }
                 }
               });
+              if (doc.source.id == 1 && doc.bookingType && doc.bookingType.id == 2 && doc.doctorAppointment && doc.doctorAppointment.id) {
+                site.hasTransactionDoctorAppointment({ id: doc.doctorAppointment.id });
+              } else if (doc.source.id == 2 && doc.doctorDeskTop && doc.doctorDeskTop.id) {
+                site.hasOrderDoctorDeskTop({ id: doc.doctorDeskTop.id });
+              }
             }
           } else {
             response.error = err.mesage;
@@ -372,6 +377,8 @@ module.exports = function init(site) {
 
         if (result.doc.source.id == 1 && result.doc.bookingType && result.doc.bookingType.id == 2 && result.doc.doctorAppointment && result.doc.doctorAppointment.id) {
           site.hasTransactionDoctorAppointment({ id: result.doc.doctorAppointment.id });
+        } else if (result.doc.source.id == 2 && result.doc.doctorDeskTop && result.doc.doctorDeskTop.id) {
+          site.hasOrderDoctorDeskTop({ id: result.doc.doctorDeskTop.id });
         }
       } else {
         response.error = err.message;

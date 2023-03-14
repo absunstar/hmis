@@ -418,7 +418,7 @@ module.exports = function init(site) {
   }
 
   site.getServices = function (where, callBack) {
-    let select = { id: 1, code: 1, nameEn: 1, nameAr: 1, servicesCategoriesList: 1, vat: 1, serviceGroup: 1, cashPriceOut: 1, creditPriceOut: 1, cashPriceIn: 1, creditPriceIn: 1 };
+    let select = { id: 1, code: 1, nameEn: 1, nameAr: 1, servicesCategoriesList: 1, normalRangeList: 1, vat: 1, serviceGroup: 1, cashPriceOut: 1, creditPriceOut: 1, cashPriceIn: 1, creditPriceIn: 1 };
     app.all({ where, select }, (err, docs) => {
       if (!err) {
         callBack(docs);

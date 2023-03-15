@@ -303,8 +303,7 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
           $scope.list = response.data.list;
-          console.log($scope.list);
-          $scope.count = response.data.count;
+              $scope.count = response.data.count;
           site.hideModal($scope.modalSearchID);
           $scope.search = {};
         }

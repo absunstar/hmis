@@ -35,7 +35,7 @@
 
             <div class="col2">
               <br />
-              <i-button ng-if="item.sourceType.id === 1 && item.transferItemsRequest.id" type="get" label="##word.Load Items##" ng-click="getRequestItems(item.transferItemsRequest)"> </i-button>
+              <i-button ng-show="!item.approved && item.sourceType.id === 1 && item.transferItemsRequest.id" type="get" label="##word.Load Items##" ng-click="getRequestItems(item.transferItemsRequest)"> </i-button>
             </div>
           </div>
         </fieldset>

@@ -458,8 +458,8 @@
     {
         "category": "main",
         "feature": "public",
-        "id": "returnPurchaseInvoices",
-        "name": "Return Purchase Invoices"
+        "id": "returnPurchaseOrders",
+        "name": "Return Purchase Orders"
     },
     {
         "category": "main",

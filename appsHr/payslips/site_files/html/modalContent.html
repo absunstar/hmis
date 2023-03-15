@@ -34,7 +34,7 @@
                 <tr>
                     <th>##word.s##</th>
                     <th>##word.Name##</th>
-                    <th>##word.original Value##</th>
+                    <!-- <th>##word.original Value##</th> -->
                     <th>##word.Value##</th>
                     <th>##word.Name Arabic##</th>
                     <th>##word.Actions##</th>
@@ -42,12 +42,12 @@
                 <tr class="center">
                     <td class="center blue">1</td>
                     <td class="center">##word.Basic Salary##</td>
-                    <td class="center">
+                    <!-- <td class="center">
                         <span class="text-success">{{item.paySlip.originalSalary}}</span>
                         <span>##word.$##</span>
-                    </td>
+                    </td> -->
                     <td class="center">
-                        <span class="text-success">{{item.paySlip.basicSalary}}</span>
+                        <span class="text-success">{{item.paySlip.originalSalary}}</span>
                         <span>##word.$##</span>
                     </td>
                     <td class="center">##word.الراتب الأساسي##</td>
@@ -55,17 +55,17 @@
                 <tr ng-repeat="itm in item.paySlip.allowancesList">
                     <td class="center blue">{{$index+2}}</td>
                     <td class="center">{{itm.nameEn}}</td>
-                    <td class="center">
+                    <!-- <td class="center">
                         <p ng-show="itm.originalValue"><span class="text-success">{{itm.originalValue}}</span> <span>##word.$##</span></p>
                         <p ng-show="!itm.originalValue">-</p>
-                    </td>
+                    </td> -->
                     <td class="center">
                         <span class="text-success">{{itm.value}}</span>
                         <span>##word.$##</span>
                     </td>
                     <td class="center">{{itm.nameAr}}</td>
 
-                    <td>
+                    <td class="center">
                         <i-button type="list" label="##word.Details##" ng-show="itm.list" ng-click="viewPayslipItemDetails(itm)"></i-button>
                     </td>
                 </tr>

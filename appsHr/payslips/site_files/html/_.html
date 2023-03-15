@@ -17,8 +17,8 @@
                 <th class="w150">##word.Logo##</th>
                 <th>##word.Code##</th>
                 <th>##word.Name##</th>
-                <th>##word.Manager##</th>
-                <th>##word.Deputy##</th>
+                <th>##word.Period##</th>
+                <th>##word.Total##</th>
                 <th>##word.Status##</th>
                 <th class="not-print">##word.Actions##</th>
             </tr>
@@ -27,9 +27,13 @@
                     <i-image view class="logo center" ng-model="item.image"></i-image>
                 </td>
                 <td class="text-center blue">{{item.code}}</td>
-                <td class="text-center">{{item.name##session.lang##}}</td>
-                <td class="text-center">{{item.manager.fullName##session.lang##}}</td>
-                <td class="text-center">{{item.deputy.fullName##session.lang##}}</td>
+                <td class="text-center">{{item.employee.fullName##session.lang##}}</td>
+                <td class="text-center">{{item.fromDate|date:'dd/MM/yyyy'}} - {{item.toDate|date:'dd/MM/yyyy'}}</td>
+                <td class="center">
+                    <span class="blue">{{item.paySlip.totalAllowance }} </span>- <span class="text-danger">{{item.paySlip.totalDeductions }} </span> = (<span class="text-success bold">
+                        {{(item.paySlip.totalAllowance - item.paySlip.totalDeductions).toFixed(3) }} </span
+                    >)
+                </td>
                 <td class="text-center">
                     <span class="text-success" ng-show="item.active">##word.Active##</span>
                     <span class="text-danger" ng-show="!item.active">##word.Not Active##</span>

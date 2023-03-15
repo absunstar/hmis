@@ -39,7 +39,6 @@ module.exports = function init(site) {
                 });
             }
         });
-        console.log('paySlip.delayRequestsDataList', paySlip.delayRequestsDataList.length);
 
         callback(paySlip);
     };

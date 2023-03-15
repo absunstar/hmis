@@ -39,7 +39,7 @@ module.exports = function init(site) {
         } else {
             deduction.value = item.value;
         }
-
+        deduction['count'] = '-';
         return deduction;
     };
 
@@ -79,7 +79,13 @@ module.exports = function init(site) {
         const netSalary = Math.abs(basicSalary * insurceCalculatedPercent - basicSalary);
         const housingAfterInsurce = Math.abs(housingAllownce * insurceCalculatedPercent - housingAllownce);
 
-        return { originalSalary, basicSalary: site.toMoney(netSalary), housingAllowance: site.toMoney(housingAfterInsurce), netSalary: site.toMoney(netSalary + housingAfterInsurce) };
+        return {
+            originalSalary,
+            basicSalary: site.toMoney(netSalary),
+            origionalHousingAllownce: housingAllownce,
+            housingAllowance: site.toMoney(housingAfterInsurce),
+            netSalary: site.toMoney(netSalary + housingAfterInsurce),
+        };
     };
 
     site.getEmployeePaySlipData = function (req, data, callback) {
@@ -121,9 +127,9 @@ module.exports = function init(site) {
             unpaidVacationsList: [],
         };
         paySlip = { ...paySlip, ...data };
-        console.log('hour', paySlip.hourSalary);
-        console.log('day', paySlip.daySalary);
-        console.log('minute', paySlip.minuteSalary);
+        // console.log('hour', paySlip.hourSalary);
+        // console.log('day', paySlip.daySalary);
+        // console.log('minute', paySlip.minuteSalary);
 
         site.getEmployeeBounus(paySlip, (paySlip2) => {
             site.getEmployeePenalties(req, paySlip2, (paySlip3) => {
@@ -158,21 +164,25 @@ module.exports = function init(site) {
         }
 
         paySlip.attendanceDataList.forEach((_att) => {
-            // console.log('_att', _att.absence);
-            // console.log('_att.attendanceTimeDifference', _att.attendanceTimeDifference);
-            // console.log('_att.leaveTimeDifference', _att.leaveTimeDifference);
             if (_att) {
                 const globalVacationIndex = paySlip.globalVacationsDataList.findIndex((globalVacation) => new Date(globalVacation.date).getTime() == new Date(_att.date).getTime());
                 const vacationRequestIndex = paySlip.vacationsRequestsDataList.findIndex((vacationRequest) => new Date(vacationRequest.date).getTime() == new Date(_att.date).getTime());
-                const delayRequestIndex = paySlip.delayRequestsDataList.findIndex((delayRequest) => new Date(delayRequest.date).getTime() == new Date(_att.date).getTime());
-                const workErrandIndex = paySlip.workErrandDataList.findIndex((workErrand) => new Date(workErrand.date).getTime() == new Date(_att.date).getTime());
+                // const delayRequestIndex = paySlip.delayRequestsDataList.findIndex((delayRequest) => new Date(delayRequest.date).getTime() == new Date(_att.date).getTime());
+                // const workErrandIndex = paySlip.workErrandDataList.findIndex((workErrand) => new Date(workErrand.date).getTime() == new Date(_att.date).getTime());
+                const delayRequestIndex = paySlip.delayRequestsDataList.findIndex(
+                    (delayRequest) =>
+                        new Date(new Date(delayRequest.date).getFullYear(), new Date(delayRequest.date).getMonth(), new Date(delayRequest.date).getDate()).getTime() ==
+                        new Date(new Date(_att.date).getFullYear(), new Date(_att.date).getMonth(), new Date(_att.date).getDate()).getTime()
+                );
+                const workErrandIndex = paySlip.workErrandDataList.findIndex(
+                    (workErrand) =>
+                        new Date(new Date(workErrand.date).getFullYear(), new Date(workErrand.date).getMonth(), new Date(workErrand.date).getDate()).getTime() ==
+                        new Date(new Date(_att.date).getFullYear(), new Date(_att.date).getMonth(), new Date(_att.date).getDate()).getTime()
+                );
                 const vacationType = paySlip.globalVacationsDataList[globalVacationIndex] || paySlip.vacationsRequestsDataList[vacationRequestIndex];
                 const delayType = paySlip.workErrandDataList[workErrandIndex] || paySlip.delayRequestsDataList[delayRequestIndex];
 
-                // console.log('globalVacationIndex', globalVacationIndex, vacationRequestIndex);
-                // console.log('_att.absence', _att.absence);
-
-                if (_att.absence) {
+                if (_att.attendPeriod === -1) {
                     let absentDay = {
                         // appName: _att.appName,
                         date: _att.date,
@@ -180,82 +190,86 @@ module.exports = function init(site) {
                         value: 0,
                         source: {},
                     };
-
-                    if (globalVacationIndex != -1 || vacationRequestIndex != -1) {
-                        absentDay.count = 1;
-                        absentDay.value = 0;
-                        absentDay.source = vacationType.vacationName || vacationType.approvedVacationType;
-                        if (vacationType?.approvedVacationType && vacationType.approvedVacationType.id === 3) {
-                            paySlip.unpaidVacationsCount += absentDay.count;
-                            paySlip.unpaidVacationsValue += absentDay.value;
-                            paySlip.unpaidVacationsList.push(absentDay);
-                        } else {
-                            paySlip.absentDaysCount += absentDay.count;
-                            paySlip.absentDaysValue += absentDay.value;
-                            paySlip.absentDaysList.push(absentDay);
-                        }
-                    } else {
-                        absentDay.count = 1;
+                    absentDay.count = 1;
+                    if (globalVacationIndex == -1 && vacationRequestIndex == -1) {
                         absentDay.value = calculateSalaryValues.absenceDays * paySlip.daySalary;
+                        if (vacationType?.approvedVacationType && vacationType?.approvedVacationType.id === 3) {
+                            absentDay.value = 0;
+                        }
                         paySlip.absentDaysCount += absentDay.count;
                         paySlip.absentDaysValue += absentDay.value;
                         absentDay.source = { nameAr: 'غياب', nameEn: 'Absence' };
+                        paySlip.absentDaysList.push(absentDay);
+                        absentDay = { ...absentDay };
+                    } else if (vacationType?.approvedVacationType && vacationType?.approvedVacationType.id === 3) {
+                        absentDay.value = 0;
+                        paySlip.unpaidVacationsCount += absentDay.count;
+                        paySlip.unpaidVacationsValue += absentDay.value;
+                        paySlip.unpaidVacationsList.push(absentDay);
+                        absentDay = { ...absentDay };
+                    } else if (globalVacationIndex != -1) {
+                        absentDay.value = 0;
+                        paySlip.absentDaysCount += absentDay.count;
+                        paySlip.absentDaysValue += absentDay.value;
+                        absentDay.source = { nameAr: 'أجازة جماعية', nameEn: 'General Vacation' };
+                        paySlip.absentDaysList.push(absentDay);
+                        absentDay = { ...absentDay };
+                    } else if (vacationRequestIndex != -1) {
+                        absentDay.value = 0;
+                        paySlip.absentDaysCount += absentDay.count;
+                        paySlip.absentDaysValue += absentDay.value;
+                        absentDay.source = { nameAr: 'طلب أجازة', nameEn: 'Vacation Request' };
+                        paySlip.absentDaysList.push(absentDay);
+                        absentDay = { ...absentDay };
                     }
-                    paySlip.absentDaysList.push(absentDay);
-                }
-
-                if (!_att.absence) {
+                } else {
                     let absentHourObj = {
                         date: _att.date,
                         from: '',
                         to: '',
                         count: 0,
                         value: 0,
-                        source: {},
+                        // source: {},
                     };
 
-                    if (_att.attendanceTimeDifference < 0) {
-                        const delayCount = Math.abs(_att.attendanceTimeDifference) - (delayType?.allwedTime || 0);
+                    if (_att.attendanceDifference < 0) {
+                        absentHourObj.count = Math.abs(_att.attendanceDifference);
                         absentHourObj.from = _att.shiftStart;
                         absentHourObj.to = _att.attendTime;
-                        if (workErrandIndex != -1) {
-                            absentHourObj.source = { nameAr: 'مأمورية', nameEn: 'Work Errand' };
-                            absentHourObj.from = delayType.toTime;
-                            absentHourObj.count = 0;
-                        } else if (delayRequestIndex != -1) {
-                            absentHourObj.source = { nameAr: 'إذن', nameEn: 'Delay Request' };
-                            absentHourObj.from = delayType.toTime;
-                            absentHourObj.count = 0;
-                        } else {
-                            absentHourObj.source = { nameAr: 'حضور متأخر', nameEn: 'Delay Attendane' };
-                            absentHourObj.count = Math.abs(delayCount);
+                        if (delayRequestIndex == -1 || workErrandIndex == -1) {
+                            absentHourObj.count = Math.abs(_att.attendanceDifference) - (delayType?.allwedTime || 0);
+                            absentHourObj.from = delayType?.toTime || _att.shiftStart;
+                            absentHourObj.to = _att.attendTime;
+                            absentHourObj.value = site.toMoney(absentHourObj.count * calculateSalaryValues.absenceHours * paySlip.minuteSalary);
+                            paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
+                            paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
+                        } else if (delayRequestIndex !== -1 || workErrandIndex !== -1) {
+                            absentHourObj.count = Math.abs(_att.attendanceDifference) - (delayType?.allwedTime || 0);
+
+                            if (delayType?.allwedTime) {
+                                absentHourObj.from = delayType?.toTime || _att.shiftStart;
+                                absentHourObj.to = _att.attendTime;
+                            }
+                            absentHourObj.value = site.toMoney(absentHourObj.count * calculateSalaryValues.absenceHours * paySlip.minuteSalary);
+                            paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
+                            paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
                         }
-                        absentHourObj.value = site.toMoney(absentHourObj.count * calculateSalaryValues.absenceHours * paySlip.minuteSalary);
-                        paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
-                        paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
-                        paySlip.absentHoursList.push(absentHourObj);
+                        if (absentHourObj.count) {
+                            paySlip.absentHoursList.push(absentHourObj);
+                        }
                     }
                     absentHourObj = { ...absentHourObj };
-                    if (_att.leaveTimeDifference < 0) {
-                        const earlyCount = Math.abs(_att.leaveTimeDifference) - (delayType?.allwedTime || 0);
+                    if (_att.leaveDifference > 0) {
+                        absentHourObj.count = Math.abs(_att.leaveDifference);
                         absentHourObj.from = _att.shiftEnd;
                         absentHourObj.to = _att.leaveTime;
-                        if (workErrandIndex != -1) {
-                            absentHourObj.source = { nameAr: 'مأمورية', nameEn: 'Work Errand' };
-                            absentHourObj.from = delayType.fromTime;
-                            absentHourObj.count = 0;
-                        } else if (delayRequestIndex != -1) {
-                            absentHourObj.source = { nameAr: 'إذن', nameEn: 'Delay Request' };
-                            absentHourObj.from = delayType.fromTime;
-                            absentHourObj.count = 0;
-                        } else {
-                            absentHourObj.source = { nameAr: 'إنصراف مبكر', nameEn: 'Early Leave' };
-                            absentHourObj.count = Math.abs(earlyCount);
-                        }
+
                         absentHourObj.value = site.toMoney(absentHourObj.count * calculateSalaryValues.absenceHours * paySlip.minuteSalary);
                         paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
                         paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
-                        paySlip.absentHoursList.push(absentHourObj);
+                        if (absentHourObj.count != 0) {
+                            paySlip.absentHoursList.push(absentHourObj);
+                        }
                     }
                 }
             }
@@ -619,8 +633,6 @@ module.exports = function init(site) {
                             };
 
                             site.getEmployeePaySlipData(req, data, (result) => {
-                                // console.log('result', result);
-
                                 const allowancesList = [];
                                 const deductionsList = [];
                                 const basicSalary = salary.basicSalary;
@@ -640,7 +652,7 @@ module.exports = function init(site) {
                                             nameAr: _elm.allowance.nameAr,
                                             nameEn: _elm.allowance.nameEn,
                                             addToBasicSalary: _elm.allowance.addToBasicSalary,
-                                            value: salary.housingAllowance,
+                                            value: salary.origionalHousingAllownce,
                                             originalValue: _elm.value,
                                         });
                                     }
@@ -733,6 +745,14 @@ module.exports = function init(site) {
                                     if (!_elm.addToBasicSalary) {
                                         totalAllowance += _elm.value;
                                     }
+                                    if (_elm.addToBasicSalary) {
+                                        deductionsList.push({
+                                            nameAr: 'التامينات الإجتماعية',
+                                            nameEn: 'Social Insurance',
+                                            value: salary.originalSalary + salary.origionalHousingAllownce - salary.netSalary,
+                                            count: '-',
+                                        });
+                                    }
                                 });
 
                                 deductionsList.forEach((_elm) => {
@@ -741,7 +761,6 @@ module.exports = function init(site) {
 
                                 response.done = true;
                                 totalAllowance += salary.netSalary;
-                                // console.log('result', result);
 
                                 let delayRequests;
                                 let workErrands;

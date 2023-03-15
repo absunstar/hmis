@@ -28,7 +28,7 @@ module.exports = function init(site) {
                     new Date(workDay.shiftData.start).getHours(),
                     new Date(workDay.shiftData.start).getMinutes()
                 );
-                
+
                 const shiftEnd = new Date(
                     new Date(workDay.date).getFullYear(),
                     new Date(workDay.date).getMonth(),
@@ -61,6 +61,11 @@ module.exports = function init(site) {
                         absence: true,
                         shiftStart,
                         shiftEnd,
+                        attendanceDifference: -1,
+                        attendPeriod: -1,
+                        leaveDifference: -1,
+                        shiftTime: -1,
+                        absentPeriod: -1,
                     };
                     paySlip.attendanceDataList.push(attencance);
                 } else {
@@ -68,9 +73,14 @@ module.exports = function init(site) {
                     const attendTime = new Date(docs[docIndex].attendTime);
                     const leaveTime = new Date(docs[docIndex].leaveTime);
                     const attendDiff = ((shiftStart.getTime() - attendTime.getTime()) / 1000 / 60).toFixed();
-                    const attendanceTimeDifference = Number(attendDiff);
+                    const attendanceDifference = Number(attendDiff);
                     const leaveDiff = ((shiftEnd.getTime() - leaveTime.getTime()) / 1000 / 60).toFixed();
-                    const leaveTimeDifference = Number(1440 - leaveDiff);
+                    const leaveDifference = Number(leaveDiff);
+                    const shiftPeriod = ((shiftEnd.getTime() - shiftStart.getTime()) / 1000 / 60).toFixed();
+                    const shiftTime = Number(shiftPeriod);
+                    const attendValue = ((leaveTime.getTime() - attendTime.getTime()) / 1000 / 60).toFixed();
+                    const attendPeriod = Number(attendValue);
+                    const absentPeriod = Number(shiftTime - attendPeriod);
 
                     // const attendDate = new Date(new Date(attendTime).getFullYear(), new Date(attendTime).getMonth(), new Date(attendTime).getDate());
                     // const leaveDate = new Date(new Date(leaveTime).getFullYear(), new Date(leaveTime).getMonth(), new Date(leaveTime).getDate());
@@ -81,8 +91,8 @@ module.exports = function init(site) {
                     // console.log('leaveTime', leaveTime);
                     // console.log('attendDiff', leaveTime);
                     // console.log('leaveDiff', leaveTime);
-                    // console.log('attendanceTimeDifference', attendanceTimeDifference);
-                    // console.log('leaveTimeDifference', leaveTimeDifference);
+                    // console.log('attendanceDifference', attendanceDifference);
+                    // console.log('leaveDifference', leaveDifference);
 
                     if (!docs[docIndex].absence) {
                         attencance = {
@@ -92,8 +102,11 @@ module.exports = function init(site) {
                             shiftEnd,
                             attendTime,
                             leaveTime,
-                            attendanceTimeDifference,
-                            leaveTimeDifference,
+                            attendanceDifference,
+                            attendPeriod,
+                            leaveDifference,
+                            shiftTime,
+                            absentPeriod,
                         };
                     } else {
                         attencance = {
@@ -102,8 +115,11 @@ module.exports = function init(site) {
                             absence: true,
                             shiftStart,
                             shiftEnd,
-                            attendanceTimeDifference,
-                            leaveTimeDifference,
+                            attendanceDifference: -1,
+                            attendPeriod: -1,
+                            leaveDifference: -1,
+                            shiftTime: -1,
+                            absentPeriod: -1,
                         };
                     }
                     //     paySlip.attendanceDataList.push(attencance);
@@ -126,9 +142,9 @@ module.exports = function init(site) {
                 //         const leaveTime = new Date(doc.leaveTime);
 
                 //         let leaveDiff = ((shiftStart.getTime() - attendTime.getTime()) / 1000 / 60).toFixed();
-                //         const attendanceTimeDifference = Number(attendDiff);
+                //         const attendanceDifference = Number(attendDiff);
                 //         let leaveDiff = ((shiftEnd.getTime() - leaveTime.getTime()) / 1000 / 60).toFixed();
-                //         const leaveTimeDifference = Number(leaveDiff);
+                //         const leaveDifference = Number(leaveDiff);
 
                 //         // if (workDay.day.index == 4) {
                 //         //     console.log('shiftStart', shiftStart);
@@ -136,8 +152,8 @@ module.exports = function init(site) {
                 //         //     console.log('attendTime', attendTime);
                 //         //     console.log('leaveTime', leaveTime);
                 //         // }
-                //         // console.log('attendanceTimeDifference', attendanceTimeDifference);
-                //         // console.log('leaveTimeDifference', leaveTimeDifference);
+                //         // console.log('attendanceDifference', attendanceDifference);
+                //         // console.log('leaveDifference', leaveDifference);
 
                 //         if (!doc.absence) {
                 //             attencance = {
@@ -148,8 +164,8 @@ module.exports = function init(site) {
                 //                 shiftEnd,
                 //                 attendTime,
                 //                 leaveTime,
-                //                 attendanceTimeDifference,
-                //                 leaveTimeDifference,
+                //                 attendanceDifference,
+                //                 leaveDifference,
                 //             };
                 //         } else {
                 //             attencance = {
@@ -158,8 +174,8 @@ module.exports = function init(site) {
                 //                 absence: true,
                 //                 shiftStart,
                 //                 shiftEnd,
-                //                 attendanceTimeDifference,
-                //                 leaveTimeDifference,
+                //                 attendanceDifference,
+                //                 leaveDifference,
                 //             };
                 //         }
                 //         paySlip.attendanceDataList.push(attencance);

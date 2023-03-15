@@ -309,6 +309,8 @@ app.controller('insuranceContracts', function ($scope, $http, $timeout) {
           nameAr: $scope.item.$insuranceClass.nameAr,
           nameEn: $scope.item.$insuranceClass.nameEn,
           code: $scope.item.$insuranceClass.code,
+          maxServiceAmount : 0,
+          maxConsAmount : 0,
           freeRevisitAmount : 0,
           maxDeductAmount : 0,
           serviceDeduct : 0,

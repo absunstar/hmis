@@ -69,16 +69,21 @@
               <i-radio class="col5" label="##word.Value##" ng-value="value" ng-model="c.consultationType"> </i-radio>
             </div>
           </div>
-          
           <div class="col1">
             <br />
             <i-button type="delete default" ng-click="item.insuranceClassesList.splice($index,1)"> </i-button>
           </div>
+
         </div>
         <div class="row">
-          <div class="col5"></div>
-          <i-control class="col3" type="number" label="##word.Free Revisit Amount##" ng-model="c.freeRevisitAmount"> </i-control>
-          <i-control class="col3" type="number" label="##word.Max Deduct Amount##" ng-model="c.maxDeductAmount"> </i-control>
+          <div class="col5">
+            <div class="row">
+              <i-control class="col6" type="number" label="##word.Free Revisit Amount##" ng-model="c.freeRevisitAmount"> </i-control>
+              <i-control class="col6" type="number" label="##word.Max Deduct Amount##" ng-model="c.maxDeductAmount"> </i-control>
+            </div>
+          </div>
+          <i-control class="col3" type="number" label="##word.Max Service Amount##" ng-model="c.maxServiceAmount"> </i-control>
+          <i-control class="col3" type="number" label="##word.Max Cons Amount##" ng-model="c.maxConsAmount"> </i-control>
 
         </div>
       </div>

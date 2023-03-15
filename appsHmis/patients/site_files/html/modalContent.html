@@ -5,8 +5,8 @@
       <i-checkbox ng-model="item.active" class="col3" label="##word.Active##"></i-checkbox>
     </div>
     <div class="row">
-      <i-control label="##word.Full Name##" ng-model="item.fullNameEn"> </i-control>
-      <i-control label="الإسم بالكامل" ng-model="item.fullNameAr"> </i-control>
+      <i-control label="##word.Full Name##" ng-keydown="changeName('fullNameEn',$event)" ng-model="item.fullNameEn"> </i-control>
+      <i-control label="الإسم بالكامل" ng-keydown="changeName('fullNameAr',$event)" ng-model="item.fullNameAr"> </i-control>
     </div>
   </div>
   <div class="col3">
@@ -40,23 +40,23 @@
           <div class="row padding">
             <fieldset>
               <div class="row">
-                <i-control class="col6" label="##word.First Name##" ng-model="item.nameEn"> </i-control>
-                <i-control class="col6" label="الإسم الأول" ng-model="item.nameAr"> </i-control>
+                <i-control class="col6" label="##word.First Name##"  ng-keydown="changeName('nameEn',$event)" ng-model="item.nameEn"> </i-control>
+                <i-control class="col6" label="الإسم الأول" ng-keydown="changeName('nameAr',$event)" ng-model="item.nameAr"> </i-control>
               </div>
 
               <div class="row">
-                <i-control class="col6" label="##word.Parent Name##" ng-model="item.parentNameEn"> </i-control>
-                <i-control class="col6" label="إسم الأب" ng-model="item.parentNameAr"> </i-control>
+                <i-control class="col6" label="##word.Parent Name##" ng-keydown="changeName('parentNameEn',$event)" ng-model="item.parentNameEn"> </i-control>
+                <i-control class="col6" label="إسم الأب" ng-keydown="changeName('parentNameAr',$event)" ng-model="item.parentNameAr"> </i-control>
               </div>
 
               <div class="row">
-                <i-control class="col6" label="##word.Grand Father Name##" ng-model="item.grantFatherNameEn"> </i-control>
-                <i-control class="col6" label="إسم الجد" ng-model="item.grantFatherNameAr"> </i-control>
+                <i-control class="col6" label="##word.Grand Father Name##" ng-keydown="changeName('grantFatherNameEn',$event)" ng-model="item.grantFatherNameEn"> </i-control>
+                <i-control class="col6" label="إسم الجد" ng-keydown="changeName('grantFatherNameAr',$event)" ng-model="item.grantFatherNameAr"> </i-control>
               </div>
 
               <div class="row">
-                <i-control class="col6" label="##word.Family Name##" ng-model="item.familyNameEn"> </i-control>
-                <i-control class="col6" label="إسم العائلة" ng-model="item.familyNameAr"> </i-control>
+                <i-control class="col6" label="##word.Family Name##" ng-keydown="changeName('familyNameEn',$event)" ng-model="item.familyNameEn"> </i-control>
+                <i-control class="col6" label="إسم العائلة" ng-keydown="changeName('familyNameAr',$event)" ng-model="item.familyNameAr"> </i-control>
               </div>
             </fieldset>
 

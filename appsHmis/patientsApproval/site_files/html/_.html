@@ -10,7 +10,13 @@
       </tr>
       <tr ng-repeat="item in list | filter:$search">
         <td class="text-center blue">{{item.date |date:"dd - MM - yyyy"}}</td>
-        <td class="text-center">{{item.patient.fullName##session.lang##}}</td>
+        <td class="text-center">
+          {{item.patient.fullName##session.lang##}}
+          <p class="center">( {{item.mainInsuranceCompany.name##session.lang##}} )</p>
+          <p class="center">##word.Sub InSurance Com## : ( {{item.patient.insuranceCompany.name##session.lang##}} )</p>
+          <p class="center">##word.Insurance Class## : ( {{item.patient.insuranceClass.name##session.lang##}} )</p>
+
+        </td>
         <td class="text-center">{{item.doctor.name##session.lang##}}</td>
         <td class="text-center">({{item.service.code}}) {{item.service.name##session.lang##}}</td>
 

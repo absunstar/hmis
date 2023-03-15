@@ -388,7 +388,7 @@ module.exports = function init(site) {
   });
 
   site.post({ name: `/api/${app.name}/needApprove`, public: true }, (req, res) => {
-    let select = req.body.select || { id: 1, code: 1, patient: 1, date: 1, servicesList: 1, doctor: 1 };
+    let select = req.body.select || { id: 1, code: 1, patient: 1, date: 1, servicesList: 1, doctor: 1,mainInsuranceCompany:1 };
 
     app.all({ where: { approved: false }, select, sort: { id: -1 } }, (err, docs) => {
       let list = [];
@@ -400,6 +400,7 @@ module.exports = function init(site) {
                 id: _doc.id,
                 service: _s,
                 patient: _doc.patient,
+                mainInsuranceCompany: _doc.mainInsuranceCompany,
                 doctor: _doc.doctor,
                 date: _doc.date,
               });

@@ -529,6 +529,53 @@ app.controller('patients', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.changeName = function (type, ev) {
+    $scope.error = '';
+    if (ev.which == 13) {
+      $http({
+        method: 'POST',
+        url: '/api/namesConversions/changeName',
+        data: {
+          names: {
+            fullNameEn: $scope.item.fullNameEn,
+            fullNameAr: $scope.item.fullNameAr,
+            nameEn: $scope.item.nameEn,
+            nameAr: $scope.item.nameAr,
+            parentNameEn: $scope.item.parentNameEn,
+            parentNameAr: $scope.item.parentNameAr,
+            grantFatherNameEn: $scope.item.grantFatherNameEn,
+            grantFatherNameAr: $scope.item.grantFatherNameAr,
+            familyNameEn: $scope.item.familyNameEn,
+            familyNameAr: $scope.item.familyNameAr,
+          },
+          type,
+        },
+      }).then(
+        function (response) {
+          $scope.busy = false;
+          if (response.data.done && response.data.doc) {
+            let doc = response.data.doc;
+            $scope.item.fullNameAr = doc.fullNameAr;
+            $scope.item.fullNameEn = doc.fullNameEn;
+            $scope.item.nameAr = doc.nameAr;
+            $scope.item.nameEn = doc.nameEn;
+            $scope.item.parentNameAr = doc.parentNameAr;
+            $scope.item.parentNameEn = doc.parentNameEn;
+            $scope.item.grantFatherNameAr = doc.grantFatherNameAr;
+            $scope.item.grantFatherNameEn = doc.grantFatherNameEn;
+            $scope.item.familyNameAr = doc.familyNameAr;
+            $scope.item.familyNameEn = doc.familyNameEn;
+          }
+        },
+        function (err) {
+          $scope.busy = false;
+          $scope.error = err;
+        }
+      );
+    }
+  };
+
+
   $scope.addOffers = function (_item) {
     $scope.error = '';
     if (_item.$offer && _item.$offer.id) {

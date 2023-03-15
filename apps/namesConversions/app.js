@@ -22,6 +22,7 @@ module.exports = function init(site) {
         if (!err) {
           if (docs.length == 0) {
             app.cacheList.forEach((_item, i) => {
+              _item.nameEn = _item.nameEn.toUpperCase();
               app.$collection.add(_item, (err, doc) => {
                 if (!err && doc) {
                   app.memoryList.push(doc);
@@ -38,6 +39,7 @@ module.exports = function init(site) {
     }
   };
   app.add = function (_item, callback) {
+    _item.nameEn = _item.nameEn.toUpperCase();
     app.$collection.add(_item, (err, doc) => {
       if (callback) {
         callback(err, doc);
@@ -48,6 +50,8 @@ module.exports = function init(site) {
     });
   };
   app.update = function (_item, callback) {
+    _item.nameEn = _item.nameEn.toUpperCase();
+
     app.$collection.edit(
       {
         where: {
@@ -317,65 +321,76 @@ module.exports = function init(site) {
         //     nameAr: site.get_RegExp(objNames.familyNameAr, 'i'),
         //   },
         // ];
-
         where.$or = [];
-        if (objNames.fullNameEn) {
+        if (type == 'fullNameEn') {
+          if (objNames.fullNameEn.split(/\s+/)[0]) {
+            where.$or.push({
+              nameEn: objNames.fullNameEn.split(/\s+/)[0].toUpperCase(),
+            });
+          }
+          if (objNames.fullNameEn.split(/\s+/)[1]) {
+            where.$or.push({
+              nameEn: objNames.fullNameEn.split(/\s+/)[1].toUpperCase(),
+            });
+          }
+          if (objNames.fullNameEn.split(/\s+/)[2]) {
+            where.$or.push({
+              nameEn: objNames.fullNameEn.split(/\s+/)[2].toUpperCase(),
+            });
+          }
+          if (objNames.fullNameEn.split(/\s+/)[3]) {
+            where.$or.push({
+              nameEn: objNames.fullNameEn.split(/\s+/)[3].toUpperCase(),
+            });
+          }
+        } else if (type == 'fullNameAr') {
+          if (objNames.fullNameAr.split(/\s+/)[0]) {
+            where.$or.push({
+              nameAr: objNames.fullNameAr.split(/\s+/)[0],
+            });
+          }
+          if (objNames.fullNameAr.split(/\s+/)[1]) {
+            where.$or.push({
+              nameAr: objNames.fullNameAr.split(/\s+/)[1],
+            });
+          }
+          if (objNames.fullNameAr.split(/\s+/)[2]) {
+            where.$or.push({
+              nameAr: objNames.fullNameAr.split(/\s+/)[2],
+            });
+          }
+          if (objNames.fullNameAr.split(/\s+/)[3]) {
+            where.$or.push({
+              nameAr: objNames.fullNameAr.split(/\s+/)[3],
+            });
+          }
+        } else if (objNames[type] && type[type.length - 1] == 'n') {
           where.$or.push({
-            nameEn: objNames.fullNameEn,
+            nameEn: objNames[type].toUpperCase(),
           });
-        }
-        if (objNames.fullNameAr) {
+        } else if (objNames[type] && type[type.length - 1] == 'r') {
           where.$or.push({
-            nameAr: objNames.fullNameAr,
+            nameAr: objNames[type],
           });
         }
 
-        if (objNames.nameEn) {
-          where.$or.push({
-            nameEn: objNames.nameEn,
-          });
-        }
-        if (objNames.nameAr) {
-          where.$or.push({
-            nameAr: objNames.nameAr,
-          });
-        }
-
-        if (objNames.parentNameEn) {
-          where.$or.push({
-            nameEn: objNames.parentNameEn,
-          });
-        }
-        if (objNames.parentNameAr) {
-          where.$or.push({
-            nameAr: objNames.parentNameAr,
-          });
-        }
-
-        if (objNames.grantFatherNameEn) {
-          where.$or.push({
-            nameEn: objNames.grantFatherNameEn,
-          });
-        }
-        if (objNames.grantFatherNameAr) {
-          where.$or.push({
-            nameAr: objNames.grantFatherNameAr,
-          });
-        }
-
-        if (objNames.familyNameEn) {
-          where.$or.push({
-            nameEn: objNames.familyNameEn,
-          });
-        }
-        if (objNames.familyNameAr) {
-          where.$or.push({
-            nameAr: objNames.familyNameAr,
-          });
-        }
       }
 
-      app.all({ select, where, limit: 1000 }, (err, docs) => {
+      app.all({ select, where }, (err, docs) => {
+        console.log(docs.length);
+        if (type == 'fullNameEn'){
+          objNames.fullNameAr = '';
+          objNames.nameAr = '';
+          objNames.parentNameAr = '';
+          objNames.grantFatherNameAr = '';
+          objNames.familyNameAr = '';
+        } else if (type == 'fullNameAr'){
+          objNames.fullNameEn = '';
+          objNames.nameEn = '';
+          objNames.parentNameEn = '';
+          objNames.grantFatherNameEn = '';
+          objNames.familyNameEn = '';
+        }
         for (let i = 0; i < docs.length; i++) {
           let n = docs[i];
 
@@ -412,63 +427,50 @@ module.exports = function init(site) {
             objNames.familyNameEn = n.nameEn;
             site.changeFullName(objNames, n, 3);
           } else if (type == 'fullNameEn' && objNames.fullNameEn && objNames.fullNameEn.contains(n.nameEn)) {
+         
             if (objNames.fullNameEn.split(/\s+/)[0] && objNames.fullNameEn.split(/\s+/)[0].contains(n.nameEn)) {
-              objNames.fullNameEn = objNames.fullNameEn.replace(objNames.fullNameEn.split(/\s+/)[0], n.nameEn);
-              objNames.fullNameAr = objNames.fullNameAr && objNames.fullNameAr.split(/\s+/)[0] ? objNames.fullNameAr.replace(objNames.fullNameAr.split(/\s+/)[0], n.nameAr) : n.nameAr;
-              objNames.nameEn = n.nameEn;
+              objNames.nameEn = objNames.fullNameEn.split(/\s+/)[0];
               objNames.nameAr = n.nameAr;
             }
             if (objNames.fullNameEn.split(/\s+/)[1] && objNames.fullNameEn.split(/\s+/)[1].contains(n.nameEn)) {
-              objNames.fullNameEn = objNames.fullNameEn.replace(objNames.fullNameEn.split(/\s+/)[1], n.nameEn);
-              objNames.fullNameAr =
-                objNames.fullNameAr && objNames.fullNameAr.split(/\s+/)[1] ? objNames.fullNameAr.replace(objNames.fullNameAr.split(/\s+/)[1], n.nameAr) : objNames.fullNameAr + ' ' + n.nameAr;
-              objNames.parentNameEn = n.nameEn;
+              objNames.parentNameEn = objNames.fullNameEn.split(/\s+/)[1];
               objNames.parentNameAr = n.nameAr;
             }
             if (objNames.fullNameEn.split(/\s+/)[2] && objNames.fullNameEn.split(/\s+/)[2].contains(n.nameEn)) {
-              objNames.fullNameEn = objNames.fullNameEn.replace(objNames.fullNameEn.split(/\s+/)[2], n.nameEn);
-              objNames.fullNameAr =
-                objNames.fullNameAr && objNames.fullNameAr.split(/\s+/)[2] ? objNames.fullNameAr.replace(objNames.fullNameAr.split(/\s+/)[2], n.nameAr) : objNames.fullNameAr + ' ' + n.nameAr;
-              objNames.grantFatherNameEn = n.nameEn;
+              objNames.grantFatherNameEn = objNames.fullNameEn.split(/\s+/)[2];
               objNames.grantFatherNameAr = n.nameAr;
             }
             if (objNames.fullNameEn.split(/\s+/)[3] && objNames.fullNameEn.split(/\s+/)[3].contains(n.nameEn)) {
-              objNames.fullNameEn = objNames.fullNameEn.replace(objNames.fullNameEn.split(/\s+/)[3], n.nameEn);
-              objNames.fullNameAr =
-                objNames.fullNameAr && objNames.fullNameAr.split(/\s+/)[3] ? objNames.fullNameAr.replace(objNames.fullNameAr.split(/\s+/)[3], n.nameEn) : objNames.fullNameAr + ' ' + n.nameAr;
-              objNames.familyNameEn = n.nameEn;
+              objNames.familyNameEn = objNames.fullNameEn.split(/\s+/)[3];
               objNames.familyNameAr = n.nameAr;
             }
           } else if (type == 'fullNameAr' && objNames.fullNameAr && objNames.fullNameAr.contains(n.nameAr)) {
+         
             if (objNames.fullNameAr.split(/\s+/)[0] && objNames.fullNameAr.split(/\s+/)[0].contains(n.nameAr)) {
-              objNames.fullNameAr = objNames.fullNameAr.replace(objNames.fullNameAr.split(/\s+/)[0], n.nameAr);
-              objNames.fullNameEn = objNames.fullNameEn && objNames.fullNameEn.split(/\s+/)[0] ? objNames.fullNameEn.replace(objNames.fullNameEn.split(/\s+/)[0], n.nameEn) : n.nameEn;
+              objNames.nameAr = objNames.fullNameAr.split(/\s+/)[0];
               objNames.nameEn = n.nameEn;
-              objNames.nameAr = n.nameAr;
             }
             if (objNames.fullNameAr.split(/\s+/)[1] && objNames.fullNameAr.split(/\s+/)[1].contains(n.nameAr)) {
-              objNames.fullNameAr = objNames.fullNameAr.replace(objNames.fullNameAr.split(/\s+/)[1], n.nameAr);
-              objNames.fullNameEn =
-                objNames.fullNameEn && objNames.fullNameEn.split(/\s+/)[1] ? objNames.fullNameEn.replace(objNames.fullNameEn.split(/\s+/)[1], n.nameEn) : objNames.fullNameEn + ' ' + n.nameEn;
+              objNames.parentNameAr = objNames.fullNameAr.split(/\s+/)[1];
               objNames.parentNameEn = n.nameEn;
-              objNames.parentNameAr = n.nameAr;
             }
             if (objNames.fullNameAr.split(/\s+/)[2] && objNames.fullNameAr.split(/\s+/)[2].contains(n.nameAr)) {
-              objNames.fullNameAr = objNames.fullNameAr.replace(objNames.fullNameAr.split(/\s+/)[2], n.nameAr);
-              objNames.fullNameEn =
-                objNames.fullNameEn && objNames.fullNameEn.split(/\s+/)[2] ? objNames.fullNameEn.replace(objNames.fullNameEn.split(/\s+/)[2], n.nameEn) : objNames.fullNameEn + ' ' + n.nameEn;
+              objNames.grantFatherNameAr = objNames.fullNameAr.split(/\s+/)[2];
               objNames.grantFatherNameEn = n.nameEn;
-              objNames.grantFatherNameAr = n.nameAr;
             }
             if (objNames.fullNameAr.split(/\s+/)[3] && objNames.fullNameAr.split(/\s+/)[3].contains(n.nameAr)) {
-              objNames.fullNameAr = objNames.fullNameAr.replace(objNames.fullNameAr.split(/\s+/)[3], n.nameAr);
-              objNames.fullNameEn =
-                objNames.fullNameEn && objNames.fullNameEn.split(/\s+/)[3] ? objNames.fullNameEn.replace(objNames.fullNameEn.split(/\s+/)[3], n.nameEn) : objNames.fullNameEn + ' ' + n.nameEn;
+              objNames.familyNameAr = objNames.fullNameAr.split(/\s+/)[3];
               objNames.familyNameEn = n.nameEn;
-              objNames.familyNameAr = n.nameAr;
             }
           }
         }
+
+        if (type == 'fullNameEn') {
+          objNames.fullNameAr = objNames.nameAr + ' ' + objNames.parentNameAr + ' ' + objNames.grantFatherNameAr + ' ' + objNames.familyNameAr;
+        } else if (type == 'fullNameAr') {
+          objNames.fullNameEn = objNames.nameEn + ' ' + objNames.parentNameEn + ' ' + objNames.grantFatherNameEn + ' ' + objNames.familyNameEn;
+        }
+
         res.json({
           done: true,
           doc: objNames,
@@ -515,7 +517,7 @@ module.exports = function init(site) {
             newDoc.branch = site.getBranch(req);
             newDoc.addUserInfo = req.getUserFinger();
 
-            app.$collection.add(newDoc, (err, doc2) => {
+            app.add(newDoc, (err, doc2) => {
               if (!err && doc2) {
                 site.dbMessage = 'import doc id : ' + doc2.id;
                 console.log(site.dbMessage);

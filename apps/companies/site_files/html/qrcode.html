@@ -66,6 +66,7 @@
 
       app.controller('test', function ($scope, $http, $timeout) {
         $scope.code = '';
+        $('#qr1').focus();
         $scope.readQR = function () {
           $timeout(() => {
             if ($scope.code) {

@@ -771,7 +771,6 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
 
         _service.grossAmount = _service.totalPrice - _service.totalDiscount;
         _service.grossAmount = site.toNumber(_service.grossAmount);
-
         _service.totalPatientVat = (_service.grossAmount * _service.pVat) / 100;
         _service.totalPatientVat = site.toNumber(_service.totalPatientVat);
 
@@ -781,13 +780,13 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
         _service.totalCompanyVat = (_service.grossAmount * _service.comVat) / 100;
         _service.totalCompanyVat = site.toNumber(_service.totalCompanyVat);
 
-        _service.total = _service.grossAmount - _service.totalDiscount + (_service.totalPatientVat + _service.totalVat + _service.totalCompanyVat);
+        _service.total = _service.grossAmount + (_service.totalPatientVat + _service.totalVat + _service.totalCompanyVat);
         _service.total = site.toNumber(_service.total);
 
         _item.grossAmount += _service.grossAmount;
         _item.totalDiscount += _service.totalDiscount;
         _item.totalVat += _service.totalVat;
-        _item.totalPatientVat += _service.grossAmount;
+        _item.totalPatientVat += _service.totalPatientVat;
         _item.totalCompanyVat += _service.totalCompanyVat;
       });
 

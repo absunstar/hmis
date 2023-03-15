@@ -375,16 +375,16 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
             return;
         }
 
-        if (!delayPenalty.type || !delayPenalty.type.id) {
-            $scope.error = '##word.Please Select Penalty Type##';
-            return;
-        }
+        // if (!delayPenalty.type || !delayPenalty.type.id) {
+        //     $scope.error = '##word.Please Select Penalty Type##';
+        //     return;
+        // }
 
         $scope.item.penaltiesList.push({
             fromMinute: delayPenalty.fromMinute,
             toMinute: delayPenalty.toMinute,
             value: delayPenalty.value,
-            type: delayPenalty.type,
+            // type: delayPenalty.type,
             active: true,
         });
         $scope.delayPenalty = {};

@@ -206,6 +206,73 @@
                         </table>
                     </div>
                 </fieldset>
+
+                <fieldset ng-show="payslipItem.code == 'absentHours'">
+                    <legend>{{item.delayRequests.nameEn}} - {{item.delayRequests.nameAr}}</legend>
+                    <div class="table-responsive">
+                        <table class="table hover bold">
+                            <tr>
+                                <th>##word.s##</th>
+                                <th>##word.Date##</th>
+                                <th>##word.From##</th>
+                                <th>##word.To##</th>
+                                <th>##word.Minute##</th>
+                            </tr>
+                            <tr ng-repeat="itm in item.delayRequests.list">
+                                <td class="center blue">{{$index+1}}</td>
+                                <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
+                                <td class="center">{{itm.fromTime |date:'hh:mm a'}}</td>
+                                <td class="center">{{itm.toTime |date:'hh:mm a'}}</td>
+                                <td class="center">{{itm.allwedTime}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </fieldset>
+                <fieldset ng-show="payslipItem.code == 'absentHours'">
+                    <legend>{{item.workErrands.nameEn}} - {{item.workErrands.nameAr}}</legend>
+
+                    <div class="table-responsive">
+                        <table class="table hover bold">
+                            <tr>
+                                <th>##word.s##</th>
+                                <th>##word.Date##</th>
+                                <th>##word.From##</th>
+                                <th>##word.To##</th>
+                                <th>##word.Minute##</th>
+                            </tr>
+                            <tr ng-repeat="itm in item.workErrands.list">
+                                <td class="center blue">{{$index+1}}</td>
+                                <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
+                                <td class="center">{{itm.fromTime |date:'hh:mm a'}}</td>
+                                <td class="center">{{itm.toTime |date:'hh:mm a'}}</td>
+                                <td class="center">{{itm.allwedTime}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </fieldset>
+                <fieldset ng-show="payslipItem.code == 'absentHours'">
+                    <legend>{{item.vacationsRequests.nameEn}} - {{item.vacationsRequests.nameAr}}</legend>
+                    <div class="table-responsive">
+                        <table class="table hover bold">
+                            <tr>
+                                <th>##word.s##</th>
+                                <th>##word.Date##</th>
+                                <th>##word.Request Vacation Type##</th>
+                                <th>##word.Request Days##</th>
+                                <th>##word.Approved Vacation Type##</th>
+                                <th>##word.Approved Days##</th>
+                            </tr>
+                            <tr ng-repeat="itm in item.vacationsRequests.list">
+                                <td class="center blue">{{$index+1}}</td>
+                                <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
+                                <td class="center">{{itm.vacationType.nameEn}} - {{itm.vacationType.nameAr}}</td>
+                                <td class="center">{{itm.days}}</td>
+                                <td class="center">{{itm.approvedVacationType.nameEn}} - {{itm.approvedVacationType.nameAr}}</td>
+                                <td class="center">{{itm.approvedDays}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </fieldset>
             </form>
         </div>
 

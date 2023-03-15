@@ -66,25 +66,25 @@ module.exports = function init(site) {
     site.calculateEmployeeBasicSalary = function (employeeDoc) {
         const originalSalary = site.toMoney(employeeDoc.basicSalary);
         let basicSalary = employeeDoc.basicSalary;
-        let housingAllownce = 0;
+        let otherAllownce = 0;
         if (employeeDoc.allowancesList && employeeDoc.allowancesList.length) {
             employeeDoc.allowancesList.forEach((doc) => {
                 if (doc.allowance && doc.allowance.addToBasicSalary) {
-                    housingAllownce = doc.value;
+                    otherAllownce += doc.value;
                 }
             });
         }
 
         const insurceCalculatedPercent = employeeDoc.totalSubscriptionsEmployee / 100;
         const netSalary = Math.abs(basicSalary * insurceCalculatedPercent - basicSalary);
-        const housingAfterInsurce = Math.abs(housingAllownce * insurceCalculatedPercent - housingAllownce);
+        const otherAllownceAfterInsurance = Math.abs(otherAllownce * insurceCalculatedPercent - otherAllownce);
 
         return {
             originalSalary,
+            otherAllownce: otherAllownce,
             basicSalary: site.toMoney(netSalary),
-            origionalHousingAllownce: housingAllownce,
-            housingAllowance: site.toMoney(housingAfterInsurce),
-            netSalary: site.toMoney(netSalary + housingAfterInsurce),
+            otherAllownceAfterInsurance: site.toMoney(otherAllownceAfterInsurance),
+            netSalary: site.toMoney(netSalary + otherAllownceAfterInsurance),
         };
     };
 
@@ -156,12 +156,15 @@ module.exports = function init(site) {
     app.calculateEmployeePaySlipItems = function (req, paySlip, callback) {
         const systemSetting = site.getSystemSetting(req).hrSettings;
 
-        let calculateSalaryValues;
-        if ((paySlip.shiftApproved && paySlip.useSystemSetting) || !paySlip.shiftApproved || !paySlip.useSystemSetting) {
-            calculateSalaryValues = { ...systemSetting, ...paySlip.penaltiesList };
-        } else {
-            calculateSalaryValues = { ...paySlip.salaryAccountSettings, ...paySlip.penaltiesList };
-        }
+        // let calculateSalaryValues;
+        // if ((paySlip.shiftApproved && paySlip.useSystemSetting) || !paySlip.shiftApproved || !paySlip.useSystemSetting) {
+        //     calculateSalaryValues = { ...systemSetting, ...paySlip.penaltiesList };
+        // } else {
+        //     calculateSalaryValues = { ...paySlip.salaryAccountSettings, ...paySlip.penaltiesList };
+        // }
+        // absenceDays;
+        const penaltiesList = paySlip.penaltiesList;
+     
 
         paySlip.attendanceDataList.forEach((_att) => {
             if (_att) {
@@ -192,7 +195,7 @@ module.exports = function init(site) {
                     };
                     absentDay.count = 1;
                     if (globalVacationIndex == -1 && vacationRequestIndex == -1) {
-                        absentDay.value = calculateSalaryValues.absenceDays * paySlip.daySalary;
+                        absentDay.value = site.toMoney(systemSetting.absenceDays * paySlip.daySalary);
                         if (vacationType?.approvedVacationType && vacationType?.approvedVacationType.id === 3) {
                             absentDay.value = 0;
                         }
@@ -202,7 +205,7 @@ module.exports = function init(site) {
                         paySlip.absentDaysList.push(absentDay);
                         absentDay = { ...absentDay };
                     } else if (vacationType?.approvedVacationType && vacationType?.approvedVacationType.id === 3) {
-                        absentDay.value = 0;
+                        absentDay.value = paySlip.daySalary;
                         paySlip.unpaidVacationsCount += absentDay.count;
                         paySlip.unpaidVacationsValue += absentDay.value;
                         paySlip.unpaidVacationsList.push(absentDay);
@@ -232,25 +235,36 @@ module.exports = function init(site) {
                         // source: {},
                     };
 
+                    let selectdPenality;
+                    let penalityValue;
+
+                    // console.log('penalityValue', penaltiesList[selectdPenality]);
+                    // console.log('penalityValue', penalityValue);
                     if (_att.attendanceDifference < 0) {
                         absentHourObj.count = Math.abs(_att.attendanceDifference);
+                        selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.count >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
+                        penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
                         absentHourObj.from = _att.shiftStart;
                         absentHourObj.to = _att.attendTime;
                         if (delayRequestIndex == -1 || workErrandIndex == -1) {
                             absentHourObj.count = Math.abs(_att.attendanceDifference) - (delayType?.allwedTime || 0);
+                            selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.count >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
+                            penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
                             absentHourObj.from = delayType?.toTime || _att.shiftStart;
                             absentHourObj.to = _att.attendTime;
-                            absentHourObj.value = site.toMoney(absentHourObj.count * calculateSalaryValues.absenceHours * paySlip.minuteSalary);
+                            absentHourObj.value = site.toMoney(penalityValue);
                             paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
                             paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
                         } else if (delayRequestIndex !== -1 || workErrandIndex !== -1) {
                             absentHourObj.count = Math.abs(_att.attendanceDifference) - (delayType?.allwedTime || 0);
+                            selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.count >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
+                            penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
 
                             if (delayType?.allwedTime) {
                                 absentHourObj.from = delayType?.toTime || _att.shiftStart;
                                 absentHourObj.to = _att.attendTime;
                             }
-                            absentHourObj.value = site.toMoney(absentHourObj.count * calculateSalaryValues.absenceHours * paySlip.minuteSalary);
+                            absentHourObj.value = site.toMoney(penalityValue);
                             paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
                             paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
                         }
@@ -261,10 +275,12 @@ module.exports = function init(site) {
                     absentHourObj = { ...absentHourObj };
                     if (_att.leaveDifference > 0) {
                         absentHourObj.count = Math.abs(_att.leaveDifference);
+                        selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.count >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
+                        penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
                         absentHourObj.from = _att.shiftEnd;
                         absentHourObj.to = _att.leaveTime;
 
-                        absentHourObj.value = site.toMoney(absentHourObj.count * calculateSalaryValues.absenceHours * paySlip.minuteSalary);
+                        absentHourObj.value = site.toMoney(penalityValue);
                         paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
                         paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
                         if (absentHourObj.count != 0) {
@@ -612,11 +628,6 @@ module.exports = function init(site) {
                                 }
                             }
 
-                            let salaryAccountSettings;
-                            if (shiftDoc.useSystemSetting) {
-                                salaryAccountSettings = shiftDoc.salaryAccountSettings;
-                            }
-
                             const data = {
                                 employeeId: doc.id,
                                 basicSalary: salary.basicSalary,
@@ -629,7 +640,6 @@ module.exports = function init(site) {
                                 penaltiesList: shiftDoc.penaltiesList,
                                 useSystemSetting: shiftDoc.useSystemSetting,
                                 shiftApproved: shiftDoc.approved,
-                                salaryAccountSettings,
                             };
 
                             site.getEmployeePaySlipData(req, data, (result) => {
@@ -652,7 +662,7 @@ module.exports = function init(site) {
                                             nameAr: _elm.allowance.nameAr,
                                             nameEn: _elm.allowance.nameEn,
                                             addToBasicSalary: _elm.allowance.addToBasicSalary,
-                                            value: salary.origionalHousingAllownce,
+                                            value: salary.otherAllownce,
                                             originalValue: _elm.value,
                                         });
                                     }
@@ -749,7 +759,7 @@ module.exports = function init(site) {
                                         deductionsList.push({
                                             nameAr: 'التامينات الإجتماعية',
                                             nameEn: 'Social Insurance',
-                                            value: salary.originalSalary + salary.origionalHousingAllownce - salary.netSalary,
+                                            value: salary.originalSalary + salary.otherAllownce - salary.netSalary,
                                             count: '-',
                                         });
                                     }

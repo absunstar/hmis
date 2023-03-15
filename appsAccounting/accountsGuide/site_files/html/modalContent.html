@@ -25,7 +25,7 @@
           <legend>##word.Status##</legend>
           <i-radio class="col3" ng-value="active" label="##word.Active##" ng-model="item.status"> </i-radio>
 
-          <i-radio class="col3" ng-value="disactive" label="##word.Disactive##" ng-model="item.status"> </i-radio>
+          <i-radio class="col3" ng-value="inactive" label="##word.Inactive##" ng-model="item.status"> </i-radio>
         </fieldset>
       </div>
       <div class="row">
@@ -43,9 +43,9 @@
       <div class="row">
         <fieldset>
           <legend>##word.Report Type##</legend>
-          <i-radio class="col3" ng-value="budget" ng-change="getCategoryList()" label="##word.Budget##" ng-model="item.report"> </i-radio>
+          <i-radio class="col3" ng-value="budget" ng-change="getCategoryList()" label="##word.Budget##" ng-model="item.reportType"> </i-radio>
 
-          <i-radio class="col3" ng-value="incomeList" ng-change="getCategoryList()" label="##word.IncomeList##" ng-model="item.report"> </i-radio>
+          <i-radio class="col3" ng-value="incomeList" ng-change="getCategoryList()" label="##word.IncomeList##" ng-model="item.reportType"> </i-radio>
           <i-list
             ng-show="settings.accountsSetting.linkGlWithIncomeStatementAndBudget == true"
             class="col4"

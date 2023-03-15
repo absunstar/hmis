@@ -163,6 +163,12 @@ module.exports = function init(site) {
     { id: 2, nameEn: 'Financial', nameAr: 'مالي' },
   ];
 
+  site.accountingLinkList = [
+    { id: 1, nameEn: 'Account Guide', nameAr: 'دليل حساب' },
+    { id: 2, nameEn: 'General Ledger', nameAr: 'حساب أستاذ' },
+ 
+  ];
+
   site.amountTypes = [
     { id: 1, nameEn: 'Hours', nameAr: 'ساعات' },
     { id: 2, nameEn: 'Days', nameAr: 'أيام' },
@@ -285,6 +291,13 @@ module.exports = function init(site) {
     { id: 2, nameEn: 'English', nameAr: 'إنجليزي' },
     { id: 3, nameEn: 'Depending on User language', nameAr: 'إعتمادا على لغة المستخدم' },
   ];
+
+  site.post('/api/accountingLinkList', (req, res) => {
+    res.json({
+      done: true,
+      list: site.accountingLinkList,
+    });
+  });
 
   site.post('/api/countryQRList', (req, res) => {
     res.json({

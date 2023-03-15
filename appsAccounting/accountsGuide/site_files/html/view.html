@@ -22,11 +22,6 @@
               </tr>
 
               <tr>
-                <td class="title">##word.Currency##</td>
-                <td class="center">{{accountingAccountsGuideView.currency.name##session.lang##}}</td>
-              </tr>
-
-              <tr>
                 <td class="title">##word.Type##</td>
                 <td class="center" ng-show="accountingAccountsGuideView.type=='primary'">##word.Primary##</td>
                 <td class="center" ng-show="accountingAccountsGuideView.type=='detailed'">##word.Detailed##</td>
@@ -51,9 +46,9 @@
 
               <tr>
                 <td class="title">##word.Type Of Cost Center##</td>
-                <td class="center" ng-show="accountingAccountsGuideView.cost=='mandatory'">##word.Mandatory##</td>
-                <td class="center" ng-show="accountingAccountsGuideView.cost=='choice'">##word.Choice##</td>
-                <td class="center" ng-show="accountingAccountsGuideView.cost=='without'">##word.Without##</td>
+                <td class="center" ng-show="accountingAccountsGuideView.costCenterType=='mandatory'">##word.Mandatory##</td>
+                <td class="center" ng-show="accountingAccountsGuideView.costCenterType=='choice'">##word.Choice##</td>
+                <td class="center" ng-show="accountingAccountsGuideView.costCenterType=='without'">##word.Without##</td>
               </tr>
 
               <tr>
@@ -66,7 +61,7 @@
               <tr>
                 <td class="title">##word.Status##</td>
                 <td class="center green" ng-show="accountingAccountsGuideView.status=='active'">##word.Active##</td>
-                <td class="center red" ng-show="accountingAccountsGuideView.status=='disactive'">##word.Disactive##</td>
+                <td class="center red" ng-show="accountingAccountsGuideView.status=='inactive'">##word.Inactive##</td>
               </tr>
             </table>
           </div>
@@ -74,24 +69,7 @@
           <br />
           <br />
 
-          <div class="row" ng-show="accountingAccountsGuideView.costCentersList.length > 0">
-            <fieldset>
-              <legend>##word.Cost Centers##</legend>
-
-              <table class="table loaded center hover bold">
-                <tr>
-                  <th>##word.Code##</th>
-                  <th>##word.Name##</th>
-                  <th>##word.Rate## ##word.%##</th>
-                </tr>
-                <tr ng-repeat="cost in accountingAccountsGuideView.costCentersList">
-                  <td>{{cost.code}}</td>
-                  <td>{{cost.name##session.lang##}}</td>
-                  <td class="blue">{{cost.rate}} ##word.%##</td>
-                </tr>
-              </table>
-            </fieldset>
-          </div>
+       
         </div>
       </div>
 
@@ -100,26 +78,24 @@
       </div>
       <i-button type="print " onclick="site.print('#accountsGuideDetailsModal #accountsGuideInformation')"></i-button>
     </div>
-    <table class="table hover border">
-      <tr>
-        <th>##word.addUserInfo##</th>
-        <th>##word.editUserInfo##</th>
-      </tr>
-      <tr>
-        <td class="center">
-          <p class="blue">{{accountingAccountsGuideView.addUserInfo.name}}</p>
-          <small class="green"> {{accountingAccountsGuideView.addUserInfo.date |date:"hh:mm"}} </small>
-          <small> {{accountingAccountsGuideView.addUserInfo.date |date:"dd - MM - yyyy"}} </small>
-          <p class="bold">IP : {{accountingAccountsGuideView.addUserInfo.ip}}</p>
-        </td>
 
-        <td class="center">
-          <p class="blue">{{accountingAccountsGuideView.editUserInfo.name}}</p>
-          <small class="green"> {{accountingAccountsGuideView.editUserInfo.date |date:"hh:mm"}} </small>
-          <small> {{accountingAccountsGuideView.editUserInfo.date |date:"dd - MM - yyyy"}} </small>
-          <p class="bold">IP : {{accountingAccountsGuideView.editUserInfo.ip}}</p>
-        </td>
-      </tr>
-    </table>
+    <div class="row" ng-show="accountingAccountsGuideView.costCentersList.length > 0">
+      <fieldset>
+        <legend>##word.Cost Centers##</legend>
+
+        <table class="table loaded center hover bold">
+          <tr>
+            <th>##word.Code##</th>
+            <th>##word.Name##</th>
+            <th>##word.Rate## ##word.%##</th>
+          </tr>
+          <tr ng-repeat="cost in accountingAccountsGuideView.costCentersList">
+            <td>{{cost.code}}</td>
+            <td>{{cost.name##session.lang##}}</td>
+            <td class="blue">{{cost.rate}} ##word.%##</td>
+          </tr>
+        </table>
+      </fieldset>
+    </div>
   </fieldset>
 </div>

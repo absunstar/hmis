@@ -14,6 +14,7 @@ module.exports = function init(site) {
         allowRouteAll: true,
     };
 
+    
     app.$collection = site.connectCollection(app.name);
 
     app.init = function () {

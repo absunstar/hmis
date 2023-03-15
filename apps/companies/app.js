@@ -125,6 +125,12 @@ module.exports = function init(site) {
     parser: 'html',
     compress: true,
   });
+  site.get({
+    name: 'qrcode',
+    path: __dirname + '/site_files/html/qrcode.html',
+    parser: 'html',
+    compress: true,
+  });
 
   site.validateEmail = function (email) {
     let re = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);

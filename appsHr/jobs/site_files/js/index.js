@@ -255,11 +255,12 @@ app.controller('jobs', function ($scope, $http, $timeout) {
     $scope.getSection = function (department) {
         $scope.busy = true;
         $scope.sectionsList = [];
+
         $http({
             method: 'POST',
             url: '/api/sections/all',
             data: {
-                where: { active: true, 'department.id': department.id },
+                where: { active: true, department },
                 select: {
                     id: 1,
                     code: 1,

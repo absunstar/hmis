@@ -7,11 +7,7 @@ app.controller('vendors', function ($scope, $http, $timeout) {
     $scope._search = {};
     $scope.structure = {
         image: { url: '/images/vendor.png' },
-        bankInformationsList: [],
-        group: undefined,
-        branchesList: [],
-        purchaseMaturityPeriod: 0,
-        creditLimit: 0,
+
         active: true,
     };
     $scope.item = {};
@@ -20,7 +16,7 @@ app.controller('vendors', function ($scope, $http, $timeout) {
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure };
+        $scope.item = { ...$scope.structure, bankInformationsList: [], group: undefined, branchesList: [], purchaseMaturityPeriod: 0, creditLimit: 0 };
         site.showModal($scope.modalID);
         document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
@@ -203,99 +199,6 @@ app.controller('vendors', function ($scope, $http, $timeout) {
             }
         );
     };
-
-    $scope.getGovs = function () {
-        $scope.busy = true;
-        $scope.govesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/goves/all',
-            data: {
-                where: {
-                    active: true,
-                },
-                select: {
-                    id: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                },
-            },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.govesList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
-    $scope.getCities = function (gov) {
-        $scope.busy = true;
-        $scope.citiesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/cities/all',
-            data: {
-                where: {
-                    gov: gov,
-                    active: true,
-                },
-                select: {
-                    id: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                },
-            },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.citiesList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
-    $scope.getAreas = function (city) {
-        $scope.busy = true;
-        $scope.areasList = [];
-        $http({
-            method: 'POST',
-            url: '/api/areas/all',
-            data: {
-                where: {
-                    city: city,
-                    active: true,
-                },
-                select: {
-                    id: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                },
-            },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.areasList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
     $scope.getVendorsGroups = function () {
         $scope.busy = true;
         $scope.vendorsGroupsList = [];
@@ -421,7 +324,7 @@ app.controller('vendors', function ($scope, $http, $timeout) {
     };
 
     $scope.getNationalities = function ($search) {
-        if (!$search || !$search.length) {
+        if ($search && !$search.length) {
             return;
         }
         $scope.busy = true;
@@ -486,7 +389,7 @@ app.controller('vendors', function ($scope, $http, $timeout) {
     $scope.getAll();
     $scope.getBanks();
     $scope.getNumberingAuto();
-    $scope.getGovs();
     $scope.getFilesTypes();
+    $scope.getNationalities();
     $scope.getVendorsGroups();
 });

@@ -276,7 +276,7 @@ app.controller('convertUnits', function ($scope, $http, $timeout) {
 
   $scope.getStoresItems = function ($search) {
     $scope.error = '';
-    if (!$search || !$search.length) {
+    if ($search && !$search.length) {
       return;
     }
     if (!$scope.item.store || !$scope.item.store.id) {

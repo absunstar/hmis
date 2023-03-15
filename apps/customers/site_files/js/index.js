@@ -16,16 +16,12 @@ app.controller('customers', function ($scope, $http, $timeout) {
     $scope.list = [];
 
     $scope.setCommercialInformations = function () {
-        $scope.item.bankInformationsList = [];
-        $scope.item.branchesList = [];
-        $scope.item.purchaseMaturityPeriod = 0;
-        $scope.item.creditLimit = 0;
         $scope.getFilesTypes();
     };
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure };
+        $scope.item = { ...$scope.structure, bankInformationsList: [], branchesList: [], purchaseMaturityPeriod: 0, creditLimit: 0 };
         site.showModal($scope.modalID);
         document.querySelector(`${$scope.modalID} .tab-link`).click();
     };

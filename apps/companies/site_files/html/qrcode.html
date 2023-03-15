@@ -65,7 +65,7 @@
       };
 
       app.controller('test', function ($scope, $http, $timeout) {
-        $scope.code = '010628108600252010114162817250901210000000000H629';
+        $scope.code = '';
         $scope.readQR = function () {
           $timeout(() => {
             if ($scope.code) {

@@ -184,7 +184,7 @@ app.controller('storesItemsCard', function ($scope, $http, $timeout) {
             }
         );
     };
-    $scope.getAll({date : new Date()})
+    $scope.getAll({ date: new Date() });
     $scope.getItemsGroup();
     $scope.getStoresItems();
     $scope.getStores();

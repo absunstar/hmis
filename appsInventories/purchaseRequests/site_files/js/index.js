@@ -500,5 +500,6 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
   };
 
   $scope.getAll({ hasTransaction: false });
+  $scope.getStoresItems();
   $scope.getNumberingAuto();
 });

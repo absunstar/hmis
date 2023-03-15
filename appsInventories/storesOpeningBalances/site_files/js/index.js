@@ -365,7 +365,7 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
 
     $scope.getStoresItems = function ($search) {
         $scope.error = '';
-        if ($search && $search.length < 1) {
+        if ($search && !$search.length) {
             return;
         }
 
@@ -382,7 +382,7 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
                 storeId: $scope.item.store.id,
                 where: {
                     active: true,
-                    allowBuy: true,
+                    // allowBuy: true,
                     collectionItem: false,
                 },
                 select: {

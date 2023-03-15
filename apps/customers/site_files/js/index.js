@@ -358,7 +358,9 @@ app.controller('customers', function ($scope, $http, $timeout) {
             $scope.error = '##word.Please Enter Account Name##';
             return;
         }
+        
         selectedBank['active'] = true;
+        $scope.item.bankInformationsList = $scope.item.bankInformationsList || [];
         $scope.item.bankInformationsList.push(selectedBank);
         $scope.selectedBank = {};
     };
@@ -392,6 +394,7 @@ app.controller('customers', function ($scope, $http, $timeout) {
             }
         );
     };
+
     $scope.getAll();
     $scope.getBanks();
     $scope.getNationalities();

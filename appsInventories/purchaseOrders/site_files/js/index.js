@@ -55,6 +55,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     };
 
     $scope.showAdd = function (_item) {
+        $scope.mainError = '';
         $scope.error = '';
         $scope.itemsError = '';
         if (!$scope.settings || !$scope.settings.id) {

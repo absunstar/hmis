@@ -28,7 +28,7 @@
     <fieldset ng-if="item.store.id">
       <legend>##word.Items Information##</legend>
 
-      <div class="row">
+      <div class="row" ng-show="!item.approved">
         <div class="col2">
           <i-list
             ng-model="orderItem.item"

@@ -319,6 +319,7 @@ app.controller('vendors', function ($scope, $http, $timeout) {
             return;
         }
         selectedBank['active'] = true;
+        $scope.item.bankInformationsList = $scope.item.bankInformationsList || [];
         $scope.item.bankInformationsList.push(selectedBank);
         $scope.selectedBank = {};
     };

@@ -86,6 +86,8 @@
             "returnPurchaseOrdersManage",
             "returnSalesInvoicesManage",
             "salesInvoicesManage",
+            "salesCompaniesInvoicesManage",
+            "salesPatientsInvoicesManage",
             "storesItemsCardManage",
             "transferItemsOrdersManage",
             "transferItemsRequestsManage",

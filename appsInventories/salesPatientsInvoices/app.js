@@ -1,6 +1,6 @@
 module.exports = function init(site) {
   let app = {
-    name: 'salesCompaniesInvoices',
+    name: 'salesPatientsInvoices',
     allowRoute: true,
     allowRouteGet: true,
 
@@ -15,7 +15,7 @@ module.exports = function init(site) {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name, appName: 'Sales Invoices For Companies' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name, appName: 'Sales Invoices For Patients' }, { parser: 'html', compres: true });
         }
       );
     }

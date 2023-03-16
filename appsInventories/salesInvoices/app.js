@@ -144,7 +144,7 @@ module.exports = function init(site) {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name, appName: 'Sales Customers Invoices' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name, appName: 'Sales Invoices For Customers' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -209,9 +209,17 @@ module.exports = function init(site) {
           return;
         }
 
+        let appName = 'salesInvoices';
+
+        if(_data.salesType == 'company'){
+          appName = 'salesCompaniesInvoices';
+        } else if(_data.salesType == 'patient'){
+          appName = 'salesPatientsInvoices';
+        }
+
         let numObj = {
           company: site.getCompany(req),
-          screen: app.name,
+          screen: appName,
           date: new Date(),
         };
 

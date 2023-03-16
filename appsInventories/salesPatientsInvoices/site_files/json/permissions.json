@@ -1,0 +1,11 @@
+[
+    { "moduleName": "public", "screenName": "salesPatientsInvoices", "name": "salesPatientsInvoicesManage", "En": "Manage", "Ar": "إدارة" },
+    { "moduleName": "public", "screenName": "salesPatientsInvoices", "name": "salesPatientsInvoicesAdd", "En": "Add", "Ar": "إضافة" },
+    { "moduleName": "public", "screenName": "salesPatientsInvoices", "name": "salesPatientsInvoicesUpdate", "En": "Edit", "Ar": "تعديل" },
+    { "moduleName": "public", "screenName": "salesPatientsInvoices", "name": "salesPatientsInvoicesDelete", "En": "Delete", "Ar": "حذف" },
+    { "moduleName": "public", "screenName": "salesPatientsInvoices", "name": "salesPatientsInvoicesView", "En": "View", "Ar": "عرض" },
+    { "moduleName": "public", "screenName": "salesPatientsInvoices", "name": "salesPatientsInvoicesSearch", "En": "Search", "Ar": "بحث" },
+    { "moduleName": "public", "screenName": "salesPatientsInvoices", "name": "salesPatientsInvoicesExport", "En": "Export", "Ar": "تصدير" },
+    { "moduleName": "public", "screenName": "salesPatientsInvoices", "name": "salesPatientsInvoicesPrint", "En": "Print", "Ar": "طباعة" },
+    { "moduleName": "public", "screenName": "salesPatientsInvoices", "name": "salesPatientsInvoicesUi", "En": "UI", "Ar": "الواجهة الرسومية" }
+]

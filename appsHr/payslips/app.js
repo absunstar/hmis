@@ -8,13 +8,13 @@ module.exports = function init(site) {
         allowRoute: true,
         allowRouteGet: true,
         allowRouteAdd: true,
+        allowRouteApprove: true,
         allowRouteUpdate: true,
         allowRouteDelete: true,
         allowRouteView: true,
         allowRouteAll: true,
     };
 
-    
     app.$collection = site.connectCollection(app.name);
 
     app.init = function () {
@@ -209,6 +209,44 @@ module.exports = function init(site) {
             });
         }
 
+        if (app.allowRouteApprove) {
+            site.post({ name: `/api/${app.name}/approve`, require: { permissions: ['login'] } }, (req, res) => {
+                let response = {
+                    done: false,
+                };
+
+                let _data = req.data;
+
+                _data['approved'] = true;
+                _data['approveDate'] = new Date();
+                _data.approvedUserInfo = req.getUserFinger();
+
+                app.update(_data, (err, result) => {
+                    if (!err) {
+                        const advanceIndex = _data.deductionsList.findIndex((advance) => advance.code == 'employeesAdvances');
+
+                        if (advanceIndex) {
+                            const advancesList = _data.deductionsList[advanceIndex].list;
+
+                            advancesList.forEach((_adv) => {
+                                const advanceData = {
+                                    employeeId: _data.employee.id,
+                                    date: _adv.date,
+                                    amount: _adv.amount,
+                                };
+                                site.payEmployeeAdvance(advanceData);
+                            });
+                        }
+                        response.done = true;
+                        response.result = result;
+                    } else {
+                        response.error = err.message;
+                    }
+                    res.json(response);
+                });
+            });
+        }
+
         if (app.allowRouteDelete) {
             site.post({ name: `/api/${app.name}/delete`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {
@@ -258,6 +296,8 @@ module.exports = function init(site) {
                     employee: 1,
                     paySlip: 1,
                     image: 1,
+                    approved: 1,
+                    approveDate: 1,
                     fromDate: 1,
                     toDate: 1,
                     image: 1,

@@ -18,6 +18,48 @@ module.exports = function init(site) {
 
     app.$collection = site.connectCollection(app.name);
 
+    site.getEmployeeAdvances = function (paySlip, callback) {
+        const d1 = site.toDate(paySlip.fromDate);
+        const d2 = site.toDate(paySlip.toDate);
+
+        app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, active: true, requestStatus: 'accepted' } }, (err, docs) => {
+            if (docs && docs.length) {
+                docs.forEach((doc) => {
+                    const index = doc.installmentsList.findIndex(
+                        (installment) => !installment.paid && new Date(installment.date).getTime() >= d1.getTime() && new Date(installment.date).getTime() <= d2.getTime()
+                    );
+
+                    if (index != -1) {
+                        const advance = {
+                            date: doc.installmentsList[index].date,
+                            amount: doc.installmentsList[index].amount,
+                        };
+                        paySlip.employeeAdvancesCount += 1;
+                        paySlip.employeeAdvancesValue += doc.installmentsList[index].amount || 0;
+                        paySlip.employeeAdvancesList.push(advance);
+                    }
+                });
+            }
+            callback(paySlip);
+        });
+    };
+
+    site.payEmployeeAdvance = function (data) {
+        console.log('');
+        
+        app.$collection.find({ where: { 'employee.id': data.employeeId }, active: true }, (err, doc) => {
+            if (doc) {
+                const index = doc.installmentsList.findIndex((installment) => !installment.paid && new Date(installment.date).getTime() == new Date(data.date).getTime());
+                if (index !== -1) {
+                    doc.installmentsList[index].paid = true;
+                    doc.installmentsList[index].paidDate = new Date();
+                    doc.installmentsList[index].approved = true;
+                    app.update(doc);
+                }
+            }
+        });
+    };
+
     app.init = function () {
         if (app.allowMemory) {
             app.$collection.findMany({}, (err, docs) => {

@@ -19,7 +19,7 @@
                 <th>##word.Name##</th>
                 <th>##word.Period##</th>
                 <th>##word.Total##</th>
-                <th>##word.Status##</th>
+                <th>##word.Approved##</th>
                 <th class="not-print">##word.Actions##</th>
             </tr>
             <tr ng-repeat="item in list | filter:$search">
@@ -34,17 +34,20 @@
                         {{(item.paySlip.totalAllowance - item.paySlip.totalDeductions).toFixed(3) }} </span
                     >)
                 </td>
-                <td class="text-center">
-                    <span class="text-success" ng-show="item.active">##word.Active##</span>
-                    <span class="text-danger" ng-show="!item.active">##word.Not Active##</span>
+                <td class="center">
+                    <p ng-show="item.approved">
+                        <span class="text-success"> (##word.Yes##) </span>
+                        - {{item.approveDate|date:'dd/MM/yyyy'}} - {{item.approveDate|date:'dd/MM/yyyy'}}
+                    </p>
+                    <p class="text-danger" ng-show="!item.approved">##word.No##</p>
                 </td>
 
                 <td class="text-center not-print">
                     <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
-                    <i-button type="edit" x-permissions="payslipsUpdate || payslipsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
+                    <i-button type="edit" ng-show="!item.approved" x-permissions="payslipsUpdate || payslipsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
 
-                    <i-button type="delete" x-permissions="payslipsDelete || payslipsManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
+                    <i-button type="delete" ng-show="!item.approved" x-permissions="payslipsDelete || payslipsManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
                 </td>
             </tr>
         </table>

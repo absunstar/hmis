@@ -1,11 +1,12 @@
 [
-    { "moduleName" : "public" , "screenName" : "payslips" , "name":"payslipsManage" , "En":"Manage" , "Ar":"إدارة"},
-    { "moduleName" : "public" , "screenName" : "payslips" , "name":"payslipsAdd" , "En":"Add" , "Ar":"إضافة"},
-    { "moduleName" : "public" , "screenName" : "payslips" , "name":"payslipsUpdate" , "En":"Edit" , "Ar":"تعديل"},
-    { "moduleName" : "public" , "screenName" : "payslips" , "name":"payslipsDelete" , "En":"Delete" , "Ar":"حذف"},
-    { "moduleName" : "public" , "screenName" : "payslips" , "name":"payslipsView" , "En":"View" , "Ar":"عرض"},
-    { "moduleName" : "public" , "screenName" : "payslips" , "name":"payslipsSearch" , "En":"Search" , "Ar":"بحث"},
-    { "moduleName" : "public" , "screenName" : "payslips" , "name":"payslipsExport" , "En":"Export" , "Ar":"تصدير"},
-    { "moduleName" : "public" , "screenName" : "payslips" , "name":"payslipsPrint" , "En":"Print" , "Ar":"طباعة"},
-    { "moduleName" : "public" , "screenName" : "payslips" , "name":"payslipsUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+    { "moduleName": "public", "screenName": "payslips", "name": "payslipsManage", "En": "Manage", "Ar": "إدارة" },
+    { "moduleName": "public", "screenName": "payslips", "name": "payslipsAdd", "En": "Add", "Ar": "إضافة" },
+    { "moduleName": "public", "screenName": "payslips", "name": "payslipsUpdate", "En": "Edit", "Ar": "تعديل" },
+    { "moduleName": "public", "screenName": "payslips", "name": "payslipsDelete", "En": "Delete", "Ar": "حذف" },
+    { "moduleName": "public", "screenName": "payslips", "name": "payslipsView", "En": "View", "Ar": "عرض" },
+    { "moduleName": "public", "screenName": "payslips", "name": "payslipsSearch", "En": "Search", "Ar": "بحث" },
+    { "moduleName": "public", "screenName": "payslips", "name": "payslipsExport", "En": "Export", "Ar": "تصدير" },
+    { "moduleName": "public", "screenName": "payslips", "name": "payslipsPrint", "En": "Print", "Ar": "طباعة" },
+    { "moduleName": "public", "screenName": "payslips", "name": "payslipsUi", "En": "UI", "Ar": "الواجهة الرسومية" },
+    { "moduleName": "public", "screenName": "payslips", "name": "approvePayslip", "En": "Approve Payslip", "Ar": "إعتماد الراتب" }
 ]

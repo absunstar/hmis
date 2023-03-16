@@ -125,6 +125,11 @@ module.exports = function init(site) {
             unpaidVacationsCount: 0,
             unpaidVacationsValue: 0,
             unpaidVacationsList: [],
+
+            // السلف
+            employeeAdvancesCount: 0,
+            employeeAdvancesValue: 0,
+            employeeAdvancesList: [],
         };
         paySlip = { ...paySlip, ...data };
         // console.log('hour', paySlip.hourSalary);
@@ -139,9 +144,11 @@ module.exports = function init(site) {
                             site.getEmployeeDelayRequest(paySlip6, (paySlip7) => {
                                 site.getEmployeeWorkErrandRequests(paySlip7, (paySlip8) => {
                                     site.getEmployeeAttendance(paySlip8, (paySlip9) => {
-                                        // console.log('hours', paySlip9.absentHoursList.length);
-                                        app.calculateEmployeePaySlipItems(req, paySlip9, (finalPaySlip) => {
-                                            callback(finalPaySlip);
+                                        site.getEmployeeAdvances(paySlip9, (paySlip10) => {
+                                            // console.log('employeeAdvancesList', paySlip10.employeeAdvancesList.length);
+                                            app.calculateEmployeePaySlipItems(req, paySlip10, (finalPaySlip) => {
+                                                callback(finalPaySlip);
+                                            });
                                         });
                                     });
                                 });
@@ -164,7 +171,6 @@ module.exports = function init(site) {
         // }
         // absenceDays;
         const penaltiesList = paySlip.penaltiesList;
-     
 
         paySlip.attendanceDataList.forEach((_att) => {
             if (_att) {
@@ -733,6 +739,19 @@ module.exports = function init(site) {
                                         list: result.absentDaysList,
                                         count: result.absentDaysCount,
                                         value: site.toMoney(result.absentDaysValue),
+                                    };
+
+                                    deductionsList.push(paySlipItem);
+                                }
+
+                                if (result.employeeAdvancesList && result.employeeAdvancesList.length) {
+                                    const paySlipItem = {
+                                        code: 'employeesAdvances',
+                                        nameAr: 'السلف',
+                                        nameEn: 'Advances',
+                                        list: result.employeeAdvancesList,
+                                        count: result.employeeAdvancesCount,
+                                        value: site.toMoney(result.employeeAdvancesValue),
                                     };
 
                                     deductionsList.push(paySlipItem);

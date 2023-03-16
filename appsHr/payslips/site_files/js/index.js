@@ -31,7 +31,7 @@ app.controller('payslips', function ($scope, $http, $timeout) {
         $scope.error = '';
         $scope.mode = 'add';
         const date = $scope.getCurrentMonthDate();
-        $scope.item = { ...$scope.structure, fromDate: new Date(date.firstDay), toDate: new Date(date.lastDay) };
+        $scope.item = { ...$scope.structure, approved: false, fromDate: new Date(date.firstDay), toDate: new Date(date.lastDay) };
         site.showModal($scope.modalID);
     };
 
@@ -292,8 +292,40 @@ app.controller('payslips', function ($scope, $http, $timeout) {
         );
     };
 
+    $scope.approve = function (_item) {
+        $scope.error = '';
+        const v = site.validated($scope.modalID);
+        if (!v.ok) {
+            $scope.error = v.messages[0].ar;
+            return;
+        }
+        $scope.busy = true;
+        $http({
+            method: 'POST',
+            url: `${$scope.baseURL}/api/${$scope.appName}/approve`,
+            data: _item,
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done) {
+                    site.hideModal($scope.modalID);
+                    site.resetValidated($scope.modalID);
+                    let index = $scope.list.findIndex((itm) => itm.id == response.data.result.doc.id);
+                    if (index !== -1) {
+                        $scope.list[index] = response.data.result.doc;
+                    }
+                } else {
+                    $scope.error = 'Please Login First';
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    };
+
     $scope.viewPayslipItemDetails = function (_item) {
-        // console.log('_item', _item);
+        console.log('_item', _item);
         $scope.payslipItem = {};
         $scope.payslipItem = _item;
         $scope.item = { ...$scope.item, ...$scope.item.paySlip };

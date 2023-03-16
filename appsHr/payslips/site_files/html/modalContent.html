@@ -3,14 +3,21 @@
         <legend>##word.Basic Informations##</legend>
         <div class="row">
             <i-control class="col2" ng-hide="disabledCode" label="##word.Code##" ng-model="item.code"> </i-control>
-            <i-date class="col4" v="r" ng-model="item.fromDate" label="##word.From Date##"></i-date>
-            <i-date class="col4" v="r" ng-model="item.toDate" label="##word.To Date##"></i-date>
-            <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
+            <i-date class="col4" v="r" ng-model="item.fromDate" label="##word.From Date##" ng-disabled="item.approved"></i-date>
+            <i-date class="col4" v="r" ng-model="item.toDate" label="##word.To Date##" ng-disabled="item.approved"></i-date>
 
-            <i-list class="col4" label="##word.Employee##" ng-model="item.employee" ng-search="item.$employee" display="fullName##session.lang##" items="employeesList"></i-list>
+            <i-list
+                class="col4"
+                label="##word.Employee##"
+                ng-disabled="item.approved"
+                ng-model="item.employee"
+                ng-search="item.$employee"
+                display="fullName##session.lang##"
+                items="employeesList"
+            ></i-list>
             <div class="col3">
                 <br />
-                <i-button type="list" label="##word.Get##" ng-click="calculatePaySlip(item)"></i-button>
+                <i-button type="list" ng-show="!item.approved" label="##word.Get##" ng-click="calculatePaySlip(item)"></i-button>
             </div>
         </div>
 

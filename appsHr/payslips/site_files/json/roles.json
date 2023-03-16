@@ -3,7 +3,7 @@
         "moduleName": "public",
         "name": "payslipsAdmin",
         "En": "payslips Admin",
-        "Ar": "إدارة إدارات الشركة",
+        "Ar": "إدارة حساب الراتب",
         "permissions": ["payslipsManage"]
     }
 ]

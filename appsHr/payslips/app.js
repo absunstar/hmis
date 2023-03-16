@@ -176,6 +176,17 @@ module.exports = function init(site) {
 
                 _data.addUserInfo = req.getUserFinger();
 
+                const d1 = site.toDate(_data.fromDate);
+                const d2 = site.toDate(_data.toDate);
+                app.$collection.find({ where: { fromDate: { $eq: d1 }, toDate: { $eq: d2 }, 'employee.id': _data.employee.id } }, (err, doc) => {
+                    if (doc) {
+                        response.done = false;
+                        response.error = 'PaySlip Exisit In Same Period For Employee';
+                    }
+                    res.json(response);
+                    return;
+                });
+
                 app.add(_data, (err, doc) => {
                     if (!err && doc) {
                         response.done = true;

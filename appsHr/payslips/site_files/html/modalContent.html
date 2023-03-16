@@ -3,8 +3,8 @@
         <legend>##word.Basic Informations##</legend>
         <div class="row">
             <i-control class="col2" ng-hide="disabledCode" label="##word.Code##" ng-model="item.code"> </i-control>
-            <i-date class="col4" v="r" ng-model="item.fromDate" label="##word.From Date##" ng-disabled="item.approved"></i-date>
-            <i-date class="col4" v="r" ng-model="item.toDate" label="##word.To Date##" ng-disabled="item.approved"></i-date>
+            <i-date class="col3" v="r" ng-model="item.fromDate" label="##word.From Date##" ng-disabled="item.approved"></i-date>
+            <i-date class="col3" v="r" ng-model="item.toDate" label="##word.To Date##" ng-disabled="item.approved"></i-date>
 
             <i-list
                 class="col4"
@@ -15,7 +15,7 @@
                 display="fullName##session.lang##"
                 items="employeesList"
             ></i-list>
-            <div class="col3">
+            <div class="col2">
                 <br />
                 <i-button type="list" ng-show="!item.approved" label="##word.Get##" ng-click="calculatePaySlip(item)"></i-button>
             </div>

@@ -50,6 +50,8 @@ app.controller('payslips', function ($scope, $http, $timeout) {
             data: $scope.item,
         }).then(
             function (response) {
+                console.log('response', response);
+
                 $scope.busy = false;
                 if (response.data.done) {
                     site.hideModal($scope.modalID);
@@ -325,13 +327,14 @@ app.controller('payslips', function ($scope, $http, $timeout) {
     };
 
     $scope.viewPayslipItemDetails = function (_item) {
-        console.log('_item', _item);
+        // console.log('_item', _item);
         $scope.payslipItem = {};
         $scope.payslipItem = _item;
         $scope.item = { ...$scope.item, ...$scope.item.paySlip };
-        $scope.mode = 'view';
+        // $scope.mode = 'view';
         site.showModal($scope.payslipItemDetails);
     };
+
     $scope.showSearch = function () {
         $scope.error = '';
         site.showModal($scope.modalSearchID);

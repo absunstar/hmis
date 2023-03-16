@@ -49,7 +49,7 @@
                                 <td class="center blue">{{$index+1}}</td>
                                 <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
 
-                                <td class="center">{{itm.count}}</td>
+                                <td class="center">{{itm.count}} ##word.Hour/s##</td>
                                 <td class="center">
                                     {{itm.value}}
                                     <span class="currency">##word.$##</span>
@@ -294,7 +294,7 @@
         <p class="error">{{error}}</p>
 
         <div class="modal-footer center">
-            <i-button type="close" label="##word.close##" ng-click="mode ='add'" onclick="site.hideModal('#payslipItemsDetailsModal')"> </i-button>
+            <i-button type="close" label="##word.close##" onclick="site.hideModal('#payslipItemsDetailsModal')"> </i-button>
         </div>
     </div>
 </div>

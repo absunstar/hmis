@@ -187,19 +187,18 @@ module.exports = function init(site) {
                     if (doc) {
                         response.done = false;
                         response.error = 'PaySlip Exisit In Same Period For Employee';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
-                    return;
-                });
-
-                app.add(_data, (err, doc) => {
-                    if (!err && doc) {
-                        response.done = true;
-                        response.doc = doc;
-                    } else {
-                        response.error = err.mesage;
-                    }
-                    res.json(response);
+                    app.add(_data, (err, doc) => {
+                        if (!err && doc) {
+                            response.done = true;
+                            response.doc = doc;
+                        } else {
+                            response.error = err.mesage;
+                        }
+                        res.json(response);
+                    });
                 });
             });
         }

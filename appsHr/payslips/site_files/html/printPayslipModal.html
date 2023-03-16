@@ -1,4 +1,4 @@
-<div id="payslipItemsDetailsModal" class="modal">
+<div id="printPayslipModal" class="modal">
     <div class="col2"></div>
     <div class="modal-content col8">
         <div class="modal-header">
@@ -7,147 +7,162 @@
         </div>
 
         <div class="modal-body">
-            <form class="form">
+            <fieldset>
+                <legend>##word.Allowances## - الإستحقاقات</legend>
                 <fieldset>
-                    <legend>{{payslipItem.nameEn}} - {{payslipItem.nameAr}}</legend>
+                    <div class="row">
+                        <div class="center col2">
+                            <p class="bold">##word.Employee Name##</p>
+                        </div>
 
-                    <div class="table-responsive" ng-show="payslipItem.code =='employeesBonuses'">
-                        <table class="table hover bold">
-                            <tr>
-                                <th>##word.s##</th>
-                                <th>##word.Date##</th>
-                                <th>##word.Category##</th>
-                                <th>##word.Bonus Name##</th>
-                                <th>##word.Type##</th>
-                                <th>##word.Count##</th>
-                                <th>##word.Value##</th>
-                            </tr>
-                            <tr ng-repeat="itm in payslipItem.list">
-                                <td class="center blue">{{$index+1}}</td>
-                                <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
-                                <td class="center">{{itm.category.nameEn}} - {{itm.category.nameAr}}</td>
-                                <td class="center">{{itm.employeesBonusName.nameEn}} - {{itm.employeesBonusName.nameAr}}</td>
-                                <td class="center">{{itm.type.nameEn}} - {{itm.type.nameAr}}</td>
-                                <td class="center">{{itm.count}}</td>
-                                <td class="center">
-                                    {{itm.value}}
-                                    <span class="currency">##word.$##</span>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-
-
-                    <div class="table-responsive" ng-show="payslipItem.code == 'vacationsRequests'">
-                        <table class="table hover bold">
-                            <tr>
-                                <th>##word.s##</th>
-                                <th>##word.Date##</th>
-                                <th>##word.Request Vacation Type##</th>
-                                <th>##word.Request Days##</th>
-                                <th>##word.Approved Vacation Type##</th>
-                                <th>##word.Approved Days##</th>
-                            </tr>
-                            <tr ng-repeat="itm in payslipItem.list">
-                                <td class="center blue">{{$index+1}}</td>
-                                <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
-                                <td class="center">{{itm.vacationType.nameEn}} - {{itm.vacationType.nameAr}}</td>
-                                <td class="center">{{itm.days}}</td>
-                                <td class="center">{{itm.approvedVacationType.nameEn}} - {{itm.approvedVacationType.nameAr}}</td>
-                                <td class="center">{{itm.approvedDays}}</td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    <div class="table-responsive" ng-show="payslipItem.code == 'employeesAdvances'">
-                        <table class="table hover bold">
-                            <tr>
-                                <th>##word.s##</th>
-                                <th>##word.Due Date##</th>
-                                <th>##word.Amount##</th>
-                            </tr>
-                            <tr ng-repeat="itm in payslipItem.list">
-                                <td class="center blue">{{$index+1}}</td>
-                                <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
-                                <td class="center">{{itm.amount | number:'0.3'}} <span class="currency">##word.$##</span></td>
-                            </tr>
-                        </table>
+                        <div class="center col8">
+                            <p class="bold">{{item.employee.fullNameEn}} - {{item.employee.fullNameAr}}</p>
+                        </div>
+                        <div class="center col2">
+                            <p class="bold">##word.إسم الموظف##</p>
+                        </div>
                     </div>
                 </fieldset>
+                
+                <fieldset>
+                    <div class="row">
+                        <div class="center col2">
+                            <p class="bold">##word.Department##</p>
+                        </div>
 
-                <fieldset ng-show="payslipItem.code == 'absentHours'">
-                    <legend>{{item.delayRequests.nameEn}} - {{item.delayRequests.nameAr}}</legend>
-                    <div class="table-responsive">
-                        <table class="table hover bold">
-                            <tr>
-                                <th>##word.s##</th>
-                                <th>##word.Date##</th>
-                                <th>##word.From##</th>
-                                <th>##word.To##</th>
-                                <th>##word.Minute##</th>
-                            </tr>
-                            <tr ng-repeat="itm in item.delayRequests.list">
-                                <td class="center blue">{{$index+1}}</td>
-                                <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
-                                <td class="center">{{itm.fromTime |date:'hh:mm a'}}</td>
-                                <td class="center">{{itm.toTime |date:'hh:mm a'}}</td>
-                                <td class="center">{{itm.allwedTime}}</td>
-                            </tr>
-                        </table>
+                        <div class="center col8">
+                            <p>{{item.employee.department.nameEn}} - {{item.employee.department.nameAr}}</p>
+                        </div>
+                        <div class="center col2">
+                            <p class="bold">##word.الإدارة##</p>
+                        </div>
                     </div>
                 </fieldset>
-                <fieldset ng-show="payslipItem.code == 'absentHours'">
-                    <legend>{{item.workErrands.nameEn}} - {{item.workErrands.nameAr}}</legend>
+                <fieldset>
+                    <div class="row">
+                        <div class="center col2">
+                            <p class="bold">##word.Section##</p>
+                        </div>
 
-                    <div class="table-responsive">
-                        <table class="table hover bold">
-                            <tr>
-                                <th>##word.s##</th>
-                                <th>##word.Date##</th>
-                                <th>##word.From##</th>
-                                <th>##word.To##</th>
-                                <th>##word.Minute##</th>
-                            </tr>
-                            <tr ng-repeat="itm in item.workErrands.list">
-                                <td class="center blue">{{$index+1}}</td>
-                                <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
-                                <td class="center">{{itm.fromTime |date:'hh:mm a'}}</td>
-                                <td class="center">{{itm.toTime |date:'hh:mm a'}}</td>
-                                <td class="center">{{itm.allwedTime}}</td>
-                            </tr>
-                        </table>
+                        <div class="center col8">
+                            <p>{{item.employee.section.nameEn}} - {{item.employee.section.nameAr}}</p>
+                        </div>
+                        <div class="center col2">
+                            <p class="bold">##word.القسم##</p>
+                        </div>
                     </div>
                 </fieldset>
-                <fieldset ng-show="payslipItem.code == 'absentHours'">
-                    <legend>{{item.vacationsRequests.nameEn}} - {{item.vacationsRequests.nameAr}}</legend>
-                    <div class="table-responsive">
-                        <table class="table hover bold">
-                            <tr>
-                                <th>##word.s##</th>
-                                <th>##word.Date##</th>
-                                <th>##word.Request Vacation Type##</th>
-                                <th>##word.Request Days##</th>
-                                <th>##word.Approved Vacation Type##</th>
-                                <th>##word.Approved Days##</th>
-                            </tr>
-                            <tr ng-repeat="itm in item.vacationsRequests.list">
-                                <td class="center blue">{{$index+1}}</td>
-                                <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
-                                <td class="center">{{itm.vacationType.nameEn}} - {{itm.vacationType.nameAr}}</td>
-                                <td class="center">{{itm.days}}</td>
-                                <td class="center">{{itm.approvedVacationType.nameEn}} - {{itm.approvedVacationType.nameAr}}</td>
-                                <td class="center">{{itm.approvedDays}}</td>
-                            </tr>
-                        </table>
+                <fieldset>
+                    <div class="row">
+                        <div class="center col2">
+                            <p class="bold">##word.Basic Salary##</p>
+                        </div>
+                        <div class="center col8">
+                            <p class="text-success bold">{{item.paySlip.originalSalary}} <span class="currency">##word.$##</span></p>
+                        </div>
+                        <div class="center col2">
+                            <p class="bold">##word.الراتب الأساسي##</p>
+                        </div>
                     </div>
                 </fieldset>
-            </form>
+                <div class="row" ng-repeat="allow in item.paySlip.allowancesList">
+                    <fieldset>
+                        <div class="center col2">
+                            <p class="bold">{{allow.nameEn}}</p>
+                        </div>
+                        <div class="center col8">
+                            <p class="text-success bold">{{allow.value}} <span class="currency">##word.$##</span></p>
+                        </div>
+                        <div class="center col2">
+                            <p class="bold">{{allow.nameAr}}</p>
+                        </div>
+                    </fieldset>
+                </div>
+                <fieldset>
+                    <div class="row">
+                        <div class="center col2">
+                            <p class="bold">##word.Gross Salary##</p>
+                        </div>
+                        <div class="center col8">
+                            <p class="text-success bold">{{item.paySlip.totalAllowance}} <span class="currency">##word.$##</span></p>
+                        </div>
+                        <div class="center col2">
+                            <p class="bold">##word.إجمالي المستحق##</p>
+                        </div>
+                    </div>
+                </fieldset>
+            </fieldset>
+
+            <fieldset>
+                <legend>##word.Deductions## - الإستقطاعات</legend>
+                <div class="row" ng-repeat="allow in item.paySlip.deductionsList">
+                    <fieldset>
+                        <div class="center col2">
+                            <p class="bold">{{allow.nameEn}}</p>
+                        </div>
+                        <div class="center col8">
+                            <p class="text-danger bold">{{allow.value}} <span class="currency">##word.$##</span></p>
+                        </div>
+                        <div class="center col2">
+                            <p class="bold">{{allow.nameAr}}</p>
+                        </div>
+                    </fieldset>
+                </div>
+                <fieldset>
+                    <div class="row">
+                        <div class="center col2">
+                            <p class="bold">##word.Total Deduction##</p>
+                        </div>
+                        <div class="center col8">
+                            <p class="text-danger bold">{{item.paySlip.totalDeductions}} <span class="currency">##word.$##</span></p>
+                        </div>
+                        <div class="center col2">
+                            <p class="bold">##word.إجمالي الإستقطاعات##</p>
+                        </div>
+                    </div>
+                </fieldset>
+            </fieldset>
+            <fieldset>
+                <div class="row">
+                    <div class="center col3">
+                        <h3 class="bold">##word.Net Amount Due##</h3>
+                    </div>
+                    <div class="center col6">
+                        <h4>
+                            <span class="blue">{{item.paySlip.totalAllowance}}</span>
+                            -
+
+                            <span class="text-danger">{{item.paySlip.totalDeductions}}</span>
+                            =
+                            <span class="text-success"> {{(item.paySlip.totalAllowance - item.paySlip.totalDeductions).toFixed(3) }}</span>
+                            <span class="currency">##word.$##</span>
+                        </h4>
+                    </div>
+                    <div class="center col3">
+                        <h3 class="bold">صافي المستحق</h3>
+                    </div>
+                </div>
+            </fieldset>
+            <br />
+
+            <fieldset>
+                <br />
+                <div class="row">
+                    <div class="center col3">
+                        <h5 class="bold">##word.SIGNATURE##</h5>
+                    </div>
+                    <div class="center col6"></div>
+                    <div class="center col3">
+                        <h5 class="bold">التوقيع بالإستلام</h5>
+                    </div>
+                </div>
+                <br />
+            </fieldset>
+            <br />
         </div>
 
-        <p class="error">{{error}}</p>
-
         <div class="modal-footer center">
-            <i-button type="close" label="##word.close##" onclick="site.hideModal('#payslipItemsDetailsModal')"> </i-button>
+            <i-button type="close" label="##word.close##" onclick="site.hideModal('#printPayslipModal')"> </i-button>
         </div>
     </div>
 </div>

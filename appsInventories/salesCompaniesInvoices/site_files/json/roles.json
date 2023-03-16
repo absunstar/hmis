@@ -1,0 +1,9 @@
+[
+    {
+        "moduleName": "public",
+        "name": "salesCompaniesInvoicesAdmin",
+        "En": "Sales Companies Invoices Admin",
+        "Ar": "إدارة فواتير مبيعات الشركات",
+        "permissions": ["salesCompaniesInvoicesManage"]
+    }
+]

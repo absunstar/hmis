@@ -1,8 +1,8 @@
-app.controller('salesInvoices', function ($scope, $http, $timeout) {
+app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
   $scope.baseURL = '';
-  $scope.appName = 'salesInvoices';
-  $scope.modalID = '#salesInvoicesManageModal';
-  $scope.modalSearchID = '#salesInvoicesSearchModal';
+  $scope.appName = 'salesCompaniesInvoices';
+  $scope.modalID = '#salesCompaniesInvoicesManageModal';
+  $scope.modalSearchID = '#salesCompaniesInvoicesSearchModal';
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
@@ -57,11 +57,6 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       });
     }
 
-    /*   if ($scope.settings.storesSetting.customer && $scope.settings.storesSetting.customer.id) {
-      $scope.item.customer = $scope.customersList.find((_t) => {
-        return _t.id == $scope.settings.storesSetting.customer.id;
-      });
-    } */
     site.showModal($scope.modalID);
   };
 
@@ -77,7 +72,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       return;
     }
     $scope.busy = true;
-    $scope.item.salesType = 'customer';
+    $scope.item.salesType = 'company';
     $http({
       method: 'POST',
       url: `${$scope.baseURL}/api/${$scope.appName}/add`,
@@ -232,7 +227,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     $scope.busy = true;
     $scope.list = [];
     where = where || {};
-    where['salesType'] = 'customer';
+    where['salesType'] = 'company';
     $http({
       method: 'POST',
       url: `${$scope.baseURL}/api/${$scope.appName}/all`,
@@ -955,7 +950,6 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
             so.itemsList.push(item);
           }
         });
-
         $scope.invList.push(so);
       }
     } else {

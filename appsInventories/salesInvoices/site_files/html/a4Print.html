@@ -78,13 +78,24 @@
           </td>
         </tr>
 
-        <tr>
+        <tr ng-show="item.salesType = 'customer'">
           <td class="title font-12">
-            <b class="black"> العميل / Customer :</b>
+            <b  class="black"> العميل / Customer :</b>
             <b class="center">{{sInvoice.customer.name##session.lang##}} </b>
           </td>
           <td class="center font-12">
             <b class="black"> جوال العميل / Customer Mobile:</b>
+            <b class="center">{{sInvoice.customer.mobile}} </b>
+          </td>
+        </tr>
+
+        <tr ng-show="item.salesType = 'company'">
+          <td class="title font-12">
+            <b  class="black"> الشركة / Company :</b>
+            <b class="center">{{sInvoice.customer.name##session.lang##}} </b>
+          </td>
+          <td class="center font-12">
+            <b class="black"> جوال الشركة / Company Mobile:</b>
             <b class="center">{{sInvoice.customer.mobile}} </b>
           </td>
         </tr>

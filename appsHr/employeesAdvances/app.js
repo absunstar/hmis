@@ -45,8 +45,6 @@ module.exports = function init(site) {
     };
 
     site.payEmployeeAdvance = function (data) {
-        console.log('');
-        
         app.$collection.find({ where: { 'employee.id': data.employeeId }, active: true }, (err, doc) => {
             if (doc) {
                 const index = doc.installmentsList.findIndex((installment) => !installment.paid && new Date(installment.date).getTime() == new Date(data.date).getTime());

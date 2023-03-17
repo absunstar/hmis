@@ -521,7 +521,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     $scope.item.type = doctorDeskTop.type;
     $http({
       method: 'POST',
-      url: '/api/selectDoctorDeskTop',
+      url: '/api/selectDoctorDeskTop/serviceOrder',
       data: doctorDeskTop,
     }).then(
       function (response) {

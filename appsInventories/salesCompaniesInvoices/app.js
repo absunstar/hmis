@@ -20,5 +20,5 @@ module.exports = function init(site) {
     }
 
 
-    site.addApp(app);
+  site.addApp(app);
 };

@@ -2,12 +2,34 @@
   <div class="modal-content">
     <div class="modal-header">
       <span class="close">&times;</span>
-      <p class="center">##word.Batch Modal## <i class="fa fa-file"></i></p>
+      <p class="center">##word.Edit Item Modal## <i class="fa fa-file"></i></p>
     </div>
 
     <div class="modal-body">
       <form class="form">
-        <fieldset>
+
+        <fieldset ng-if="batch.hasMedicalData">
+          <i-list
+          label="##word.Duration##"
+          class="col3"
+          ng-model="batch.medicineDuration"
+          display="name##session.lang##"
+          items="medicineDurationsList"
+          ng-search="batch.$medicineDuration"
+        ></i-list>
+        <i-list
+          label="##word.Frequency##"
+          class="col3"
+          ng-model="batch.medicineFrequency"
+          display="name##session.lang##"
+          items="medicineFrequenciesList"
+          ng-search="batch.$medicineFrequency"
+        ></i-list>
+
+        <i-list label="##word.Route##" class="col3" ng-model="batch.medicineRoute" display="name##session.lang##" items="medicineRoutesList" ng-search="batch.$medicineRoute"></i-list>
+        </fieldset>
+
+        <fieldset ng-if="batch.workByBatch || batch.workBySerial">
           <div class="row">
             <div class="col3">
               <br>

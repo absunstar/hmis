@@ -261,6 +261,10 @@ module.exports = function init(site) {
                 item.orderCode = doc.code;
                 site.setItemCard(item, app.name);
               });
+              if(doc.salesType == 'patient') {
+                site.hasSalesDoctorDeskTop({ id: doc.doctorDeskTop.id });
+
+              }
               response.doc = doc;
             } else {
               response.error = err.message;

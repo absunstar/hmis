@@ -502,7 +502,7 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
       };
       select = { ...select, unitsList: 1 };
     }
-
+    console.log(url,select,$search);
     $http({
       method: 'POST',
       url: url,
@@ -717,6 +717,7 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
       if (!_item.ordersList.some((s) => s.id === _item.$order.id && s.type === _item.$orderType)) {
         let order = { ..._item.$order, type: _item.$orderType, count: 1 };
         if (order.type == 'MD') {
+          order.unit = _item.$order.unitsList[0].unit;
           order.price = _item.$order.unitsList[0].salesPrice;
           order.discount = _item.$order.unitsList[0].discount;
           order.discountType = _item.$order.unitsList[0].discountType;

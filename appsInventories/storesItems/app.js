@@ -786,6 +786,7 @@ module.exports = function init(site) {
             });
         });
     });
+    
 
     app.init();
     site.addApp(app);

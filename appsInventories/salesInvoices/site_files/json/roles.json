@@ -2,8 +2,8 @@
     {
         "moduleName": "public",
         "name": "salesInvoicesAdmin",
-        "En": "Sales Invoices Admin",
-        "Ar": "إدارة فواتير المبيعات",
+        "En": "Sales Invoices For Customers Admin",
+        "Ar": "إدارة فواتير مبيعات للعملاء",
         "permissions": ["salesInvoicesManage"]
     }
 ]

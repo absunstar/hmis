@@ -1041,7 +1041,6 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope.showBatchModal = function (item) {
         $scope.error = '';
         $scope.errorBatch = '';
-        $scope.batch = item;
         item.batchesList = item.batchesList || [];
         if (item.batchesList.length < 1) {
             let obj = {};
@@ -1055,7 +1054,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
                 item.batchesList = [obj];
             }
         }
-        $scope.calcBatch(item);
+        $scope.batch = item;
+        $scope.calcBatch($scope.batch);
         site.showModal('#batchModalModal');
     };
 

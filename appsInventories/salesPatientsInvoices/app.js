@@ -5,7 +5,6 @@ module.exports = function init(site) {
         allowRouteGet: true,
     };
 
-
     if (app.allowRoute) {
         if (app.allowRouteGet) {
             site.get(

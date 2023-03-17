@@ -395,7 +395,6 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
                         count: elem.count,
                         transferPrice: 0,
                         price: elem.price,
-
                         validityDays: elem.validityDays,
                         storeBalance: elem.storeBalance,
                         approved: true,
@@ -680,9 +679,9 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     $scope.showBatchModal = function (item) {
         $scope.error = '';
         $scope.errorBatch = '';
-        $scope.batch = item;
         item.batchesList = item.batchesList || [];
-        $scope.calcBatch(item);
+        $scope.batch = item;
+        $scope.calcBatch($scope.batch);
         site.showModal('#batchModalModal');
     };
 

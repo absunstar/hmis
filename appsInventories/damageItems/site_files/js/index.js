@@ -548,9 +548,9 @@ app.controller('damageItems', function ($scope, $http, $timeout) {
   $scope.showBatchModal = function (item) {
     $scope.error = '';
     $scope.errorBatch = '';
-    $scope.batch = item;
     item.batchesList = item.batchesList || [];
-    $scope.calcBatch(item);
+    $scope.batch = item;
+    $scope.calcBatch($scope.batch);
     site.showModal('#batchModalModal');
   };
 

@@ -527,6 +527,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.mainInsuranceCompany && response.data.servicesList) {
+          $scope.item.servicesList = [];
           response.data.servicesList.forEach((_s) => {
             $scope.item.servicesList.push(_s);
           });

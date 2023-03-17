@@ -387,7 +387,7 @@ module.exports = function init(site) {
       (err, docs) => {
         if (!err) {
           obj.code = docs && docs.length > 0 ? docs[0].code + 1 : 1;
-          obj.servicesList = [];
+          obj.ordersList = [];
           app.add(obj, (err, doc1) => {});
         }
       }

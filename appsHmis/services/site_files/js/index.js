@@ -316,10 +316,35 @@ app.controller('services', function ($scope, $http, $timeout) {
     }
   };
 
+  $scope.getGendersList = function () {
+    $scope.busy = true;
+    $scope.gendersList = [];
+    $http({
+      method: 'POST',
+      url: '/api/genders',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.gendersList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.addNormalRange = function () {
     $scope.error = '';
     $scope.item.normalRangeList = $scope.item.normalRangeList || [];
-    $scope.item.normalRangeList.push({});
+    $scope.item.normalRangeList.push({
+      fromDays : 0,
+      toDays : 0,
+    
+    });
   };
 
   $scope.showSearch = function () {
@@ -338,4 +363,5 @@ app.controller('services', function ($scope, $http, $timeout) {
   $scope.getAchiCodesList();
   $scope.getServicesGroupsList();
   $scope.getservicesCategoriesList();
+  $scope.getGendersList();
 });

@@ -101,7 +101,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     };
 
     $scope.showStoreData = function (_item) {
-        $scope.mode = 'view';
+        // $scope.mode = 'view';
         $scope.unit = { ..._item };
         site.showModal($scope.modalStoreData);
     };

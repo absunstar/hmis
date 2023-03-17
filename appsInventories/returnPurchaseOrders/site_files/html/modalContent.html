@@ -53,21 +53,25 @@
                 <th>##word.Item##</th>
                 <th>##word.Unit##</th>
                 <th>##word.Count##</th>
+                <th>##word.Bonus Count##</th>
                 <th>##word.Price##</th>
                 <th>##word.Total##</th>
             </tr>
             <tr ng-repeat="elem in item.itemsList">
-                <td class="text-center">{{$index+1}}</td>
-                <td class="text-center">{{elem.name##session.lang##}}</td>
-                <td class="text-center">{{elem.unit.name##session.lang##}}</td>
-                <td class="text-center">
-                    <p class="text-center">{{elem.count}}</p>
+                <td class="center">{{$index+1}}</td>
+                <td class="center">{{elem.name##session.lang##}}</td>
+                <td class="center">{{elem.unit.name##session.lang##}}</td>
+                <td class="center">
+                    <p>{{elem.count}}</p>
                 </td>
-                <td class="text-center">
-                    <p class="text-center">{{elem.price}}</p>
+                <td class="center">
+                    <p>{{elem.bonusCount}}</p>
                 </td>
-                <td>
-                    <p class="text-center">{{elem.total}}</p>
+                <td class="center">
+                    <p>{{elem.price}}</p>
+                </td>
+                <td class="center">
+                    <p>{{elem.total}}</p>
                 </td>
             </tr>
         </table>

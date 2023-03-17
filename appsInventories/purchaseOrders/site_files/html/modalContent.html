@@ -96,7 +96,7 @@
                         <i-control class="col4" ng-model="orderItem.barcode" ng-keydown="getBarcode($event)" label="##word.Barcode##"></i-control>
                         <i-list
                             ng-model="orderItem.item"
-                            ng-change="orderItem.item? getItemUnits(orderItem.item):''"
+                            ng-change="getItemUnits(orderItem.item)"
                             items="itemsList"
                             class="col4"
                             display="name##session.lang##"

@@ -606,10 +606,8 @@ module.exports = function init(site) {
           if (_data.hospitalCenter && _data.hospitalCenter.id) {
             servicesList[servicesList.length - 1].hospitalCenter = _data.hospitalCenter;
           }
-          console.log(serviceMemory.normalRangeList);
           if (serviceMemory.normalRangeList && serviceMemory.normalRangeList.length > 0) {
             servicesList[servicesList.length - 1].normalRangeList = serviceMemory.normalRangeList;
-            console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
           }
         }
       });

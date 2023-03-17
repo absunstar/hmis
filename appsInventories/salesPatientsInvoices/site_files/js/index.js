@@ -44,7 +44,7 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
     $scope.itemsError = '';
     $scope.mode = 'add';
     $scope.resetOrderItem();
-    $scope.item = { ...$scope.structure, date: new Date(), itemsList: [], discountsList: [], taxesList: [] };
+    $scope.item = { ...$scope.structure, salesType: 'patient', date: new Date(), itemsList: [], discountsList: [], taxesList: [] };
     if ($scope.settings.storesSetting.paymentType && $scope.settings.storesSetting.paymentType.id) {
       $scope.item.paymentType = $scope.paymentTypesList.find((_t) => {
         return _t.id == $scope.settings.storesSetting.paymentType.id;
@@ -72,7 +72,6 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
       return;
     }
     $scope.busy = true;
-    $scope.item.salesType = 'patient';
     $http({
       method: 'POST',
       url: `${$scope.baseURL}/api/${$scope.appName}/add`,
@@ -233,13 +232,13 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
       url: `${$scope.baseURL}/api/${$scope.appName}/all`,
       data: {
         where: where,
-        select : {
-          id : 1,
-          code : 1,
-          active : 1,
-          doctorDeskTop : 1,
-          paymentType : 1
-        }
+        select: {
+          id: 1,
+          code: 1,
+          active: 1,
+          doctorDeskTop: 1,
+          paymentType: 1,
+        },
       },
     }).then(
       function (response) {
@@ -1156,12 +1155,77 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
         });
       }, 500);
     };
+    $scope.localPrint();
+    $scope.busy = false;
+    $timeout(() => {
+      $('#salesInvoicesDetails').addClass('hidden');
+    }, 8000);
+  };
+
+  $scope.labelPrint = function () {
+    $scope.error = '';
+    if ($scope.busy) return;
+    $scope.busy = true;
+    $('#salesInvoicesLabels').removeClass('hidden');
+    $scope.labelList = [];
+    $scope.item.itemsList.forEach((itm) => {
+      if (itm.batchesList && itm.batchesList.length > 0) {
+        itm.batchesList.forEach((_b) => {
+          if (_b.count > 0) {
+            for (let i = 0; i < _b.count; i++) {
+              let so = {
+                nameAr: itm.nameAr,
+                nameEn: itm.nameEn,
+                patient: {
+                  code: $scope.item.doctorDeskTop.patient.code,
+                  nameAr: $scope.item.doctorDeskTop.patient.fullNameAr,
+                  nameEn: $scope.item.doctorDeskTop.patient.fullNameEn,
+                },
+                doctor: $scope.item.doctorDeskTop.doctor,
+                date: $scope.item.date,
+                expiryDate: _b.expiryDate,
+                productionDate: itm.productionDate,
+                medicineDuration: itm.medicineDuration,
+                medicineFrequency: itm.medicineFrequency,
+                medicineRoute: itm.medicineRoute,
+                barcode: itm.barcode,
+                workByBatch: itm.workByBatch,
+                workBySerial: itm.workBySerial,
+                count: 1,
+              };
+              $scope.labelList.push(so);
+            }
+          }
+        });
+      }
+    });
+    $scope.localPrint = function () {
+      let printer = {};
+      if ($scope.settings.printerProgram.labelPrinter) {
+        printer = $scope.settings.printerProgram.labelPrinter;
+      } else {
+        $scope.error = '##word.Label printer must select##';
+        return;
+      }
+      if ('##user.printerPath##' && '##user.printerPath.id##' > 0) {
+        printer = JSON.parse('##user.printerPath##');
+      }
+      $timeout(() => {
+        site.print({
+          selector: '#salesInvoicesLabels',
+          ip: printer.ipDevice,
+          port: printer.portDevice,
+          pageSize: 'A4',
+          printer: printer.ip.name.trim(),
+        });
+      }, 500);
+    };
 
     $scope.localPrint();
 
     $scope.busy = false;
     $timeout(() => {
-      $('#salesInvoicesDetails').addClass('hidden');
+      $('#salesInvoicesLabels').addClass('hidden');
     }, 8000);
   };
 

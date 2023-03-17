@@ -7,20 +7,20 @@
 
     <div class="modal-body">
       <form class="form">
-        <fieldset ng-if="batch.hasMedicalData">
+        <fieldset ng-show="batch.hasMedicalData && item.salesType != 'company'">
           <legend>##word.Medication doses##</legend>
           <div class="row padding">
-            <i-list label="##word.Duration##" class="col3" ng-model="batch.medicineDuration" display="name##session.lang##" items="medicineDurationsList" ng-search="batch.$medicineDuration"></i-list>
+            <i-list label="##word.Duration##" class="col4" ng-model="batch.medicineDuration" display="name##session.lang##" items="medicineDurationsList" ng-search="batch.$medicineDuration"></i-list>
             <i-list
               label="##word.Frequency##"
-              class="col3"
+              class="col4"
               ng-model="batch.medicineFrequency"
               display="name##session.lang##"
               items="medicineFrequenciesList"
               ng-search="batch.$medicineFrequency"
             ></i-list>
 
-            <i-list label="##word.Route##" class="col3" ng-model="batch.medicineRoute" display="name##session.lang##" items="medicineRoutesList" ng-search="batch.$medicineRoute"></i-list>
+            <i-list label="##word.Route##" class="col4" ng-model="batch.medicineRoute" display="name##session.lang##" items="medicineRoutesList" ng-search="batch.$medicineRoute"></i-list>
           </div>
         </fieldset>
 
@@ -51,7 +51,7 @@
           <div class="row">
             <table class="table loaded center bold hover details">
               <tr>
-                <th>##word.Batch Code##</th>
+                <th>##word.Code##</th>
                 <th>##word.Production Date##</th>
                 <th ng-hide="batch.workBySerial">##word.Expiry Date##</th>
                 <th ng-hide="batch.workBySerial">##word.validit Days##</th>

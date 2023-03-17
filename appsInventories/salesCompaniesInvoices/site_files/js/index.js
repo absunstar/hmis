@@ -44,7 +44,7 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
     $scope.itemsError = '';
     $scope.mode = 'add';
     $scope.resetOrderItem();
-    $scope.item = { ...$scope.structure, date: new Date(), itemsList: [], discountsList: [], taxesList: [] };
+    $scope.item = { ...$scope.structure,salesType:'company', date: new Date(), itemsList: [], discountsList: [], taxesList: [] };
     if ($scope.settings.storesSetting.paymentType && $scope.settings.storesSetting.paymentType.id) {
       $scope.item.paymentType = $scope.paymentTypesList.find((_t) => {
         return _t.id == $scope.settings.storesSetting.paymentType.id;
@@ -72,7 +72,6 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
       return;
     }
     $scope.busy = true;
-    $scope.item.salesType = 'company';
     $http({
       method: 'POST',
       url: `${$scope.baseURL}/api/${$scope.appName}/add`,

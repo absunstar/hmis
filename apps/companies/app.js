@@ -618,13 +618,13 @@ module.exports = function init(site) {
     };
 
     let where = req.body.where || {};
-    if (req.session.user && req.session.user.isAdmin) {
-    } else if (req.session.user && req.session.user.isCompany) {
-      where['id'] = req.session.user.companyId;
-    } else if (site.getCompany(req) && site.getCompany(req).id) {
-      where['company.id'] = site.getCompany(req).id;
-      where['branch.code'] = site.getBranch(req).code;
-    }
+    // if (req.session.user && req.session.user.isAdmin) {
+    // } else if (req.session.user && req.session.user.isCompany) {
+    //   where['id'] = req.session.user.companyId;
+    // } else if (site.getCompany(req) && site.getCompany(req).id) {
+    //   where['company.id'] = site.getCompany(req).id;
+    //   where['branch.code'] = site.getBranch(req).code;
+    // }
     $companies.findMany(
       {
         select: req.body.select || {},

@@ -145,8 +145,8 @@ module.exports = function init(site) {
                 },
             },
             (err, docs, count) => {
-                if (!err && count >= (site.getCompany(req).users_count || 0)) {
-                    response.error = `You have exceeded the maximum number of Users [ ${count} of ${site.getCompany(req).users_count} ]`;
+                if (!err && count >= (site.getCompany(req).usersCount || 0)) {
+                    response.error = `You have exceeded the maximum number of Users [ ${count} of ${site.getCompany(req).usersCount} ]`;
                     res.json(response);
                 } else {
                     site.security.addUser(user, (err, _id) => {

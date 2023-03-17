@@ -41,10 +41,11 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       $scope.mainError = '##word.Please Contact System Administrator to Set System Setting##';
       return;
     }
+
     $scope.itemsError = '';
     $scope.mode = 'add';
     $scope.resetOrderItem();
-    $scope.item = { ...$scope.structure, date: new Date(), itemsList: [], discountsList: [], taxesList: [] };
+    $scope.item = { ...$scope.structure,salesType:'customer', date: new Date(), itemsList: [], discountsList: [], taxesList: [] };
     if ($scope.settings.storesSetting.paymentType && $scope.settings.storesSetting.paymentType.id) {
       $scope.item.paymentType = $scope.paymentTypesList.find((_t) => {
         return _t.id == $scope.settings.storesSetting.paymentType.id;
@@ -77,7 +78,6 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       return;
     }
     $scope.busy = true;
-    $scope.item.salesType = 'customer';
     $http({
       method: 'POST',
       url: `${$scope.baseURL}/api/${$scope.appName}/add`,
@@ -1061,6 +1061,68 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     $scope.busy = false;
     $timeout(() => {
       $('#salesInvoicesDetails').addClass('hidden');
+    }, 8000);
+  };
+
+  $scope.labelPrint = function () {
+    $scope.error = '';
+    if ($scope.busy) return;
+    $scope.busy = true;
+    $('#salesInvoicesLabels').removeClass('hidden');
+    $scope.labelList = [];
+    $scope.item.itemsList.forEach((itm) => {
+      if (itm.batchesList && itm.batchesList.length > 0) {
+        itm.batchesList.forEach((_b) => {
+          if (_b.count > 0) {
+            for (let i = 0; i < _b.count; i++) {
+              let so = {
+                nameAr: itm.nameAr,
+                nameEn: itm.nameEn,
+                patient: $scope.item.customer,
+                date: $scope.item.date,
+                expiryDate: _b.expiryDate,
+                productionDate: _b.productionDate,
+                medicineDuration: itm.medicineDuration,
+                medicineFrequency: itm.medicineFrequency,
+                medicineRoute: itm.medicineRoute,
+                barcode: itm.barcode,
+                workByBatch: itm.workByBatch,
+                workBySerial: itm.workBySerial,
+                count: 1,
+              };
+              $scope.labelList.push(so);
+            }
+          }
+        });
+      }
+    });
+    $scope.localPrint = function () {
+      let printer = {};
+      if ($scope.settings.printerProgram.labelPrinter) {
+        printer = $scope.settings.printerProgram.labelPrinter;
+      } else {
+        $scope.error = '##word.Label printer must select##';
+        return;
+      }
+      if ('##user.printerPath##' && '##user.printerPath.id##' > 0) {
+        printer = JSON.parse('##user.printerPath##');
+      }
+      $timeout(() => {
+        site.print({
+          selector: '#salesInvoicesLabels',
+          ip: printer.ipDevice,
+          port: printer.portDevice,
+          pageSize: 'A4',
+          printer: printer.ip.name.trim(),
+        });
+      }, 500);
+    };
+
+    $scope.localPrint();
+
+    $scope.busy = false;
+    $timeout(() => {
+      $('#salesInvoicesLabels').addClass('hidden');
     }, 8000);
   };
 

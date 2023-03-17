@@ -641,12 +641,13 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
       return;
     }
 
-    if (item.$batchCount === item.count) {
+    // if (item.$batchCount === item.count) {
       site.hideModal('#batchModalModal');
-    } else {
-      $scope.errorBatch = 'The Count is not correct';
-      return;
-    }
+    // } 
+    // else {
+    //   $scope.errorBatch = 'The Count is not correct';
+    //   return;
+    // }
   };
 
   $scope.showBatchModal = function (item) {

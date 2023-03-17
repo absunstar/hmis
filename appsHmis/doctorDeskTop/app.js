@@ -310,7 +310,7 @@ module.exports = function init(site) {
     }
   }
 
-  site.post({ name: `/api/selectDoctorDeskTop`, require: { permissions: ['login'] } }, (req, res) => {
+  site.post({ name: `/api/selectDoctorDeskTop/serviceOrder`, require: { permissions: ['login'] } }, (req, res) => {
     let response = { done: false };
     let _data = req.body;
     let servicesList = [];
@@ -372,6 +372,7 @@ module.exports = function init(site) {
       $lt: d2,
     };
     obj.hasOrder = false;
+    obj.hasSales = false;
     if (obj.doctor && obj.doctor.id) {
       where['doctor.id'] = obj.doctor.id;
     }
@@ -395,6 +396,10 @@ module.exports = function init(site) {
 
   site.hasOrderDoctorDeskTop = function (where) {
     app.$collection.update({ where, set: { hasOrder: true } });
+  };
+
+  site.hasSalesDoctorDeskTop = function (where) {
+    app.$collection.update({ where, set: { hasSales: true } });
   };
 
   app.init();

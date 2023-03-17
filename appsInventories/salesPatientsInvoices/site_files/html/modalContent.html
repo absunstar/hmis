@@ -10,7 +10,6 @@
         </div>
         <div class="row">
           <i-list
-            type="text"
             v="r"
             class="col4"
             ng-disabled="item.itemsList.length"
@@ -20,9 +19,98 @@
             items="storesList"
             display="name##session.lang##"
           ></i-list>
-          <i-list type="text" v="r" class="col4" ng-model="item.paymentType" label="##word.Payment Type##" items="paymentTypesList" display="name##session.lang##"></i-list>
-          <i-list type="text" v="r" class="col4" ng-model="item.customer" label="##word.Company##" ng-get="getCustomers($search)" items="customersList" display="name##session.lang##"></i-list>
+          <i-list v="r" class="col4" ng-model="item.paymentType" label="##word.Payment Type##" items="paymentTypesList" display="name##session.lang##"></i-list>
         </div>
+        <div class="row">
+          <i-list
+            ng-show="item.store.id"
+            v="r"
+            ng-change="selectDoctorDeskTop()"
+            class="col6"
+            ng-model="item.doctorDeskTop"
+            label="##word.Doctor DeskTop##"
+            items="doctorDeskTopList"
+            display="patient.fullName##session.lang##"
+          ></i-list>
+        </div>
+        <fieldset>
+          <legend>##word.Patient##</legend>
+          <div class="row" ng-show="item.doctorDeskTop.patient.id">
+            <div class="col3">
+              <br />
+              <a target="_blank" class="a-btn" href="/patientHistory/{{item.doctorDeskTop.patient.id}}">##word.Patient History## <i class="fas fa-notes-medical"></i></a>
+            </div>
+            <div class="cart">
+              <div class="row">
+                <div class="col9">
+                  <p class="bold">
+                    <span class="darkGray">##word.Full Name## : </span> {{item.doctorDeskTop.patient.fullNameEn}} ( <span class="blue">{{item.doctorDeskTop.patient.code}}</span> )
+                    <img class="img-logo" ng-src="{{item.doctorDeskTop.patient.image.url}}" alt="" />
+                  </p>
+                </div>
+                <div class="col3">
+                  <p class="bold text-right"><span class="darkGray">##word.Mobile## : </span> {{item.doctorDeskTop.patient.mobile}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col4">
+                  <p class="bold">
+                    <span class="darkGray"> ##word.Nationality## : </span> {{item.doctorDeskTop.patient.nationality.name##session.lang##}}
+                    <img class="img-logo" ng-src="{{item.doctorDeskTop.patient.nationality.image.url}}" alt="" />
+                  </p>
+                </div>
+                <div class="col2">
+                  <p class="bold"><span class="darkGray">##word.Age## : </span> {{item.doctorDeskTop.patient.age}}</p>
+                </div>
+                <div class="col6">
+                  <p class="bold text-right"><span class="darkGray">الإسم بالكامل : </span> {{item.doctorDeskTop.patient.fullNameAr}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col7">
+                  <p class="bold">
+                    <span class="darkGray">##word.Mother Name## : </span> {{item.doctorDeskTop.patient.motherNameEn}}
+                    <span class="blue" ng-show="item.doctorDeskTop.patient.newBorn">(##word.New Born##)</span>
+                  </p>
+                </div>
+                <div class="col5">
+                  <p class="bold text-right"><span class="darkGray"> إسم الأم : </span> {{item.doctorDeskTop.patient.motherNameAr}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col6">
+                  <p class="bold"><span class="darkGray"> ##word.Marital Status## : </span> {{item.doctorDeskTop.patient.maritalStatus.name##session.lang##}}</p>
+                </div>
+  
+                <div class="col6">
+                  <p class="bold text-right"><span class="darkGray"> ##word.Gender## : </span> {{item.doctorDeskTop.patient.gender.name##session.lang##}}</p>
+                </div>
+              </div>
+  
+              <div class="row">
+                <div class="col8">
+                  <p class="bold">
+                    <span class="darkGray">##word.Insurance Company##: </span> {{item.doctorDeskTop.mainInsuranceCompany.name##session.lang##}} ( <span class="blue">{{item.doctorDeskTop.mainInsuranceCompany.code}}</span> )
+                  </p>
+                </div>
+                <div class="col4">
+                  <p class="bold text-right">
+                    <span class="darkGray">##word.Patient Type##: </span> {{item.doctorDeskTop.patient.patientType.name##session.lang##}} ( <span class="blue">{{item.doctorDeskTop.patient.patientType.code}}</span> )
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col6">
+                  <p class="bold"><span class="darkGray"> ##word.Insurance Class## : </span> {{item.doctorDeskTop.patient.insuranceClass.name##session.lang##}}</p>
+                </div>
+                <div class="col6">
+                  <p class="bold text-right"><span class="darkGray"> ##word.Expiry Date## : </span> {{item.doctorDeskTop.patient.expiryDate | date:"dd / MM / yyyy"}}</p>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </fieldset>
       </div>
       <div class="col3 center">
         <i-image class="img128 center" ng-model="item.image"></i-image>
@@ -32,37 +120,6 @@
 
   <fieldset ng-show="item.store && item.store.id">
     <legend>##word.Items Information##</legend>
-    <div class="row" ng-if="mode == 'add'">
-      <i-control class="col2" ng-model="orderItem.barcode" ng-keydown="getBarcode($event)" label="##word.Barcode##"></i-control>
-      <i-list
-        class="col2"
-        ng-model="orderItem.item"
-        ng-change="orderItem.item? getItemUnits(orderItem.item):''"
-        items="itemsList"
-        display="name##session.lang##"
-        label="##word.Item##"
-        ng-get="getStoresItems($search)"
-      ></i-list>
-      <i-list class="col2" ng-model="orderItem.unit" items="unitsList" display="name##session.lang##" label="##word.Unit##" ng-search="orderItem.$unit"></i-list>
-
-      <i-control class="col1" type="number" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
-      <div class="col1">
-        <p class="text-center">##word.Price##</p>
-        <p class="text-center">{{orderItem.unit.price || 0}}</p>
-      </div>
-
-      <div class="col1">
-        <p class="text-center">##word.Discount##</p>
-        <p class="text-center">{{orderItem.unit.discount || 0}}</p>
-      </div>
-      <i-control class="col1" type="number" min="1" ng-model="orderItem.extraDiscount" label="##word.Extra Disc## ##word.%##"></i-control>
-
-      <div class="col2">
-        <br />
-        <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
-      </div>
-    </div>
-
     <p class="error">{{itemsError}}</p>
     <table class="table hover center bold">
       <tr>
@@ -91,7 +148,6 @@
         </td>
         <td>
           <i-control min="0" type="number" ng-change="calculate(item)" ng-model="elem.extraDiscount"></i-control>
-
         </td>
         <td>
           <p>{{elem.totalDiscount}} ##word.$##</p>

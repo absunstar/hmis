@@ -849,9 +849,9 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     $scope.showBatchModal = function (item) {
         $scope.error = '';
         $scope.errorBatch = '';
-        $scope.batch = item;
         item.batchesList = item.batchesList || [];
-        $scope.calcBatch(item);
+        $scope.batch = item;
+        $scope.calcBatch($scope.batch);
         site.showModal('#batchModalModal');
     };
 
@@ -903,7 +903,6 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     $scope.showToBatchModal = function (item) {
         $scope.error = '';
         $scope.errorBatch = '';
-        $scope.batch = item;
         item.toBatchesList = item.toBatchesList || [];
         if (item.toBatchesList.length < 1) {
             let obj = {};
@@ -917,7 +916,8 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
                 item.toBatchesList = [obj];
             }
         }
-        $scope.calcToBatch(item);
+        $scope.batch = item;
+        $scope.calcToBatch($scope.batch);
         site.showModal('#toBatchModal');
     };
 

@@ -1,15 +1,15 @@
-<div ng-controller="salesPatientInvoices" class="loaded">
-    <div class="row" x-permissions="salesPatientInvoicesUi || salesPatientInvoicesManage">
-        <div x-import="salesPatientInvoices/modal.html"></div>
-        <div x-import="salesPatientInvoices/batchModal.html"></div>
-        <div x-import="salesPatientInvoices/modalSearch.html"></div>
+<div ng-controller="salesPatientsInvoices" class="loaded">
+    <div class="row" x-permissions="salesPatientsInvoicesUi || salesPatientsInvoicesManage">
+        <div x-import="salesPatientsInvoices/modal.html"></div>
+        <div x-import="salesInvoices/batchModal.html"></div>
+        <div x-import="salesPatientsInvoices/modalSearch.html"></div>
 
         <div class="top-actions">
-            <i-button type="add" x-permissions="salesPatientInvoicesAdd || salesPatientInvoicesManage" label="##word.New##" ng-click="showAdd()"></i-button>
+            <i-button type="add" x-permissions="salesPatientsInvoicesAdd || salesPatientsInvoicesManage" label="##word.New##" ng-click="showAdd()"></i-button>
         </div>
 
         <div class="row padding">
-            <i-control ng-model="$search" x-permissions="salesPatientInvoicesSearch || salesPatientInvoicesManage"></i-control>
+            <i-control ng-model="$search" x-permissions="salesPatientsInvoicesSearch || salesPatientsInvoicesManage"></i-control>
         </div>
         <p class="error">{{mainError}}</p>
 
@@ -33,14 +33,14 @@
                 <td class="text-center not-print">
                     <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
-                    <!-- <i-button type="edit" x-permissions="salesPatientInvoicesUpdate || salesPatientInvoicesManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button> -->
+                    <!-- <i-button type="edit" x-permissions="salesPatientsInvoicesUpdate || salesPatientsInvoicesManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button> -->
 
-                    <!-- <i-button type="delete" x-permissions="salesPatientInvoicesDelete || salesPatientInvoicesManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button> -->
+                    <!-- <i-button type="delete" x-permissions="salesPatientsInvoicesDelete || salesPatientsInvoicesManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button> -->
                 </td>
             </tr>
         </table>
-        <i-button x-permissions="salesPatientInvoicesPrint || salesPatientInvoicesManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
-        <i-button x-permissions="salesPatientInvoicesExport || salesPatientInvoicesManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')"> </i-button>
+        <i-button x-permissions="salesPatientsInvoicesPrint || salesPatientsInvoicesManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
+        <i-button x-permissions="salesPatientsInvoicesExport || salesPatientsInvoicesManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')"> </i-button>
     </div>
     <div x-import="salesInvoices/thermalPrint.html"></div>
     <div id="salesInvoicesDetails" x-import="salesInvoices/a4Print.html"></div>

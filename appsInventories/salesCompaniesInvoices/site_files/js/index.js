@@ -1,6 +1,6 @@
 app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
   $scope.baseURL = '';
-  $scope.appName = 'salesCompaniesInvoices';
+  $scope.appName = 'salesInvoices';
   $scope.modalID = '#salesCompaniesInvoicesManageModal';
   $scope.modalSearchID = '#salesCompaniesInvoicesSearchModal';
   $scope.mode = 'add';
@@ -258,7 +258,7 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
       method: 'POST',
       url: '/api/numbering/getAutomatic',
       data: {
-        screen: $scope.appName,
+        screen: 'salesCompaniesInvoices',
       },
     }).then(
       function (response) {
@@ -369,6 +369,8 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
       count: orderItem.count,
       price: orderItem.unit.price,
       noVat: orderItem.item.noVat,
+      hasMedicalData: orderItem.item.hasMedicalData,
+
       discount: orderItem.unit.discount,
       maxDiscount: orderItem.unit.maxDiscount,
       discountType: orderItem.unit.discountType,
@@ -587,6 +589,7 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
           nameEn: 1,
           nameAr: 1,
           noVat: 1,
+          hasMedicalData: 1,
           workByBatch: 1,
           workBySerial: 1,
           validityDays: 1,
@@ -657,6 +660,7 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
           nameEn: 1,
           nameAr: 1,
           noVat: 1,
+          hasMedicalData: 1,
           workByBatch: 1,
           workBySerial: 1,
           validityDays: 1,
@@ -830,9 +834,9 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
   $scope.showBatchModal = function (item) {
     $scope.error = '';
     $scope.errorBatch = '';
-    $scope.batch = item;
     item.batchesList = item.batchesList || [];
-    $scope.calcBatch(item);
+    $scope.batch = item;
+    $scope.calcBatch($scope.batch);
     site.showModal('#batchModalModal');
   };
 
@@ -1053,6 +1057,88 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
     }, 8000);
   };
 
+  $scope.getMedicineDurationsList = function () {
+    $scope.busy = true;
+    $scope.medicineDurationsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/medicineDurations/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.medicineDurationsList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+  $scope.getMedicineFrequenciesList = function () {
+    $scope.busy = true;
+    $scope.medicineFrequenciesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/medicineFrequencies/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.medicineFrequenciesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+  $scope.getMedicineRoutesList = function () {
+    $scope.busy = true;
+    $scope.medicineRoutesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/medicineRoutes/all',
+      data: {
+        where: { active: true },
+        select: {
+          id: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.medicineRoutesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getAll();
   $scope.getPaymentTypes();
   $scope.getDiscountTypes();
@@ -1062,4 +1148,7 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
   $scope.getStoresItems();
   $scope.getNumberingAuto();
   $scope.getSetting();
+  $scope.getMedicineDurationsList();
+  $scope.getMedicineFrequenciesList();
+  $scope.getMedicineRoutesList();
 });

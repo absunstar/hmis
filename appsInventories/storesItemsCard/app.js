@@ -17,13 +17,19 @@ module.exports = function init(site) {
   site.setItemCard = function (_elm, screenName) {
     app.all(
       {
-        where: { 'transactionType.code': screenName, id: _elm.id, 'unit.id': _elm.unit.id, 'store.id': _elm.store.id },
+        where: { id: _elm.id, 'unit.id': _elm.unit.id, 'store.id': _elm.store.id },
         sort: { id: -1 },
         limit: 1,
       },
       (err, docs) => {
         if (!err) {
           docs = docs || [];
+
+          let count = _elm.count;
+          if(countType == 'out'){
+            -Math.abs(count)
+          }
+
           let obj = {
             date: _elm.date,
             itemId: _elm.id,
@@ -41,8 +47,8 @@ module.exports = function init(site) {
             count: _elm.count,
             price: _elm.price,
             totalPrice: _elm.total,
-            currentCount: docs[0] ? docs[0].currentCount + _elm.count : _elm.count,
-            lastCount: docs[0] ? docs[0].lastCount + _elm.count : 0,
+            currentCount: docs[0] ? docs[0].currentCount + count : count,
+            lastCount: docs[0] ? docs[0].lastCount + count : 0,
             company: _elm.company,
             countType: _elm.countType,
           };

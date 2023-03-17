@@ -52,7 +52,7 @@
                         <div class="col2">
                             <br />
                             <div class="row">
-                                <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
+                                <i-button type="push" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
                             </div>
                         </div>
                     </div>
@@ -103,7 +103,7 @@
                                     x-permissions="approvePurchaseRequests||purchaseRequestsManage"
                                     label="##word.Approve##"
                                 ></i-button>
-                                <i-button type="delete" ng-if="!elem.approved && !item.approved" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
+                                <i-button type="delete" ng-if="!elem.approved && !item.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>
                             </td>
                         </tr>
                     </table>

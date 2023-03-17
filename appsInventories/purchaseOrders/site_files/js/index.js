@@ -560,7 +560,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         }
 
         if (!$scope.item.store || !$scope.item.store.id) {
-            $scope.error = '##word.Please Select Store';
+            $scope.error = '##word.Please Select Store##';
             return;
         }
         $scope.busy = true;

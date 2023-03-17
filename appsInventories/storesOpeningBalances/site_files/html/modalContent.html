@@ -57,7 +57,7 @@
     
         <div class="col2">
           <br />
-          <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
+          <i-button type="push" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
         </div>
       </div>
 
@@ -116,7 +116,7 @@
               ng-click="unapproveItem(elem)"
             >
             </i-button>
-            <i-button type="delete" label="##word.Delete##" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1);setTotalPrice()"> </i-button>
+            <i-button type="delete"  ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1);setTotalPrice()"> </i-button>
           </td>
         </tr>
       </table>

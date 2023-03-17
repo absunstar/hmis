@@ -52,6 +52,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
 
     $scope.showAdd = function (_item) {
         $scope.error = '';
+        $scope.mainError = '';
         if (!$scope.settings || !$scope.settings.id) {
             $scope.mainError = '##word.Please Contact System Administrator to Set System Setting##';
             return;
@@ -359,7 +360,6 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     };
 
     $scope.getItemsGroups = function () {
-
         $scope.busy = true;
         $scope.itemsgroupsList = [];
         $http({
@@ -374,7 +374,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
-                }
+                },
             },
         }).then(
             function (response) {
@@ -717,8 +717,8 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         for (const elem of item.unitsList) {
             $scope.collectedItemUnits.push({
                 id: elem.unit.id,
-        barcode: elem.barcode,
-        code: elem.unit.code,
+                barcode: elem.barcode,
+                code: elem.unit.code,
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
             });

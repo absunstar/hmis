@@ -764,6 +764,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
                             workBySerial: elem.workBySerial,
                             validityDays: elem.validityDays,
                             storeBalance: elem.storeBalance,
+                            hasMedicalData: elem.hasMedicalData,
                             salesPrice: elem.salesPrice,
                             bonusCount: 0,
                             bonusPrice: 0,

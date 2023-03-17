@@ -370,7 +370,7 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
       price: orderItem.unit.price,
       noVat: orderItem.item.noVat,
       hasMedicalData: orderItem.item.hasMedicalData,
-
+      extraDiscount: orderItem.extraDiscount || 0,
       discount: orderItem.unit.discount,
       maxDiscount: orderItem.unit.maxDiscount,
       discountType: orderItem.unit.discountType,
@@ -834,7 +834,9 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
   $scope.showBatchModal = function (item) {
     $scope.error = '';
     $scope.errorBatch = '';
-    item.batchesList = item.batchesList || [];
+    if (item.workByBatch || item.workBySerial) {
+      item.batchesList = item.batchesList || [];
+    }
     $scope.batch = item;
     $scope.calcBatch($scope.batch);
     site.showModal('#batchModalModal');

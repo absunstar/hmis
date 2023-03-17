@@ -160,12 +160,18 @@ module.exports = function init(site) {
         const storesSetting = site.getSystemSetting(req).storesSetting;
 
         let errBatchList = [];
+        let medicationDosesList = [];
         _data.itemsList.forEach((_item) => {
+          if (_item.hasMedicalData) {
+            if (!_item.medicineDuration || !_item.medicineFrequency || !_item.medicineRoute) {
+              let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
+              medicationDosesList.push(itemName);
+            }
+          }
           if (_item.workByBatch || _item.workBySerial) {
             if (_item.batchesList && _item.batchesList.length > 0) {
               _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
-
-              if (storesSetting.saleEarlyExpiryDateBatch) {
+              if (storesSetting.workFifo) {
                 if (_item.$batchCount != _item.count) {
                   let batchCount = _item.count - _item.$batchCount;
                   if (_item.workByBatch) {
@@ -185,6 +191,8 @@ module.exports = function init(site) {
                     }
                   });
                 }
+              _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
+
               }
 
               let batchCountErr = _item.batchesList.find((b) => {
@@ -209,11 +217,18 @@ module.exports = function init(site) {
           return;
         }
 
+        if (medicationDosesList.length > 0) {
+          let error = medicationDosesList.map((m) => m).join('-');
+          response.error = `The Medication doses is not correct in ( ${error} )`;
+          res.json(response);
+          return;
+        }
+
         let appName = 'salesInvoices';
 
-        if(_data.salesType == 'company'){
+        if (_data.salesType == 'company') {
           appName = 'salesCompaniesInvoices';
-        } else if(_data.salesType == 'patient'){
+        } else if (_data.salesType == 'patient') {
           appName = 'salesPatientsInvoices';
         }
 
@@ -261,9 +276,8 @@ module.exports = function init(site) {
                 item.orderCode = doc.code;
                 site.setItemCard(item, app.name);
               });
-              if(doc.salesType == 'patient') {
+              if (doc.salesType == 'patient') {
                 site.hasSalesDoctorDeskTop({ id: doc.doctorDeskTop.id });
-
               }
               response.doc = doc;
             } else {
@@ -339,7 +353,6 @@ module.exports = function init(site) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
         let select = req.body.select || {};
-
         if (app.allowMemory) {
           let list = app.memoryList.filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(where.search));
 

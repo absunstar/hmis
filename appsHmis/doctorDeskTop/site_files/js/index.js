@@ -718,6 +718,7 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
         let order = { ..._item.$order, type: _item.$orderType, count: 1 };
         if (order.type == 'MD') {
           order.unit = _item.$order.unitsList[0].unit;
+          order.barcode = _item.$order.unitsList[0].barcode;
           order.price = _item.$order.unitsList[0].salesPrice;
           order.discount = _item.$order.unitsList[0].discount;
           order.discountType = _item.$order.unitsList[0].discountType;

@@ -233,6 +233,13 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
       url: `${$scope.baseURL}/api/${$scope.appName}/all`,
       data: {
         where: where,
+        select : {
+          id : 1,
+          code : 1,
+          active : 1,
+          doctorDeskTop : 1,
+          paymentType : 1
+        }
       },
     }).then(
       function (response) {
@@ -581,6 +588,11 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
               workBySerial: elem.workBySerial,
               validityDays: elem.validityDays,
               storeBalance: elem.storeBalance,
+              hasMedicalData: elem.hasMedicalData,
+              medicineDuration: elem.medicineDuration,
+              medicineFrequency: elem.medicineFrequency,
+              medicineRoute: elem.medicineRoute,
+              barcode: elem.barcode,
               batchesList: elem.batchesList,
               price: elem.price,
               discount: elem.discount,
@@ -928,7 +940,9 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
   $scope.showBatchModal = function (item) {
     $scope.error = '';
     $scope.errorBatch = '';
-    item.batchesList = item.batchesList || [];
+    if (item.workByBatch || item.workBySerial) {
+      item.batchesList = item.batchesList || [];
+    }
     $scope.batch = item;
     $scope.calcBatch($scope.batch);
     site.showModal('#batchModalModal');

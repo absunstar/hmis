@@ -374,6 +374,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       count: orderItem.count,
       price: orderItem.unit.price,
       noVat: orderItem.item.noVat,
+      extraDiscount: orderItem.extraDiscount || 0,
       hasMedicalData: orderItem.item.hasMedicalData,
       discount: orderItem.unit.discount,
       maxDiscount: orderItem.unit.maxDiscount,
@@ -593,7 +594,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
           nameEn: 1,
           nameAr: 1,
           noVat: 1,
-          hasMedicalData : 1,
+          hasMedicalData: 1,
           workByBatch: 1,
           workBySerial: 1,
           validityDays: 1,
@@ -664,7 +665,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
           nameEn: 1,
           nameAr: 1,
           noVat: 1,
-          hasMedicalData : 1,
+          hasMedicalData: 1,
           workByBatch: 1,
           workBySerial: 1,
           validityDays: 1,
@@ -838,9 +839,10 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
   $scope.showBatchModal = function (item) {
     $scope.error = '';
     $scope.errorBatch = '';
-    item.batchesList = item.batchesList || [];
+    if (item.workByBatch || item.workBySerial) {
+      item.batchesList = item.batchesList || [];
+    }
     $scope.batch = item;
-    $scope.calcBatch($scope.batch);
     site.showModal('#batchModalModal');
   };
 

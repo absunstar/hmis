@@ -78,9 +78,9 @@
           </td>
         </tr>
 
-        <tr ng-show="item.salesType = 'customer'">
+        <tr ng-show="item.salesType == 'customer'">
           <td class="title font-12">
-            <b  class="black"> العميل / Customer :</b>
+            <b class="black"> العميل / Customer :</b>
             <b class="center">{{sInvoice.customer.name##session.lang##}} </b>
           </td>
           <td class="center font-12">
@@ -89,9 +89,9 @@
           </td>
         </tr>
 
-        <tr ng-show="item.salesType = 'company'">
+        <tr ng-show="item.salesType == 'company'">
           <td class="title font-12">
-            <b  class="black"> الشركة / Company :</b>
+            <b class="black"> الشركة / Company :</b>
             <b class="center">{{sInvoice.customer.name##session.lang##}} </b>
           </td>
           <td class="center font-12">
@@ -100,9 +100,24 @@
           </td>
         </tr>
 
-        <tr>
+        <tr ng-show="item.salesType == 'patient'">
+          <td class="title font-12">
+            <b class="black"> المريض / Patient :</b>
+            <b class="center">{{sInvoice.doctorDeskTop.patient.fullName##session.lang##}} </b>
+          </td>
+          <td class="center font-12">
+            <b class="black"> جوال المريض / Patient Mobile:</b>
+            <b class="center">{{sInvoice.doctorDeskTop.patient.mobile}} </b>
+          </td>
+        </tr>
+
+        <tr ng-show="item.salesType == 'customer' || item.salesType == 'company'">
           <td class="title font-12" colspan="2">
-            <b class="black"> رقم تسجيل ضريبة القيمة المضافة للعميل / Customer VAT Registration Number : {{sInvoice.customer.taxIdentificationNumber}} </b>
+            <p class="black">
+              <span ng-show="item.salesType == 'customer'">رقم تسجيل ضريبة القيمة المضافة للعميل / Customer VAT Registration Number : </span>
+              <span ng-show="item.salesType == 'company'">رقم تسجيل ضريبة القيمة المضافة للشركة / Company VAT Registration Number : </span>
+              {{sInvoice.customer.taxIdentificationNumber}}
+            </p>
           </td>
         </tr>
 

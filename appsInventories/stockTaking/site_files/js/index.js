@@ -97,6 +97,8 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
             nameEn: elem.nameEn,
             itemGroup: elem.itemGroup,
             currentCount: elem.storeBalance,
+            hasMedicalData: elem.hasMedicalData,
+
             unit: elem.unit,
             count: 0,
             price: elem.price,

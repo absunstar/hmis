@@ -78,8 +78,6 @@ app.controller('payslips', function ($scope, $http, $timeout) {
     };
 
     $scope.showPrintPayslipModal = function (_item) {
-        console.log('_item', _item);
-
         $scope.item = _item;
         site.showModal($scope.printPayslipModal);
     };

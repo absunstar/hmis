@@ -1,7 +1,7 @@
 module.exports = function init(site) {
     let app = {
         name: 'payslips',
-        allowMemory: true,
+        allowMemory: false,
         memoryList: [],
         allowCache: false,
         cacheList: [],

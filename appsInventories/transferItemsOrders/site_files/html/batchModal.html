@@ -44,30 +44,31 @@
                             </tr>
 
                             <tr ng-repeat="c in batch.batchesList">
-                                <td>
+                                <td class="center">
                                     <p>{{c.code}}</p>
                                 </td>
 
-                                <td>
+                                <td class="center">
                                     <p class="green">{{c.productionDate | date: "dd / MM / yyyy"}}</p>
                                 </td>
 
-                                <td ng-hide="batch.workBySerial">
+                                <td class="center" ng-hide="batch.workBySerial">
                                     <p class="red">{{c.expiryDate | date: "dd / MM / yyyy"}}</p>
                                 </td>
 
-                                <td ng-hide="batch.workBySerial">
+                                <td class="center" ng-hide="batch.workBySerial">
                                     <p class="green">{{c.validityDays}}</p>
                                 </td>
-                                <td>
+                                <td class="center">
                                     <p>{{c.currentCount}}</p>
                                 </td>
 
-                                <td>
-                                    <i-control type="number" ng-change="calcBatch(batch)" ng-disabled="batch.workBySerial" ng-model="c.count"> </i-control>
+                                <td class="center">
+                                    <i-control type="number" ng-show="!item.approved" ng-change="calcBatch(batch)" ng-disabled="batch.workBySerial" ng-model="c.count"> </i-control>
+                                    <p ng-show="item.approved">{{c.count}}</p>
                                 </td>
 
-                                <td ng-show="batch.workBySerial">
+                                <td class="center" ng-show="batch.workBySerial">
                                     <i-checkbox ng-model="c.$select" label="##word.Select##" ng-change="c.count = c.$select? 1 : 0 ; calcBatch(batch)"></i-checkbox>
                                 </td>
                             </tr>
@@ -80,7 +81,7 @@
         <p class="error">{{errorBatch}}</p>
 
         <div class="modal-footer center">
-            <i-button type="save" label="##word.Save##" ng-click="saveBatch(batch)"> </i-button>
+            <i-button type="save" label="##word.Save##" ng-show="!item.approved" ng-click="saveBatch(batch)"> </i-button>
             <i-button type="close" label="##word.Close##" onclick="site.hideModal( '#batchModalModal')"></i-button>
         </div>
     </div>

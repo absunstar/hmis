@@ -99,33 +99,33 @@
                     <th>##word.To Unit##</th>
                     <th>##word.To Count##</th>
                     <th>##word.Approved##</th>
-                    <th class="not-print">##word.Actions##</th>
+                    <th class="not-print" ng-show="!item.approved">##word.Actions##</th>
                 </tr>
                 <tr ng-repeat="elem in item.itemsList">
-                    <td class="text-center">{{$index+1}}</td>
-                    <td>
-                        <p class="text-center">{{elem.name##session.lang##}}</p>
+                    <td class="center">{{$index+1}}</td>
+                    <td class="center">
+                        <p>{{elem.name##session.lang##}}</p>
                     </td>
-                    <td>
-                        <p class="text-center text-danger">{{elem.unit.name##session.lang##}}</p>
-                    </td>
-
-                    <td>
-                        <p class="text-center text-danger">{{elem.count}}</p>
-                    </td>
-                    <td>
-                        <p class="text-center text-success">{{elem.toUnit.name##session.lang##}}</p>
+                    <td class="center">
+                        <p class="text-danger">{{elem.unit.name##session.lang##}}</p>
                     </td>
 
-                    <td>
-                        <p class="text-center text-success">{{elem.toCount}}</p>
+                    <td class="center">
+                        <p class="text-danger">{{elem.count}}</p>
+                    </td>
+                    <td class="center">
+                        <p class="text-success">{{elem.toUnit.name##session.lang##}}</p>
                     </td>
 
-                    <td>
-                        <p class="text-center text-success" ng-if="elem.approved">##word.Yes##</p>
-                        <p class="text-center text-danger" ng-if="!elem.approved">##word.No##</p>
+                    <td class="center">
+                        <p class="text-success">{{elem.toCount}}</p>
                     </td>
-                    <td class="text-center">
+
+                    <td class="center">
+                        <p class="text-success" ng-if="elem.approved">##word.Yes##</p>
+                        <p class="text-danger" ng-if="!elem.approved">##word.No##</p>
+                    </td>
+                    <td class="center" ng-show="!item.approved">
                         <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial" label="##word.From Batch##" ng-click="showBatchModal(elem)"> </i-button>
                         <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial" label="##word.To Batch##" ng-click="showToBatchModal(elem)"> </i-button>
 

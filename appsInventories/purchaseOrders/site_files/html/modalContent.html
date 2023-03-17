@@ -62,7 +62,7 @@
                                 <br />
                                 <i-button
                                     ng-show="!item.approved && item.sourceType.id === 1 && item.purchaseRequest.id"
-                                    type="get"
+                                    type="search"
                                     label="##word.Load Items##"
                                     ng-click="getRequestItems(item.purchaseRequest)"
                                 >
@@ -243,18 +243,18 @@
                             <tr>
                                 <th>##word.Name##</th>
                                 <th>##word.Value##</th>
-                                <th class="not-print">##word.Actions##</th>
+                                <th class="not-print" ng-show="!item.approved">##word.Actions##</th>
                             </tr>
                             <tr ng-repeat="discount in item.discountsList">
-                                <td><p class="text-center">{{discount.name##session.lang##}}</p></td>
-                                <td>
-                                    <p class="text-center">
+                                <td class="center"><p>{{discount.name##session.lang##}}</p></td>
+                                <td class="center">
+                                    <p>
                                         {{discount.value}}
                                         <span ng-if="discount.type == 'value'" class="green">##word.$##</span>
                                         <span ng-if="discount.type == 'percent'" class="green">##word.%##</span>
                                     </p>
                                 </td>
-                                <td class="text-center">
+                                <td class="center" ng-show="!item.approved">
                                     <i-button type="delete" ng-click="spliceFromList(discount,'discount');"> </i-button>
                                 </td>
                             </tr>
@@ -282,15 +282,17 @@
                                 <th>##word.Name##</th>
                                 <th>##word.Value##</th>
 
-                                <th class="not-print">##word.Actions##</th>
+                                <th class="not-print" ng-show="!item.approved">##word.Actions##</th>
                             </tr>
                             <tr ng-repeat="tax in item.taxesList">
-                                <td><p class="text-center">{{tax.name##session.lang##}}</p></td>
-                                <td>
-                                    <p class="text-center">{{tax.value}} <span class="green">##word.%##</span></p>
+                                <td class="center">
+                                    <p>{{tax.name##session.lang##}}</p>
+                                </td>
+                                <td class="center">
+                                    <p>{{tax.value}} <span class="green">##word.%##</span></p>
                                 </td>
 
-                                <td class="text-center">
+                                <td class="center" ng-show="!item.approved">
                                     <i-button type="delete" ng-click="spliceFromList(tax,'tax');"> </i-button>
                                 </td>
                             </tr>

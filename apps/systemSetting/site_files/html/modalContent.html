@@ -65,6 +65,15 @@
                       label="##word.invoice_top_title##"
                       ng-model="item.printerProgram.invoice_top_title"
                     ></i-control> -->
+                    <i-list
+                    ng-search="item.printerProgram.$labelPrinter"
+                    class="col3"
+                    display="name##session.lang##"
+                    ng-model="item.printerProgram.labelPrinter"
+                    label="##word.Label print##"
+                    items="printersPathsList"
+                  >
+                  </i-list>
                   <i-list
                     class="col3"
                     ng-model="item.printerProgram.countryQr"

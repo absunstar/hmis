@@ -10,9 +10,9 @@ app.controller('company_register', function ($scope, $http) {
     item: 100,
     unit: 5,
     currency: 5,
-    customers_count: 50,
-    employees_count: 20,
-    users_count: 20,
+    customersCount: 50,
+    employeesCount: 20,
+    usersCount: 20,
     branchList: [
       {
         code: 1,
@@ -73,8 +73,10 @@ app.controller('company_register', function ($scope, $http) {
                 host: company.host,
                 customersCount: company.customersCount,
                 employeesCount: company.employeesCount,
-                users_count: company.users_count,
+                usersCount: company.usersCount,
                 taxNumber: company.taxNumber,
+                mobile: company.mobile,
+                phone: company.phone,
               }),
               branch: site.to123({
                 code: company.branchList[0].code,

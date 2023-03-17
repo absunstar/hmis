@@ -397,9 +397,69 @@ app.controller('laboratoryDeskTop', function ($scope, $http, $timeout) {
     $scope.search = {};
   };
 
+  $scope.labelPrint = function (item) {
+    $scope.error = '';
+    if ($scope.busy) return;
+    $scope.busy = true;
+    $scope.item = item;
+    $('#laboratoryLabels').removeClass('hidden');
+    JsBarcode('.barcode', $scope.item.code);
+    $scope.localPrint = function () {
+      let printer = {};
+      if ($scope.settings.printerProgram.labelPrinter) {
+        printer = $scope.settings.printerProgram.labelPrinter;
+      } else {
+        $scope.error = '##word.Label printer must select##';
+        return;
+      }
+      if ('##user.printerPath##' && '##user.printerPath.id##' > 0) {
+        printer = JSON.parse('##user.printerPath##');
+      }
+      $timeout(() => {
+        site.print({
+          selector: '#laboratoryLabels',
+          ip: printer.ipDevice,
+          port: printer.portDevice,
+          pageSize: 'A4',
+          printer: printer.ip.name.trim(),
+        });
+      }, 500);
+    };
+
+    $scope.localPrint();
+
+    $scope.busy = false;
+    $timeout(() => {
+      /* $('#laboratoryLabels').addClass('hidden'); */
+    }, 8000);
+  };
+
+  $scope.getSetting = function () {
+    $scope.busy = true;
+    $scope.settings = {};
+    $http({
+      method: 'POST',
+      url: '/api/systemSetting/get',
+      data: {},
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done) {
+          $scope.settings = response.data.doc;
+      
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getAll({ date: new Date() });
   $scope.getDoctorsList();
   $scope.getDiagnosesList();
   $scope.getRecipientPersonList();
   $scope.getLaboratoryDeskTopTypesList();
+  $scope.getSetting();
 });

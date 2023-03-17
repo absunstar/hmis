@@ -339,6 +339,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           fullNameAr: 1,
           patientType: 1,
           maritalStatus: 1,
+          dateOfBirth : 1,
           gender: 1,
           age: 1,
           motherNameEn: 1,

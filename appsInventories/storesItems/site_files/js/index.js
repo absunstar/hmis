@@ -825,6 +825,11 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             return success;
         }
 
+        if (_item.workByQrCode && !_item.gtin) {
+            $scope.error = '##word.Please Enter GTIN Code##';
+            return success;
+        }
+
         success = true;
         return { success, _item };
     };

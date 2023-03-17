@@ -162,7 +162,7 @@ module.exports = function init(site) {
         let errBatchList = [];
         let medicationDosesList = [];
         _data.itemsList.forEach((_item) => {
-          if (_item.hasMedicalData) {
+          if (_item.hasMedicalData && _data.salesType != 'company') {
             if (!_item.medicineDuration || !_item.medicineFrequency || !_item.medicineRoute) {
               let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
               medicationDosesList.push(itemName);
@@ -191,8 +191,7 @@ module.exports = function init(site) {
                     }
                   });
                 }
-              _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
-
+                _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
               }
 
               let batchCountErr = _item.batchesList.find((b) => {

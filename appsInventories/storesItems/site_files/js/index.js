@@ -62,7 +62,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             ...$scope.structure,
             allowSale: true,
             allowBuy: true,
-            workByBatch: true,
+            workByQrCode: true,
             unitsList: [],
             workBySerial: false,
             showOnTouchScreen: false,
@@ -958,6 +958,76 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             item.$toBatchCount = item.toBatchesList.length > 0 ? item.toBatchesList.reduce((a, b) => +a + +b.count, 0) : 0;
         }, 250);
     };
+
+    $scope.readQR = function (obj) {
+        $timeout(() => {
+          if (obj.$code) {
+            $scope.qr = site.getQRcode(obj.$code);
+            obj.gtin = $scope.qr.gtin;
+           /*  obj.batch = $scope.qr.batch;
+            obj.mfgDate = $scope.qr.mfgDate;
+            obj.expireDate = $scope.qr.expireDate;
+            obj.sn = $scope.qr.sn; */
+            
+          }
+        }, 300);
+      };
+    
+      site.getQRcode = function (code) {
+        let qr = {
+          code: code,
+        };
+        if (code.indexOf('') !== -1) {
+          code = code.split('');
+        } else if (code.indexOf('^') !== -1) {
+          code = code.split('^');
+        }
+    
+        if (code[0].length === 24 && code[0].slice(0, 2) === '01' && code[0].slice(16, 18) === '10') {
+          qr.gtin = code[0].slice(2, 16);
+          qr.batch = code[0].slice(18);
+        } else if (code[0].length === 24 && code[0].slice(0, 2) === '01') {
+          qr.gtin = code[0].slice(2, 15);
+          qr.mfgDate = code[0].slice(16, 23);
+        } else if (code[0].length === 32 && code[0].slice(0, 2) === '01' && code[0].slice(16, 18) === '17') {
+          qr.gtin = code[0].slice(2, 15);
+          qr.expireDate = code[0].slice(18, 24);
+          qr.batch = code[0].slice(25);
+        } else if (code[0].length === 32 && code[0].slice(0, 2) === '01' && code[0].slice(16, 18) === '21') {
+          qr.gtin = code[0].slice(2, 15);
+          qr.sn = code[0].slice(18);
+        } else if (code[0].length === 25 && code[0].slice(0, 2) === '01') {
+          qr.gtin = code[0].slice(1, 12);
+          qr.mfgDate = code[0].slice(12, 18);
+          qr.batch = code[0].slice(18);
+        } else if (code[0].length === 33 && code[0].slice(0, 2) === '01' && code[0].slice(16, 18) === '17' && code[0].slice(24, 26) === '10') {
+          qr.gtin = code[0].slice(2, 16);
+          qr.expireDate = code[0].slice(18, 24);
+          qr.batch = code[0].slice(26);
+        }
+    
+        if (code[1].length === 22 && code[1].slice(0, 2) === '17' && code[1].slice(8, 10) === '21') {
+          qr.expireDate = code[1].slice(2, 8);
+          qr.sn = code[1].slice(10);
+        } else if (code[1].length === 22 && code[1].slice(0, 2) === '21') {
+          qr.sn = code[1].slice(2);
+        } else if (code[1].length === 24 && code[1].slice(0, 2) === '17' && code[1].slice(8, 10) === '21') {
+          qr.expireDate = code[1].slice(2, 8);
+          qr.sn = code[1].slice(10);
+        } else if (code[1].length === 11 && code[1].slice(0, 2) === '21') {
+          qr.sn = code[1].slice(2, 8);
+        } else if (code[1].length === 17 && code[1].slice(0, 2) === '21') {
+          qr.sn = code[1].slice(2);
+        } else if (code[1].length === 17 && code[1].slice(0, 2) === '17' && code[1].slice(8, 10) === '10') {
+          qr.expireDate = code[1].slice(2, 8);
+          qr.batch = code[1].slice(10);
+        } else if (code[1].length === 20 && code[1].slice(0, 2) === '17' && code[1].slice(8, 10) === '21') {
+          qr.expireDate = code[1].slice(2, 8);
+          qr.sn = code[1].slice(10);
+        }
+    
+        return qr;
+      };
 
     $scope.getAll();
     $scope.getStoresUnits();

@@ -22,6 +22,7 @@
       <span class="font-20">{{sInvoice.medicineDuration.nameAr}} &nbsp; {{sInvoice.medicineFrequency.nameAr}} &nbsp; {{sInvoice.medicineRoute.nameAr}}</span>
     </p>
     <p ng-show="sInvoice.workByBatch"><span class="bold font-25">##word.EXP Date## : </span> <span class="font-20">{{sInvoice.expiryDate| date : 'dd-MM-yyyy'}} </span></p>
+    <p ng-show="sInvoice.workByQrCode"><span class="bold font-25">##word.EXP Date## : </span> <span class="font-20">{{sInvoice.expireDate}} </span></p>
     <p ng-show="sInvoice.workBySerial"><span class="bold font-25">##word.Production Date## : </span> <span class="font-20">{{sInvoice.productionDate| date : 'dd-MM-yyyy'}} </span></p>
     <p>
       <span class="bold font-25">##word.Date## : </span> <span class="font-20">{{sInvoice.date| date : 'dd-MM-yyyy'}} &nbsp; &nbsp;</span> <span class="bold font-25">##word.QTY## :</span>

@@ -14,7 +14,7 @@
             <span class="text-center blue" ng-if="!unit.currentCount">{{unit.currentCount}}</span>
             <span class="text-center text-success" ng-if="unit.currentCount>0"><span class="text-success">##word.+##</span>{{unit.currentCount}}</span>
             <span class="text-center text-danger" ng-if="unit.currentCount<0"><span class="text-danger">##word.-##</span>{{unit.currentCount}}</span>
-             )
+            )
             <span class="text-warning">{{unit.unit.name##session.lang##}}</span>
           </h3>
         </div>
@@ -57,7 +57,7 @@
                 <th>##word.StockTaking In Price##</th>
                 <th>##word.StockTaking Out Count##</th>
                 <th>##word.StockTaking Out Price##</th>
-                <th ng-if="item.workByBatch || item.workBySerial">##word.View Batches##</th>
+                <th ng-if="item.workByBatch || item.workBySerial  || item.workByQrCode">##word.View Batches##</th>
               </tr>
 
               <tr ng-repeat="str in unit.storesList">
@@ -173,7 +173,6 @@
                 <td>
                   <p class="text-center">{{str.stockTakingInPrice}} <span class="currency"> ##word.$##</span></p>
                 </td>
-
                 <td>
                   <p class="text-center blue" ng-if="!str.stockTakingOutCount">{{str.stockTakingOutCount}}</p>
                   <p class="text-center text-success" ng-if="str.stockTakingOutCount"><span class="text-success">##word.+##</span>{{str.stockTakingOutCount}}</p>
@@ -181,7 +180,7 @@
                 <td>
                   <p class="text-center">{{str.stockTakingOutPrice}} <span class="currency"> ##word.$##</span></p>
                 </td>
-                <td ng-if="item.workByBatch || item.workBySerial">
+                <td ng-if="item.workByBatch || item.workBySerial  || item.workByQrCode">
                   <i-button type="view" label="##word.Batches##" ng-click="showBatches(str)"> </i-button>
                 </td>
               </tr>

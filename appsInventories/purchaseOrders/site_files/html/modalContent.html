@@ -207,7 +207,7 @@
                                 ng-click="approveItem(elem)"
                             >
                             </i-button>
-                            <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial" label="##word.Batch##" ng-click="showBatchModal(elem)"> </i-button>
+                            <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial || elem.workByQrCode" label="##word.Batch##" ng-click="showBatchModal(elem)"> </i-button>
                             <i-button type="delete" ng-if="item.sourceType.id !== 1" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1);setTotalPrice()"> </i-button>
                         </td>
                     </tr>

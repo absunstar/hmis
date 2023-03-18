@@ -3,6 +3,8 @@ app.controller('laboratoryDeskTop', function ($scope, $http, $timeout) {
   $scope.appName = 'laboratoryDeskTop';
   $scope.modalID = '#laboratoryDeskTopManageModal';
   $scope.modalSearchID = '#laboratoryDeskTopSearchModal';
+  $('#laboratoryLabels').addClass('hidden');
+
   $scope.mode = 'add';
   $scope.search = {};
   $scope.today = true;
@@ -430,7 +432,7 @@ app.controller('laboratoryDeskTop', function ($scope, $http, $timeout) {
 
     $scope.busy = false;
     $timeout(() => {
-      /* $('#laboratoryLabels').addClass('hidden'); */
+       $('#laboratoryLabels').addClass('hidden');
     }, 8000);
   };
 

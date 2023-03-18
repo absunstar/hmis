@@ -50,7 +50,7 @@ module.exports = function init(site) {
                         doc.unitsList[index].purchasePrice = (oldCost + newCost) / totalCount;
                         doc.unitsList[index].purchasePrice = site.toNumber(doc.unitsList[index].purchasePrice);
 
-                        if (_elm.workByBatch || _elm.workBySerial) {
+                        if (_elm.workByBatch || _elm.workBySerial || _elm.workByQrCode) {
                             doc.unitsList[index].storesList[storeIndex] = site.handelAddBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList);
                         }
                     } else if (screenName === 'returnPurchaseOrders') {
@@ -59,19 +59,19 @@ module.exports = function init(site) {
                         doc.unitsList[index].storesList[storeIndex].purchaseReturnPrice += _elm.total;
                         doc.unitsList[index].storesList[storeIndex].bonusReturnCount += _elm.bonusCount;
                         doc.unitsList[index].storesList[storeIndex].bonusReturnPrice += _elm.bonusPrice;
-                        if (_elm.workByBatch || _elm.workBySerial) {
+                        if (_elm.workByBatch || _elm.workBySerial || _elm.workByQrCode) {
                             doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '-');
                         }
                     } else if (screenName === 'salesInvoices') {
                         doc.unitsList[index].storesList[storeIndex].salesCount += _elm.count;
                         doc.unitsList[index].storesList[storeIndex].salesPrice += _elm.total;
-                        if (_elm.workByBatch || _elm.workBySerial) {
+                        if (_elm.workByBatch || _elm.workBySerial || _elm.workByQrCode) {
                             doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '-');
                         }
                     } else if (screenName === 'returnSalesInvoices') {
                         doc.unitsList[index].storesList[storeIndex].salesReturnCount += _elm.count;
                         doc.unitsList[index].storesList[storeIndex].salesReturnPrice += _elm.total;
-                        if (_elm.workByBatch || _elm.workBySerial) {
+                        if (_elm.workByBatch || _elm.workBySerial || _elm.workByQrCode) {
                             doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '+');
                         }
                     } else if (screenName === 'convertUnits') {
@@ -105,24 +105,23 @@ module.exports = function init(site) {
                         }
                         doc.unitsList[index].storesList[storeToIndex].transferToCount += _elm.count;
                         doc.unitsList[index].storesList[storeToIndex].transferToPrice += _elm.total;
-                        if (_elm.workByBatch || _elm.workBySerial) {
+                        if (_elm.workByBatch || _elm.workBySerial || _elm.workByQrCode) {
                             doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '-');
                             doc.unitsList[index].storesList[storeToIndex] = site.handelAddBatches(doc.unitsList[index].storesList[storeToIndex], _elm.batchesList);
                         }
                     } else if (screenName === 'damageItems') {
                         doc.unitsList[index].storesList[storeIndex].damagedCount += _elm.count;
                         doc.unitsList[index].storesList[storeIndex].damagedPrice += _elm.total;
-                        if (_elm.workByBatch || _elm.workBySerial) {
+                        if (_elm.workByBatch || _elm.workBySerial || _elm.workByQrCode) {
                             doc.unitsList[index].storesList[storeIndex] = site.handelBalanceBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList, '-');
                         }
                     } else if (screenName === 'storesOpeningBalances') {
                         doc.unitsList[index].storesList[storeIndex].openingBalanceCount += _elm.count;
                         doc.unitsList[index].storesList[storeIndex].openingBalancePrice += _elm.total;
-                        if (_elm.workByBatch || _elm.workBySerial) {
+                        if (_elm.workByBatch || _elm.workBySerial || _elm.workByQrCode) {
                             doc.unitsList[index].storesList[storeIndex] = site.handelAddBatches(doc.unitsList[index].storesList[storeIndex], _elm.batchesList);
                         }
                     } else if (screenName === 'stockTaking') {
-                        console.log(_elm.countType);
                         if (_elm.countType == 'in') {
                             doc.unitsList[index].storesList[storeIndex].stockTakingInCount += _elm.count;
                             doc.unitsList[index].storesList[storeIndex].stockTakingInPrice += _elm.total;
@@ -131,7 +130,7 @@ module.exports = function init(site) {
                             doc.unitsList[index].storesList[storeIndex].stockTakingOutPrice += _elm.total;
                         }
 
-                        if (_elm.workByBatch || _elm.workBySerial) {
+                        if (_elm.workByBatch || _elm.workBySerial || _elm.workByQrCode) {
                             doc.unitsList[index].storesList[storeIndex].batchesList = [];
                             for (let b of _elm.batchesList) {
                                 doc.unitsList[index].storesList[storeIndex].batchesList.push(b);
@@ -760,19 +759,23 @@ module.exports = function init(site) {
                         });
                         if (storeDoc) {
                             item.storeBalance = storeDoc.currentCount;
-                            if (itemDoc.workByBatch || itemDoc.workBySerial) {
+                            if (itemDoc.workByBatch || itemDoc.workBySerial || itemDoc.workByQrCode) {
+                                item.workByQrCode = itemDoc.workByQrCode;
                                 item.workByBatch = itemDoc.workByBatch;
                                 item.workBySerial = itemDoc.workBySerial;
+                                item.gtin = itemDoc.gtin;
                                 item.validityDays = itemDoc.validityDays;
                                 if (req.body.getBatchesList) {
                                     item.batchesList = storeDoc.batchesList || [];
                                 }
                             }
                         } else {
-                            if (itemDoc.workByBatch || itemDoc.workBySerial) {
+                            if (itemDoc.workByBatch || itemDoc.workBySerial || itemDoc.workByQrCode) {
                                 item.batchesList = item.batchesList || [];
+                                item.workByQrCode = itemDoc.workByQrCode;
                                 item.workByBatch = itemDoc.workByBatch;
                                 item.workBySerial = itemDoc.workBySerial;
+                                item.gtin = itemDoc.gtin;
                                 item.validityDays = itemDoc.validityDays;
                                 item.storeBalance = item.storeBalance || 0;
                             }

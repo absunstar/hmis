@@ -14,7 +14,12 @@
                 <tr>
                   <th>##word.S##</th>
                   <th>##word.code##</th>
-                  <th>##word.Production Date##</th>
+                  <th ng-show="item.workByQrCode">##word.GTIN##</th>
+                  <th ng-show="item.workByQrCode">##word.BATCH##</th>
+                  <th ng-show="item.workByQrCode">##word.MFG DATE##</th>
+                  <th ng-show="item.workByQrCode">##word.EXPIRE DATE##</th>
+                  <th ng-show="item.workByQrCode">##word.SERIAL NO.##</th>
+                  <th ng-hide="item.workByQrCode">##word.Production Date##</th>
                   <th ng-if="item.workByBatch">##word.Expiry Date##</th>
                   <th ng-if="item.workByBatch">##word.Validity Days##</th>
                   <th>##word.Count##</th>
@@ -22,7 +27,22 @@
                 <tr ng-repeat="str in batch.batchesList">
                   <td>{{$index+1}}</td>
                   <td>{{str.code}}</td>
-                  <td class="green">{{str.productionDate | date:"dd / MM / yyyy" }}</td>
+                  <td class="center" ng-show="item.workByQrCode">
+                    <p>{{str.gtin}}</p>
+                  </td>
+                  <td class="center" ng-show="item.workByQrCode">
+                    <p>{{str.batch}}</p>
+                  </td>
+                  <td class="center" ng-show="item.workByQrCode">
+                    <p>{{str.mfgDate}}</p>
+                  </td>
+                  <td class="center" ng-show="item.workByQrCode">
+                    <p>{{str.expireDate}}</p>
+                  </td>
+                  <td class="center" ng-show="item.workByQrCode">
+                    <p>{{str.sn}}</p>
+                  </td>
+                  <td class="green" ng-hide="item.workByQrCode">{{str.productionDate | date:"dd / MM / yyyy" }}</td>
                   <td ng-if="item.workByBatch" class="red">{{str.expiryDate | date:"dd / MM / yyyy" }}</td>
                   <td ng-if="item.workByBatch">{{str.validityDays}}</td>
                   <td>{{str.count}}</td>

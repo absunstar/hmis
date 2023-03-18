@@ -120,7 +120,7 @@
                 </td>
 
                 <td class="text-center">
-                    <i-button type="edit" label="##word.Batch##" ng-if="elem.workByBatch || elem.workBySerial || elem.hasMedicalData" ng-click="showBatchModal(elem)"> </i-button>
+                    <i-button type="edit" label="##word.Batch##" ng-if="elem.workByBatch || elem.workBySerial || elem.workByQrCode || elem.hasMedicalData" ng-click="showBatchModal(elem)"> </i-button>
                     <i-button type="delete" ng-show="mode == 'add'" ng-click="item.itemsList.splice($index,1)"> </i-button>
                 </td>
             </tr>

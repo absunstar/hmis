@@ -46,7 +46,7 @@
               </div>
 
               <div class="row">
-                <i-list class="col6" v="r" label="##word.Cons Item##" ng-model="item.consItem" items="servicesList" display="name##session.lang##" ng-search="item.$consItem"> </i-list>
+                <i-list class="col6" v="r" label="##word.Cons Item##" ng-model="item.consItem" items="servicesList" display="name##session.lang##" ng-get="getServicesList($search)"> </i-list>
                 <i-list class="col6" v="r" label="##word.Nationality##" ng-model="item.nationality" items="nationalitiesList" display="name##session.lang##" ng-search="item.$nationality"> </i-list>
               </div>
 

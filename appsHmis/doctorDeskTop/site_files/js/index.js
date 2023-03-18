@@ -502,7 +502,6 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
       };
       select = { ...select, unitsList: 1 };
     }
-    console.log(url,select,$search);
     $http({
       method: 'POST',
       url: url,

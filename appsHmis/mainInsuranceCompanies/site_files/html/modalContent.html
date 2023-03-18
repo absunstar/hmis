@@ -274,7 +274,7 @@
 
                 <div id="service" class="tab-content">
                     <div class="row">
-                        <i-list help-id="" label="##word.Service##" class="col7" ng-model="item.$service" display="name##session.lang##" items="servicesList" ng-search="item.$services"></i-list>
+                        <i-list help-id="" label="##word.Service##" class="col7" ng-model="item.$service" display="name##session.lang##" items="servicesList" ng-get="getServicesList($search)"></i-list>
                         <div class="col5">
                             <br />
                             <i-button type="add" label="##word.Add Service##" ng-click="addServices(item)"></i-button>

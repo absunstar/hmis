@@ -198,7 +198,7 @@ app.controller('doctors', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getServicesList = function () {
+  $scope.getServicesList = function ($search) {
     $scope.busy = true;
     $scope.servicesList = [];
     $http({
@@ -212,6 +212,7 @@ app.controller('doctors', function ($scope, $http, $timeout) {
           nameEn: 1,
           nameAr: 1,
         },
+        search: $search,
       },
     }).then(
       function (response) {

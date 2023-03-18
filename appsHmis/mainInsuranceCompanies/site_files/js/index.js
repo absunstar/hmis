@@ -426,7 +426,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getServicesList = function () {
+  $scope.getServicesList = function ($search) {
     $scope.busy = true;
     $scope.servicesList = [];
     $http({
@@ -447,6 +447,8 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
           packagePrice: 1,
           vat: 1,
         },
+        search: $search,
+
       },
     }).then(
       function (response) {

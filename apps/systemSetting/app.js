@@ -71,18 +71,10 @@ module.exports = function init(site) {
     let company = site.getCompany(req);
     let branch = site.getBranch(req);
 
-    // let setting = app.memoryList.find((s) => s.company.id == company.id && s.branch.id == branch.code);
     site.setting = app.memoryList.find((s) => s.company.id == company.id) || site.setting;
-    // app.save(_data, (err, result) => {
-    //     if (!err) {
-    //         response.done = true;
-    //         response.result = result;
-    //     } else {
-    //         response.error = err.message;
-    //     }
-    //     res.json(response);
+
     return site.setting;
-    // });
+
   };
 
   app.save = function (_item, callback) {

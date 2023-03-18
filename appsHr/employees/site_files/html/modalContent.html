@@ -4,11 +4,10 @@
         <div class="row">
             <div class="col9">
                 <div class="row">
-                    <i-control ng-hide="disabledCode" class="col4" label="##word.Code##" ng-model="item.code"> </i-control>
+                    <i-control ng-hide="disabledCode" label="##word.Code##" ng-model="item.code"> </i-control>
 
+                    <i-control label="##word.Full Name##" class="col10" ng-keydown="changeName('fullNameEn',$event)" ng-model="item.fullNameEn"> </i-control>
                     <i-checkbox ng-model="item.active" class="col2" label="##word.Active##"></i-checkbox>
-
-                    <i-control label="##word.Full Name##" ng-keydown="changeName('fullNameEn',$event)" ng-model="item.fullNameEn"> </i-control>
                     <i-control label="الإسم بالكامل" ng-keydown="changeName('fullNameAr',$event)" ng-model="item.fullNameAr"> </i-control>
                 </div>
                 <div class="row">
@@ -56,21 +55,6 @@
                 <a class="tab-link" onclick="site.showTabContent(event, '#jobData')">
                     <span> ##word.Job Data## </span>
                 </a>
-                <!-- 
-                <a class="tab-link" onclick="site.showTabContent(event, '#salaryInformations')">
-                    <span> ##word.Salary Informations##</span>
-                </a> -->
-                <!-- <a class="tab-link" onclick="site.showTabContent(event, '#employeeCases')">
-                    <span> ##word.Employee cases## </span>
-                </a> -->
-
-                <!-- <a class="tab-link" onclick="site.showTabContent(event, '#allowances')">
-                    <span> ##word.Allowances##</span>
-                </a> -->
-
-                <!-- <a class="tab-link" onclick="site.showTabContent(event, '#deductions')">
-                    <span> ##word.Deductions##</span>
-                </a> -->
             </div>
 
             <div class="tabs-content">
@@ -101,7 +85,7 @@
                         <fieldset>
                             <legend>##word.Additional Informations##</legend>
                             <div class="row">
-                                <i-date class="col3" label="##word.Date Of Birth ##" ng-model="item.dateOfBirth"> </i-date>
+                                <i-date class="col4" label="##word.Date Of Birth ##" ng-model="item.dateOfBirth"> </i-date>
 
                                 <i-list
                                     class="col3"
@@ -113,7 +97,7 @@
                                     ng-search="item.$maritalStatus"
                                 ></i-list>
 
-                                <i-control class="col6" label="##word.Email##" ng-model="item.email"> </i-control>
+                                <i-control class="col5" label="##word.Email##" ng-model="item.email"> </i-control>
                             </div>
                         </fieldset>
 
@@ -125,51 +109,13 @@
                                     <i-radio class="col6" label="##word.ID##" ng-value="id" ng-model="item.idType"> </i-radio>
                                     <i-radio class="col6" label="##word.Passport /Iqama##" ng-value="iqama" ng-model="item.idType"> </i-radio>
                                 </div>
-                                <i-control class="col8" v="r" label="##word.ID /Iqama Number##" ng-model="item.idNumber"> </i-control>
+                                <i-control class="col8" v="r ll10 ml10" label="##word.ID /Iqama Number##" ng-model="item.idNumber"> </i-control>
                             </fieldset>
                             <div class="row">
                                 <i-date class="col6" label="##word.Issue Date##" ng-model="item.idIssueDate"> </i-date>
                                 <i-control class="col6" label="##word.Issue Place##" ng-model="item.idIssuePlace"> </i-control>
                             </div>
                         </fieldset>
-
-                        <div class="row">
-                            <!-- <i-list
-                                v="r"
-                                class="col6"
-                                label="##word.Current status##"
-                                ng-model="item.currentStatus"
-                                display="name##session.lang##"
-                                items="employeeStatusList"
-                                ng-search="item.$currentStatus"
-                            ></i-list> -->
-                            <!-- <i-control class="col6" label="##word.Fingerprint code##" ng-model="item.fingerprintCode"> </i-control> -->
-                        </div>
-
-                        <!-- <div class="row">
-                            <i-list
-                                class="col6"
-                                v="r"
-                                label="##word.Marital Status##"
-                                ng-model="item.maritalStatus"
-                                display="name##session.lang##"
-                                items="maritalStatusList"
-                                ng-search="item.$maritalStatus"
-                            ></i-list>
-                        </div> -->
-
-                        <!-- <fieldset>
-                            <div class="row">
-                                <i-textarea ng-model="item.otherDetails" label="##word.Other Details##"></i-textarea>
-                            </div>
-
-                            <fieldset>
-                                <div class="row">
-                                    <i-control class="col6" label="##word.Email##" ng-model="item.email"> </i-control>
-                                    <i-control class="col6" label="##word.Password##" ng-model="item.password"> </i-control>
-                                </div>
-                            </fieldset>
-                        </fieldset> -->
                     </div>
                 </div>
 
@@ -179,7 +125,7 @@
                             <div class="row">
                                 <fieldset class="col6">
                                     <legend>
-                                        <i-button type="add default" ng-click="item.mobileList.push({})"></i-button>
+                                        <i-button type="push" ng-click="item.mobileList.push({mobile:'+966'})"></i-button>
                                         ##word.Mobile##
                                     </legend>
                                     <div class="row" ng-repeat="m in item.mobileList">
@@ -187,7 +133,7 @@
                                             <i-control ng-model="m.mobile"> </i-control>
                                         </div>
                                         <div class="col3">
-                                            <i-button type="delete default" ng-click="item.mobileList.length === 1 || item.mobileList.splice($index,1)"> </i-button>
+                                            <i-button type="delete " ng-click="item.mobileList.length === 1 || item.mobileList.splice($index,1)"> </i-button>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -233,12 +179,11 @@
 
                             <div class="row">
                                 <i-control type="text" ng-model="item.address" label="##word.Current Address##"></i-control>
-                                <i-control type="text" ng-model="item.addressId" label="##word.Address In ID/Iqama##"></i-control>
                             </div>
 
                             <fieldset>
                                 <legend>
-                                    <i-button type="add default" ng-click="item.relativesList.push({})"></i-button>
+                                    <i-button type="push" ng-click="item.relativesList.push({phone:'+966'})"></i-button>
                                     ##word.Relatives##
                                 </legend>
                                 <table class="table center hover bold">
@@ -259,7 +204,7 @@
                                             <i-control type="text" v="r" ng-model="t.degreeOfRelative"></i-control>
                                         </td>
                                         <td>
-                                            <i-button type="delete default" ng-click="item.relativesList.splice($index,1)"> </i-button>
+                                            <i-button type="delete" ng-click="item.relativesList.splice($index,1)"> </i-button>
                                         </td>
                                     </tr>
                                 </table>
@@ -305,7 +250,7 @@
 
                                 <div class="col3">
                                     <br />
-                                    <i-button type="add" label="##word.Add##" ng-click="addSkill(skill)"></i-button>
+                                    <i-button type="push" label="##word.Add##" ng-click="addSkill(skill)"></i-button>
                                 </div>
                             </div>
                             <fieldset>
@@ -323,7 +268,7 @@
                                             <td class="text-center">{{otherSkill.yearsOfExperience}}</td>
 
                                             <td class="text-center not-print">
-                                                <i-button type="delete default" ng-click="item.skillsList.splice($index,1)"> </i-button>
+                                                <i-button type="delete" ng-click="item.skillsList.splice($index,1)"> </i-button>
                                             </td>
                                         </tr>
                                     </table>
@@ -341,7 +286,7 @@
 
                                 <div class="col4">
                                     <br />
-                                    <i-button type="add" label="##word.Add##" ng-click="addCertificate(certificates)"></i-button>
+                                    <i-button type="push" label="##word.Add##" ng-click="addCertificate(certificates)"></i-button>
                                 </div>
                             </div>
                             <fieldset>
@@ -363,7 +308,7 @@
                                             <td class="text-center">{{cer.date| date:'dd/MM/yyyy'}}</td>
 
                                             <td class="text-center not-print">
-                                                <i-button type="delete default" ng-click="item.certificatesList.splice($index,1)"> </i-button>
+                                                <i-button type="delete" ng-click="item.certificatesList.splice($index,1)"> </i-button>
                                             </td>
                                         </tr>
                                     </table>
@@ -382,7 +327,7 @@
 
                                 <div class="col4">
                                     <br />
-                                    <i-button type="add" label="##word.Add##" ng-click="addExperience(experience)"></i-button>
+                                    <i-button type="push" label="##word.Add##" ng-click="addExperience(experience)"></i-button>
                                 </div>
                             </div>
                             <fieldset>
@@ -413,7 +358,7 @@
                                             </td>
 
                                             <td class="text-center not-print">
-                                                <i-button type="delete default" ng-click="item.experiencesList.splice($index,1)"> </i-button>
+                                                <i-button type="delete" ng-click="item.experiencesList.splice($index,1)"> </i-button>
                                             </td>
                                         </tr>
                                     </table>
@@ -439,7 +384,7 @@
 
                             <div class="col2">
                                 <br />
-                                <i-button type="add" label="##word.Add##" ng-click="addDocumentFile(document)"></i-button>
+                                <i-button type="push" label="##word.Add##" ng-click="addDocumentFile(document)"></i-button>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -453,7 +398,7 @@
                                 </tr>
                                 <tr ng-repeat="document in item.documentsList">
                                     <td class="text-center">{{$index+1}}</td>
-                                    <td class="text-center">{{document.fileType.name##session.lang##}} - <a download="{{document.file.name}}" href="document.file.url">{{document.file.name}}</a></td>
+                                    <td class="text-center">{{document.fileType.name##session.lang##}} - <a download href="{{document.file.url}}">{{document.file.name}}</a></td>
                                     <td>
                                         <p class="text-center text-success" ng-if="document.renewable">##word.Yes##</p>
                                         <p class="text-center text-danger" ng-if="!document.renewable">##word.No##</p>
@@ -465,7 +410,7 @@
                                     </td>
 
                                     <td class="text-center not-print">
-                                        <i-button type="delete default" ng-click="item.documentsList.splice($index,1)"> </i-button>
+                                        <i-button type="delete" ng-click="item.documentsList.splice($index,1)"> </i-button>
                                     </td>
                                 </tr>
                             </table>
@@ -497,11 +442,6 @@
                                 <i-date ng-model="item.startDateInsurance" class="col6" label="##word.Start date of insurance##"></i-date>
                                 <i-date ng-model="item.endDateInsurance" class="col6" label="##word.End date of insurance##"></i-date>
                             </div>
-
-                            <div class="row">
-                                <i-file class="col6" ng-show="item.healthHandCardToCompany" label="##word.Health insurance file##" ng-model="item.healthIncuranceFile"></i-file>
-                                <i-checkbox class="col4" ng-model="item.healthHandCardToCompany" label="##word.Hand over the card to the company##"></i-checkbox>
-                            </div>
                         </fieldset>
                     </div>
                 </div>
@@ -526,7 +466,7 @@
                                 <i-checkbox ng-model="selectedBank.salaryBank" class="col2" label="##word.Salary Bank##"></i-checkbox>
                                 <div class="col2">
                                     <br />
-                                    <i-button type="add" label="##word.Add##" ng-click="addBank(selectedBank)"></i-button>
+                                    <i-button type="push" label="##word.Add##" ng-click="addBank(selectedBank)"></i-button>
                                 </div>
                             </div>
                             <div class="table-responsive">
@@ -670,7 +610,7 @@
 
                                     <div class="col2">
                                         <br />
-                                        <i-button type="add" label="##word.Add##" x-permissions="addEmployeeAllowance" ng-click="addAllowance(selectedAllowance)"></i-button>
+                                        <i-button type="push" label="##word.Add##" x-permissions="addEmployeeAllowance" ng-click="addAllowance(selectedAllowance)"></i-button>
                                     </div>
                                 </div>
                                 <p class="error">{{allowancesError}}</p>
@@ -711,7 +651,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-center not-print">
-                                                    <i-button type="delete default" x-permissions="removeEmployeeAllowance" ng-click="item.allowancesList.splice($index,1)"> </i-button>
+                                                    <i-button type="delete" x-permissions="removeEmployeeAllowance" ng-click="item.allowancesList.splice($index,1)"> </i-button>
                                                 </td>
                                             </tr>
                                         </table>
@@ -742,7 +682,7 @@
                                     </div>
                                     <div class="col2">
                                         <br />
-                                        <i-button type="add" label="##word.Add##" x-permissions="addEmployeeDeduction" ng-click="addDeduction(selectedDeduction)"></i-button>
+                                        <i-button type="push" label="##word.Add##" x-permissions="addEmployeeDeduction" ng-click="addDeduction(selectedDeduction)"></i-button>
                                     </div>
                                 </div>
                                 <p class="error">{{deductionsError}}</p>
@@ -783,19 +723,17 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-center not-print">
-                                                    <i-button type="delete default" x-permissions="removeEmployeeDeduction" ng-click="item.deductionsList.splice($index,1)"> </i-button>
+                                                    <i-button type="delete" x-permissions="removeEmployeeDeduction" ng-click="item.deductionsList.splice($index,1)"> </i-button>
                                                 </td>
                                             </tr>
                                         </table>
                                     </div>
                                 </div>
                             </fieldset>
-
-                          </fieldset>
+                        </fieldset>
                     </div>
                 </div>
-
-              </div>
+            </div>
         </div>
     </fieldset>
 </div>

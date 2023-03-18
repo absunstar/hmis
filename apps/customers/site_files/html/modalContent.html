@@ -200,34 +200,35 @@
                 </div>
                 <fieldset>
                     <legend>##word.Bank Information##</legend>
-
-                    <table class="table hover bold">
-                        <tr>
-                            <th>##word.S##</th>
-                            <th>##word.Bank Name##</th>
-                            <th>##word.Branch Code##</th>
-                            <th>##word.IBAN##</th>
-                            <th>##word.Account Number##</th>
-                            <th>##word.Account Name##</th>
-                            <th>##word.Status##</th>
-                            <th class="not-print">##word.Actions##</th>
-                        </tr>
-                        <tr ng-repeat="bank in item.bankInformationsList">
-                            <td class="text-center">{{$index+1}}</td>
-                            <td class="text-center">{{bank.bank.name##session.lang##}}</td>
-                            <td class="text-center">{{bank.swiftCode}}</td>
-                            <td class="text-center">{{bank.iban}}</td>
-                            <td class="text-center">{{bank.accountNumber}}</td>
-                            <td class="text-center">{{bank.accountName}}</td>
-                            <td>
-                                <i-checkbox ng-model="bank.active" class="text-center text-success" label="##word.Active##" ng-if="bank.active"></i-checkbox>
-                                <i-checkbox ng-model="bank.active" class="text-center text-danger" label="##word.Not Active##" ng-if="!bank.active"></i-checkbox>
-                            </td>
-                            <td class="text-center">
-                                <i-button type="delete" ng-click="item.bankInformationsList.splice($index,1)"> </i-button>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table hover bold">
+                            <tr>
+                                <th>##word.S##</th>
+                                <th>##word.Bank Name##</th>
+                                <th>##word.Branch Code##</th>
+                                <th>##word.IBAN##</th>
+                                <th>##word.Account Number##</th>
+                                <th>##word.Account Name##</th>
+                                <th>##word.Status##</th>
+                                <th class="not-print">##word.Actions##</th>
+                            </tr>
+                            <tr ng-repeat="bank in item.bankInformationsList">
+                                <td class="text-center">{{$index+1}}</td>
+                                <td class="text-center">{{bank.bank.name##session.lang##}}</td>
+                                <td class="text-center">{{bank.swiftCode}}</td>
+                                <td class="text-center">{{bank.iban}}</td>
+                                <td class="text-center">{{bank.accountNumber}}</td>
+                                <td class="text-center">{{bank.accountName}}</td>
+                                <td>
+                                    <i-checkbox ng-model="bank.active" class="text-center text-success" label="##word.Active##" ng-if="bank.active"></i-checkbox>
+                                    <i-checkbox ng-model="bank.active" class="text-center text-danger" label="##word.Not Active##" ng-if="!bank.active"></i-checkbox>
+                                </td>
+                                <td class="text-center">
+                                    <i-button type="delete" ng-click="item.bankInformationsList.splice($index,1)"> </i-button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </fieldset>
             </div>
 

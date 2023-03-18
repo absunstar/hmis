@@ -10,28 +10,29 @@
         <div class="row padding">
             <i-control ng-model="$search" x-permissions="attendanceLeavingSearch || attendanceLeavingManage"></i-control>
         </div>
+        <div class="table-responsive">
+            <table class="table hover bold" id="t1">
+                <tr>
+                    <th>##word.Code##</th>
+                    <th>##word.Date##</th>
+                    <th>##word.Employee##</th>
+                    <th class="not-print">##word.Actions##</th>
+                </tr>
+                <tr ng-repeat="item in list | filter:$search">
+                    <td class="text-center blue">{{item.code}}</td>
+                    <td class="text-center brown">{{item.date | date:"dd / MM / yyyy"}}</td>
+                    <td class="text-center">{{item.employee.fullName##session.lang##}}</td>
 
-        <table class="table hover bold" id="t1">
-            <tr>
-                <th>##word.Code##</th>
-                <th>##word.Date##</th>
-                <th>##word.Employee##</th>
-                <th class="not-print">##word.Actions##</th>
-            </tr>
-            <tr ng-repeat="item in list | filter:$search">
-                <td class="text-center blue">{{item.code}}</td>
-                <td class="text-center brown">{{item.date | date:"dd / MM / yyyy"}}</td>
-                <td class="text-center">{{item.employee.fullName##session.lang##}}</td>
+                    <td class="text-center not-print">
+                        <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
-                <td class="text-center not-print">
-                    <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
+                        <i-button type="edit" x-permissions="attendanceLeavingUpdate || attendanceLeavingManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
 
-                    <i-button type="edit" x-permissions="attendanceLeavingUpdate || attendanceLeavingManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
-
-                    <!-- <i-button  type="delete" x-permissions="attendanceLeavingDelete || attendanceLeavingManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button> -->
-                </td>
-            </tr>
-        </table>
+                        <!-- <i-button  type="delete" x-permissions="attendanceLeavingDelete || attendanceLeavingManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button> -->
+                    </td>
+                </tr>
+            </table>
+        </div>
         <i-button x-permissions="attendanceLeavingPrint || attendanceLeavingManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
         <i-button x-permissions="attendanceLeavingExport || attendanceLeavingManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')">
         </i-button>

@@ -115,20 +115,19 @@
                     <th>##word.Unit##</th>
                     <th>##word.Transfer Count##</th>
                     <th>##word.Purchase Cost##</th>
-
                     <th>##word.Approved##</th>
                     <th class="not-print" ng-show="item.sourceType.id !== 1">##word.Actions##</th>
                 </tr>
                 <tr ng-repeat="elem in item.itemsList">
-                    <td class="text-center">{{$index+1}}</td>
-                    <td class="text-center">{{elem.name##session.lang##}}</td>
-                    <td class="text-center">
+                    <td class="center">{{$index+1}}</td>
+                    <td class="center">{{elem.name##session.lang##}}</td>
+                    <td class="center">
                         {{elem.unit.name##session.lang##}}
                         <p class="green center" ng-show="elem.storeBalance > 0">( + {{elem.storeBalance}} )</p>
                         <p class="red center" ng-show="elem.storeBalance <= 0">( + {{elem.storeBalance}} )</p>
                     </td>
-                    <td class="text-center">
-                        <p class="text-center" ng-if="item.sourceType.id === 1 || elem.approved">{{elem.count}}</p>
+                    <td class="center">
+                        <p ng-if="item.sourceType.id === 1 || elem.approved">{{elem.count}}</p>
                         <i-control
                             ng-if="item.sourceType.id !== 1 && !elem.approved"
                             ng-change="calculateTotalInItemsList(elem)"
@@ -139,15 +138,15 @@
                             ng-model="elem.count"
                         ></i-control>
                     </td>
-                    <td>
-                        <p class="text-center">{{elem.price}}</p>
+                    <td class="center">
+                        <p>{{elem.price}}</p>
                     </td>
-                    <td>
+                    <td class="center">
                         <p class="text-center text-success" ng-if="elem.approved">##word.Yes##</p>
                         <p class="text-center text-danger" ng-if="!elem.approved">##word.No##</p>
                         <i-button type="edit" ng-if="(elem.workByBatch || elem.workBySerial) && item.sourceType.id === 1" label="##word.Batch##" ng-click="showBatchModal(elem)"> </i-button>
                     </td>
-                    <td class="text-center" ng-show="item.sourceType.id !== 1">
+                    <td class="center" ng-show="item.sourceType.id !== 1">
                         <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial" label="##word.Batch##" ng-click="showBatchModal(elem)"> </i-button>
                         <i-button
                             type="approve"

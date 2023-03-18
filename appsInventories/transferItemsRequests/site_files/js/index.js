@@ -17,7 +17,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
         $scope.orderItem = {
             count: 1,
             approved: false,
-            currentBalance: 0,
+            currentCount: 0,
         };
     };
     $scope.showAdd = function (_item) {
@@ -428,6 +428,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
     $scope.getItemUnits = function (item) {
         $scope.error = '';
         $scope.unitsList = [];
+
         for (const elem of item.unitsList) {
             $scope.unitsList.push({
                 id: elem.unit.id,
@@ -436,31 +437,29 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
                 storesList: elem.storesList,
+                currentCount: elem.currentCount,
                 price: elem.purchasePrice,
             });
-            $scope.orderItem.unit = $scope.unitsList[0];
         }
+
+        $scope.orderItem.unit = $scope.unitsList[0];
         $scope.calculateItemBalance($scope.unitsList[0]);
+        // let storeBalance = $scope.unitsList[0].storesList.find((str) => {
+        //     return str.store.id == $scope.item.store.id;
+        // });
+        // $scope.orderItem.currentCount = storeBalance ? storeBalance.currentCount : $scope.unitsList[0]?.currentCount;
     };
 
     $scope.calculateItemBalance = function (unit) {
         if (!unit.storesList || !unit.storesList.length || !$scope.item.store?.id) return;
         const storeIndex = unit.storesList.findIndex((str) => str.store.id === $scope.item.store.id);
         if (storeIndex === -1) {
-            $scope.orderItem.currentBalance = 0;
+            $scope.orderItem.currentCount = 0;
             return;
         } else {
-            const totalIncome =
-                unit.storesList[storeIndex].purchaseCount + unit.storesList[storeIndex].bonusCount + unit.storesList[storeIndex].unassembledCount + unit.storesList[storeIndex].salesReturnCount;
-
-            const totalOut =
-                unit.storesList[storeIndex].salesCount + unit.storesList[storeIndex].purchaseReturnCount + unit.storesList[storeIndex].damagedCount + unit.storesList[storeIndex].assembledCount;
-
-            const currentBalance = totalIncome - totalOut;
-            $scope.orderItem.currentBalance = currentBalance;
+            $scope.orderItem.currentCount = unit.storesList[storeIndex].currentCount;
         }
     };
-
     $scope.addToItemsList = function (elem) {
         $scope.error = '';
         if (!elem.item || !elem.item?.id) {
@@ -479,6 +478,13 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
             return;
         }
 
+        elem.unit.storesList = elem.unit.storesList || [];
+        let storeBalance = elem.unit.storesList.find((str) => {
+            return str.store.id == $scope.item.store.id;
+        });
+
+        delete elem.unit.storesList;
+
         $scope.item.itemsList.unshift({
             id: elem.item.id,
             code: elem.item.code,
@@ -490,12 +496,18 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
             count: elem.count,
             price: elem.unit.price,
             total: elem.count * elem.unit.price,
+            currentCount: storeBalance ? storeBalance.currentCount : elem.unit.currentCount,
             approved: false,
         });
 
         $scope.itemsError = '';
+        $scope.resetOrderItem();
     };
 
+    $scope.setOrderItemData = function (unit) {
+        $scope.orderItem.unit = { id: unit.id, code: unit.code, nameAr: unit.nameAr, nameEn: unit.nameEn };
+        $scope.orderItem.currentCount = unit.currentCount;
+    };
     $scope.approveItem = function (elem, i) {
         $scope.itemsError = '';
         if (elem.count < 1) {

@@ -90,65 +90,67 @@
             </div>
 
             <p class="error">{{itemsError}}</p>
-            <table class="table hover bold">
-                <tr>
-                    <th>##word.S##</th>
-                    <th>##word.Item##</th>
-                    <th>##word.From Unit##</th>
-                    <th>##word.From Count##</th>
-                    <th>##word.To Unit##</th>
-                    <th>##word.To Count##</th>
-                    <th>##word.Approved##</th>
-                    <th class="not-print" ng-show="!item.approved">##word.Actions##</th>
-                </tr>
-                <tr ng-repeat="elem in item.itemsList">
-                    <td class="center">{{$index+1}}</td>
-                    <td class="center">
-                        <p>{{elem.name##session.lang##}}</p>
-                    </td>
-                    <td class="center">
-                        <p class="text-danger">{{elem.unit.name##session.lang##}}</p>
-                    </td>
+            <div class="table-responsive">
+                <table class="table hover bold">
+                    <tr>
+                        <th>##word.S##</th>
+                        <th>##word.Item##</th>
+                        <th>##word.From Unit##</th>
+                        <th>##word.From Count##</th>
+                        <th>##word.To Unit##</th>
+                        <th>##word.To Count##</th>
+                        <th>##word.Approved##</th>
+                        <th class="not-print">##word.Actions##</th>
+                    </tr>
+                    <tr ng-repeat="elem in item.itemsList">
+                        <td class="center">{{$index+1}}</td>
+                        <td class="center">
+                            <p>{{elem.name##session.lang##}}</p>
+                        </td>
+                        <td class="center">
+                            <p class="text-danger">{{elem.unit.name##session.lang##}}</p>
+                        </td>
 
-                    <td class="center">
-                        <p class="text-danger">{{elem.count}}</p>
-                    </td>
-                    <td class="center">
-                        <p class="text-success">{{elem.toUnit.name##session.lang##}}</p>
-                    </td>
+                        <td class="center">
+                            <p class="text-danger">{{elem.count}}</p>
+                        </td>
+                        <td class="center">
+                            <p class="text-success">{{elem.toUnit.name##session.lang##}}</p>
+                        </td>
 
-                    <td class="center">
-                        <p class="text-success">{{elem.toCount}}</p>
-                    </td>
+                        <td class="center">
+                            <p class="text-success">{{elem.toCount}}</p>
+                        </td>
 
-                    <td class="center">
-                        <p class="text-success" ng-if="elem.approved">##word.Yes##</p>
-                        <p class="text-danger" ng-if="!elem.approved">##word.No##</p>
-                    </td>
-                    <td class="center" ng-show="!item.approved">
-                        <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial" label="##word.From Batch##" ng-click="showBatchModal(elem)"> </i-button>
-                        <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial" label="##word.To Batch##" ng-click="showToBatchModal(elem)"> </i-button>
+                        <td class="center">
+                            <p class="text-success" ng-if="elem.approved">##word.Yes##</p>
+                            <p class="text-danger" ng-if="!elem.approved">##word.No##</p>
+                        </td>
+                        <td class="center">
+                            <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial" label="##word.From Batch##" ng-click="showBatchModal(elem)"> </i-button>
+                            <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial" label="##word.To Batch##" ng-click="showToBatchModal(elem)"> </i-button>
 
-                        <i-button
-                            type="approve"
-                            ng-if="!elem.approved &&!item.approved && mode == 'edit'"
-                            x-permissions="approveConvertUnitsItem || convertUnitsManage"
-                            label="##word.Approve##"
-                            ng-click="approveItem(elem)"
-                        >
-                        </i-button>
-                        <i-button
-                            type="unapprove"
-                            ng-if="elem.approved &&!item.approved  && mode =='edit'"
-                            x-permissions="unapproveConvertUnitsItem || convertUnitsManage"
-                            label="##word.Unapprove##"
-                            ng-click="unapproveItem(elem)"
-                        >
-                        </i-button>
-                        <i-button type="delete" ng-if="item.sourceType.id !== 1" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>
-                    </td>
-                </tr>
-            </table>
+                            <i-button
+                                type="approve"
+                                ng-if="!elem.approved &&!item.approved && mode == 'edit'"
+                                x-permissions="approveConvertUnitsItem || convertUnitsManage"
+                                label="##word.Approve##"
+                                ng-click="approveItem(elem)"
+                            >
+                            </i-button>
+                            <i-button
+                                type="unapprove"
+                                ng-if="elem.approved &&!item.approved  && mode =='edit'"
+                                x-permissions="unapproveConvertUnitsItem || convertUnitsManage"
+                                label="##word.Unapprove##"
+                                ng-click="unapproveItem(elem)"
+                            >
+                            </i-button>
+                            <i-button type="delete" ng-show="!item.approved && item.sourceType.id !== 1" ng-click="item.itemsList.splice($index,1)"> </i-button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </fieldset>
     </div>
 </div>

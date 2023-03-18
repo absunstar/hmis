@@ -10,48 +10,55 @@
         <div class="row padding">
             <i-control ng-model="$search" x-permissions="vacationsRequestsSearch || vacationsRequestsManage"></i-control>
         </div>
+        <div class="table-responsive">
+            <table class="table hover bold" id="t1">
+                <tr>
+                    <th>##word.S##</th>
+                    <th>##word.Date##</th>
+                    <th>##word.Employee##</th>
+                    <th>##word.Action Date##</th>
+                    <th>##word.Status##</th>
+                    <th class="not-print">##word.Actions##</th>
+                </tr>
+                <tr ng-repeat="item in list | filter:$search">
+                    <td class="text-center blue">{{$index+1}}</td>
+                    <td class="text-center blue">{{item.date | date:'dd/MM/yyyy'}}</td>
+                    <td class="text-center">{{item.employee.fullName##session.lang##}}</td>
 
-        <table class="table hover bold" id="t1">
-            <tr>
-                <th>##word.S##</th>
-                <th>##word.Date##</th>
-                <th>##word.Employee##</th>
-                <th>##word.Action Date##</th>
-                <th>##word.Status##</th>
-                <th class="not-print">##word.Actions##</th>
-            </tr>
-            <tr ng-repeat="item in list | filter:$search">
-                <td class="text-center blue">{{$index+1}}</td>
-                <td class="text-center blue">{{item.date | date:'dd/MM/yyyy'}}</td>
-                <td class="text-center">{{item.employee.fullName##session.lang##}}</td>
+                    <td class="center">
+                        <p ng-show="item.requestStatus == 'accepted'">{{item.approveDate | date:'dd/MM/yyyy'}} - {{item.approveDate | date:'hh:mm:ss a'}}</p>
+                        <p ng-show="item.requestStatus == 'rejected'">{{item.rejectDate | date:'dd/MM/yyyy'}} - {{item.rejectDate | date:'hh:mm:ss a'}}</p>
+                        <p ng-show="item.requestStatus == 'canceled'">{{item.cancelDate | date:'dd/MM/yyyy'}} - {{item.cancelDate | date:'hh:mm:ss a'}}</p>
+                    </td>
+                    <td class="text-center">
+                        <span class="blue" ng-show="item.requestStatus == 'new' || item.requestStatus =='canceled'">{{item.requestStatus|uppercase}}</span>
+                        <span class="text-success" ng-show="item.requestStatus == 'accepted'">##word.Accepted##</span>
+                        <span class="text-danger" ng-show="item.requestStatus == 'rejected'">##word.Refused##</span>
+                    </td>
 
-                <td class="center">
-                    <p ng-show="item.requestStatus == 'accepted'">{{item.approveDate | date:'dd/MM/yyyy'}} - {{item.approveDate | date:'hh:mm:ss a'}}</p>
-                    <p ng-show="item.requestStatus == 'rejected'">{{item.rejectDate | date:'dd/MM/yyyy'}} - {{item.rejectDate | date:'hh:mm:ss a'}}</p>
-                    <p ng-show="item.requestStatus == 'canceled'">{{item.cancelDate | date:'dd/MM/yyyy'}} - {{item.cancelDate | date:'hh:mm:ss a'}}</p>
-                </td>
-                <td class="text-center">
-                    <span class="blue" ng-show="item.requestStatus == 'new' || item.requestStatus =='canceled'">{{item.requestStatus|uppercase}}</span>
-                    <span class="text-success" ng-show="item.requestStatus == 'accepted'">##word.Accepted##</span>
-                    <span class="text-danger" ng-show="item.requestStatus == 'rejected'">##word.Refused##</span>
-                </td>
+                    <td class="text-center not-print">
+                        <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
+                        <i-button
+                            type="cancel"
+                            ng-if="item.approved && item.requestStatus == 'accepted'"
+                            x-permissions="vacationsRequestsCancel || vacationsRequestsManage"
+                            label="##word.Cancel##"
+                            ng-click="cancelVacation(item)"
+                        ></i-button>
 
-                <td class="text-center not-print">
-                    <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
-                    <i-button
-                        type="cancel"
-                        ng-if="item.approved && item.requestStatus == 'accepted'"
-                        x-permissions="vacationsRequestsCancel || vacationsRequestsManage"
-                        label="##word.Cancel##"
-                        ng-click="cancelVacation(item)"
-                    ></i-button>
+                        <i-button type="edit" ng-if="!item.approved" x-permissions="vacationsRequestsUpdate || vacationsRequestsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
 
-                    <i-button type="edit" ng-if="!item.approved" x-permissions="vacationsRequestsUpdate || vacationsRequestsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>
-
-                    <i-button type="delete" ng-if="!item.approved" x-permissions="vacationsRequestsDelete || vacationsRequestsManage" label="##word.Delete##" ng-click="showDelete(item)"></i-button>
-                </td>
-            </tr>
-        </table>
+                        <i-button
+                            type="delete"
+                            ng-if="!item.approved"
+                            x-permissions="vacationsRequestsDelete || vacationsRequestsManage"
+                            label="##word.Delete##"
+                            ng-click="showDelete(item)"
+                        ></i-button>
+                    </td>
+                </tr>
+            </table>
+        </div>
         <i-button x-permissions="vacationsRequestsPrint || vacationsRequestsManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
         <i-button x-permissions="vacationsRequestsExport || vacationsRequestsManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')">
         </i-button>

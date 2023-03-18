@@ -42,55 +42,57 @@
         </div>
 
         <p class="error">{{itemsError}}</p>
-        <table class="table hover bold">
-            <tr>
-                <th>##word.S##</th>
-                <th>##word.Item##</th>
-                <th>##word.Unit##</th>
-                <th>##word.Count##</th>
-                <th>##word.Total##</th>
-                <th>##word.Destroying Reason##</th>
-                <th>##word.Approved##</th>
-                <th class="not-print">##word.Actions##</th>
-            </tr>
-            <tr ng-repeat="elem in item.itemsList">
-                <td class="center">{{$index+1}}</td>
-                <td class="center">{{elem.name##session.lang##}}</td>
-                <td class="center">{{elem.unit.name##session.lang##}}</td>
-                <td class="center">
-                    <p class="center" ng-if="elem.approved">{{elem.count}}</p>
-                    <i-control ng-if="!elem.approved" ng-change="calculateItem(elem)" min="0" type="number" ng-model="elem.count"></i-control>
-                </td>
-                <td class="center">{{elem.total}}</td>
+        <div class="table-responsive">
+            <table class="table hover bold">
+                <tr>
+                    <th>##word.S##</th>
+                    <th>##word.Item##</th>
+                    <th>##word.Unit##</th>
+                    <th>##word.Count##</th>
+                    <th>##word.Total##</th>
+                    <th>##word.Destroying Reason##</th>
+                    <th>##word.Approved##</th>
+                    <th class="not-print">##word.Actions##</th>
+                </tr>
+                <tr ng-repeat="elem in item.itemsList">
+                    <td class="center">{{$index+1}}</td>
+                    <td class="center">{{elem.name##session.lang##}}</td>
+                    <td class="center">{{elem.unit.name##session.lang##}}</td>
+                    <td class="center">
+                        <p class="center" ng-if="elem.approved">{{elem.count}}</p>
+                        <i-control ng-if="!elem.approved" ng-change="calculateItem(elem)" min="0" type="number" ng-model="elem.count"></i-control>
+                    </td>
+                    <td class="center">{{elem.total}}</td>
 
-                <td class="center">
-                    <i-list ng-model="elem.destroyingReason" ng-show="!item.approved" items="destroyingItemsReasonsList" display="name##session.lang##" ng-search="elem.$resone"></i-list>
-                    <p ng-show="item.approved">{{elem.destroyingReason.name##session.lang##}}</p>
-                </td>
-                <td class="center">
-                    <span class="text-success" ng-show="elem.approved">##word.Yes##</span>
-                    <span class="text-danger" ng-show="!elem.approved">##word.No##</span>
-                </td>
-                <td class="center">
-                    <i-button
-                        type="unapprove"
-                        ng-show="elem.approved &&  mode == 'edit'"
-                        ng-click="unapproveItem(elem)"
-                        x-permissions="unapproveDamageItem||damageItemsManage"
-                        label="##word.Unapprove##"
-                                ></i-button>
-                    <i-button
-                        type="approve"
-                        ng-show="!elem.approved && mode == 'edit'"
-                        ng-click="approveItem(elem)"
-                        x-permissions="approveDamageItem||damageItemsManage"
-                        label="##word.Approve##"
-                    ></i-button>
-                    <i-button type="edit"  ng-if="elem.workByBatch || elem.workBySerial" label="##word.Batch##" ng-click="showBatchModal(elem)"> </i-button>
-                    <i-button type="delete" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>
-                </td>
-            </tr>
-        </table>
+                    <td class="center">
+                        <i-list ng-model="elem.destroyingReason" ng-show="!item.approved" items="destroyingItemsReasonsList" display="name##session.lang##" ng-search="elem.$resone"></i-list>
+                        <p ng-show="item.approved">{{elem.destroyingReason.name##session.lang##}}</p>
+                    </td>
+                    <td class="center">
+                        <span class="text-success" ng-show="elem.approved">##word.Yes##</span>
+                        <span class="text-danger" ng-show="!elem.approved">##word.No##</span>
+                    </td>
+                    <td class="center">
+                        <i-button
+                            type="unapprove"
+                            ng-show="elem.approved &&  mode == 'edit'"
+                            ng-click="unapproveItem(elem)"
+                            x-permissions="unapproveDamageItem||damageItemsManage"
+                            label="##word.Unapprove##"
+                        ></i-button>
+                        <i-button
+                            type="approve"
+                            ng-show="!elem.approved && mode == 'edit'"
+                            ng-click="approveItem(elem)"
+                            x-permissions="approveDamageItem||damageItemsManage"
+                            label="##word.Approve##"
+                        ></i-button>
+                        <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial" label="##word.Batch##" ng-click="showBatchModal(elem)"> </i-button>
+                        <i-button type="delete" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </fieldset>
 </div>
 <div ng-show="mode !== 'add' " class="row">

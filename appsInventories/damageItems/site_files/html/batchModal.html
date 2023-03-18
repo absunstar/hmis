@@ -11,7 +11,7 @@
                     <div class="row">
                         <div class="col3">
                             <br />
-                            <h3 class="bold center">{{batch.name##session.lang##}}</h3>
+                            <h3 class="bold center">{{batch.name##session.lang##}} - ({{batch.unit.name##session.lang##}})</h3>
                         </div>
                         <div class="col4">
                             <table class="table loaded center bold hover details">
@@ -39,7 +39,7 @@
                                 <th ng-hide="batch.workBySerial">##word.Expiry Date##</th>
                                 <th ng-hide="batch.workBySerial">##word.validit Days##</th>
                                 <th>##word.Current QTY.##</th>
-                                <th>##word.quantity##</th>
+                               <th>##word.Quantity##</th>
                                 <th ng-show="batch.workBySerial">##word.Select##</th>
                             </tr>
 

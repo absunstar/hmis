@@ -18,63 +18,67 @@
     <fieldset>
         <legend>##word.Order / Invoice Informations##</legend>
 
-        <table class="table bold center hover" ng-if="item.itemsList && item.itemsList.length">
-            <tr>
-                <th>##word.Order / Invoice code##</th>
-                <td class="center" colspan="2">
-                    <p class="height-5">{{item.invoiceCode}}</p>
-                </td>
-                <th>##word.Payment Type##</th>
-                <td class="center" colspan="2">
-                    <p class="height-5">{{item.paymentType.name##session.lang##}}</p>
-                </td>
 
-                <th>##word.Store##</th>
-                <td class="center" colspan="2">
-                    <p class="height-5">{{item.store.name##session.lang##}}</p>
-                </td>
-            </tr>
+        <div class="row">
+            <table class="table bold center hover">
+                <tr>
+                    <th>##word.Order / Invoice code##</th>
+                    <td class="center" colspan="2">
+                        <p class="height-5">{{item.invoiceCode}}</p>
+                    </td>
+                    <th>##word.Payment Type##</th>
+                    <td class="center" colspan="2">
+                        <p class="height-5">{{item.paymentType.name##session.lang##}}</p>
+                    </td>
 
-            <tr>
-                <th>##word.Order / Invoice Date##</th>
-                <td class="center" colspan="3">
-                    <p class="height-5">{{item.date | date:'dd/MM/yyyy'}} - {{item.date | date:'hh:mm:ss a'}}</p>
-                </td>
-                <th>##word.Vendor##</th>
-                <td class="center" colspan="3">
-                    <p class="height-5">{{item.vendor.name##session.lang##}} ( <span class="blue">{{item.vendor.code}}</span> )</p>
-                </td>
-            </tr>
-        </table>
+                    <th>##word.Store##</th>
+                    <td class="center" colspan="2">
+                        <p class="height-5">{{item.store.name##session.lang##}}</p>
+                    </td>
+                </tr>
 
-        <table class="table hover bold">
-            <tr>
-                <th>##word.S##</th>
-                <th>##word.Item##</th>
-                <th>##word.Unit##</th>
-                <th>##word.Count##</th>
-                <th>##word.Bonus Count##</th>
-                <th>##word.Price##</th>
-                <th>##word.Total##</th>
-            </tr>
-            <tr ng-repeat="elem in item.itemsList">
-                <td class="center">{{$index+1}}</td>
-                <td class="center">{{elem.name##session.lang##}}</td>
-                <td class="center">{{elem.unit.name##session.lang##}}</td>
-                <td class="center">
-                    <p>{{elem.count}}</p>
-                </td>
-                <td class="center">
-                    <p>{{elem.bonusCount}}</p>
-                </td>
-                <td class="center">
-                    <p>{{elem.price}}</p>
-                </td>
-                <td class="center">
-                    <p>{{elem.total}}</p>
-                </td>
-            </tr>
-        </table>
+                <tr>
+                    <th>##word.Order / Invoice Date##</th>
+                    <td class="center" colspan="3">
+                        <p class="height-5">{{item.date | date:'dd/MM/yyyy'}} - {{item.date | date:'hh:mm:ss a'}}</p>
+                    </td>
+                    <th>##word.Vendor##</th>
+                    <td class="center" colspan="3">
+                        <p class="height-5">{{item.vendor.name##session.lang##}} ( <span class="blue">{{item.vendor.code}}</span> )</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="table-responsive" ng-show="item.itemsList && item.itemsList.length">
+            <table class="table hover bold">
+                <tr>
+                    <th>##word.S##</th>
+                    <th>##word.Item##</th>
+                    <th>##word.Unit##</th>
+                    <th>##word.Count##</th>
+                    <th>##word.Bonus Count##</th>
+                    <th>##word.Price##</th>
+                    <th>##word.Total##</th>
+                </tr>
+                <tr ng-repeat="elem in item.itemsList">
+                    <td class="center">{{$index+1}}</td>
+                    <td class="center">{{elem.name##session.lang##}}</td>
+                    <td class="center">{{elem.unit.name##session.lang##}}</td>
+                    <td class="center">
+                        <p>{{elem.count}}</p>
+                    </td>
+                    <td class="center">
+                        <p>{{elem.bonusCount}}</p>
+                    </td>
+                    <td class="center">
+                        <p>{{elem.price}}</p>
+                    </td>
+                    <td class="center">
+                        <p>{{elem.total}}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </fieldset>
 
     <fieldset>

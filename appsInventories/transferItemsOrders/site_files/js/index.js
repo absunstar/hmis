@@ -528,9 +528,9 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
                 storesList: elem.storesList,
                 price: elem.purchasePrice,
             });
-            $scope.orderItem.unit = $scope.unitsList[0];
-            $scope.orderItem.price = $scope.unitsList[0].price;
         }
+        $scope.orderItem.unit = $scope.unitsList[0];
+        $scope.orderItem.price = $scope.unitsList[0].price;
         $scope.calculateItemBalance($scope.unitsList[0]);
     };
 
@@ -626,14 +626,10 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
         if (elem.count < 1) {
             $scope.itemsError = '##word.Please Enter Valid Numbers##';
             return;
-        } else {
-            const index = $scope.item.itemsList.findIndex((_el) => _el.id === elem.id);
-            if (index !== -1) {
-                $scope.item.itemsList[index].approved = true;
-            }
-
-            $scope.prpepareToApproveOrder($scope.item);
         }
+
+        elem.approved = true;
+        $scope.prpepareToApproveOrder($scope.item);
     };
 
     $scope.unapproveItem = function (elem) {

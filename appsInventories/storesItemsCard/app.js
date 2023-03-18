@@ -26,8 +26,8 @@ module.exports = function init(site) {
           docs = docs || [];
 
           let count = _elm.count;
-          if(countType == 'out'){
-            -Math.abs(count)
+          if (_elm.countType == 'out') {
+              -Math.abs(count);
           }
 
           let obj = {

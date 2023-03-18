@@ -38,6 +38,7 @@ module.exports = function init(site) {
       });
     }
   };
+  
   app.add = function (_item, callback) {
     app.$collection.add(_item, (err, doc) => {
       if (callback) {

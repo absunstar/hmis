@@ -41,7 +41,7 @@
 
     <fieldset ng-show="item.store && item.store.id">
         <legend>##word.Items Information##</legend>
-        <div class="row" ng-if="mode == 'add'">
+        <div class="row" ng-show="mode == 'add'">
             <i-control class="col2" ng-model="orderItem.barcode" ng-keydown="getBarcode($event)" label="##word.Barcode##"></i-control>
             <i-list
                 class="col2"
@@ -54,7 +54,7 @@
             ></i-list>
             <i-list class="col2" ng-model="orderItem.unit" items="unitsList" display="name##session.lang##" label="##word.Unit##" ng-search="orderItem.$unit"></i-list>
 
-            <i-control class="col1" type="number" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
+            <i-control class="col2" type="number" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
             <div class="col1">
                 <p class="text-center">##word.Price##</p>
                 <p class="text-center">{{orderItem.unit.price || 0}}</p>
@@ -66,9 +66,9 @@
             </div>
             <i-control class="col1" type="number" min="1" ng-model="orderItem.extraDiscount" label="##word.Extra Disc## ##word.%##"></i-control>
 
-            <div class="col2">
+            <div class="col1">
                 <br />
-                <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
+                <i-button type="push" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
             </div>
         </div>
 
@@ -87,21 +87,22 @@
                 <th class="not-print">##word.Actions##</th>
             </tr>
             <tr ng-repeat="elem in item.itemsList">
-                <td class="text-center">{{$index+1}}</td>
-                <td class="text-center">{{elem.name##session.lang##}}</td>
-                <td class="text-center">{{elem.unit.name##session.lang##}}</td>
-                <td class="text-center">
+                <td class="center">{{$index+1}}</td>
+                <td class="center">{{elem.name##session.lang##}}</td>
+                <td class="center">{{elem.unit.name##session.lang##}}</td>
+                <td class="center">
                     <i-control ng-if="mode == 'add'" min="0" type="number" ng-change="calculate(item)" ng-model="elem.count"></i-control>
-                    <p class="text-center" ng-if="mode != 'add'">{{elem.count}}</p>
+                    <p class="center" ng-if="mode != 'add'">{{elem.count}}</p>
                 </td>
-                <td class="text-center">
+                <td class="center">
                     <p class="text-center">{{elem.totalPrice}} <span>##word.$##</span></p>
                     <p class="text-center blue" ng-if="elem.count > 1">( {{elem.price}} <span>##word.$##</span> )</p>
                 </td>
-                <td>
-                    <i-control min="0" type="number" ng-change="calculate(item)" ng-model="elem.extraDiscount"></i-control>
+                <td class="center">
+                    <i-control min="0" type="number" ng-show="mode == 'add'" ng-change="calculate(item)" ng-model="elem.extraDiscount"></i-control>
+                    <p ng-show="mode != 'add'">{{elem.extraDiscount}}</p>
                 </td>
-                <td>
+                <td class="center">
                     <p>{{elem.totalDiscount}} ##word.$##</p>
 
                     <p class="text-center green">
@@ -111,16 +112,16 @@
                         )
                     </p>
                 </td>
-                <td>
+                <td class="center">
                     <p>{{elem.totalVat}} ##word.$##</p>
                 </td>
-                <td>
+                <td class="center">
                     <p class="text-center">{{elem.total}} <span>##word.$##</span></p>
                 </td>
 
-                <td class="text-center">
-                    <i-button type="edit default" title="##word.Edit Data##" ng-if="elem.workByBatch || elem.workBySerial || elem.hasMedicalData"  ng-click="showBatchModal(elem)"> </i-button>
-                    <i-button title="##word.Delete##" type="delete default" ng-if="mode == 'add'"  ng-click="item.itemsList.splice($index,1)"> </i-button>
+                <td class="center">
+                    <i-button type="edit" label="##word.Batch##" ng-if="elem.workByBatch || elem.workBySerial || elem.hasMedicalData" ng-click="showBatchModal(elem)"> </i-button>
+                    <i-button type="delete" ng-if="mode == 'add'" ng-click="item.itemsList.splice($index,1)"> </i-button>
                 </td>
             </tr>
         </table>
@@ -150,26 +151,28 @@
                 </div>
 
                 <div class="row">
-                    <table class="table hover bold">
-                        <tr>
-                            <th>##word.Name##</th>
-                            <th>##word.Value##</th>
-                            <th class="not-print">##word.Actions##</th>
-                        </tr>
-                        <tr ng-repeat="discount in item.discountsList">
-                            <td><p class="text-center">{{discount.name##session.lang##}}</p></td>
-                            <td>
-                                <p class="text-center">
-                                    {{discount.value}}
-                                    <span ng-if="discount.type == 'value'" class="currency">##word.$##</span>
-                                    <span ng-if="discount.type == 'percent'" class="currency">##word.%##</span>
-                                </p>
-                            </td>
-                            <td class="text-center">
-                                <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(discount,'discount');"> </i-button>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table hover bold">
+                            <tr>
+                                <th>##word.Name##</th>
+                                <th>##word.Value##</th>
+                                <th class="not-print">##word.Actions##</th>
+                            </tr>
+                            <tr ng-repeat="discount in item.discountsList">
+                                <td><p class="text-center">{{discount.name##session.lang##}}</p></td>
+                                <td>
+                                    <p class="text-center">
+                                        {{discount.value}}
+                                        <span ng-if="discount.type == 'value'" class="currency">##word.$##</span>
+                                        <span ng-if="discount.type == 'percent'" class="currency">##word.%##</span>
+                                    </p>
+                                </td>
+                                <td class="text-center">
+                                    <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(discount,'discount');"> </i-button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </fieldset>
         </div>
@@ -188,23 +191,25 @@
                 </div>
 
                 <div class="row" ng-show="settings.storesSetting.taxesAppearingInInvoices">
-                    <table class="table hover bold">
-                        <tr>
-                            <th>##word.Name##</th>
-                            <th>##word.Value##</th>
-                            <th class="not-print">##word.Actions##</th>
-                        </tr>
-                        <tr ng-repeat="tax in item.taxesList">
-                            <td><p class="text-center">{{tax.name##session.lang##}}</p></td>
-                            <td>
-                                <p class="text-center">{{tax.value}} <span class="green">##word.%##</span></p>
-                            </td>
+                    <div class="table-responsive">
+                        <table class="table hover bold">
+                            <tr>
+                                <th>##word.Name##</th>
+                                <th>##word.Value##</th>
+                                <th class="not-print">##word.Actions##</th>
+                            </tr>
+                            <tr ng-repeat="tax in item.taxesList">
+                                <td><p class="text-center">{{tax.name##session.lang##}}</p></td>
+                                <td>
+                                    <p class="text-center">{{tax.value}} <span class="green">##word.%##</span></p>
+                                </td>
 
-                            <td class="text-center">
-                                <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(tax,'tax');"> </i-button>
-                            </td>
-                        </tr>
-                    </table>
+                                <td class="text-center">
+                                    <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(tax,'tax');"> </i-button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </fieldset>
         </div>
@@ -212,15 +217,48 @@
     <div class="row">
         <fieldset>
             <legend>##word.Totals##</legend>
-
-            <p class="bold font-20">##word.Total## : {{item.totalPrice}} <span class="currency">##word.$##</span></p>
-            <p class="bold font-20">##word.Total Items Disc## : {{item.totalItemsDiscounts}} <span class="currency">##word.$##</span></p>
-            <p class="bold font-20">##word.Total Before VAT## : {{item.totalBeforeVat}} <span class="currency">##word.$##</span></p>
-            <p class="bold font-20">##word.Total Vat## : {{item.totalVat}} <span class="currency">##word.$##</span></p>
-            <p class="bold font-20">##word.Total After VAT## : {{item.totalAfterVat}} <span class="currency">##word.$##</span></p>
-            <p class="bold font-20">##word.Total Cash Discounts## : {{item.totalDiscounts}} <span class="currency">##word.$##</span></p>
-            <p class="bold font-20" ng-show="settings.storesSetting.taxesAppearingInInvoices">##word.Total Taxes## : {{item.totalTaxes}} <span class="currency">##word.$##</span></p>
-            <p class="bold font-24">##word.Total Net## : {{item.totalNet}} <span class="currency">##word.$##</span></p>
+            <div class="row">
+                <div class="col4">
+                    <fieldset>
+                        <p class="bold font-20 blue">##word.Total## : {{item.totalPrice}} <span class="currency">##word.$##</span></p>
+                    </fieldset>
+                </div>
+                <div class="col4">
+                    <fieldset>
+                        <p class="bold font-20 text-warning">##word.Total Items Disc## : {{item.totalItemsDiscounts}} <span class="currency">##word.$##</span></p>
+                    </fieldset>
+                </div>
+                <div class="col4">
+                    <fieldset>
+                        <p class="bold font-20 text-warning">##word.Total Before VAT## : {{item.totalBeforeVat}} <span class="currency">##word.$##</span></p>
+                    </fieldset>
+                </div>
+                <div class="col4">
+                    <fieldset>
+                        <p class="bold font-20 text-warning">##word.Total Vat## : {{item.totalVat}} <span class="currency">##word.$##</span></p>
+                    </fieldset>
+                </div>
+                <div class="col4">
+                    <fieldset>
+                        <p class="bold font-20 text-success">##word.Total After VAT## : {{item.totalAfterVat}} <span class="currency">##word.$##</span></p>
+                    </fieldset>
+                </div>
+                <div class="col4">
+                    <fieldset>
+                        <p class="bold font-20 text-warning">##word.Total Cash Discounts## : {{item.totalDiscounts}} <span class="currency">##word.$##</span></p>
+                    </fieldset>
+                </div>
+                <div class="col4" ng-show="settings.storesSetting.taxesAppearingInInvoices">
+                    <fieldset>
+                        <p class="bold font-20 text-warning">##word.Total Taxes## : {{item.totalTaxes}} <span class="currency">##word.$##</span></p>
+                    </fieldset>
+                </div>
+                <div class="col4">
+                    <fieldset>
+                        <p class="bold font-24 text-success">##word.Total Net## : {{item.totalNet}} <span class="currency">##word.$##</span></p>
+                    </fieldset>
+                </div>
+            </div>
         </fieldset>
     </div>
 </div>

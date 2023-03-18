@@ -107,68 +107,69 @@
                         </div>
                     </div>
                     <p class="text-center error">{{unitsInformationsError}}</p>
+                    <div class="table-responsive">
+                        <table class="table hover bold">
+                            <tr>
+                                <th>##word.Unit##</th>
+                                <th>##word.Purchase Cost##</th>
+                                <th>##word.Conversion##</th>
+                                <th>##word.Barcode##</th>
+                                <th>##word.Purchase Price##</th>
+                                <th>##word.Sales Price##</th>
+                                <th>##word.Average Cost##</th>
+                                <th>##word.Sales Discounts##</th>
+                                <th class="not-print">##word.Actions##</th>
+                            </tr>
+                            <tr ng-repeat="elem in item.unitsList">
+                                <td class="text-center">
+                                    <span class="text-center"
+                                        >{{elem.unit.name##session.lang##}}
+                                        <p class="text-center blue" ng-if="!elem.currentCount">({{elem.currentCount}})</p>
+                                        <p class="text-center text-success" ng-if="elem.currentCount>0">(##word.+##{{elem.currentCount}})</p>
+                                        <p class="text-center text-danger" ng-if="elem.currentCount<0">(##word.-##{{elem.currentCount}})</p>
+                                    </span>
+                                </td>
+                                <td>
+                                    <p class="text-center">{{elem.purchasePrice }}</p>
+                                </td>
+                                <td class="text-center">
+                                    <i-control type="number" min="1" ng-model="elem.conversion"></i-control>
+                                </td>
+                                <td class="text-center">
+                                    <i-control type="text" ng-model="elem.barcode"></i-control>
+                                </td>
+                                <td class="text-center">
+                                    <i-control type="number" min="1" ng-model="elem.purchasePrice"></i-control>
+                                </td>
+                                <td class="text-center">
+                                    <i-control type="number" min="1" ng-model="elem.salesPrice"></i-control>
+                                </td>
+                                <td class="text-center">
+                                    <i-control type="number" min="1" ng-model="elem.averageCost"></i-control>
+                                </td>
+                                <td class="text-center">
+                                    <div class="row">
+                                        <i-control class="col6" type="number" min="0.00001" ng-model="elem.discount" label="##word.Discount##"></i-control>
+                                        <i-control class="col6" type="number" min="0.00001" ng-model="elem.maxDiscount" label="##word.Max.Disc##"></i-control>
+                                    </div>
+                                    <div class="row">
+                                        <i-radio class="col6" label="##word.Value##" group="bt_{{$index}}" ng-value="value" ng-model="elem.discountType"> </i-radio>
+                                        <i-radio class="col6" label="##word.Percent##" group="bt_{{$index}}" ng-value="percent" ng-model="elem.discountType"> </i-radio>
+                                    </div>
+                                </td>
 
-                    <table class="table hover bold">
-                        <tr>
-                            <th>##word.Unit##</th>
-                            <th>##word.Purchase Cost##</th>
-                            <th>##word.Conversion##</th>
-                            <th>##word.Barcode##</th>
-                            <th>##word.Purchase Price##</th>
-                            <th>##word.Sales Price##</th>
-                            <th>##word.Average Cost##</th>
-                            <th>##word.Sales Discounts##</th>
-                            <th class="not-print">##word.Actions##</th>
-                        </tr>
-                        <tr ng-repeat="elem in item.unitsList">
-                            <td class="text-center">
-                                <span class="text-center"
-                                    >{{elem.unit.name##session.lang##}}
-                                    <p class="text-center blue" ng-if="!elem.currentCount">({{elem.currentCount}})</p>
-                                    <p class="text-center text-success" ng-if="elem.currentCount>0">(##word.+##{{elem.currentCount}})</p>
-                                    <p class="text-center text-danger" ng-if="elem.currentCount<0">(##word.-##{{elem.currentCount}})</p>
-                                </span>
-                            </td>
-                            <td>
-                                <p class="text-center">{{elem.purchasePrice }}</p>
-                            </td>
-                            <td class="text-center">
-                                <i-control type="number" min="1" ng-model="elem.conversion"></i-control>
-                            </td>
-                            <td class="text-center">
-                                <i-control type="text" ng-model="elem.barcode"></i-control>
-                            </td>
-                            <td class="text-center">
-                                <i-control type="number" min="1" ng-model="elem.purchasePrice"></i-control>
-                            </td>
-                            <td class="text-center">
-                                <i-control type="number" min="1" ng-model="elem.salesPrice"></i-control>
-                            </td>
-                            <td class="text-center">
-                                <i-control type="number" min="1" ng-model="elem.averageCost"></i-control>
-                            </td>
-                            <td class="text-center">
-                                <div class="row">
-                                    <i-control class="col6" type="number" min="0.00001" ng-model="elem.discount" label="##word.Discount##"></i-control>
-                                    <i-control class="col6" type="number" min="0.00001" ng-model="elem.maxDiscount" label="##word.Max.Disc##"></i-control>
-                                </div>
-                                <div class="row">
-                                    <i-radio class="col6" label="##word.Value##" group="bt_{{$index}}" ng-value="value" ng-model="elem.discountType"> </i-radio>
-                                    <i-radio class="col6" label="##word.Percent##" group="bt_{{$index}}" ng-value="percent" ng-model="elem.discountType"> </i-radio>
-                                </div>
-                            </td>
+                                <td class="text-center">
+                                    <div class="row center">
+                                        <i-button type="list" ng-click="showStoreData(elem)"> </i-button>
+                                        <i-button type="view" label="##word.Purchase Prices##" ng-click="showPricesList(elem,'purchase')"> </i-button>
+                                        <i-button type="view" label="##word.Sales Prices##" ng-click="showPricesList(elem,'sales')"> </i-button>
 
-                            <td class="text-center">
-                                <div class="row center">
-                                    <i-button type="list" ng-click="showStoreData(elem)"> </i-button>
-                                    <i-button type="view" label="##word.Purchase Prices##" ng-click="showPricesList(elem,'purchase')"> </i-button>
-                                    <i-button type="view" label="##word.Sales Prices##" ng-click="showPricesList(elem,'sales')"> </i-button>
-
-                                    <i-button type="delete" ng-if="elem.purchasePrice == 0" ng-click="item.unitsList.splice($index,1)"> </i-button>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
+                                        <i-button type="delete" ng-if="elem.purchasePrice == 0" ng-click="item.unitsList.splice($index,1)"> </i-button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </fieldset>
             </div>
 
@@ -194,23 +195,24 @@
                                 <i-button type="push" label="##word.Add##" ng-click="addActiveSubstance(substance)"> </i-button>
                             </div>
                         </div>
-
-                        <table class="table hover bold">
-                            <tr>
-                                <th>##word.S##</th>
-                                <th>##word.Active Substance##</th>
-                                <th>##word.Concentration##</th>
-                                <th class="not-print">##word.Actions##</th>
-                            </tr>
-                            <tr ng-repeat="elem in item.medicalInformations.activeSubstancesList">
-                                <td class="text-center">{{$index+1}}</td>
-                                <td class="text-center">{{elem.activeSubstance.name##session.lang##}}</td>
-                                <td class="text-center">{{elem.concentration}}</td>
-                                <td class="text-center">
-                                    <i-button type="delete" ng-click="item.medicalInformations.activeSubstancesList.splice($index,1)"> </i-button>
-                                </td>
-                            </tr>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table hover bold">
+                                <tr>
+                                    <th>##word.S##</th>
+                                    <th>##word.Active Substance##</th>
+                                    <th>##word.Concentration##</th>
+                                    <th class="not-print">##word.Actions##</th>
+                                </tr>
+                                <tr ng-repeat="elem in item.medicalInformations.activeSubstancesList">
+                                    <td class="text-center">{{$index+1}}</td>
+                                    <td class="text-center">{{elem.activeSubstance.name##session.lang##}}</td>
+                                    <td class="text-center">{{elem.concentration}}</td>
+                                    <td class="text-center">
+                                        <i-button type="delete" ng-click="item.medicalInformations.activeSubstancesList.splice($index,1)"> </i-button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </fieldset>
                     <i-textarea ng-model="item.medicalInformations.indications" rows="3" label="##word.Indications##"></i-textarea>
                     <i-textarea ng-model="item.medicalInformations.contraindications" rows="3" label="##word.Contraindications##"></i-textarea>

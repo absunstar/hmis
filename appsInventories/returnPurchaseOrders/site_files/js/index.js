@@ -243,7 +243,6 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
                 if (response.data.done) {
                     $scope.disabledCode = response.data.isAuto;
                 }
-                console.log('  $scope.disabledCode', $scope.disabledCode);
             },
             function (err) {
                 $scope.busy = false;
@@ -382,7 +381,6 @@ app.controller('returnPurchaseOrders', function ($scope, $http, $timeout) {
 
     $scope.showModalGetPurchaseOrdersData = function () {
         $scope.search = {};
-
         site.showModal($scope.getPurchaseOrdersModalID);
     };
 

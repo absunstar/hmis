@@ -635,10 +635,9 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         $scope.orderItem.unit = $scope.unitsList[0];
         $scope.orderItem.price = $scope.unitsList[0].price;
         $scope.orderItem.salesPrice = $scope.unitsList[0].salesPrice;
-      };
+    };
 
     $scope.setOrderItemData = function (unit) {
-
         $scope.orderItem.unit = { id: unit.id, code: unit.code, nameAr: unit.nameAr, nameEn: unit.nameEn };
         $scope.orderItem.price = unit.price;
         $scope.orderItem.salesPrice = unit.salesPrice;

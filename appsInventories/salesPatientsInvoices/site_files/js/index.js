@@ -6,16 +6,16 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: { url: '/images/salesInvoices.png' },
-    totalPrice: 0,
-    totalItemsDiscounts: 0,
-    totalDiscounts: 0,
-    totalTaxes: 0,
-    totalBeforeVat: 0,
-    totalVat: 0,
-    totalAfterVat: 0,
-    totalNet: 0,
-    active: true,
+      image: { url: '/images/salesPatientsInvoices.png' },
+      totalPrice: 0,
+      totalItemsDiscounts: 0,
+      totalDiscounts: 0,
+      totalTaxes: 0,
+      totalBeforeVat: 0,
+      totalVat: 0,
+      totalAfterVat: 0,
+      totalNet: 0,
+      active: true,
   };
   $scope.item = {};
   $scope.orderItem = {};

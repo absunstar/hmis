@@ -15,14 +15,8 @@ module.exports = function init(site) {
 
   site.patientTypes = [
     { id: 1, code: 'N', nameEn: 'Normal', nameAr: 'عادي' },
-    { id: 4, code: 'H', nameEn: 'HIJ', nameAr: 'مركز الحجامة' },
-    { id: 9, code: 'V', nameEn: 'VIP PATIENT', nameAr: 'مميز' },
-    { id: 10, code: 'G', nameEn: 'GOVERMENT PATIENT', nameAr: 'مسئول' },
-    { id: 11, code: '2', nameEn: 'JESTRE JOYCE BALILA ILUSTRE', nameAr: 'J' },
-    { id: 12, code: 'F', nameEn: 'A', nameAr: 'فحص العمالة' },
-    { id: 13, code: 'I', nameEn: 'I', nameAr: 'I' },
-    { id: 14, code: 'B', nameEn: 'B', nameAr: 'B' },
-    { id: 15, code: 'S', nameEn: 'S', nameAr: 'Seha' },
+    { id: 2, code: 'V', nameEn: 'VIP PATIENT', nameAr: 'مميز' },
+  
   ];
 
   site.qualificationsDegrees = [

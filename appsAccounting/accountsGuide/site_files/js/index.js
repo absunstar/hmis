@@ -220,7 +220,7 @@ app.controller('accountsGuide', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getCostCentersList = function (report) {
+  $scope.getCostCentersList = function () {
     $scope.error = '';
     $scope.costCentersList = [];
     $scope.busy = true;

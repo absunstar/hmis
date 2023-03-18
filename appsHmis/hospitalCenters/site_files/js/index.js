@@ -220,36 +220,7 @@ app.controller('hospitalCenters', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getCostCentersList = function () {
-    $scope.busy = true;
-    $scope.costCentersList = [];
-    $http({
-      method: 'POST',
-      url: '/api/costCenters/all',
-      data: {
-        where: {
-          active: true,
-        },
-        select: {
-          id: 1,
-          code: 1,
-          nameEn: 1,
-          nameAr: 1,
-        },
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.list.length > 0) {
-          $scope.costCentersList = response.data.list;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
+
 
   $scope.getCentersTypesList = function () {
     $scope.busy = true;
@@ -313,6 +284,36 @@ app.controller('hospitalCenters', function ($scope, $http, $timeout) {
       },
       function (err) {
         $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getCostCentersList = function () {
+    $scope.error = '';
+    $scope.costCentersList = [];
+    $scope.busy = true;
+    $http({
+      method: 'POST',
+      url: '/api/costCenters/all',
+      data: {
+        where: {
+          status: 'active',
+          type: 'detailed',
+        },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        $scope.costCentersList = response.data.list;
+      },
+      function (err) {
         $scope.error = err;
       }
     );

@@ -48,7 +48,7 @@ module.exports = function init(site) {
   ];
 
   site.bookingTypes = [
-    { id: 1, nameEn: 'WalkIn booking', nameAr: 'حجز مباشر' },
+    { id: 1, nameEn: 'Walk-In booking', nameAr: 'حجز مباشر' },
     { id: 2, nameEn: 'Doctor Appointment', nameAr: 'ميعاد طبيب' },
   ];
 

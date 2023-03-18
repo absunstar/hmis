@@ -238,10 +238,10 @@ module.exports = function init(site) {
 
                 app.update(_data, (err, result) => {
                     if (!err) {
-                        const advanceIndex = _data.deductionsList.findIndex((advance) => advance.code == 'employeesAdvances');
+                        const advanceIndex = _data.paySlip.deductionsList.findIndex((advance) => advance.code == 'employeesAdvances');
 
-                        if (advanceIndex) {
-                            const advancesList = _data.deductionsList[advanceIndex].list;
+                        if (advanceIndex != -1) {
+                            const advancesList = _data.paySlip.deductionsList[advanceIndex].list;
 
                             advancesList.forEach((_adv) => {
                                 const advanceData = {

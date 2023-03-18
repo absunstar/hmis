@@ -39,7 +39,7 @@ module.exports = function init(site) {
       overtime: 0,
       penality: 0,
       absenceHours: 0,
-      absenceDays: 0,
+      absenceDays: 1,
     },
   };
 

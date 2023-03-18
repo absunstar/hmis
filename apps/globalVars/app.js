@@ -18,12 +18,11 @@ module.exports = function init(site) {
     { id: 4, code: 'H', nameEn: 'HIJ', nameAr: 'مركز الحجامة' },
     { id: 9, code: 'V', nameEn: 'VIP PATIENT', nameAr: 'مميز' },
     { id: 10, code: 'G', nameEn: 'GOVERMENT PATIENT', nameAr: 'مسئول' },
-    { id: 11, code: 'T', nameEn: 'TADAWI PROGRAM', nameAr: 'برامج تداوي' },
-    { id: 12, code: '2', nameEn: 'JESTRE JOYCE BALILA ILUSTRE', nameAr: 'J' },
-    { id: 13, code: 'F', nameEn: 'A', nameAr: 'فحص العمالة' },
-    { id: 14, code: 'I', nameEn: 'I', nameAr: 'I' },
-    { id: 15, code: 'B', nameEn: 'B', nameAr: 'B' },
-    { id: 16, code: 'S', nameEn: 'S', nameAr: 'Seha' },
+    { id: 11, code: '2', nameEn: 'JESTRE JOYCE BALILA ILUSTRE', nameAr: 'J' },
+    { id: 12, code: 'F', nameEn: 'A', nameAr: 'فحص العمالة' },
+    { id: 13, code: 'I', nameEn: 'I', nameAr: 'I' },
+    { id: 14, code: 'B', nameEn: 'B', nameAr: 'B' },
+    { id: 15, code: 'S', nameEn: 'S', nameAr: 'Seha' },
   ];
 
   site.qualificationsDegrees = [

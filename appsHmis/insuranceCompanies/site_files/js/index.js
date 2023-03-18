@@ -6,7 +6,7 @@ app.controller('insuranceCompanies', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: {url :'/images/insuranceCompanies.png'},
+    image: { url: '/images/insuranceCompanies.png' },
     active: true,
   };
   $scope.item = {};
@@ -196,10 +196,7 @@ app.controller('insuranceCompanies', function ($scope, $http, $timeout) {
         where: {
           active: true,
         },
-        select: {
-          id: 1,
-          name: 1,
-        },
+        select: { id: 1, nameAr: 1, nameEn: 1 },
       },
     }).then(
       function (response) {
@@ -225,10 +222,7 @@ app.controller('insuranceCompanies', function ($scope, $http, $timeout) {
           country: country,
           active: true,
         },
-        select: {
-          id: 1,
-          name: 1,
-        },
+        select: { id: 1, nameAr: 1, nameEn: 1 },
       },
     }).then(
       function (response) {
@@ -254,7 +248,7 @@ app.controller('insuranceCompanies', function ($scope, $http, $timeout) {
           gov: gov,
           active: true,
         },
-        select: { id: 1, name: 1 },
+        select: { id: 1, nameAr: 1, nameEn: 1 },
       },
     }).then(
       function (response) {
@@ -280,7 +274,7 @@ app.controller('insuranceCompanies', function ($scope, $http, $timeout) {
           city: city,
           active: true,
         },
-        select: { id: 1, name: 1 },
+        select: { id: 1, nameAr: 1, nameEn: 1 },
       },
     }).then(
       function (response) {

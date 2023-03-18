@@ -45,6 +45,7 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
 
     $scope.showAdd = function (_item) {
         $scope.error = '';
+        $scope.mainError = '';
         if (!$scope.settings || !$scope.settings.id) {
             $scope.mainError = '##word.Please Contact System Administrator to Set System Setting##';
             return;
@@ -669,7 +670,6 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
     $scope.showBatchModal = function (item) {
         $scope.error = '';
         $scope.errorBatch = '';
-        $scope.batch = item;
         item.batchesList = item.batchesList || [];
         if (item.batchesList.length < 1) {
             let obj = {};
@@ -683,7 +683,8 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
                 item.batchesList = [obj];
             }
         }
-        $scope.calcBatch(item);
+        $scope.batch = item;
+        $scope.calcBatch($scope.batch);
         site.showModal('#batchModalModal');
     };
 

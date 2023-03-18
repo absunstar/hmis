@@ -17,7 +17,7 @@
             ></i-list>
             <div class="col2">
                 <br />
-                <i-button type="list" ng-show="!item.approved" label="##word.Get##" ng-click="calculatePaySlip(item)"></i-button>
+                <i-button type="search" ng-show="!item.approved" label="##word.Search##" ng-click="calculatePaySlip(item)"></i-button>
             </div>
         </div>
 
@@ -41,7 +41,6 @@
                 <tr>
                     <th>##word.s##</th>
                     <th>##word.Name##</th>
-                    <!-- <th>##word.original Value##</th> -->
                     <th>##word.Value##</th>
                     <th>##word.Name Arabic##</th>
                     <th>##word.Actions##</th>
@@ -49,10 +48,7 @@
                 <tr class="center">
                     <td class="center blue">1</td>
                     <td class="center">##word.Basic Salary##</td>
-                    <!-- <td class="center">
-                        <span class="text-success">{{item.paySlip.originalSalary}}</span>
-                        <span>##word.$##</span>
-                    </td> -->
+
                     <td class="center">
                         <span class="text-success">{{item.paySlip.originalSalary}}</span>
                         <span>##word.$##</span>
@@ -62,10 +58,6 @@
                 <tr ng-repeat="itm in item.paySlip.allowancesList">
                     <td class="center blue">{{$index+2}}</td>
                     <td class="center">{{itm.nameEn}}</td>
-                    <!-- <td class="center">
-                        <p ng-show="itm.originalValue"><span class="text-success">{{itm.originalValue}}</span> <span>##word.$##</span></p>
-                        <p ng-show="!itm.originalValue">-</p>
-                    </td> -->
                     <td class="center">
                         <span class="text-success">{{itm.value}}</span>
                         <span>##word.$##</span>

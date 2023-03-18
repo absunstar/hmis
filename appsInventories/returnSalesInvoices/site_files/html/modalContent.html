@@ -47,45 +47,76 @@
         <legend>##word.Items Information##</legend>
 
         <p class="error">{{itemsError}}</p>
-        <table class="table hover bold">
-            <tr>
-                <th>##word.S##</th>
-                <th>##word.Item##</th>
-                <th>##word.Unit##</th>
-                <th>##word.Sales Count##</th>
-                <th>##word.Sales Price##</th>
-                <th>##word.Sale Discount##</th>
-                <th>##word.Total##</th>
-            </tr>
-            <tr ng-repeat="elem in item.itemsList">
-                <td class="text-center">{{$index+1}}</td>
-                <td class="text-center">{{elem.name##session.lang##}}</td>
-                <td class="text-center">{{elem.unit.name##session.lang##}}</td>
-                <td class="text-center">
-                    <p class="text-center">{{elem.count}}</p>
-                </td>
-                <td class="text-center">
-                    <p class="text-center">{{elem.price}}</p>
-                </td>
-                <td>
-                    <p class="text-center">{{elem.discount}} <span ng-if="elem.discount>0?elem.unit.discountType === 'percent':''"> % </span></p>
-                </td>
-                <td>
-                    <p class="text-center">{{elem.total}}</p>
-                </td>
-            </tr>
-        </table>
+        <div class="table-responsive">
+            <table class="table hover bold">
+                <tr>
+                    <th>##word.S##</th>
+                    <th>##word.Item##</th>
+                    <th>##word.Unit##</th>
+                    <th>##word.Sales Count##</th>
+                    <th>##word.Sales Price##</th>
+                    <th>##word.Sale Discount##</th>
+                    <th>##word.Total##</th>
+                </tr>
+                <tr ng-repeat="elem in item.itemsList">
+                    <td class="text-center">{{$index+1}}</td>
+                    <td class="text-center">{{elem.name##session.lang##}}</td>
+                    <td class="text-center">{{elem.unit.name##session.lang##}}</td>
+                    <td class="text-center">
+                        <p class="text-center">{{elem.count}}</p>
+                    </td>
+                    <td class="text-center">
+                        <p class="text-center">{{elem.price}}</p>
+                    </td>
+                    <td>
+                        <p class="text-center">{{elem.discount}} <span ng-if="elem.discount>0?elem.unit.discountType === 'percent':''"> % </span></p>
+                    </td>
+                    <td>
+                        <p class="text-center">{{elem.total}}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </fieldset>
     <fieldset ng-if="item.itemsList.length > 0">
         <legend>##word.Totals##</legend>
-
-        <p class="bold font-20">##word.Total## : {{item.totalPrice}} <span class="currency">##word.$##</span></p>
-        <p class="bold font-20">##word.Total Before VAT## : {{item.totalBeforeVat}} <span class="currency">##word.$##</span></p>
-        <p class="bold font-20">##word.Total Vat## : {{item.totalVat}} <span class="currency">##word.$##</span></p>
-        <p class="bold font-20">##word.Total After VAT## : {{item.totalAfterVat}} <span class="currency">##word.$##</span></p>
-        <p class="bold font-20">##word.Total Discounts## : {{item.totalDiscounts}} <span class="currency">##word.$##</span></p>
-        <p class="bold font-20" ng-show="settings.storesSetting.taxesAppearingInInvoices">##word.Total Taxes## : {{item.totalTaxes}} <span class="currency">##word.$##</span></p>
-        <p class="bold font-24">##word.Total Net## : {{item.totalNet}} <span class="currency">##word.$##</span></p>
+        <div class="row">
+            <div class="col4">
+                <fieldset>
+                    <p class="bold font-20 blue">##word.Total## : {{item.totalPrice}} <span class="currency">##word.$##</span></p>
+                </fieldset>
+            </div>
+            <div class="col4">
+                <fieldset>
+                    <p class="bold font-20 text-warning">##word.Total Before VAT## : {{item.totalBeforeVat}} <span class="currency">##word.$##</span></p>
+                </fieldset>
+            </div>
+            <div class="col4">
+                <fieldset>
+                    <p class="bold font-20 text-danger">##word.Total Vat## : {{item.totalVat}} <span class="currency">##word.$##</span></p>
+                </fieldset>
+            </div>
+            <div class="col4">
+                <fieldset>
+                    <p class="bold font-20 text-success">##word.Total After VAT## : {{item.totalAfterVat}} <span class="currency">##word.$##</span></p>
+                </fieldset>
+            </div>
+            <div class="col4">
+                <fieldset>
+                    <p class="bold font-20 text-warning">##word.Total Discounts## : {{item.totalDiscounts}} <span class="currency">##word.$##</span></p>
+                </fieldset>
+            </div>
+            <div class="col4" ng-show="settings.storesSetting.taxesAppearingInInvoices">
+                <fieldset>
+                    <p class="bold font-20 text-warning">##word.Total Taxes## : {{item.totalTaxes}} <span class="currency">##word.$##</span></p>
+                </fieldset>
+            </div>
+            <div class="col4">
+                <fieldset>
+                    <p class="bold font-24 text-success">##word.Total Net## : {{item.totalNet}} <span class="currency">##word.$##</span></p>
+                </fieldset>
+            </div>
+        </div>
     </fieldset>
 </div>
 <div ng-show="mode !== 'add' " class="row">

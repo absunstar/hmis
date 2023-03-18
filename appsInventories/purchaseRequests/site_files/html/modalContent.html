@@ -52,61 +52,62 @@
                         <div class="col2">
                             <br />
                             <div class="row">
-                                <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
+                                <i-button type="push" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
                             </div>
                         </div>
                     </div>
+                    <div class="table-responsive">
+                        <table class="table hover bold">
+                            <tr>
+                                <th>##word.S##</th>
+                                <th>##word.Item##</th>
+                                <th>##word.Count##</th>
+                                <th>##word.Approved##</th>
+                                <th class="not-print" ng-show="!item.approved">##word.Actions##</th>
+                            </tr>
+                            <tr ng-repeat="elem in item.itemsList">
+                                <td class="text-center">{{$index+1}}</td>
+                                <td class="text-center">
+                                    {{elem.name##session.lang##}} <span class="blue"> ({{elem.unit.name##session.lang##}})</span>
+                                    <fieldset ng-show="showStoresBalance">
+                                        <legend>##word.Stores Balance## <span class="blue"> {{elem.currentCount}}</span></legend>
+                                        <p ng-show="!elem.storesList.length">##word.Not Found Balance##</p>
+                                        <div class="row" ng-repeat="store in elem.storesList">
+                                            <span class="col6 text-center">{{store.store.name##session.lang##}}</span>
+                                            <span class="col6 text-center blue">{{store.currentCount}}</span>
+                                        </div>
+                                    </fieldset>
+                                </td>
 
-                    <table class="table hover bold">
-                        <tr>
-                            <th>##word.S##</th>
-                            <th>##word.Item##</th>
-                            <th>##word.Count##</th>
-                            <th>##word.Approved##</th>
-                            <th class="not-print">##word.Actions##</th>
-                        </tr>
-                        <tr ng-repeat="elem in item.itemsList">
-                            <td class="text-center">{{$index+1}}</td>
-                            <td class="text-center">
-                                {{elem.name##session.lang##}} <span class="blue"> ({{elem.unit.name##session.lang##}})</span>
-                                <fieldset ng-show="showStoresBalance">
-                                    <legend>##word.Stores Balance## <span class="blue"> {{elem.currentCount}}</span></legend>
-                                    <p ng-show="!elem.storesList.length">##word.Not Found Balance##</p>
-                                    <div class="row" ng-repeat="store in elem.storesList">
-                                        <span class="col6 text-center">{{store.store.name##session.lang##}}</span>
-                                        <span class="col6 text-center blue">{{store.currentCount}}</span>
-                                    </div>
-                                </fieldset>
-                            </td>
+                                <td class="text-center">
+                                    <i-control type="number" min="1" ng-show="!elem.approved" ng-model="elem.count"> </i-control>
 
-                            <td class="text-center">
-                                <i-control type="number" min="1" ng-show="!elem.approved" ng-model="elem.count"> </i-control>
-
-                                <span class="text-center" ng-show="elem.approved"> {{elem.count}} </span>
-                            </td>
-                            <td class="text-center">
-                                <span class="text-success" ng-show="elem.approved">##word.Yes##</span>
-                                <span class="text-danger" ng-show="!elem.approved">##word.No##</span>
-                            </td>
-                            <td class="text-center">
-                                <i-button
-                                    type="unapprove"
-                                    ng-show="elem.approved && !item.approved  && mode == 'edit'"
-                                    ng-click="unapproveItem(elem)"
-                                    x-permissions="unapprovePurchaseRequests||purchaseRequestsManage"
-                                    label="##word.Unapprove##"
-                                ></i-button>
-                                <i-button
-                                    type="approve"
-                                    ng-show="!elem.approved && !item.approved && mode == 'edit'"
-                                    ng-click="approveItem(elem)"
-                                    x-permissions="approvePurchaseRequests||purchaseRequestsManage"
-                                    label="##word.Approve##"
-                                ></i-button>
-                                <i-button type="delete" ng-if="!elem.approved && !item.approved" label="##word.Delete##" ng-click="item.itemsList.splice($index,1)"> </i-button>
-                            </td>
-                        </tr>
-                    </table>
+                                    <span class="text-center" ng-show="elem.approved"> {{elem.count}} </span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="text-success" ng-show="elem.approved">##word.Yes##</span>
+                                    <span class="text-danger" ng-show="!elem.approved">##word.No##</span>
+                                </td>
+                                <td class="text-center" ng-show="!item.approved">
+                                    <i-button
+                                        type="unapprove"
+                                        ng-show="elem.approved && !item.approved  && mode == 'edit'"
+                                        ng-click="unapproveItem(elem)"
+                                        x-permissions="unapprovePurchaseRequests||purchaseRequestsManage"
+                                        label="##word.Unapprove##"
+                                    ></i-button>
+                                    <i-button
+                                        type="approve"
+                                        ng-show="!elem.approved && !item.approved && mode == 'edit'"
+                                        ng-click="approveItem(elem)"
+                                        x-permissions="approvePurchaseRequests||purchaseRequestsManage"
+                                        label="##word.Approve##"
+                                    ></i-button>
+                                    <i-button type="delete" ng-if="!elem.approved && !item.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </fieldset>
         </div>

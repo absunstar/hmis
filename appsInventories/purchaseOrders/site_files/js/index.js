@@ -26,16 +26,17 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope.tax = {};
     $scope.list = [];
     $scope.orderItem = {
-        count: 1,
-        price: 0,
-        bonusCount: 0,
-        salesPrice: 0,
-        totalVendorDiscounts: 0,
-        totalLegalDiscounts: 0,
-        bonusPrice: 0,
-        vat: 0,
-        total: 0,
-        approved: false,
+        // count: 1,
+        // price: 0,
+        // bonusCount: 0,
+        // currentCount: 0,
+        // totalVendorDiscounts: 0,
+        // totalLegalDiscounts: 0,
+        // bonusPrice: 0,
+        // storeBalance: 0,
+        // vat: 0,
+        // total: 0,
+        // approved: false,
     };
     $scope.canApprove = false;
     $scope.resetOrderItem = function () {
@@ -48,6 +49,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             bonusPrice: 0,
             vendorDiscount: 0,
             legalDiscount: 0,
+            currentCount: 0,
+            storesList: [],
             vat: 0,
             total: 0,
             approved: false,
@@ -560,7 +563,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         }
 
         if (!$scope.item.store || !$scope.item.store.id) {
-            $scope.error = '##word.Please Select Store';
+            $scope.error = '##word.Please Select Store##';
             return;
         }
         $scope.busy = true;
@@ -626,6 +629,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
                 storesList: elem.storesList,
                 price: elem.purchasePrice,
                 salesPrice: elem.salesPrice,
+                currentCount: elem.currentCount,
             });
         }
         $scope.orderItem.unit = $scope.unitsList[0];
@@ -637,6 +641,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         $scope.orderItem.unit = { id: unit.id, code: unit.code, nameAr: unit.nameAr, nameEn: unit.nameEn };
         $scope.orderItem.price = unit.price;
         $scope.orderItem.salesPrice = unit.salesPrice;
+        $scope.orderItem.currentCount = unit.currentCount;
     };
 
     $scope.getPurchaseRequest = function () {
@@ -694,7 +699,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             $scope.error = '##word.Please Enter Price##';
             return;
         }
-
+        orderItem.unit.storesList = orderItem.unit.storesList || [];
         let storeBalance = orderItem.unit.storesList.find((str) => {
             return str.store.id == $scope.item.store.id;
         });
@@ -715,7 +720,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
             bonusCount: orderItem.bonusCount,
             total: orderItem.count * orderItem.price,
             approved: orderItem.approved,
-            storeBalance: storeBalance ? storeBalance.currentCount : 0,
+            storeBalance: storeBalance ? storeBalance.currentCount : orderItem.currentCount,
             vendorDiscount: orderItem.vendorDiscount,
             legalDiscount: orderItem.legalDiscount,
             purchasePrice: 0,
@@ -764,6 +769,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
                             workBySerial: elem.workBySerial,
                             validityDays: elem.validityDays,
                             storeBalance: elem.storeBalance,
+                            hasMedicalData: elem.hasMedicalData,
                             salesPrice: elem.salesPrice,
                             bonusCount: 0,
                             bonusPrice: 0,
@@ -1041,7 +1047,6 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope.showBatchModal = function (item) {
         $scope.error = '';
         $scope.errorBatch = '';
-        $scope.batch = item;
         item.batchesList = item.batchesList || [];
         if (item.batchesList.length < 1) {
             let obj = {};
@@ -1050,12 +1055,13 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
                     productionDate: new Date(),
                     expiryDate: new Date($scope.addDays(new Date(), item.validityDays || 0)),
                     validityDays: item.validityDays || 0,
-                    count: item.count,
+                    count: item.count + item.bonusCount,
                 };
                 item.batchesList = [obj];
             }
         }
-        $scope.calcBatch(item);
+        $scope.batch = item;
+        $scope.calcBatch($scope.batch);
         site.showModal('#batchModalModal');
     };
 

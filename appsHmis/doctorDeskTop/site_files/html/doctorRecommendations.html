@@ -364,7 +364,7 @@
       <p class="error">{{error}}</p>
       <i-button
         type="edit"
-        ng-hide="mode == 'view'|| item.$view"
+        ng-hide="mode == 'view'|| item.$view || item.hasOrder || item.hasSales"
         label="##word.Save##"
         x-permissions="doctorDeskTopUpdate || doctorDeskTopManage"
         ng-click="update(item,'#doctorRecommendationsModal')"

@@ -395,7 +395,6 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
                         count: elem.count,
                         transferPrice: 0,
                         price: elem.price,
-
                         validityDays: elem.validityDays,
                         storeBalance: elem.storeBalance,
                         approved: true,
@@ -529,9 +528,9 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
                 storesList: elem.storesList,
                 price: elem.purchasePrice,
             });
-            $scope.orderItem.unit = $scope.unitsList[0];
-            $scope.orderItem.price = $scope.unitsList[0].price;
         }
+        $scope.orderItem.unit = $scope.unitsList[0];
+        $scope.orderItem.price = $scope.unitsList[0].price;
         $scope.calculateItemBalance($scope.unitsList[0]);
     };
 
@@ -627,14 +626,10 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
         if (elem.count < 1) {
             $scope.itemsError = '##word.Please Enter Valid Numbers##';
             return;
-        } else {
-            const index = $scope.item.itemsList.findIndex((_el) => _el.id === elem.id);
-            if (index !== -1) {
-                $scope.item.itemsList[index].approved = true;
-            }
-
-            $scope.prpepareToApproveOrder($scope.item);
         }
+
+        elem.approved = true;
+        $scope.prpepareToApproveOrder($scope.item);
     };
 
     $scope.unapproveItem = function (elem) {
@@ -680,9 +675,9 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     $scope.showBatchModal = function (item) {
         $scope.error = '';
         $scope.errorBatch = '';
-        $scope.batch = item;
         item.batchesList = item.batchesList || [];
-        $scope.calcBatch(item);
+        $scope.batch = item;
+        $scope.calcBatch($scope.batch);
         site.showModal('#batchModalModal');
     };
 

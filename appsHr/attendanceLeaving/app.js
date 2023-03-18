@@ -36,7 +36,7 @@ module.exports = function init(site) {
                     new Date(workDay.shiftData.end).getHours(),
                     new Date(workDay.shiftData.end).getMinutes()
                 );
-                // new Date(workDay.shiftData.end);
+          
                 let attencance = {
                     appName: '',
                     date: '',
@@ -82,18 +82,6 @@ module.exports = function init(site) {
                     const attendPeriod = Number(attendValue);
                     const absentPeriod = Number(shiftTime - attendPeriod);
 
-                    // const attendDate = new Date(new Date(attendTime).getFullYear(), new Date(attendTime).getMonth(), new Date(attendTime).getDate());
-                    // const leaveDate = new Date(new Date(leaveTime).getFullYear(), new Date(leaveTime).getMonth(), new Date(leaveTime).getDate());
-                    // console.log('attendDate', attendDate);
-
-                    // console.log('shiftEnd', shiftEnd);
-                    // console.log('attendTime', attendTime);
-                    // console.log('leaveTime', leaveTime);
-                    // console.log('attendDiff', leaveTime);
-                    // console.log('leaveDiff', leaveTime);
-                    // console.log('attendanceDifference', attendanceDifference);
-                    // console.log('leaveDifference', leaveDifference);
-
                     if (!docs[docIndex].absence) {
                         attencance = {
                             date: docs[docIndex].date,
@@ -110,7 +98,7 @@ module.exports = function init(site) {
                         };
                     } else {
                         attencance = {
-                            // appName: app.name,
+
                             date: docs[docIndex].date,
                             absence: true,
                             shiftStart,
@@ -122,67 +110,13 @@ module.exports = function init(site) {
                             absentPeriod: -1,
                         };
                     }
-                    //     paySlip.attendanceDataList.push(attencance);
-                    // } else {
-                    //     attencance = {
-                    //         appName: app.name,
-                    //         date: workDay.date,
-                    //         absence: true,
-                    //         shiftStart,
-                    //         shiftEnd,
-                    //     };
+
                     paySlip.attendanceDataList.push(attencance);
                 }
 
-                // paySlip.worktimesList.forEach((workDay) => {
-                //     if (workDay && workDay.active && workDay.day.index === getDayIndex) {
-                //         const attendTime = new Date(doc.attendTime);
-                //         const shiftStart = new Date(doc.shiftData.start);
-                //         const shiftEnd = new Date(doc.shiftData.end);
-                //         const leaveTime = new Date(doc.leaveTime);
-
-                //         let leaveDiff = ((shiftStart.getTime() - attendTime.getTime()) / 1000 / 60).toFixed();
-                //         const attendanceDifference = Number(attendDiff);
-                //         let leaveDiff = ((shiftEnd.getTime() - leaveTime.getTime()) / 1000 / 60).toFixed();
-                //         const leaveDifference = Number(leaveDiff);
-
-                //         // if (workDay.day.index == 4) {
-                //         //     console.log('shiftStart', shiftStart);
-                //         //     console.log('shiftEnd', shiftEnd);
-                //         //     console.log('attendTime', attendTime);
-                //         //     console.log('leaveTime', leaveTime);
-                //         // }
-                //         // console.log('attendanceDifference', attendanceDifference);
-                //         // console.log('leaveDifference', leaveDifference);
-
-                //         if (!doc.absence) {
-                //             attencance = {
-                //                 appName: app.name,
-                //                 date: doc.date,
-                //                 absence: false,
-                //                 shiftStart,
-                //                 shiftEnd,
-                //                 attendTime,
-                //                 leaveTime,
-                //                 attendanceDifference,
-                //                 leaveDifference,
-                //             };
-                //         } else {
-                //             attencance = {
-                //                 appName: app.name,
-                //                 date: doc.date,
-                //                 absence: true,
-                //                 shiftStart,
-                //                 shiftEnd,
-                //                 attendanceDifference,
-                //                 leaveDifference,
-                //             };
-                //         }
-                //         paySlip.attendanceDataList.push(attencance);
-                //     }
-                // });
+             
             });
-            // }
+          
             callback(paySlip);
         });
     };

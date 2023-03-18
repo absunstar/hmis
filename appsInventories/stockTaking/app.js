@@ -235,12 +235,12 @@ module.exports = function init(site) {
                         }
                     }
                 });
-                if (errBatchList.length > 0) {
-                    let error = errBatchList.map((m) => m).join('-');
-                    response.error = `The Batches Count is not correct in ( ${error} )`;
-                    res.json(response);
-                    return;
-                }
+                // if (errBatchList.length > 0) {
+                //     let error = errBatchList.map((m) => m).join('-');
+                //     response.error = `The Batches Count is not correct in ( ${error} )`;
+                //     res.json(response);
+                //     return;
+                // }
 
                 _data.approvedUserInfo = req.getUserFinger();
                 _data.approvedDate = new Date();

@@ -21,7 +21,7 @@
     { "name": "count_stores", "En": "Stores Count", "Ar": "عدد المخازن" },
     { "name": "count_currencies", "En": "Currencies Count", "Ar": "عدد العملات" },
     { "name": "count_branches", "En": "Branches Count", "Ar": "عدد الفروع" },
-    { "name": "compaines_users_count", "En": "Users Count", "Ar": "عدد المستخدمين" },
+    { "name": "compaines_usersCount", "En": "Users Count", "Ar": "عدد المستخدمين" },
 
     { "name": "companies_branch_code", "En": "Branch Code", "Ar": "كود الفرع" },
     { "name": "companies_branch_name", "En": "Branch Name", "Ar": "إسم الفرع" },
@@ -44,8 +44,8 @@
     { "name": "companies_hijri", "En": "Hijri", "Ar": "هجري" },
     { "name": "companies_date", "En": "Date", "Ar": "التاريخ" },
 
-    { "name": "customers_count", "En": "Customers Count", "Ar": "عدد العملاء" },
-    { "name": "employees_count", "En": "Employees Count", "Ar": "عدد الموظفين" },
+    { "name": "customersCount", "En": "Customers Count", "Ar": "عدد العملاء" },
+    { "name": "employeesCount", "En": "Employees Count", "Ar": "عدد الموظفين" },
     { "name": "companies_city", "En": "City", "Ar": "المدينة" },
     { "name": "companies_email", "En": "Email", "Ar": "البريد الإلكتروني" },
     { "name": "companies_fax", "En": "Fax", "Ar": "الفاكس" },

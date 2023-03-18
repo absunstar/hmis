@@ -171,7 +171,6 @@ app.controller('radiologyDeskTop', function ($scope, $http, $timeout) {
     $scope.item = {};
     $scope.view(_item);
     site.showModal('#recommendationsModal');
-    document.querySelector(`#recommendationsModal .tab-link`).click();
   };
 
   $scope.showVitalsNotes = function (_item) {

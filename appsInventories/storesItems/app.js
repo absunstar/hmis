@@ -778,6 +778,7 @@ module.exports = function init(site) {
                             }
                         }
                     }
+                    item.hasMedicalData = itemDoc.hasMedicalData;
                 }
             }
             res.json({

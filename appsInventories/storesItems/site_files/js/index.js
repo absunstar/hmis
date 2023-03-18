@@ -52,6 +52,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
 
     $scope.showAdd = function (_item) {
         $scope.error = '';
+        $scope.mainError = '';
         if (!$scope.settings || !$scope.settings.id) {
             $scope.mainError = '##word.Please Contact System Administrator to Set System Setting##';
             return;
@@ -100,7 +101,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     };
 
     $scope.showStoreData = function (_item) {
-        $scope.mode = 'view';
+        // $scope.mode = 'view';
         $scope.unit = { ..._item };
         site.showModal($scope.modalStoreData);
     };
@@ -359,7 +360,6 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     };
 
     $scope.getItemsGroups = function () {
-
         $scope.busy = true;
         $scope.itemsgroupsList = [];
         $http({
@@ -374,7 +374,7 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
                     code: 1,
                     nameEn: 1,
                     nameAr: 1,
-                }
+                },
             },
         }).then(
             function (response) {
@@ -717,8 +717,8 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
         for (const elem of item.unitsList) {
             $scope.collectedItemUnits.push({
                 id: elem.unit.id,
-        barcode: elem.barcode,
-        code: elem.unit.code,
+                barcode: elem.barcode,
+                code: elem.unit.code,
                 nameEn: elem.unit.nameEn,
                 nameAr: elem.unit.nameAr,
             });
@@ -825,6 +825,11 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
             return success;
         }
 
+        if (_item.workByQrCode && !_item.gtin) {
+            $scope.error = '##word.Please Enter GTIN Code##';
+            return success;
+        }
+
         success = true;
         return { success, _item };
     };
@@ -849,9 +854,9 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     $scope.showBatchModal = function (item) {
         $scope.error = '';
         $scope.errorBatch = '';
-        $scope.batch = item;
         item.batchesList = item.batchesList || [];
-        $scope.calcBatch(item);
+        $scope.batch = item;
+        $scope.calcBatch($scope.batch);
         site.showModal('#batchModalModal');
     };
 
@@ -903,7 +908,6 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
     $scope.showToBatchModal = function (item) {
         $scope.error = '';
         $scope.errorBatch = '';
-        $scope.batch = item;
         item.toBatchesList = item.toBatchesList || [];
         if (item.toBatchesList.length < 1) {
             let obj = {};
@@ -917,7 +921,8 @@ app.controller('storesItems', function ($scope, $http, $timeout) {
                 item.toBatchesList = [obj];
             }
         }
-        $scope.calcToBatch(item);
+        $scope.batch = item;
+        $scope.calcToBatch($scope.batch);
         site.showModal('#toBatchModal');
     };
 

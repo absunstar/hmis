@@ -1,7 +1,7 @@
 module.exports = function init(site) {
     let app = {
         name: 'payslips',
-        allowMemory: true,
+        allowMemory: false,
         memoryList: [],
         allowCache: false,
         cacheList: [],
@@ -38,6 +38,7 @@ module.exports = function init(site) {
             });
         }
     };
+
     app.add = function (_item, callback) {
         app.$collection.add(_item, (err, doc) => {
             if (callback) {
@@ -48,6 +49,7 @@ module.exports = function init(site) {
             }
         });
     };
+
     app.update = function (_item, callback) {
         app.$collection.edit(
             {
@@ -78,6 +80,7 @@ module.exports = function init(site) {
             }
         );
     };
+
     app.delete = function (_item, callback) {
         app.$collection.delete(
             {
@@ -101,6 +104,7 @@ module.exports = function init(site) {
             }
         );
     };
+
     app.view = function (_item, callback) {
         if (callback) {
             if (app.allowMemory) {
@@ -128,6 +132,7 @@ module.exports = function init(site) {
             });
         }
     };
+
     app.all = function (_options, callback) {
         if (callback) {
             if (app.allowMemory) {
@@ -182,19 +187,18 @@ module.exports = function init(site) {
                     if (doc) {
                         response.done = false;
                         response.error = 'PaySlip Exisit In Same Period For Employee';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
-                    return;
-                });
-
-                app.add(_data, (err, doc) => {
-                    if (!err && doc) {
-                        response.done = true;
-                        response.doc = doc;
-                    } else {
-                        response.error = err.mesage;
-                    }
-                    res.json(response);
+                    app.add(_data, (err, doc) => {
+                        if (!err && doc) {
+                            response.done = true;
+                            response.doc = doc;
+                        } else {
+                            response.error = err.mesage;
+                        }
+                        res.json(response);
+                    });
                 });
             });
         }

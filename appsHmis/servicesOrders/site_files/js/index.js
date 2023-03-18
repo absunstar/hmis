@@ -339,6 +339,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           fullNameAr: 1,
           patientType: 1,
           maritalStatus: 1,
+          dateOfBirth : 1,
           gender: 1,
           age: 1,
           motherNameEn: 1,
@@ -521,12 +522,13 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     $scope.item.type = doctorDeskTop.type;
     $http({
       method: 'POST',
-      url: '/api/selectDoctorDeskTop',
+      url: '/api/selectDoctorDeskTop/serviceOrder',
       data: doctorDeskTop,
     }).then(
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.mainInsuranceCompany && response.data.servicesList) {
+          $scope.item.servicesList = [];
           response.data.servicesList.forEach((_s) => {
             $scope.item.servicesList.push(_s);
           });

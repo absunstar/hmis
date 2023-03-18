@@ -4,6 +4,7 @@ app.controller('payslips', function ($scope, $http, $timeout) {
     $scope.modalID = '#payslipsManageModal';
     $scope.payslipItemDetails = '#payslipItemsDetailsModal';
     $scope.modalSearchID = '#payslipsSearchModal';
+    $scope.printPayslipModal = '#printPayslipModal';
     $scope.mode = 'add';
     $scope._search = {};
     $scope.structure = {
@@ -50,8 +51,6 @@ app.controller('payslips', function ($scope, $http, $timeout) {
             data: $scope.item,
         }).then(
             function (response) {
-                console.log('response', response);
-
                 $scope.busy = false;
                 if (response.data.done) {
                     site.hideModal($scope.modalID);
@@ -76,6 +75,11 @@ app.controller('payslips', function ($scope, $http, $timeout) {
         $scope.view(_item);
         $scope.item = {};
         site.showModal($scope.modalID);
+    };
+
+    $scope.showPrintPayslipModal = function (_item) {
+        $scope.item = _item;
+        site.showModal($scope.printPayslipModal);
     };
 
     $scope.update = function (_item) {
@@ -218,6 +222,8 @@ app.controller('payslips', function ($scope, $http, $timeout) {
                     code: 1,
                     fullNameAr: 1,
                     fullNameEn: 1,
+                    department: 1,
+                    section: 1,
                     allowancesList: 1,
                     allowancesList: 1,
                     deductionsList: 1,

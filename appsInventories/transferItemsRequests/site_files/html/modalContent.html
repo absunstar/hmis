@@ -42,39 +42,39 @@
     <fieldset ng-if="item.store.id">
         <legend>##word.Items Informations##</legend>
 
-        <div class="row" ng-show="!item.approved">
-            <div class="row" ng-if="!canApprove">
-                <i-list
-                    class="col2"
-                    label="##word.Item##"
-                    ng-model="orderItem.item"
-                    ng-change="getItemUnits(orderItem.item)"
-                    items="storesItemsList"
-                    display="name##session.lang##"
-                    ng-get="getStoresItems($search)"
-                >
-                </i-list>
+        <div class="row" ng-show="!item.approved && !canApprove">
+            <i-list
+                class="col2"
+                label="##word.Item##"
+                ng-model="orderItem.item"
+                ng-change="getItemUnits(orderItem.item)"
+                items="storesItemsList"
+                display="name##session.lang##"
+                ng-get="getStoresItems($search)"
+            >
+            </i-list>
 
-                <i-list
-                    class="col2"
-                    label="##word.Unit##"
-                    ng-change="calculateItemBalance(orderItem.unit)"
-                    ng-model="orderItem.unit"
-                    items="unitsList"
-                    display="name##session.lang##"
-                    ng-search="item.$elemItem"
-                >
-                </i-list>
-                <i-control class="col2" disabled type="number" label="##word.Current Balance##" ng-model="orderItem.currentBalance"> </i-control>
-                <i-control class="col2" type="number" min="1" label="##word.Transfer Count##" ng-model="orderItem.count"> </i-control>
-                <div class="col2">
-                    <br />
-                    <div class="row">
-                        <i-button type="add" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
-                    </div>
+            <i-list
+                class="col2"
+                label="##word.Unit##"
+                ng-model="orderItem.unit"
+                items="unitsList"
+                ng-change="setOrderItemData(orderItem.unit)"
+                display="name##session.lang##"
+                ng-search="item.$elemItem"
+            >
+            </i-list>
+            <i-control class="col2" disabled type="number" label="##word.Current Count##" ng-model="orderItem.currentCount"> </i-control>
+            <i-control class="col2" type="number" min="1" label="##word.Transfer Count##" ng-model="orderItem.count"> </i-control>
+            <div class="col2">
+                <br />
+                <div class="row">
+                    <i-button type="push" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
                 </div>
             </div>
-            <p class="error">{{itemsError}}</p>
+        </div>
+        <p class="error">{{itemsError}}</p>
+        <div class="table-responsive">
             <table class="table hover bold">
                 <tr>
                     <th>##word.S##</th>
@@ -112,7 +112,7 @@
                             x-permissions="approveTransferItem||transferItemsRequestsManage"
                             label="##word.Approve##"
                         ></i-button>
-                        <i-button type="delete" label="##word.Delete##" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>
+                        <i-button type="delete" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>
                     </td>
                 </tr>
             </table>

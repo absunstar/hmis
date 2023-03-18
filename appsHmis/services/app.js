@@ -252,15 +252,15 @@ module.exports = function init(site) {
         let search = req.body.search || undefined;
         let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1 };
         let limit = req.body.limit || 10;
+        if(where.search){
+          search = where.search
+          delete where.search
+        }
         if (search) {
           where.$or = [];
 
           where.$or.push({
-            id: site.get_RegExp(search, 'i'),
-          });
-
-          where.$or.push({
-            code: site.get_RegExp(search, 'i'),
+            code: search,
           });
 
           where.$or.push({
@@ -352,6 +352,108 @@ module.exports = function init(site) {
               app.add(newDoc, (err, doc2) => {
                 if (!err && doc2) {
                   site.dbMessage = `Importing ${app.name} : ${doc2.id}`;
+                  console.log(site.dbMessage);
+                } else {
+                  site.dbMessage = err.message;
+                  console.log(site.dbMessage);
+                }
+              });
+            });
+          } else {
+            site.dbMessage = 'can not import unknown type : ' + site.typeof(docs);
+            console.log(site.dbMessage);
+          }
+        } else {
+          site.dbMessage = 'file not exists : ' + response.file.filepath;
+          console.log(site.dbMessage);
+        }
+
+        res.json(response);
+      });
+      site.post(`api/${app.name}/import-labs`, (req, res) => {
+        let response = {
+          done: false,
+          file: req.form.files.fileToUpload,
+        };
+
+        if (site.isFileExistsSync(response.file.filepath)) {
+          let docs = [];
+          if (response.file.originalFilename.like('*.xls*')) {
+            let workbook = site.XLSX.readFile(response.file.filepath);
+            docs = site.XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+          } else {
+            docs = site.fromJson(site.readFileSync(response.file.filepath).toString());
+          }
+
+          if (Array.isArray(docs)) {
+            console.log(`Importing ${app.name} : ${docs.length}`);
+            let list = [];
+            docs.forEach((doc) => {
+              let gender = null;
+              if (doc.gender === 'F') {
+                gender = {
+                  id: 1,
+                  nameEn: 'Male',
+                  nameAr: 'ذكر',
+                };
+              } else if (doc.gender === 'M') {
+                gender = {
+                  id: 2,
+                  nameEn: 'Female',
+                  nameAr: 'أنثى',
+                };
+              }
+
+              let index = list.findIndex((d) => d.code == doc.code);
+              if (index !== -1) {
+                list[index].normalRangeList.push({
+                  fromDays: doc.fromDays,
+                  toDays: doc.toDays,
+                  name: doc.itemName,
+                  gender: gender,
+                  unit: doc.unit,
+                  fromValue: doc.fromValue,
+                  toValue: doc.toValue,
+                });
+              } else {
+                let newDoc = {
+                  code: doc.code,
+                  nameEn: doc.nameEn,
+                  nameAr: doc.nameAr || doc.nameEn,
+                  image: { url: '/images/services.png' },
+                  active: true,
+                  normalRangeList: [
+                    {
+                      fromDays: doc.fromDays,
+                      toDays: doc.toDays,
+                      name: doc.itemName,
+                      gender: gender,
+                      unit: doc.unit,
+                      fromValue: doc.fromValue,
+                      toValue: doc.toValue,
+                    },
+                  ],
+                  cashPriceOut: doc.CashPrice || 0,
+                  creditPriceOut: doc.CreditPrice || 0,
+                  cashPriceIn: doc.CashInPrice || 0,
+                  creditPriceIn: doc.CreditInPrice || 0,
+                  packagePrice: doc.PackagePrice || 0,
+                  pharmacyPrice: doc.PharmacyPrice || 0,
+                  vat: doc.VAT || 0,
+                  cost: doc.Cost || 0,
+                  servicesCategoriesList: [],
+                };
+                newDoc.serviceGroup = site.getApp('servicesGroups').memoryList.find((s) => s.type.code == 'L');
+                newDoc.company = site.getCompany(req);
+                newDoc.branch = site.getBranch(req);
+                newDoc.addUserInfo = req.getUserFinger();
+                list.push(newDoc);
+              }
+            });
+            list.forEach((newDoc) => {
+              app.add(newDoc, (err, doc2) => {
+                if (!err && doc2) {
+                  site.dbMessage = `Importing ${app.name}-labs : ${doc2.id}`;
                   console.log(site.dbMessage);
                 } else {
                   site.dbMessage = err.message;

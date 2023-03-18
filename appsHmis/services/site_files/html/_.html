@@ -7,10 +7,11 @@
             <i-button type="add" x-permissions="servicesAdd || servicesManage" label="##word.New Service##" ng-click="showAdd()"></i-button>
             <i-upload api="api/services/import" label="Import"></i-upload>
             <i-upload api="api/services/import-categories" label="Import Categories"></i-upload>
+            <i-upload api="api/services/import-labs" label="Import Lab Services"></i-upload>
         </div>
 
         <div class="row padding">
-            <i-control ng-model="$search" x-permissions="servicesSearch || servicesManage"></i-control>
+            <i-control ng-change="searchAll()" ng-model="search" x-permissions="servicesSearch || servicesManage"></i-control>
         </div>
         <div class="table-responsive">
             <table class="table hover bold" id="t1">
@@ -22,7 +23,7 @@
                     <th>##word.vat##</th>
                     <th class="not-print">##word.Actions##</th>
                 </tr>
-                <tr ng-repeat="item in list | filter:$search">
+                <tr ng-repeat="item in list">
                     <td>
                         <i-image view class="logo center" ng-model="item.image"></i-image>
                     </td>

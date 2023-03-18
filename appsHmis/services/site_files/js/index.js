@@ -4,6 +4,7 @@ app.controller('services', function ($scope, $http, $timeout) {
   $scope.modalID = '#servicesManageModal';
   $scope.modalSearchID = '#servicesSearchModal';
   $scope.mode = 'add';
+  $scope.search = '';
   $scope._search = {};
   $scope.structure = {
     image: { url: '/images/services.png' },
@@ -184,7 +185,6 @@ app.controller('services', function ($scope, $http, $timeout) {
           $scope.list = response.data.list;
           $scope.count = response.data.count;
           site.hideModal($scope.modalSearchID);
-          $scope.search = {};
         }
       },
       function (err) {
@@ -341,9 +341,8 @@ app.controller('services', function ($scope, $http, $timeout) {
     $scope.error = '';
     $scope.item.normalRangeList = $scope.item.normalRangeList || [];
     $scope.item.normalRangeList.push({
-      fromDays : 0,
-      toDays : 0,
-    
+      fromDays: 0,
+      toDays: 0,
     });
   };
 
@@ -353,9 +352,10 @@ app.controller('services', function ($scope, $http, $timeout) {
   };
 
   $scope.searchAll = function () {
-    $scope.getAll($scope.search);
-    site.hideModal($scope.modalSearchID);
-    $scope.search = {};
+    $timeout(() => {
+      $scope.getAll({ search: $scope.search });
+      site.hideModal($scope.modalSearchID);
+    }, 300);
   };
 
   $scope.getAll();

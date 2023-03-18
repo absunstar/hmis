@@ -329,7 +329,6 @@ module.exports = function init(site) {
         let where = req.body.where || {};
         let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, type: 1, parentId: 1, status: 1, image: 1 };
         let list = [];
-        console.log(where['type']);
         app.memoryList
           .filter((g) => (!where['type'] || g.type == where['type']) && g.company && g.company.id == site.getCompany(req).id)
           .forEach((doc) => {

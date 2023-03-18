@@ -205,7 +205,7 @@ app.controller('doctors', function ($scope, $http, $timeout) {
       method: 'POST',
       url: '/api/services/all',
       data: {
-        where: { active: true },
+        where: { active: true , 'serviceGroup.type.id' : 2 },
         select: {
           id: 1,
           code: 1,

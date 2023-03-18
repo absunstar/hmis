@@ -486,6 +486,10 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
           creditIn: 0,
           secondAmnt: 0,
           secoundValuePerDay: 0,
+          coverage: true,
+          applyDiscOut: true,
+          applyDiscIn: true,
+
         });
       }
       _item.$serviceGroup = {};
@@ -506,6 +510,10 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
           creditOut: 0,
           cashIn: 0,
           creditIn: 0,
+          coverage: true,
+          applyDiscOut: true,
+          applyDiscIn: true,
+
         });
       }
       _item.$serviceCategory = {};
@@ -531,6 +539,8 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
           creditInDisc: 0,
           cashOutDisc: 0,
           creditOutDisc: 0,
+          coverage: true,
+
         });
       }
       _item.$service = {};

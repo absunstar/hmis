@@ -289,10 +289,10 @@ app.controller('doctors', function ($scope, $http, $timeout) {
 
   $scope.getHospitalCenterList = function () {
     $scope.busy = true;
-    $scope.hospitalCentersList = [];
+    $scope.hospitalResponsibilitiesList = [];
     $http({
       method: 'POST',
-      url: '/api/hospitalCenters/all',
+      url: '/api/hospitalResponsibilities/all',
       data: {
         where: { active: true },
         select: {
@@ -306,7 +306,7 @@ app.controller('doctors', function ($scope, $http, $timeout) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.hospitalCentersList = response.data.list;
+          $scope.hospitalResponsibilitiesList = response.data.list;
         }
       },
       function (err) {

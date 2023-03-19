@@ -138,7 +138,6 @@ app.controller('offers', function ($scope, $http, $timeout) {
   $scope.delete = function (_item) {
     $scope.busy = true;
     $scope.error = '';
-
     $http({
       method: 'POST',
       url: `${$scope.baseURL}/api/${$scope.appName}/delete`,
@@ -213,7 +212,7 @@ app.controller('offers', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getServicesList = function () {
+  $scope.getServicesList = function ($search) {
     $scope.busy = true;
     $http({
       method: 'POST',
@@ -230,6 +229,8 @@ app.controller('offers', function ($scope, $http, $timeout) {
           cashPriceOut: 1,
           vat: 1,
         },
+        search: $search,
+
       },
     }).then(
       function (response) {
@@ -278,8 +279,8 @@ app.controller('offers', function ($scope, $http, $timeout) {
       _item.discountValue = 0;
 
       _item.servicesList.forEach((_service) => {
-        _service.totalVat = _service.qty * ((_service.vat * _service.cashPrice) / 100);
-        _service.total = _service.qty * _service.cashPrice;
+        _service.totalVat = _service.qty * ((_service.vat * _service.cashPriceOut) / 100);
+        _service.total = _service.qty * _service.cashPriceOut;
         _service.totalVat = site.toNumber(_service.totalVat);
         _service.total = site.toNumber(_service.total);
 

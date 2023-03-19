@@ -437,12 +437,12 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getHospitalCentersList = function () {
+  $scope.getHospitalResponsibilitiesList = function () {
     $scope.busy = true;
-    $scope.hospitalCentersList = [];
+    $scope.hospitalResponsibilitiesList = [];
     $http({
       method: 'POST',
-      url: '/api/hospitalCenters/all',
+      url: '/api/hospitalResponsibilities/all',
       data: {
         where: { active: true },
         select: {
@@ -456,7 +456,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
       function (response) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
-          $scope.hospitalCentersList = response.data.list;
+          $scope.hospitalResponsibilitiesList = response.data.list;
         }
       },
       function (err) {
@@ -646,7 +646,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           nameAr: 1,
           consItem: 1,
           specialty: 1,
-          hospitalCenter: 1,
+          hospitalResponsibility: 1,
           doctorType: 1,
           nationality: 1,
           clinicExt: 1,
@@ -719,8 +719,8 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           type: $scope.item.type,
         };
 
-        if ($scope.item.doctor && $scope.item.doctor.hospitalCenter) {
-          obj.hospitalCenter = { ...$scope.item.doctor.hospitalCenter };
+        if ($scope.item.doctor && $scope.item.doctor.hospitalResponsibility) {
+          obj.hospitalResponsibility = { ...$scope.item.doctor.hospitalResponsibility };
         }
 
         $http({
@@ -823,7 +823,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
   $scope.getServicesList();
   $scope.getPatientsList();
   $scope.getDoctorsList();
-  $scope.getHospitalCentersList();
+  $scope.getHospitalResponsibilitiesList();
   $scope.getservicesOrdersSourcesList();
   $scope.getBookingTypesList();
 });

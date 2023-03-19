@@ -250,6 +250,35 @@ app.controller('accountsGuide', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getGeneralLedgerList = function () {
+    $scope.error = '';
+    $scope.generalLedgerList = [];
+    $scope.busy = true;
+    $http({
+      method: 'POST',
+      url: '/api/generalLedger/all',
+      data: {
+        where: {
+          active: true,
+        },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        $scope.generalLedgerList = response.data.list;
+      },
+      function (err) {
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getCategoryList = function () {
     $scope.error = '';
     $timeout(() => {
@@ -311,12 +340,21 @@ app.controller('accountsGuide', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.pushCostCenters = function () {
+  $scope.addCostCenters = function () {
     $scope.item = $scope.item || [];
     $scope.item.costCentersList = $scope.item.costCentersList || [];
     if ($scope.item.$costCenter.id && !$scope.item.costCentersList.some((c) => c.id === $scope.item.$costCenter.id)) {
       $scope.item.costCentersList.unshift($scope.item.$costCenter);
       $scope.item.$costCenter = {};
+    }
+  };
+
+  $scope.addGeneralLedger = function () {
+    $scope.item = $scope.item || [];
+    $scope.item.generalLedgerList = $scope.item.generalLedgerList || [];
+    if ($scope.item.$generalLedger.id && !$scope.item.generalLedgerList.some((c) => c.id === $scope.item.$generalLedger.id)) {
+      $scope.item.generalLedgerList.unshift($scope.item.$generalLedger);
+      $scope.item.$generalLedger = {};
     }
   };
 
@@ -334,4 +372,5 @@ app.controller('accountsGuide', function ($scope, $http, $timeout) {
   $scope.getAll();
   $scope.getSetting();
   $scope.getCostCentersList();
+  $scope.getGeneralLedgerList();
 });

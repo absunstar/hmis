@@ -353,7 +353,7 @@ module.exports = function init(site) {
             patientClass: _data.patient.insuranceClass,
             servicesList: [_data.doctor.consItem],
             payment: payment,
-            hospitalCenter: _data.doctor.hospitalCenter,
+            hospitalResponsibility: _data.doctor.hospitalResponsibility,
             type: 'out',
           },
           (serviceCallback) => {

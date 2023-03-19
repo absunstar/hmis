@@ -1,0 +1,7 @@
+[{
+    "moduleName" : "public" ,
+    "name": "hospitalResponsibilitiesAdmin",
+    "En": "Hospital Responsibilities Admin",
+    "Ar": "إدارة مسئوليات المستشفى",
+    "permissions": ["hospitalResponsibilitiesManage"]
+}]

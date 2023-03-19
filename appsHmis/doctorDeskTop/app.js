@@ -348,7 +348,7 @@ module.exports = function init(site) {
             patientClass: _data.patient.insuranceClass,
             servicesList: servicesList,
             payment: payment,
-            hospitalCenter: _data.doctor.hospitalCenter,
+            hospitalResponsibility: _data.doctor.hospitalResponsibility,
             type: _data.type,
           },
           (serviceCallback) => {

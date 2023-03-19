@@ -87,44 +87,76 @@
       <br />
 
       <div ng-hide="item.costCenterType=='without'" class="row">
+        <fieldset>
+          <div class="row">
+            <i-list items="costCentersList" class="col4" label="##word.Cost Center##" ng-search="item.$costCenter" display="name##session.lang##" ng-model="item.$costCenter"> </i-list>
+            <div class="col2">
+              <br />
+              <i-button type="add" label="##word.Add##" ng-click="addCostCenters()"></i-button>
+            </div>
+          </div>
+          <div class="row" ng-show="item.costCentersList.length > 0">
+            <table class="table loaded center bold" id="t1">
+              <tr>
+                <th>##word.Code##</th>
+                <th>##word.Name##</th>
+                <th>##word.Rate## ##word.%##</th>
+                <th>##word.Actions##</th>
+              </tr>
+
+              <tr ng-repeat="cost in item.costCentersList">
+                <td>
+                  <p class="center">{{cost.code}}</p>
+                </td>
+                <td>
+                  <p class="center">{{cost.name##session.lang##}}</p>
+                </td>
+                <td>
+                  <div class="row">
+                    <i-control class="col9" ng-model="cost.rate" type="number"></i-control>
+                    <p class="col3 currency">##word.%##</p>
+                  </div>
+                </td>
+                <td class="center">
+                  <i-button type="delete" ng-click="item.costCentersList.splice($index,1)"> </i-button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </fieldset>
+      </div>
+
+      <fieldset ng-show="item.type== 'detailed'">
         <div class="row">
-          <i-list items="costCentersList" class="col4" label="##word.Cost Center##" ng-search="item.$costCenter" display="name##session.lang##" ng-model="item.$costCenter"> </i-list>
+          <i-list items="generalLedgerList" class="col4" label="##word.General Ledger##" ng-search="item.$generalLedger" display="name##session.lang##" ng-model="item.$generalLedger"> </i-list>
           <div class="col2">
             <br />
-            <i-button type="add" label="##word.Add##" ng-click="pushCostCenters()"></i-button>
+            <i-button type="add" label="##word.Add##" ng-click="addGeneralLedger()"></i-button>
           </div>
-
-          <!-- <a class="btn left col2 bg-green white" target="blank" href="/costCenters"> ##word.Add Cost Center##</a> -->
         </div>
-        <div class="row" ng-show="item.costCentersList.length > 0">
+        <div class="row" ng-show="item.generalLedgerList.length > 0">
           <table class="table loaded center bold" id="t1">
             <tr>
               <th>##word.Code##</th>
               <th>##word.Name##</th>
-              <th>##word.Rate## ##word.%##</th>
               <th>##word.Actions##</th>
             </tr>
 
-            <tr ng-repeat="cost in item.costCentersList">
+            <tr ng-repeat="gL in item.generalLedgerList">
               <td>
-                <i-control disabled ng-model="cost.code"></i-control>
+                <p class="center">{{gL.code}}</p>
               </td>
               <td>
-                <i-control disabled ng-model="cost.name##session.lang##"></i-control>
+                <p class="center">{{gL.name##session.lang##}}</p>
               </td>
-              <td>
-                <div class="row">
-                  <i-control class="col9" ng-model="cost.rate" type="number"></i-control>
-                  <p class="col3 currency">##word.%##</p>
-                </div>
-              </td>
+
               <td class="center">
-                <i-button type="delete" ng-click="item.costCentersList.splice($index,1)"> </i-button>
+                <i-button type="delete" ng-click="item.generalLedgerList.splice($index,1)"> </i-button>
               </td>
             </tr>
           </table>
         </div>
-      </div>
+      </fieldset>
     </div>
     <div class="col3">
       <i-image class="img128 center" ng-model="item.image"></i-image>

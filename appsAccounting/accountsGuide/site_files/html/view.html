@@ -97,5 +97,21 @@
         </table>
       </fieldset>
     </div>
+    <div class="row" ng-show="accountingAccountsGuideView.generalLedgerList.length > 0">
+      <fieldset>
+        <legend>##word.General Ledger##</legend>
+
+        <table class="table loaded center hover bold">
+          <tr>
+            <th>##word.Code##</th>
+            <th>##word.Name##</th>
+          </tr>
+          <tr ng-repeat="gl in accountingAccountsGuideView.generalLedgerList">
+            <td>{{gl.code}}</td>
+            <td>{{gl.name##session.lang##}}</td>
+          </tr>
+        </table>
+      </fieldset>
+    </div>
   </fieldset>
 </div>

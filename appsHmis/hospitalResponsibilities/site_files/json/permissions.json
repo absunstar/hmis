@@ -1,0 +1,11 @@
+[
+    { "moduleName" : "public" , "screenName" : "hospitalResponsibilities" , "name":"hospitalResponsibilitiesManage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "hospitalResponsibilities" , "name":"hospitalResponsibilitiesAdd" , "En":"Add" , "Ar":"إضافة"},
+    { "moduleName" : "public" , "screenName" : "hospitalResponsibilities" , "name":"hospitalResponsibilitiesUpdate" , "En":"Edit" , "Ar":"تعديل"},
+    { "moduleName" : "public" , "screenName" : "hospitalResponsibilities" , "name":"hospitalResponsibilitiesDelete" , "En":"Delete" , "Ar":"حذف"},
+    { "moduleName" : "public" , "screenName" : "hospitalResponsibilities" , "name":"hospitalResponsibilitiesView" , "En":"View" , "Ar":"عرض"},
+    { "moduleName" : "public" , "screenName" : "hospitalResponsibilities" , "name":"hospitalResponsibilitiesSearch" , "En":"Search" , "Ar":"بحث"},
+    { "moduleName" : "public" , "screenName" : "hospitalResponsibilities" , "name":"hospitalResponsibilitiesExport" , "En":"Export" , "Ar":"تصدير"},
+    { "moduleName" : "public" , "screenName" : "hospitalResponsibilities" , "name":"hospitalResponsibilitiesPrint" , "En":"Print" , "Ar":"طباعة"},
+    { "moduleName" : "public" , "screenName" : "hospitalResponsibilities" , "name":"hospitalResponsibilitiesUi" , "En":"UI" , "Ar":"الواجهة الرسومية"}
+]

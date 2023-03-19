@@ -1,12 +1,12 @@
-app.controller('hospitalCenters', function ($scope, $http, $timeout) {
+app.controller('hospitalResponsibilities', function ($scope, $http, $timeout) {
   $scope.baseURL = '';
-  $scope.appName = 'hospitalCenters';
-  $scope.modalID = '#hospitalCentersManageModal';
-  $scope.modalSearchID = '#hospitalCentersSearchModal';
+  $scope.appName = 'hospitalResponsibilities';
+  $scope.modalID = '#hospitalResponsibilitiesManageModal';
+  $scope.modalSearchID = '#hospitalResponsibilitiesSearchModal';
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: { url: '/images/hospitalCenters.png' },
+    image: { url: '/images/hospitalResponsibilities.png' },
     active: true,
   };
   $scope.item = {};

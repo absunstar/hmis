@@ -650,7 +650,7 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
           nameAr: 1,
           consItem: 1,
           specialty: 1,
-          hospitalCenter: 1,
+          hospitalResponsibility: 1,
           doctorType: 1,
           nationality: 1,
           clinicExt: 1,
@@ -734,8 +734,8 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
             type: _item.type,
           };
   
-          if (_item.doctor && _item.doctor.hospitalCenter) {
-            obj.hospitalCenter = { ..._item.doctor.hospitalCenter };
+          if (_item.doctor && _item.doctor.hospitalResponsibility) {
+            obj.hospitalResponsibility = { ..._item.doctor.hospitalResponsibility };
           }
   
           $http({

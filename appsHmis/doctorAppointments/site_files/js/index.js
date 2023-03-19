@@ -246,7 +246,7 @@ app.controller('doctorAppointments', function ($scope, $http, $timeout) {
           nameEn: 1,
           nameAr: 1,
           specialty: 1,
-          hospitalCenter: 1,
+          hospitalResponsibility: 1,
           doctorScheduleList: 1,
           consItem: 1,
           doctorType: 1,

@@ -19,7 +19,35 @@
       <i-image class="img128 center" ng-model="item.image"></i-image>
     </div>
   </div>
-  <div class="row padding"></div>
+  <div class="row padding">
+    <div class="row">
+      <i-list items="accountGuideList" class="col4" label="##word.Account Guide##" ng-search="item.$accountGuide" display="name##session.lang##" ng-model="item.$accountGuide"> </i-list>
+      <div class="col2">
+        <br />
+        <i-button type="add" label="##word.Add##" ng-click="addAccountGuide()"></i-button>
+      </div>
+    </div>
+  </div>
+  <div class="row padding">
+    <table class="table hover bold">
+      <tr>
+        <th>##word.Code##</th>
+        <th>##word.Name##</th>
+        <th class="not-print">##word.Actions##</th>
+      </tr>
+      <tr ng-repeat="item in item.accountsList">
+        <td>
+          <i-image view class="logo center" ng-model="item.image"></i-image>
+        </td>
+        <td class="text-center blue">{{item.code}}</td>
+        <td class="text-center">{{item.name##session.lang##}}</td>
+
+        <td class="text-center not-print">
+          <i-button type="delete default" title="##word.Delete##" ng-click="item.accountsList.splice($index,1)">></i-button>
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>
 <div ng-show="mode !== 'add' " class="row">
   <table class="table hover border">

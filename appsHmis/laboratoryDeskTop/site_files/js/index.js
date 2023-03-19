@@ -273,7 +273,7 @@ app.controller('laboratoryDeskTop', function ($scope, $http, $timeout) {
           nameAr: 1,
           consItem: 1,
           specialty: 1,
-          hospitalCenter: 1,
+          hospitalResponsibility: 1,
           doctorType: 1,
           nationality: 1,
           clinicExt: 1,

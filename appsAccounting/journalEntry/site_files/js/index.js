@@ -6,7 +6,7 @@ app.controller('journalEntry', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: { url: '/images/journalEntry.png' },
+    image: { url: '/images/journalEntry.png', totalDebtor: 0, totalCreditor: 0 },
     active: true,
   };
   $scope.item = {};
@@ -15,7 +15,7 @@ app.controller('journalEntry', function ($scope, $http, $timeout) {
   $scope.showAdd = function (_item) {
     $scope.error = '';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure };
+    $scope.item = { ...$scope.structure, accountsList: [] };
     site.showModal($scope.modalID);
   };
 
@@ -41,7 +41,7 @@ app.controller('journalEntry', function ($scope, $http, $timeout) {
           $scope.list.push(response.data.doc);
         } else {
           $scope.error = response.data.error;
-          if (response.data.error &&response.data.error.like('*Must Enter Code*')) {
+          if (response.data.error && response.data.error.like('*Must Enter Code*')) {
             $scope.error = '##word.Must Enter Code##';
           }
         }
@@ -219,6 +219,15 @@ app.controller('journalEntry', function ($scope, $http, $timeout) {
     $scope.getAll($scope.search);
     site.hideModal($scope.modalSearchID);
     $scope.search = {};
+  };
+
+  $scope.addAccountGuide = function () {
+    $scope.item = $scope.item || [];
+    $scope.item.accountGuideList = $scope.item.accountGuideList || [];
+    if ($scope.item.$accountGuide.id && !$scope.item.accountGuideList.some((c) => c.id === $scope.item.$accountGuide.id)) {
+      $scope.item.accountGuideList.unshift($scope.item.$accountGuide);
+      $scope.item.$accountGuide = {};
+    }
   };
 
   $scope.getAll();

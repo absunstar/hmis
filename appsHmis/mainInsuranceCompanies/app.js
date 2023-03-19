@@ -603,8 +603,8 @@ module.exports = function init(site) {
               servicesList[servicesList.length - 1].patientCash = servicesList[servicesList.length - 1].total - datuct;
             }
           }
-          if (_data.hospitalCenter && _data.hospitalCenter.id) {
-            servicesList[servicesList.length - 1].hospitalCenter = _data.hospitalCenter;
+          if (_data.hospitalResponsibility && _data.hospitalResponsibility.id) {
+            servicesList[servicesList.length - 1].hospitalResponsibility = _data.hospitalResponsibility;
           }
           if (serviceMemory.normalRangeList && serviceMemory.normalRangeList.length > 0) {
             servicesList[servicesList.length - 1].normalRangeList = serviceMemory.normalRangeList;

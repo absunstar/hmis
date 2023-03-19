@@ -399,11 +399,12 @@ module.exports = function init(site) {
           costCenterType: 1,
           costCentersList: 1,
           category: 1,
+          generalLedgerList: 1,
         };
         let list = [];
         app.memoryList
-        .filter((g) => (!where['type'] || g.type == where['type']) && g.company && g.company.id == site.getCompany(req).id)
-        .forEach((doc) => {
+          .filter((g) => (!where['type'] || g.type == where['type']) && g.company && g.company.id == site.getCompany(req).id)
+          .forEach((doc) => {
             let obj = { ...doc };
 
             for (const p in obj) {

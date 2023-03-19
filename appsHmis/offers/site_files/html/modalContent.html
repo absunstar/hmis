@@ -33,7 +33,7 @@
             </div>
 
             <div class="row">
-                <i-list help-id="" label="##word.Service##" class="col6" ng-model="item.$service" display="name##session.lang##" items="servicesList" ng-search="item.$services"></i-list>
+                <i-list help-id="" label="##word.Service##" class="col6" ng-model="item.$service" display="name##session.lang##" items="servicesList" ng-get="getServicesList($search)"></i-list>
                 <div class="col3">
                     <br />
                     <i-button type="add" label="##word.Add Service##" ng-click="addServices(item)"></i-button>

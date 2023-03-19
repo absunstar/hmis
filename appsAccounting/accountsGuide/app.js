@@ -169,6 +169,7 @@ module.exports = function init(site) {
         if (_data.costCenterType == 'mandatory') {
           if (!_data.costCentersList || _data.costCentersList.length < 1) {
             response.error = 'You Should Select Cost Center';
+            res.json(response);
             return;
           }
         }
@@ -176,6 +177,7 @@ module.exports = function init(site) {
         if (accountsSetting.linkGlWithIncomeStatementAndBudget == true && _data.type == 'detailed') {
           if (!_data.category) {
             response.error = 'You Should Select Category';
+            res.json(response);
             return;
           }
         }
@@ -294,7 +296,35 @@ module.exports = function init(site) {
 
         let _data = req.data;
         _data.editUserInfo = req.getUserFinger();
+        const accountsSetting = site.getSystemSetting(req).accountsSetting;
 
+        if (_data.costCenterType == 'mandatory') {
+          if (!_data.costCentersList || _data.costCentersList.length < 1) {
+            response.error = 'You Should Select Cost Center';
+            res.json(response);
+            return;
+          }
+        }
+
+        if (accountsSetting.linkGlWithIncomeStatementAndBudget == true && _data.type == 'detailed') {
+          if (!_data.category) {
+            response.error = 'You Should Select Category';
+            res.json(response);
+            return;
+          }
+        }
+
+        if (_data.costCentersList && _data.costCentersList.length > 0) {
+          let total = 0;
+          _data.costCentersList.forEach((_costCenter) => {
+            total += _costCenter.rate;
+          });
+          if (total != 100) {
+            response.error = 'Total cost center ratios should be equal 100%';
+            res.json(response);
+            return;
+          }
+        }
         app.update(_data, (err, result) => {
           if (!err) {
             response.done = true;
@@ -372,8 +402,8 @@ module.exports = function init(site) {
         };
         let list = [];
         app.memoryList
-          .filter((g) => g.company && g.company.id == site.getCompany(req).id)
-          .forEach((doc) => {
+        .filter((g) => (!where['type'] || g.type == where['type']) && g.company && g.company.id == site.getCompany(req).id)
+        .forEach((doc) => {
             let obj = { ...doc };
 
             for (const p in obj) {

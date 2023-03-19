@@ -197,6 +197,36 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getAccountsGuideList = function () {
+    $scope.error = '';
+    $scope.accountsGuideList = [];
+    $scope.busy = true;
+    $http({
+      method: 'POST',
+      url: '/api/accountsGuide/all',
+      data: {
+        where: {
+          status: 'active',
+          type: 'detailed',
+        },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        $scope.accountsGuideList = response.data.list;
+      },
+      function (err) {
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getCountriesList = function () {
     $scope.busy = true;
     $http({
@@ -584,4 +614,5 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
   $scope.getServicesGroupsList();
   $scope.getServicesList();
   $scope.getinsuranceClassesList();
+  $scope.getAccountsGuideList();
 });

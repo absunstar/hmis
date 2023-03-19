@@ -227,7 +227,7 @@ app.controller('offers', function ($scope, $http, $timeout) {
           nameEn: 1,
           nameAr: 1,
           code: 1,
-          cashPrice: 1,
+          cashPriceOut: 1,
           vat: 1,
         },
       },

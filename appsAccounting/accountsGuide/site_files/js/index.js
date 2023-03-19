@@ -255,9 +255,9 @@ app.controller('accountsGuide', function ($scope, $http, $timeout) {
     $timeout(() => {
       if ($scope.settings.accountsSetting.linkGlWithIncomeStatementAndBudget) {
         let url = '/api/incomeList/all';
-        if ($scope.item.report == 'budget') {
+        if ($scope.item.reportType == 'budget') {
           url = '/api/budgetClassifications/all';
-        } else if ($scope.item.report == 'incomeList') {
+        } else if ($scope.item.reportType == 'incomeList') {
           url = '/api/incomeList/all';
         }
 

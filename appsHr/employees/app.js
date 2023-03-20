@@ -253,20 +253,23 @@ module.exports = function init(site) {
                         from: '',
                         to: '',
                         count: 0,
+                        calculatedCount: 0,
                         value: 0,
                         amount: 0,
                         penality: 0,
+                        availableDelayTime: paySlip.availableDelayTime,
                         // source: {},
                     };
 
                     let selectdPenality;
                     let penalityValue;
 
-                    // console.log('penalityValue', penaltiesList[selectdPenality]);
-                    // console.log('penalityValue', penalityValue);
+                    const availableDelayTime = paySlip.availableDelayTime;
+
                     if (_att.attendanceDifference < 0) {
-                        absentHourObj.count = Math.abs(_att.attendanceDifference);
-                        selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.count >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
+                        absentHourObj.count = availableDelayTime - Math.abs(_att.attendanceDifference);
+                        absentHourObj.calcCount = Math.abs(availableDelayTime + _att.attendanceDifference); // 111111
+                        selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.calcCount >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
                         penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
                         absentHourObj.amount = paySlip.daySalary;
                         absentHourObj.penality = penaltiesList[selectdPenality]?.value || 0;
@@ -274,7 +277,8 @@ module.exports = function init(site) {
                         absentHourObj.to = _att.attendTime;
                         if (delayRequestIndex == -1 || workErrandIndex == -1) {
                             absentHourObj.count = Math.abs(_att.attendanceDifference) - (delayType?.allwedTime || 0);
-                            selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.count >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
+                            absentHourObj.calcCount = Math.abs(availableDelayTime + (delayType?.allwedTime || 0) + _att.attendanceDifference);
+                            selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.calcCount >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
                             penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
                             absentHourObj.from = delayType?.toTime || _att.shiftStart;
                             absentHourObj.to = _att.attendTime;
@@ -285,7 +289,8 @@ module.exports = function init(site) {
                             paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
                         } else if (delayRequestIndex !== -1 || workErrandIndex !== -1) {
                             absentHourObj.count = Math.abs(_att.attendanceDifference) - (delayType?.allwedTime || 0);
-                            selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.count >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
+                            absentHourObj.calcCount = Math.abs(availableDelayTime - delayType?.allwedTime || 0 + _att.attendanceDifference - (delayType?.allwedTime || 0));
+                            selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.calcCount >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
                             penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
 
                             if (delayType?.allwedTime) {
@@ -313,7 +318,8 @@ module.exports = function init(site) {
                     absentHourObj = { ...absentHourObj };
                     if (_att.leaveDifference > 0) {
                         absentHourObj.count = Math.abs(_att.leaveDifference);
-                        selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.count >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
+                        absentHourObj.calcCount = Math.abs(availableDelayTime - _att.leaveDifference);
+                        selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.calcCount >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
                         penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
                         absentHourObj.from = _att.shiftEnd;
                         absentHourObj.to = _att.leaveTime;
@@ -461,7 +467,7 @@ module.exports = function init(site) {
                     name: app.name,
                 },
                 (req, res) => {
-                    res.render(app.name + '/index.html', { title: app.name, appName: 'Employees' }, { parser: 'html', compres: true });
+                    res.render(app.name + '/index.html', { title: app.name, appName: 'Employees', setting: site.getSystemSetting(req) }, { parser: 'html', compres: true });
                 }
             );
         }
@@ -615,14 +621,15 @@ module.exports = function init(site) {
 
                 app.$collection.find({ id: _data.id }, (err, doc) => {
                     if (doc) {
-                        // const regularVacations = doc.regularVacations || 0;
-                        // const casualVacations = doc.casualVacations || 0;
+                        const regularVacations = doc.regularVacations || 0;
+                        const casualVacations = doc.casualVacations || 0;
                         const annual = doc.annual || 0;
 
                         response.done = true;
                         response.doc = {
                             annual,
-                            // regularVacations, casualVacations
+                            regularVacations,
+                            casualVacations,
                         };
 
                         res.json(response);
@@ -683,6 +690,7 @@ module.exports = function init(site) {
                                 penaltiesList: shiftDoc.penaltiesList,
                                 salaryAccountSettings: shiftDoc.salaryAccountSettings,
                                 shiftApproved: shiftDoc.approved,
+                                availableDelayTime: shiftDoc.availableDelayTime,
                             };
 
                             site.getEmployeePaySlipData(req, data, (result) => {
@@ -749,7 +757,7 @@ module.exports = function init(site) {
                                         nameAr: 'جزاء',
                                         nameEn: 'Penality',
                                         list: result.penalityList,
-                                        count: result.penalityCount,
+                                        count: '#',
                                         value: site.toMoney(result.penalityValue),
                                     };
 

@@ -120,10 +120,18 @@
                     </tr>
                     <tr ng-repeat="time in item.penaltiesList">
                         <td><p class="text-center">{{$index+1}}</p></td>
-                        <td><p class="text-center">{{time.fromMinute}}</p></td>
-                        <td><p class="text-center">{{time.toMinute }}</p></td>
                         <td>
-                            <p class="text-center">{{time.value}} - <span>##word.Day##</span></p>
+                            <i-control ng-show="!item.approved" type="number" ng-model="time.fromMinute"></i-control>
+                            <p ng-show="item.approved" class="text-center">{{time.fromMinute}}</p>
+                        </td>
+                        <td>
+                            <i-control ng-show="!item.approved" type="number" ng-model="time.toMinute"></i-control>
+                            <p ng-show="item.approved" class="text-center">{{time.toMinute}}</p>
+                        </td>
+                        <td>
+                            <i-control ng-show="!item.approved" class="col10" type="number" ng-model="time.value"></i-control>
+                            <p ng-show="item.approved" class="text-center">{{time.value}}</p>
+                            <span class="col2 padding">##word.Day##</span>
                         </td>
 
                         <td class="text-center">

@@ -12,7 +12,16 @@
                 </div>
                 <div class="row">
                     <i-control class="col4" label="##word.Fingerprint code##" ng-model="item.fingerprintCode"> </i-control>
-                    <i-list class="col4" label="##word.Nationality##" ng-model="item.nationality" items="nationalitiesList" display="name##session.lang##" ng-search="item.$nationality"> </i-list>
+                    <i-list
+                        class="col4"
+                        label="##word.Nationality##"
+                        ng-model="item.nationality"
+                        ng-change="setDefaultVacationalance(item.nationality)"
+                        items="nationalitiesList"
+                        display="name##session.lang##"
+                        ng-search="item.$nationality"
+                    >
+                    </i-list>
                     <i-list class="col4" v="r" label="##word.Gender##" ng-model="item.gender" display="name##session.lang##" items="gendersList" ng-search="item.$genders"></i-list>
                 </div>
             </div>
@@ -509,7 +518,7 @@
                 <div id="criticalMedicalInformations" class="tab-content">
                     <fieldset>
                         <legend>##word.Medical Informations##</legend>
-                        <i-textarea label="##word.Medical Informations##" ng-model="item.criticalMedicalInformations"> </i-textarea>
+                        <i-content label="##word.Medical Informations##" ng-model="item.criticalMedicalInformations"> </i-content>
                     </fieldset>
                 </div>
 
@@ -552,40 +561,56 @@
                         <fieldset>
                             <legend>##word.Vacations Balance##</legend>
                             <div class="row">
-                                <!-- <i-control type="number" class="col3" label="##word.Regular##" ng-model="item.regularVacations"> </i-control>
-                                <i-control type="number" class="col3" label="##word.Casual##" ng-model="item.casualVacations"> </i-control> -->
                                 <i-control type="number" class="col3" label="##word.Annual##" ng-model="item.annual"> </i-control>
-                                <i-control type="number" class="col3" ng-change="calculateWorkCost(item)" label="##word.Work Days##" ng-model="item.workDays"> </i-control>
-                                <i-control type="number" class="col3" ng-change="calculateWorkCost(item)" label="##word.Work Hours##" ng-model="item.workHours"> </i-control>
+                                <i-control type="number" class="col3" label="##word.Regular##" ng-model="item.regularVacations"> </i-control>
+                                <i-control type="number" class="col3" label="##word.Casual##" ng-model="item.casualVacations"> </i-control>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>##word.Delay Permissions##</legend>
+                            <div class="row">
                                 <i-control type="number" class="col3" label="##word.Delay Permissions Count##" ng-model="item.delayPermissionsCount"> </i-control>
                                 <i-control type="number" class="col3" label="##word.Delay Permissions Time##" ng-model="item.delayPermissionsTime"> </i-control>
                             </div>
                         </fieldset>
-
                         <fieldset>
                             <legend>##word.Salary Informations##</legend>
                             <fieldset>
                                 <legend>##word.Basic Salary##</legend>
                                 <div class="row">
-                                    <i-control class="col4" type="number" label="##word.Basic Salary##" ng-change="calculateWorkCost(item)" ng-model="item.basicSalary"></i-control>
-                                    <div class="col2">
-                                        <label></label>
-                                        <br />
-                                        <span class="currency">##word.$##</span>
+                                    <div class="col4">
+                                        <div class="col10">
+                                            <i-control type="number" label="##word.Basic Salary##" ng-change="calculateWorkCost(item)" ng-model="item.basicSalary"></i-control>
+                                        </div>
+                                        <div class="col2 padding">
+                                            <br />
+                                            <span class="currency">##word.$##</span>
+                                        </div>
                                     </div>
-                                    <i-control class="col4" v="r" type="number" label="##word.Day Salary##" ng-model="item.daySalary"></i-control>
-                                    <div class="col2">
-                                        <label></label>
-                                        <br />
-                                        <span class="currency">##word.$##</span>
-                                    </div>
-                                    <i-control class="col4" v="r" type="number" label="##word.Hour Salary##" ng-model="item.hourSalary"></i-control>
-                                    <div class="col2">
-                                        <label></label>
-                                        <br />
-                                        <span class="currency">##word.$##</span>
-                                    </div>
+                                    <i-control type="number" class="col4" ng-change="calculateWorkCost(item)" label="##word.Work Days##" ng-model="item.workDays"> </i-control>
+                                    <i-control type="number" class="col4" ng-change="calculateWorkCost(item)" label="##word.Work Hours##" ng-model="item.workHours"> </i-control>
                                     <i-checkbox class="col4 text-center" label="##word.Auto Overtime##" ng-model="item.autoOvertime"></i-checkbox>
+
+                                    <div class="col4">
+                                        <div class="col10">
+                                            <i-control v="r" type="number" label="##word.Day Salary##" ng-model="item.daySalary"></i-control>
+                                        </div>
+                                        <div class="col2 padding">
+                                            <br />
+                                            <span class="currency">##word.$##</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col4">
+                                        <div class="col10">
+                                            <i-control v="r" type="number" label="##word.Hour Salary##" ng-model="item.hourSalary"></i-control>
+                                        </div>
+                                        <div class="col2 padding">
+                                            <br />
+                                            <span class="currency">##word.$##</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </fieldset>
 

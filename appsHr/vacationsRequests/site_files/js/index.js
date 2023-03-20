@@ -27,7 +27,8 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-
+        $scope.item.approvedVacationType = $scope.item.approvedVacationType || _item.vacationType;
+        $scope.item.approvedDays = $scope.item.approvedDays || _item.days;
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -61,9 +62,6 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
         $scope.item = {};
 
         $scope.getEmployeeVacationBalance(_item);
-
-        $scope.item['approvedVacationType'] = $scope.item.approvedVacationType || _item.vacationType;
-        $scope.item['approvedDays'] = $scope.item.approvedDays || _item.days;
 
         site.showModal($scope.modalID);
     };
@@ -221,8 +219,8 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
             function (response) {
                 $scope.busy = false;
                 if (response.data.done && response.data.doc) {
-                    // $scope.item.regularVacations = response.data.doc.regularVacations;
-                    // $scope.item.casualVacations = response.data.doc.casualVacations;
+                    $scope.item.regularVacations = response.data.doc.regularVacations;
+                    $scope.item.casualVacations = response.data.doc.casualVacations;
                     $scope.item.annual = response.data.doc.annual;
                 }
             },
@@ -232,6 +230,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
             }
         );
     };
+
     $scope.view = function (_item) {
         $scope.busy = true;
         $scope.error = '';
@@ -246,6 +245,9 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
                 $scope.busy = false;
                 if (response.data.done) {
                     $scope.item = response.data.doc;
+
+                    $scope.item.approvedVacationType = response.data.doc.vacationType;
+                    $scope.item.approvedDays = response.data.doc.days;
                 } else {
                     $scope.error = response.data.error;
                 }

@@ -1,4 +1,5 @@
 app.controller('employees', function ($scope, $http, $timeout) {
+    $scope.setting = site.showObject(`##data.#setting##`);
     $scope.baseURL = '';
     $scope.appName = 'employees';
     $scope.modalID = '#employeesManageModal';
@@ -20,6 +21,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
     $scope.selectedAllowance = {};
     $scope.selectedDeduction = {};
     $scope.variableSalary = {};
+
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
@@ -524,27 +526,6 @@ app.controller('employees', function ($scope, $http, $timeout) {
             }
         );
     };
-
-    // $scope.getEmployeeStatusList = function () {
-    //     $scope.busy = true;
-    //     $scope.employeeStatusList = [];
-    //     $http({
-    //         method: 'POST',
-    //         url: '/api/employeeStatus',
-    //         data: {},
-    //     }).then(
-    //         function (response) {
-    //             $scope.busy = false;
-    //             if (response.data.done && response.data.list.length > 0) {
-    //                 $scope.employeeStatusList = response.data.list;
-    //             }
-    //         },
-    //         function (err) {
-    //             $scope.busy = false;
-    //             $scope.error = err;
-    //         }
-    //     );
-    // };
 
     $scope.getMaritalStatusList = function () {
         $scope.busy = true;
@@ -1149,6 +1130,19 @@ app.controller('employees', function ($scope, $http, $timeout) {
         }, 200);
     };
 
+    $scope.setDefaultVacationalance = function (nathionality) {
+        const saudiNathinality = $scope.setting.hrSettings?.saudiVacations;
+        const othersNathinality = $scope.setting.hrSettings?.othersVacations;
+        if (nathionality && nathionality.id == saudiNathinality?.nationality.id) {
+            $scope.item.annual = saudiNathinality.annual;
+            $scope.item.regularVacations = saudiNathinality.regularVacations;
+            $scope.item.casualVacations = saudiNathinality.casualVacations;
+        } else {
+            $scope.item.annual = othersNathinality.annual;
+            $scope.item.regularVacations = othersNathinality.regularVacations;
+            $scope.item.casualVacations = othersNathinality.casualVacations;
+        }
+    };
     $scope.getAll();
     $scope.getNumberingAuto();
     $scope.getFilesTypes();

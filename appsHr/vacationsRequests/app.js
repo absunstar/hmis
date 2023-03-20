@@ -293,18 +293,13 @@ module.exports = function init(site) {
                     const employeeApp = site.getApp('employees');
                     employeeApp.$collection.find({ where: { id: _data.employee.id } }, (err, doc) => {
                         if (doc) {
-                            // if (_data.approvedVacationType.id === 1) {
-                            //     doc.regularVacations += _data.approvedDays;
-                            // } else if (_data.approvedVacationType.id === 2) {
-                            //     doc.casualVacations += _data.approvedDays;
-                            // }
-
                             if (_data.approvedVacationType.id === 1) {
                                 doc.annual += _data.approvedDays;
+                            } else if (_data.approvedVacationType.id === 2) {
+                                doc.regularVacations += _data.approvedDays;
+                            } else if (_data.approvedVacationType.id === 3) {
+                                doc.casualVacations += _data.approvedDays;
                             }
-                            //  else if (_data.approvedVacationType.id === 2) {
-                            //     doc.casualVacations += _data.approvedDays;
-                            // }
                         } else {
                             response.done = false;
                             response.error = 'Employee not Found';
@@ -357,15 +352,13 @@ module.exports = function init(site) {
                             const employeeApp = site.getApp('employees');
                             employeeApp.$collection.find({ where: { id: _data.employee.id } }, (err, doc) => {
                                 if (doc) {
-                                    // if (_data.approvedVacationType.id === 1) {
-                                    //     doc.regularVacations -= _data.approvedDays;
-                                    // } else if (_data.approvedVacationType.id === 2) {
-                                    //     doc.casualVacations -= _data.approvedDays;
-                                    // }
                                     if (_data.approvedVacationType.id === 1) {
                                         doc.annual -= _data.approvedDays;
-                                    } 
-                            
+                                    } else if (_data.approvedVacationType.id === 2) {
+                                        doc.regularVacations -= _data.approvedDays;
+                                    } else if (_data.approvedVacationType.id === 3) {
+                                        doc.casualVacations -= _data.approvedDays;
+                                    }
                                 } else {
                                     response.done = false;
                                     response.error = 'Employee not Found';

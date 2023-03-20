@@ -97,7 +97,8 @@
                             <span ng-show="itm.type == 'percent'"> ##word.%## </span>
                             <span ng-show="itm.type == 'value'" class="currency"> ##word.$## </span>
                         </p>
-                        <p ng-show="itm.count != '-' ">{{itm.count}}</p>
+                        <p ng-show="itm.count != '-' && itm.count != '#'">{{itm.count}}</p>
+                        <p ng-show="itm.count == '#' ">-</p>
                     </td>
                     <td class="center">
                         <p class="text-danger">{{itm.value}} <span>##word.$##</span></p>

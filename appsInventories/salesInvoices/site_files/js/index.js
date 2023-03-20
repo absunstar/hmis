@@ -1232,14 +1232,15 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     }).then(
       function (response) {
         $scope.busy = false;
-        console.log(response.data.doc);
         if (response.data.done && response.data.doc) {
           let index = item.batchesList.findIndex((itm) => itm.code == response.data.doc.code);
           if (index === -1) {
             item.batchesList.push(response.data.doc);
+            item.$batchCount += 1;
           } else {
             if (item.workByBatch) {
               item.batchesList[index].count += 1;
+              item.$batchCount += 1;
             } else {
               $scope.errorBatch = 'Item Is Exist';
             }

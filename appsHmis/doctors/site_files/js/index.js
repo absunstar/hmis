@@ -117,7 +117,7 @@ app.controller('doctors', function ($scope, $http, $timeout) {
         $scope.busy = false;
         if (response.data.done) {
           $scope.item = response.data.doc;
-          $scope.item.doctorScheduleList.forEach(s => {
+          $scope.item.doctorScheduleList.forEach((s) => {
             s.start = new Date(s.start);
             s.end = new Date(s.end);
           });
@@ -182,6 +182,7 @@ app.controller('doctors', function ($scope, $http, $timeout) {
           code: 1,
           nameEn: 1,
           nameAr: 1,
+          nphisCode: 1,
         },
       },
     }).then(
@@ -205,7 +206,7 @@ app.controller('doctors', function ($scope, $http, $timeout) {
       method: 'POST',
       url: '/api/services/all',
       data: {
-        where: { active: true , 'serviceGroup.type.id' : 2 },
+        where: { active: true, 'serviceGroup.type.id': 2 },
         select: {
           id: 1,
           code: 1,

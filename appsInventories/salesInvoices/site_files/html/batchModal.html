@@ -50,7 +50,7 @@
           </div>
           <fieldset>
             <legend>##word.Search##</legend>
-            <i-control type="text" ng-keydown="getBatch($event,batch)" ng-model="batch.$search"> </i-control>
+            <i-control type="text" class="col6" label="##word.BATCH## / ##word.SERIAL## / ##word.QR CODE##" ng-keydown="getBatch($event,batch)" ng-model="batch.$search"> </i-control>
           </fieldset>
           <div class="row">
             <table class="table loaded center bold hover details">
@@ -62,9 +62,9 @@
                 <th ng-hide="batch.workByQrCode">##word.Production Date##</th>
                 <th ng-show="batch.workByBatch || batch.workByQrCode">##word.Expiry Date##</th>
                 <th ng-show="batch.workByBatch">##word.validit Days##</th>
-                <th ng-show="batch.workByBatch">####word.Current QTY.##</th>
-                <th ng-show="batch.workByBatch">####word.Quantity##</th>
-                <th>####word.Actions##</th>
+                <th ng-show="batch.workByBatch">##word.Current QTY.##</th>
+                <th ng-show="batch.workByBatch">##word.Quantity##</th>
+                <th>##word.Actions##</th>
                 <!-- <th ng-hide="batch.workByBatch">##word.Select##</th> -->
               </tr>
 
@@ -101,7 +101,7 @@
                   <p ng-show="item.approved">{{c.count}}</p>
                 </td>
                 <td>
-                  <i-button type="delete default" ng-click="batch.batchesList.splice($index,1)"> </i-button>
+                  <i-button type="delete default" ng-click="batch.$batchCount = batch.$batchCount - c.count ;batch.batchesList.splice($index,1)"> </i-button>
                 </td>
                 <!-- <td ng-hide="batch.workByBatch">
                   <i-checkbox ng-model="c.$select" label="##word.Select##" ng-change="c.count = c.$select? 1 : 0 ; calcBatch(batch)"></i-checkbox>

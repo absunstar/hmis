@@ -6,16 +6,16 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-      image: { url: '/images/salesPatientsInvoices.png' },
-      totalPrice: 0,
-      totalItemsDiscounts: 0,
-      totalDiscounts: 0,
-      totalTaxes: 0,
-      totalBeforeVat: 0,
-      totalVat: 0,
-      totalAfterVat: 0,
-      totalNet: 0,
-      active: true,
+    image: { url: '/images/salesPatientsInvoices.png' },
+    totalPrice: 0,
+    totalItemsDiscounts: 0,
+    totalDiscounts: 0,
+    totalTaxes: 0,
+    totalBeforeVat: 0,
+    totalVat: 0,
+    totalAfterVat: 0,
+    totalNet: 0,
+    active: true,
   };
   $scope.item = {};
   $scope.orderItem = {};
@@ -450,7 +450,7 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
   $scope.getDoctorDeskTopList = function () {
     $scope.busy = true;
     $scope.doctorDeskTopList = [];
-    let where = { 'status.id': 3, hasSales: false };
+    let where = { 'status.id': 3, hasSales: false, ['ordersList.type']: 'MD' };
 
     $http({
       method: 'POST',
@@ -596,14 +596,14 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
               medicineFrequency: elem.medicineFrequency,
               medicineRoute: elem.medicineRoute,
               barcode: elem.barcode,
-              batchesList: elem.batchesList,
+              batchesList: [],
               price: elem.price,
               discount: elem.discount,
               discountType: elem.discountType,
               extraDiscount: 0,
               total: 0,
             };
-            if (elem.batchesList && elem.batchesList.length > 0) {
+            /* if (elem.batchesList && elem.batchesList.length > 0) {
               obj.batchesList = [];
               elem.batchesList.forEach((_b) => {
                 if (_b.count > 0) {
@@ -615,7 +615,7 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
                   }
                 }
               });
-            }
+            } */
             $scope.item.itemsList.push(obj);
           }
 
@@ -1389,9 +1389,49 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
       qr.expiryDate = code[1].slice(2, 8);
       qr.sn = code[1].slice(10);
     }
-
     return qr;
   };
+
+  $scope.getBatch = function (ev, item) {
+    if (ev && ev.which != 13) {
+      return;
+    }
+    $scope.errorBatch = '';
+    $scope.busy = true;
+    $http({
+      method: 'POST',
+      url: '/api/storesItems/getBatch',
+      data: {
+        where: { active: true, id: item.id, storeId: $scope.item.store.id, unitId: item.unit.id, code: item.$search },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.doc) {
+          let index = item.batchesList.findIndex((itm) => itm.code == response.data.doc.code);
+          if (index === -1) {
+            item.batchesList.push(response.data.doc);
+            item.$batchCount += 1;
+          } else {
+            if (item.workByBatch) {
+              item.batchesList[index].count += 1;
+              item.$batchCount += 1;
+            } else {
+              $scope.errorBatch = 'Item Is Exist';
+            }
+          }
+          item.$search = '';
+        } else {
+          $scope.errorBatch = response.data.error;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getAll();
   $scope.getPaymentTypes();
   $scope.getDiscountTypes();

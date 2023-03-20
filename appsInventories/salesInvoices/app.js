@@ -162,129 +162,135 @@ module.exports = function init(site) {
 
         let errBatchList = [];
         let medicationDosesList = [];
-        _data.itemsList.forEach((_item) => {
-          if (_item.hasMedicalData && _data.salesType != 'company') {
-            if (!_item.medicineDuration || !_item.medicineFrequency || !_item.medicineRoute) {
-              let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
-              medicationDosesList.push(itemName);
-            }
-          }
-          if (_item.workByBatch || _item.workBySerial || _item.workByQrCode) {
-            if (_item.batchesList && _item.batchesList.length > 0) {
-              _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
-              if (storesSetting.workFifo) {
-                if (_item.$batchCount != _item.count) {
-                  let batchCount = _item.count - _item.$batchCount;
-                  if (_item.workByBatch || _item.workByQrCode) {
-                    _item.batchesList = _item.batchesList.sort((a, b) => new Date(b.expiryDate) - new Date(a.expiryDate)).reverse();
-                  } else if (_item.workBySerial) {
-                    _item.batchesList = _item.batchesList.sort((a, b) => new Date(b.productionDate) - new Date(a.productionDate)).reverse();
-                  }
-                  _item.batchesList.forEach((_b) => {
-                    _b.count = 0;
-                    if (_b.currentCount > 0) {
-                      if (batchCount > _b.currentCount || batchCount == _b.currentCount) {
-                        _b.count = _b.currentCount;
-                      } else if (batchCount < _b.currentCount && batchCount > 0) {
-                        _b.count = batchCount;
-                      }
-                      batchCount -= _b.count;
-                    }
-                  });
-                }
-                _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
+        site.getBatchesToSalesAuto({ store: _data.store, items: _data.itemsList }, (callbackItems) => {
+          _data.itemsList.forEach((_item) => {
+            if (_item.hasMedicalData && _data.salesType != 'company') {
+              if (!_item.medicineDuration || !_item.medicineFrequency || !_item.medicineRoute) {
+                let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
+                medicationDosesList.push(itemName);
               }
+            }
+            if (_item.workByBatch || _item.workBySerial || _item.workByQrCode) {
+              if (_item.batchesList) {
+                _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
+                if (storesSetting.workFifo) {
+                  if (_item.$batchCount != _item.count) {
+                    let batchCount = _item.count - _item.$batchCount;
+                    // if (_item.workByBatch || _item.workByQrCode) {
+                    //   _item.batchesList = _item.batchesList.sort((a, b) => new Date(b.expiryDate) - new Date(a.expiryDate)).reverse();
+                    // } else if (_item.workBySerial) {
+                    //   _item.batchesList = _item.batchesList.sort((a, b) => new Date(b.productionDate) - new Date(a.productionDate)).reverse();
+                    // }
+                    let itemIndex = callbackItems.findIndex((itm) => itm.id === _item.id);
+                    if(itemIndex !== -1) {
+                      _item.batchesList = callbackItems[itemIndex].batchesList;
+                    }
+                    _item.batchesList.forEach((_b) => {
+                      _b.count = 0;
+                      if (_b.currentCount > 0) {
+                        if (batchCount > _b.currentCount || batchCount == _b.currentCount) {
+                          _b.count = _b.currentCount;
+                        } else if (batchCount < _b.currentCount && batchCount > 0) {
+                          _b.count = batchCount;
+                        }
+                        batchCount -= _b.count;
+                      }
+                    });
+                  }
+                  _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
+                }
 
-              let batchCountErr = _item.batchesList.find((b) => {
-                return b.count > b.currentCount;
-              });
+                let batchCountErr = _item.batchesList.find((b) => {
+                  return b.count > b.currentCount;
+                });
 
-              if (_item.$batchCount != _item.count || batchCountErr) {
+                if (_item.$batchCount != _item.count || batchCountErr) {
+                  let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
+                  errBatchList.push(itemName);
+                }
+              } else {
                 let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
                 errBatchList.push(itemName);
               }
-            } else {
-              let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
-              errBatchList.push(itemName);
             }
-          }
-        });
+          });
 
-        if (errBatchList.length > 0) {
-          let error = errBatchList.map((m) => m).join('-');
-          response.error = `The Batches Count is not correct in ( ${error} )`;
-          res.json(response);
-          return;
-        }
-
-        if (medicationDosesList.length > 0) {
-          let error = medicationDosesList.map((m) => m).join('-');
-          response.error = `The Medication doses is not correct in ( ${error} )`;
-          res.json(response);
-          return;
-        }
-
-        let appName = 'salesInvoices';
-
-        if (_data.salesType == 'company') {
-          appName = 'salesCompaniesInvoices';
-        } else if (_data.salesType == 'patient') {
-          appName = 'salesPatientsInvoices';
-        }
-
-        let numObj = {
-          company: site.getCompany(req),
-          screen: appName,
-          date: new Date(),
-        };
-
-        let cb = site.getNumbering(numObj);
-        if (!_data.code && !cb.auto) {
-          response.error = 'Must Enter Code';
-          res.json(response);
-          return;
-        } else if (cb.auto) {
-          _data.code = cb.code;
-        }
-
-        let overDraftObj = {
-          store: _data.store,
-          items: _data.itemsList,
-        };
-
-        site.checkOverDraft(req, overDraftObj, (overDraftCb) => {
-          if (!overDraftCb.done) {
-            let error = '';
-            error = overDraftCb.refuseList.map((m) => (req.session.lang == 'Ar' ? m.nameAr : m.nameEn)).join('-');
-            response.error = `Item Balance Insufficient ( ${error} )`;
+          if (errBatchList.length > 0) {
+            let error = errBatchList.map((m) => m).join('-');
+            response.error = `The Batches Count is not correct in ( ${error} )`;
             res.json(response);
             return;
           }
-          _data.addUserInfo = req.getUserFinger();
-          app.add(_data, (err, doc) => {
-            if (!err) {
-              response.done = true;
-              doc.itemsList.forEach((_item) => {
-                let item = { ..._item };
-                item.store = { ...doc.store };
-                site.editItemsBalance(item, app.name);
-                item.invoiceId = doc.id;
-                item.company = doc.company;
-                item.date = doc.date;
-                item.customer = doc.customer;
-                item.countType = 'out';
-                item.orderCode = doc.code;
-                site.setItemCard(item, app.name);
-              });
-              if (doc.salesType == 'patient') {
-                site.hasSalesDoctorDeskTop({ id: doc.doctorDeskTop.id });
-              }
-              response.doc = doc;
-            } else {
-              response.error = err.message;
-            }
 
+          if (medicationDosesList.length > 0) {
+            let error = medicationDosesList.map((m) => m).join('-');
+            response.error = `The Medication doses is not correct in ( ${error} )`;
             res.json(response);
+            return;
+          }
+
+          let appName = 'salesInvoices';
+
+          if (_data.salesType == 'company') {
+            appName = 'salesCompaniesInvoices';
+          } else if (_data.salesType == 'patient') {
+            appName = 'salesPatientsInvoices';
+          }
+
+          let numObj = {
+            company: site.getCompany(req),
+            screen: appName,
+            date: new Date(),
+          };
+
+          let cb = site.getNumbering(numObj);
+          if (!_data.code && !cb.auto) {
+            response.error = 'Must Enter Code';
+            res.json(response);
+            return;
+          } else if (cb.auto) {
+            _data.code = cb.code;
+          }
+
+          let overDraftObj = {
+            store: _data.store,
+            items: _data.itemsList,
+          };
+
+          site.checkOverDraft(req, overDraftObj, (overDraftCb) => {
+            if (!overDraftCb.done) {
+              let error = '';
+              error = overDraftCb.refuseList.map((m) => (req.session.lang == 'Ar' ? m.nameAr : m.nameEn)).join('-');
+              response.error = `Item Balance Insufficient ( ${error} )`;
+              res.json(response);
+              return;
+            }
+            _data.addUserInfo = req.getUserFinger();
+            app.add(_data, (err, doc) => {
+              if (!err) {
+                response.done = true;
+                doc.itemsList.forEach((_item) => {
+                  let item = { ..._item };
+                  item.store = { ...doc.store };
+                  site.editItemsBalance(item, app.name);
+                  item.invoiceId = doc.id;
+                  item.company = doc.company;
+                  item.date = doc.date;
+                  item.customer = doc.customer;
+                  item.countType = 'out';
+                  item.orderCode = doc.code;
+                  site.setItemCard(item, app.name);
+                });
+                if (doc.salesType == 'patient') {
+                  site.hasSalesDoctorDeskTop({ id: doc.doctorDeskTop.id });
+                }
+                response.doc = doc;
+              } else {
+                response.error = err.message;
+              }
+
+              res.json(response);
+            });
           });
         });
       });

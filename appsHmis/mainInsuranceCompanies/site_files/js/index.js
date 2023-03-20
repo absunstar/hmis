@@ -369,34 +369,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getinsuranceClassesList = function (obj) {
-    $scope.busy = true;
-    $scope.insuranceClassesList = [];
-    $http({
-      method: 'POST',
-      url: '/api/insuranceClasses/all',
-      data: {
-        where: { active: true },
-        select: {
-          id: 1,
-          code: 1,
-          nameEn: 1,
-          nameAr: 1,
-        },
-      },
-    }).then(
-      function (response) {
-        $scope.busy = false;
-        if (response.data.done && response.data.list.length > 0) {
-          $scope.insuranceClassesList = response.data.list;
-        }
-      },
-      function (err) {
-        $scope.busy = false;
-        $scope.error = err;
-      }
-    );
-  };
+
 
   $scope.getServicesGroupsList = function () {
     $scope.busy = true;
@@ -494,14 +467,7 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.addInsuranceClasses = function (obj) {
-    $scope.busy = true;
-    obj.insuranceClassesList = obj.insuranceClassesList || [];
-    if (obj.$insuranceClass && !obj.insuranceClassesList.some((k) => k.id === obj.$insuranceClass.id)) {
-      obj.insuranceClassesList.push(obj.$insuranceClass);
-    }
-    obj.$insuranceClass = '';
-  };
+
 
   $scope.addServicesGroups = function (_item) {
     $scope.error = '';
@@ -509,7 +475,6 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       if (!_item.servicesGroupsList.some((s) => s.id === _item.$serviceGroup.id)) {
         _item.servicesGroupsList.unshift({
           ..._item.$serviceGroup,
-          insuranceClassesList: [],
           cashOut: 0,
           creditOut: 0,
           cashIn: 0,
@@ -535,7 +500,6 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       if (!_item.servicesCategoriesList.some((s) => s.id === _item.$serviceCategory.id)) {
         _item.servicesCategoriesList.unshift({
           ..._item.$serviceCategory,
-          insuranceClassesList: [],
           cashOut: 0,
           creditOut: 0,
           cashIn: 0,
@@ -559,7 +523,6 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
       if (!_item.servicesList.some((s) => s.id === _item.$service.id)) {
         _item.servicesList.unshift({
           ..._item.$service,
-          insuranceClassesList: [],
           cashIn: 0,
           creditIn: 0,
           cashOut: 0,
@@ -613,6 +576,5 @@ app.controller('mainInsuranceCompanies', function ($scope, $http, $timeout) {
   $scope.getServicesCategoriesList();
   $scope.getServicesGroupsList();
   $scope.getServicesList();
-  $scope.getinsuranceClassesList();
   $scope.getAccountsGuideList();
 });

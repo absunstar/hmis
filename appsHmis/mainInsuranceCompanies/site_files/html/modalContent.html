@@ -109,7 +109,6 @@
               <tr>
                 <th>##word.Code##</th>
                 <th>##word.Name##</th>
-                <th>##word.insuranceClasses##</th>
                 <th>##word.Cash Out## %</th>
                 <th>##word.Credit Out## %</th>
                 <th>##word.Cash In## %</th>
@@ -125,16 +124,7 @@
                 <td>
                   <p class="center word-line">{{g.name##session.lang##}}</p>
                 </td>
-                <td class="text-center">
-                  <i-list ng-selected="addInsuranceClasses(g)" ng-model="g.$insuranceClass" display="name##session.lang##" items="insuranceClassesList" ng-search="g.$insuranceClass"></i-list>
 
-                  <div class="row">
-                    <div class="key-words" ng-repeat="i in g.insuranceClassesList">
-                      <span>{{i.name##session.lang##}}</span>
-                      <i class="fas fa-times delete-key" ng-click="g.insuranceClassesList.splice($index,1)"></i>
-                    </div>
-                  </div>
-                </td>
                 <td class="text-center">
                   <div class="row">
                     <i-control class="col10" type="number" ng-model="g.cashOut"></i-control>
@@ -191,7 +181,6 @@
               <tr>
                 <th>##word.Code##</th>
                 <th>##word.Name##</th>
-                <th>##word.insuranceClasses##</th>
                 <th>##word.Cash Out## %</th>
                 <th>##word.Credit Out## %</th>
                 <th>##word.Cash In## %</th>
@@ -207,15 +196,6 @@
                 </td>
                 <td>
                   <p class="center word-line">{{c.name##session.lang##}}</p>
-                </td>
-                <td class="text-center">
-                  <i-list ng-selected="addInsuranceClasses(c)" ng-model="c.$insuranceClass" display="name##session.lang##" items="insuranceClassesList" ng-search="c.$insuranceClass"></i-list>
-                  <div class="row">
-                    <div class="key-words" ng-repeat="i in c.insuranceClassesList">
-                      <span>{{i.name##session.lang##}}</span>
-                      <i class="fas fa-times delete-key" ng-click="c.insuranceClassesList.splice($index,1)"></i>
-                    </div>
-                  </div>
                 </td>
 
                 <td class="text-center">
@@ -261,7 +241,113 @@
             </div>
           </div>
           <div class="row">
-            <div class="row table-cart bold" ng-repeat="s in item.servicesList">
+            <table class="table hover center bold">
+              <tr>
+                <th>
+                  <p>##word.Code##</p>
+                  <p>##word.Co code##</p>
+                </th>
+                <th>
+                  <p>##word.Name##</p>
+                  <p>##word.Co Name##</p>
+                </th>
+                <th>
+                  <p>##word.Cash## ##word.In##</p>
+                  <p>##word.Credit## ##word.In##</p>
+                </th>
+                <th>
+                  <p>##word.CashIn## ##word.$##</p>
+                  <p>##word.Disc## ##word.%##</p>
+                </th>
+                <th>
+                  <p>##word.CreditIn## ##word.$##</p>
+                  <p>##word.Disc## ##word.%##</p>
+                </th>
+                <th>
+                  <p>##word.Cash## ##word.In##</p>
+                  <p>##word.Credit## ##word.Out##</p>
+                </th>
+
+                <th>
+                  <p>##word.CashOut## ##word.$##</p>
+                  <p>##word.Disc## ##word.%##</p>
+                </th>
+                <th>
+                  <p>##word.CreditOut## ##word.$##</p>
+                  <p>##word.Disc## ##word.%##</p>
+                </th>
+                <th>##word.Package Price##</th>
+                <th class="not-print">##word.Actions##</th>
+              </tr>
+              <tr ng-repeat="s in item.servicesList">
+                <td class="text-center">
+                  <p class="blue text-center">( {{s.code}} )</p>
+                  <i-control type="text" ng-model="s.coCode"></i-control>
+                </td>
+                <td>
+                  <p class="text-center">{{s.name##session.lang##}}</p>
+                  <i-control type="text" ng-model="s.coName"></i-control>
+                </td>
+
+                <td class="text-center">
+                  <p class="">{{s.cashPriceIn}} <span class="currency">##word.$##</span></p>
+                  
+                  <p class="">{{s.creditPriceIn}} <span class="currency">##word.$##</span></p>
+                </td>
+                <td class="text-center">
+                  <div class="row">
+                    <i-control class="col8" type="number" ng-model="s.cashIn"></i-control>
+                    <span class="currency col4">##word.$##</span>
+                  </div>
+                  <div class="row">
+                    <i-control class="col8" type="number" ng-model="s.cashInDesc"></i-control>
+                    <span class="currency col4">##word.%##</span>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <div class="row">
+                    <i-control class="col8" type="number" ng-model="s.creditIn"></i-control>
+                    <span class="currency col4">##word.$##</span>
+                  </div>
+                  <div class="row">
+                    <i-control class="col8" type="number" ng-model="s.creditInDesc"></i-control>
+                    <span class="currency col4">##word.%##</span>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <p class="">{{s.cashPriceOut}} <span class="currency">##word.$##</span></p>
+                  
+                  <p class="">{{s.creditPriceOut}} <span class="currency">##word.$##</span></p>
+                </td>
+                <td class="text-center">
+                  <div class="row">
+                    <i-control class="col8" type="number" ng-model="s.cashOut"></i-control>
+                    <span class="currency col4">##word.$##</span>
+                  </div>
+                  <div class="row">
+                    <i-control class="col8" type="number" ng-model="s.cashOutDesc"></i-control>
+                    <span class="currency col4">##word.%##</span>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <div class="row">
+                    <i-control class="col8" type="number" ng-model="s.creditOut"></i-control>
+                    <span class="currency col4">##word.$##</span>
+                  </div>
+                  <div class="row">
+                    <i-control class="col8" type="number" ng-model="s.creditOutDesc"></i-control>
+                    <span class="currency col4">##word.%##</span>
+                  </div>
+                </td>
+                <td class="text-center"><i-control type="number" ng-model="s.packagePrice"></i-control></td>
+                <td class="text-center not-print">
+                  <i-checkbox label="##word.Coverage##" ng-model="s.coverage"></i-checkbox>
+                  <i-checkbox ng-show="s.coverage" label="##word.NeedApproval##" ng-model="s.needApproval"></i-checkbox>
+                  <i-button type="delete default" ng-click="item.servicesList.splice($index,1)"> </i-button>
+                </td>
+              </tr>
+            </table>
+           <!--  <div class="row table-cart bold" ng-repeat="s in item.servicesList">
               <div class="row">
                 <div class="col10">
                   <div class="row margin padding font-20">
@@ -272,24 +358,6 @@
                     <span class="col2">##word.Company Code## : </span> <i-control type="text" class="col3" ng-model="s.coCode"></i-control>
                     <span class="col2">##word.Company Name## : </span>
                     <i-control class="col5" type="text" ng-model="s.coName"></i-control>
-                  </div>
-                  <div class="row font-20">
-                    <span class="col2">##word.Insurance Classes## :</span>
-                    <i-list
-                      class="col3"
-                      ng-selected="addInsuranceClasses(s)"
-                      ng-model="s.$insuranceClass"
-                      display="name##session.lang##"
-                      items="insuranceClassesList"
-                      ng-search="s.$insuranceClass"
-                    ></i-list>
-
-                    <div class="col7 font-20">
-                      <div class="key-words" ng-repeat="i in s.insuranceClassesList">
-                        <span>{{i.name##session.lang##}}</span>
-                        <i class="fas fa-times delete-key" ng-click="s.insuranceClassesList.splice($index,1)"></i>
-                      </div>
-                    </div>
                   </div>
                 </div>
                 <div class="col2">
@@ -374,7 +442,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 

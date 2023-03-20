@@ -149,13 +149,13 @@
           </th>
 
           <th class="width-15-mm font-10">
-            <p>الخصم / DISC</p>
-            <p>Total DISC</p>
+            <p>خصم 1 / DISC 1</p>
+            <p>Total DISC 1</p>
           </th>
 
           <th class="width-15-mm font-10">
-            <p>Extra DISC ##word.%##</p>
-            <p>T. Extra DISC ##word.$##</p>
+            <p>DISC 2 ##word.%##</p>
+            <p>Total DISC 2 ##word.$##</p>
           </th>
 
           <th class="width-15-mm font-10">
@@ -187,12 +187,16 @@
             <p class="font-12">{{itm.nameAr}} ( {{itm.unit.nameAr}} )</p>
             <p class="font-12">{{itm.nameEn}} ( {{itm.unit.nameEn}} )</p>
             <p ng-repeat="b in itm.batchesList" ng-show="b.count > 0">
-              <span class="" ng-show="b.expiryDate"> {{b.expiryDate}} &nbsp; </span>
               <span class="" ng-show="b.productionDate"> {{b.productionDate| date : 'dd-MM-yyyy'}} &nbsp; </span>
               <span class="" ng-show="b.expiryDate"> {{b.expiryDate| date : 'dd-MM-yyyy'}} &nbsp; </span>
               <span class="" ng-show="b.code && !itm.workByQrCode"> {{b.code}} ({{b.count}}##word.+##) </span>
               <span class="" ng-show="itm.workByQrCode"> {{b.gtin}} ({{b.count}}##word.+##) </span>
             </p>
+          </td>
+
+          <td class="center width-15-mm font-12">
+            <p>{{itm.extraDiscount}} <span class="currency">##word.%##</span></p>
+            <p>{{itm.totalExtraDiscount}} <span class="currency">##word.$##</span></p>
           </td>
 
           <td class="center width-15-mm font-12">
@@ -204,10 +208,6 @@
             <p>{{itm.totalDiscount}} <span class="currency">##word.$##</span></p>
           </td>
 
-          <td class="center width-15-mm font-12">
-            <p>{{itm.extraDiscount}} <span class="currency">##word.%##</span></p>
-            <p>{{itm.totalExtraDiscount}} <span class="currency">##word.$##</span></p>
-          </td>
           <td class="center width-15-mm font-12">{{itm.count}}</td>
 
           <td class="center width-15-mm font-12">{{itm.price | xmoney2}} <span class="currency">##word.$##</span></td>

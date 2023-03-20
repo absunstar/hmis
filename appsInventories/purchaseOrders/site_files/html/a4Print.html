@@ -123,13 +123,13 @@
           </th>
 
           <th class="width-15-mm font-10">
-            <p>خصم قانوني</p>
-            <p>Legal DISC.</p>
+            <p>خصم 1</p>
+            <p>DISCOUNT 1</p>
           </th>
 
           <th class="width-15-mm font-10">
-            <p>خصم مورد</p>
-            <p>Vendor DISC.</p>
+            <p>خصم 2</p>
+            <p>DISCOUNT 2</p>
           </th>
 
           <th class="width-15-mm font-10">
@@ -221,22 +221,21 @@
 
           <div class="row">
             <div class="col-8">
-              <p class="txt18 bold black">خصم المورد / Vendor Disconts</p>
-            </div>
-            <div class="col-1"></div>
-            <div class="col-3">
-              <p class="txt18 center bold black">{{sInvoice.totalVendorDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
-              <hr />
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-8">
-              <p class="txt18 bold black">خصم القانوني /Legal Disconts</p>
+              <p class="txt18 bold black">خصم 1 / Discounts 1</p>
             </div>
             <div class="col-1"></div>
             <div class="col-3">
               <p class="txt18 center bold black">{{sInvoice.totalLegalDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
+              <hr />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <p class="txt18 bold black">خصم 2 / Discounts 2</p>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-3">
+              <p class="txt18 center bold black">{{sInvoice.totalVendorDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
               <hr />
             </div>
           </div>

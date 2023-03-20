@@ -51,9 +51,9 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
       });
     }
 
-    if ($scope.settings.storesSetting.store && $scope.settings.storesSetting.store.id) {
+    if ($scope.settings.storesSetting.subStore && $scope.settings.storesSetting.subStore.id) {
       $scope.item.store = $scope.storesList.find((_t) => {
-        return _t.id == $scope.settings.storesSetting.store.id;
+        return _t.id == $scope.settings.storesSetting.subStore.id;
       });
     }
 
@@ -425,6 +425,8 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
       data: {
         where: {
           active: true,
+          'type.id' : 2
+
         },
         select: {
           id: 1,

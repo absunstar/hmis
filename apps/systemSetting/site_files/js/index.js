@@ -148,13 +148,12 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
+                    'type.id' : 1
                 },
                 select: {
                     id: 1,
-                    code: 1,
                     nameEn: 1,
                     nameAr: 1,
-                    type: 1,
                 },
             },
         }).then(
@@ -162,6 +161,37 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
                 $scope.busy = false;
                 if (response.data.done && response.data.list.length > 0) {
                     $scope.storesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.getSubStores = function () {
+        $scope.busy = true;
+        $scope.subStoresList = [];
+        $http({
+            method: 'POST',
+            url: '/api/stores/all',
+            data: {
+                where: {
+                    active: true,
+                    'type.id' : 2
+                },
+                select: {
+                    id: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.subStoresList = response.data.list;
                 }
             },
             function (err) {
@@ -598,6 +628,7 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
     $scope.getPlaceQRList();
     $scope.getCountryQRList();
     $scope.getStores();
+    $scope.getSubStores();
     $scope.getVendors();
     $scope.getCustomers();
     $scope.getItemsGroups();

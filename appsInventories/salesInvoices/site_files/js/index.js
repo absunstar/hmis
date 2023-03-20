@@ -52,9 +52,9 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       });
     }
 
-    if ($scope.settings.storesSetting.store && $scope.settings.storesSetting.store.id) {
+    if ($scope.settings.storesSetting.subStore && $scope.settings.storesSetting.subStore.id) {
       $scope.item.store = $scope.storesList.find((_t) => {
-        return _t.id == $scope.settings.storesSetting.store.id;
+        return _t.id == $scope.settings.storesSetting.subStore.id;
       });
     }
 
@@ -302,6 +302,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       data: {
         where: {
           active: true,
+          commercialCustomer : false,
         },
         select: {
           id: 1,
@@ -438,6 +439,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       data: {
         where: {
           active: true,
+          'type.id' : 2
         },
         select: {
           id: 1,
@@ -583,7 +585,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
   $scope.getBarcode = function (ev) {
     $scope.error = '';
     $scope.itemsError = '';
-    
+
     let where = {
       active: true,
       allowSale: true,
@@ -599,7 +601,6 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       $scope.qr = site.getQRcode($scope.orderItem.barcode);
       where['gtin'] = $scope.qr.gtin;
       where['unitsList.storesList.batchesList.code'] = $scope.qr.code;
-
     } else {
       where['unitsList.barcode'] = $scope.orderItem.barcode;
     }
@@ -660,7 +661,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
             });
           }
         } else {
-          $scope.itemsError = 'ItemNotFound'
+          $scope.itemsError = 'ItemNotFound';
         }
       },
       function (err) {
@@ -1246,7 +1247,6 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
             }
           }
           item.$search = '';
-
         } else {
           $scope.errorBatch = response.data.error;
         }

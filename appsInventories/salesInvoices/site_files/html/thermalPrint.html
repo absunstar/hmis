@@ -118,7 +118,7 @@
         </b>
       </div>
 
-      <div class="col8 center borderBlack"  ng-show="thermal.salesType == 'company'">
+      <div class="col8 center borderBlack" ng-show="thermal.salesType == 'company'">
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 1">الشركة :</b>
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 2">Company :</b>
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 3">##word.Company## :</b>
@@ -130,7 +130,7 @@
         </b>
       </div>
 
-      <div class="col8 center borderBlack"  ng-show="thermal.salesType == 'patient'">
+      <div class="col8 center borderBlack" ng-show="thermal.salesType == 'patient'">
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 1">المريض :</b>
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 2">Patient :</b>
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 3">##word.Patient## :</b>
@@ -172,13 +172,14 @@
         <p class="bold center font-10">Item Name</p>
       </div>
       <div class="col-1">
-        <p class="bold center font-10">الخصم</p>
-        <p class="bold center font-10">DISC.</p>
+        <p class="bold center font-10">خصم 1</p>
+        <p class="bold center font-10">DISCOUNT 1/p></p>
       </div>
       <div class="col-1">
-        <p class="bold center font-10">خصم إضافي</p>
-        <p class="bold center font-10">Extra DISC</p>
+        <p class="bold center font-10">خصم 2</p>
+        <p class="bold center font-10">DISCOUNT 2</p>
       </div>
+
       <div class="col-1">
         <p class="bold center font-10">الضريبة</p>
         <p class="bold center font-10">VAT.</p>
@@ -206,10 +207,10 @@
           <p class="black bold center font-8">{{itm.nameEn }}</p>
         </div>
         <div class="col-1 black">
-          <p class="black center font-10 bold">{{itm.totalDiscount}} <span class="currency">##word.$##</span></p>
+          <p class="black center font-10 bold">{{itm.totalExtraDiscount}} <span class="currency">##word.$##</span></p>
         </div>
         <div class="col-1 black">
-          <p class="black center font-10 bold">{{itm.totalExtraDiscount}} <span class="currency">##word.$##</span></p>
+          <p class="black center font-10 bold">{{itm.totalDiscount}} <span class="currency">##word.$##</span></p>
         </div>
         <div class="col-1 black">
           <p class="black center font-10 bold">{{itm.totalVat}} <span class="currency">##word.$##</span></p>

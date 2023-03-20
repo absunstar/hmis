@@ -296,6 +296,7 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
       data: {
         where: {
           active: true,
+          commercialCustomer : true,
         },
         select: {
           id: 1,
@@ -427,6 +428,8 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
       data: {
         where: {
           active: true,
+          'type.id' : 1
+
         },
         select: {
           id: 1,

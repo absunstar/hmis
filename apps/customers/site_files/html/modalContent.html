@@ -9,7 +9,7 @@
                         <i-list class="col4" label="##word.Group##" ng-model="item.group" items="customersGroupsList" display="name##session.lang##" ng-search="item.$vendorGroup"></i-list>
                         <div class="col4">
                             <i-checkbox ng-model="item.active" label="##word.Active##"></i-checkbox>
-                            <i-checkbox ng-click="item.commercialCustomer?setCommercialInformations():''" ng-model="item.commercialCustomer" label="##word.Commercial Customer##"></i-checkbox>
+                            <i-checkbox ng-hide="item.id" ng-click="item.commercialCustomer?setCommercialInformations():''" ng-model="item.commercialCustomer" label="##word.Commercial Customer##"></i-checkbox>
                         </div>
                     </div>
                     <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>

@@ -30,7 +30,7 @@
     border-radius: 0px !important;
   }
 </style>
-<div class="hidden" id="thermalPrint" style="width: 100%; margin-top: 0% ;background-color: white;">
+<div class="hidden" id="thermalPrint" style="width: 100%; margin-top: 0%; background-color: white">
   <div class="content page">
     <div class="center" ng-show="invoiceLogo">
       <img class="logoPrint" ng-src="{{invoiceLogo}}" />
@@ -110,12 +110,8 @@
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 1">المورد :</b>
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 2">Vendor :</b>
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 3">##word.Vendor## :</b>
-        <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 1 || settings.printerProgram.thermalLang.id == 3 && '##session.lang##' == 'Ar'">
-          {{thermal.vendor.nameAr}}
-        </b>
-        <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 2 || settings.printerProgram.thermalLang.id == 3 && '##session.lang##' == 'En'">
-          {{thermal.vendor.nameEn}}
-        </b>
+        <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 1 || settings.printerProgram.thermalLang.id == 3 && '##session.lang##' == 'Ar'"> {{thermal.vendor.nameAr}} </b>
+        <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 2 || settings.printerProgram.thermalLang.id == 3 && '##session.lang##' == 'En'"> {{thermal.vendor.nameEn}} </b>
       </div>
     </div>
 
@@ -148,12 +144,12 @@
         <p class="bold center font-10">Item Name</p>
       </div>
       <div class="col-1">
-        <p class="bold center font-10">خصم قانوني</p>
-        <p class="bold center font-10">Legal DISC.</p>
+        <p class="bold center font-10">خصم 1</p>
+        <p class="bold center font-10">DISCOUNT 1.</p>
       </div>
       <div class="col-1">
-        <p class="bold center font-10">خصم مورد</p>
-        <p class="bold center font-10">Vendor DISC.</p>
+        <p class="bold center font-10">خصم 2</p>
+        <p class="bold center font-10">DISCOUNT 2.</p>
       </div>
       <div class="col-1">
         <p class="bold center font-10">الضريبة</p>
@@ -200,7 +196,6 @@
         <div class="col-1 black">
           <p class="black center font-10 bold">{{itm.price | xmoney2}} <span class="currency">##word.$##</span></p>
           <p class="black center font-10 bold">{{itm.unit.name##session.lang##}}</p>
-
         </div>
 
         <div class="col-2 black">
@@ -223,27 +218,26 @@
 
     <div class="row">
       <div class="col-8 center">
-        <p class="black bold font-10">إجمالي خصم مورد / Total Vendor Disconts</p>
-      </div>
-      <div class="col-1"></div>
-      <div class="col-3">
-        <p class="black center bold font-11">{{thermal.totalVendorDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
-        <hr />
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-8 center">
-        <p class="black bold font-10">إجمالي خصم قانوني / Total Legal Disconts</p>
+        <p class="black bold font-10">إجمالي خصم 1 / Total Discounts 1</p>
       </div>
       <div class="col-1"></div>
       <div class="col-3">
         <p class="black center bold font-11">{{thermal.totalLegalDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
         <hr />
       </div>
+      <div class="row">
+        <div class="col-8 center">
+          <p class="black bold font-10">إجمالي خصم 2 / Total Discounts 2</p>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-3">
+          <p class="black center bold font-11">{{thermal.totalVendorDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
+          <hr />
+        </div>
+      </div>
     </div>
 
-  <!--   <div class="row">
+    <!--   <div class="row">
       <div class="col-8 center">
         <p class="black bold font-10">إجمالي بعد الخصم / Gross Amount</p>
       </div>

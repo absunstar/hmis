@@ -48,65 +48,64 @@
               </table>
             </div>
           </div>
+          <fieldset>
+            <legend>##word.Search##</legend>
+            <i-control type="text" ng-keydown="getBatch($event,batch)" ng-model="batch.$search"> </i-control>
+          </fieldset>
           <div class="row">
             <table class="table loaded center bold hover details">
               <tr>
-                <th>##word.Code##</th>
+                <th ng-show="!batch.workByQrCode">##word.Code##</th>
                 <th ng-show="batch.workByQrCode">##word.GTIN##</th>
                 <th ng-show="batch.workByQrCode">##word.BATCH##</th>
-                <th ng-show="batch.workByQrCode">##word.MFG DATE##</th>
-                <th ng-show="batch.workByQrCode">##word.EXPIRE DATE##</th>
                 <th ng-show="batch.workByQrCode">##word.SERIAL NO.##</th>
                 <th ng-hide="batch.workByQrCode">##word.Production Date##</th>
-                <th ng-show="batch.workByBatch">##word.Expiry Date##</th>
+                <th ng-show="batch.workByBatch || batch.workByQrCode">##word.Expiry Date##</th>
                 <th ng-show="batch.workByBatch">##word.validit Days##</th>
-                <th>##word.Current QTY.##</th>
-                <th>##word.Quantity##</th>
-                <th ng-hide="batch.workByBatch">##word.Select##</th>
+                <th ng-show="batch.workByBatch">####word.Current QTY.##</th>
+                <th ng-show="batch.workByBatch">####word.Quantity##</th>
+                <th>####word.Actions##</th>
+                <!-- <th ng-hide="batch.workByBatch">##word.Select##</th> -->
               </tr>
 
               <tr ng-repeat="c in batch.batchesList">
-                <td class="center">
+                <td class="center" ng-show="!batch.workByQrCode">
                   <p>{{c.code}}</p>
                 </td>
                 <td class="center" ng-show="batch.workByQrCode">
-                    <p>{{c.gtin}}</p>
-                  </td>
-                  <td class="center" ng-show="batch.workByQrCode">
-                    <p>{{c.batch}}</p>
-                  </td>
-                  <td class="center" ng-show="batch.workByQrCode">
-                    <p>{{c.mfgDate}}</p>
-                  </td>
-                  <td class="center" ng-show="batch.workByQrCode">
-                    <p>{{c.expireDate}}</p>
-                  </td>
-                  <td class="center" ng-show="batch.workByQrCode">
-                    <p>{{c.sn}}</p>
-                  </td>
+                  <p>{{c.gtin}}</p>
+                </td>
+                <td class="center" ng-show="batch.workByQrCode">
+                  <p>{{c.batch}}</p>
+                </td>
+                <td class="center" ng-show="batch.workByQrCode">
+                  <p>{{c.sn}}</p>
+                </td>
                 <td class="center" ng-hide="batch.workByQrCode">
                   <p class="green">{{c.productionDate | date: "dd / MM / yyyy"}}</p>
                 </td>
 
-                <td class="center" ng-show="batch.workByBatch">
+                <td class="center" ng-show="batch.workByBatch || batch.workByQrCode">
                   <p class="red">{{c.expiryDate | date: "dd / MM / yyyy"}}</p>
                 </td>
 
                 <td class="center" ng-show="batch.workByBatch">
                   <p class="green">{{c.validityDays}}</p>
                 </td>
-                <td class="center">
+                <td class="center" ng-show="batch.workByBatch">
                   <p>{{c.currentCount}}</p>
                 </td>
 
-                <td class="center">
+                <td class="center" ng-show="batch.workByBatch">
                   <i-control type="number" ng-change="calcBatch(batch)" ng-show="!item.approved" ng-disabled="batch.workBySerial" ng-model="c.count"> </i-control>
                   <p ng-show="item.approved">{{c.count}}</p>
                 </td>
-
-                <td ng-hide="batch.workByBatch">
-                  <i-checkbox ng-model="c.$select" label="##word.Select##" ng-change="c.count = c.$select? 1 : 0 ; calcBatch(batch)"></i-checkbox>
+                <td>
+                  <i-button type="delete default" ng-click="batch.batchesList.splice($index,1)"> </i-button>
                 </td>
+                <!-- <td ng-hide="batch.workByBatch">
+                  <i-checkbox ng-model="c.$select" label="##word.Select##" ng-change="c.count = c.$select? 1 : 0 ; calcBatch(batch)"></i-checkbox>
+                </td> -->
               </tr>
             </table>
           </div>

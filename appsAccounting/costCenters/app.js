@@ -339,7 +339,7 @@ module.exports = function init(site) {
                 delete obj[p];
               }
             }
-            if (!where.active || doc.active) {
+            if (!where.status || doc.status == 'active') {
               list.push(obj);
             }
           });

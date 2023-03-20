@@ -37,45 +37,46 @@
           <div class="row">
             <table class="table loaded center bold hover details">
               <tr>
-                <th>##word.Code##</th>
+                <th>##word.S##</th>
+                <th ng-hide="item.approved && batch.workByQrCode">##word.Code##</th>
                 <th ng-hide="batch.workByQrCode">##word.Production Date##</th>
                 <th ng-show="batch.workByQrCode">##word.GTIN##</th>
                 <th ng-show="batch.workByQrCode">##word.BATCH##</th>
-                <th ng-show="batch.workByQrCode">##word.MFG DATE##</th>
-                <th ng-show="batch.workByQrCode">##word.EXPIRE DATE##</th>
                 <th ng-show="batch.workByQrCode">##word.SERIAL NO.##</th>
-                <th ng-show="batch.workByBatch">##word.Expiry Date##</th>
+                <th ng-show="batch.workByBatch || batch.workByQrCode">##word.Expiry Date##</th>
                 <th ng-show="batch.workByBatch">##word.validit Days##</th>
-                <th>##word.Quantity##</th>
+                <th ng-show="batch.workByBatch">##word.Quantity##</th>
                 <th ng-show="!item.approved">##word.Actions##</th>
               </tr>
 
               <tr ng-repeat="c in batch.batchesList">
-                <td class="center">
-                  <i-control v="r" ng-model="c.code" ng-change="readQR(c)" ng-show="!item.approved"></i-control>
+                <td class="center">{{$index + 1}}</td>
+                <td class="center" ng-hide="item.approved && batch.workByQrCode">
+                  <i-control ng-model="c.code" ng-hide="item.approved" ng-change="batch.workByQrCode?readQR(c) :''"></i-control>
                   <p ng-show="item.approved">{{c.code}}</p>
                 </td>
+
                 <td class="center" ng-show="batch.workByQrCode">
-                  <p>{{c.gtin}}</p>
+                  <i-control ng-model="c.gtin" ng-show="!item.approved"></i-control>
+                  <p ng-show="item.approved">{{c.gtin}}</p>
                 </td>
+
                 <td class="center" ng-show="batch.workByQrCode">
-                  <p>{{c.batch}}</p>
+                  <i-control ng-model="c.batch" ng-show="!item.approved"></i-control>
+                  <p ng-show="item.approved">{{c.batch}}</p>
                 </td>
+
                 <td class="center" ng-show="batch.workByQrCode">
-                  <p>{{c.mfgDate}}</p>
+                  <i-control ng-model="c.sn" ng-show="!item.approved"></i-control>
+                  <p ng-show="item.approved">{{c.sn}}</p>
                 </td>
-                <td class="center" ng-show="batch.workByQrCode">
-                  <p>{{c.expireDate}}</p>
-                </td>
-                <td class="center" ng-show="batch.workByQrCode">
-                  <p>{{c.sn}}</p>
-                </td>
+
                 <td class="center" ng-hide="batch.workByQrCode">
                   <i-date ng-click="changeDate(c,'pro')" ng-show="!item.approved" ng-model="c.productionDate"></i-date>
                   <p ng-show="item.approved">{{c.productionDate|date:'dd/MM/yyyy'}}</p>
                 </td>
 
-                <td class="center" ng-show="batch.workByBatch">
+                <td class="center" ng-show="batch.workByBatch || batch.workByQrCode">
                   <i-date ng-click="changeDate(c,'exp')" ng-model="c.expiryDate" ng-show="!item.approved"></i-date>
                   <p ng-show="item.approved">{{c.expiryDate|date:'dd/MM/yyyy'}}</p>
                 </td>
@@ -85,10 +86,11 @@
                   <p ng-show="item.approved">{{c.validityDays}}</p>
                 </td>
 
-                <td class="center">
+                <td class="center" ng-show="batch.workByBatch">
                   <i-control type="number" v="r" ng-change="calcBatch(batch)" ng-show="!item.approved" ng-disabled="batch.workBySerial || batch.workByQrCode" ng-model="c.count"> </i-control>
                   <p ng-show="item.approved">{{c.count}}</p>
                 </td>
+
                 <td ng-show="!item.approved">
                   <i-button type="delete" ng-click="batch.batchesList.splice($index,1);calcBatch(batch)"> </i-button>
                 </td>

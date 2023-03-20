@@ -93,7 +93,7 @@
             <div class="row" ng-show="!item.approved && item.sourceType.id != 1 ">
                 <div class="col9">
                     <div class="row">
-                        <i-control class="col4" ng-model="orderItem.barcode" ng-keydown="getBarcode($event)" label="##word.Barcode##"></i-control>
+                        <i-control class="col4" ng-model="orderItem.barcode" ng-keydown="getBarcode($event)" label="##word.Barcode## / ##word.QrCode##"></i-control>
                         <i-list
                             ng-model="orderItem.item"
                             ng-change="getItemUnits(orderItem.item)"

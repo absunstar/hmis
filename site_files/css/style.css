@@ -110,14 +110,13 @@
   color: white;
 }
 .code-list {
-  height: 35px;
   border: 1px solid;
   text-align-last: center;
   font-weight: bold;
   color: white;
   border-radius: 10px;
   padding: 5px;
-  background: #00b05fa3;
+  background: #00b086e0;
 }
 
 .errMsg {

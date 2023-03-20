@@ -485,7 +485,7 @@ app.controller('patients', function ($scope, $http, $timeout) {
           nameEn: 1,
           nameAr: 1,
           startDate: 1,
-          expireDate: 1,
+          expiryDate: 1,
           totalVat: 1,
           totalPrice: 1,
           totalNet: 1,

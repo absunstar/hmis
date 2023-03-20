@@ -175,12 +175,10 @@ module.exports = function init(site) {
               if (storesSetting.workFifo) {
                 if (_item.$batchCount != _item.count) {
                   let batchCount = _item.count - _item.$batchCount;
-                  if (_item.workByBatch) {
+                  if (_item.workByBatch || _item.workByQrCode) {
                     _item.batchesList = _item.batchesList.sort((a, b) => new Date(b.expiryDate) - new Date(a.expiryDate)).reverse();
                   } else if (_item.workBySerial) {
                     _item.batchesList = _item.batchesList.sort((a, b) => new Date(b.productionDate) - new Date(a.productionDate)).reverse();
-                  } else if (_item.workByQrCode) {
-                    _item.batchesList = _item.batchesList.sort((a, b) => b.expireDate - a.expireDate).reverse();
                   }
                   _item.batchesList.forEach((_b) => {
                     _b.count = 0;

@@ -139,13 +139,12 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
-   
       site.get(
         {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name,appName : 'Journal Entry' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name, appName: 'Journal Entry' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -159,10 +158,69 @@ module.exports = function init(site) {
         let _data = req.data;
         _data.company = site.getCompany(req);
 
+        if (_data.accountsList.length < 1) {
+          response.error = 'Must Add Accounts';
+          res.json(response);
+          return;
+        }
+
+        if (_data.totalDebtor !== _data.totalCreditor) {
+          response.error = 'The ends of the journal entry are not equal';
+          res.json(response);
+          return;
+        }
+
+        if (_data.totalDebtor == 0 || _data.totalCreditor == 0) {
+          response.error = 'Values must be entered in the accounts';
+          res.json(response);
+          return;
+        }
+
+        let errAccountEmptyList = [];
+        let errAccountAllValuesList = [];
+        let errCostCentersRateList = [];
+        _data.accountsList.forEach(_ac => {
+          if(_ac.debtor == 0 && _ac.creditor == 0) {
+            let itemName = req.session.lang == 'Ar' ? _ac.nameAr : _ac.nameEn;
+            errAccountEmptyList.push(itemName);
+          } else if(_ac.debtor > 0 && _ac.creditor > 0) {
+            let itemName = req.session.lang == 'Ar' ? _ac.nameAr : _ac.nameEn;
+            errAccountAllValuesList.push(itemName);
+          }
+          if(_ac.costCentersList && _ac.costCentersList.length > 0) {
+            if(_ac.costCentersList.reduce((a, b) => +a + +b.rate, 0) != 100) {
+              let itemName = req.session.lang == 'Ar' ? _ac.nameAr : _ac.nameEn;
+              errCostCentersRateList.push(itemName);
+            }
+          
+          }
+        });
+
+        if (errAccountEmptyList.length > 0) {
+          let error = errAccountEmptyList.map((m) => m).join('-');
+          response.error = `Values must be entered in the Accounts ( ${error} )`;
+          res.json(response);
+          return;
+        }
+
+        if (errAccountAllValuesList.length > 0) {
+          let error = errAccountAllValuesList.map((m) => m).join('-');
+          response.error = `There are wrong values in ( ${error} )`;
+          res.json(response);
+          return;
+        }
+
+        if (errAccountAllValuesList.length > 0) {
+          let error = errAccountAllValuesList.map((m) => m).join('-');
+          response.error = `Cost center rates do not equal 100 in the Accounts ( ${error} )`;
+          res.json(response);
+          return;
+        }
+
         let numObj = {
           company: site.getCompany(req),
           screen: app.name,
-          date: new Date()
+          date: new Date(),
         };
 
         let cb = site.getNumbering(numObj);
@@ -170,7 +228,6 @@ module.exports = function init(site) {
           response.error = 'Must Enter Code';
           res.json(response);
           return;
-
         } else if (cb.auto) {
           _data.code = cb.code;
         }
@@ -251,22 +308,22 @@ module.exports = function init(site) {
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
         let where = req.body.where || {};
-        let select = req.body.select || { id: 1, code: 1, nameEn: 1,nameAr : 1, image: 1 };
+        let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1 };
         let list = [];
         app.memoryList
-        .filter((g) => g.company && g.company.id == site.getCompany(req).id)
-        .forEach((doc) => {
-          let obj = { ...doc };
+          .filter((g) => g.company && g.company.id == site.getCompany(req).id)
+          .forEach((doc) => {
+            let obj = { ...doc };
 
-          for (const p in obj) {
-            if (!Object.hasOwnProperty.call(select, p)) {
-              delete obj[p];
+            for (const p in obj) {
+              if (!Object.hasOwnProperty.call(select, p)) {
+                delete obj[p];
+              }
             }
-          }
-          if (!where.active || doc.active) {
-            list.push(obj);
-          }
-        });
+            if (!where.active || doc.active) {
+              list.push(obj);
+            }
+          });
         res.json({
           done: true,
           list: list,

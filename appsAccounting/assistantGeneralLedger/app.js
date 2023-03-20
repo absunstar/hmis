@@ -139,13 +139,12 @@ module.exports = function init(site) {
 
   if (app.allowRoute) {
     if (app.allowRouteGet) {
- 
       site.get(
         {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name,appName:'Assistant General Ledger' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name, appName: 'Assistant General Ledger' }, { parser: 'html', compres: true });
         }
       );
     }
@@ -252,8 +251,12 @@ module.exports = function init(site) {
         let where = req.body.where || {};
         let select = req.body.select || { id: 1, code: 1, generalLedger: 1, nameEn: 1, nameAr: 1, image: 1, active: 1 };
         let list = [];
+        let generalLedgerIds = [];
+        if (where.generalLedgerIds) {
+          generalLedgerIds = new Set(where.generalLedgerIds.map(({ id }) => id));
+        }
         app.memoryList
-          .filter((g) => (!where['generalLedger'] || g.generalLedger.id == where['generalLedger'].id) && g.company && g.company.id == site.getCompany(req).id)
+          .filter((g) => (!where['generalLedger.id'] || g.generalLedger.id == where['generalLedger.id']) && g.company && g.company.id == site.getCompany(req).id)
           .forEach((doc) => {
             let obj = { ...doc };
 

@@ -125,7 +125,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         if (response.data.done) {
           site.hideModal($scope.modalID);
           site.resetValidated($scope.modalID);
-          $scope.list.push(response.data.doc);
+          $scope.list.unshift(response.data.doc);
         } else {
           $scope.error = response.data.error;
           if (response.data.error && response.data.error.like('*Must Enter Code*')) {
@@ -743,7 +743,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
           gtin: $scope.qr.gtin,
           batch: $scope.qr.batch,
           mfgDate: $scope.qr.mfgDate,
-          expireDate: $scope.qr.expireDate,
+          expiryDate: $scope.qr.expiryDate,
           sn: $scope.qr.sn,
           count: 1,
         },
@@ -755,12 +755,12 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     } else {
       if (orderItem.item.workByQrCode) {
         if (!$scope.item.itemsList[index].batchesList.some((b) => b.code == $scope.qr.code)) {
-          $scope.item.itemsList[index].batchesList.push({
+          $scope.item.itemsList[index].batchesList.unshift({
             code: $scope.qr.code,
             gtin: $scope.qr.gtin,
             batch: $scope.qr.batch,
             mfgDate: $scope.qr.mfgDate,
-            expireDate: $scope.qr.expireDate,
+            expiryDate: $scope.qr.expiryDate,
             sn: $scope.qr.sn,
             count: 1,
           });
@@ -787,7 +787,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
           for (const elem of response.data.list) {
-            $scope.item.itemsList.push({
+            $scope.item.itemsList.unshift({
               id: elem.id,
               code: elem.code,
               nameAr: elem.nameAr,
@@ -1123,12 +1123,13 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $timeout(() => {
       $scope.errorBatch = '';
       $scope.error = '';
-
-      if (str == 'exp') {
-        let diffTime = Math.abs(new Date(i.expiryDate) - new Date(i.productionDate));
-        i.validityDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      } else if (str == 'pro') {
-        i.expiryDate = new Date($scope.addDays(i.productionDate, i.validityDays || 0));
+      if ($scope.batch.workByBatch) {
+        if (str == 'exp') {
+          let diffTime = Math.abs(new Date(i.expiryDate) - new Date(i.productionDate));
+          i.validityDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        } else if (str == 'pro') {
+          i.expiryDate = new Date($scope.addDays(i.productionDate, i.validityDays || 0));
+        }
       }
     }, 250);
   };
@@ -1376,9 +1377,8 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
         obj.gtin = $scope.qr.gtin;
         obj.batch = $scope.qr.batch;
         obj.mfgDate = $scope.qr.mfgDate;
-        obj.expireDate = $scope.qr.expireDate;
+        obj.expiryDate = $scope.qr.expiryDate;
         obj.sn = $scope.qr.sn;
-        
       }
     }, 300);
   };
@@ -1401,7 +1401,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       qr.mfgDate = code[0].slice(16, 23);
     } else if (code[0].length === 32 && code[0].slice(0, 2) === '01' && code[0].slice(16, 18) === '17') {
       qr.gtin = code[0].slice(2, 15);
-      qr.expireDate = code[0].slice(18, 24);
+      qr.expiryDate = code[0].slice(18, 24);
       qr.batch = code[0].slice(25);
     } else if (code[0].length === 32 && code[0].slice(0, 2) === '01' && code[0].slice(16, 18) === '21') {
       qr.gtin = code[0].slice(2, 15);
@@ -1412,30 +1412,32 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
       qr.batch = code[0].slice(18);
     } else if (code[0].length === 33 && code[0].slice(0, 2) === '01' && code[0].slice(16, 18) === '17' && code[0].slice(24, 26) === '10') {
       qr.gtin = code[0].slice(2, 16);
-      qr.expireDate = code[0].slice(18, 24);
+      qr.expiryDate = code[0].slice(18, 24);
       qr.batch = code[0].slice(26);
     }
 
     if (code[1].length === 22 && code[1].slice(0, 2) === '17' && code[1].slice(8, 10) === '21') {
-      qr.expireDate = code[1].slice(2, 8);
+      qr.expiryDate = code[1].slice(2, 8);
       qr.sn = code[1].slice(10);
     } else if (code[1].length === 22 && code[1].slice(0, 2) === '21') {
       qr.sn = code[1].slice(2);
     } else if (code[1].length === 24 && code[1].slice(0, 2) === '17' && code[1].slice(8, 10) === '21') {
-      qr.expireDate = code[1].slice(2, 8);
+      qr.expiryDate = code[1].slice(2, 8);
       qr.sn = code[1].slice(10);
     } else if (code[1].length === 11 && code[1].slice(0, 2) === '21') {
       qr.sn = code[1].slice(2, 8);
     } else if (code[1].length === 17 && code[1].slice(0, 2) === '21') {
       qr.sn = code[1].slice(2);
     } else if (code[1].length === 17 && code[1].slice(0, 2) === '17' && code[1].slice(8, 10) === '10') {
-      qr.expireDate = code[1].slice(2, 8);
+      qr.expiryDate = code[1].slice(2, 8);
       qr.batch = code[1].slice(10);
     } else if (code[1].length === 20 && code[1].slice(0, 2) === '17' && code[1].slice(8, 10) === '21') {
-      qr.expireDate = code[1].slice(2, 8);
+      qr.expiryDate = code[1].slice(2, 8);
       qr.sn = code[1].slice(10);
     }
-
+    if (qr.expiryDate) {
+      qr.expiryDate = new Date(parseInt(qr.expiryDate.slice(0, 2)) + 2000, parseInt(qr.expiryDate.slice(2, 4)) - 1, parseInt(qr.expiryDate.slice(4, 6)));
+    }
     return qr;
   };
 

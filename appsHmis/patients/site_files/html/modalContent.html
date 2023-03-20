@@ -253,7 +253,7 @@
                                         <td class="text-center blue">{{s.code}}</td>
                                         <td class="text-center">{{s.name##session.lang##}}</td>
                                         <td class="text-center">{{s.startDate |date:"dd / MM / yyyy"}}</td>
-                                        <td class="text-center">{{s.expireDate |date:"dd / MM / yyyy"}}</td>
+                                        <td class="text-center">{{s.expiryDate |date:"dd / MM / yyyy"}}</td>
                                         <td class="text-center">{{s.discountValue}}</td>
                                         <td class="text-center">{{s.totalPrice}}</td>
                                         <td class="text-center">{{s.totalVat}}</td>
@@ -307,7 +307,7 @@
                         <fieldset>
                             <div class="row">
                                 <i-control class="col6" label="##word.GOSI##" ng-model="item.gosi"> </i-control>
-                                <i-date class="col6" label="##word.GOSI Expiry Date##" ng-model="item.gosiExpiryDate"></i-date>
+                                <i-date class="col6" label="##word.GOSI Expiry Date##" ng-model="item.gosiexpiryDate"></i-date>
                             </div>
 
                             <div class="row">

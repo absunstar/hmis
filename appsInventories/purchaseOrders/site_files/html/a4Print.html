@@ -162,7 +162,6 @@
             <p class="font-12">{{itm.nameAr}} ( {{itm.unit.nameAr}} )</p>
             <p class="font-12">{{itm.nameEn}} ( {{itm.unit.nameEn}} )</p>
             <p ng-repeat="b in itm.batchesList" ng-show="b.count > 0">
-              <span class="" ng-show="b.expireDate"> {{b.expireDate}} &nbsp; </span>
               <span class="" ng-show="b.productionDate"> {{b.productionDate| date : 'dd-MM-yyyy'}} &nbsp; </span>
               <span class="" ng-show="b.expiryDate"> {{b.expiryDate| date : 'dd-MM-yyyy'}} &nbsp; </span>
               <span class="" ng-show="b.code && !itm.workByQrCode"> {{b.code}} ({{b.count}}##word.+##) </span>

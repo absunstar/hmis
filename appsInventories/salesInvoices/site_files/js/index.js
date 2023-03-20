@@ -363,6 +363,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       $scope.itemsError = '##word.Please Enter Count##';
       return;
     }
+
     let item = {
       id: orderItem.item.id,
       code: orderItem.item.code,
@@ -380,38 +381,49 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       maxDiscount: orderItem.unit.maxDiscount,
       discountType: orderItem.unit.discountType,
     };
+
     if (orderItem.item.workByBatch || orderItem.item.workBySerial || orderItem.item.workByQrCode) {
       item.workByBatch = orderItem.item.workByBatch;
       item.workBySerial = orderItem.item.workBySerial;
       item.workByQrCode = orderItem.item.workByQrCode;
       item.gtin = orderItem.item.gtin;
       item.validityDays = orderItem.item.validityDays;
-      item.batchesList = [];
-      orderItem.unit.storesList = orderItem.unit.storesList || [];
-      let unitStore = orderItem.unit.storesList.find((_s) => {
+      item.batchesList = item.batchesList || [];
+
+      /*  orderItem.unit.storesList = orderItem.unit.storesList || []; */
+      /* let unitStore = orderItem.unit.storesList.find((_s) => {
         return _s.store.id === $scope.item.store.id;
-      });
-      if (unitStore) {
+      }); */
+
+      /* if (unitStore) {
         unitStore.batchesList = unitStore.batchesList || [];
         unitStore.batchesList.forEach((_b) => {
           if (_b.count > 0) {
-            if (_b.count > 0) {
-              let batch = { ..._b };
-              batch.currentCount = batch.count;
-              batch.count = 0;
-              item.batchesList.push(batch);
-            }
+            let batch = { ..._b };
+            batch.currentCount = batch.count;
+            batch.count = 0;
+            item.batchesList.push(batch);
           }
         });
-      }
+      } */
     }
+
     let index = $scope.item.itemsList.findIndex((_item) => _item.id === item.id && _item.unit.id == item.unit.id);
+
     if (index == -1) {
       $scope.item.itemsList.unshift(item);
+      if (item.workByQrCode && $scope.orderItem.barcode) {
+        $scope.item.itemsList[0].$search = $scope.orderItem.barcode;
+        $scope.getBatch({ which: 13 }, $scope.item.itemsList[0]);
+      }
     } else {
-      
       $scope.item.itemsList[index].count += 1;
+      if (item.workByQrCode && $scope.orderItem.barcode) {
+        $scope.item.itemsList[index].$search = $scope.orderItem.barcode;
+        $scope.getBatch({ which: 13 }, $scope.item.itemsList[index]);
+      }
     }
+
     $scope.calculate($scope.item);
     $scope.resetOrderItem();
     $scope.itemsError = '';
@@ -447,6 +459,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       }
     );
   };
+
   $scope.getDiscountTypes = function () {
     $scope.busy = true;
     $scope.discountTypesList = [];
@@ -569,12 +582,14 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
 
   $scope.getBarcode = function (ev) {
     $scope.error = '';
+    $scope.itemsError = '';
+    
     let where = {
       active: true,
       allowSale: true,
     };
     if (!$scope.item.store || !$scope.item.store.id) {
-      $scope.error = '##word.Please Select Store';
+      $scope.itemsError = '##word.Please Select Store';
       return;
     }
     if (ev && ev.which != 13) {
@@ -583,6 +598,8 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     if ($scope.orderItem.barcode && $scope.orderItem.barcode.length > 30) {
       $scope.qr = site.getQRcode($scope.orderItem.barcode);
       where['gtin'] = $scope.qr.gtin;
+      where['unitsList.storesList.batchesList.code'] = $scope.qr.code;
+
     } else {
       where['unitsList.barcode'] = $scope.orderItem.barcode;
     }
@@ -642,6 +659,8 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
               count: 1,
             });
           }
+        } else {
+          $scope.itemsError = 'ItemNotFound'
         }
       },
       function (err) {
@@ -1097,7 +1116,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
                 patient: $scope.item.customer,
                 date: $scope.item.date,
                 expiryDate: _b.expiryDate,
-                expireDate: _b.expireDate,
+                expiryDate: _b.expiryDate,
                 productionDate: _b.productionDate,
                 medicineDuration: itm.medicineDuration,
                 medicineFrequency: itm.medicineFrequency,
@@ -1198,6 +1217,45 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       }
     );
   };
+  $scope.getBatch = function (ev, item) {
+    if (ev && ev.which != 13) {
+      return;
+    }
+    $scope.errorBatch = '';
+    $scope.busy = true;
+    $http({
+      method: 'POST',
+      url: '/api/storesItems/getBatch',
+      data: {
+        where: { active: true, id: item.id, storeId: $scope.item.store.id, unitId: item.unit.id, code: item.$search },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        console.log(response.data.doc);
+        if (response.data.done && response.data.doc) {
+          let index = item.batchesList.findIndex((itm) => itm.code == response.data.doc.code);
+          if (index === -1) {
+            item.batchesList.push(response.data.doc);
+          } else {
+            if (item.workByBatch) {
+              item.batchesList[index].count += 1;
+            } else {
+              $scope.errorBatch = 'Item Is Exist';
+            }
+          }
+          item.$search = '';
+
+        } else {
+          $scope.errorBatch = response.data.error;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
   $scope.getMedicineRoutesList = function () {
     $scope.busy = true;
     $scope.medicineRoutesList = [];
@@ -1253,7 +1311,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       qr.mfgDate = code[0].slice(16, 23);
     } else if (code[0].length === 32 && code[0].slice(0, 2) === '01' && code[0].slice(16, 18) === '17') {
       qr.gtin = code[0].slice(2, 15);
-      qr.expireDate = code[0].slice(18, 24);
+      qr.expiryDate = code[0].slice(18, 24);
       qr.batch = code[0].slice(25);
     } else if (code[0].length === 32 && code[0].slice(0, 2) === '01' && code[0].slice(16, 18) === '21') {
       qr.gtin = code[0].slice(2, 15);
@@ -1264,27 +1322,27 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       qr.batch = code[0].slice(18);
     } else if (code[0].length === 33 && code[0].slice(0, 2) === '01' && code[0].slice(16, 18) === '17' && code[0].slice(24, 26) === '10') {
       qr.gtin = code[0].slice(2, 16);
-      qr.expireDate = code[0].slice(18, 24);
+      qr.expiryDate = code[0].slice(18, 24);
       qr.batch = code[0].slice(26);
     }
 
     if (code[1].length === 22 && code[1].slice(0, 2) === '17' && code[1].slice(8, 10) === '21') {
-      qr.expireDate = code[1].slice(2, 8);
+      qr.expiryDate = code[1].slice(2, 8);
       qr.sn = code[1].slice(10);
     } else if (code[1].length === 22 && code[1].slice(0, 2) === '21') {
       qr.sn = code[1].slice(2);
     } else if (code[1].length === 24 && code[1].slice(0, 2) === '17' && code[1].slice(8, 10) === '21') {
-      qr.expireDate = code[1].slice(2, 8);
+      qr.expiryDate = code[1].slice(2, 8);
       qr.sn = code[1].slice(10);
     } else if (code[1].length === 11 && code[1].slice(0, 2) === '21') {
       qr.sn = code[1].slice(2, 8);
     } else if (code[1].length === 17 && code[1].slice(0, 2) === '21') {
       qr.sn = code[1].slice(2);
     } else if (code[1].length === 17 && code[1].slice(0, 2) === '17' && code[1].slice(8, 10) === '10') {
-      qr.expireDate = code[1].slice(2, 8);
+      qr.expiryDate = code[1].slice(2, 8);
       qr.batch = code[1].slice(10);
     } else if (code[1].length === 20 && code[1].slice(0, 2) === '17' && code[1].slice(8, 10) === '21') {
-      qr.expireDate = code[1].slice(2, 8);
+      qr.expiryDate = code[1].slice(2, 8);
       qr.sn = code[1].slice(10);
     }
 

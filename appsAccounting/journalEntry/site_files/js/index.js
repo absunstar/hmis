@@ -6,8 +6,10 @@ app.controller('journalEntry', function ($scope, $http, $timeout) {
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: { url: '/images/journalEntry.png', totalDebtor: 0, totalCreditor: 0 },
+    image: { url: '/images/journalEntry.png' },
     active: true,
+    totalDebtor: 0,
+    totalCreditor: 0,
   };
   $scope.item = {};
   $scope.list = [];
@@ -15,7 +17,7 @@ app.controller('journalEntry', function ($scope, $http, $timeout) {
   $scope.showAdd = function (_item) {
     $scope.error = '';
     $scope.mode = 'add';
-    $scope.item = { ...$scope.structure, accountsList: [] };
+    $scope.item = { ...$scope.structure, accountsList: [], date: new Date(), $accountGuide: { debtor: 0, creditor: 0 } };
     site.showModal($scope.modalID);
   };
 
@@ -210,6 +212,72 @@ app.controller('journalEntry', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getAccountsGuideList = function () {
+    $scope.error = '';
+    $scope.accountsGuideList = [];
+    $scope.busy = true;
+    $http({
+      method: 'POST',
+      url: '/api/accountsGuide/all',
+      data: {
+        where: {
+          status: 'active',
+          type: 'detailed',
+        },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+          side: 1,
+          generalLedgerList: 1,
+          costCentersList: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        $scope.accountsGuideList = response.data.list;
+      },
+      function (err) {
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getAssistantGeneralLedgerList = function (id, callback) {
+    $scope.error = '';
+    $scope.busy = true;
+    $http({
+      method: 'POST',
+      url: '/api/assistantGeneralLedger/all',
+      data: {
+        where: {
+          active: true,
+          'generalLedger.id': id,
+        },
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          callback(response.data.list);
+        } else {
+          callback(null);
+        }
+      },
+      function (err) {
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.showSearch = function () {
     $scope.error = '';
     site.showModal($scope.modalSearchID);
@@ -221,15 +289,52 @@ app.controller('journalEntry', function ($scope, $http, $timeout) {
     $scope.search = {};
   };
 
+  $scope.showCostCenters = function (account) {
+    $scope.account = account;
+    site.showModal('#costCentersModal');
+  };
+
+  $scope.showGeneralLedgers = function (account) {
+    $scope.account = account;
+    site.showModal('#generalLedgerModal');
+  };
+
   $scope.addAccountGuide = function () {
     $scope.item = $scope.item || [];
-    $scope.item.accountGuideList = $scope.item.accountGuideList || [];
-    if ($scope.item.$accountGuide.id && !$scope.item.accountGuideList.some((c) => c.id === $scope.item.$accountGuide.id)) {
-      $scope.item.accountGuideList.unshift($scope.item.$accountGuide);
+    $scope.item.accountsList = $scope.item.accountsList || [];
+    if ($scope.item.$accountGuide.debtor && $scope.item.$accountGuide.creditor) {
+      $scope.error = 'Debit and credit values cannot be entered';
+      return;
+    }
+    if ($scope.item.$accountGuide.id && !$scope.item.accountsList.some((c) => c.id === $scope.item.$accountGuide.id)) {
+      $scope.item.accountsList.unshift({ ...$scope.item.$accountGuide });
+      if ($scope.item.accountsList[0].generalLedgerList && $scope.item.accountsList[0].generalLedgerList.length > 0) {
+        $scope.item.accountsList[0].generalLedgerList.forEach((_g) => {
+          $scope.getAssistantGeneralLedgerList(_g.id, (assistantGeneralLedgerList) => {
+            if (assistantGeneralLedgerList) {
+              _g.$assistantGeneralLedgerList = assistantGeneralLedgerList;
+              $scope.$applyAsync();
+            }
+          });
+        });
+      }
       $scope.item.$accountGuide = {};
     }
   };
 
+  $scope.calc = function (_item) {
+    $scope.error = '';
+    $timeout(() => {
+      _item.totalDebtor = 0;
+      _item.totalCreditor = 0;
+      _item.accountsList.forEach((a) => {
+        _item.totalDebtor += a.debtor;
+        _item.totalCreditor += a.creditor;
+      });
+    }, 300);
+  };
+
   $scope.getAll();
   $scope.getNumberingAuto();
+  $scope.getAccountsGuideList();
 });

@@ -17,6 +17,16 @@ module.exports = function init(site) {
     thermalHeader: [],
     thermalFooter: [],
   };
+  let storePurchasesList = [
+    {
+      fieldName: { nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet' },
+    },
+  ]
+  let storeSalesList = [
+    {
+      fieldName: { nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet' },
+    },
+  ]
   site.setting = {
     printerProgram: printerProgram,
     storesSetting: {
@@ -41,6 +51,8 @@ module.exports = function init(site) {
       absenceHours: 0,
       absenceDays: 1,
     },
+    storePurchasesList: storePurchasesList,
+    storeSalesList: storeSalesList
   };
 
   app.$collection = site.connectCollection(app.name);
@@ -74,7 +86,6 @@ module.exports = function init(site) {
     site.setting = app.memoryList.find((s) => s.company.id == company.id) || site.setting;
 
     return site.setting;
-
   };
 
   app.save = function (_item, callback) {
@@ -90,6 +101,12 @@ module.exports = function init(site) {
           site.word({ name: '$', Ar: doc.accountsSetting.currencySymbol, En: doc.accountsSetting.currencySymbol });
         });
       } else {
+        if(!_item.storePurchasesList){
+          _item.storePurchasesList = storePurchasesList;
+        }
+        if(!_item.storeSalesList){
+          _item.storeSalesList = storeSalesList;
+        }
         doc = { ...doc, ..._item };
         app.$collection.edit(doc, (err, result) => {
           if (callback) {

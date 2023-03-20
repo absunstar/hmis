@@ -50,7 +50,7 @@
                     <td class="center">##word.Basic Salary##</td>
 
                     <td class="center">
-                        <span class="text-success">{{item.paySlip.originalSalary}}</span>
+                        <span class="text-success">{{item.paySlip.basicSalary}}</span>
                         <span>##word.$##</span>
                     </td>
                     <td class="center">##word.الراتب الأساسي##</td>
@@ -92,7 +92,13 @@
                 <tr ng-repeat="itm in item.paySlip.deductionsList">
                     <td class="center blue">{{$index+1}}</td>
                     <td class="center">{{itm.nameEn}}</td>
-                    <td class="center">{{itm.count}}</td>
+                    <td class="center">
+                        <p ng-show="itm.count == '-'">
+                            <span ng-show="itm.type == 'percent'"> ##word.%## </span>
+                            <span ng-show="itm.type == 'value'" class="currency"> ##word.$## </span>
+                        </p>
+                        <p ng-show="itm.count != '-' ">{{itm.count}}</p>
+                    </td>
                     <td class="center">
                         <p class="text-danger">{{itm.value}} <span>##word.$##</span></p>
                     </td>

@@ -28,18 +28,6 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
             return;
         }
 
-        // const delayDate = new Date($scope.item.delayDate).toISOString().slice(0, 10);
-        // const startHour = new Date($scope.item.$fromTime).getHours();
-        // const startMinute = new Date($scope.item.$fromTime).getMinutes();
-        // const endHour = new Date($scope.item.$toTime).getHours();
-        // const endMinute = new Date($scope.item.$toTime).getMinutes();
-        // $scope.item.fromTime = new Date(delayDate);
-        // $scope.item.fromTime.setHours(startHour);
-        // $scope.item.fromTime.setMinutes(startMinute);
-        // $scope.item.toTime = new Date(delayDate);
-        // $scope.item.toTime.setHours(endHour);
-        // $scope.item.toTime.setMinutes(endMinute);
-
         $scope.item.fromTime = new Date(
             new Date($scope.item.delayDate).getFullYear(),
             new Date($scope.item.delayDate).getMonth(),
@@ -96,18 +84,6 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
             return;
         }
 
-        // const delayDate = new Date(_item.delayDate).toISOString().slice(0, 10);
-        // const startHour = new Date(_item.fromTime).getHours();
-        // const startMinute = new Date(_item.fromTime).getMinutes();
-        // const endHour = new Date(_item.toTime).getHours();
-        // const endMinute = new Date(_item.toTime).getMinutes();
-        // _item.fromTime = new Date(delayDate);
-        // _item.fromTime.setHours(startHour);
-        // _item.fromTime.setMinutes(startMinute);
-        // _item.toTime = new Date(delayDate);
-        // _item.toTime.setHours(endHour);
-        // _item.toTime.setMinutes(endMinute);
-
         _item.fromTime = new Date(
             new Date(_item.delayDate).getFullYear(),
             new Date(_item.delayDate).getMonth(),
@@ -139,7 +115,7 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
                         $scope.list[index] = response.data.result.doc;
                     }
                 } else {
-                    $scope.error = 'Please Login First';
+                    $scope.error = response.data.error || 'Please Login First';
                 }
             },
             function (err) {
@@ -237,7 +213,7 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
                         $scope.list[index] = response.data.result.doc;
                     }
                 } else {
-                    $scope.error = 'Please Login First';
+                    $scope.error = response.data.error || 'Please Login First';
                 }
             },
             function (err) {
@@ -259,8 +235,9 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
             function (response) {
                 $scope.busy = false;
                 if (response.data.done && response.data.doc) {
-                    $scope.item.regularVacations = response.data.doc.regularVacations;
-                    $scope.item.casualVacations = response.data.doc.casualVacations;
+                    // $scope.item.regularVacations = response.data.doc.regularVacations;
+                    // $scope.item.casualVacations = response.data.doc.casualVacations;
+                    $scope.item.annual = response.data.doc.annual;
                 }
             },
             function (err) {
@@ -340,7 +317,7 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/all`,
             data: {
-                where: where,
+                where: where || { requestStatus: 'new' },
             },
         }).then(
             function (response) {
@@ -423,29 +400,7 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getVacationsTypes = function () {
-        $scope.busy = true;
-        $scope.vacationsTypesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/vacationsTypes',
-            data: {},
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done) {
-                    $scope.vacationsTypesList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
     $scope.getAll();
-    $scope.getVacationsTypes();
     $scope.getEmployees();
     $scope.getNumberingAuto();
 });

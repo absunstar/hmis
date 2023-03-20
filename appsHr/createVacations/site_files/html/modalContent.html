@@ -26,14 +26,14 @@
                 </div>
             </fieldset>
 
-            <fieldset ng-if="item.vacationFor ==='some'">
+            <fieldset ng-show="item.vacationFor ==='some'">
                 <legend>##word.Allowed Employees For Vacation##</legend>
-                <div class="row">
+                <div class="row" ng-show="!item.approved ">
                     <i-list class="col8" ng-model="selectedemployee" display="fullName##session.lang##" items="employeesList" label="##word.Employee##"></i-list>
 
                     <div class="col4">
                         <br />
-                        <i-button type="add" label="##word.Add##" ng-click="addEmployeeToVacationEmployeesList(selectedemployee)"> </i-button>
+                        <i-button type="push" label="##word.Add##" ng-click="addEmployeeToVacationEmployeesList(selectedemployee)"> </i-button>
                     </div>
                 </div>
 
@@ -44,13 +44,13 @@
                                 <th>##word.S##</th>
                                 <th>##word.Employee##</th>
 
-                                <th class="not-print">##word.Actions##</th>
+                                <th class="not-print" ng-show="!item.approved ">##word.Actions##</th>
                             </tr>
                             <tr ng-repeat="emp in item.employeesList">
                                 <td><p class="text-center">{{$index +1}}</p></td>
                                 <td><p class="text-center">{{emp.fullName##session.lang##}}</p></td>
 
-                                <td class="text-center">
+                                <td class="text-center" ng-show="!item.approved ">
                                     <i-button type="delete" ng-click="item.employeesList.splice($index,1);"> </i-button>
                                 </td>
                             </tr>
@@ -58,8 +58,6 @@
                     </div>
                 </div>
             </fieldset>
-            <!-- <i-control type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
-            <i-control type="text" v="r" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control> -->
         </div>
     </div>
     <div class="col3 center">

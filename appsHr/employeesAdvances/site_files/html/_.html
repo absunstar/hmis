@@ -44,7 +44,7 @@
 
                         <i-button
                             type="edit"
-                            ng-if="!item.hasPaidtransaction"
+                            ng-if="!item.hasPaidtransaction  && item.requestStatus != 'rejected'"
                             x-permissions="employeesAdvancesUpdate || employeesAdvancesManage"
                             label="##word.Edit##"
                             ng-click="showUpdate(item)"

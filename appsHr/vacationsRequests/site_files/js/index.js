@@ -92,7 +92,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
                         $scope.list[index] = response.data.result.doc;
                     }
                 } else {
-                    $scope.error = 'Please Login First';
+                    $scope.error = response.data.error || 'Please Login First';
                 }
             },
             function (err) {
@@ -140,7 +140,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
             $scope.error = '##word.Please Select Approved Vacation Type##';
             return;
         }
-        if (!(_item.approvedDays > 0) || _item.approvedDays > _item.regularVacations + _item.casualVacations) {
+        if (!(_item.approvedDays > 0) || _item.approvedDays > _item.annual) {
             $scope.error = '##word.Please Set Approved Days##';
             return;
         }
@@ -199,7 +199,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
                         $scope.list[index] = response.data.result.doc;
                     }
                 } else {
-                    $scope.error = 'Please Login First';
+                    $scope.error = response.data.error || 'Please Login First';
                 }
             },
             function (err) {
@@ -221,8 +221,9 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
             function (response) {
                 $scope.busy = false;
                 if (response.data.done && response.data.doc) {
-                    $scope.item.regularVacations = response.data.doc.regularVacations;
-                    $scope.item.casualVacations = response.data.doc.casualVacations;
+                    // $scope.item.regularVacations = response.data.doc.regularVacations;
+                    // $scope.item.casualVacations = response.data.doc.casualVacations;
+                    $scope.item.annual = response.data.doc.annual;
                 }
             },
             function (err) {
@@ -299,7 +300,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/all`,
             data: {
-                where: where,
+                where: where || { requestStatus: 'new' },
             },
         }).then(
             function (response) {

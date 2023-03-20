@@ -109,7 +109,7 @@ app.controller('workErrandRequests', function ($scope, $http, $timeout) {
                         $scope.list[index] = response.data.result.doc;
                     }
                 } else {
-                    $scope.error = 'Please Login First';
+                    $scope.error = response.data.error || 'Please Login First';
                 }
             },
             function (err) {
@@ -208,7 +208,7 @@ app.controller('workErrandRequests', function ($scope, $http, $timeout) {
                         $scope.list[index] = response.data.result.doc;
                     }
                 } else {
-                    $scope.error = 'Please Login First';
+                    $scope.error = response.data.error || 'Please Login First';
                 }
             },
             function (err) {
@@ -310,7 +310,7 @@ app.controller('workErrandRequests', function ($scope, $http, $timeout) {
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/all`,
             data: {
-                where: where,
+                where: where || { requestStatus: 'new' },
             },
         }).then(
             function (response) {
@@ -393,29 +393,7 @@ app.controller('workErrandRequests', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getVacationsTypes = function () {
-        $scope.busy = true;
-        $scope.vacationsTypesList = [];
-        $http({
-            method: 'POST',
-            url: '/api/vacationsTypes',
-            data: {},
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done) {
-                    $scope.vacationsTypesList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
-
     $scope.getAll();
-    $scope.getVacationsTypes();
     $scope.getEmployees();
     $scope.getNumberingAuto();
 });

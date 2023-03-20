@@ -17,7 +17,17 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, penaltiesList: [], worktimesList: [], useSystemSetting: false, salaryAccountSettings: { overtime: 1, penality: 1, absenceHours: 1, absenceDays: 1 } };
+        $scope.item = {
+            ...$scope.structure,
+            availableDelayTime: 0,
+            penaltiesList: [],
+            worktimesList: [],
+            useSystemSetting: false,
+            salaryAccountSettings: { overtime: 1 },
+        };
+        $scope.weekDaysList.forEach((day) => {
+            $scope.item.worktimesList.push({ day, start: '', end: '', active: true });
+        });
         site.showModal($scope.modalID);
     };
 
@@ -188,6 +198,11 @@ app.controller('jobsShifts', function ($scope, $http, $timeout) {
                 $scope.busy = false;
                 if (response.data.done) {
                     $scope.item = response.data.doc;
+                    // worktimesList;
+                    $scope.item.worktimesList.forEach((time) => {
+                        time.start = new Date(time.start);
+                        time.end = new Date(time.end);
+                    });
                 } else {
                     $scope.error = response.data.error;
                 }

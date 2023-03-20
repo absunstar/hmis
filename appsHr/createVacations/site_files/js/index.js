@@ -47,10 +47,7 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
                     site.resetValidated($scope.modalID);
                     $scope.list.push(response.data.doc);
                 } else {
-                    $scope.error = response.data.error;
-                    if (response.data.error && response.data.error.like('*Must Enter Code*')) {
-                        $scope.error = '##word.Must Enter Code##';
-                    }
+                    $scope.error = response.data.error || 'Please Login First';
                 }
             },
             function (err) {
@@ -94,7 +91,7 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
                         $scope.list[index] = response.data.result.doc;
                     }
                 } else {
-                    $scope.error = 'Please Login First';
+                    $scope.error = response.data.error || 'Please Login First';
                 }
             },
             function (err) {
@@ -243,7 +240,7 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/all`,
             data: {
-                where: where,
+                where: where || { requestStatus: 'new' },
             },
         }).then(
             function (response) {

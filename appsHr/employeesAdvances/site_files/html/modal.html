@@ -27,17 +27,24 @@
         <div class="modal-footer center">
             <p class="error">{{error}}</p>
             <i-button ng-show="mode == 'add' " type="add" label="##word.Add##" ng-click="add(item)"></i-button>
-            <i-button ng-show="mode == 'edit' " type="edit" label="##word.Save##" ng-click="update(item)"></i-button>
+            <i-button ng-show="mode == 'edit' && item.requestStatus != 'rejected'" type="edit" label="##word.Save##" ng-click="update(item)"></i-button>
             <i-button ng-show="mode == 'delete' && canReject" type="delete" label="##word.Delete##" ng-click="delete(item)"> </i-button>
             <i-button
-                ng-show="mode == 'edit' && !item.approved && item.paymentDataApproved &&  !item.hasPaidtransaction"
+                ng-show="mode == 'edit' && !item.approved && item.requestStatus != 'rejected' && item.paymentDataApproved &&  !item.hasPaidtransaction"
                 x-permissions="acceptEmployeeAdvance || employeesAdvancesManage"
                 type="approve"
                 label="##word.Accept##"
                 ng-click="accept(item)"
             >
             </i-button>
-            <i-button ng-show="mode == 'edit' && canReject " x-permissions="rejectEmployeeAdvance || employeesAdvancesManage" type="reject" label="##word.Reject##" ng-click="reject(item)"> </i-button>
+            <i-button
+                ng-show="mode == 'edit' && canReject && item.requestStatus != 'rejected'"
+                x-permissions="rejectEmployeeAdvance || employeesAdvancesManage"
+                type="reject"
+                label="##word.Reject##"
+                ng-click="reject(item)"
+            >
+            </i-button>
             <i-button type="close" label="##word.Close##" onclick="site.hideModal( '#employeesAdvancesManageModal')"></i-button>
         </div>
     </div>

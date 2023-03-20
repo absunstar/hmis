@@ -205,15 +205,26 @@ module.exports = function init(site) {
                 }
 
                 _data.addUserInfo = req.getUserFinger();
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.delayDate);
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.delayDate).getTime());
 
-                app.add(_data, (err, doc) => {
-                    if (!err && doc) {
-                        response.done = true;
-                        response.doc = doc;
-                    } else {
-                        response.error = err.mesage;
+                    if (exisitIndex !== -1) {
+                        response.done = false;
+                        response.error = 'Employee Has Request In Same Date';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
+
+                    app.add(_data, (err, doc) => {
+                        if (!err && doc) {
+                            response.done = true;
+                            response.doc = doc;
+                        } else {
+                            response.error = err.mesage;
+                        }
+                        res.json(response);
+                    });
                 });
             });
         }
@@ -227,14 +238,27 @@ module.exports = function init(site) {
                 let _data = req.data;
                 _data.editUserInfo = req.getUserFinger();
 
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.delayDate);
+
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.delayDate).getTime());
+
+                    if (exisitIndex == -1 || (exisitIndex !== -1 && docs[exisitIndex].id == _data.id)) {
+                        app.update(_data, (err, result) => {
+                            if (!err) {
+                                response.done = true;
+                                response.result = result;
+                            } else {
+                                response.error = err.message;
+                            }
+                            res.json(response);
+                        });
                     } else {
-                        response.error = err.message;
+                        response.done = false;
+                        response.error = 'Employee Has Request In Same Date';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
                 });
             });
         }
@@ -278,14 +302,27 @@ module.exports = function init(site) {
                 _data['approveDate'] = new Date();
                 _data.acceptUserInfo = req.getUserFinger();
 
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.delayDate);
+
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.delayDate).getTime());
+
+                    if (exisitIndex == -1 || (exisitIndex !== -1 && docs[exisitIndex].id == _data.id)) {
+                        app.update(_data, (err, result) => {
+                            if (!err) {
+                                response.done = true;
+                                response.result = result;
+                            } else {
+                                response.error = err.message;
+                            }
+                            res.json(response);
+                        });
                     } else {
-                        response.error = err.message;
+                        response.done = false;
+                        response.error = 'Employee Has Request In Same Date';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
                 });
             });
         }
@@ -304,14 +341,27 @@ module.exports = function init(site) {
                 _data['rejectDate'] = new Date();
                 _data.rejectUserInfo = req.getUserFinger();
 
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.delayDate);
+
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.delayDate).getTime());
+
+                    if (exisitIndex == -1 || (exisitIndex !== -1 && docs[exisitIndex].id == _data.id)) {
+                        app.update(_data, (err, result) => {
+                            if (!err) {
+                                response.done = true;
+                                response.result = result;
+                            } else {
+                                response.error = err.message;
+                            }
+                            res.json(response);
+                        });
                     } else {
-                        response.error = err.message;
+                        response.done = false;
+                        response.error = 'Employee Has Request In Same Date';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
                 });
             });
         }

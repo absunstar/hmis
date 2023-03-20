@@ -37,6 +37,9 @@ app.controller('employees', function ($scope, $http, $timeout) {
             mobileList: [{ mobile: '+966' }],
             banksList: [],
             relativesList: [],
+            annual: 0,
+            workDays: 0,
+            workHours: 0,
             idType: 'id',
         };
         site.showModal($scope.modalID);
@@ -1137,6 +1140,13 @@ app.controller('employees', function ($scope, $http, $timeout) {
                 return;
             }
         }, 300);
+    };
+
+    $scope.calculateWorkCost = function (data) {
+        $timeout(() => {
+            $scope.item.daySalary = site.toNumber(data.basicSalary / data.workDays);
+            $scope.item.hourSalary = site.toNumber(data.basicSalary / data.workHours);
+        }, 200);
     };
 
     $scope.getAll();

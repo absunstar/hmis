@@ -38,6 +38,7 @@ module.exports = function init(site) {
                             nameAr: doc.employeesBonusName.nameAr,
                             nameEn: doc.employeesBonusName.nameEn,
                         },
+                        amount: site.calculateValue(doc).amount,
                         count: doc.value,
                         value: site.calculateValue(doc).value,
                     };
@@ -207,15 +208,26 @@ module.exports = function init(site) {
                 }
 
                 _data.addUserInfo = req.getUserFinger();
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.date);
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.date).getTime() && doc.employeesBonusName.id == _data.employeesBonusName.id);
 
-                app.add(_data, (err, doc) => {
-                    if (!err && doc) {
-                        response.done = true;
-                        response.doc = doc;
-                    } else {
-                        response.error = err.mesage;
+                    if (exisitIndex !== -1) {
+                        response.done = false;
+                        response.error = 'Employee Bonus Exisit In Same Date';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
+
+                    app.add(_data, (err, doc) => {
+                        if (!err && doc) {
+                            response.done = true;
+                            response.doc = doc;
+                        } else {
+                            response.error = err.mesage;
+                        }
+                        res.json(response);
+                    });
                 });
             });
         }
@@ -228,15 +240,27 @@ module.exports = function init(site) {
 
                 let _data = req.data;
                 _data.editUserInfo = req.getUserFinger();
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.date);
 
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.date).getTime() && doc.employeesBonusName.id == _data.employeesBonusName.id);
+
+                    if (exisitIndex == -1 || (exisitIndex !== -1 && docs[exisitIndex].id == _data.id)) {
+                        app.update(_data, (err, result) => {
+                            if (!err) {
+                                response.done = true;
+                                response.result = result;
+                            } else {
+                                response.error = err.message;
+                            }
+                            res.json(response);
+                        });
                     } else {
-                        response.error = err.message;
+                        response.done = false;
+                        response.error = 'Employee Penality Exisit In Same Date';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
                 });
             });
         }
@@ -279,15 +303,27 @@ module.exports = function init(site) {
                 _data['approved'] = true;
                 _data['approveDate'] = new Date();
                 _data.acceptUserInfo = req.getUserFinger();
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.date);
 
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.date).getTime() && doc.employeesBonusName.id == _data.employeesBonusName.id);
+
+                    if (exisitIndex == -1 || (exisitIndex !== -1 && docs[exisitIndex].id == _data.id)) {
+                        app.update(_data, (err, result) => {
+                            if (!err) {
+                                response.done = true;
+                                response.result = result;
+                            } else {
+                                response.error = err.message;
+                            }
+                            res.json(response);
+                        });
                     } else {
-                        response.error = err.message;
+                        response.done = false;
+                        response.error = 'Employee Penality Exisit In Same Date';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
                 });
             });
         }
@@ -305,15 +341,27 @@ module.exports = function init(site) {
                 _data['approved'] = true;
                 _data['rejectDate'] = new Date();
                 _data.rejectUserInfo = req.getUserFinger();
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.date);
 
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.date).getTime() && doc.employeesBonusName.id == _data.employeesBonusName.id);
+
+                    if (exisitIndex == -1 || (exisitIndex !== -1 && docs[exisitIndex].id == _data.id)) {
+                        app.update(_data, (err, result) => {
+                            if (!err) {
+                                response.done = true;
+                                response.result = result;
+                            } else {
+                                response.error = err.message;
+                            }
+                            res.json(response);
+                        });
                     } else {
-                        response.error = err.message;
+                        response.done = false;
+                        response.error = 'Employee Penality Exisit In Same Date';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
                 });
             });
         }

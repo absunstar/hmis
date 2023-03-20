@@ -552,8 +552,11 @@
                         <fieldset>
                             <legend>##word.Vacations Balance##</legend>
                             <div class="row">
-                                <i-control type="number" class="col3" label="##word.Regular##" ng-model="item.regularVacations"> </i-control>
-                                <i-control type="number" class="col3" label="##word.Casual##" ng-model="item.casualVacations"> </i-control>
+                                <!-- <i-control type="number" class="col3" label="##word.Regular##" ng-model="item.regularVacations"> </i-control>
+                                <i-control type="number" class="col3" label="##word.Casual##" ng-model="item.casualVacations"> </i-control> -->
+                                <i-control type="number" class="col3" label="##word.Annual##" ng-model="item.annual"> </i-control>
+                                <i-control type="number" class="col3" ng-change="calculateWorkCost(item)" label="##word.Work Days##" ng-model="item.workDays"> </i-control>
+                                <i-control type="number" class="col3" ng-change="calculateWorkCost(item)" label="##word.Work Hours##" ng-model="item.workHours"> </i-control>
                                 <i-control type="number" class="col3" label="##word.Delay Permissions Count##" ng-model="item.delayPermissionsCount"> </i-control>
                                 <i-control type="number" class="col3" label="##word.Delay Permissions Time##" ng-model="item.delayPermissionsTime"> </i-control>
                             </div>
@@ -564,7 +567,7 @@
                             <fieldset>
                                 <legend>##word.Basic Salary##</legend>
                                 <div class="row">
-                                    <i-control class="col4" type="number" label="##word.Basic Salary##" ng-model="item.basicSalary"></i-control>
+                                    <i-control class="col4" type="number" label="##word.Basic Salary##" ng-change="calculateWorkCost(item)" ng-model="item.basicSalary"></i-control>
                                     <div class="col2">
                                         <label></label>
                                         <br />

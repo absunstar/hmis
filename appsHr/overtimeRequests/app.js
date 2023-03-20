@@ -21,20 +21,23 @@ module.exports = function init(site) {
     site.getEmployeeOvertime = function (req, paySlip, callback) {
         const d1 = site.toDate(paySlip.fromDate);
         const d2 = site.toDate(paySlip.toDate);
-        const systemSetting = site.getSystemSetting(req).hrSettings;
+        // const systemSetting = site.getSystemSetting(req).hrSettings;
         app.$collection.findMany({ where: { 'employee.id': paySlip.employeeId, date: { $gte: d1, $lte: d2 }, active: true, requestStatus: 'accepted' } }, (err, docs) => {
             if (docs && docs.length) {
                 docs.forEach((doc) => {
                     doc = { ...doc, ...paySlip };
+                    let amount = paySlip.minuteSalary;
                     const overtime = {
                         appName: app.name,
                         date: doc.date,
-                        count: (doc.hours * 60 + doc.minutes) / 60,
-                        value: site.toNumber((doc.hours * 60 + doc.minutes) * (paySlip.hourSalary / 60)),
+                        count: doc.hours * 60 + doc.minutes,
+                        amount: paySlip.minuteSalary,
+                        overtime: paySlip.salaryAccountSettings.overtime,
+                        value: site.toNumber((doc.hours * 60 + doc.minutes) * paySlip.minuteSalary * paySlip.salaryAccountSettings.overtime),
                     };
 
+                    paySlip.overtimeValue += overtime.value;
                     paySlip.overtimeList.push(overtime);
-                    paySlip.overtimeValue += site.toNumber((doc.hours * 60 + doc.minutes) * (paySlip.hourSalary / 60) * systemSetting.overtime);
                 });
             }
             callback(paySlip);
@@ -199,14 +202,26 @@ module.exports = function init(site) {
 
                 _data.addUserInfo = req.getUserFinger();
 
-                app.add(_data, (err, doc) => {
-                    if (!err && doc) {
-                        response.done = true;
-                        response.doc = doc;
-                    } else {
-                        response.error = err.mesage;
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.date);
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.date).getTime());
+
+                    if (exisitIndex !== -1) {
+                        response.done = false;
+                        response.error = 'Employee Has Request In Same Date';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
+
+                    app.add(_data, (err, doc) => {
+                        if (!err && doc) {
+                            response.done = true;
+                            response.doc = doc;
+                        } else {
+                            response.error = err.mesage;
+                        }
+                        res.json(response);
+                    });
                 });
             });
         }
@@ -220,14 +235,27 @@ module.exports = function init(site) {
                 let _data = req.data;
                 _data.editUserInfo = req.getUserFinger();
 
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.date);
+
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.date).getTime());
+
+                    if (exisitIndex == -1 || (exisitIndex !== -1 && docs[exisitIndex].id == _data.id)) {
+                        app.update(_data, (err, result) => {
+                            if (!err) {
+                                response.done = true;
+                                response.result = result;
+                            } else {
+                                response.error = err.message;
+                            }
+                            res.json(response);
+                        });
                     } else {
-                        response.error = err.message;
+                        response.done = false;
+                        response.error = 'Employee Has Request In Same Date';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
                 });
             });
         }
@@ -271,14 +299,27 @@ module.exports = function init(site) {
                 _data['approveDate'] = new Date();
                 _data.acceptUserInfo = req.getUserFinger();
 
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.date);
+
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.date).getTime());
+
+                    if (exisitIndex == -1 || (exisitIndex !== -1 && docs[exisitIndex].id == _data.id)) {
+                        app.update(_data, (err, result) => {
+                            if (!err) {
+                                response.done = true;
+                                response.result = result;
+                            } else {
+                                response.error = err.message;
+                            }
+                            res.json(response);
+                        });
                     } else {
-                        response.error = err.message;
+                        response.done = false;
+                        response.error = 'Employee Has Request In Same Date';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
                 });
             });
         }
@@ -297,14 +338,27 @@ module.exports = function init(site) {
                 _data['rejectDate'] = new Date();
                 _data.rejectUserInfo = req.getUserFinger();
 
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.date);
+
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.date).getTime());
+
+                    if (exisitIndex == -1 || (exisitIndex !== -1 && docs[exisitIndex].id == _data.id)) {
+                        app.update(_data, (err, result) => {
+                            if (!err) {
+                                response.done = true;
+                                response.result = result;
+                            } else {
+                                response.error = err.message;
+                            }
+                            res.json(response);
+                        });
                     } else {
-                        response.error = err.message;
+                        response.done = false;
+                        response.error = 'Employee Has Request In Same Date';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
                 });
             });
         }

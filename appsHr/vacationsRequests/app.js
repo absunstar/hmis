@@ -215,6 +215,27 @@ module.exports = function init(site) {
 
                 _data.addUserInfo = req.getUserFinger();
 
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.fromDate);
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.fromDate).getTime());
+
+                    if (exisitIndex !== -1) {
+                        response.done = false;
+                        response.error = 'Employee Has Vacation In Same Date';
+                        res.json(response);
+                        return;
+                    }
+                    app.add(_data, (err, doc) => {
+                        if (!err && doc) {
+                            response.done = true;
+                            response.doc = doc;
+                        } else {
+                            response.error = err.mesage;
+                        }
+                        res.json(response);
+                    });
+                });
+
                 app.add(_data, (err, doc) => {
                     if (!err && doc) {
                         response.done = true;
@@ -235,15 +256,27 @@ module.exports = function init(site) {
 
                 let _data = req.data;
                 _data.editUserInfo = req.getUserFinger();
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.fromDate);
 
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.fromDate).getTime());
+
+                    if (exisitIndex == -1 || (exisitIndex !== -1 && docs[exisitIndex].id == _data.id)) {
+                        app.update(_data, (err, result) => {
+                            if (!err) {
+                                response.done = true;
+                                response.result = result;
+                            } else {
+                                response.error = err.message;
+                            }
+                            res.json(response);
+                        });
                     } else {
-                        response.error = err.message;
+                        response.done = false;
+                        response.error = 'Employee Has Vacation In Same Date';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
                 });
             });
         }
@@ -260,11 +293,18 @@ module.exports = function init(site) {
                     const employeeApp = site.getApp('employees');
                     employeeApp.$collection.find({ where: { id: _data.employee.id } }, (err, doc) => {
                         if (doc) {
+                            // if (_data.approvedVacationType.id === 1) {
+                            //     doc.regularVacations += _data.approvedDays;
+                            // } else if (_data.approvedVacationType.id === 2) {
+                            //     doc.casualVacations += _data.approvedDays;
+                            // }
+
                             if (_data.approvedVacationType.id === 1) {
-                                doc.regularVacations += _data.approvedDays;
-                            } else if (_data.approvedVacationType.id === 2) {
-                                doc.casualVacations += _data.approvedDays;
+                                doc.annual += _data.approvedDays;
                             }
+                            //  else if (_data.approvedVacationType.id === 2) {
+                            //     doc.casualVacations += _data.approvedDays;
+                            // }
                         } else {
                             response.done = false;
                             response.error = 'Employee not Found';
@@ -301,40 +341,56 @@ module.exports = function init(site) {
 
                 let _data = req.data;
 
-                if (_data && _data.approvedVacationType && _data.approvedVacationType.id) {
-                    const employeeApp = site.getApp('employees');
-                    employeeApp.$collection.find({ where: { id: _data.employee.id } }, (err, doc) => {
-                        if (doc) {
-                            if (_data.approvedVacationType.id === 1) {
-                                doc.regularVacations -= _data.approvedDays;
-                            } else if (_data.approvedVacationType.id === 2) {
-                                doc.casualVacations -= _data.approvedDays;
-                            }
-                        } else {
-                            response.done = false;
-                            response.error = 'Employee not Found';
-                            res.json(response);
-                            return;
-                        }
-
-                        employeeApp.$collection.update(doc);
-                    });
-                }
-
                 _data['requestStatus'] = 'accepted';
                 _data['acceptDate'] = new Date();
                 _data['approved'] = true;
                 _data['approveDate'] = new Date();
                 _data.acceptUserInfo = req.getUserFinger();
 
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.fromDate);
+
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.fromDate).getTime());
+
+                    if (exisitIndex == -1 || (exisitIndex !== -1 && docs[exisitIndex].id == _data.id)) {
+                        if (_data && _data.approvedVacationType && _data.approvedVacationType.id) {
+                            const employeeApp = site.getApp('employees');
+                            employeeApp.$collection.find({ where: { id: _data.employee.id } }, (err, doc) => {
+                                if (doc) {
+                                    // if (_data.approvedVacationType.id === 1) {
+                                    //     doc.regularVacations -= _data.approvedDays;
+                                    // } else if (_data.approvedVacationType.id === 2) {
+                                    //     doc.casualVacations -= _data.approvedDays;
+                                    // }
+                                    if (_data.approvedVacationType.id === 1) {
+                                        doc.annual -= _data.approvedDays;
+                                    } 
+                            
+                                } else {
+                                    response.done = false;
+                                    response.error = 'Employee not Found';
+                                    res.json(response);
+                                    return;
+                                }
+
+                                employeeApp.$collection.update(doc);
+                            });
+                        }
+                        app.update(_data, (err, result) => {
+                            if (!err) {
+                                response.done = true;
+                                response.result = result;
+                            } else {
+                                response.error = err.message;
+                            }
+                            res.json(response);
+                        });
                     } else {
-                        response.error = err.message;
+                        response.done = false;
+                        response.error = 'Employee Has Vacation In Same Date';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
                 });
             });
         }
@@ -353,14 +409,27 @@ module.exports = function init(site) {
                 _data['rejectDate'] = new Date();
                 _data.rejectUserInfo = req.getUserFinger();
 
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
+                app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
+                    const d1 = site.toDate(_data.fromDate);
+
+                    const exisitIndex = docs.findIndex((doc) => d1.getTime() == site.toDate(doc.fromDate).getTime());
+
+                    if (exisitIndex == -1 || (exisitIndex !== -1 && docs[exisitIndex].id == _data.id)) {
+                        app.update(_data, (err, result) => {
+                            if (!err) {
+                                response.done = true;
+                                response.result = result;
+                            } else {
+                                response.error = err.message;
+                            }
+                            res.json(response);
+                        });
                     } else {
-                        response.error = err.message;
+                        response.done = false;
+                        response.error = 'Employee Has Vacation In Same Date';
+                        res.json(response);
+                        return;
                     }
-                    res.json(response);
                 });
             });
         }

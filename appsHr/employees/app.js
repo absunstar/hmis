@@ -20,51 +20,69 @@ module.exports = function init(site) {
     // app.$collection = site.connectCollection('users_info');
 
     site.calculatePaySlipAllownce = function (item, basicSalary) {
-        const allowance = { id: item.allowance.id, code: item.allowance.code, nameAr: item.allowance.nameAr, nameEn: item.allowance.nameEn, value: 0 };
+        let allowance;
+        if (item?.allowance) {
+            allowance = { id: item.allowance.id, code: item.allowance.code, nameAr: item.allowance.nameAr, nameEn: item.allowance.nameEn, value: 0 };
+        } else {
+            allowance = { id: item.id, code: item.code, nameAr: item.nameAr, nameEn: item.nameEn, value: 0 };
+        }
 
         if (item.type == 'percent') {
             allowance.value = (item.value / 100) * basicSalary;
         } else {
             allowance.value = item.value;
         }
-
+        allowance['type'] = item.type;
+        allowance['count'] = '-';
         return allowance;
     };
 
     site.calculatePaySlipDeduction = function (item, basicSalary) {
-        const deduction = { id: item.deduction.id, code: item.deduction.code, nameAr: item.deduction.nameAr, nameEn: item.deduction.nameEn, value: 0 };
+        let deduction;
+        if (item?.deduction) {
+            deduction = { id: item.deduction.id, code: item.deduction.code, nameAr: item.deduction.nameAr, nameEn: item.deduction.nameEn, value: 0 };
+        } else {
+            deduction = { id: item.id, code: item.code, nameAr: item.nameAr, nameEn: item.nameEn, value: 0 };
+        }
 
         if (item.type == 'percent') {
             deduction.value = (item.value / 100) * basicSalary;
-        } else {
+        }
+        if (item.type == 'value') {
             deduction.value = item.value;
         }
+
+        deduction['type'] = item.type;
         deduction['count'] = '-';
         return deduction;
     };
 
     site.calculateValue = function (doc) {
         let value = 0;
+        let amount = doc.value;
         if (doc && doc.type) {
             if (doc.type.id === 1) {
                 value = doc.value * doc.hourSalary;
+                amount = site.toMoney(doc.hourSalary);
             }
             if (doc.type.id === 2) {
                 value = doc.value * doc.daySalary;
+                amount = site.toMoney(doc.daySalary);
             }
             if (doc.type.id === 3) {
                 value = (doc.basicSalary / 100) * doc.value;
+                amount = site.toMoney((doc.basicSalary / 100) * doc.value);
             }
+
             if (doc.type.id === 4) {
                 value = doc.value;
             }
         }
 
-        return { category: doc.category, type: doc.type, value: site.toMoney(value) };
+        return { category: doc.category, type: doc.type, value: site.toMoney(value), amount: site.toMoney(amount) };
     };
 
     site.calculateEmployeeBasicSalary = function (employeeDoc) {
-        const originalSalary = site.toMoney(employeeDoc.basicSalary);
         let basicSalary = employeeDoc.basicSalary;
         let otherAllownce = 0;
         if (employeeDoc.allowancesList && employeeDoc.allowancesList.length) {
@@ -80,9 +98,8 @@ module.exports = function init(site) {
         const otherAllownceAfterInsurance = Math.abs(otherAllownce * insurceCalculatedPercent - otherAllownce);
 
         return {
-            originalSalary,
             otherAllownce: otherAllownce,
-            basicSalary: site.toMoney(netSalary),
+            basicSalary: site.toMoney(basicSalary),
             otherAllownceAfterInsurance: site.toMoney(otherAllownceAfterInsurance),
             netSalary: site.toMoney(netSalary + otherAllownceAfterInsurance),
         };
@@ -163,13 +180,6 @@ module.exports = function init(site) {
     app.calculateEmployeePaySlipItems = function (req, paySlip, callback) {
         const systemSetting = site.getSystemSetting(req).hrSettings;
 
-        // let calculateSalaryValues;
-        // if ((paySlip.shiftApproved && paySlip.useSystemSetting) || !paySlip.shiftApproved || !paySlip.useSystemSetting) {
-        //     calculateSalaryValues = { ...systemSetting, ...paySlip.penaltiesList };
-        // } else {
-        //     calculateSalaryValues = { ...paySlip.salaryAccountSettings, ...paySlip.penaltiesList };
-        // }
-        // absenceDays;
         const penaltiesList = paySlip.penaltiesList;
 
         paySlip.attendanceDataList.forEach((_att) => {
@@ -197,21 +207,27 @@ module.exports = function init(site) {
                         date: _att.date,
                         count: 0,
                         value: 0,
+                        amount: 0,
+                        penality: 0,
                         source: {},
                     };
                     absentDay.count = 1;
+
                     if (globalVacationIndex == -1 && vacationRequestIndex == -1) {
                         absentDay.value = site.toMoney(systemSetting.absenceDays * paySlip.daySalary);
-                        if (vacationType?.approvedVacationType && vacationType?.approvedVacationType.id === 3) {
+                        if (vacationType?.approvedVacationType && vacationType?.approvedVacationType.id === 4) {
                             absentDay.value = 0;
                         }
+
                         paySlip.absentDaysCount += absentDay.count;
                         paySlip.absentDaysValue += absentDay.value;
+                        absentDay.amount = paySlip.daySalary;
+                        absentDay.penality = systemSetting.absenceDays;
                         absentDay.source = { nameAr: 'غياب', nameEn: 'Absence' };
                         paySlip.absentDaysList.push(absentDay);
                         absentDay = { ...absentDay };
-                    } else if (vacationType?.approvedVacationType && vacationType?.approvedVacationType.id === 3) {
-                        absentDay.value = paySlip.daySalary;
+                    } else if (vacationType?.approvedVacationType && vacationType?.approvedVacationType.id === 4) {
+                        absentDay.value = 0;
                         paySlip.unpaidVacationsCount += absentDay.count;
                         paySlip.unpaidVacationsValue += absentDay.value;
                         paySlip.unpaidVacationsList.push(absentDay);
@@ -238,6 +254,8 @@ module.exports = function init(site) {
                         to: '',
                         count: 0,
                         value: 0,
+                        amount: 0,
+                        penality: 0,
                         // source: {},
                     };
 
@@ -250,6 +268,8 @@ module.exports = function init(site) {
                         absentHourObj.count = Math.abs(_att.attendanceDifference);
                         selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.count >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
                         penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
+                        absentHourObj.amount = paySlip.daySalary;
+                        absentHourObj.penality = penaltiesList[selectdPenality]?.value || 0;
                         absentHourObj.from = _att.shiftStart;
                         absentHourObj.to = _att.attendTime;
                         if (delayRequestIndex == -1 || workErrandIndex == -1) {
@@ -258,6 +278,8 @@ module.exports = function init(site) {
                             penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
                             absentHourObj.from = delayType?.toTime || _att.shiftStart;
                             absentHourObj.to = _att.attendTime;
+                            absentHourObj.amount = paySlip.daySalary;
+                            absentHourObj.penality = penaltiesList[selectdPenality]?.value || 0;
                             absentHourObj.value = site.toMoney(penalityValue);
                             paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
                             paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
@@ -270,6 +292,16 @@ module.exports = function init(site) {
                                 absentHourObj.from = delayType?.toTime || _att.shiftStart;
                                 absentHourObj.to = _att.attendTime;
                             }
+                            if (delayRequestIndex != -1) {
+                                absentHourObj.amount = paySlip.daySalary;
+                                absentHourObj.penality = penaltiesList[selectdPenality]?.value || 0;
+                            }
+
+                            if (workErrandIndex != -1) {
+                                absentHourObj.amount = 0;
+                                absentHourObj.penality = 0;
+                            }
+
                             absentHourObj.value = site.toMoney(penalityValue);
                             paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
                             paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
@@ -285,7 +317,8 @@ module.exports = function init(site) {
                         penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
                         absentHourObj.from = _att.shiftEnd;
                         absentHourObj.to = _att.leaveTime;
-
+                        absentHourObj.amount = paySlip.daySalary;
+                        absentHourObj.penality = penaltiesList[selectdPenality]?.value || 0;
                         absentHourObj.value = site.toMoney(penalityValue);
                         paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
                         paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
@@ -582,11 +615,15 @@ module.exports = function init(site) {
 
                 app.$collection.find({ id: _data.id }, (err, doc) => {
                     if (doc) {
-                        const regularVacations = doc.regularVacations || 0;
-                        const casualVacations = doc.casualVacations || 0;
+                        // const regularVacations = doc.regularVacations || 0;
+                        // const casualVacations = doc.casualVacations || 0;
+                        const annual = doc.annual || 0;
 
                         response.done = true;
-                        response.doc = { regularVacations, casualVacations };
+                        response.doc = {
+                            annual,
+                            // regularVacations, casualVacations
+                        };
 
                         res.json(response);
                     }
@@ -644,7 +681,7 @@ module.exports = function init(site) {
                                 toDate: _data.toDate,
                                 realWorkTimesList,
                                 penaltiesList: shiftDoc.penaltiesList,
-                                useSystemSetting: shiftDoc.useSystemSetting,
+                                salaryAccountSettings: shiftDoc.salaryAccountSettings,
                                 shiftApproved: shiftDoc.approved,
                             };
 
@@ -652,7 +689,6 @@ module.exports = function init(site) {
                                 const allowancesList = [];
                                 const deductionsList = [];
                                 const basicSalary = salary.basicSalary;
-                                const originalSalary = salary.originalSalary;
 
                                 let totalAllowance = 0;
                                 let totalDeductions = 0;
@@ -667,6 +703,7 @@ module.exports = function init(site) {
                                             code: _elm.allowance.code,
                                             nameAr: _elm.allowance.nameAr,
                                             nameEn: _elm.allowance.nameEn,
+                                            type: _elm.type,
                                             addToBasicSalary: _elm.allowance.addToBasicSalary,
                                             value: salary.otherAllownce,
                                             originalValue: _elm.value,
@@ -677,6 +714,7 @@ module.exports = function init(site) {
                                 doc.deductionsList.forEach((_elm) => {
                                     if (_elm && _elm.active) {
                                         const deuction = site.calculatePaySlipDeduction(_elm, basicSalary);
+
                                         deductionsList.push(deuction);
                                     }
                                 });
@@ -775,11 +813,16 @@ module.exports = function init(site) {
                                         totalAllowance += _elm.value;
                                     }
                                     if (_elm.addToBasicSalary) {
+                                        _elm.value = salary.otherAllownce;
+
+                                        let calcVal = site.calculatePaySlipDeduction(_elm, basicSalary);
+
                                         deductionsList.push({
                                             nameAr: 'التامينات الإجتماعية',
                                             nameEn: 'Social Insurance',
-                                            value: salary.originalSalary + salary.otherAllownce - salary.netSalary,
-                                            count: '-',
+                                            value: salary.basicSalary + calcVal.value - salary.netSalary,
+                                            count: calcVal.count,
+                                            type: calcVal.type,
                                         });
                                     }
                                 });
@@ -819,7 +862,6 @@ module.exports = function init(site) {
                                     };
                                 }
                                 response.doc = {
-                                    originalSalary,
                                     basicSalary,
                                     allowancesList,
                                     deductionsList,

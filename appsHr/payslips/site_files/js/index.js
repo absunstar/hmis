@@ -268,7 +268,7 @@ app.controller('payslips', function ($scope, $http, $timeout) {
                 if (response.data.done && response.data.doc) {
                     $scope.item.paySlip = response.data.doc;
                 }
-                // console.log('$scope.item.paySlip', $scope.item.paySlip);
+                console.log('$scope.item.paySlip', $scope.item.paySlip);
             },
             function (err) {
                 $scope.busy = false;

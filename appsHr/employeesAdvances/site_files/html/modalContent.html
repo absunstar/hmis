@@ -41,7 +41,7 @@
     </fieldset>
     <fieldset ng-show="mode !='add'">
         <legend>##word.Approve Informations##</legend>
-        <div class="row" ng-show="!canReject">
+        <div class="row" ng-show="!canReject && item.requestStatus != 'rejected'">
             <i-control type="number" class="col3" ng-disabled="item.approveDate" label="##word.Approved Amount##" ng-model="item.approvedAmount"> </i-control>
             <i-control type="number" class="col3" label="##word.Approved Number Of Months##" ng-model="item.approvedNumberOfMonths"> </i-control>
             <div class="col2">
@@ -52,7 +52,7 @@
 
         <fieldset ng-show="item.installmentsList && item.installmentsList.length">
             <legend>
-                <i-button type="add default" ng-show="!canReject" ng-click="item.installmentsList.push({})"></i-button>
+                <i-button type="add default" ng-show="!canReject && item.requestStatus != 'rejected'" ng-click="item.installmentsList.push({})"></i-button>
                 ##word.Payment Data##
             </legend>
             <div class="row" ng-repeat="c in item.installmentsList">
@@ -108,19 +108,19 @@
                         <p class="bold text-success" ng-show="c.approved">##word.Yes##</p>
                     </td>
                     <td class="center">
-                        <i-button group="bt_{{$index}}" type="accept" ng-show="!c.paid" ng-click="payInstallment(c);checkRejectAvilabilty(item)"></i-button>
+                        <i-button group="bt_{{$index}}" type="accept" ng-show="!c.paid && item.requestStatus != 'rejected'" ng-click="payInstallment(c);checkRejectAvilabilty(item)"></i-button>
                         <i-button
                             group="bt_{{$index}}"
                             type="reject"
                             label="##word.Cancel Payment##"
-                            ng-show="c.paid && !c.approved"
+                            ng-show="c.paid && !c.approved && item.requestStatus != 'rejected'"
                             ng-click="cancelPayInstallment(c);checkRejectAvilabilty(item)"
                         ></i-button>
                         <i-button
                             group="bt_{{$index}}"
                             type="approve"
                             x-permissions="approveEmployeeAdvance || employeesAdvancesManage"
-                            ng-show="c.paid && !c.approved"
+                            ng-show="c.paid && !c.approved && item.requestStatus != 'rejected'"
                             ng-click="approvePayInstallment(c);checkRejectAvilabilty(item)"
                         ></i-button>
                     </td>
@@ -129,14 +129,14 @@
 
             <i-button
                 type="approve"
-                ng-show="item.installmentsList && !item.hasPaidtransaction &&  item.installmentsList.length && !item.paymentDataApproved"
+                ng-show="item.installmentsList && !item.hasPaidtransaction && item.requestStatus != 'rejected' &&  item.installmentsList.length && !item.paymentDataApproved"
                 x-permissions="approveEmployeeAdvancePayment || employeesAdvancesManage"
                 label="##word.Approve##"
                 ng-click="approveInstallmentandItem(item)"
             ></i-button>
             <i-button
                 type="unapprove"
-                ng-show="item.installmentsList && !item.hasPaidtransaction && item.installmentsList.length && item.paymentDataApproved"
+                ng-show="item.installmentsList && !item.hasPaidtransaction && item.requestStatus != 'rejected' && item.installmentsList.length && item.paymentDataApproved"
                 x-permissions="approveEmployeeAdvancePayment || employeesAdvancesManage"
                 label="##word.Unapprove##"
                 ng-click="unapproveInstallmentandItem(item)"

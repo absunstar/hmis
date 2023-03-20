@@ -20,7 +20,7 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, date: new Date() };
+        $scope.item = { ...$scope.structure, installmentsList: [], date: new Date() };
         site.showModal($scope.modalID);
     };
 
@@ -60,10 +60,7 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
                     site.resetValidated($scope.modalID);
                     $scope.list.push(response.data.doc);
                 } else {
-                    $scope.error = response.data.error;
-                    if (response.data.error && response.data.error.like('*Must Enter Code*')) {
-                        $scope.error = '##word.Must Enter Code##';
-                    }
+                    $scope.error = response.data.error || 'Please Login First';
                 }
             },
             function (err) {
@@ -124,7 +121,7 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
                         $scope.list[index] = response.data.result.doc;
                     }
                 } else {
-                    $scope.error = 'Please Login First';
+                    $scope.error = response.data.error || 'Please Login First';
                 }
             },
             function (err) {
@@ -215,7 +212,7 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
                         $scope.list[index] = response.data.result.doc;
                     }
                 } else {
-                    $scope.error = 'Please Login First';
+                    $scope.error = response.data.error || 'Please Login First';
                 }
             },
             function (err) {
@@ -293,7 +290,7 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/all`,
             data: {
-                where: where,
+                where: where || { requestStatus: 'new' },
             },
         }).then(
             function (response) {
@@ -394,7 +391,7 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
             if (!_item.installmentsList.length) {
                 for (let i = 0; i < _item.approvedNumberOfMonths; i++) {
                     _item.installmentsList.push({
-                        date: new Date(new Date(_item.date).getFullYear(), new Date(_item.date).getMonth() + i, new Date(_item.date).getDate()),
+                        date: new Date(new Date(_item.date).getFullYear(), new Date(_item.date).getMonth() + i + 1, new Date(_item.date).getDate()),
                         amount,
                         paid: false,
                         paidDate: '',
@@ -409,6 +406,10 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
         const approvedOririonalAmount = _item.approvedAmount;
         let checkAmount = 0;
         let success = false;
+        if (!_item?.installmentsList || !_item.installmentsList?.length) {
+            $scope.error = '##word.Please Set Installment Data##';
+            return success;
+        }
         const installmentDateIndex = _item.installmentsList.findIndex((_item) => _item.date == '');
         if (installmentDateIndex !== -1) {
             $scope.installmentError = '##word.Please Enter Installment Date##';

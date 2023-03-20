@@ -213,17 +213,24 @@ module.exports = function init(site) {
                 } else if (cb.auto) {
                     _data.code = cb.code;
                 }
-
                 _data.addUserInfo = req.getUserFinger();
-
-                app.add(_data, (err, doc) => {
-                    if (!err && doc) {
-                        response.done = true;
-                        response.doc = doc;
+                app.$collection.find({ where: { fromDate: { $eq: new Date(_data.fromDate) }, toDate: { $eq: new Date(_data.toDate) }, vacationFor: 'all' } }, (err, doc) => {
+                    if (doc) {
+                        response.done = false;
+                        response.error = 'Global Vacation Exisit In Same Date';
+                        res.json(response);
+                        return;
                     } else {
-                        response.error = err.mesage;
+                        app.add(_data, (err, doc) => {
+                            if (!err && doc) {
+                                response.done = true;
+                                response.doc = doc;
+                            } else {
+                                response.error = err.mesage;
+                            }
+                            res.json(response);
+                        });
                     }
-                    res.json(response);
                 });
             });
         }
@@ -236,15 +243,23 @@ module.exports = function init(site) {
 
                 let _data = req.data;
                 _data.editUserInfo = req.getUserFinger();
-
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
+                app.$collection.find({ where: { fromDate: { $eq: new Date(_data.fromDate) }, toDate: { $eq: new Date(_data.toDate) }, vacationFor: 'all' } }, (err, doc) => {
+                    if (doc && doc.id !== _data.id) {
+                        response.done = false;
+                        response.error = 'Global Vacation Exisit In Same Date';
+                        res.json(response);
+                        return;
                     } else {
-                        response.error = err.message;
+                        app.update(_data, (err, result) => {
+                            if (!err) {
+                                response.done = true;
+                                response.result = result;
+                            } else {
+                                response.error = err.message;
+                            }
+                            res.json(response);
+                        });
                     }
-                    res.json(response);
                 });
             });
         }
@@ -260,15 +275,23 @@ module.exports = function init(site) {
                 _data['approved'] = true;
                 _data['approveDate'] = new Date();
                 _data.approvedUserInfo = req.getUserFinger();
-
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
+                app.$collection.find({ where: { fromDate: { $eq: new Date(_data.fromDate) }, toDate: { $eq: new Date(_data.toDate) }, vacationFor: 'all' } }, (err, doc) => {
+                    if (doc && doc.id !== _data.id) {
+                        response.done = false;
+                        response.error = 'Global Vacation Exisit In Same Date';
+                        res.json(response);
+                        return;
                     } else {
-                        response.error = err.message;
+                        app.update(_data, (err, result) => {
+                            if (!err) {
+                                response.done = true;
+                                response.result = result;
+                            } else {
+                                response.error = err.message;
+                            }
+                            res.json(response);
+                        });
                     }
-                    res.json(response);
                 });
             });
         }

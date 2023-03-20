@@ -785,6 +785,7 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
       }
 
       _item.total = afterPrice * _item.count;
+      _item.total = site.toNumber(_item.total);
     }, 300);
   };
 

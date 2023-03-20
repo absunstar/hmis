@@ -380,8 +380,8 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
       item.gtin = orderItem.item.gtin;
       item.workByQrCode = orderItem.item.workByQrCode;
       item.validityDays = orderItem.item.validityDays;
-      item.batchesList = [];
-      orderItem.unit.storesList = orderItem.unit.storesList || [];
+      item.batchesList = item.batchesList || [];
+      /* orderItem.unit.storesList = orderItem.unit.storesList || [];
       let unitStore = orderItem.unit.storesList.find((_s) => {
         return _s.store.id === $scope.item.store.id;
       });
@@ -397,13 +397,21 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
             }
           }
         });
-      }
+      } */
     }
     let index = $scope.item.itemsList.findIndex((_item) => _item.id === item.id && _item.unit.id == item.unit.id);
     if (index == -1) {
       $scope.item.itemsList.unshift(item);
+      if (item.workByQrCode && $scope.orderItem.barcode) {
+        $scope.item.itemsList[0].$search = $scope.orderItem.barcode;
+        $scope.getBatch({ which: 13 }, $scope.item.itemsList[0]);
+      }
     } else {
       $scope.item.itemsList[index].count += 1;
+      if (item.workByQrCode && $scope.orderItem.barcode) {
+        $scope.item.itemsList[index].$search = $scope.orderItem.barcode;
+        $scope.getBatch({ which: 13 }, $scope.item.itemsList[index]);
+      }
     }
     $scope.calculate($scope.item);
     $scope.resetOrderItem();
@@ -577,6 +585,8 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
     if ($scope.orderItem.barcode && $scope.orderItem.barcode.length > 30) {
       $scope.qr = site.getQRcode($scope.orderItem.barcode);
       where['gtin'] = $scope.qr.gtin;
+      where['unitsList.storesList.batchesList.code'] = $scope.qr.code;
+
     } else {
       where['unitsList.barcode'] = $scope.orderItem.barcode;
     }
@@ -1217,6 +1227,49 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
 
     return qr;
   };
+
+  $scope.getBatch = function (ev, item) {
+    if (ev && ev.which != 13) {
+      return;
+    }
+    $scope.errorBatch = '';
+    $scope.busy = true;
+    $http({
+      method: 'POST',
+      url: '/api/storesItems/getBatch',
+      data: {
+        where: { active: true, id: item.id, storeId: $scope.item.store.id, unitId: item.unit.id, code: item.$search },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.doc) {
+          let index = item.batchesList.findIndex((itm) => itm.code == response.data.doc.code);
+          if (index === -1) {
+            item.batchesList.push(response.data.doc);
+            item.$batchCount += 1;
+          } else {
+            if (item.workByBatch) {
+              item.batchesList[index].count += 1;
+              item.$batchCount += 1;
+
+            } else {
+              $scope.errorBatch = 'Item Is Exist';
+            }
+          }
+          item.$search = '';
+
+        } else {
+          $scope.errorBatch = response.data.error;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.getAll();
   $scope.getPaymentTypes();
   $scope.getDiscountTypes();

@@ -15,6 +15,45 @@ module.exports = function init(site) {
     allowRouteActive: true,
   };
 
+  site.getBatchesToSalesAuto = function (obj, callback) {
+    let itemIds = obj.items.map((_item) => _item.id);
+    app.all({ where: { id: { $in: itemIds } } }, (err, docs) => {
+      if (!err && docs) {
+        let itemsDocs = [];
+        for (let i = 0; i < obj.items.length; i++) {
+          let item = obj.items[i];
+          let indexDoc = docs.findIndex((itm) => itm.id === item.id);
+          if (indexDoc != -1) {
+            let unitIndex = docs[indexDoc].unitsList.findIndex((unt) => unt.unit.id === item.unit.id);
+            if (unitIndex != -1) {
+              let storeIndex = docs[indexDoc].unitsList[unitIndex].storesList.findIndex((st) => st.store.id === obj.store.id);
+              if (storeIndex != -1) {
+                docs[indexDoc].unitsList[unitIndex].storesList[storeIndex].batchesList = docs[indexDoc].unitsList[unitIndex].storesList[storeIndex].batchesList || [];
+                let batchesList = [];
+                if (item.workByBatch || item.workByQrCode) {
+                  batchesList = docs[indexDoc].unitsList[unitIndex].storesList[storeIndex].batchesList
+                    .sort((a, b) => new Date(b.expiryDate) - new Date(a.expiryDate))
+                    .reverse()
+                    .slice(item.count);
+                } else if (item.workBySerial) {
+                  batchesList = docs[indexDoc].unitsList[unitIndex].storesList[storeIndex].batchesList
+                    .sort((a, b) => new Date(b.productionDate) - new Date(a.productionDate))
+                    .reverse()
+                    .slice(item.count);
+                }
+                itemsDocs.push({
+                  id: docs[indexDoc].id,
+                  batchesList,
+                });
+              }
+            }
+          }
+        }
+        callback(itemsDocs);
+      }
+    });
+  };
+
   site.editItemsBalance = function (_elm, screenName) {
     app.view({ id: _elm.id }, (err, doc) => {
       if (doc) {
@@ -750,12 +789,19 @@ module.exports = function init(site) {
             if (batchIndex != -1) {
               doc.unitsList[unitIndex].storesList[storeIndex].batchesList[batchIndex];
               let batch = { ...doc.unitsList[unitIndex].storesList[storeIndex].batchesList[batchIndex] };
-              batch.currentCount = batch.count;
-              batch.count = 1;
-              res.json({
-                done: true,
-                doc: batch,
-              });
+              if (batch.count > 0) {
+                batch.currentCount = batch.count;
+                batch.count = 1;
+                res.json({
+                  done: true,
+                  doc: batch,
+                });
+              } else {
+                res.json({
+                  done: false,
+                  error: 'Not Found Count',
+                });
+              }
             } else {
               res.json({
                 done: false,

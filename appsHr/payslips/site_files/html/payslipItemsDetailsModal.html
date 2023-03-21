@@ -1,6 +1,5 @@
 <div id="payslipItemsDetailsModal" class="modal full">
-    <div class="col2"></div>
-    <div class="modal-content col8">
+    <div class="modal-content">
         <div class="modal-header">
             <span class="close">&times;</span>
             <p class="center">##word.Payslip Item Details## <i class="fa fa-details"></i></p>
@@ -147,7 +146,10 @@
                             <tr ng-repeat="itm in payslipItem.list">
                                 <td class="center blue">{{$index+1}}</td>
                                 <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
-                                <td class="center">{{itm.source.nameEn}} - {{itm.source.nameAr}}</td>
+                                <td class="center">
+                                    <p>{{itm.source.nameEn}}</p>
+                                    <p>{{itm.source.nameAr}}</p>
+                                </td>
                                 <td class="center">
                                     <span class="blue"> {{itm.count}} </span> -
                                     <span> ##word.Day##</span>
@@ -289,7 +291,7 @@
                                 <td class="center">{{itm.vacationType.nameEn}} - {{itm.vacationType.nameAr}}</td>
                                 <td class="center">{{itm.days}}</td>
                                 <td class="center">{{itm.approvedVacationType.nameEn}} - {{itm.approvedVacationType.nameAr}}</td>
-                                <td class="center">{{itm.approvedDays}} <span>##word.Day/s##</span> </td>
+                                <td class="center">{{itm.approvedDays}} <span>##word.Day/s##</span></td>
                             </tr>
                         </table>
                     </div>
@@ -310,7 +312,7 @@
                     </div>
                 </fieldset>
 
-                <fieldset ng-show="payslipItem.code == 'absentHours'">
+                <fieldset ng-show="item.delayRequests && item.delayRequests.list && item.delayRequests.list.length">
                     <legend>{{item.delayRequests.nameEn}} - {{item.delayRequests.nameAr}}</legend>
                     <div class="table-responsive">
                         <table class="table hover bold">
@@ -331,7 +333,8 @@
                         </table>
                     </div>
                 </fieldset>
-                <fieldset ng-show="payslipItem.code == 'absentHours'">
+
+                <fieldset ng-show="item.workErrands && item.workErrands.list && item.workErrands.list.length">
                     <legend>{{item.workErrands.nameEn}} - {{item.workErrands.nameAr}}</legend>
 
                     <div class="table-responsive">
@@ -353,7 +356,8 @@
                         </table>
                     </div>
                 </fieldset>
-                <fieldset ng-show="payslipItem.code == 'absentHours'">
+                
+                <fieldset ng-show="item.vacationsRequests && item.vacationsRequests.list && item.vacationsRequests.list.length">
                     <legend>{{item.vacationsRequests.nameEn}} - {{item.vacationsRequests.nameAr}}</legend>
                     <div class="table-responsive">
                         <table class="table hover bold">

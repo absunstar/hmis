@@ -459,20 +459,13 @@ module.exports = function init(site) {
                     delete where.toDate;
                 }
                 if (app.allowMemory) {
-                    app.memoryList
-                        .filter((g) => g.company && g.company.id == site.getCompany(req).id)
-                        .forEach((doc) => {
-                            let obj = { ...doc };
+                    if (!search) {
+                        search = 'id';
+                    }
+                    let list = app.memoryList
+                        .filter((g) => g.company && g.company.id == site.getCompany(req).id && (typeof where.active != 'boolean' || g.active === where.active) && JSON.stringify(g).contains(search))
+                        .slice(0, limit);
 
-                            for (const p in obj) {
-                                if (!Object.hasOwnProperty.call(select, p)) {
-                                    delete obj[p];
-                                }
-                            }
-                            if (!where.active || doc.active) {
-                                list.push(obj);
-                            }
-                        });
                     res.json({
                         done: true,
                         list: list,

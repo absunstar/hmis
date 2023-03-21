@@ -6,7 +6,7 @@ app.controller('payslips', function ($scope, $http, $timeout) {
     $scope.modalSearchID = '#payslipsSearchModal';
     $scope.printPayslipModal = '#printPayslipModal';
     $scope.mode = 'add';
-    $scope._search = {};
+    $scope._search = { fromDate: new Date(), toDate: new Date() };
     $scope.structure = {
         image: { url: '/images/payslips.png' },
         approved: false,
@@ -16,15 +16,14 @@ app.controller('payslips', function ($scope, $http, $timeout) {
     $scope.payslipItem = {};
     $scope.list = [];
 
-    // $scope.start = new Date().setDate(1);
-    // $scope.end = new Date().setDate(1);
-
     $scope.getCurrentMonthDate = function () {
         const date = new Date();
         const year = date.getFullYear();
         const month = date.getMonth();
         const firstDay = new Date(year, month, 1);
         const lastDay = new Date(year, month + 1, 0);
+        $scope._search.fromDate = new Date(firstDay);
+        $scope._search.toDate = new Date(lastDay);
         return { firstDay, lastDay };
     };
 
@@ -190,7 +189,7 @@ app.controller('payslips', function ($scope, $http, $timeout) {
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/all`,
             data: {
-                where: where,
+                where: where || { approved: false },
             },
         }).then(
             function (response) {
@@ -333,7 +332,6 @@ app.controller('payslips', function ($scope, $http, $timeout) {
     };
 
     $scope.viewPayslipItemDetails = function (_item) {
-
         $scope.payslipItem = {};
         $scope.payslipItem = _item;
         $scope.item = { ...$scope.item, ...$scope.item.paySlip };
@@ -346,11 +344,12 @@ app.controller('payslips', function ($scope, $http, $timeout) {
     };
 
     $scope.searchAll = function () {
+        $scope.search = { ...$scope.search, ...$scope._search };
         $scope.getAll($scope.search);
         site.hideModal($scope.modalSearchID);
         $scope.search = {};
     };
-
+    $scope.getCurrentMonthDate();
     $scope.getAll();
     $scope.getEmployees();
     $scope.getNumberingAuto();

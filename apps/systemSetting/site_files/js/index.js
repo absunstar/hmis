@@ -3,6 +3,8 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
     $scope.appName = 'systemSetting';
     $scope.modalID = '#systemSettingManageModal';
     $scope.mode = 'add';
+    $scope.nathionalityVacations = { nationality: {}, annualVacation: 0, casualVacation: 0, regularVacation: 0 };
+    $scope.nathionalityInsurance = { totalSubscriptions: 21.5, totalSubscriptionsEmployee: 9.75, totalSubscriptionsOwner: 11.75 };
     $scope.item = {
         storesSetting: {
             hasDefaultVendor: false,
@@ -28,20 +30,79 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
         },
         workflowAssignmentSettings: {},
         hrSettings: {
-            saudiVacations: {
-                nationality: {},
-                annualVacation: 0,
-                casualVacation: 0,
-                regularVacation: 0,
-            },
-            othersVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
+            // saudiVacations: {
+            // nationality: {},
+            // annualVacation: 0,
+            // casualVacation: 0,
+            // regularVacation: 0,
+            // },
+            nathionalitiesVacations: [],
+            publicVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
+            nathionalitiesInsurance: [],
+            publicInsurance: { totalSubscriptions: 21.5, totalSubscriptionsEmployee: 9.75, totalSubscriptionsOwner: 11.75 },
+            // othersVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
 
-            // delay: 0,
-            // overtime: 0,
-            // penality: 0,
-            // absenceHours: 0,
-            absenceDays: 0,
+            absenceDays: 1,
+            forgetFingerprint: 0.5,
         },
+    };
+
+    $scope.addToNathionalitiesVacationsList = function (nation) {
+        $scope.hrSettingsError = '';
+        if (!nation.nationality || !nation.nationality.id) {
+            $scope.hrSettingsError = '##word.Please Select Nathionality##';
+            return;
+        }
+
+        if (nation.annualVacation < 0) {
+            $scope.hrSettingsError = '##word.Please Set Valid Value For Nationality Annual Vacation##';
+            return;
+        }
+        if (nation.regularVacation < 0) {
+            $scope.hrSettingsError = '##word.Please Set Valid Value For Nationality Reular Vacation##';
+            return;
+        }
+        if (nation.casualVacation < 0) {
+            $scope.hrSettingsError = '##word.Please Set Valid Value For Nationality Casual Vacation##';
+            return;
+        }
+        $scope.item.hrSettings.nathionalitiesVacations = $scope.item.hrSettings.nathionalitiesVacations || [];
+        const exisitIndex = $scope.item.hrSettings.nathionalitiesVacations.findIndex((elem) => elem.nationality.id == nation.nationality.id);
+        if (exisitIndex !== -1) {
+            $scope.hrSettingsError = '##word.Nationality Exisit##';
+            return;
+        }
+        $scope.item.hrSettings.nathionalitiesVacations.push(nation);
+        $scope.nathionalityVacations = { annualVacation: 0, casualVacation: 0, regularVacation: 0 };
+    };
+
+    $scope.addToNathionalitiesInsuranceList = function (nation) {
+        $scope.hrSettingsError = '';
+        if (!nation.nationality || !nation.nationality.id) {
+            $scope.hrSettingsError = '##word.Please Select Nathionality##';
+            return;
+        }
+
+        if (nation.totalSubscriptions < 0) {
+            $scope.hrSettingsError = '##word.Please Set Valid Value For Total##';
+            return;
+        }
+        if (nation.totalSubscriptionsEmployee < 0) {
+            $scope.hrSettingsError = '##word.Please Set Valid Value For Employee##';
+            return;
+        }
+        if (nation.totalSubscriptionsOwner < 0) {
+            $scope.hrSettingsError = '##word.Please Set Valid Value For Company##';
+            return;
+        }
+        $scope.item.hrSettings.nathionalitiesVacations = $scope.item.hrSettings.nathionalitiesVacations || [];
+        const exisitIndex = $scope.item.hrSettings.nathionalitiesVacations.findIndex((elem) => elem.nationality.id == nation.nationality.id);
+        if (exisitIndex !== -1) {
+            $scope.hrSettingsError = '##word.Nationality Exisit##';
+            return;
+        }
+        $scope.item.hrSettings.nathionalitiesVacations.push(nation);
+        $scope.nathionalityVacations = { annualVacation: 0, casualVacation: 0, regularVacation: 0 };
     };
 
     $scope.addToApprovalList = function (screen) {

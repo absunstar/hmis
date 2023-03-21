@@ -5,6 +5,8 @@
 
         <div class="top-actions">
             <i-button type="add" x-permissions="jobsShiftsAdd || jobsShiftsManage" label="##word.New##" ng-click="showAdd()"></i-button>
+            <i-button type="search" x-permissions="jobsShiftsSearch || jobsShiftsManage" label="##word.Approved##" ng-click="searchAll(search={approved:true})"></i-button>
+            <i-button type="search" x-permissions="jobsShiftsSearch || jobsShiftsManage" label="##word.Not Approved##" ng-click="searchAll(search={approved:false})"></i-button>
             <i-button type="search" x-permissions="jobsShiftsSearch || jobsShiftsManage" label="##word.Active##" ng-click="searchAll(search={active:true})"></i-button>
             <i-button type="search" x-permissions="jobsShiftsSearch || jobsShiftsManage" label="##word.Not Active##" ng-click="searchAll(search={active:false})"></i-button>
         </div>

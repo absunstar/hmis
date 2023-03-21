@@ -59,7 +59,12 @@
                     <td class="center blue">{{$index+2}}</td>
                     <td class="center">{{itm.nameEn}}</td>
                     <td class="center">
-                        <span class="text-success">{{itm.value}}</span>
+                        <span ng-show="itm.type">
+                            (
+                            <span class="red" ng-show="itm.type =='value' "> ##word.Value## </span>
+                            <span class="red" ng-show="itm.type =='percent' "> ##word.%## </span> )
+                        </span>
+                        <span class="text-success"> {{itm.value}} </span>
                         <span>##word.$##</span>
                     </td>
                     <td class="center">{{itm.nameAr}}</td>
@@ -105,7 +110,7 @@
                     </td>
                     <td class="center">{{itm.nameAr}}</td>
 
-                      <td class="center">
+                    <td class="center">
                         <i-button type="list" label="##word.Details##" ng-show="itm.list" ng-click="viewPayslipItemDetails(itm)"></i-button>
                     </td>
                 </tr>

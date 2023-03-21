@@ -101,7 +101,7 @@ module.exports = function init(site) {
             otherAllownce: otherAllownce,
             basicSalary: site.toMoney(basicSalary),
             otherAllownceAfterInsurance: site.toMoney(otherAllownceAfterInsurance),
-            netSalary: site.toMoney(netSalary + otherAllownceAfterInsurance),
+            netSalary: site.toMoney(netSalary),
         };
     };
 
@@ -872,18 +872,24 @@ module.exports = function init(site) {
                                     if (!_elm.addToBasicSalary) {
                                         totalAllowance += _elm.value;
                                     }
+
                                     if (_elm.addToBasicSalary) {
+
                                         _elm.value = salary.otherAllownce;
 
-                                        let calcVal = site.calculatePaySlipDeduction(_elm, basicSalary);
-
+                                        let calcVal = site.calculatePaySlipDeduction(_elm, basicSalary);          
+                                        
                                         deductionsList.push({
                                             nameAr: 'التامينات الإجتماعية',
                                             nameEn: 'Social Insurance',
-                                            value: salary.basicSalary + calcVal.value - salary.netSalary,
+                                            value: site.toMoney(salary.basicSalary + calcVal.value - salary.netSalary),
                                             count: calcVal.count,
                                             type: calcVal.type,
                                         });
+
+                                        const itemIndex = allowancesList.findIndex((item) => item.id == _elm.id);
+
+                                        allowancesList[itemIndex].value = calcVal.value;
                                     }
                                 });
 
@@ -892,7 +898,7 @@ module.exports = function init(site) {
                                 });
 
                                 response.done = true;
-                                totalAllowance += salary.netSalary;
+                                totalAllowance += salary.basicSalary;
 
                                 let delayRequests;
                                 let workErrands;

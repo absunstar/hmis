@@ -17,7 +17,7 @@
             </div>
         </fieldset>
 
-        <i-textarea ng-model="item.reason" rows="4" label="##word.Reason##"></i-textarea>
+        <i-content ng-model="item.reason" rows="4" label="##word.Reason##"></i-content>
     </fieldset>
 
     <fieldset ng-show="mode !='add'">
@@ -34,7 +34,7 @@
                 <i-control type="number" disabled class="col2" label="##word.Casual Balance##" ng-model="item.casualVacation"> </i-control>
             </div>
         </fieldset>
-        <i-textarea ng-model="item.comment" rows="4" label="##word.Comment##"></i-textarea>
+        <i-content ng-model="item.comment" rows="4" label="##word.Comment##"></i-content>
     </fieldset>
 </div>
 <div ng-show="mode !== 'add' " class="row">

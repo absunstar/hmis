@@ -366,32 +366,313 @@
                 </div>
 
                 <div id="hrSettings" class="tab-content">
+                    <h3 class="error">{{hrSettingsError}}</h3>
                     <fieldset ng-model="item.hrSettings">
-                        <legend>##word.HR Setting##</legend>
+                        <legend class="text-danger bold">##word.HR Penalities##</legend>
                         <div class="row">
-                            <!-- <i-control class="col4" type="number" min="0" ng-model="item.hrSettings.delay" label="##word.Delay Value##"> </i-control> -->
-                            <!-- <i-control class="col4" type="number" min="0" ng-model="item.hrSettings.overtime" label="##word.Overtime Value##"> </i-control> -->
-                            <!-- <i-control class="col4" type="number" min="0" ng-model="item.hrSettings.penality" label="##word.Penality Value##"> </i-control> -->
-                            <!-- <i-control class="col4" type="number" min="0" ng-model="item.hrSettings.absenceHours" label="##word.Absence hours Value##"> </i-control> -->
-                            <i-control class="col4" type="number" min="0" ng-model="item.hrSettings.absenceDays" label="##word.Absence Days Value##"> </i-control>
+                            <div class="col4">
+                                <div class="row">
+                                    <div class="col9">
+                                        <i-control type="number" min="0" ng-model="item.hrSettings.absenceDays" label="##word.Absence Days Value##"> </i-control>
+                                    </div>
+                                    <div class="col3 padding">
+                                        <br />
+                                        <span class="bold"> ##word.Day/s##</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col4">
+                                <div class="row">
+                                    <div class="col9">
+                                        <i-control type="number" min="0" ng-model="item.hrSettings.forgetFingerprint" label="##word.Forget Fingerprint##"> </i-control>
+                                    </div>
+                                    <div class="col3 padding">
+                                        <br />
+                                        <span class="bold"> ##word.Day/s##</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </fieldset>
                     <fieldset>
-                        <legend>##word.Saudi Vacations Balance##</legend>
-                        <div class="row">
-                            <i-list class="col3" display="name##session.lang##" ng-model="item.hrSettings.saudiVacations.nationality" label="##word.Nathionality##" items="nationalitiesList"> </i-list>
-                            <i-control type="number" class="col3" label="##word.Annual##" ng-model="item.hrSettings.saudiVacations.annualVacation"> </i-control>
-                            <i-control type="number" class="col3" label="##word.Regular##" ng-model="item.hrSettings.saudiVacations.regularVacation"> </i-control>
-                            <i-control type="number" class="col3" label="##word.Casual##" ng-model="item.hrSettings.saudiVacations.casualVacation"> </i-control>
-                        </div>
+                        <legend class="text-danger bold">##word.Employees Social Insurance##</legend>
+                        <fieldset>
+                            <legend class="blue bold">##word.Public Social Insurance##</legend>
+                            <div class="row">
+                                <div class="col4">
+                                    <div class="row">
+                                        <div class="col9">
+                                            <i-control type="number" label="##word.Annual##" ng-model="item.hrSettings.publicInsurance.annualVacation"> </i-control>
+                                        </div>
+                                        <div class="col3 padding">
+                                            <br />
+                                            <span class="bold"> ##word.Day/s##</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col4">
+                                    <div class="row">
+                                        <div class="col9">
+                                            <i-control type="number" label="##word.Regular##" ng-model="item.hrSettings.publicInsurance.regularVacation"> </i-control>
+                                        </div>
+                                        <div class="col3 padding">
+                                            <br />
+                                            <span class="bold"> ##word.Day/s##</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col4">
+                                    <div class="row">
+                                        <div class="col9">
+                                            <i-control type="number" label="##word.Casual##" ng-model="item.hrSettings.publicInsurance.casualVacation"> </i-control>
+                                        </div>
+                                        <div class="col3 padding">
+                                            <br />
+                                            <span class="bold"> ##word.Day/s##</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend class="blue bold">##word.Nationalities Social Insurance##</legend>
+
+                            <div class="row">
+                                <div class="col3">
+                                    <div class="row">
+                                        <div class="col9">
+                                            <i-control type="number" label="##word.Total##" ng-model="nathionalityInsurance.totalSubscriptions"> </i-control>
+                                        </div>
+                                        <div class="col3 padding">
+                                            <br />
+                                            <span class="bold"> ##word.%##</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col3">
+                                    <div class="row">
+                                        <div class="col9">
+                                            <i-control type="number" label="##word.Employee##" ng-model="nathionalityInsurance.totalSubscriptionsEmployee"> </i-control>
+                                        </div>
+                                        <div class="col3 padding">
+                                            <br />
+                                            <span class="bold"> ##word.%##</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col3">
+                                    <div class="row">
+                                        <div class="col9">
+                                            <i-control type="number" label="##word.Company##" ng-model="nathionalityInsurance.totalSubscriptionsOwner"> </i-control>
+                                        </div>
+                                        <div class="col3 padding">
+                                            <br />
+                                            <span class="bold"> ##word.%##</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <br />
+                                    <i-button type="push" ng-click="addToNathionalitiesInsuranceList(nathionalityInsurance)"></i-button>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table hover bold">
+                                    <tr>
+                                        <th>##word.S##</th>
+                                        <th>##word.Total##</th>
+                                        <th>##word.Employee##</th>
+                                        <th>##word.Company##</th>
+                                        <th>##word.Actions##</th>
+                                    </tr>
+
+                                    <tr ng-repeat="insurance in item.hrSettings.nathionalitiesInsurance">
+                                        <td class="center">
+                                            <p>{{$index+1}}</p>
+                                        </td>
+
+                                        <td class="center">
+                                            <div class="row">
+                                                <div class="col9">
+                                                    <i-control type="number" ng-model="insurance.totalSubscriptions"> </i-control>
+                                                </div>
+                                                <div class="col3 padding">
+                                                    <span class="bold"> ##word.%##</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="center">
+                                            <div class="row">
+                                                <div class="col9">
+                                                    <i-control type="number" ng-model="insurance.totalSubscriptionsEmployee"> </i-control>
+                                                </div>
+                                                <div class="col3 padding">
+                                                    <span class="bold"> ##word.%##</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="center">
+                                            <div class="row">
+                                                <div class="col9">
+                                                    <i-control type="number" ng-model="insurance.totalSubscriptionsOwner"> </i-control>
+                                                </div>
+                                                <div class="col3 padding">
+                                                    <span class="bold"> ##word.%##</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="center">
+                                            <i-button type="delete" ng-click="item.hrSettings.nathionalitiesInsurance.splice($index,1)"></i-button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </fieldset>
                     </fieldset>
                     <fieldset>
-                        <legend>##word.None Saudi Vacations Balance##</legend>
-                        <div class="row">
-                            <i-control type="number" class="col3" label="##word.Annual##" ng-model="item.hrSettings.othersVacations.annualVacation"> </i-control>
-                            <i-control type="number" class="col3" label="##word.Regular##" ng-model="item.hrSettings.othersVacations.regularVacation"> </i-control>
-                            <i-control type="number" class="col3" label="##word.Casual##" ng-model="item.hrSettings.othersVacations.casualVacation"> </i-control>
-                        </div>
+                        <legend class="text-danger bold">##word.Employees Vacations##</legend>
+                        <fieldset>
+                            <legend class="blue bold">##word.Public Vacations Balance##</legend>
+                            <div class="row">
+                                <div class="col4">
+                                    <div class="row">
+                                        <div class="col9">
+                                            <i-control type="number" label="##word.Annual##" ng-model="item.hrSettings.publicVacations.annualVacation"> </i-control>
+                                        </div>
+                                        <div class="col3 padding">
+                                            <br />
+                                            <span class="bold"> ##word.Day/s##</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col4">
+                                    <div class="row">
+                                        <div class="col9">
+                                            <i-control type="number" label="##word.Regular##" ng-model="item.hrSettings.publicVacations.regularVacation"> </i-control>
+                                        </div>
+                                        <div class="col3 padding">
+                                            <br />
+                                            <span class="bold"> ##word.Day/s##</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col4">
+                                    <div class="row">
+                                        <div class="col9">
+                                            <i-control type="number" label="##word.Casual##" ng-model="item.hrSettings.publicVacations.casualVacation"> </i-control>
+                                        </div>
+                                        <div class="col3 padding">
+                                            <br />
+                                            <span class="bold"> ##word.Day/s##</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend class="blue bold">##word.Nationalities Vacations Balance##</legend>
+
+                            <div class="row">
+                                <i-list class="col2" display="name##session.lang##" ng-model="nathionalityVacations.nationality" label="##word.Nathionality##" items="nationalitiesList"> </i-list>
+
+                                <div class="col3">
+                                    <div class="row">
+                                        <div class="col9">
+                                            <i-control type="number" label="##word.Annual##" ng-model="nathionalityVacations.annualVacation"> </i-control>
+                                        </div>
+                                        <div class="col3 padding">
+                                            <br />
+                                            <span class="bold"> ##word.Day/s##</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col3">
+                                    <div class="row">
+                                        <div class="col9">
+                                            <i-control type="number" label="##word.Regular##" ng-model="nathionalityVacations.regularVacation"> </i-control>
+                                        </div>
+                                        <div class="col3 padding">
+                                            <br />
+                                            <span class="bold"> ##word.Day/s##</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col3">
+                                    <div class="row">
+                                        <div class="col9">
+                                            <i-control type="number" label="##word.Casual##" ng-model="nathionalityVacations.casualVacation"> </i-control>
+                                        </div>
+                                        <div class="col3 padding">
+                                            <br />
+                                            <span class="bold"> ##word.Day/s##</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col1">
+                                    <br />
+                                    <i-button type="push" ng-click="addToNathionalitiesVacationsList(nathionalityVacations)"></i-button>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table hover bold">
+                                    <tr>
+                                        <th>##word.S##</th>
+                                        <th>##word.Nationality##</th>
+                                        <th>##word.Annual##</th>
+                                        <th>##word.Regular##</th>
+                                        <th>##word.Casual##</th>
+                                        <th>##word.Actions##</th>
+                                    </tr>
+
+                                    <tr ng-repeat="nathion in item.hrSettings.nathionalitiesVacations">
+                                        <td class="center">
+                                            <p>{{$index+1}}</p>
+                                        </td>
+                                        <td class="center">
+                                            <p>{{nathion.nationality.name##session.lang##}}</p>
+                                        </td>
+                                        <td class="center">
+                                            <div class="row">
+                                                <div class="col9">
+                                                    <i-control type="number" ng-model="nathion.annualVacation"> </i-control>
+                                                </div>
+                                                <div class="col3 padding">
+                                                    <span class="bold"> ##word.Day/s##</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="center">
+                                            <div class="row">
+                                                <div class="col9">
+                                                    <i-control type="number" ng-model="nathion.regularVacation"> </i-control>
+                                                </div>
+                                                <div class="col3 padding">
+                                                    <span class="bold"> ##word.Day/s##</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="center">
+                                            <div class="row">
+                                                <div class="col9">
+                                                    <i-control type="number" ng-model="nathion.casualVacation"> </i-control>
+                                                </div>
+                                                <div class="col3 padding">
+                                                    <span class="bold"> ##word.Day/s##</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="center">
+                                            <i-button type="delete" ng-click="item.hrSettings.nathionalitiesVacations.splice($index,1)"></i-button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </fieldset>
                     </fieldset>
                 </div>
 
@@ -513,74 +794,76 @@
                 <div id="establishingAccountsSettings" class="tab-content">
                     <fieldset>
                         <legend>##word.Store Purchases##</legend>
+                        <div class="table-responsive">
+                            <table class="table hover bold">
+                                <tr>
+                                    <th>##word.Field Name##</th>
+                                    <th>##word.Debtor Account##</th>
+                                    <th>##word.Creditor Account##</th>
+                                </tr>
 
-                        <table class="table hover bold">
-                            <tr>
-                                <th>##word.Field Name##</th>
-                                <th>##word.Debtor Account##</th>
-                                <th>##word.Creditor Account##</th>
-                            </tr>
+                                <tr ng-repeat="acc in item.storePurchasesList">
+                                    <td>
+                                        <p class="text-center">{{acc.fieldName.name##session.lang##}}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <i-list items="accountsGuideList" ng-search="item.$debtorAccountGuides" display="name##session.lang##" ng-model="acc.debtorAccountGuide"> </i-list>
+                                        <div class="row">
+                                            <i-radio class="col6" group="{{$index}}debtorSide" ng-value="debtor" label="##word.Debtor##" ng-model="acc.debtorAccountGuide.side"> </i-radio>
 
-                            <tr ng-repeat="acc in item.storePurchasesList">
-                                <td>
-                                    <p class="text-center">{{acc.fieldName.name##session.lang##}}</p>
-                                </td>
-                                <td class="text-center">
-                                    <i-list items="accountsGuideList" ng-search="item.$debtorAccountGuides" display="name##session.lang##" ng-model="acc.debtorAccountGuide"> </i-list>
-                                    <div class="row">
-                                        <i-radio class="col6" group="{{$index}}debtorSide" ng-value="debtor" label="##word.Debtor##" ng-model="acc.debtorAccountGuide.side"> </i-radio>
+                                            <i-radio class="col6" group="{{$index}}debtorSide" ng-value="creditor" label="##word.Creditor##" ng-model="acc.debtorAccountGuide.side"> </i-radio>
+                                        </div>
+                                    </td>
 
-                                        <i-radio class="col6" group="{{$index}}debtorSide" ng-value="creditor" label="##word.Creditor##" ng-model="acc.debtorAccountGuide.side"> </i-radio>
-                                    </div>
-                                </td>
+                                    <td class="text-center">
+                                        <i-list items="accountsGuideList" ng-search="item.$creditorAccountGuides" display="name##session.lang##" ng-model="acc.creditorAccountGuide"> </i-list>
+                                        <div class="row">
+                                            <i-radio class="col6" group="{{$index}}creditorSide" ng-value="debtor" label="##word.Debtor##" ng-model="acc.creditorAccountGuide.side"> </i-radio>
 
-                                <td class="text-center">
-                                    <i-list items="accountsGuideList" ng-search="item.$creditorAccountGuides" display="name##session.lang##" ng-model="acc.creditorAccountGuide"> </i-list>
-                                    <div class="row">
-                                        <i-radio class="col6" group="{{$index}}creditorSide" ng-value="debtor" label="##word.Debtor##" ng-model="acc.creditorAccountGuide.side"> </i-radio>
-
-                                        <i-radio class="col6" group="{{$index}}creditorSide" ng-value="creditor" label="##word.Creditor##" ng-model="acc.creditorAccountGuide.side"> </i-radio>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
+                                            <i-radio class="col6" group="{{$index}}creditorSide" ng-value="creditor" label="##word.Creditor##" ng-model="acc.creditorAccountGuide.side"> </i-radio>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </fieldset>
 
                     <br />
 
                     <fieldset>
                         <legend>##word.Store Sales##</legend>
+                        <div class="table-responsive">
+                            <table class="table hover bold">
+                                <tr>
+                                    <th>##word.Field Name##</th>
+                                    <th>##word.Debtor Account##</th>
+                                    <th>##word.Creditor Account##</th>
+                                </tr>
 
-                        <table class="table hover bold">
-                            <tr>
-                                <th>##word.Field Name##</th>
-                                <th>##word.Debtor Account##</th>
-                                <th>##word.Creditor Account##</th>
-                            </tr>
+                                <tr ng-repeat="acc in item.storeSalesList">
+                                    <td>
+                                        <p class="text-center">{{acc.fieldName.name##session.lang##}}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <i-list items="accountsGuideList" ng-search="item.$debtorAccountGuides" display="name##session.lang##" ng-model="acc.debtorAccountGuide"> </i-list>
+                                        <div class="row">
+                                            <i-radio class="col6" ng-value="debtor" label="##word.Debtor##" ng-model="acc.debtorAccountGuide.side"> </i-radio>
 
-                            <tr ng-repeat="acc in item.storeSalesList">
-                                <td>
-                                    <p class="text-center">{{acc.fieldName.name##session.lang##}}</p>
-                                </td>
-                                <td class="text-center">
-                                    <i-list items="accountsGuideList" ng-search="item.$debtorAccountGuides" display="name##session.lang##" ng-model="acc.debtorAccountGuide"> </i-list>
-                                    <div class="row">
-                                        <i-radio class="col6" ng-value="debtor" label="##word.Debtor##" ng-model="acc.debtorAccountGuide.side"> </i-radio>
+                                            <i-radio class="col6" ng-value="creditor" label="##word.Creditor##" ng-model="acc.debtorAccountGuide.side"> </i-radio>
+                                        </div>
+                                    </td>
 
-                                        <i-radio class="col6" ng-value="creditor" label="##word.Creditor##" ng-model="acc.debtorAccountGuide.side"> </i-radio>
-                                    </div>
-                                </td>
+                                    <td class="text-center">
+                                        <i-list items="accountsGuideList" ng-search="item.$creditorAccountGuides" display="name##session.lang##" ng-model="acc.creditorAccountGuide"> </i-list>
+                                        <div class="row">
+                                            <i-radio class="col6" ng-value="debtor" label="##word.Debtor##" ng-model="acc.creditorAccountGuide.side"> </i-radio>
 
-                                <td class="text-center">
-                                    <i-list items="accountsGuideList" ng-search="item.$creditorAccountGuides" display="name##session.lang##" ng-model="acc.creditorAccountGuide"> </i-list>
-                                    <div class="row">
-                                        <i-radio class="col6" ng-value="debtor" label="##word.Debtor##" ng-model="acc.creditorAccountGuide.side"> </i-radio>
-
-                                        <i-radio class="col6" ng-value="creditor" label="##word.Creditor##" ng-model="acc.creditorAccountGuide.side"> </i-radio>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
+                                            <i-radio class="col6" ng-value="creditor" label="##word.Creditor##" ng-model="acc.creditorAccountGuide.side"> </i-radio>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </fieldset>
                 </div>
             </div>

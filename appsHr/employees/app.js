@@ -874,11 +874,10 @@ module.exports = function init(site) {
                                     }
 
                                     if (_elm.addToBasicSalary) {
-
                                         _elm.value = salary.otherAllownce;
 
-                                        let calcVal = site.calculatePaySlipDeduction(_elm, basicSalary);          
-                                        
+                                        let calcVal = site.calculatePaySlipDeduction(_elm, basicSalary);
+
                                         deductionsList.push({
                                             nameAr: 'التامينات الإجتماعية',
                                             nameEn: 'Social Insurance',
@@ -903,6 +902,7 @@ module.exports = function init(site) {
                                 let delayRequests;
                                 let workErrands;
                                 let vacationsRequests;
+
                                 if (result.delayRequestsDataList.length) {
                                     delayRequests = {
                                         code: 'delayRequests',
@@ -911,6 +911,7 @@ module.exports = function init(site) {
                                         list: result.delayRequestsDataList,
                                     };
                                 }
+
                                 if (result.workErrandDataList.length) {
                                     workErrands = {
                                         code: 'workErrands',
@@ -919,6 +920,7 @@ module.exports = function init(site) {
                                         list: result.workErrandDataList,
                                     };
                                 }
+
                                 if (result.vacationsRequestsDataList.length) {
                                     vacationsRequests = {
                                         code: 'vacationsRequests',
@@ -927,6 +929,7 @@ module.exports = function init(site) {
                                         list: result.vacationsRequestsDataList,
                                     };
                                 }
+
                                 response.doc = {
                                     basicSalary,
                                     allowancesList,
@@ -986,7 +989,7 @@ module.exports = function init(site) {
                         search = 'id';
                     }
                     let list = app.memoryList
-                        .filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(search))
+                        .filter((g) => g.company && g.company.id == site.getCompany(req).id && (typeof where.active != 'boolean' || g.active === where.active) && JSON.stringify(g).contains(search))
                         .slice(0, limit);
 
                     res.json({

@@ -457,52 +457,20 @@ module.exports = function init(site) {
                 }
 
                 if (app.allowMemory) {
-                    app.memoryList
-                        .filter((g) => g.company && g.company.id == site.getCompany(req).id)
-                        .forEach((doc) => {
-                            let obj = { ...doc };
+                    if (!search) {
+                        search = 'id';
+                    }
+                    let list = app.memoryList
+                        .filter((g) => g.company && g.company.id == site.getCompany(req).id && (typeof where.active != 'boolean' || g.active === where.active) && JSON.stringify(g).contains(search))
+                        .slice(0, limit);
 
-                            for (const p in obj) {
-                                if (!Object.hasOwnProperty.call(select, p)) {
-                                    delete obj[p];
-                                }
-                            }
-                            if (!where.active || doc.active) {
-                                list.push(obj);
-                            }
-                        });
                     res.json({
                         done: true,
                         list: list,
                     });
                 } else {
-                    // where['company.id'] = site.getCompany(req).id;
-
-                    // if (where && where.dateTo) {
-                    //     let d1 = site.toDate(where.date);
-                    //     let d2 = site.toDate(where.dateTo);
-                    //     d2.setDate(d2.getDate() + 1);
-                    //     where.date = {
-                    //         $gte: d1,
-                    //         $lt: d2,
-                    //     };
-                    //     delete where.dateTo;
-                    // } else if (where.date) {
-                    //     let d1 = site.toDate(where.date);
-                    //     let d2 = site.toDate(where.date);
-                    //     d2.setDate(d2.getDate() + 1);
-                    //     where.date = {
-                    //         $gte: d1,
-                    //         $lt: d2,
-                    //     };
-                    // }
-                    // app.all({ where, select, sort: { id: -1 }, limit: req.body.limit }, (err, docs) => {
-                    //     res.json({
-                    //         done: true,
-                    //         list: docs,
-                    //     });
-                    // });
                     where['company.id'] = site.getCompany(req).id;
+
                     app.all({ where, select, limit }, (err, docs) => {
                         res.json({
                             done: true,

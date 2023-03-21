@@ -394,7 +394,6 @@ module.exports = function init(site) {
                     where.$or.push({
                         'employee.nameEn': site.get_RegExp(search, 'i'),
                     });
-          
                 }
                 if (where && where.fromDate && where.toDate) {
                     let d1 = site.toDate(where.fromDate);
@@ -407,13 +406,13 @@ module.exports = function init(site) {
                         $lte: d2,
                     };
                 }
-           
+
                 if (app.allowMemory) {
                     if (!search) {
                         search = 'id';
                     }
                     let list = app.memoryList
-                        .filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(search))
+                        .filter((g) => g.company && g.company.id == site.getCompany(req).id && (typeof where.active != 'boolean' || g.active === where.active) && JSON.stringify(g).contains(search))
                         .slice(0, limit);
 
                     res.json({

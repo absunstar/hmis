@@ -27,6 +27,7 @@ module.exports = function init(site) {
             fieldName: { nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet' },
         },
     ];
+
     site.setting = {
         printerProgram: printerProgram,
         storesSetting: {
@@ -50,13 +51,18 @@ module.exports = function init(site) {
             // penality: 0,
             // absenceHours: 0,
             absenceDays: 1,
-            saudiVacations: {
-                nationality: {},
-                annualVacation: 0,
-                casualVacation: 0,
-                regularVacation: 0,
-            },
-            othersVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
+            forgetFingerprint: 0.5,
+            nathionalitiesVacations: [],
+            publicVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
+            nathionalitiesInsurance: [],
+            publicInsurance: { totalSubscriptions: 21.5, totalSubscriptionsEmployee: 9.75, totalSubscriptionsOwner: 11.75 },
+            // saudiVacations: {
+            //     nationality: {},
+            //     annualVacation: 0,
+            //     casualVacation: 0,
+            //     regularVacation: 0,
+            // },
+            // othersVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
         },
         storePurchasesList: storePurchasesList,
         storeSalesList: storeSalesList,

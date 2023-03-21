@@ -323,28 +323,40 @@ module.exports = function init(site) {
                     where.$or = [];
 
                     where.$or.push({
-                        id: site.get_RegExp(search, 'i'),
+                        'employee.id': site.get_RegExp(search, 'i'),
                     });
 
                     where.$or.push({
-                        code: site.get_RegExp(search, 'i'),
+                        'employee.code': site.get_RegExp(search, 'i'),
                     });
 
                     where.$or.push({
-                        nameAr: site.get_RegExp(search, 'i'),
+                        'employee.nameAr': site.get_RegExp(search, 'i'),
                     });
 
                     where.$or.push({
-                        nameEn: site.get_RegExp(search, 'i'),
+                        'employee.nameEn': site.get_RegExp(search, 'i'),
                     });
                 }
+                if (where && where.fromDate && where.toDate) {
+                    let d1 = site.toDate(where.fromDate);
+                    let d2 = site.toDate(where.toDate);
+                    d2.setDate(d2.getDate() + 1);
+                    where.fromDate = {
+                        $gte: d1,
+                    };
+                    where.toDate = {
+                        $lte: d2,
+                    };
+                }
+                where.active = true;
 
                 if (app.allowMemory) {
                     if (!search) {
                         search = 'id';
                     }
                     let list = app.memoryList
-                        .filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(search))
+                        .filter((g) => g.company && g.company.id == site.getCompany(req).id && (typeof where.active != 'boolean' || g.active === where.active) && JSON.stringify(g).contains(search))
                         .slice(0, limit);
 
                     res.json({
@@ -353,6 +365,7 @@ module.exports = function init(site) {
                     });
                 } else {
                     where['company.id'] = site.getCompany(req).id;
+
                     app.all({ where, select, limit }, (err, docs) => {
                         res.json({
                             done: true,

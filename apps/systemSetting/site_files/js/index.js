@@ -36,10 +36,10 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
             // casualVacation: 0,
             // regularVacation: 0,
             // },
-            nathionalitiesVacations: [],
+            nathionalitiesVacationsList: [],
             publicVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
             nathionalitiesInsurance: [],
-            publicInsurance: { totalSubscriptions: 21.5, totalSubscriptionsEmployee: 9.75, totalSubscriptionsOwner: 11.75 },
+            publicInsuranceList: { totalSubscriptions: 21.5, totalSubscriptionsEmployee: 9.75, totalSubscriptionsOwner: 11.75 },
             // othersVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
 
             absenceDays: 1,
@@ -47,62 +47,63 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
         },
     };
 
-    $scope.addToNathionalitiesVacationsList = function (nation) {
-        $scope.hrSettingsError = '';
+    $scope.addToNathionalitiesVacations = function (nation) {
+        $scope.hrVacationsSettingsError = '';
         if (!nation.nationality || !nation.nationality.id) {
-            $scope.hrSettingsError = '##word.Please Select Nathionality##';
+            $scope.hrVacationsSettingsError = '##word.Please Select Nathionality##';
             return;
         }
 
         if (nation.annualVacation < 0) {
-            $scope.hrSettingsError = '##word.Please Set Valid Value For Nationality Annual Vacation##';
+            $scope.hrVacationsSettingsError = '##word.Please Set Valid Value For Nationality Annual Vacation##';
             return;
         }
         if (nation.regularVacation < 0) {
-            $scope.hrSettingsError = '##word.Please Set Valid Value For Nationality Reular Vacation##';
+            $scope.hrVacationsSettingsError = '##word.Please Set Valid Value For Nationality Reular Vacation##';
             return;
         }
         if (nation.casualVacation < 0) {
-            $scope.hrSettingsError = '##word.Please Set Valid Value For Nationality Casual Vacation##';
+            $scope.hrVacationsSettingsError = '##word.Please Set Valid Value For Nationality Casual Vacation##';
             return;
         }
-        $scope.item.hrSettings.nathionalitiesVacations = $scope.item.hrSettings.nathionalitiesVacations || [];
-        const exisitIndex = $scope.item.hrSettings.nathionalitiesVacations.findIndex((elem) => elem.nationality.id == nation.nationality.id);
+        $scope.item.hrSettings.nathionalitiesVacationsList = $scope.item.hrSettings.nathionalitiesVacationsList || [];
+        const exisitIndex = $scope.item.hrSettings.nathionalitiesVacationsList.findIndex((elem) => elem.nationality.id == nation.nationality.id);
         if (exisitIndex !== -1) {
-            $scope.hrSettingsError = '##word.Nationality Exisit##';
+            $scope.hrVacationsSettingsError = '##word.Nationality Exisit##';
             return;
         }
-        $scope.item.hrSettings.nathionalitiesVacations.push(nation);
+        $scope.item.hrSettings.nathionalitiesVacationsList.push(nation);
         $scope.nathionalityVacations = { annualVacation: 0, casualVacation: 0, regularVacation: 0 };
     };
 
-    $scope.addToNathionalitiesInsuranceList = function (nation) {
-        $scope.hrSettingsError = '';
-        if (!nation.nationality || !nation.nationality.id) {
-            $scope.hrSettingsError = '##word.Please Select Nathionality##';
+    $scope.addToNathionalitiesInsurance = function (insurance) {
+        $scope.hrInsuranceSettingsError = '';
+        if (!insurance.nationality || !insurance.nationality.id) {
+            $scope.hrInsuranceSettingsError = '##word.Please Select Nathionality##';
             return;
         }
 
-        if (nation.totalSubscriptions < 0) {
-            $scope.hrSettingsError = '##word.Please Set Valid Value For Total##';
+        if (insurance.totalSubscriptions < 0) {
+            $scope.hrInsuranceSettingsError = '##word.Please Set Valid Value For Total##';
             return;
         }
-        if (nation.totalSubscriptionsEmployee < 0) {
-            $scope.hrSettingsError = '##word.Please Set Valid Value For Employee##';
+        if (insurance.totalSubscriptionsEmployee < 0) {
+            $scope.hrInsuranceSettingsError = '##word.Please Set Valid Value For Employee##';
             return;
         }
-        if (nation.totalSubscriptionsOwner < 0) {
-            $scope.hrSettingsError = '##word.Please Set Valid Value For Company##';
+
+        if (insurance.totalSubscriptionsOwner < 0) {
+            $scope.hrInsuranceSettingsError = '##word.Please Set Valid Value For Company##';
             return;
         }
-        $scope.item.hrSettings.nathionalitiesVacations = $scope.item.hrSettings.nathionalitiesVacations || [];
-        const exisitIndex = $scope.item.hrSettings.nathionalitiesVacations.findIndex((elem) => elem.nationality.id == nation.nationality.id);
+        $scope.item.hrSettings.nathionalitiesInsuranceList = $scope.item.hrSettings.nathionalitiesInsuranceList || [];
+        const exisitIndex = $scope.item.hrSettings.nathionalitiesInsuranceList.findIndex((elem) => elem.nationality.id == insurance.nationality.id);
         if (exisitIndex !== -1) {
-            $scope.hrSettingsError = '##word.Nationality Exisit##';
+            $scope.hrInsuranceSettingsError = '##word.Nationality Exisit##';
             return;
         }
-        $scope.item.hrSettings.nathionalitiesVacations.push(nation);
-        $scope.nathionalityVacations = { annualVacation: 0, casualVacation: 0, regularVacation: 0 };
+        $scope.item.hrSettings.nathionalitiesInsuranceList.push(insurance);
+        $scope.nathionalityInsurance = { totalSubscriptions: 21.5, totalSubscriptionsEmployee: 9.75, totalSubscriptionsOwner: 11.75 };
     };
 
     $scope.addToApprovalList = function (screen) {

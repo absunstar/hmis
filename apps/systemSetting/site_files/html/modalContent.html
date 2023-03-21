@@ -366,9 +366,9 @@
                 </div>
 
                 <div id="hrSettings" class="tab-content">
-                    <h3 class="error">{{hrSettingsError}}</h3>
                     <fieldset ng-model="item.hrSettings">
                         <legend class="text-danger bold">##word.HR Penalities##</legend>
+                        <h3 class="error">{{hrSettingsError}}</h3>
                         <div class="row">
                             <div class="col4">
                                 <div class="row">
@@ -398,12 +398,13 @@
                     <fieldset>
                         <legend class="text-danger bold">##word.Employees Social Insurance##</legend>
                         <fieldset>
+                            <h3 class="error">{{hrInsuranceSettingsError}}</h3>
                             <legend class="blue bold">##word.Public Social Insurance##</legend>
                             <div class="row">
                                 <div class="col4">
                                     <div class="row">
                                         <div class="col9">
-                                            <i-control type="number" label="##word.Annual##" ng-model="item.hrSettings.publicInsurance.annualVacation"> </i-control>
+                                            <i-control type="number" label="##word.Total##" ng-model="item.hrSettings.publicInsurance.totalSubscriptions"> </i-control>
                                         </div>
                                         <div class="col3 padding">
                                             <br />
@@ -415,7 +416,7 @@
                                 <div class="col4">
                                     <div class="row">
                                         <div class="col9">
-                                            <i-control type="number" label="##word.Regular##" ng-model="item.hrSettings.publicInsurance.regularVacation"> </i-control>
+                                            <i-control type="number" label="##word.Employee##" ng-model="item.hrSettings.publicInsurance.totalSubscriptionsEmployee"> </i-control>
                                         </div>
                                         <div class="col3 padding">
                                             <br />
@@ -427,7 +428,7 @@
                                 <div class="col4">
                                     <div class="row">
                                         <div class="col9">
-                                            <i-control type="number" label="##word.Casual##" ng-model="item.hrSettings.publicInsurance.casualVacation"> </i-control>
+                                            <i-control type="number" label="##word.Company##" ng-model="item.hrSettings.publicInsurance.totalSubscriptionsOwner"> </i-control>
                                         </div>
                                         <div class="col3 padding">
                                             <br />
@@ -441,6 +442,7 @@
                             <legend class="blue bold">##word.Nationalities Social Insurance##</legend>
 
                             <div class="row">
+                                <i-list class="col2" display="name##session.lang##" ng-model="nathionalityInsurance.nationality" label="##word.Nathionality##" items="nationalitiesList"> </i-list>
                                 <div class="col3">
                                     <div class="row">
                                         <div class="col9">
@@ -476,24 +478,27 @@
                                 </div>
                                 <div class="col1">
                                     <br />
-                                    <i-button type="push" ng-click="addToNathionalitiesInsuranceList(nathionalityInsurance)"></i-button>
+                                    <i-button type="push" ng-click="addToNathionalitiesInsurance(nathionalityInsurance)"></i-button>
                                 </div>
                             </div>
                             <div class="table-responsive">
                                 <table class="table hover bold">
                                     <tr>
                                         <th>##word.S##</th>
+                                        <th>##word.Nationality##</th>
                                         <th>##word.Total##</th>
                                         <th>##word.Employee##</th>
                                         <th>##word.Company##</th>
                                         <th>##word.Actions##</th>
                                     </tr>
 
-                                    <tr ng-repeat="insurance in item.hrSettings.nathionalitiesInsurance">
+                                    <tr ng-repeat="insurance in item.hrSettings.nathionalitiesInsuranceList">
                                         <td class="center">
                                             <p>{{$index+1}}</p>
                                         </td>
-
+                                        <td class="center">
+                                            <p>{{insurance.nationality.name##session.lang##}}</p>
+                                        </td>
                                         <td class="center">
                                             <div class="row">
                                                 <div class="col9">
@@ -525,7 +530,7 @@
                                             </div>
                                         </td>
                                         <td class="center">
-                                            <i-button type="delete" ng-click="item.hrSettings.nathionalitiesInsurance.splice($index,1)"></i-button>
+                                            <i-button type="delete" ng-click="item.hrSettings.nathionalitiesInsuranceList.splice($index,1)"></i-button>
                                         </td>
                                     </tr>
                                 </table>
@@ -534,6 +539,7 @@
                     </fieldset>
                     <fieldset>
                         <legend class="text-danger bold">##word.Employees Vacations##</legend>
+                        <h3 class="error">{{hrVacationsSettingsError}}</h3>
                         <fieldset>
                             <legend class="blue bold">##word.Public Vacations Balance##</legend>
                             <div class="row">
@@ -615,7 +621,7 @@
                                 </div>
                                 <div class="col1">
                                     <br />
-                                    <i-button type="push" ng-click="addToNathionalitiesVacationsList(nathionalityVacations)"></i-button>
+                                    <i-button type="push" ng-click="addToNathionalitiesVacations(nathionalityVacations)"></i-button>
                                 </div>
                             </div>
                             <div class="table-responsive">
@@ -629,7 +635,7 @@
                                         <th>##word.Actions##</th>
                                     </tr>
 
-                                    <tr ng-repeat="nathion in item.hrSettings.nathionalitiesVacations">
+                                    <tr ng-repeat="nathion in item.hrSettings.nathionalitiesVacationsList">
                                         <td class="center">
                                             <p>{{$index+1}}</p>
                                         </td>
@@ -667,7 +673,7 @@
                                             </div>
                                         </td>
                                         <td class="center">
-                                            <i-button type="delete" ng-click="item.hrSettings.nathionalitiesVacations.splice($index,1)"></i-button>
+                                            <i-button type="delete" ng-click="item.hrSettings.nathionalitiesVacationsList.splice($index,1)"></i-button>
                                         </td>
                                     </tr>
                                 </table>

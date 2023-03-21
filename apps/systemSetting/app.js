@@ -52,9 +52,9 @@ module.exports = function init(site) {
             // absenceHours: 0,
             absenceDays: 1,
             forgetFingerprint: 0.5,
-            nathionalitiesVacations: [],
+            nathionalitiesVacationsList: [],
             publicVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
-            nathionalitiesInsurance: [],
+            nathionalitiesInsuranceList: [],
             publicInsurance: { totalSubscriptions: 21.5, totalSubscriptionsEmployee: 9.75, totalSubscriptionsOwner: 11.75 },
             // saudiVacations: {
             //     nationality: {},

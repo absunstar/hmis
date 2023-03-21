@@ -16,7 +16,7 @@
                         class="col4"
                         label="##word.Nationality##"
                         ng-model="item.nationality"
-                        ng-change="setDefaultVacationalance(item.nationality)"
+                        ng-change="setDefaultVacations(item.nationality);setDefaultInsurance(item.nationality)"
                         items="nationalitiesList"
                         display="name##session.lang##"
                         ng-search="item.$nationality"
@@ -581,15 +581,15 @@
                                 <div class="row">
                                     <div class="col4">
                                         <div class="col10">
-                                            <i-control type="number" label="##word.Basic Salary##" ng-change="calculateWorkCost(item)" ng-model="item.basicSalary"></i-control>
+                                            <i-control type="number" v="r" label="##word.Basic Salary##" ng-change="calculateWorkCost(item)" ng-model="item.basicSalary"></i-control>
                                         </div>
                                         <div class="col2 padding">
                                             <br />
                                             <span class="currency">##word.$##</span>
                                         </div>
                                     </div>
-                                    <i-control type="number" class="col4" ng-change="calculateWorkCost(item)" label="##word.Work Days##" ng-model="item.workDays"> </i-control>
-                                    <i-control type="number" class="col4" ng-change="calculateWorkCost(item)" label="##word.Work Hours##" ng-model="item.workHours"> </i-control>
+                                    <i-control type="number" v="r" class="col4" ng-change="calculateWorkCost(item)" label="##word.Work Days##" ng-model="item.workDays"> </i-control>
+                                    <i-control type="number" v="r" class="col4" ng-change="calculateWorkCost(item)" label="##word.Work Hours##" ng-model="item.workHours"> </i-control>
                                     <i-checkbox class="col4 text-center" label="##word.Auto Overtime##" ng-model="item.autoOvertime"></i-checkbox>
 
                                     <div class="col4">

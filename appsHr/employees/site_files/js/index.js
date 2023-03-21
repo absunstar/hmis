@@ -642,19 +642,6 @@ app.controller('employees', function ($scope, $http, $timeout) {
         $scope.deductionsError = '';
     };
 
-    // $scope.addDeductions = function (_item) {
-    //     $scope.error = '';
-    //     if (_item.$deduction && _item.$deduction.id) {
-    //         if (!_item.deductionsList.some((s) => s.id === _item.$deduction.id)) {
-    //             _item.deductionsList.push({ ..._item.$deduction });
-    //         }
-    //         _item.$deduction = {};
-    //     } else {
-    //         $scope.error = 'Must Select Aeduction';
-    //         return;
-    //     }
-    // };
-
     $scope.getDepartments = function () {
         $scope.busy = true;
         $scope.departmentsList = [];
@@ -1135,22 +1122,38 @@ app.controller('employees', function ($scope, $http, $timeout) {
         }, 200);
     };
 
-    $scope.setDefaultVacationalance = function (nathionality) {
+    $scope.setDefaultVacations = function (nationality) {
         if ($scope.mode == 'add') {
-            const saudiNathinality = $scope.setting.hrSettings?.saudiVacations;
-            const othersNathinality = $scope.setting.hrSettings?.othersVacations;
-            if (nathionality && nathionality.id == saudiNathinality?.nationality.id) {
-                $scope.item.annualVacation = saudiNathinality.annualVacation;
-                $scope.item.regularVacation = saudiNathinality.regularVacation;
-                $scope.item.casualVacation = saudiNathinality.casualVacation;
+            const nationalityExisit = $scope.setting.hrSettings?.nathionalitiesVacationsList.find((nation) => nation?.nationality.id == nationality.id);
+
+            if (nationalityExisit) {
+                $scope.item.annualVacation = nationalityExisit.annualVacation;
+                $scope.item.regularVacation = nationalityExisit.regularVacation;
+                $scope.item.casualVacation = nationalityExisit.casualVacation;
             } else {
-                $scope.item.annualVacation = othersNathinality.annualVacation;
-                $scope.item.regularVacation = othersNathinality.regularVacation;
-                $scope.item.casualVacation = othersNathinality.casualVacation;
+                $scope.item.annualVacation = $scope.setting.hrSettings.publicVacations.annualVacation;
+                $scope.item.regularVacation = $scope.setting.hrSettings.publicVacations.regularVacation;
+                $scope.item.casualVacation = $scope.setting.hrSettings.publicVacations.casualVacation;
             }
         }
-
     };
+
+    $scope.setDefaultInsurance = function (nationality) {
+        if ($scope.mode == 'add') {
+            const nationalityExisit = $scope.setting.hrSettings?.nathionalitiesInsuranceList.find((nation) => nation?.nationality.id == nationality.id);
+
+            if (nationalityExisit) {
+                $scope.item.totalSubscriptions = nationalityExisit.totalSubscriptions;
+                $scope.item.totalSubscriptionsEmployee = nationalityExisit.totalSubscriptionsEmployee;
+                $scope.item.totalSubscriptionsOwner = nationalityExisit.totalSubscriptionsOwner;
+            } else {
+                $scope.item.totalSubscriptions = $scope.setting.hrSettings.publicInsurance.totalSubscriptions;
+                $scope.item.totalSubscriptionsEmployee = $scope.setting.hrSettings.publicInsurance.totalSubscriptionsEmployee;
+                $scope.item.totalSubscriptionsOwner = $scope.setting.hrSettings.publicInsurance.totalSubscriptionsOwner;
+            }
+        }
+    };
+
     $scope.getAll();
     $scope.getNumberingAuto();
     $scope.getFilesTypes();

@@ -184,11 +184,6 @@ module.exports = function init(site) {
 
         paySlip.attendanceDataList.forEach((_att) => {
             if (_att) {
-                //     const globalVacationIndex = paySlip.globalVacationsDataList.findIndex((globalVacation) => new Date(globalVacation.date).getTime() == new Date(_att.date).getTime());
-                //     const vacationRequestIndex = paySlip.vacationsRequestsDataList.findIndex((vacationRequest) => new Date(vacationRequest.date).getTime() == new Date(_att.date).getTime());
-                // const delayRequestIndex = paySlip.delayRequestsDataList.findIndex((delayRequest) => new Date(delayRequest.date).getTime() == new Date(_att.date).getTime());
-                // const workErrandIndex = paySlip.workErrandDataList.findIndex((workErrand) => new Date(workErrand.date).getTime() == new Date(_att.date).getTime());
-
                 const globalVacationIndex = paySlip.globalVacationsDataList.findIndex(
                     (globalVacation) =>
                         new Date(new Date(globalVacation.date).getFullYear(), new Date(globalVacation.date).getMonth(), new Date(globalVacation.date).getDate()).getTime() ==
@@ -234,7 +229,7 @@ module.exports = function init(site) {
                         paySlip.absentDaysValue += absentDay.value;
                         absentDay.amount = paySlip.daySalary;
                         absentDay.penality = systemSetting.absenceDays;
-                        absentDay.source = { nameAr: 'غياب', nameEn: 'Absence' };
+                        absentDay.source = { nameAr: 'غياب', nameEn: 'Absence', code: 1 };
                         paySlip.absentDaysList.push(absentDay);
                         absentDay = { ...absentDay };
                     } else if (vacationType?.approvedVacationType && vacationType?.approvedVacationType.id === 4) {
@@ -248,14 +243,14 @@ module.exports = function init(site) {
                         absentDay.value = 0;
                         paySlip.absentDaysCount += absentDay.count;
                         paySlip.absentDaysValue += absentDay.value;
-                        absentDay.source = { nameAr: 'أجازة جماعية', nameEn: 'General Vacation' };
+                        absentDay.source = { nameAr: 'أجازة جماعية', nameEn: 'General Vacation', code: 2 };
                         paySlip.absentDaysList.push(absentDay);
                         absentDay = { ...absentDay };
                     } else if (vacationRequestIndex != -1) {
                         absentDay.value = 0;
                         paySlip.absentDaysCount += absentDay.count;
                         paySlip.absentDaysValue += absentDay.value;
-                        absentDay.source = { nameAr: 'طلب أجازة', nameEn: 'Vacation Request' };
+                        absentDay.source = { nameAr: 'طلب أجازة', nameEn: 'Vacation Request', code: 3 };
                         paySlip.absentDaysList.push(absentDay);
                         absentDay = { ...absentDay };
                     }
@@ -289,7 +284,7 @@ module.exports = function init(site) {
                             absentHourObj.penality = penaltiesList[selectdPenality]?.value || 0;
                             absentHourObj.from = _att.shiftStart;
                             absentHourObj.to = _att.attendTime;
-                            absentHourObj.source = { nameAr: 'تأخير', nameEn: 'Delay', code: 1 };
+                            absentHourObj.source = { nameAr: 'حضور متأخر', nameEn: 'Delay Attend', code: 1 };
                             absentHourObj.value = site.toMoney(penalityValue);
                             paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
                             paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
@@ -299,7 +294,7 @@ module.exports = function init(site) {
                             selectdPenality = penaltiesList.findIndex(
                                 (penality) => penality.active && absentHourObj.calcualtedCount >= penality.fromMinute && absentHourObj.calcualtedCount <= penality.toMinute
                             );
-                            absentHourObj.source = { nameAr: 'إذن - تأخير', nameEn: 'Delay Request - Delay', code: 1 };
+                            absentHourObj.source = { nameAr: 'إذن - حضور متأخر', nameEn: 'Delay Request - Delay Attend', code: 1 };
                             penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
                             absentHourObj.from = delayType?.toTime || _att.shiftStart;
                             absentHourObj.to = _att.attendTime;
@@ -314,7 +309,7 @@ module.exports = function init(site) {
                             selectdPenality = penaltiesList.findIndex(
                                 (penality) => penality.active && absentHourObj.calcualtedCount >= penality.fromMinute && absentHourObj.calcualtedCount <= penality.toMinute
                             );
-                            absentHourObj.source = { nameAr: 'مأمورية - تأخير', nameEn: 'Errand - Delay', code: 1 };
+                            absentHourObj.source = { nameAr: 'مأمورية - حضور متأخر', nameEn: 'Errand - Delay Attend', code: 1 };
                             penalityValue = 0;
                             absentHourObj.from = delayType?.toTime || _att.shiftStart;
                             absentHourObj.to = _att.attendTime;
@@ -382,9 +377,42 @@ module.exports = function init(site) {
                             paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
                             paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
                         }
+
                         if (absentHourObj.count) {
                             paySlip.absentHoursList.push(absentHourObj);
                         }
+                    }
+
+                    if (isNaN(_att.attendTime) && !isNaN(_att.leaveTime)) {
+                        absentHourObj.count = -1;
+                        absentHourObj.calcualtedCount = -1;
+                        selectdPenality = systemSetting.forgetFingerprint * paySlip.daySalary;
+                        absentHourObj.source = { nameAr: 'نسيان بصمة حضور', nameEn: 'Forget Attend Fingerprint', code: 3 };
+                        penalityValue = systemSetting.forgetFingerprint * paySlip.daySalary;
+                        absentHourObj.from = _att.attendTime || _att.leaveTime;
+                        absentHourObj.to = _att.attendTime || _att.leaveTime;
+                        absentHourObj.amount = paySlip.daySalary;
+                        absentHourObj.penality = systemSetting.forgetFingerprint;
+                        absentHourObj.value = site.toMoney(penalityValue);
+                        paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
+                        paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
+                        paySlip.absentHoursList.push(absentHourObj);
+                    }
+
+                    if (!isNaN(_att.attendTime) && isNaN(_att.leaveTime)) {
+                        absentHourObj.count = -1;
+                        absentHourObj.calcualtedCount = -1;
+                        selectdPenality = systemSetting.forgetFingerprint * paySlip.daySalary;
+                        absentHourObj.source = { nameAr: 'نسيان بصمة إنصراف', nameEn: 'Forget Leaving Fingerprint', code: 3 };
+                        penalityValue = systemSetting.forgetFingerprint * paySlip.daySalary;
+                        absentHourObj.from = _att.attendTime || _att.leaveTime;
+                        absentHourObj.to = _att.attendTime || _att.leaveTime;
+                        absentHourObj.amount = paySlip.daySalary;
+                        absentHourObj.penality = systemSetting.forgetFingerprint;
+                        absentHourObj.value = site.toMoney(penalityValue);
+                        paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
+                        paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
+                        paySlip.absentHoursList.push(absentHourObj);
                     }
                 }
             }

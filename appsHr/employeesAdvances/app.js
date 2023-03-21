@@ -330,7 +330,6 @@ module.exports = function init(site) {
                 _data['requestStatus'] = 'rejected';
                 _data['rejectDate'] = new Date();
                 _data['approved'] = true;
-                _data['rejectDate'] = new Date();
                 _data.rejectUserInfo = req.getUserFinger();
 
                 app.$collection.findMany({ where: { 'employee.id': _data.employee.id, requestStatus: { $nin: ['rejected', 'canceled'] } } }, (err, docs) => {
@@ -399,7 +398,7 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
-                let search = req.body.search || '';
+                let search = req.body.search || {};
                 let limit = req.body.limit || 10;
                 let select = req.body.select || {
                     id: 1,
@@ -424,22 +423,35 @@ module.exports = function init(site) {
                     where.$or = [];
 
                     where.$or.push({
-                        id: site.get_RegExp(search, 'i'),
+                        'employee.id': site.get_RegExp(search, 'i'),
                     });
 
                     where.$or.push({
-                        code: site.get_RegExp(search, 'i'),
+                        'employee.code': site.get_RegExp(search, 'i'),
                     });
 
                     where.$or.push({
-                        nameAr: site.get_RegExp(search, 'i'),
+                        'employee.nameAr': site.get_RegExp(search, 'i'),
                     });
 
                     where.$or.push({
-                        nameEn: site.get_RegExp(search, 'i'),
+                        'employee.nameEn': site.get_RegExp(search, 'i'),
+                    });
+                    where.$or.push({
+                        requestStatus: site.get_RegExp(search, 'i'),
                     });
                 }
-
+                if (where && where.fromDate && where.toDate) {
+                    let d1 = site.toDate(where.fromDate);
+                    let d2 = site.toDate(where.toDate);
+                    d2.setDate(d2.getDate() + 1);
+                    where.date = {
+                        $gte: d1,
+                        $lt: d2,
+                    };
+                    delete where.fromDate;
+                    delete where.toDate;
+                }
                 if (app.allowMemory) {
                     if (!search) {
                         search = 'id';

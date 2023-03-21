@@ -253,7 +253,7 @@ module.exports = function init(site) {
                         from: '',
                         to: '',
                         count: 0,
-                        calculatedCount: 0,
+                        calcualtedCount: 0,
                         value: 0,
                         amount: 0,
                         penality: 0,
@@ -263,22 +263,28 @@ module.exports = function init(site) {
 
                     let selectdPenality;
                     let penalityValue;
-
                     const availableDelayTime = paySlip.availableDelayTime;
 
                     if (_att.attendanceDifference < 0) {
-                        absentHourObj.count = availableDelayTime - Math.abs(_att.attendanceDifference);
-                        absentHourObj.calcCount = Math.abs(availableDelayTime + _att.attendanceDifference); // 111111
-                        selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.calcCount >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
+                        absentHourObj.count = Math.abs(_att.attendanceDifference);
+                        absentHourObj.calcualtedCount = availableDelayTime + _att.attendanceDifference;
+                        absentHourObj.calcualtedCount = absentHourObj.calcualtedCount < 0 ? Math.abs(absentHourObj.calcualtedCount) : 0;
+                        selectdPenality = penaltiesList.findIndex(
+                            (penality) => penality.active && absentHourObj.calcualtedCount >= penality.fromMinute && absentHourObj.calcualtedCount <= penality.toMinute
+                        );
                         penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
                         absentHourObj.amount = paySlip.daySalary;
                         absentHourObj.penality = penaltiesList[selectdPenality]?.value || 0;
                         absentHourObj.from = _att.shiftStart;
                         absentHourObj.to = _att.attendTime;
+
                         if (delayRequestIndex == -1 || workErrandIndex == -1) {
                             absentHourObj.count = Math.abs(_att.attendanceDifference) - (delayType?.allwedTime || 0);
-                            absentHourObj.calcCount = Math.abs(availableDelayTime + (delayType?.allwedTime || 0) + _att.attendanceDifference);
-                            selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.calcCount >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
+                            absentHourObj.calcualtedCount = availableDelayTime + (delayType?.allwedTime || 0) + _att.attendanceDifference;
+                            absentHourObj.calcualtedCount = absentHourObj.calcualtedCount < 0 ? Math.abs(absentHourObj.calcualtedCount) : 0;
+                            selectdPenality = penaltiesList.findIndex(
+                                (penality) => penality.active && absentHourObj.calcualtedCount >= penality.fromMinute && absentHourObj.calcualtedCount <= penality.toMinute
+                            );
                             penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
                             absentHourObj.from = delayType?.toTime || _att.shiftStart;
                             absentHourObj.to = _att.attendTime;
@@ -289,8 +295,11 @@ module.exports = function init(site) {
                             paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
                         } else if (delayRequestIndex !== -1 || workErrandIndex !== -1) {
                             absentHourObj.count = Math.abs(_att.attendanceDifference) - (delayType?.allwedTime || 0);
-                            absentHourObj.calcCount = Math.abs(availableDelayTime - delayType?.allwedTime || 0 + _att.attendanceDifference - (delayType?.allwedTime || 0));
-                            selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.calcCount >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
+                            absentHourObj.calcualtedCount = availableDelayTime + (delayType?.allwedTime || 0) + _att.attendanceDifference;
+                            absentHourObj.calcualtedCount = absentHourObj.calcualtedCount < 0 ? Math.abs(absentHourObj.calcualtedCount) : 0;
+                            selectdPenality = penaltiesList.findIndex(
+                                (penality) => penality.active && absentHourObj.calcualtedCount >= penality.fromMinute && absentHourObj.calcualtedCount <= penality.toMinute
+                            );
                             penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
 
                             if (delayType?.allwedTime) {
@@ -318,8 +327,9 @@ module.exports = function init(site) {
                     absentHourObj = { ...absentHourObj };
                     if (_att.leaveDifference > 0) {
                         absentHourObj.count = Math.abs(_att.leaveDifference);
-                        absentHourObj.calcCount = Math.abs(availableDelayTime - _att.leaveDifference);
-                        selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.calcCount >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
+                        absentHourObj.calcualtedCount = _att.leaveDifference;
+                        absentHourObj.availableDelayTime = 0;
+                        selectdPenality = penaltiesList.findIndex((penality) => penality.active && absentHourObj.count >= penality.fromMinute && absentHourObj.count <= penality.toMinute);
                         penalityValue = penaltiesList[selectdPenality]?.value * paySlip.daySalary;
                         absentHourObj.from = _att.shiftEnd;
                         absentHourObj.to = _att.leaveTime;

@@ -975,6 +975,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
     };
 
     $scope.searchAll = function () {
+        $scope.search = { ...$scope.search, ...$scope._search };
         $scope.getAll($scope.search);
         site.hideModal($scope.modalSearchID);
         $scope.search = {};

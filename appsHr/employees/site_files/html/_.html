@@ -5,6 +5,14 @@
 
         <div class="top-actions">
             <i-button type="add" x-permissions="employeesAdd || employeesManage" label="##word.New##" ng-click="showAdd()"></i-button>
+            <i-button type="search" x-permissions="employeesSearch || employeesManage" label="##word.Active##" ng-click="searchAll(search={active:true})"></i-button>
+            <i-button type="search" x-permissions="employeesSearch || employeesManage" label="##word.Not Active##" ng-click="searchAll(search={active:false})"></i-button>
+            <i-button type="search" x-permissions="employeesSearch || employeesManage" label="##word.Male##" ng-click="searchAll(search={'gender.id':1})"></i-button>
+            <i-button type="search" x-permissions="employeesSearch || employeesManage" label="##word.Female##" ng-click="searchAll(search={'gender.id':2})"></i-button>
+            <i-button type="search" x-permissions="employeesSearch || employeesManage" label="##word.Single##" ng-click="searchAll(search={'maritalStatus.id':1})"></i-button>
+            <i-button type="search" x-permissions="employeesSearch || employeesManage" label="##word.Married##" ng-click="searchAll(search={'maritalStatus.id':2})"></i-button>
+            <i-button type="search" x-permissions="employeesSearch || employeesManage" label="##word.Saudi##" ng-click="searchAll(search={idType:'id'})"></i-button>
+            <i-button type="search" x-permissions="employeesSearch || employeesManage" label="##word.None Saudi##" ng-click="searchAll(search={idType:'iqama'})"></i-button>
         </div>
 
         <div class="row padding">

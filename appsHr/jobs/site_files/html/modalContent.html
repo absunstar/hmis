@@ -18,17 +18,9 @@
                         items="departmentsList"
                         ng-search="item.$department"
                     ></i-list>
-                    <i-list
-                        v="r"
-                        class="col6"
-                        label="##word.Section##"
-                        ng-model="item.section"
-                        display="name##session.lang##"
-                        items="sectionsList"
-                        ng-search="item.$section"
-                    ></i-list>
+                    <i-list v="r" class="col6" label="##word.Section##" ng-model="item.section" display="name##session.lang##" items="sectionsList" ng-search="item.$section"></i-list>
 
-                    <i-textarea type="text" v="r" rows="3" ng-model="item.jobDescription" label="##word.Job Description##"></i-textarea>
+                    <i-textarea type="text" rows="3" ng-model="item.jobDescription" label="##word.Job Description##"></i-textarea>
                 </div>
             </div>
         </div>

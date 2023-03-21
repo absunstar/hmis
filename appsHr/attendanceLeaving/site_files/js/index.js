@@ -4,11 +4,22 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
     $scope.modalID = '#attendanceLeavingManageModal';
     $scope.modalSearchID = '#attendanceLeavingSearchModal';
     $scope.mode = 'add';
-    $scope._search = {};
+    $scope._search = { fromDate: new Date(), toDate: new Date() };
     $scope.structure = {};
     $scope.item = {};
     $scope.list = [];
     $scope.currentDay = {};
+
+    $scope.getCurrentMonthDate = function () {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        $scope._search.fromDate = new Date(firstDay);
+        $scope._search.toDate = new Date(lastDay);
+        return { firstDay, lastDay };
+    };
 
     $scope.showAdd = function (_item) {
         $scope.error = '';
@@ -24,7 +35,8 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-
+        $scope.item.date = new Date(new Date(_item.date).getFullYear(), new Date(_item.date).getMonth(), new Date(_item.date).getDate());
+        $scope.item.active = true;
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -174,7 +186,7 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/all`,
             data: {
-                where: where,
+                where: where || { date: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()) },
             },
         }).then(
             function (response) {
@@ -194,13 +206,13 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
     };
 
     $scope.attendTime = function (type) {
-        const attendDate = new Date($scope.item.date).toISOString().slice(0, 10);
+        // const attendDate = new Date($scope.item.date).toISOString().slice(0, 10);
 
-        const attendHour = new Date($scope.item.$attendTime).getHours();
-        const attendMinute = new Date($scope.item.$attendTime).getMinutes();
+        // const attendHour = new Date($scope.item.$attendTime).getHours();
+        // const attendMinute = new Date($scope.item.$attendTime).getMinutes();
 
-        const leaveHour = new Date($scope.item.$leaveTime).getHours();
-        const leaveMinute = new Date($scope.item.$leaveTime).getMinutes();
+        // const leaveHour = new Date($scope.item.$leaveTime).getHours();
+        // const leaveMinute = new Date($scope.item.$leaveTime).getMinutes();
 
         const attendTime = new Date($scope.item.shiftData.start);
         const leavingTime = new Date($scope.item.shiftData.end);
@@ -237,6 +249,8 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
             $scope.item.absence = true;
             $scope.item.attendTime = '';
             $scope.item.leaveTime = '';
+            $scope.item.attendanceTimeDifference = '';
+            $scope.item.leavingTimeDifference = '';
         }
     };
 
@@ -357,11 +371,13 @@ app.controller('attendanceLeaving', function ($scope, $http, $timeout) {
     };
 
     $scope.searchAll = function () {
+        $scope.search = { ...$scope.search, ...$scope._search };
         $scope.getAll($scope.search);
         site.hideModal($scope.modalSearchID);
         $scope.search = {};
     };
 
+    $scope.getCurrentMonthDate();
     $scope.getAll();
     $scope.getNumberingAuto();
     $scope.getEmployees();

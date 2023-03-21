@@ -4,7 +4,7 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
     $scope.modalID = '#createVacationsManageModal';
     $scope.modalSearchID = '#createVacationsSearchModal';
     $scope.mode = 'add';
-    $scope._search = {};
+    $scope._search = { fromDate: new Date(), toDate: new Date() };
     $scope.structure = {
         image: { url: '/images/createVacations.png' },
         vacationFor: '',
@@ -14,6 +14,17 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
     $scope.item = {};
     $scope.selectedEmployee = {};
     $scope.list = [];
+
+    $scope.getCurrentMonthDate = function () {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        $scope._search.fromDate = new Date(firstDay);
+        $scope._search.toDate = new Date(lastDay);
+        return { firstDay, lastDay };
+    };
 
     $scope.showAdd = function (_item) {
         $scope.error = '';
@@ -240,7 +251,7 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/all`,
             data: {
-                where: where || { requestStatus: 'new' },
+                where: where || { approved: false },
             },
         }).then(
             function (response) {
@@ -288,6 +299,7 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
     };
 
     $scope.searchAll = function () {
+        $scope.search = { ...$scope.search, ...$scope._search };
         $scope.getAll($scope.search);
         site.hideModal($scope.modalSearchID);
         $scope.search = {};
@@ -404,6 +416,8 @@ app.controller('createVacations', function ($scope, $http, $timeout) {
         }
         return { success: true, data: _data };
     };
+
+    $scope.getCurrentMonthDate();
     $scope.getAll();
     $scope.getEmployees();
     $scope.getVacationsNames();

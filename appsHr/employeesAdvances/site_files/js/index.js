@@ -4,7 +4,7 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
     $scope.modalID = '#employeesAdvancesManageModal';
     $scope.modalSearchID = '#employeesAdvancesSearchModal';
     $scope.mode = 'add';
-    $scope._search = {};
+    $scope._search = { fromDate: new Date(), toDate: new Date() };
     $scope.structure = {
         image: { url: '/images/employeesAdvances.png' },
         requestStatus: 'new',
@@ -16,6 +16,17 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
     $scope.item = {};
     $scope.list = [];
     $scope.canReject = false;
+
+    $scope.getCurrentMonthDate = function () {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        $scope._search.fromDate = new Date(firstDay);
+        $scope._search.toDate = new Date(lastDay);
+        return { firstDay, lastDay };
+    };
 
     $scope.showAdd = function (_item) {
         $scope.error = '';
@@ -31,7 +42,8 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-
+        $scope.item.approvedAmount = response.data.doc.amount || _item.amount;
+        $scope.item.approvedNumberOfMonths = response.data.doc.numberOfMonths || _item.numberOfMonths;
         if (!$scope.item.employee || !$scope.item.employee.id) {
             $scope.error = '##word.Please Select Employee##';
             return;
@@ -235,6 +247,8 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
                 $scope.busy = false;
                 if (response.data.done) {
                     $scope.item = response.data.doc;
+                    $scope.item.approvedAmount = response.data.doc.amount;
+                    $scope.item.approvedNumberOfMonths = response.data.doc.numberOfMonths;
                 } else {
                     $scope.error = response.data.error;
                 }
@@ -338,6 +352,7 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
     };
 
     $scope.searchAll = function () {
+        $scope.search = { ...$scope.search, ...$scope._search };
         $scope.getAll($scope.search);
         site.hideModal($scope.modalSearchID);
         $scope.search = {};
@@ -478,6 +493,7 @@ app.controller('employeesAdvances', function ($scope, $http, $timeout) {
         }
     };
 
+    $scope.getCurrentMonthDate();
     $scope.getAll();
     $scope.getEmployees();
     $scope.getNumberingAuto();

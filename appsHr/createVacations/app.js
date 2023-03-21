@@ -376,27 +376,38 @@ module.exports = function init(site) {
                     toDate: 1,
                     active: 1,
                 };
-
                 if (search) {
                     where.$or = [];
 
                     where.$or.push({
-                        id: site.get_RegExp(search, 'i'),
+                        'employee.id': site.get_RegExp(search, 'i'),
                     });
 
                     where.$or.push({
-                        code: site.get_RegExp(search, 'i'),
+                        'employee.code': site.get_RegExp(search, 'i'),
                     });
 
                     where.$or.push({
-                        nameAr: site.get_RegExp(search, 'i'),
+                        'employee.nameAr': site.get_RegExp(search, 'i'),
                     });
 
                     where.$or.push({
-                        nameEn: site.get_RegExp(search, 'i'),
+                        'employee.nameEn': site.get_RegExp(search, 'i'),
                     });
+          
                 }
-
+                if (where && where.fromDate && where.toDate) {
+                    let d1 = site.toDate(where.fromDate);
+                    let d2 = site.toDate(where.toDate);
+                    d2.setDate(d2.getDate() + 1);
+                    where.fromDate = {
+                        $gte: d1,
+                    };
+                    where.toDate = {
+                        $lte: d2,
+                    };
+                }
+           
                 if (app.allowMemory) {
                     if (!search) {
                         search = 'id';

@@ -4,15 +4,27 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
     $scope.modalID = '#vacationsRequestsManageModal';
     $scope.modalSearchID = '#vacationsRequestsSearchModal';
     $scope.mode = 'add';
-    $scope._search = {};
+    $scope._search = { fromDate: new Date(), toDate: new Date() };
     $scope.structure = {
         image: { url: '/images/vacationsRequests.png' },
         requestStatus: 'new',
         active: true,
     };
     $scope.item = {};
+
     $scope.list = [];
 
+    $scope.getCurrentMonthDate = function () {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        $scope._search.fromDate = new Date(firstDay);
+        $scope._search.toDate = new Date(lastDay);
+        return { firstDay, lastDay };
+    };
+    
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
@@ -298,6 +310,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
     $scope.getAll = function (where) {
         $scope.busy = true;
         $scope.list = [];
+
         $http({
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/all`,
@@ -350,6 +363,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.searchAll = function () {
+        $scope.search = { ...$scope.search, ...$scope._search };
         $scope.getAll($scope.search);
         site.hideModal($scope.modalSearchID);
         $scope.search = {};
@@ -406,6 +420,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
         );
     };
 
+    $scope.getCurrentMonthDate();
     $scope.getAll();
     $scope.getVacationsTypes();
     $scope.getEmployees();

@@ -283,11 +283,12 @@ module.exports = function init(site) {
                     });
                 }
 
+
                 if (app.allowMemory) {
                     if (!search) {
                         search = 'id';
-                      }
-                   let list = app.memoryList
+                    }
+                    let list = app.memoryList
                         .filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(search))
                         .slice(0, limit);
 
@@ -296,8 +297,8 @@ module.exports = function init(site) {
                         list: list,
                     });
                 } else {
-          where['company.id'] = site.getCompany(req).id;
-          app.all({ where, select, limit }, (err, docs) => {
+                    where['company.id'] = site.getCompany(req).id;
+                    app.all({ where, select, limit }, (err, docs) => {
                         res.json({
                             done: true,
                             list: docs,

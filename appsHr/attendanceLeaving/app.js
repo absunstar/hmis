@@ -36,7 +36,7 @@ module.exports = function init(site) {
                     new Date(workDay.shiftData.end).getHours(),
                     new Date(workDay.shiftData.end).getMinutes()
                 );
-          
+
                 let attencance = {
                     appName: '',
                     date: '',
@@ -98,7 +98,6 @@ module.exports = function init(site) {
                         };
                     } else {
                         attencance = {
-
                             date: docs[docIndex].date,
                             absence: true,
                             shiftStart,
@@ -113,10 +112,8 @@ module.exports = function init(site) {
 
                     paySlip.attendanceDataList.push(attencance);
                 }
-
-             
             });
-          
+
             callback(paySlip);
         });
     };
@@ -354,22 +351,81 @@ module.exports = function init(site) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
                 let select = req.body.select || {};
-                let list = [];
-                if (app.allowMemory) {
-                    app.memoryList
-                        .filter((g) => g.company && g.company.id == site.getCompany(req).id)
-                        .forEach((doc) => {
-                            let obj = { ...doc };
+                let search = req.body.search || {};
+                let limit = req.body.limit || 10;
 
-                            for (const p in obj) {
-                                if (!Object.hasOwnProperty.call(select, p)) {
-                                    delete obj[p];
-                                }
-                            }
-                            if (!where.active || doc.active) {
-                                list.push(obj);
-                            }
-                        });
+                if (search && search.employee) {
+                    where.$or = [];
+
+                    where.$or.push({
+                        'employee.id': site.get_RegExp(search, 'i'),
+                    });
+
+                    where.$or.push({
+                        'employee.code': site.get_RegExp(search, 'i'),
+                    });
+
+                    where.$or.push({
+                        'employee.nameAr': site.get_RegExp(search, 'i'),
+                    });
+
+                    where.$or.push({
+                        'employee.nameEn': site.get_RegExp(search, 'i'),
+                    });
+                } else {
+                    search = search;
+                }
+
+                if (where && where.date) {
+                    const d1 = site.toDate(where.date);
+                    where.date = { $eq: d1 };
+                }
+
+                if (where && where.fromDate && where.toDate) {
+                    let d1 = site.toDate(where.fromDate);
+                    let d2 = site.toDate(where.toDate);
+                    d2.setDate(d2.getDate() + 1);
+                    where.date = {
+                        $gte: d1,
+                        $lt: d2,
+                    };
+                    delete where.fromDate;
+                    delete where.toDate;
+                }
+
+                if (where && where.attendanceTimeDifference) {
+                    where.attendanceTimeDifference = { $gt: 0 };
+                }
+                if (where && where.leavingTimeDifference) {
+                    where.leavingTimeDifference = { $gt: 0 };
+                }
+
+                if (app.allowMemory) {
+                    // app.memoryList
+                    //     .filter((g) => g.company && g.company.id == site.getCompany(req).id)
+                    //     .forEach((doc) => {
+                    //         let obj = { ...doc };
+
+                    //         for (const p in obj) {
+                    //             if (!Object.hasOwnProperty.call(select, p)) {
+                    //                 delete obj[p];
+                    //             }
+                    //         }
+                    //         if (!where.active || doc.active) {
+                    //             list.push(obj);
+                    //         }
+                    //     });
+                    // res.json({
+                    //     done: true,
+                    //     list: list,
+                    // });
+                    if (!search) {
+                        search = 'id';
+                    }
+                    let list = app.memoryList
+                        .filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(search))
+                        .slice(0, limit);
+
                     res.json({
                         done: true,
                         list: list,
@@ -377,7 +433,15 @@ module.exports = function init(site) {
                 } else {
                     where['company.id'] = site.getCompany(req).id;
 
-                    app.all({ where, select, sort: { id: -1 }, limit: req.body.limit }, (err, docs) => {
+                    // app.all({ where, select, sort: { id: -1 }, limit: req.body.limit }, (err, docs) => {
+                    //     res.json({
+                    //         done: true,
+                    //         list: docs,
+                    //     });
+                    // });
+                    app.all({ where, select, limit }, (err, docs) => {
+                        console.log('docs', docs.length);
+
                         res.json({
                             done: true,
                             list: docs,
@@ -433,7 +497,10 @@ module.exports = function init(site) {
                             _data.shiftData.end = new Date(shiftDate);
                             _data.shiftData.end.setHours(shiftEndHour);
                             _data.shiftData.end.setMinutes(shiftEndMiniute);
-                            _data['absence'] = false;
+                            _data.absence = false;
+                            _data.active = true;
+                            _data.attendanceTimeDifference = '';
+                            _data.leavingTimeDifference = '';
                             app.add(_data, (err, doc) => {
                                 if (!err && doc) {
                                     response.done = true;

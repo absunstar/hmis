@@ -188,7 +188,6 @@ app.controller('departments', function ($scope, $http, $timeout) {
     };
 
     $scope.getEmployees = function () {
-   
         $scope.busy = true;
         $scope.employeesList = [];
         $http({

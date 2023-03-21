@@ -403,6 +403,8 @@ module.exports = function init(site) {
         if (app.allowRouteAll) {
             site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
                 let where = req.body.where || {};
+                let search = req.body.search || '';
+                let limit = req.body.limit || 10;
                 let select = req.body.select || {
                     id: 1,
                     code: 1,
@@ -420,6 +422,40 @@ module.exports = function init(site) {
                     cancelDate: 1,
                 };
                 let list = [];
+                if (search) {
+                    where.$or = [];
+
+                    where.$or.push({
+                        'employee.id': site.get_RegExp(search, 'i'),
+                    });
+
+                    where.$or.push({
+                        'employee.code': site.get_RegExp(search, 'i'),
+                    });
+
+                    where.$or.push({
+                        'employee.nameAr': site.get_RegExp(search, 'i'),
+                    });
+
+                    where.$or.push({
+                        'employee.nameEn': site.get_RegExp(search, 'i'),
+                    });
+                    where.$or.push({
+                        requestStatus: site.get_RegExp(search, 'i'),
+                    });
+                }
+                if (where && where.fromDate && where.toDate) {
+                    let d1 = site.toDate(where.fromDate);
+                    let d2 = site.toDate(where.toDate);
+                    d2.setDate(d2.getDate() + 1);
+                    where.date = {
+                        $gte: d1,
+                        $lt: d2,
+                    };
+                    delete where.fromDate;
+                    delete where.toDate;
+                }
+
                 if (app.allowMemory) {
                     app.memoryList
                         .filter((g) => g.company && g.company.id == site.getCompany(req).id)
@@ -440,27 +476,34 @@ module.exports = function init(site) {
                         list: list,
                     });
                 } else {
-                    where['company.id'] = site.getCompany(req).id;
+                    // where['company.id'] = site.getCompany(req).id;
 
-                    if (where && where.dateTo) {
-                        let d1 = site.toDate(where.date);
-                        let d2 = site.toDate(where.dateTo);
-                        d2.setDate(d2.getDate() + 1);
-                        where.date = {
-                            $gte: d1,
-                            $lt: d2,
-                        };
-                        delete where.dateTo;
-                    } else if (where.date) {
-                        let d1 = site.toDate(where.date);
-                        let d2 = site.toDate(where.date);
-                        d2.setDate(d2.getDate() + 1);
-                        where.date = {
-                            $gte: d1,
-                            $lt: d2,
-                        };
-                    }
-                    app.all({ where, select, sort: { id: -1 }, limit: req.body.limit }, (err, docs) => {
+                    // if (where && where.dateTo) {
+                    //     let d1 = site.toDate(where.date);
+                    //     let d2 = site.toDate(where.dateTo);
+                    //     d2.setDate(d2.getDate() + 1);
+                    //     where.date = {
+                    //         $gte: d1,
+                    //         $lt: d2,
+                    //     };
+                    //     delete where.dateTo;
+                    // } else if (where.date) {
+                    //     let d1 = site.toDate(where.date);
+                    //     let d2 = site.toDate(where.date);
+                    //     d2.setDate(d2.getDate() + 1);
+                    //     where.date = {
+                    //         $gte: d1,
+                    //         $lt: d2,
+                    //     };
+                    // }
+                    // app.all({ where, select, sort: { id: -1 }, limit: req.body.limit }, (err, docs) => {
+                    //     res.json({
+                    //         done: true,
+                    //         list: docs,
+                    //     });
+                    // });
+                    where['company.id'] = site.getCompany(req).id;
+                    app.all({ where, select, limit }, (err, docs) => {
                         res.json({
                             done: true,
                             list: docs,

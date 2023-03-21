@@ -5,8 +5,9 @@
 
         <div class="top-actions">
             <i-button type="add" x-permissions="vacationsNamesAdd || vacationsNamesManage" label="##word.New##" ng-click="showAdd()"></i-button>
+            <i-button type="search" x-permissions="vacationsNamesSearch || vacationsNamesManage" label="##word.Active##" ng-click="searchAll(search={active:true})"></i-button>
+            <i-button type="search" x-permissions="vacationsNamesSearch || vacationsNamesManage" label="##word.Not Active##" ng-click="searchAll(search={active:false})"></i-button>
         </div>
-
         <div class="row padding">
             <i-control ng-model="$search" x-permissions="vacationsNamesSearch || vacationsNamesManage"></i-control>
         </div>

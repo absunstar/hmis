@@ -16,8 +16,8 @@ app.controller('payslips', function ($scope, $http, $timeout) {
     $scope.payslipItem = {};
     $scope.list = [];
 
-    $scope.start = new Date().setDate(1);
-    $scope.end = new Date().setDate(1);
+    // $scope.start = new Date().setDate(1);
+    // $scope.end = new Date().setDate(1);
 
     $scope.getCurrentMonthDate = function () {
         const date = new Date();

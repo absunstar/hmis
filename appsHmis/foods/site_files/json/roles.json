@@ -1,5 +1,5 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hmis" ,
     "name": "foodsAdmin",
     "En": "Foods Admin",
     "Ar": "إدارة الأطعمة",

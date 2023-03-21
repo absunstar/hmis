@@ -2,7 +2,7 @@
     {
         "moduleName": "public",
         "name": "systemSettingAdmin",
-        "En": "systemSetting Admin",
+        "En": "System Setting Admin",
         "Ar": "إدارة إعدادات النظام",
         "permissions": ["systemSettingManage"]
     }

@@ -1,7 +1,7 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hmis" ,
     "name": "mainInsuranceCompaniesAdmin",
-    "En": "mainInsuranceCompanies Admin",
+    "En": "Main Insurance Companies Admin",
     "Ar": "إدارة شركات التأمين",
     "permissions": ["mainInsuranceCompaniesManage"]
 }]

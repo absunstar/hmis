@@ -1,8 +1,8 @@
 [
     {
-        "moduleName": "public",
+        "moduleName": "hr",
         "name": "payslipsAdmin",
-        "En": "payslips Admin",
+        "En": "Payslips Admin",
         "Ar": "إدارة حساب الراتب",
         "permissions": ["payslipsManage"]
     }

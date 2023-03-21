@@ -1,7 +1,7 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hmis" ,
     "name": "servicesAdmin",
-    "En": "services Admin",
+    "En": "Services Admin",
     "Ar": "إدارة الخدمات",
     "permissions": ["servicesManage"]
 }]

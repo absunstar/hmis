@@ -1,7 +1,7 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hmis" ,
     "name": "insuranceContractsAdmin",
-    "En": "÷nsurance Contracts Admin",
+    "En": "Insurance Contracts Admin",
     "Ar": "إدارة عقود التأمين",
     "permissions": ["insuranceContractsManage"]
 }]

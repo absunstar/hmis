@@ -1,6 +1,6 @@
 [
     {
-        "moduleName": "public",
+        "moduleName": "inventory",
         "name": "returnPurchaseOrdersAdmin",
         "En": "Return Purchase Orders Admin",
         "Ar": "إدارة مرتجعات فواتير الشراء",

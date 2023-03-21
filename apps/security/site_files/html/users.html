@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="En" data-ng-app="myApp">
+<html lang="en" data-ng-app="myApp">
   <head x-import="head.html">
     <style>
       i-image.photo img {
@@ -28,8 +28,8 @@
   </head>
 
   <body class="##session.lang## loaded">
-    <nav x-import="sitebar/index.html" class="sitebar" data-ng-controller="sitebar"></nav>
-    <nav x-import="sitebottom/index.html" class="sitebottom" data-ng-controller="sitebottom"></nav>
+    <div x-import="site-top/index.html"></div>
+    <div x-import="site-bottom/index.html"></div>
 
     <div id="main-layout" class="container">
       <div class="row">
@@ -38,9 +38,9 @@
           <div x-import="security/update_modal.html"></div>
           <div x-import="security/delete_modal.html"></div>
           <div x-import="security/view_modal.html"></div>
-          <div x-permissions="security_manage " class="top-actions">
-            <i-button type="btn add bg-white black" ng-click="newuser()" label="##word.security_new_user##"></i-button>
-            <i-button type="bg-white black" label="##word.security_roles##" ng-click="gotoRoles()"></i-button>
+          <div x-permissions="securityManage " class="top-actions">
+            <i-button type="btn add bg-white black" ng-click="newuser()" label="##word.New User##"></i-button>
+            <i-button type="bg-white black" label="##word.Roles##" ng-click="gotoRoles()"></i-button>
 
             <span ng-show="busy">
               <i class="fa fa-spinner white fa-pulse fa-3x fa-fw"></i>
@@ -48,7 +48,7 @@
             </span>
           </div>
           <br />
-          <div x-permissions="security_manage  " class="users pointer center loaded">
+          <div x-permissions="securityManage  " class="users pointer center loaded">
             <div class="user inline-grid" ng-repeat="user in list" ng-click="details(user)">
               <div class="row">
                 <i-image view class="photo hover" ng-model="user.image"></i-image>

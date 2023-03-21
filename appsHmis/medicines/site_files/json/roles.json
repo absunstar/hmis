@@ -1,5 +1,5 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hmis" ,
     "name": "medicinesAdmin",
     "En": "Medicines Admin",
     "Ar": "إدارة الأدوية",

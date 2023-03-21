@@ -1,7 +1,0 @@
-[{
-    "moduleName" : "public" ,
-    "name": "offersAdmin",
-    "En": "offers Admin",
-    "Ar": "إدارة العروض",
-    "permissions": ["offersManage"]
-}]

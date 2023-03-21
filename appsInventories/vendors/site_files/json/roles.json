@@ -1,6 +1,6 @@
 [
     {
-        "moduleName": "public",
+        "moduleName": "inventory",
         "name": "vendorsAdmin",
         "En": "Vendors Admin",
         "Ar": "إدارة الموردين",

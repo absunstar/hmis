@@ -1,7 +1,7 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "inventory" ,
     "name": "reasonsDestroyingItemsAdmin",
-    "En": "reasonsDestroyingItems Admin",
+    "En": "Reasons Destroying Items Admin",
     "Ar": "إدارة أسباب إتلاف الأصناف",
     "permissions": ["reasonsDestroyingItemsManage"]
 }]

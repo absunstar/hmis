@@ -1,5 +1,5 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hmis" ,
     "name": "drinksAdmin",
     "En": "Drinks Admin",
     "Ar": "إدارة المشروبات",

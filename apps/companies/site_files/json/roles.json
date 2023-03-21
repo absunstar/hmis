@@ -5,6 +5,8 @@
         "En": "Administration Permissions",
         "Ar": "َصلاحيات الإدارة",
         "permissions": [
+            "securityManage",
+            "numberingManage",
             "systemSettingManage",
             "printersPathsManage",
             "attendanceLeavingManage",
@@ -53,7 +55,7 @@
             "servicesCategoriesManage",
             "servicesOrdersManage",
             "achiCodesManage",
-            "offersManage",
+            "medicalOffersManage",
             "patientsManage",
             "insuranceCompaniesManage",
             "insuranceContractsManage",

@@ -1,5 +1,5 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hr" ,
     "name": "attendanceLeavingAdmin",
     "En": "Attendance & Leaving Admin",
     "Ar": "إدارة الحضور و الإنصراف",

@@ -10,13 +10,14 @@ app.controller("numbering", function ($scope, $http) {
 
   $scope.setCirculate = function (type) {
 
-    let index = 0;
+  /*   let index = 0;
 
     if (type === 'main') index = 0;
     else if (type === 'inventory') index = 1;
     else if (type === 'accounting') index = 2;
-
-    $scope.numbering.screens_list.forEach(_sl => {
+    else if (type === 'hmis') index = 3;
+ */
+    $scope.numbering.screensList.forEach(_sl => {
       if ($scope.circulate.typeNumbering && type === _sl.category) {
         _sl.typeNumbering = $scope.circulate.typeNumbering;
 
@@ -138,7 +139,7 @@ app.controller("numbering", function ($scope, $http) {
       }]
     }
 
-    $scope.current_screen = c;
+    $scope.currentScreen = c;
     site.showModal('#yearMonthModal');
 
   };

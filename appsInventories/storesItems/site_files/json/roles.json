@@ -1,6 +1,6 @@
 [
     {
-        "moduleName": "public",
+        "moduleName": "inventory",
         "name": "storesItemsAdmin",
         "En": "Stores Items Admin",
         "Ar": "إدارة الأصناف المخزنية",

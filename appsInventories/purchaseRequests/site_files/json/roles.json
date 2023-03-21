@@ -1,6 +1,6 @@
 [
     {
-        "moduleName": "public",
+        "moduleName": "inventory",
         "name": "purchaseRequestsAdmin",
         "En": "Purchase Requests Admin",
         "Ar": "إدارة طلبات الشراء",

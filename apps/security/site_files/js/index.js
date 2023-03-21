@@ -40,12 +40,13 @@ app.controller("security", function ($scope, $http, $interval) {
         if (response.data.done) {
           $scope.roles = response.data.roles;
 
-          $scope.accounting_roles = $scope.roles.filter(s => s.moduleName == 'accounting');
-          $scope.hr_roles = $scope.roles.filter(s => s.moduleName == 'hr');
-          $scope.inventory_roles = $scope.roles.filter(s => s.moduleName == 'inventory');
-          $scope.custom_roles = $scope.roles.filter(s => s.moduleName == 'custom');
-          $scope.public_roles = $scope.roles.filter(s => s.moduleName == 'public');
-          $scope.report_roles = $scope.roles.filter(s => s.moduleName == 'report');
+          $scope.accountingRoles = $scope.roles.filter(s => s.moduleName == 'accounting');
+          $scope.hrRoles = $scope.roles.filter(s => s.moduleName == 'hr');
+          $scope.inventoryRoles = $scope.roles.filter(s => s.moduleName == 'inventory');
+          $scope.customRoles = $scope.roles.filter(s => s.moduleName == 'custom');
+          $scope.publicRoles = $scope.roles.filter(s => s.moduleName == 'public');
+          $scope.hmisRoles = $scope.roles.filter(s => s.moduleName == 'hmis');
+          $scope.reportRoles = $scope.roles.filter(s => s.moduleName == 'report');
 
         }
       },
@@ -97,8 +98,8 @@ app.controller("security", function ($scope, $http, $interval) {
                 $scope.screens.forEach(s => {
                   let newname = data.find(el => el.name == s.name.replace(/-/g, '_'));
                   if (newname) {
-                    s.nameAr = newname.ar;
-                    s.nameEn = newname.en;
+                    s.nameAr = newname.Ar;
+                    s.nameEn = newname.En;
                   }
 
                 })
@@ -109,11 +110,12 @@ app.controller("security", function ($scope, $http, $interval) {
 
             });
 
-          $scope.hr_screens = $scope.screens.filter(s => s.moduleName == 'hr');
-          $scope.accounting_screens = $scope.screens.filter(s => s.moduleName == 'accounting');
-          $scope.inventory_screens = $scope.screens.filter(s => s.moduleName == 'inventory');
-          $scope.public_screens = $scope.screens.filter(s => s.moduleName == 'public');
-          $scope.report_screens = $scope.screens.filter(s => s.moduleName == 'report');
+          $scope.hrScreens = $scope.screens.filter(s => s.moduleName == 'hr');
+          $scope.accountingScreens = $scope.screens.filter(s => s.moduleName == 'accounting');
+          $scope.inventoryScreens = $scope.screens.filter(s => s.moduleName == 'inventory');
+          $scope.publicScreens = $scope.screens.filter(s => s.moduleName == 'public');
+          $scope.hmisRoles = $scope.roles.filter(s => s.moduleName == 'hmis');
+          $scope.reportScreens = $scope.screens.filter(s => s.moduleName == 'report');
 
           $scope.permissions = response.data.permissions;
 
@@ -125,10 +127,10 @@ app.controller("security", function ($scope, $http, $interval) {
   };
 
 
-  $scope.get_trans = function (name) {
-    let new_name = $scope.trans.find(el => el.name == name.replace(/-/g, '_'));
-    if (new_name) {
-      return new_name
+  $scope.getTrans = function (name) {
+    let newName = $scope.trans.find(el => el.name == name.replace(/-/g, '_'));
+    if (newName) {
+      return newName
     }
     return 0;
   };
@@ -140,7 +142,7 @@ app.controller("security", function ($scope, $http, $interval) {
 
 
 
-  $scope.user = { image: '/images/user.png', files: [] , permissions: [], roles: [] };
+  $scope.user = { image:{ url: '/images/user.png'}, files: [], permissions: [], roles: [] };
 
   $scope.addPermission = function () {
 
@@ -201,8 +203,8 @@ app.controller("security", function ($scope, $http, $interval) {
     }
     $scope.user.roles.push({
       name: role.name,
-      en: role.en,
-      ar: role.ar
+      En: role.En,
+      Ar: role.Ar
     });
     $scope.role = {};
   };
@@ -229,7 +231,7 @@ app.controller("security", function ($scope, $http, $interval) {
     $scope.permissionEditor = false;
     $scope.imageEditor = false;
     $scope.fileEditor = false;
-    $scope.user = { image: '/images/user.png', files: [] , branchList: [{}], permissions: [], roles: [] };
+    $scope.user = { image:{ url: '/images/user.png'}, files: [], branchList: [{}], permissions: [], roles: [] };
     site.showModal('#addUserModal');
     document.querySelector('#addUserModal .tab-link').click();
   };
@@ -258,10 +260,10 @@ app.controller("security", function ($scope, $http, $interval) {
 
   $scope.edit = function (user) {
     $scope.view(user);
-    $scope.user = {  image: '/images/user.png', files: [] , permissions: [], roles: [] };
+    $scope.user = { image:{ url: '/images/user.png'}, files: [], permissions: [], roles: [] };
     site.showModal('#updateUserModal');
-    document.querySelector('#updateUserModal .tab-link').click();
-  };
+/*     document.querySelector('#updateUserModal .tab-link').click();
+ */  };
 
   $scope.update = function () {
     $scope.busy = true;
@@ -288,7 +290,7 @@ app.controller("security", function ($scope, $http, $interval) {
 
   $scope.remove = function (user) {
     $scope.view(user);
-    $scope.user = {  image: '/images/user.png', files: [] , permissions: [], newpermissions: [], roles: [] };
+    $scope.user = { image:{ url: '/images/user.png'}, files: [], permissions: [], newpermissions: [], roles: [] };
     site.showModal('#deleteUserModal');
     document.querySelector('#deleteUserModal .tab-link').click();
   };
@@ -332,7 +334,7 @@ app.controller("security", function ($scope, $http, $interval) {
 
   $scope.details = function (user) {
     $scope.view(user);
-    $scope.user = {  image: '/images/user.png', files: [] , permissions: [], roles: [] };
+    $scope.user = { image:{ url: '/images/user.png'}, files: [], permissions: [], roles: [] };
     site.showModal('#viewUserModal');
 
   };
@@ -408,15 +410,15 @@ app.controller("security", function ($scope, $http, $interval) {
     $scope.busy = true;
     $http({
       method: "POST",
-      url: "/api/printers_path/all",
+      url: "/api/printersPaths/all",
       data: {
         select: {
           id: 1,
           nameAr: 1,
           nameEn: 1,
           type: 1,
-          ip_device: 1,
-          Port_device: 1,
+          ipDevice: 1,
+          PortDevice: 1,
           ip: 1,
           code: 1,
         },

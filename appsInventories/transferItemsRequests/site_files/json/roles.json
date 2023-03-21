@@ -1,8 +1,8 @@
 [
     {
-        "moduleName": "public",
+        "moduleName": "inventory",
         "name": "transferItemsRequestsAdmin",
-        "En": "transferItemsRequests Admin",
+        "En": "Transfer Items Requests Admin",
         "Ar": "إدارة طلبات تحويل الأصناف",
         "permissions": ["transferItemsRequestsManage"]
     }

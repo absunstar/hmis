@@ -23,7 +23,7 @@ app.controller('areas', function ($scope, $http, $timeout) {
     $scope.error = '';
     const v = site.validated($scope.modalID);
     if (!v.ok) {
-      $scope.error = v.messages[0].ar;
+      $scope.error = v.messages[0].En;
       return;
     }
 
@@ -64,7 +64,7 @@ app.controller('areas', function ($scope, $http, $timeout) {
     $scope.error = '';
     const v = site.validated($scope.modalID);
     if (!v.ok) {
-      $scope.error = v.messages[0].ar;
+      $scope.error = v.messages[0].En;
       return;
     }
     $scope.busy = true;

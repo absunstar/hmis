@@ -1,6 +1,6 @@
 [
     {
-        "moduleName": "public",
+        "moduleName": "hr",
         "name": "createVacationsAdmin",
         "En": "Group Vacations Admin",
         "Ar": "إدارة الأجازات الجماعية",

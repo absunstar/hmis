@@ -58,6 +58,16 @@
     <img src="/images/incomeList.png" alt="" />
     <span> ##word.Income Lists## </span>
   </a>
+
+  <a x-feature="m-accounting" class="menu-item no-line" x-permissions="discountTypesUi || discountTypesManage" href="/discountTypes">
+    <img src="/images/discountTypes.png" alt="" />
+    <span> ##word.Discount Types## </span>
+  </a>
+
+  <a x-feature="m-accounting" class="menu-item no-line" x-permissions="taxesTypesUi || taxesTypesManage" href="/taxesTypes">
+    <img src="/images/taxesTypes.png" alt="" />
+    <span> ##word.Taxes Types## </span>
+  </a>
 </div>
 
 <div id="m-inventroy" class="menu-bottom loaded x-hide">
@@ -179,16 +189,6 @@
     <img src="/images/customersGroups.png" alt="" />
     <span> ##word.Customers Groups## </span>
   </a>
-
-  <a x-feature="m-inventory" class="menu-item no-line" x-permissions="discountTypesUi || discountTypesManage" href="/discountTypes">
-    <img src="/images/discountTypes.png" alt="" />
-    <span> ##word.Discount Types## </span>
-  </a>
-
-  <a x-feature="m-inventory" class="menu-item no-line" x-permissions="taxesTypesUi || taxesTypesManage" href="/taxesTypes">
-    <img src="/images/taxesTypes.png" alt="" />
-    <span> ##word.Taxes Types## </span>
-  </a>
 </div>
 
 <div id="m-hmis" class="menu-bottom loaded x-hide">
@@ -237,9 +237,9 @@
     <span> ##word.Patients Approval## </span>
   </a>
 
-  <a x-feature="m-hmis" class="menu-item no-line" x-permissions="offersUi || offersManage" href="/offers">
-    <img src="/images/offers.png" alt="" />
-    <span> ##word.Offers## </span>
+  <a x-feature="m-hmis" class="menu-item no-line" x-permissions="medicalOffersUi || medicalOffersManage" href="/medicalOffers">
+    <img src="/images/medicalOffers.png" alt="" />
+    <span> ##word.Medical Offers## </span>
   </a>
 
   <a x-feature="m-hmis" class="menu-item no-line" x-permissions="servicesUi || servicesManage" href="/services">
@@ -492,11 +492,12 @@
 
   <a class="menu-item no-line" x-permissions="numberingUi || numberingManage" href="/numbering">
     <img src="/images/numbering.png" alt="" />
-    <span> ##word.Numbering## </span>
+    <span> ##word.Numbering Setting## </span>
   </a>
 
   <a class="menu-item no-line" x-permissions="systemSettingManage" href="/systemSetting">
     <img src="/images/systemSetting.png" alt="" />
     <span> ##word.System Setting## </span>
   </a>
+
 </div>

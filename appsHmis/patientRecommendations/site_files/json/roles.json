@@ -1,5 +1,5 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hmis" ,
     "name": "patientRecommendationsAdmin",
     "En": "Patient Recommendations Admin",
     "Ar": "إدارة توصيات المريض",

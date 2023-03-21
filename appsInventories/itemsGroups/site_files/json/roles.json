@@ -1,6 +1,6 @@
 [
     {
-        "moduleName": "public",
+        "moduleName": "inventory",
         "name": "itemsGroupsAdmin",
         "En": "Items Groups Admin",
         "Ar": "إدارة مجموعات الأصناف",

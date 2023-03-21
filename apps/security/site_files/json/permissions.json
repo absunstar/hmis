@@ -1,31 +1,31 @@
 [{
         "name": "developer",
-        "En": "Developer",
-        "Ar": " ديفولوبر"
+        "en": "Developer",
+        "ar": " مطور"
     },
     {
         "name": "admin",
-        "En": "Admin",
-        "Ar": " ادمن"
+        "en": "Admin",
+        "ar": " مسئول"
     },
     {
         "name": "owner",
-        "En": "Owner",
-        "Ar": " صاحب البرنامج"
+        "en": "Owner",
+        "ar": " صاحب البرنامج"
     },
     {
         "name": "security",
-        "En": "Users Management",
-        "Ar": "إدارة المستخدمين"
+        "en": "Users Management",
+        "ar": "إدارة المستخدمين"
     },
     {
         "name": "print",
-        "En": "Print",
-        "Ar": "طباعة"
+        "en": "Print",
+        "ar": "طباعة"
     },
     {
         "name": "menus",
-        "En": "Menus View",
-        "Ar": "ظهور القوائم العامة"
+        "en": "Menus View",
+        "ar": "ظهور القوائم"
     }
 ]

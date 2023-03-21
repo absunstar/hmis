@@ -1,5 +1,5 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hmis" ,
     "name": "otherConditionsAdmin",
     "En": "Other Conditions Admin",
     "Ar": "إدارة شروط أخرى",

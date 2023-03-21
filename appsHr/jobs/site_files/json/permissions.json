@@ -1,11 +1,11 @@
 [
-  { "moduleName": "public", "screenName": "jobs", "name": "jobsManage", "En": "Manage", "Ar": "إدارة" },
-  { "moduleName": "public", "screenName": "jobs", "name": "jobsAdd", "En": "Add", "Ar": "إضافة" },
-  { "moduleName": "public", "screenName": "jobs", "name": "jobsUpdate", "En": "Edit", "Ar": "تعديل" },
-  { "moduleName": "public", "screenName": "jobs", "name": "jobsDelete", "En": "Delete", "Ar": "حذف" },
-  { "moduleName": "public", "screenName": "jobs", "name": "jobsView", "En": "View", "Ar": "عرض" },
-  { "moduleName": "public", "screenName": "jobs", "name": "jobsSearch", "En": "Search", "Ar": "بحث" },
-  { "moduleName": "public", "screenName": "jobs", "name": "jobsExport", "En": "Export", "Ar": "تصدير" },
-  { "moduleName": "public", "screenName": "jobs", "name": "jobsPrint", "En": "Print", "Ar": "طباعة" },
-  { "moduleName": "public", "screenName": "jobs", "name": "jobsUi", "En": "UI", "Ar": "الواجهة الرسومية" }
+  { "moduleName": "hr", "screenName": "jobs", "name": "jobsManage", "En": "Manage", "Ar": "إدارة" },
+  { "moduleName": "hr", "screenName": "jobs", "name": "jobsAdd", "En": "Add", "Ar": "إضافة" },
+  { "moduleName": "hr", "screenName": "jobs", "name": "jobsUpdate", "En": "Edit", "Ar": "تعديل" },
+  { "moduleName": "hr", "screenName": "jobs", "name": "jobsDelete", "En": "Delete", "Ar": "حذف" },
+  { "moduleName": "hr", "screenName": "jobs", "name": "jobsView", "En": "View", "Ar": "عرض" },
+  { "moduleName": "hr", "screenName": "jobs", "name": "jobsSearch", "En": "Search", "Ar": "بحث" },
+  { "moduleName": "hr", "screenName": "jobs", "name": "jobsExport", "En": "Export", "Ar": "تصدير" },
+  { "moduleName": "hr", "screenName": "jobs", "name": "jobsPrint", "En": "Print", "Ar": "طباعة" },
+  { "moduleName": "hr", "screenName": "jobs", "name": "jobsUi", "En": "UI", "Ar": "الواجهة الرسومية" }
 ]

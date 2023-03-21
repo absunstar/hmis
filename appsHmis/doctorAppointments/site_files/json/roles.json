@@ -1,7 +1,7 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hmis" ,
     "name": "doctorAppointmentsAdmin",
-    "En": "doctorAppointments Admin",
+    "En": "Doctor Appointments Admin",
     "Ar": "إدارة مواعيد الطبيب",
     "permissions": ["doctorAppointmentsManage"]
 }]

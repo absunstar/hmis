@@ -1,5 +1,5 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hmis" ,
     "name": "medicineFrequenciesAdmin",
     "En": "Medicine Frequencies Admin",
     "Ar": "إدارة تكرارات الدواء",

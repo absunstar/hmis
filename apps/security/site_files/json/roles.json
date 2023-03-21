@@ -7,7 +7,7 @@
         "En": "User Management",
         "permissions": [
             "security",
-            "security_manage"
+            "securityManage"
         ]
     },
     {

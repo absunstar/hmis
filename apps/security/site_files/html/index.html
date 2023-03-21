@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="En" data-ng-app="myApp">
+<html lang="en" data-ng-app="myApp">
 
 <head x-import="head.html">
     <style>
@@ -25,18 +25,15 @@
 
 <body class="##session.lang## loaded">
 
-    <nav x-import="sitebar/index.html" class="sitebar" data-ng-controller="sitebar">
-    </nav>
-    <nav x-import="sitebottom/index.html" class="sitebottom" data-ng-controller="sitebottom">
-    </nav>
-
+    <div x-import="site-top/index.html"></div>
+    <div x-import="site-bottom/index.html"></div>
 
     <div id="main-layout" class="container " data-ng-controller="security">
         <div class="row ">
 
          
-            <i-button label="##word.security_users##" ng-click="gotoUsers()"></i-button>
-            <i-button label="##word.security_roles##" ng-click="gotoRoles()"></i-button>
+            <i-button label="##word.Security Users##" ng-click="gotoUsers()"></i-button>
+            <i-button label="##word.Security Roles##" ng-click="gotoRoles()"></i-button>
 
         </div>
 

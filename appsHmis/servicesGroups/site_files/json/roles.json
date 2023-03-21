@@ -1,5 +1,5 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hmis" ,
     "name": "servicesGroupsAdmin",
     "En": "Services Groups Admin",
     "Ar": "إدارة مجموعة الخدمات",

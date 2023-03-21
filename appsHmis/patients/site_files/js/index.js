@@ -470,12 +470,12 @@ app.controller('patients', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getOffersList = function () {
+  $scope.getMedicalOffersList = function () {
     $scope.busy = true;
     $scope.offersList = [];
     $http({
       method: 'POST',
-      url: '/api/offers/all',
+      url: '/api/medicalOffers/all',
       data: {
         where: {
           active: true,
@@ -610,7 +610,7 @@ app.controller('patients', function ($scope, $http, $timeout) {
   $scope.getPatientTypesList();
   $scope.getGendersList();
   $scope.getMaritalStatusList();
-  $scope.getOffersList();
+  $scope.getMedicalOffersList();
   $scope.getNationalitiesList();
   $scope.getCountriesList();
   $scope.getinsuranceClassesList();

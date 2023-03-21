@@ -6,109 +6,109 @@
         "name": "Printers Paths"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "services",
         "name": "Services"
     },
     {
-        "category": "main",
+        "category": "accounting",
         "feature": "public",
         "id": "accountsGuide",
         "name": "Accounts Guide"
     },
     {
-        "category": "main",
+        "category": "accounting",
         "feature": "public",
         "id": "journalEntry",
         "name": "Journal Entry"
     },
     {
-        "category": "main",
+        "category": "accounting",
         "feature": "public",
         "id": "generalLedger",
         "name": "General Ledger"
     },
     {
-        "category": "main",
+        "category": "accounting",
         "feature": "public",
         "id": "assistantGeneralLedger",
         "name": "Assistant General Ledger"
     },
     {
-        "category": "main",
+        "category": "accounting",
         "feature": "public",
         "id": "budgetClassifications",
         "name": "Budget Classifications"
     },
     {
-        "category": "main",
+        "category": "accounting",
         "feature": "public",
         "id": "incomeList",
         "name": "Income List"
     },
     {
-        "category": "main",
+        "category": "accounting",
         "feature": "public",
         "id": "costCenters",
         "name": "Cost Centers"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "doctors",
         "name": "Doctors"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "hospitalResponsibilities",
         "name": "Hospital Responsibilities"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "insuranceClasses",
         "name": "Insurance Classes"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "insuranceCompanies",
         "name": "Insurance Companies"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "insuranceContracts",
         "name": "Insurance Contracts"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "mainInsuranceCompanies",
         "name": "Main Insurance Companies"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
-        "id": "offers",
-        "name": "Offers"
+        "id": "medicalOffers",
+        "name": "Medical Offers"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "patients",
         "name": "Patients"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "servicesOrders",
         "name": "Services Orders"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "specialties",
         "name": "Specialties"
@@ -144,97 +144,97 @@
         "name": "Nationalities"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "servicesCategories",
         "name": "Services Categories"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "servicesGroups",
         "name": "Services Groups"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "achiCodes",
         "name": "ACHI Codes"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "stores",
         "name": "Stores"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "storesItems",
         "name": "Stores Items"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "storesUnits",
         "name": "Stores Units"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "itemsGroups",
         "name": "Items Groups"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "activeSubstances",
         "name": "Active Substances"
     },
     {
-        "category": "main",
+        "category": "accounting",
         "feature": "public",
         "id": "discountTypes",
         "name": "Discount Types"
     },
     {
-        "category": "main",
+        "category": "accounting",
         "feature": "public",
         "id": "taxesTypes",
         "name": "Taxes Types"
     },
     {
-        "category": "main",
+        "category": "accounting",
         "feature": "public",
         "id": "currencies",
         "name": "Currencies"
     },
     {
-        "category": "main",
+        "category": "accounting",
         "feature": "public",
         "id": "safes",
         "name": "Safes"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "vendorsGroups",
         "name": "Vendors Groups"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "vendors",
         "name": "Vendors"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "purchaseRequests",
         "name": "Purchase Requests"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "purchaseOrders",
         "name": "Purchase Orders"
@@ -246,115 +246,115 @@
         "name": "Customers Groups"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "transferItemsRequests",
         "name": "Transfer Items Request"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "storesItemsCard",
         "name": "Stores Items Card"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "salesInvoices",
         "name": "Sales Invoices For Customers"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "salesCompaniesInvoices",
         "name": "Sales Invoices For Companies"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "salesPatientsInvoices",
         "name": "Sales Invoices For Patients"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "chiefComplaints",
         "name": "Chief Complaints"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "medicines",
         "name": "Medicines"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "significantSigns",
         "name": "Significant Signs"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "diagnoses",
         "name": "Diagnoses"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "patientRecommendations",
         "name": "Patient Recommendations"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "patientEducations",
         "name": "Patient Educations"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "medicineDurations",
         "name": "Medicine Durations"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "medicineFrequencies",
         "name": "Medicine Frequencies"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "medicineRoutes",
         "name": "Medicine Routes"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "patientsApproval",
         "name": "Patients Approval"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "patientHistory",
         "name": "Patient History"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "drinks",
         "name": "Drinks"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "foods",
         "name": "Foods"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "otherConditions",
         "name": "Other Conditions"
@@ -366,145 +366,145 @@
         "name": "System Setting"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "jobs",
         "name": "Jobs"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "salaryDeductionsNames",
         "name": "Salary Deductions Names"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "salaryAllowancesNames",
         "name": "Salary Allowances Names"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "employeesBonuses",
         "name": "Employees Bonuses"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "employeesPenalties",
         "name": "Employees Penalties"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "employees",
         "name": "Employees"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "jobsAdministrations",
         "name": "Jobs Administrations"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "jobsDepartments",
         "name": "Jobs Sections"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "employeesBonusNames",
         "name": "Employees Bonus Types"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "employeesPenaltiesNames",
         "name": "Employees Penalties Types"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "transferItemsOrders",
         "name": "Transfer Items Orders"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "jobsTools",
         "name": "Jobs Tools"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "doctorAppointments",
         "name": "Doctor Appointments"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "laboratoryDeskTop",
         "name": "Laboratory DeskTop"
     },
     {
-        "category": "main",
+        "category": "hmis",
         "feature": "public",
         "id": "radiologyDeskTop",
         "name": "Radiology DeskTop"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "convertUnits",
         "name": "Convert Units"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "returnSalesInvoices",
         "name": "Return Sales Invoices"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "returnPurchaseOrders",
         "name": "Return Purchase Orders"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "damageItems",
         "name": "Damage Items"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "reasonsDestroyingItems",
         "name": "Reasons Destroying Items"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "storesOpeningBalances",
         "name": "Stores Opening Balances"
     },
     {
-        "category": "main",
+        "category": "inventory",
         "feature": "public",
         "id": "stockTaking",
         "name": "Stocktaking"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "jobsShifts",
         "name": "Jops Shifts"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "attendanceLeaving",
         "name": "Attendance Leaving"
@@ -516,55 +516,55 @@
         "name": "Names Conversions"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "vacationsRequests",
         "name": "Vacations Requests"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "vacationsNames",
         "name": "Vacations Names"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "createVacations",
         "name": "Create Vacations"
     },
     {
-        "category": "main",
+        "category": "accounting",
         "feature": "public",
         "id": "banks",
         "name": "Banks"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "delayRequests",
         "name": "Delay Requests"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "workErrandRequests",
         "name": "Work Errand Requests"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "overtimeRequests",
         "name": "Overtime Requests"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "employeesAdvances",
         "name": "Employees Advances"
     },
     {
-        "category": "main",
+        "category": "hr",
         "feature": "public",
         "id": "payslips",
         "name": "Payslips"

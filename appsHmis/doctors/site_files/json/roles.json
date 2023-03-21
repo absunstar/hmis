@@ -1,12 +1,12 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hmis" ,
     "name": "doctorsAdmin",
     "En": "Doctors Admin",
     "Ar": "إدارة الأطباء",
     "permissions": ["doctorsManage"]
 },
 {
-  "moduleName": "public",
+  "moduleName": "hmis",
   "name": "doctorPermissions",
   "En": "Doctor Permissions",
   "Ar": "صلاحيات الطبيب",

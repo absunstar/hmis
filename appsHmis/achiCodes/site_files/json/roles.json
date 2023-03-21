@@ -1,5 +1,5 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hmis" ,
     "name": "achiCodesAdmin",
     "En": "ACHI Codes Admin",
     "Ar": "إدارة آشي كود",

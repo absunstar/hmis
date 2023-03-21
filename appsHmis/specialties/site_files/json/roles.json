@@ -1,5 +1,5 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hmis" ,
     "name": "specialtiesAdmin",
     "En": "Specialties Admin",
     "Ar": "إدارة التخصصات",

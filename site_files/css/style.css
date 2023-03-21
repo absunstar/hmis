@@ -268,3 +268,7 @@ p {
   height: auto;
   border-radius: 10px;
 }
+
+i-checkbox label {
+  white-space: nowrap !important;
+}

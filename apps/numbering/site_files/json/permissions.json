@@ -1,5 +1,5 @@
 [
-    { "moduleName" : "public" , "screenName" : "numbering" , "name":"numberingNanage" , "En":"Manage" , "Ar":"إدارة"},
+    { "moduleName" : "public" , "screenName" : "numbering" , "name":"numberingManage" , "En":"Manage" , "Ar":"إدارة"},
     { "moduleName" : "public" , "screenName" : "numbering" , "name":"numberingUpdate" , "En":"Edit" , "Ar":"تعديل"},
     { "moduleName" : "public" , "screenName" : "numbering" , "name":"numberingExport" , "En":"Export" , "Ar":"تصدير"},
     { "moduleName" : "public" , "screenName" : "numbering" , "name":"numberingPrint" , "En":"Print" , "Ar":"طباعة"},

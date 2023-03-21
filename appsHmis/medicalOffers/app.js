@@ -1,6 +1,6 @@
 module.exports = function init(site) {
   let app = {
-    name: 'offers',
+    name: 'medicalOffers',
     allowMemory: true,
     memoryList: [],
     allowCache: false,
@@ -145,7 +145,7 @@ module.exports = function init(site) {
           name: app.name,
         },
         (req, res) => {
-          res.render(app.name + '/index.html', { title: app.name,appName:'Offers' }, { parser: 'html', compres: true });
+          res.render(app.name + '/index.html', { title: app.name,appName:'Medical Offers' }, { parser: 'html', compres: true });
         }
       );
     }

@@ -1,62 +1,62 @@
 [
   {
-    "moduleName": "public",
+    "moduleName": "accounting",
     "screenName": "taxesTypes",
     "name": "taxesTypesManage",
     "En": "Manage",
     "Ar": "إدارة"
   },
   {
-    "moduleName": "public",
+    "moduleName": "accounting",
     "screenName": "taxesTypes",
     "name": "taxesTypesAdd",
     "En": "Add",
     "Ar": "إضافة"
   },
   {
-    "moduleName": "public",
+    "moduleName": "accounting",
     "screenName": "taxesTypes",
     "name": "taxesTypesUpdate",
     "En": "Edit",
     "Ar": "تعديل"
   },
   {
-    "moduleName": "public",
+    "moduleName": "accounting",
     "screenName": "taxesTypes",
     "name": "taxesTypesDelete",
     "En": "Delete",
     "Ar": "حذف"
   },
   {
-    "moduleName": "public",
+    "moduleName": "accounting",
     "screenName": "taxesTypes",
     "name": "taxesTypesView",
     "En": "View",
     "Ar": "عرض"
   },
   {
-    "moduleName": "public",
+    "moduleName": "accounting",
     "screenName": "taxesTypes",
     "name": "taxesTypesSearch",
     "En": "Search",
     "Ar": "بحث"
   },
   {
-    "moduleName": "public",
+    "moduleName": "accounting",
     "screenName": "taxesTypes",
     "name": "taxesTypesExport",
     "En": "Export",
     "Ar": "تصدير"
   },
   {
-    "moduleName": "public",
+    "moduleName": "accounting",
     "screenName": "taxesTypes",
     "name": "taxesTypesPrint",
     "En": "Print",
     "Ar": "طباعة"
   },
   {
-    "moduleName": "public",
+    "moduleName": "accounting",
     "screenName": "taxesTypes",
     "name": "taxesTypesUi",
     "En": "UI",

@@ -1,12 +1,12 @@
-app.controller('offers', function ($scope, $http, $timeout) {
+app.controller('medicalOffers', function ($scope, $http, $timeout) {
   $scope.baseURL = '';
-  $scope.appName = 'offers';
-  $scope.modalID = '#offersManageModal';
-  $scope.modalSearchID = '#offersSearchModal';
+  $scope.appName = 'medicalOffers';
+  $scope.modalID = '#medicalOffersManageModal';
+  $scope.modalSearchID = '#medicalOffersSearchModal';
   $scope.mode = 'add';
   $scope._search = {};
   $scope.structure = {
-    image: {url : '/images/offers.png'},
+    image: {url : '/images/medicalOffers.png'},
     active: true,
     discount: 0,
     discountType: 'percent',

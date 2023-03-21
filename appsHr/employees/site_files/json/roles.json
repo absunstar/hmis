@@ -1,13 +1,13 @@
 [
   {
-    "moduleName": "public",
+    "moduleName": "hr",
     "name": "employeesAdmin",
-    "En": "employees Admin",
+    "En": "Employees Admin",
     "Ar": "إدارة الموطفين",
     "permissions": ["employeesManage"]
   },
   {
-    "moduleName": "public",
+    "moduleName": "hr",
     "name": "employeePermissions",
     "En": "Employee Permissions",
     "Ar": "صلاحيات الموظف",

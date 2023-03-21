@@ -36,25 +36,24 @@
         <br>
         <table class="table margin">
             <tr>
-                <th>##word.Security Roles##</th>
+                <th>##word.Roles##</th>
 
             </tr>
             <tr ng-repeat="role in user.roles">
-                <td>{{role.##session.lang##}}</td>
+                <td >{{role.##session.lang##}}</td>
             </tr>
         </table>
 
         <br>
         <table class="table margin">
             <tr>
-                <th>##word.security_permissions##</th>
+                <th>##word.Permissions##</th>
 
             </tr>
             <tr ng-repeat=" p in userPermission ">
-                <td x-lang="Ar"><span class="title">{{get_trans(p).##session.lang##}}</span><span ng-repeat="value in onepermission[p]"> -- {{value.##session.lang##}}
+                <td><span class="title">{{getTrans(p).##session.lang##}}</span><span ng-repeat="value in onepermission[p]"> -- {{value.##session.lang##}}
                     </span> </td>
-                <td x-lang="En"><span class="title">{{get_trans(p).en}}</span><span ng-repeat="value in onepermission[p]"> -- {{value.en}}
-                    </span> </td>
+                
             </tr>
 
         </table>
@@ -67,7 +66,7 @@
         <i-image view category="users" ng-model="user.image"></i-image>
 
         <br>
-        <i-files view category="users" label="##word.files##" ng-model="user.user.files"></i-files>
+        <i-files view category="users" label="##word.files##" ng-model="user.files"></i-files>
 
 
     </div>

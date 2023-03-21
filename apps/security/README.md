@@ -19,12 +19,12 @@ company
 
 ```json
 [
-    {"name" : "company_add" , "En":"Add" , "Ar" : "إضافة"},
-    {"name" : "company_edit" , "En":"Edit" , "Ar" : "تعديل"},
-    {"name" : "company_delete" , "En":"Delete" , "Ar" : "حذف"},
-    {"name" : "company_search" , "En":"Search" , "Ar" : "بحث"},
-    {"name" : "company_view" , "En":"View" , "Ar" : "عرض"},
-    {"name" : "company_manage" , "En":"Manage" , "Ar" : "إدارة"}
+    {"name" : "companyAdd" , "En":"Add" , "Ar" : "إضافة"},
+    {"name" : "companyEdit" , "En":"Edit" , "Ar" : "تعديل"},
+    {"name" : "companyDelete" , "En":"Delete" , "Ar" : "حذف"},
+    {"name" : "companySearch" , "En":"Search" , "Ar" : "بحث"},
+    {"name" : "companyView" , "En":"View" , "Ar" : "عرض"},
+    {"name" : "companyManage" , "En":"Manage" , "Ar" : "إدارة"}
 ]
 ```
 
@@ -33,12 +33,12 @@ company
 [
     {"name" : "company_admin" , "En":"Admin" , "Ar" : "مدير" , 
       "permissions" : [
-        {"name" : "company_add"},
-        {"name" : "company_edit"},
-        {"name" : "company_delete"},
-        {"name" : "company_search"},
-        {"name" : "company_view"},
-        {"name" : "company_manage"}
+        {"name" : "companyAdd"},
+        {"name" : "companyEdit"},
+        {"name" : "companyDelete"},
+        {"name" : "companySearch"},
+        {"name" : "companyView"},
+        {"name" : "companyManage"}
       ]
     }
 ]

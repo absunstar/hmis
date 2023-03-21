@@ -1,6 +1,6 @@
 [
     {
-        "moduleName": "public",
+        "moduleName": "inventory",
         "name": "salesCompaniesInvoicesAdmin",
         "En": "Sales Invoices For Companies Admin",
         "Ar": "إدارة فواتير مبيعات الشركات",

@@ -1,7 +1,7 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "hmis" ,
     "name": "insuranceClassesAdmin",
-    "En": "insuranceClasses Admin",
+    "En": "Insurance Classes Admin",
     "Ar": "إدارة الفئات",
     "permissions": ["insuranceClassesManage"]
 }]

@@ -1,5 +1,5 @@
 [{
-    "moduleName" : "public" ,
+    "moduleName" : "accounting" ,
     "name": "costCentersAdmin",
     "En": "Cost Centers Admin",
     "Ar": "إدارة مراكز التكلفة",

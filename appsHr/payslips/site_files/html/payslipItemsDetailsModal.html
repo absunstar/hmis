@@ -1,4 +1,4 @@
-<div id="payslipItemsDetailsModal" class="modal">
+<div id="payslipItemsDetailsModal" class="modal full">
     <div class="col2"></div>
     <div class="modal-content col8">
         <div class="modal-header">
@@ -28,7 +28,7 @@
                                 <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
                                 <td class="center">{{itm.category.nameEn}} - {{itm.category.nameAr}}</td>
                                 <td class="center">{{itm.employeesBonusName.nameEn}} - {{itm.employeesBonusName.nameAr}}</td>
-                                <td class="center">{{itm.type.nameEn}} - {{itm.type.nameAr}}</td>
+                                <td class="center"><p>{{itm.type.nameEn}} - {{itm.type.nameAr}}</p></td>
                                 <td class="center">
                                     <span class="blue"> {{itm.count}} </span>
                                     <span ng-show="itm.type.id == 1"> - ##word.Hour/s##</span>
@@ -114,7 +114,6 @@
                                 <th>##word.Date##</th>
                                 <th>##word.Count##</th>
                                 <th>##word.Amount Per Day##</th>
-                                <th>##word.Penality##</th>
                                 <th>##word.Value##</th>
                             </tr>
                             <tr ng-repeat="itm in payslipItem.list">
@@ -122,15 +121,12 @@
                                 <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
                                 <td class="center">{{itm.count}}</td>
                                 <td class="center">
-                                    <span class="text-danger">{{itm.amount}}</span>
+                                    <span class="text-success">{{itm.amount}}</span>
                                     <span class="currency">##word.$##</span>
                                 </td>
+
                                 <td class="center">
-                                    <span class="blue"> {{itm.penality}} </span> -
-                                    <span> ##word.Day/s##</span>
-                                </td>
-                                <td class="center">
-                                    <span> {{itm.value}} </span> -
+                                    <span class="text-danger"> {{itm.value}} </span> -
                                     <span class="currency">##word.$##</span>
                                 </td>
                             </tr>
@@ -179,6 +175,7 @@
                             <tr>
                                 <th>##word.s##</th>
                                 <th>##word.Date##</th>
+                                <th>##word.Source##</th>
                                 <th>##word.Reqruired##</th>
                                 <th>##word.Action##</th>
                                 <th>##word.Delay Minute/s##</th>
@@ -191,6 +188,10 @@
                             <tr ng-repeat="itm in payslipItem.list">
                                 <td class="center blue">{{$index+1}}</td>
                                 <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
+                                <td class="center">
+                                    <p class="blue" ng-show="itm.source.code ==1">{{itm.source.nameEn}} - {{itm.source.nameAr}}</p>
+                                    <p class="text-danger" ng-show="itm.source.code == 2">{{itm.source.nameEn}} - {{itm.source.nameAr}}</p>
+                                </td>
                                 <td class="center">{{itm.from |date:'hh:mm a'}}</td>
                                 <td class="center">{{itm.to |date:'hh:mm a'}}</td>
                                 <td class="center">
@@ -236,7 +237,7 @@
                                 <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
                                 <td class="center">{{itm.fromTime |date:'hh:mm a'}}</td>
                                 <td class="center">{{itm.toTime |date:'hh:mm a'}}</td>
-                                <td class="center">{{itm.allwedTime}}</td>
+                                <td class="center">{{itm.allwedTime}} <span>##word.Minute/s##</span></td>
                                 <td class="center">
                                     <span class="blue"> {{itm.count}} </span>
                                     <span ng-show="itm.type.id == 1" class="currency">##word.Hour/s##</span>
@@ -267,7 +268,7 @@
                                 <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
                                 <td class="center">{{itm.fromTime |date:'hh:mm a'}}</td>
                                 <td class="center">{{itm.toTime |date:'hh:mm a'}}</td>
-                                <td class="center">{{itm.allwedTime}}</td>
+                                <td class="center">{{itm.allwedTime}} <span>##word.Minute/s##</span></td>
                             </tr>
                         </table>
                     </div>
@@ -288,7 +289,7 @@
                                 <td class="center">{{itm.vacationType.nameEn}} - {{itm.vacationType.nameAr}}</td>
                                 <td class="center">{{itm.days}}</td>
                                 <td class="center">{{itm.approvedVacationType.nameEn}} - {{itm.approvedVacationType.nameAr}}</td>
-                                <td class="center">{{itm.approvedDays}}</td>
+                                <td class="center">{{itm.approvedDays}} <span>##word.Day/s##</span> </td>
                             </tr>
                         </table>
                     </div>
@@ -325,7 +326,7 @@
                                 <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
                                 <td class="center">{{itm.fromTime |date:'hh:mm a'}}</td>
                                 <td class="center">{{itm.toTime |date:'hh:mm a'}}</td>
-                                <td class="center">{{itm.allwedTime}}</td>
+                                <td class="center">{{itm.allwedTime}} <span>##word.Minute/s##</span></td>
                             </tr>
                         </table>
                     </div>
@@ -347,7 +348,7 @@
                                 <td class="center">{{itm.date |date:'dd/MM/yyyy'}}</td>
                                 <td class="center">{{itm.fromTime |date:'hh:mm a'}}</td>
                                 <td class="center">{{itm.toTime |date:'hh:mm a'}}</td>
-                                <td class="center">{{itm.allwedTime}}</td>
+                                <td class="center">{{itm.allwedTime}} <span>##word.Minute/s##</span></td>
                             </tr>
                         </table>
                     </div>
@@ -370,7 +371,7 @@
                                 <td class="center">{{itm.vacationType.nameEn}} - {{itm.vacationType.nameAr}}</td>
                                 <td class="center">{{itm.days}}</td>
                                 <td class="center">{{itm.approvedVacationType.nameEn}} - {{itm.approvedVacationType.nameAr}}</td>
-                                <td class="center">{{itm.approvedDays}}</td>
+                                <td class="center">{{itm.approvedDays}} <span>##word.Day/s##</span></td>
                             </tr>
                         </table>
                     </div>

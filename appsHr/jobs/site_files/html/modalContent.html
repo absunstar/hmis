@@ -45,21 +45,6 @@
                     </a>
                 </div>
                 <div class="tabs-content">
-                    <!--      <div id="required" class="tab-content">
-                        <div class="row padding">
-                            <fieldset>
-                            <div class="row">
-                                    <fieldset>
-                                        <legend>##word.Salary limits##</legend>
-
-                                        <i-control type="number" v="r" class="col3" ng-model="item.salaryFrom" label="##word.Salary From##"></i-control>
-                                        <div class="col1"></div>
-                                        <i-control type="number" v="r" class="col3" ng-model="item.SalaryTo" label="##word.Salary To##"></i-control>
-                                    </fieldset>
-                                </div> 
-                            </fieldset>
-                        </div>
-                    </div>-->
                     <div id="jobTasks" class="tab-content">
                         <fieldset>
                             <legend>##word.Tasks##</legend>
@@ -89,7 +74,7 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="row">
-                                            <i-checkbox class="col4" ng-model="mission.active"></i-checkbox>
+                                            <i-checkbox class="col6" ng-model="mission.active"></i-checkbox>
                                             <span class="col6 text-success" ng-show="mission.active">##word.Active##</span>
                                             <span class="col6 text-danger" ng-show="!mission.active">##word.Not Active##</span>
                                         </div>
@@ -103,33 +88,6 @@
                     </div>
 
                     <div id="jobTools" class="tab-content">
-                        <!-- <div class="row padding">
-                            <fieldset>
-                                <legend>
-                                    <i-button type="add default" ng-click="item.jobToolsList.push({})"></i-button>
-                                </legend>
-                                <table class="table center hover bold">
-                                    <tr>
-                                        <th>##word.S/N##</th>
-                                        <th>##word.Tool name##</th>
-                                        <th>##word.Notes##</th>
-                                        <th class="not-print">##word.Actions##</th>
-                                    </tr>
-                                    <tr ng-repeat="t in item.jobToolsList">
-                                        <td class="text-center">{{$index + 1}}</td>
-                                        <td class="text-center">
-                                            <i-list v="r" ng-model="t.tool" display="name##session.lang##" items="jobsToolsList" ng-search="item.$jobsTool"></i-list>
-                                        </td>
-                                        <td class="text-center">
-                                            <i-control type="text" ng-model="t.notes"></i-control>
-                                        </td>
-                                        <td>
-                                            <i-button type="delete default" ng-click="item.jobToolsList.splice($index,1)"> </i-button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </fieldset>
-                        </div> -->
 
                         <fieldset>
                             <legend>##word.Tools##</legend>
@@ -166,7 +124,7 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="row">
-                                            <i-checkbox class="col4" ng-model="tol.active"></i-checkbox>
+                                            <i-checkbox class="col6" ng-model="tol.active"></i-checkbox>
                                             <span class="col6 text-success" ng-show="tol.active">##word.Active##</span>
                                             <span class="col6 text-danger" ng-show="!tol.active">##word.Not Active##</span>
                                         </div>
@@ -213,7 +171,7 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="row">
-                                            <i-checkbox class="col4" ng-model="gift.active"></i-checkbox>
+                                            <i-checkbox class="col6" ng-model="gift.active"></i-checkbox>
                                             <span class="col6 text-success" ng-show="gift.active">##word.Active##</span>
                                             <span class="col6 text-danger" ng-show="!gift.active">##word.Not Active##</span>
                                         </div>

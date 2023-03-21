@@ -240,8 +240,7 @@ module.exports = function init(site) {
         { id: 7, code: '007', nameEn: 'Sick', nameAr: 'مرضي' },
         { id: 8, code: '008', nameEn: 'Marriage', nameAr: 'زواج' },
         { id: 9, code: '009', nameEn: 'Paid', nameAr: 'مدفوعة الأجر' },
-        { id: 10, code: '010', nameEn: 'Annual', nameAr: 'سنوية' },
-        { id: 11, code: '011', nameEn: 'Exams', nameAr: 'إمتحانات' },
+         { id: 10, code: '010', nameEn: 'Exams', nameAr: 'إمتحانات' },
     ];
 
     site.workflowPositionsList = [

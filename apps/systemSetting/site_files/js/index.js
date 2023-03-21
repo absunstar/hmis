@@ -30,11 +30,11 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
         hrSettings: {
             saudiVacations: {
                 nationality: {},
-                annual: 0,
-                casualVacations: 0,
-                regularVacations: 0,
+                annualVacation: 0,
+                casualVacation: 0,
+                regularVacation: 0,
             },
-            othersVacations: { annual: 0, casualVacations: 0, regularVacations: 0 },
+            othersVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
 
             // delay: 0,
             // overtime: 0,
@@ -148,7 +148,7 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
-                    'type.id' : 1
+                    'type.id': 1,
                 },
                 select: {
                     id: 1,
@@ -179,7 +179,7 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
             data: {
                 where: {
                     active: true,
-                    'type.id' : 2
+                    'type.id': 2,
                 },
                 select: {
                     id: 1,

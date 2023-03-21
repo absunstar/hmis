@@ -25,25 +25,13 @@
         <div class="row">
             <i-list ng-model="item.approvedVacationType" class="col3" ng-disabled="item.approved" items="vacationsTypesList" display="name##session.lang##" label="##word.Approved Type##"></i-list>
             <i-control type="number" class="col3" ng-disabled="item.approved" label="##word.Approved Days##" ng-model="item.approvedDays"> </i-control>
-
-            <!-- <div class="col2">
-                <br />
-                <i-button
-                    ng-if=" !item.approved"
-                    label="##word.Check Balance##"
-                    x-permissions="acceptVacationRequest || vacationsRequestsManage"
-                    type="approve"
-                    ng-click="getEmployeeVacationBalance(item)"
-                >
-                </i-button>
-            </div> -->
         </div>
         <fieldset>
             <legend>##word.Vacations Balance##</legend>
             <div class="row">
-                <i-control type="number" disabled class="col2" label="##word.Regular Balance##" ng-model="item.regularVacations"> </i-control>
-                <i-control type="number" disabled class="col2" label="##word.Casual Balance##" ng-model="item.casualVacations"> </i-control>
-                <i-control type="number" disabled class="col2" label="##word.Annual##" ng-model="item.annual"> </i-control>
+                <i-control type="number" disabled class="col2" label="##word.Annual Vacation##" ng-model="item.annualVacation"> </i-control>
+                <i-control type="number" disabled class="col2" label="##word.Regular Balance##" ng-model="item.regularVacation"> </i-control>
+                <i-control type="number" disabled class="col2" label="##word.Casual Balance##" ng-model="item.casualVacation"> </i-control>
             </div>
         </fieldset>
         <i-textarea ng-model="item.comment" rows="4" label="##word.Comment##"></i-textarea>

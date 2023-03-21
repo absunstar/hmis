@@ -39,7 +39,11 @@ app.controller('employees', function ($scope, $http, $timeout) {
             mobileList: [{ mobile: '+966' }],
             banksList: [],
             relativesList: [],
-            annual: 0,
+            annualVacation: 0,
+            regularVacation: 0,
+            casualVacation: 0,
+            delayPermissionsCount: 0,
+            delayPermissionsTime: 0,
             workDays: 0,
             workHours: 0,
             idType: 'id',
@@ -1132,17 +1136,20 @@ app.controller('employees', function ($scope, $http, $timeout) {
     };
 
     $scope.setDefaultVacationalance = function (nathionality) {
-        const saudiNathinality = $scope.setting.hrSettings?.saudiVacations;
-        const othersNathinality = $scope.setting.hrSettings?.othersVacations;
-        if (nathionality && nathionality.id == saudiNathinality?.nationality.id) {
-            $scope.item.annual = saudiNathinality.annual;
-            $scope.item.regularVacations = saudiNathinality.regularVacations;
-            $scope.item.casualVacations = saudiNathinality.casualVacations;
-        } else {
-            $scope.item.annual = othersNathinality.annual;
-            $scope.item.regularVacations = othersNathinality.regularVacations;
-            $scope.item.casualVacations = othersNathinality.casualVacations;
+        if ($scope.mode == 'add') {
+            const saudiNathinality = $scope.setting.hrSettings?.saudiVacations;
+            const othersNathinality = $scope.setting.hrSettings?.othersVacations;
+            if (nathionality && nathionality.id == saudiNathinality?.nationality.id) {
+                $scope.item.annualVacation = saudiNathinality.annualVacation;
+                $scope.item.regularVacation = saudiNathinality.regularVacation;
+                $scope.item.casualVacation = saudiNathinality.casualVacation;
+            } else {
+                $scope.item.annualVacation = othersNathinality.annualVacation;
+                $scope.item.regularVacation = othersNathinality.regularVacation;
+                $scope.item.casualVacation = othersNathinality.casualVacation;
+            }
         }
+
     };
     $scope.getAll();
     $scope.getNumberingAuto();

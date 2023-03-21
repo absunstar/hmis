@@ -235,16 +235,6 @@ module.exports = function init(site) {
                         res.json(response);
                     });
                 });
-
-                app.add(_data, (err, doc) => {
-                    if (!err && doc) {
-                        response.done = true;
-                        response.doc = doc;
-                    } else {
-                        response.error = err.mesage;
-                    }
-                    res.json(response);
-                });
             });
         }
 
@@ -294,11 +284,11 @@ module.exports = function init(site) {
                     employeeApp.$collection.find({ where: { id: _data.employee.id } }, (err, doc) => {
                         if (doc) {
                             if (_data.approvedVacationType.id === 1) {
-                                doc.annual += _data.approvedDays;
+                                doc.annualVacation += _data.approvedDays;
                             } else if (_data.approvedVacationType.id === 2) {
-                                doc.regularVacations += _data.approvedDays;
+                                doc.regularVacation += _data.approvedDays;
                             } else if (_data.approvedVacationType.id === 3) {
-                                doc.casualVacations += _data.approvedDays;
+                                doc.casualVacation += _data.approvedDays;
                             }
                         } else {
                             response.done = false;
@@ -353,11 +343,11 @@ module.exports = function init(site) {
                             employeeApp.$collection.find({ where: { id: _data.employee.id } }, (err, doc) => {
                                 if (doc) {
                                     if (_data.approvedVacationType.id === 1) {
-                                        doc.annual -= _data.approvedDays;
+                                        doc.annualVacation -= _data.approvedDays;
                                     } else if (_data.approvedVacationType.id === 2) {
-                                        doc.regularVacations -= _data.approvedDays;
+                                        doc.regularVacation -= _data.approvedDays;
                                     } else if (_data.approvedVacationType.id === 3) {
-                                        doc.casualVacations -= _data.approvedDays;
+                                        doc.casualVacation -= _data.approvedDays;
                                     }
                                 } else {
                                     response.done = false;
@@ -477,6 +467,7 @@ module.exports = function init(site) {
                     vacationType: 1,
                     date: 1,
                     days: 1,
+                    approvedDays: 1,
                     requestDate: 1,
                     fromDate: 1,
                     approved: 1,
@@ -484,6 +475,7 @@ module.exports = function init(site) {
                     file: 1,
                     requestStatus: 1,
                     approveDate: 1,
+                    approvedVacationType: 1,
                     rejectDate: 1,
                     cancelDate: 1,
                     active: 1,

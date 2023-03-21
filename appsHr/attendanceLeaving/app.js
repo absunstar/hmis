@@ -47,7 +47,6 @@ module.exports = function init(site) {
                 let docIndex = docs.findIndex((_doc) => {
                     const getDayIndex = new Date(_doc.date).getDay();
                     const docDay = new Date(_doc.date).getDate();
-
                     if (workDay && workDay.shiftData.active && docDay === workDay.day && workDay.dayIndex == getDayIndex) {
                         return _doc;
                     }
@@ -66,6 +65,7 @@ module.exports = function init(site) {
                         leaveDifference: -1,
                         shiftTime: -1,
                         absentPeriod: -1,
+                        attendExisit: false,
                     };
                     paySlip.attendanceDataList.push(attencance);
                 } else {
@@ -95,6 +95,7 @@ module.exports = function init(site) {
                             leaveDifference,
                             shiftTime,
                             absentPeriod,
+                            attendExisit: true,
                         };
                     } else {
                         attencance = {
@@ -107,6 +108,7 @@ module.exports = function init(site) {
                             leaveDifference: -1,
                             shiftTime: -1,
                             absentPeriod: -1,
+                            attendExisit: true,
                         };
                     }
 
@@ -440,8 +442,6 @@ module.exports = function init(site) {
                     //     });
                     // });
                     app.all({ where, select, limit }, (err, docs) => {
-                        console.log('docs', docs.length);
-
                         res.json({
                             done: true,
                             list: docs,

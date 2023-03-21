@@ -168,7 +168,7 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
             }
         );
     };
-    
+
     $scope.accept = function (_item) {
         $scope.error = '';
         const v = site.validated($scope.modalID);
@@ -233,30 +233,7 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getEmployeeVacationBalance = function (_data) {
-        if (!_data.employee || !_data.employee.id) {
-            return;
-        }
-        $scope.busy = true;
-        $http({
-            method: 'POST',
-            url: '/api/employees/getEmployeeVacationBalance',
-            data: { id: _data.employee.id },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.doc) {
-                    // $scope.item.regularVacations = response.data.doc.regularVacations;
-                    // $scope.item.casualVacations = response.data.doc.casualVacations;
-                    $scope.item.annual = response.data.doc.annual;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
+
 
     $scope.view = function (_item) {
         $scope.busy = true;

@@ -228,29 +228,6 @@ app.controller('workErrandRequests', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getEmployeeVacationBalance = function (_data) {
-        if (!_data.employee || !_data.employee.id) {
-            return;
-        }
-        $scope.busy = true;
-        $http({
-            method: 'POST',
-            url: '/api/employees/getEmployeeVacationBalance',
-            data: { id: _data.employee.id },
-        }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.doc) {
-                    $scope.item.regularVacations = response.data.doc.regularVacations;
-                    $scope.item.casualVacations = response.data.doc.casualVacations;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
-            }
-        );
-    };
     $scope.view = function (_item) {
         $scope.busy = true;
         $scope.error = '';

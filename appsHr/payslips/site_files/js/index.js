@@ -333,11 +333,10 @@ app.controller('payslips', function ($scope, $http, $timeout) {
     };
 
     $scope.viewPayslipItemDetails = function (_item) {
-        // console.log('_item', _item);
+
         $scope.payslipItem = {};
         $scope.payslipItem = _item;
         $scope.item = { ...$scope.item, ...$scope.item.paySlip };
-        // $scope.mode = 'view';
         site.showModal($scope.payslipItemDetails);
     };
 

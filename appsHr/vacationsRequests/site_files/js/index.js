@@ -24,7 +24,7 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
         $scope._search.toDate = new Date(lastDay);
         return { firstDay, lastDay };
     };
-    
+
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
@@ -85,7 +85,9 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
-
+        delete $scope.item.regularVacation;
+        delete $scope.item.casualVacation;
+        delete $scope.item.annualVacation;
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -121,6 +123,9 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
 
     $scope.cancelVacation = function (_item) {
         $scope.busy = true;
+        delete $scope.item.regularVacation;
+        delete $scope.item.casualVacation;
+        delete $scope.item.annualVacation;
         $http({
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/cancelVacation`,
@@ -146,12 +151,22 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
     };
 
     $scope.accept = function (_item) {
-        if (!_item.approvedVacationType || !_item.approvedVacationType.id) {
+        if (!_item?.approvedVacationType || !_item.approvedVacationType.id) {
             $scope.error = '##word.Please Select Approved Vacation Type##';
             return;
         }
-        if (!(_item.approvedDays > 0) || _item.approvedDays > _item.annual) {
+
+        if (!(_item.approvedDays > 0) || _item.approvedDays % 1 !== 0) {
             $scope.error = '##word.Please Set Approved Days##';
+            return;
+        }
+
+        if (
+            (_item.approvedVacationType.id == 1 && _item.approvedDays > _item.annualVacation) ||
+            (_item.approvedVacationType.id == 2 && _item.approvedDays > _item.regularVacation) ||
+            (_item.approvedVacationType.id == 23 && _item.approvedDays > _item.cancelVacation)
+        ) {
+            $scope.error = '##word.Employee Vacation Balance Insufficient##';
             return;
         }
 
@@ -161,6 +176,10 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
+
+        delete $scope.item.regularVacation;
+        delete $scope.item.casualVacation;
+        delete $scope.item.annualVacation;
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -193,6 +212,9 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
+        delete $scope.item.regularVacation;
+        delete $scope.item.casualVacation;
+        delete $scope.item.annualVacation;
         $scope.busy = true;
         $http({
             method: 'POST',
@@ -231,9 +253,9 @@ app.controller('vacationsRequests', function ($scope, $http, $timeout) {
             function (response) {
                 $scope.busy = false;
                 if (response.data.done && response.data.doc) {
-                    $scope.item.regularVacations = response.data.doc.regularVacations;
-                    $scope.item.casualVacations = response.data.doc.casualVacations;
-                    $scope.item.annual = response.data.doc.annual;
+                    $scope.item.regularVacation = response.data.doc.regularVacation;
+                    $scope.item.casualVacation = response.data.doc.casualVacation;
+                    $scope.item.annualVacation = response.data.doc.annualVacation;
                 }
             },
             function (err) {

@@ -25,6 +25,7 @@
                     <th>##word.Request Date##</th>
                     <th>##word.Vacation Start Date##</th>
                     <th>##word.Employee##</th>
+                    <th>##word.Type##</th>
                     <th>##word.Action Date##</th>
                     <th>##word.Status##</th>
                     <th class="not-print">##word.Actions##</th>
@@ -34,7 +35,16 @@
                     <td class="center">{{item.date | date:'dd/MM/yyyy'}}</td>
                     <td class="center blue">{{item.fromDate | date:'dd/MM/yyyy'}}</td>
                     <td class="center">{{item.employee.fullName##session.lang##}}</td>
-
+                    <td class="center">
+                        <p>
+                            <span class="blue"> ##word.Requested##</span> - <span> {{item.vacationType.name##session.lang##}}</span> -
+                            <span class="text-danger"> ({{item.days}}) </span> ##word.Days/s##
+                        </p>
+                        <p ng-show="item.approved">
+                            <span class="blue"> ##word.Approved##</span> - <span> {{item.approvedVacationType.name##session.lang##}} - </span>
+                            <span class="text-success"> ({{item.approvedDays}}) </span> ##word.Days/s##
+                        </p>
+                    </td>
                     <td class="center">
                         <p ng-show="item.requestStatus == 'accepted'">{{item.approveDate | date:'dd/MM/yyyy'}} - {{item.approveDate | date:'hh:mm:ss a'}}</p>
                         <p ng-show="item.requestStatus == 'rejected'">{{item.rejectDate | date:'dd/MM/yyyy'}} - {{item.rejectDate | date:'hh:mm:ss a'}}</p>

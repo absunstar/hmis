@@ -1,4 +1,5 @@
 app.controller('payslips', function ($scope, $http, $timeout) {
+    $scope.setting = site.showObject(`##data.#setting##`);
     $scope.baseURL = '';
     $scope.appName = 'payslips';
     $scope.modalID = '#payslipsManageModal';
@@ -15,6 +16,7 @@ app.controller('payslips', function ($scope, $http, $timeout) {
     $scope.item = {};
     $scope.payslipItem = {};
     $scope.list = [];
+    $('#paySlipDetails').addClass('hidden');
 
     $scope.getCurrentMonthDate = function () {
         const date = new Date();
@@ -349,6 +351,46 @@ app.controller('payslips', function ($scope, $http, $timeout) {
         site.hideModal($scope.modalSearchID);
         $scope.search = {};
     };
+    $scope.paySlipPrint = function (item) {
+        $scope.error = '';
+        if ($scope.busy) return;
+        $scope.busy = true;
+        $('#paySlipDetails').removeClass('hidden');
+        $scope.item = item;
+        $scope.localPrint = function () {
+            let printer = {};
+            if ($scope.setting.printerProgram.a4Printer) {
+                printer = $scope.setting.printerProgram.a4Printer;
+            } else {
+                $scope.error = '##word.A4 printer must select##';
+                return;
+            }
+            if ('##user.printerPath##' && '##user.printerPath.id##' > 0) {
+                printer = JSON.parse('##user.printerPath##');
+            }
+            $timeout(() => {
+                site.print({
+                    selector: '#paySlipDetails',
+                    ip: printer.ipDevice,
+                    port: printer.portDevice,
+                    pageSize: 'A4',
+                    printer: printer.ip.name.trim(),
+                });
+            }, 500);
+        };
+
+        $scope.localPrint();
+
+        $scope.busy = false;
+        $timeout(() => {
+            $('#paySlipDetails').addClass('hidden');
+        }, 8000);
+    };
+
+    if ($scope.setting && $scope.setting.printerProgram.invoiceLogo) {
+        $scope.invoiceLogo = document.location.origin + $scope.setting.printerProgram.invoiceLogo.url;
+    }
+
     $scope.getCurrentMonthDate();
     $scope.getAll();
     $scope.getEmployees();

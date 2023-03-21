@@ -106,7 +106,7 @@
             </div>
             <div class="col1">
               <br />
-              <i-button type="push" label="##word.Add##" ng-click="addItemUnitToItemUnitsList(itemUnit)"> </i-button>
+              <i-button type="push" ng-click="addItemUnitToItemUnitsList(itemUnit)"> </i-button>
             </div>
           </div>
           <p class="text-center error">{{unitsInformationsError}}</p>
@@ -195,7 +195,7 @@
               <i-control class="col4" type="number" step=".01" min="0.00001" ng-model="substance.concentration" label="##word.Concentration##"></i-control>
               <div class="col2">
                 <br />
-                <i-button type="push" label="##word.Add##" ng-click="addActiveSubstance(substance)"> </i-button>
+                <i-button type="push"  ng-click="addActiveSubstance(substance)"> </i-button>
               </div>
             </div>
             <div class="table-responsive">
@@ -244,7 +244,7 @@
             <i-control class="col2" type="number" min="1" ng-model="collectedItem.quantity" label="##word.Quantity##"></i-control>
             <div class="col2">
               <br />
-              <i-button type="push" label="##word.Add##" ng-click="addToItemCollections(collectedItem)"> </i-button>
+              <i-button type="push"  ng-click="addToItemCollections(collectedItem)"> </i-button>
             </div>
           </div>
           <div class="table-responsive">

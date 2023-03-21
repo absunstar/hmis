@@ -48,7 +48,23 @@
             </span>
           </div>
           <br />
-          <div x-permissions="securityManage  " class="users pointer center loaded">
+          <div x-permissions="securityManage" class="users pointer center loaded">
+
+            <table class="table">
+              <tr>
+                  <th> ##word.Security Roles## </th>
+                  <th> ##word.Actions## </th>
+              </tr>
+              <tr ng-repeat="role in roles | orderBy : 'id'">
+                  <td> {{role.##session.lang##}} </td>
+                  <td>
+                      <i-button ng-click="displayViewRole(role)" type="view" label="##word.Role Details##"></i-button>
+                      <i-button ng-click="displayUpdateRole(role)" ng-show="role.moduleName == 'custom'" type="edit" label="##word.Edit##"></i-button>
+                      <i-button ng-click="displayDeleteRole(role)" ng-show="role.moduleName == 'custom'" type="remove" label="##word.Remove##"></i-button>
+                  </td>
+              </tr>
+          </table>
+
             <div class="user inline-grid" ng-repeat="user in list" ng-click="details(user)">
               <div class="row">
                 <i-image view class="photo hover" ng-model="user.image"></i-image>

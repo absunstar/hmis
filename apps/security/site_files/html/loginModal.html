@@ -23,7 +23,7 @@
               <td class="blue">{{b.company.name##session.lang##}}</td>
               <td class="green">{{b.branch.name##session.lang##}}</td>
               <td>
-                <i-button label="##word.Login##" ng-hide="busy" id="loginBtn" class="center" type="add" ng-click="login(b)"></i-button>
+                <a ng-click="login(b)" ng-hide="busy" class="login-btn"> ##word.Login## <i class="fas fa-sign-in-alt"></i> </a>
               </td>
             </tr>
           </table>

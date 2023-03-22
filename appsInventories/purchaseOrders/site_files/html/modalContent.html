@@ -107,7 +107,7 @@
           <br />
           <br />
           <br />
-          <i-button type="push" class="row center big" ng-click="addToItemsList(orderItem)"> </i-button>
+          <i-button type="push" class="row center big" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
         </div>
       </div>
 
@@ -144,34 +144,34 @@
             </td>
 
             <td class="text-center">
-              <p ng-if=" elem.approved" class="text-center">{{elem.count}}</p>
+              <p ng-if=" elem.approved" class="text-center">{{elem.count}} <span>##word.+##</span></p>
               <i-control ng-change="calculateTotalInItemsList(item)" ng-if=" !elem.approved" min="0" type="number" ng-model="elem.count"></i-control>
             </td>
             <td class="text-center">
-              <p ng-if=" elem.approved" class="text-center">{{elem.price}}</p>
+              <p ng-if=" elem.approved" class="text-center">{{elem.price}} <span class="currency">##word.$##</span></p>
               <i-control ng-change="calculateTotalInItemsList(item)" type="number" ng-if="!elem.approved" min="0" ng-model="elem.price"></i-control>
             </td>
             <td class="text-center">
-              <p ng-if=" elem.approved" class="text-center">{{elem.salesPrice}}</p>
+              <p ng-if=" elem.approved" class="text-center">{{elem.salesPrice}} <span class="currency">##word.$##</span></p>
               <i-control type="number" ng-if="!elem.approved" min="0" ng-model="elem.salesPrice"></i-control>
             </td>
             <td class="text-center">
-              <p ng-if="elem.approved" class="text-center">{{elem.bonusCount}}</p>
+              <p ng-if="elem.approved" class="text-center">{{elem.bonusCount}} <span>##word.+##</span></p>
               <i-control type="number" ng-if="!elem.approved" ng-model="elem.bonusCount"></i-control>
             </td>
             <td class="text-center">
-              <p ng-if="elem.approved" class="text-center">{{elem.legalDiscount}} <span>##word.%##</span></p>
+              <p ng-if="elem.approved" class="text-center">{{elem.legalDiscount}} <span class="currency">##word.%##</span></p>
               <i-control type="number" ng-if="!elem.approved" ng-change="calculateTotalInItemsList(item)" ng-model="elem.legalDiscount"></i-control>
             </td>
             <td class="text-center">
-              <p ng-if="elem.approved" class="text-center">{{elem.vendorDiscount}} <span>##word.%##</span></p>
+              <p ng-if="elem.approved" class="text-center">{{elem.vendorDiscount}} <span class="currency">##word.%##</span></p>
               <i-control type="number" ng-if="!elem.approved" ng-change="calculateTotalInItemsList(item)" ng-model="elem.vendorDiscount"></i-control>
             </td>
             <td>
-              <p class="text-center">{{elem.totalVat}} ##word.$##</p>
+              <p class="text-center">{{elem.totalVat}} <span class="currency">##word.$##</span> </p>
             </td>
             <td>
-              <p class="text-center">{{elem.total}}</p>
+              <p class="text-center">{{elem.total}} <span class="currency">##word.$##</span></p>
             </td>
             <td>
               <p class="text-center text-success" ng-if="elem.approved">##word.Yes##</p>
@@ -203,7 +203,7 @@
             <i-control label="##word.Value##" type="number" class="col3" ng-model="discount.discountValue"></i-control>
             <div class="col3">
               <br />
-              <i-button type="push" ng-click="addToList(discount,'discount')"> </i-button>
+              <i-button type="push" label="##word.Add##" ng-click="addToList(discount,'discount')"> </i-button>
             </div>
           </div>
           <div class="row" ng-show="discount.id">
@@ -253,7 +253,7 @@
 
             <div class="col3">
               <br />
-              <i-button type="push"  ng-click="addToList(tax,'tax')"> </i-button>
+              <i-button type="push" label="##word.Add##" ng-click="addToList(tax,'tax')"> </i-button>
             </div>
           </div>
 
@@ -291,40 +291,40 @@
         <div class="row">
           <div class="col4">
             <fieldset>
-              <p class="bold font-20 blue">##word.Total Prices## : {{item.totalPrice | xmoney2}}</p>
+              <p class="bold font-20 blue">##word.Total Prices## : {{item.totalPrice | xmoney2}} <span class="currency">##word.$##</span></p>
             </fieldset>
           </div>
           <div class="col4">
             <fieldset>
-              <p class="bold font-20 text-warning">##word.Total Discounts 1## : {{item.totalLegalDiscounts | xmoney2}}</p>
+              <p class="bold font-20 text-warning">##word.Total Discounts 1## : {{item.totalLegalDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
             </fieldset>
           </div>
           <div class="col4">
             <fieldset>
-              <p class="bold font-20 text-warning">##word.Total Discounts 2## : {{item.totalVendorDiscounts | xmoney2}}</p>
+              <p class="bold font-20 text-warning">##word.Total Discounts 2## : {{item.totalVendorDiscounts | xmoney2}} <span class="currency">##word.$##</span></p>
             </fieldset>
           </div>
           <div class="col4">
-            <fieldset><p class="bold font-20 text-warning">##word.Total Before VAT## : {{item.totalBeforeVat}}</p></fieldset>
+            <fieldset><p class="bold font-20 text-warning">##word.Total Before VAT## : {{item.totalBeforeVat}} <span class="currency">##word.$##</span></p></fieldset>
           </div>
           <div class="col4">
-            <fieldset><p class="bold font-20 text-danger">##word.Total Vat## : {{item.totalVat}}</p></fieldset>
+            <fieldset><p class="bold font-20 text-danger">##word.Total Vat## : {{item.totalVat}} <span class="currency">##word.$##</span></p></fieldset>
           </div>
           <div class="col4">
-            <fieldset><p class="bold font-20 text-warning">##word.Total After VAT## : {{item.totalAfterVat}}</p></fieldset>
+            <fieldset><p class="bold font-20 text-warning">##word.Total After VAT## : {{item.totalAfterVat}} <span class="currency">##word.$##</span></p></fieldset>
           </div>
 
           <div class="col4">
-            <fieldset><p class="bold font-20 text-warning">##word.Total Cash Discounts## : {{item.totalDiscounts | xmoney2}}</p></fieldset>
+            <fieldset><p class="bold font-20 text-warning">##word.Total Cash Discounts## : {{item.totalDiscounts | xmoney2}} <span class="currency">##word.$##</span></p></fieldset>
           </div>
 
           <div class="col4" ng-show="settings.storesSetting.taxesAppearingInInvoices">
-            <fieldset><p class="bold font-20 text-danger">##word.Total Taxes## : {{item.totalTaxes | xmoney2}}</p></fieldset>
+            <fieldset><p class="bold font-20 text-danger">##word.Total Taxes## : {{item.totalTaxes | xmoney2}} <span class="currency">##word.$##</span></p></fieldset>
           </div>
 
           <div class="col4">
             <fieldset>
-              <p class="bold font-24 green">##word.Total Net## : {{item.totalNet | xmoney2}}</p>
+              <p class="bold font-24 green">##word.Total Net## : {{item.totalNet | xmoney2}} <span class="currency">##word.$##</span></p>
             </fieldset>
           </div>
         </div>

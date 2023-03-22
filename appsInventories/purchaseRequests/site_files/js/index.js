@@ -372,13 +372,16 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
           allowBuy: true,
           collectionItem: false,
         },
-
         select: {
           id: 1,
           code: 1,
           nameEn: 1,
           nameAr: 1,
           unitsList: 1,
+          workByBatch: 1,
+          workBySerial: 1,
+          validityDays: 1,
+          gtin: 1,
           itemGroup: 1,
         },
         search: $search,

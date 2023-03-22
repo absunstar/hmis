@@ -9,7 +9,7 @@
       <form class="form">
         <fieldset>
           <legend ng-show="!item.approved">
-            <i-button type="add default" ng-click="addNewBatch(batch)"></i-button>
+            <i-button ng-hide="mode == 'view' " type="add default" label="##Add Serial##" ng-click="addNewBatch(batch)"></i-button>
           </legend>
           <div class="row">
             <div class="col3">
@@ -34,6 +34,9 @@
               </table>
             </div>
           </div>
+          
+          <p class="error">{{errorBatch}}</p>
+
           <div class="row">
             <table class="table loaded center bold hover details">
               <tr>
@@ -100,8 +103,6 @@
         </fieldset>
       </form>
     </div>
-
-    <p class="error">{{errorBatch}}</p>
 
     <div class="modal-footer center">
       <i-button type="save" label="##word.Save##" ng-show="!item.approved" ng-click="saveBatch(batch)"> </i-button>

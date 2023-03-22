@@ -84,7 +84,7 @@ app.controller('stockTaking', function ($scope, $http, $timeout) {
         $http({
             method: 'POST',
             url: '/api/handelItemsData/all',
-            data: { items: _item.itemsList, storeId: _item.store.id, getBatchesList: true },
+            data: { items: _item.itemsList, storeId: _item.store.id},
         }).then(function (response) {
             $scope.busy = false;
             if (response.data.done && response.data.list.length > 0) {

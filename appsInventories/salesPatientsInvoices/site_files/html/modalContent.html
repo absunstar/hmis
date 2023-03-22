@@ -144,8 +144,8 @@
                     <p ng-if="mode != 'add'">{{elem.count}}</p>
                 </td>
                 <td class="center">
-                    <p class="text-center">{{elem.totalPrice}} <span>##word.$##</span></p>
-                    <p class="text-center blue" ng-if="elem.count > 1">( {{elem.price}} <span>##word.$##</span> )</p>
+                    <p class="text-center">{{elem.totalPrice}} <span class="currency">##word.$##</span></p>
+                    <p class="text-center blue" ng-if="elem.count > 1">( {{elem.price}} <span class="currency">##word.$##</span> )</p>
                 </td>
                 <td class="center">
                     <i-control min="0" type="number" ng-change="calculate(item)" ng-model="elem.extraDiscount"></i-control>
@@ -164,7 +164,7 @@
                     <p>{{elem.totalVat}} ##word.$##</p>
                 </td>
                 <td class="center">
-                    <p class="text-center">{{elem.total}} <span>##word.$##</span></p>
+                    <p class="text-center">{{elem.total}} <span class="currency">##word.$##</span></p>
                 </td>
 
                 <td class="center">

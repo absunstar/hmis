@@ -175,27 +175,11 @@ module.exports = function init(site) {
                 _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
                 if (storesSetting.workFifo) {
                   if (_item.$batchCount != _item.count) {
-                    let batchCount = _item.count - _item.$batchCount;
-                    // if (_item.workByBatch || _item.workByQrCode) {
-                    //   _item.batchesList = _item.batchesList.sort((a, b) => new Date(b.expiryDate) - new Date(a.expiryDate)).reverse();
-                    // } else if (_item.workBySerial) {
-                    //   _item.batchesList = _item.batchesList.sort((a, b) => new Date(b.productionDate) - new Date(a.productionDate)).reverse();
-                    // }
                     let itemIndex = callbackItems.findIndex((itm) => itm.id === _item.id);
                     if(itemIndex !== -1) {
                       _item.batchesList = callbackItems[itemIndex].batchesList;
                     }
-                    _item.batchesList.forEach((_b) => {
-                      _b.count = 0;
-                      if (_b.currentCount > 0) {
-                        if (batchCount > _b.currentCount || batchCount == _b.currentCount) {
-                          _b.count = _b.currentCount;
-                        } else if (batchCount < _b.currentCount && batchCount > 0) {
-                          _b.count = batchCount;
-                        }
-                        batchCount -= _b.count;
-                      }
-                    });
+                  
                   }
                   _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
                 }

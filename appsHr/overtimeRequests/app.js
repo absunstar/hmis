@@ -31,7 +31,7 @@ module.exports = function init(site) {
                         appName: app.name,
                         date: doc.date,
                         count: doc.hours * 60 + doc.minutes,
-                        amount: paySlip.minuteSalary,
+                        amount: site.toNumber(paySlip.minuteSalary),
                         overtime: paySlip.salaryAccountSettings.overtime,
                         value: site.toNumber((doc.hours * 60 + doc.minutes) * paySlip.minuteSalary * paySlip.salaryAccountSettings.overtime),
                     };

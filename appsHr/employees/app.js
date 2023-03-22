@@ -147,6 +147,10 @@ module.exports = function init(site) {
             employeeAdvancesCount: 0,
             employeeAdvancesValue: 0,
             employeeAdvancesList: [],
+
+            autoOverTimeCount: 0,
+            autoOverTimeValue: 0,
+            autoOverTimeList: [],
         };
         paySlip = { ...paySlip, ...data };
         // console.log('hour', paySlip.hourSalary);
@@ -163,7 +167,7 @@ module.exports = function init(site) {
                                     site.getEmployeeAttendance(paySlip8, (paySlip9) => {
                                         site.getEmployeeAdvances(paySlip9, (paySlip10) => {
                                             // console.log('employeeAdvancesList', paySlip10.employeeAdvancesList.length);
-                                            app.calculateEmployeePaySlipItems(req, paySlip10, (finalPaySlip) => {
+                                            app.calculateEmployeePaySlipItems(paySlip10, (finalPaySlip) => {
                                                 callback(finalPaySlip);
                                             });
                                         });
@@ -177,9 +181,7 @@ module.exports = function init(site) {
         });
     };
 
-    app.calculateEmployeePaySlipItems = function (req, paySlip, callback) {
-        const systemSetting = site.getSystemSetting(req).hrSettings;
-
+    app.calculateEmployeePaySlipItems = function (paySlip, callback) {
         const penaltiesList = paySlip.penaltiesList;
 
         paySlip.attendanceDataList.forEach((_att) => {
@@ -220,7 +222,7 @@ module.exports = function init(site) {
                     absentDay.count = 1;
 
                     if (globalVacationIndex == -1 && vacationRequestIndex == -1) {
-                        absentDay.value = site.toMoney(systemSetting.absenceDays * paySlip.daySalary);
+                        absentDay.value = site.toMoney(paySlip.systemSetting.absenceDays * paySlip.daySalary);
                         if (vacationType?.approvedVacationType && vacationType?.approvedVacationType.id === 4) {
                             absentDay.value = 0;
                         }
@@ -228,7 +230,7 @@ module.exports = function init(site) {
                         paySlip.absentDaysCount += absentDay.count;
                         paySlip.absentDaysValue += absentDay.value;
                         absentDay.amount = paySlip.daySalary;
-                        absentDay.penality = systemSetting.absenceDays;
+                        absentDay.penality = paySlip.systemSetting.absenceDays;
                         absentDay.source = { nameAr: 'غياب', nameEn: 'Absence', code: 1 };
                         paySlip.absentDaysList.push(absentDay);
                         absentDay = { ...absentDay };
@@ -381,18 +383,33 @@ module.exports = function init(site) {
                         if (absentHourObj.count) {
                             paySlip.absentHoursList.push(absentHourObj);
                         }
+                    } else if (_att.leaveDifference < 0 && paySlip.autoOvertime) {
+                        absentHourObj.count = Math.abs(_att.leaveDifference);
+                        absentHourObj.calcualtedCount = _att.leaveDifference;
+                        absentHourObj.availableDelayTime = 0;
+                        absentHourObj.source = { nameAr: 'وقت إضافي', nameEn: 'OverTime' };
+                        bonusValue = site.toNumber(paySlip.salaryAccountSettings.overtime * paySlip.minuteSalary * absentHourObj.count);
+                        absentHourObj.overtime = paySlip.salaryAccountSettings.overtime;
+                        absentHourObj.from = _att.shiftEnd;
+                        absentHourObj.to = _att.leaveTime;
+                        absentHourObj.amount = site.toNumber(paySlip.minuteSalary);
+                        absentHourObj.penality = 0;
+                        absentHourObj.value = site.toMoney(bonusValue);
+                        paySlip.autoOverTimeCount += site.toNumber(absentHourObj.count);
+                        paySlip.autoOverTimeValue += site.toMoney(absentHourObj.value);
+                        paySlip.autoOverTimeList.push(absentHourObj);
                     }
 
                     if (isNaN(_att.attendTime) && !isNaN(_att.leaveTime)) {
                         absentHourObj.count = -1;
                         absentHourObj.calcualtedCount = -1;
-                        selectdPenality = systemSetting.forgetFingerprint * paySlip.daySalary;
+                        selectdPenality = paySlip.systemSetting.forgetFingerprint * paySlip.daySalary;
                         absentHourObj.source = { nameAr: 'نسيان بصمة حضور', nameEn: 'Forget Attend Fingerprint', code: 3 };
-                        penalityValue = systemSetting.forgetFingerprint * paySlip.daySalary;
+                        penalityValue = paySlip.systemSetting.forgetFingerprint * paySlip.daySalary;
                         absentHourObj.from = _att.attendTime || _att.leaveTime;
                         absentHourObj.to = _att.attendTime || _att.leaveTime;
                         absentHourObj.amount = paySlip.daySalary;
-                        absentHourObj.penality = systemSetting.forgetFingerprint;
+                        absentHourObj.penality = paySlip.systemSetting.forgetFingerprint;
                         absentHourObj.value = site.toMoney(penalityValue);
                         paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
                         paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
@@ -402,13 +419,13 @@ module.exports = function init(site) {
                     if (!isNaN(_att.attendTime) && isNaN(_att.leaveTime)) {
                         absentHourObj.count = -1;
                         absentHourObj.calcualtedCount = -1;
-                        selectdPenality = systemSetting.forgetFingerprint * paySlip.daySalary;
+                        selectdPenality = paySlip.systemSetting.forgetFingerprint * paySlip.daySalary;
                         absentHourObj.source = { nameAr: 'نسيان بصمة إنصراف', nameEn: 'Forget Leaving Fingerprint', code: 3 };
-                        penalityValue = systemSetting.forgetFingerprint * paySlip.daySalary;
+                        penalityValue = paySlip.systemSetting.forgetFingerprint * paySlip.daySalary;
                         absentHourObj.from = _att.attendTime || _att.leaveTime;
                         absentHourObj.to = _att.attendTime || _att.leaveTime;
                         absentHourObj.amount = paySlip.daySalary;
-                        absentHourObj.penality = systemSetting.forgetFingerprint;
+                        absentHourObj.penality = paySlip.systemSetting.forgetFingerprint;
                         absentHourObj.value = site.toMoney(penalityValue);
                         paySlip.absentHoursCount += site.toNumber(absentHourObj.count);
                         paySlip.absentHoursValue += site.toMoney(absentHourObj.value);
@@ -731,8 +748,10 @@ module.exports = function init(site) {
 
                 app.$collection.find({ id: _data.employee.id, active: true }, (err, doc) => {
                     if (doc) {
+                        const systemSetting = site.getSystemSetting(req).hrSettings;
                         const jobShiftApp = site.getApp('jobsShifts');
                         jobShiftApp.$collection.find({ where: { id: doc.shift.id } }, (err, shiftDoc) => {
+                            doc = { ...doc, ...systemSetting };
                             const salary = site.calculateEmployeeBasicSalary(doc);
                             const startDate = site.toDate(_data.fromDate);
                             const endDate = site.toDate(_data.toDate);
@@ -756,6 +775,7 @@ module.exports = function init(site) {
 
                             const data = {
                                 employeeId: doc.id,
+                                autoOvertime: doc.autoOvertime,
                                 basicSalary: salary.basicSalary,
                                 daySalary: site.toMoney(doc.daySalary),
                                 hourSalary: site.toMoney(doc.hourSalary),
@@ -767,6 +787,7 @@ module.exports = function init(site) {
                                 salaryAccountSettings: shiftDoc.salaryAccountSettings,
                                 shiftApproved: shiftDoc.approved,
                                 availableDelayTime: shiftDoc.availableDelayTime,
+                                systemSetting,
                             };
 
                             site.getEmployeePaySlipData(req, data, (result) => {
@@ -780,9 +801,6 @@ module.exports = function init(site) {
                                     if (_elm && _elm.active && !_elm.allowance.addToBasicSalary) {
                                         totalAllowance += _elm.value;
                                         allowancesList.push(_elm);
-                                        // const allowance = site.calculatePaySlipAllownce(_elm, basicSalary);
-                                        // totalAllowance += allowance.value;
-                                        // allowancesList.push(allowance);
                                     } else if (_elm.allowance.addToBasicSalary) {
                                         const allowance = site.calculatePaySlipAllownce(_elm, basicSalary);
                                         allowancesList.push({
@@ -793,6 +811,7 @@ module.exports = function init(site) {
                                             type: _elm.type,
                                             addToBasicSalary: _elm.allowance.addToBasicSalary,
                                             value: allowance.value,
+                                            basicSalary,
                                             originalValue: _elm.value,
                                         });
                                         totalAllowance += allowance.value;
@@ -802,7 +821,7 @@ module.exports = function init(site) {
                                 doc.deductionsList.forEach((_elm) => {
                                     if (_elm && _elm.active) {
                                         const deuction = site.calculatePaySlipDeduction(_elm, basicSalary);
-
+                                        deuction.basicSalary = basicSalary;
                                         deductionsList.push(deuction);
                                     }
                                 });
@@ -819,11 +838,23 @@ module.exports = function init(site) {
                                     allowancesList.push(paySlipItem);
                                 }
 
+                                if (result.autoOverTimeList && result.autoOverTimeList.length) {
+                                    const paySlipItem = {
+                                        code: 'autoOverTime',
+                                        nameAr: 'حساب حضور إضافي',
+                                        nameEn: 'Auto Overtime',
+                                        list: result.autoOverTimeList,
+                                        value: site.toMoney(result.autoOverTimeValue),
+                                    };
+
+                                    allowancesList.push(paySlipItem);
+                                }
+
                                 if (result.overtimeList && result.overtimeList.length) {
                                     const paySlipItem = {
                                         code: result.overtimeList[0].appName,
-                                        nameAr: 'إضافي',
-                                        nameEn: 'Overtime',
+                                        nameAr: 'طلب وقت إضافي',
+                                        nameEn: 'Overtime Request',
                                         list: result.overtimeList,
                                         value: site.toMoney(result.overtimeValue),
                                     };
@@ -909,9 +940,17 @@ module.exports = function init(site) {
                                         deductionsList.push({
                                             nameAr: 'التامينات الإجتماعية',
                                             nameEn: 'Social Insurance',
+                                            item: {
+                                                nameAr: _elm.nameAr,
+                                                nameEn: _elm.nameEn,
+                                                value: _elm.value,
+                                            },
                                             value: site.toMoney(salary.basicSalary + calcVal.value - salary.netSalary),
                                             count: calcVal.count,
+                                            basicSalary,
                                             type: calcVal.type,
+                                            totalSubscriptions: doc.totalSubscriptions,
+                                            totalSubscriptionsEmployee: doc.totalSubscriptionsEmployee,
                                         });
 
                                         const itemIndex = allowancesList.findIndex((item) => item.id == _elm.id);
@@ -959,7 +998,15 @@ module.exports = function init(site) {
                                 }
 
                                 response.doc = {
-                                    basicSalary,
+                                    salaryData: {
+                                        nameAr: 'بيانات الراتب',
+                                        nameEn: 'Salary Data ',
+                                        basicSalary,
+                                        workDays: doc.workDays,
+                                        workHours: doc.workHours,
+                                        hourValue: site.toNumber(basicSalary / doc.workHours),
+                                        minuteValue: site.toNumber(basicSalary / doc.workHours / 60),
+                                    },
                                     allowancesList,
                                     deductionsList,
                                     delayRequests,

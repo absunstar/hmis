@@ -50,10 +50,13 @@
                     <td class="center">##word.Basic Salary##</td>
 
                     <td class="center">
-                        <span class="text-success">{{item.paySlip.basicSalary}}</span>
+                        <span class="text-success">{{item.paySlip.salaryData.basicSalary}}</span>
                         <span>##word.$##</span>
                     </td>
                     <td class="center">##word.الراتب الأساسي##</td>
+                    <td class="center">
+                        <i-button type="list" label="##word.Details##" ng-click="viewPayslipItemDetails(item.paySlip.salaryData)"></i-button>
+                    </td>
                 </tr>
                 <tr ng-repeat="itm in item.paySlip.allowancesList">
                     <td class="center blue">{{$index+2}}</td>
@@ -70,7 +73,7 @@
                     <td class="center">{{itm.nameAr}}</td>
 
                     <td class="center">
-                        <i-button type="list" label="##word.Details##" ng-show="itm.list" ng-click="viewPayslipItemDetails(itm)"></i-button>
+                        <i-button type="list" label="##word.Details##" ng-click="viewPayslipItemDetails(itm)"></i-button>
                     </td>
                 </tr>
                 <tr ng-show="item.paySlip.totalAllowance">
@@ -96,7 +99,9 @@
                 </tr>
                 <tr ng-repeat="itm in item.paySlip.deductionsList">
                     <td class="center blue">{{$index+1}}</td>
-                    <td class="center">{{itm.nameEn}}</td>
+                    <td class="center">
+                        <p>{{itm.nameEn}}</p>
+                    </td>
                     <td class="center">
                         <p ng-show="itm.count == '-'">
                             <span ng-show="itm.type == 'percent'"> ##word.%## </span>
@@ -112,6 +117,7 @@
 
                     <td class="center">
                         <i-button type="list" label="##word.Details##" ng-show="itm.list" ng-click="viewPayslipItemDetails(itm)"></i-button>
+                        <i-button type="list" label="##word.Details##" ng-show="!itm.list" ng-click="viewPayslipItemDetails(itm)"></i-button>
                     </td>
                 </tr>
 

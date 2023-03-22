@@ -47,6 +47,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
             workDays: 0,
             workHours: 0,
             idType: 'id',
+            autoOvertime: false,
         };
         site.showModal($scope.modalID);
         document.querySelector(`${$scope.modalID} .tab-link`).click();
@@ -1138,21 +1139,21 @@ app.controller('employees', function ($scope, $http, $timeout) {
         }
     };
 
-    $scope.setDefaultInsurance = function (nationality) {
-        if ($scope.mode == 'add') {
-            const nationalityExisit = $scope.setting.hrSettings?.nathionalitiesInsuranceList.find((nation) => nation?.nationality.id == nationality.id);
+    // $scope.setDefaultInsurance = function (nationality) {
+    //     if ($scope.mode == 'add') {
+    //         const nationalityExisit = $scope.setting.hrSettings?.nathionalitiesInsuranceList.find((nation) => nation?.nationality.id == nationality.id);
 
-            if (nationalityExisit) {
-                $scope.item.totalSubscriptions = nationalityExisit.totalSubscriptions;
-                $scope.item.totalSubscriptionsEmployee = nationalityExisit.totalSubscriptionsEmployee;
-                $scope.item.totalSubscriptionsOwner = nationalityExisit.totalSubscriptionsOwner;
-            } else {
-                $scope.item.totalSubscriptions = $scope.setting.hrSettings.publicInsurance.totalSubscriptions;
-                $scope.item.totalSubscriptionsEmployee = $scope.setting.hrSettings.publicInsurance.totalSubscriptionsEmployee;
-                $scope.item.totalSubscriptionsOwner = $scope.setting.hrSettings.publicInsurance.totalSubscriptionsOwner;
-            }
-        }
-    };
+    //         if (nationalityExisit) {
+    //             $scope.item.totalSubscriptions = nationalityExisit.totalSubscriptions;
+    //             $scope.item.totalSubscriptionsEmployee = nationalityExisit.totalSubscriptionsEmployee;
+    //             $scope.item.totalSubscriptionsOwner = nationalityExisit.totalSubscriptionsOwner;
+    //         } else {
+    //             $scope.item.totalSubscriptions = $scope.setting.hrSettings.publicInsurance.totalSubscriptions;
+    //             $scope.item.totalSubscriptionsEmployee = $scope.setting.hrSettings.publicInsurance.totalSubscriptionsEmployee;
+    //             $scope.item.totalSubscriptionsOwner = $scope.setting.hrSettings.publicInsurance.totalSubscriptionsOwner;
+    //         }
+    //     }
+    // };
 
     $scope.getAll();
     $scope.getNumberingAuto();

@@ -16,7 +16,7 @@
                         class="col4"
                         label="##word.Nationality##"
                         ng-model="item.nationality"
-                        ng-change="setDefaultVacations(item.nationality);setDefaultInsurance(item.nationality)"
+                        ng-change="setDefaultVacations(item.nationality);"
                         items="nationalitiesList"
                         display="name##session.lang##"
                         ng-search="item.$nationality"
@@ -429,7 +429,7 @@
 
                 <div id="incuranceInformations" class="tab-content">
                     <div class="row padding">
-                        <fieldset>
+                        <!-- <fieldset>
                             <legend>##word.Social Insurance##</legend>
                             <div class="row">
                                 <i-control type="number" class="col4" label="##word.Total percentage of subscriptions %##" ng-model="item.totalSubscriptions"> </i-control>
@@ -438,7 +438,7 @@
 
                                 <i-control type="number" class="col4" label="##word.Total percentage of subscriptions from owner %##" ng-model="item.totalSubscriptionsOwner"> </i-control>
                             </div>
-                        </fieldset>
+                        </fieldset> -->
                         <fieldset>
                             <legend>##word.Medical Insurance##</legend>
 

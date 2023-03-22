@@ -12,8 +12,10 @@
     <fieldset ng-show="item.store && item.store.id">
         <legend>##word.Items Information##</legend>
         <div class="row" ng-if="mode == 'add'">
+            <i-control class="col3" ng-model="orderItem.barcode" ng-keydown="getBarcode($event)" label="##word.Barcode## / ##word.Qr Code##"></i-control>
+
             <i-list
-                class="col2"
+                class="col3"
                 ng-model="orderItem.item"
                 ng-change="orderItem.item? getItemUnits(orderItem.item):''"
                 items="itemsList"
@@ -24,7 +26,7 @@
 
             <i-list class="col2" ng-model="orderItem.unit" items="unitsList" display="name##session.lang##" label="##word.Unit##" ng-get="orderItem.$unit"></i-list>
 
-            <i-control class="col2" type="number" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
+            <i-control class="col1" type="number" min="1" ng-model="orderItem.count" label="##word.Count##"></i-control>
 
             <i-list
                 class="col2"
@@ -35,9 +37,9 @@
                 ng-search="orderItem.$resone"
             ></i-list>
 
-            <div class="col2">
+            <div class="col1">
                 <br />
-                <i-button type="push"  ng-click="addToItemsList(orderItem)"> </i-button>
+                <i-button type="push" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
             </div>
         </div>
 
@@ -87,7 +89,7 @@
                             x-permissions="approveDamageItem||damageItemsManage"
                             label="##word.Approve##"
                         ></i-button>
-                        <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial" label="##word.Batch##" ng-click="showBatchModal(elem)"> </i-button>
+                        <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial || elem.workByQrCode" label="##word.Batch##" ng-click="showBatchModal(elem)"> </i-button>
                         <i-button type="delete" ng-show="!elem.approved" ng-click="item.itemsList.splice($index,1)"> </i-button>
                     </td>
                 </tr>

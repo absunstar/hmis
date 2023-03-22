@@ -588,7 +588,8 @@ app.controller('salesCompaniesInvoices', function ($scope, $http, $timeout) {
     if ($scope.orderItem.barcode && $scope.orderItem.barcode.length > 30) {
       $scope.qr = site.getQRcode($scope.orderItem.barcode);
       where['gtin'] = $scope.qr.gtin;
-      where['unitsList.storesList.batchesList.code'] = $scope.qr.code;
+      where.$and = [{ 'unitsList.storesList.batchesList.code': $scope.qr.code }, { 'unitsList.storesList.batchesList.count': { $gt: 0 } }];
+
 
     } else {
       where['unitsList.barcode'] = $scope.orderItem.barcode;

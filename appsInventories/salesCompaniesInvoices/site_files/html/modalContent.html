@@ -69,7 +69,7 @@
 
             <div class="col1">
                 <br />
-                <i-button type="push"  ng-click="addToItemsList(orderItem)"> </i-button>
+                <i-button type="push" label="##word.Add##" ng-click="addToItemsList(orderItem)"> </i-button>
             </div>
         </div>
 
@@ -96,8 +96,8 @@
                     <p class="center" ng-if="mode != 'add'">{{elem.count}}</p>
                 </td>
                 <td class="center">
-                    <p class="text-center">{{elem.totalPrice}} <span>##word.$##</span></p>
-                    <p class="text-center blue" ng-if="elem.count > 1">( {{elem.price}} <span>##word.$##</span> )</p>
+                    <p class="text-center">{{elem.totalPrice}} <span class="currency">##word.$##</span></p>
+                    <p class="text-center blue" ng-if="elem.count > 1">( {{elem.price}} <span class="currency">##word.$##</span> )</p>
                 </td>
                 <td class="center">
                     <i-control min="0" type="number" ng-change="calculate(item)" ng-show="!item.approved" ng-model="elem.extraDiscount"></i-control>
@@ -117,7 +117,7 @@
                     <p>{{elem.totalVat}} ##word.$##</p>
                 </td>
                 <td class="center">
-                    <p class="text-center">{{elem.total}} <span>##word.$##</span></p>
+                    <p class="text-center">{{elem.total}} <span class="currency">##word.$##</span></p>
                 </td>
 
                 <td class="text-center">

@@ -572,7 +572,7 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
     $http({
       method: 'POST',
       url: '/api/handelItemsData/all',
-      data: { items: $scope.item.doctorDeskTop.ordersList.filter((g) => g.type == 'MD'), storeId: $scope.item.store.id, getBatchesList: true },
+      data: { items: $scope.item.doctorDeskTop.ordersList.filter((g) => g.type == 'MD'), storeId: $scope.item.store.id },
     }).then(
       function (response) {
         $scope.busy = false;
@@ -687,6 +687,8 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
     if ($scope.orderItem.barcode && $scope.orderItem.barcode.length > 30) {
       $scope.qr = site.getQRcode($scope.orderItem.barcode);
       where['gtin'] = $scope.qr.gtin;
+      where.$and = [{ 'unitsList.storesList.batchesList.code': $scope.qr.code }, { 'unitsList.storesList.batchesList.count': { $gt: 0 } }];
+
     } else {
       where['unitsList.barcode'] = $scope.orderItem.barcode;
     }

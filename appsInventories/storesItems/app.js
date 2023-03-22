@@ -22,6 +22,8 @@ module.exports = function init(site) {
         let itemsDocs = [];
         for (let i = 0; i < obj.items.length; i++) {
           let item = obj.items[i];
+          let batchCount = { ...item }.count;
+          item.batchesList = [];
           let indexDoc = docs.findIndex((itm) => itm.id === item.id);
           if (indexDoc != -1) {
             let unitIndex = docs[indexDoc].unitsList.findIndex((unt) => unt.unit.id === item.unit.id);
@@ -31,16 +33,27 @@ module.exports = function init(site) {
                 docs[indexDoc].unitsList[unitIndex].storesList[storeIndex].batchesList = docs[indexDoc].unitsList[unitIndex].storesList[storeIndex].batchesList || [];
                 let batchesList = [];
                 if (item.workByBatch || item.workByQrCode) {
-                  batchesList = docs[indexDoc].unitsList[unitIndex].storesList[storeIndex].batchesList
+                  docs[indexDoc].unitsList[unitIndex].storesList[storeIndex].batchesList = docs[indexDoc].unitsList[unitIndex].storesList[storeIndex].batchesList
                     .sort((a, b) => new Date(b.expiryDate) - new Date(a.expiryDate))
                     .reverse()
-                    .slice(item.count);
                 } else if (item.workBySerial) {
-                  batchesList = docs[indexDoc].unitsList[unitIndex].storesList[storeIndex].batchesList
+                  docs[indexDoc].unitsList[unitIndex].storesList[storeIndex].batchesList = docs[indexDoc].unitsList[unitIndex].storesList[storeIndex].batchesList
                     .sort((a, b) => new Date(b.productionDate) - new Date(a.productionDate))
                     .reverse()
-                    .slice(item.count);
                 }
+                docs[indexDoc].unitsList[unitIndex].storesList[storeIndex].batchesList.forEach((_b) => {
+                  _b.currentCount = _b.count;
+                  _b.count = 0;
+                  if (_b.currentCount > 0 && batchCount > 0) {
+                    if (batchCount > _b.currentCount || batchCount == _b.currentCount) {
+                      _b.count = _b.currentCount;
+                    } else if (batchCount < _b.currentCount && batchCount > 0) {
+                      _b.count = batchCount;
+                    }
+                    batchCount -= _b.count;
+                    batchesList.push(_b);
+                  }
+                });
                 itemsDocs.push({
                   id: docs[indexDoc].id,
                   batchesList,
@@ -748,7 +761,6 @@ module.exports = function init(site) {
           let list = app.memoryList
             .filter((g) => g.company && g.company.id == site.getCompany(req).id && (!where.active || g.active === where.active) && JSON.stringify(g).contains(search))
             .slice(0, limit);
-
           res.json({
             done: true,
             list: list,

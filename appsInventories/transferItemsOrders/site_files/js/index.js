@@ -520,7 +520,7 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
     $scope.item.itemsList = [];
     $http({
       method: 'POST',
-      url: '/api/handelItemsData/all',
+      url: '/api/storesItems/handelItemsData',
       data: { items: transferItemsRequest.itemsList, storeId: $scope.item.store.id },
     }).then(function (response) {
       $scope.busy = false;
@@ -691,9 +691,9 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
   };
 
   $scope.addToItemsList = function (elem) {
-    $scope.error = '';
+    $scope.itemsError = '';
     if (!elem.item || !elem.item?.id) {
-      $scope.error = '##word.Please Enter Item##';
+      $scope.itemsError = '##word.Please Enter Item##';
       return;
     }
     for (const itm of $scope.item.itemsList) {
@@ -702,7 +702,6 @@ app.controller('transferItemsOrders', function ($scope, $http, $timeout) {
         return;
       }
     }
-    console.log(elem.currentBalance);
     if (elem.count < 1) {
       $scope.itemsError = '##word.Please Enter Count##';
       return;

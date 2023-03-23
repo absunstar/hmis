@@ -401,20 +401,20 @@ app.controller('purchaseRequests', function ($scope, $http, $timeout) {
   };
 
   $scope.addToItemsList = function (orderItem) {
-    $scope.error = '';
+    $scope.itemsError = '';
     if (!orderItem.item || !orderItem.item?.id) {
-      $scope.error = '##word.Please Enter Item##';
+      $scope.itemsError = '##word.Please Enter Item##';
       return;
     }
     for (const itm of $scope.item.itemsList) {
       if (itm.id === orderItem.item.id && itm.unit.id === orderItem.unit.id) {
-        $scope.error = '##word.Item Exisit##';
+        $scope.itemsError = '##word.Item Exisit##';
         return;
       }
     }
 
     if (orderItem.count < 1) {
-      $scope.error = '##word.Please Enter Count##';
+      $scope.itemsError = '##word.Please Enter Count##';
       return;
     }
 

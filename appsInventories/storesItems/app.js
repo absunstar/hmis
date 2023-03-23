@@ -843,7 +843,7 @@ module.exports = function init(site) {
     });
   });
 
-  site.post({ name: `/api/handelItemsData/all`, require: { permissions: ['login'] } }, (req, res) => {
+  site.post({ name: `/api/${app.name}/handelItemsData`, require: { permissions: ['login'] } }, (req, res) => {
     let items = req.body.items;
     let storeId = req.body.storeId;
     let itemIds = items.map((_item) => _item.id);
@@ -881,7 +881,7 @@ module.exports = function init(site) {
                 item.workBySerial = itemDoc.workBySerial;
                 item.gtin = itemDoc.gtin;
                 item.validityDays = itemDoc.validityDays;
-                item.storeBalance = item.storeBalance || 0;
+                item.storeBalance = 0;
               }
             }
           }

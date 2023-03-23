@@ -466,6 +466,7 @@ app.controller('transferItemsRequests', function ($scope, $http, $timeout) {
     };
     $scope.addToItemsList = function (elem) {
         $scope.error = '';
+        $scope.itemsError = '';
         if (!elem.item || !elem.item?.id) {
             $scope.itemsError = '##word.Please Enter Item##';
             return;

@@ -688,25 +688,26 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
   $scope.addToItemsList = function (orderItem) {
     $scope.itemsError = '';
     if (!orderItem.item || !orderItem.item?.id) {
-      $scope.error = '##word.Please Enter Item##';
+      $scope.itemsError = '##word.Please Enter Item##';
       return;
     }
     if (!orderItem.unit.id) {
-      $scope.error = '##word.Please Enter Item Unit##';
+      $scope.itemsError = '##word.Please Enter Item Unit##';
       return;
     }
     if (!orderItem.count > 0) {
-      $scope.error = '##word.Please Enter Count##';
+      $scope.itemsError = '##word.Please Enter Count##';
       return;
     }
     if (!orderItem.price > 0) {
-      $scope.error = '##word.Please Enter Price##';
+      $scope.itemsError = '##word.Please Enter Price##';
       return;
     }
     orderItem.unit.storesList = orderItem.unit.storesList || [];
     let storeBalance = orderItem.unit.storesList.find((str) => {
       return str.store.id == $scope.item.store.id;
     });
+
     delete orderItem.unit.storesList;
     let item = {
       id: orderItem.item.id,
@@ -780,7 +781,7 @@ app.controller('purchaseOrders', function ($scope, $http, $timeout) {
     $scope.item.itemsList = [];
     $http({
       method: 'POST',
-      url: '/api/handelItemsData/all',
+      url: '/api/storesItems/handelItemsData',
       data: { items: purchaseRequest.itemsList, storeId: $scope.item.store.id },
     }).then(
       function (response) {

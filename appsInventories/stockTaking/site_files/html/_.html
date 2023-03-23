@@ -1,7 +1,7 @@
 <div ng-controller="stockTaking" class="loaded">
     <div class="row" x-permissions="stockTakingUi || stockTakingManage">
         <div x-import="stockTaking/modal.html"></div>
-        <div x-import="stockTaking/batchModal.html"></div>
+        <div x-import="purchaseOrders/batchModal.html"></div>
         <div x-import="stockTaking/modalSearch.html"></div>
 
         <div class="top-actions">
@@ -11,6 +11,7 @@
         <div class="row padding">
             <i-control ng-model="$search" x-permissions="stockTakingSearch || stockTakingManage"></i-control>
         </div>
+
         <div class="table-responsive">
             <table class="table hover bold" id="t1">
                 <tr>

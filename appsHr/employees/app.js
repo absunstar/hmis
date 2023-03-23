@@ -938,12 +938,14 @@ module.exports = function init(site) {
                                         let calcVal = site.calculatePaySlipDeduction(_elm, basicSalary);
 
                                         deductionsList.push({
+                                            code: 'socialInsurance',
                                             nameAr: 'التامينات الإجتماعية',
                                             nameEn: 'Social Insurance',
                                             item: {
                                                 nameAr: _elm.nameAr,
                                                 nameEn: _elm.nameEn,
                                                 value: _elm.value,
+                                                type: _elm.type,
                                             },
                                             value: site.toMoney(salary.basicSalary + calcVal.value - salary.netSalary),
                                             count: calcVal.count,
@@ -951,6 +953,7 @@ module.exports = function init(site) {
                                             type: calcVal.type,
                                             totalSubscriptions: doc.totalSubscriptions,
                                             totalSubscriptionsEmployee: doc.totalSubscriptionsEmployee,
+                                            totalSubscriptionsOwner: doc.totalSubscriptionsOwner,
                                         });
 
                                         const itemIndex = allowancesList.findIndex((item) => item.id == _elm.id);
@@ -999,8 +1002,9 @@ module.exports = function init(site) {
 
                                 response.doc = {
                                     salaryData: {
+                                        code: 'salaryData',
                                         nameAr: 'بيانات الراتب',
-                                        nameEn: 'Salary Data ',
+                                        nameEn: 'Salary Data',
                                         basicSalary,
                                         workDays: doc.workDays,
                                         workHours: doc.workHours,

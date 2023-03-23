@@ -359,7 +359,7 @@
                         </table>
                     </div>
 
-                    <div class="table-responsive" ng-show="payslipItem.addToBasicSalary">
+                    <div class="table-responsive" ng-show="payslipItem.addToBasicSalary && !payslipItem.workHours">
                         <table class="table hover bold">
                             <tr>
                                 <th>##word.Basic Salary##</th>
@@ -379,7 +379,7 @@
                         </table>
                     </div>
 
-                    <div class="table-responsive" ng-show="!payslipItem.totalSubscriptions && payslipItem.basicSalary">
+                    <div class="table-responsive" ng-show="payslipItem.code == 'salaryData'">
                         <table class="table hover bold">
                             <tr>
                                 <th>##word.Basic Salary##</th>
@@ -398,8 +398,8 @@
                         </table>
                     </div>
 
-                    <div class="table-responsive" ng-show="payslipItem.totalSubscriptions ">
-                        <table class="table hover bold" ng-show="payslipItem.count == '-' && payslipItem.calculated">
+                    <div class="table-responsive" ng-show="payslipItem.code !=='socialInsurance' && payslipItem.count == '-'">
+                        <table class="table hover bold">
                             <tr>
                                 <th>##word.Basic Salary##</th>
                                 <th>##word.Type##</th>
@@ -408,9 +408,52 @@
                             <tr>
                                 <td class="center"><span class="text-success"> {{payslipItem.basicSalary | number:'0.3'}} </span> <span class="currency">##word.$##</span></td>
                                 <td class="center">
-                                    <span class="text-success"> {{payslipItem.originalValue}} </span>
+                                    <span class="text-success"> {{payslipItem.value}} </span>
                                     <span ng-show="payslipItem.type == 'percent'">##word.%##</span>
                                     <span ng-show="payslipItem.type == 'value' ">##word.$##</span>
+                                </td>
+
+                                <td class="center"><span class="text-success"> {{payslipItem.value | number:'0.3'}} </span> <span class="currency">##word.$##</span></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="table-responsive" ng-show="payslipItem.code =='socialInsurance' ">
+                        <table class="table hover bold">
+                            <tr>
+                                <th>##word.Basic Salary##</th>
+                                <th>##word.Item##</th>
+                                <th>##word.Total Subscriptions##</th>
+                                <th>##word.Employee Subscriptions##</th>
+                                <th>##word.Company Subscriptions##</th>
+
+                                <th>##word.Value##</th>
+                            </tr>
+                            <tr>
+                                <td class="center"><span class="text-success"> {{payslipItem.basicSalary | number:'0.3'}} </span> <span class="currency">##word.$##</span></td>
+                                <td class="center">
+                                    <p>{{payslipItem.item.nameEn}} - {{payslipItem.item.nameAr}}</p>
+                                    <p>
+                                        <span class="text-success"> {{payslipItem.item.value}} </span>
+                                        <span ng-show="payslipItem.item.type == 'percent'">##word.%##</span>
+                                        <span ng-show="payslipItem.item.type == 'value' ">##word.$##</span>
+                                    </p>
+                                </td>
+                                <td class="center">
+                                    <span class="text-success"> {{payslipItem.totalSubscriptions}} </span>
+                                    <span>##word.%##</span> -
+                                    <span class="text-danger"> ({{payslipItem.basicSalary * payslipItem.totalSubscriptions/100}}) </span>
+                                    <span>##word.$##</span>
+                                </td>
+                                <td class="center">
+                                    <span class="text-success"> {{payslipItem.totalSubscriptionsEmployee}} </span> <span>##word.%##</span> -
+                                    <span class="text-danger"> ({{payslipItem.basicSalary * payslipItem.totalSubscriptionsEmployee/100}}) </span>
+                                    <span>##word.$##</span>
+                                </td>
+                                <td class="center">
+                                    <span class="text-success"> {{payslipItem.totalSubscriptionsOwner}} </span> <span>##word.%##</span> -
+                                    <span class="text-danger"> ({{payslipItem.basicSalary * payslipItem.totalSubscriptionsOwner/100}}) </span>
+                                    <span>##word.$##</span>
                                 </td>
 
                                 <td class="center"><span class="text-success"> {{payslipItem.value | number:'0.3'}} </span> <span class="currency">##word.$##</span></td>

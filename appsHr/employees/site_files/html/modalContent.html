@@ -16,7 +16,7 @@
                         class="col4"
                         label="##word.Nationality##"
                         ng-model="item.nationality"
-                        ng-change="setDefaultVacations(item.nationality);"
+                        ng-change="setDefaultVacations(item.nationality);setDefaultInsurance(item.nationality)"
                         items="nationalitiesList"
                         display="name##session.lang##"
                         ng-search="item.$nationality"
@@ -259,7 +259,7 @@
 
                                 <div class="col3">
                                     <br />
-                                    <i-button type="push"  ng-click="addSkill(skill)"></i-button>
+                                    <i-button type="push" ng-click="addSkill(skill)"></i-button>
                                 </div>
                             </div>
                             <fieldset>
@@ -295,7 +295,7 @@
 
                                 <div class="col4">
                                     <br />
-                                    <i-button type="push"  ng-click="addCertificate(certificates)"></i-button>
+                                    <i-button type="push" ng-click="addCertificate(certificates)"></i-button>
                                 </div>
                             </div>
                             <fieldset>
@@ -336,7 +336,7 @@
 
                                 <div class="col4">
                                     <br />
-                                    <i-button type="push"  ng-click="addExperience(experience)"></i-button>
+                                    <i-button type="push" ng-click="addExperience(experience)"></i-button>
                                 </div>
                             </div>
                             <fieldset>
@@ -429,7 +429,7 @@
 
                 <div id="incuranceInformations" class="tab-content">
                     <div class="row padding">
-                        <!-- <fieldset>
+                        <fieldset>
                             <legend>##word.Social Insurance##</legend>
                             <div class="row">
                                 <i-control type="number" class="col4" label="##word.Total percentage of subscriptions %##" ng-model="item.totalSubscriptions"> </i-control>
@@ -438,7 +438,7 @@
 
                                 <i-control type="number" class="col4" label="##word.Total percentage of subscriptions from owner %##" ng-model="item.totalSubscriptionsOwner"> </i-control>
                             </div>
-                        </fieldset> -->
+                        </fieldset>
                         <fieldset>
                             <legend>##word.Medical Insurance##</legend>
 
@@ -475,7 +475,7 @@
                                 <i-checkbox ng-model="selectedBank.salaryBank" class="col2" label="##word.Salary Bank##"></i-checkbox>
                                 <div class="col2">
                                     <br />
-                                    <i-button type="push"  ng-click="addBank(selectedBank)"></i-button>
+                                    <i-button type="push" ng-click="addBank(selectedBank)"></i-button>
                                 </div>
                             </div>
                             <div class="table-responsive">
@@ -638,7 +638,7 @@
 
                                     <div class="col2">
                                         <br />
-                                        <i-button type="push"  x-permissions="addEmployeeAllowance" ng-click="addAllowance(selectedAllowance)"></i-button>
+                                        <i-button type="push" x-permissions="addEmployeeAllowance" ng-click="addAllowance(selectedAllowance)"></i-button>
                                     </div>
                                 </div>
                                 <p class="error">{{allowancesError}}</p>
@@ -710,7 +710,7 @@
                                     </div>
                                     <div class="col2">
                                         <br />
-                                        <i-button type="push"  x-permissions="addEmployeeDeduction" ng-click="addDeduction(selectedDeduction)"></i-button>
+                                        <i-button type="push" x-permissions="addEmployeeDeduction" ng-click="addDeduction(selectedDeduction)"></i-button>
                                     </div>
                                 </div>
                                 <p class="error">{{deductionsError}}</p>

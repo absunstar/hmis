@@ -9,15 +9,14 @@
             <form class="form">
                 <div class="row padding">
                     <div class="row">
-                        <i-control ng-hide="disabledCode" class="col2" label="##word.Code##" ng-model="search.code"> </i-control>
-                        <i-date class="col2" label="##word.Date##" ng-model="search.date"> </i-date>
-
+                        <i-control class="col2" label="##word.Code##" ng-model="search.code"> </i-control>
+                        <i-date class="col3" label="##word.Date##" ng-model="search.date"> </i-date>
                         <i-list class="col2" ng-model="search.store" label="##word.Store##" items="storesList" display="name##session.lang##"></i-list>
                         <i-list class="col2" ng-model="search.paymentType" label="##word.Payment Type##" items="paymentTypesList" display="name##session.lang##"></i-list>
                         <i-list class="col2" ng-model="search.customer" label="##word.Customer##" items="customersList" display="name##session.lang##"></i-list>
-                        <div class="col2">
+                        <div class="col1">
                             <br />
-                            <i-button type="search" label="##word.Search##" ng-click="getSalesInvoices(search)"> </i-button>
+                            <i-button type="search" ng-click="getSalesInvoices(search)"> </i-button>
                         </div>
                     </div>
                 </div>

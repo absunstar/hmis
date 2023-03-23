@@ -310,6 +310,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
       ...$scope.item,
       invoiceCode: invoice.code,
       invoiceId: invoice.id,
+      salesType: invoice.salesType,
       customer: invoice.customer,
       store: invoice.store,
       sourceType: invoice.sourceType,
@@ -321,7 +322,6 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
       totalVat: invoice.totalVat,
       totalAfterVat: invoice.totalAfterVat,
       totalNet: invoice.totalNet,
-
     };
     site.hideModal($scope.getSalesInvoicesModalID);
   };
@@ -583,7 +583,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
       $scope.item.itemsList.forEach((_item, i) => {
         _item.$index = i + 1;
       });
-      $scope.invList = [{ ...$scope.item,returned : true }];
+      $scope.invList = [{ ...$scope.item, returned: true }];
     }
 
     $scope.localPrint = function () {

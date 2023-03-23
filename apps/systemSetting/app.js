@@ -20,11 +20,13 @@ module.exports = function init(site) {
     let storePurchasesList = [
         {
             fieldName: { nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet' },
+            active : true,
         },
     ];
     let storeSalesList = [
         {
             fieldName: { nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet' },
+            active : true,
         },
     ];
 

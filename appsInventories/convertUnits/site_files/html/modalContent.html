@@ -127,8 +127,8 @@
                             <p class="text-danger" ng-if="!elem.approved">##word.No##</p>
                         </td>
                         <td class="center">
-                            <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial" label="##word.From Batch##" ng-click="showBatchModal(elem)"> </i-button>
-                            <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial" label="##word.To Batch##" ng-click="showToBatchModal(elem)"> </i-button>
+                            <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial || elem.workByQrCode" label="##word.From Batch##" ng-click="showBatchModal(elem)"> </i-button>
+                            <i-button type="edit" ng-if="elem.workByBatch || elem.workBySerial || elem.workByQrCode" label="##word.To Batch##" ng-click="showToBatchModal(elem)"> </i-button>
 
                             <i-button
                                 type="approve"

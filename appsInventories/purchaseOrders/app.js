@@ -38,7 +38,7 @@ module.exports = function init(site) {
       });
     }
   };
-  
+
   app.add = function (_item, callback) {
     app.$collection.add(_item, (err, doc) => {
       if (callback) {
@@ -322,6 +322,14 @@ module.exports = function init(site) {
               item.orderCode = result.doc.code;
               site.setItemCard(item, app.name);
             });
+            
+            let obj = {
+              vendor: result.doc.vendor,
+              appName: app.name,
+              totalNet: result.doc.totalNet,
+              totalAfterVat: result.doc.totalAfterVat,
+            };
+            site.autoJournalEntry(req, obj);
 
             response.result = result;
           } else {
@@ -417,7 +425,7 @@ module.exports = function init(site) {
               $lt: d2,
             };
           }
-          app.all({ where: where, select , sort : {id : -1} }, (err, docs) => {
+          app.all({ where: where, select, sort: { id: -1 } }, (err, docs) => {
             res.json({
               done: true,
               list: docs,

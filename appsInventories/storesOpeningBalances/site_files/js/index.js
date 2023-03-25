@@ -496,17 +496,20 @@ app.controller('storesOpeningBalances', function ($scope, $http, $timeout) {
     } else if (orderItem.item.workByQrCode) {
       item.gtin = orderItem.item.gtin;
       item.workByQrCode = true;
-      item.batchesList = item.batchesList || [
-        {
-          code: $scope.qr.code,
-          gtin: $scope.qr.gtin,
-          batch: $scope.qr.batch,
-          mfgDate: $scope.qr.mfgDate,
-          expiryDate: $scope.qr.expiryDate,
-          sn: $scope.qr.sn,
-          count: 1,
-        },
-      ];
+      item.batchesList =
+        item.batchesList || $scope.qr
+          ? [
+              {
+                code: $scope.qr.code,
+                gtin: $scope.qr.gtin,
+                batch: $scope.qr.batch,
+                mfgDate: $scope.qr.mfgDate,
+                expiryDate: $scope.qr.expiryDate,
+                sn: $scope.qr.sn,
+                count: 1,
+              },
+            ]
+          : [];
     }
     let index = $scope.item.itemsList.findIndex((_item) => _item.id === item.id && _item.unit.id == item.unit.id);
     if (index == -1) {

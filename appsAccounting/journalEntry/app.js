@@ -179,20 +179,19 @@ module.exports = function init(site) {
         let errAccountEmptyList = [];
         let errAccountAllValuesList = [];
         let errCostCentersRateList = [];
-        _data.accountsList.forEach(_ac => {
-          if(_ac.debtor == 0 && _ac.creditor == 0) {
+        _data.accountsList.forEach((_ac) => {
+          if (_ac.debtor == 0 && _ac.creditor == 0) {
             let itemName = req.session.lang == 'Ar' ? _ac.nameAr : _ac.nameEn;
             errAccountEmptyList.push(itemName);
-          } else if(_ac.debtor > 0 && _ac.creditor > 0) {
+          } else if (_ac.debtor > 0 && _ac.creditor > 0) {
             let itemName = req.session.lang == 'Ar' ? _ac.nameAr : _ac.nameEn;
             errAccountAllValuesList.push(itemName);
           }
-          if(_ac.costCentersList && _ac.costCentersList.length > 0) {
-            if(_ac.costCentersList.reduce((a, b) => +a + +b.rate, 0) != 100) {
+          if (_ac.costCentersList && _ac.costCentersList.length > 0) {
+            if (_ac.costCentersList.reduce((a, b) => +a + +b.rate, 0) != 100) {
               let itemName = req.session.lang == 'Ar' ? _ac.nameAr : _ac.nameEn;
               errCostCentersRateList.push(itemName);
             }
-          
           }
         });
 
@@ -331,6 +330,71 @@ module.exports = function init(site) {
       });
     }
   }
+
+  site.autoJournalEntry = function (req, obj) {
+    let setting = site.getSystemSetting(req);
+
+    let numObj = {
+      company: site.getCompany(req),
+      screen: app.name,
+      date: new Date(),
+    };
+    let journalEntry = {
+      date: new Date(),
+      active: true,
+      totalDebtor: 0,
+      totalCreditor: 0,
+      accountsList: [],
+      company: site.getCompany(req),
+      branch: site.getBranch(req),
+
+    };
+
+    let cb = site.getNumbering(numObj);
+    if (!journalEntry.code && !cb.auto) {
+      response.error = 'Must Enter Code';
+      return;
+    } else if (cb.auto) {
+      journalEntry.code = cb.code;
+    }
+
+    journalEntry.addUserInfo = req.getUserFinger();
+    let listName = '';
+    if (obj.appName == 'purchaseOrders') {
+      listName = 'storePurchasesList';
+    }
+    setting[listName].forEach((_p) => {
+      if (_p.active && obj[_p.fieldName.name] > 0) {
+        if (_p.debtorAccountGuide && _p.debtorAccountGuide.id) {
+          journalEntry.accountsList.push({
+            id: _p.debtorAccountGuide.id,
+            code: _p.debtorAccountGuide.code,
+            nameAr: _p.debtorAccountGuide.nameAr,
+            nameEn: _p.debtorAccountGuide.nameEn,
+            side: 'debtor',
+            debtor: obj[_p.fieldName.name],
+            creditor: 0,
+          });
+          journalEntry.totalDebtor += obj[_p.fieldName.name]
+        }
+
+        if (_p.creditorAccountGuide && _p.creditorAccountGuide.id) {
+          journalEntry.accountsList.push({
+            id: _p.creditorAccountGuide.id,
+            code: _p.creditorAccountGuide.code,
+            nameAr: _p.creditorAccountGuide.nameAr,
+            nameEn: _p.creditorAccountGuide.nameEn,
+            side: 'creditor',
+            creditor: obj[_p.fieldName.name],
+            debtor: 0,
+          });
+          journalEntry.totalCreditor += obj[_p.fieldName.name]
+        }
+      }
+    });
+
+    app.add(journalEntry, (err, doc) => {});
+  };
 
   app.init();
   site.addApp(app);

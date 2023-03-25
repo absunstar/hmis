@@ -121,6 +121,26 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
         $scope.workflowAssignmentSettingsError = '';
         screen.posiotion = {};
     };
+
+    $scope.addVatList = function () {
+        $scope.item.hmisSetting.vatList = $scope.item.hmisSetting.vatList || [];
+        if ($scope.item.$nationalityVat.nationality && $scope.item.$nationalityVat.nationality.id) {
+            if (! $scope.item.hmisSetting.vatList.some((s) => s.id === $scope.item.$nationalityVat.nationality.id)) {
+               $scope.item.hmisSetting.vatList.unshift({
+                id : $scope.item.$nationalityVat.nationality.id,
+                nameAr : $scope.item.$nationalityVat.nationality.nameAr,
+                nameEn : $scope.item.$nationalityVat.nationality.nameEn,
+                pVat: $scope.item.$nationalityVat.pVat,
+                comVat: $scope.item.$nationalityVat.comVat,
+              });
+            }
+            $scope.item.$nationalityVat = {};
+          } else {
+            $scope.error = 'Must Select Nationality';
+            return;
+          }
+    };
+
     $scope.save = function (_item) {
         if (!_item.storesSetting.hasDefaultVendor) {
             delete _item.storesSetting.defaultVendor;
@@ -159,6 +179,8 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
             function (response) {
                 $scope.busy = false;
                 $scope.item = response.data.doc;
+                $scope.item.hrSettings = $scope.item.hrSettings || {};
+                $scope.item.hmisSetting = $scope.item.hmisSetting || {};
                 document.querySelector(`${$scope.modalID} .tab-link`).click();
             },
             function (err) {

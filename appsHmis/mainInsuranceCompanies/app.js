@@ -323,7 +323,7 @@ module.exports = function init(site) {
   };
 
   site.post({ name: `/api/serviceMainInsurance`, require: { permissions: ['login'] } }, (req, res) => {
-    site.serviceMainInsurance(req.data, (servicesCallback) => {
+    site.serviceMainInsurance({ ...req.data, session: req.session }, (servicesCallback) => {
       res.json(servicesCallback);
     });
   });
@@ -335,11 +335,13 @@ module.exports = function init(site) {
     //   callback(response);
     //   return;
     // }
+    const hmisSetting = site.getSystemSetting({ session: _data.session }).hmisSetting;
     let appServicesGroup = site.getApp('servicesGroups');
     let mainInsurance = app.memoryList.find((_c) => _data.mainInsuranceCompany && _c.id == _data.mainInsuranceCompany.id);
     response.done = true;
     let servicesList = [];
     let servicesIds = _data.servicesList.map((_s) => _s.id);
+
     site.getServices({ id: { $in: servicesIds } }, (servicesCb) => {
       _data.servicesList.forEach((_service) => {
         let foundService = false;
@@ -366,7 +368,7 @@ module.exports = function init(site) {
                       vat: serviceMemory.vat,
                       serviceGroup: serviceMemory.serviceGroup,
                       pVat: 0,
-                      comVat: mainInsurance.vat,
+                      comVat: 0,
                     };
                     if (_data.type == 'out') {
                       if (_data.payment == 'cash') {
@@ -386,9 +388,9 @@ module.exports = function init(site) {
                       }
                     }
 
-                    service.total = service.price - (service.price * service.discount) / 100;
+                    // service.total = service.price - (service.price * service.discount) / 100;
 
-                    servicesList.push(service);
+                    servicesList.unshift(service);
                   }
                 }
               }
@@ -418,7 +420,7 @@ module.exports = function init(site) {
                           vat: serviceMemory.vat,
                           serviceGroup: serviceMemory.serviceGroup,
                           pVat: 0,
-                          comVat: mainInsurance.vat,
+                          comVat: 0,
                         };
 
                         if (_data.type == 'out') {
@@ -438,8 +440,8 @@ module.exports = function init(site) {
                             service.discount = categoryInsurance.applyDiscIn ? categoryInsurance.creditIn : 0;
                           }
                         }
-                        service.total = service.price - (service.price * service.discount) / 100;
-                        servicesList.push(service);
+                        // service.total = service.price - (service.price * service.discount) / 100;
+                        servicesList.unshift(service);
                       }
                     }
                   });
@@ -467,7 +469,7 @@ module.exports = function init(site) {
                         vat: serviceMemory.vat,
                         pVat: 0,
                         serviceGroup: serviceMemory.serviceGroup,
-                        comVat: mainInsurance.vat,
+                        comVat: 0,
                       };
                       if (_data.type == 'out') {
                         if (_data.payment == 'cash') {
@@ -486,8 +488,8 @@ module.exports = function init(site) {
                           service.discount = goupInsurance.applyDiscIn ? goupInsurance.creditIn : 0;
                         }
                       }
-                      service.total = service.price - (service.price * service.discount) / 100;
-                      servicesList.push(service);
+                      // service.total = service.price - (service.price * service.discount) / 100;
+                      servicesList.unshift(service);
                     }
                   } else if (!foundService && goupInsurance && goupInsurance.id) {
                     let goup = appServicesGroup.memoryList.find((_g) => _g.id === goupInsurance.id);
@@ -510,7 +512,7 @@ module.exports = function init(site) {
                               vat: serviceMemory.vat,
                               pVat: 0,
                               serviceGroup: serviceMemory.serviceGroup,
-                              comVat: mainInsurance.vat,
+                              comVat: 0,
                               needApproval: goupInsurance.needApproval,
                               approved: goupInsurance.needApproval ? false : true,
                             };
@@ -532,8 +534,8 @@ module.exports = function init(site) {
                                 service.discount = goupInsurance.applyDiscIn ? goupInsurance.creditIn : 0;
                               }
                             }
-                            service.total = service.price - (service.price * service.discount) / 100;
-                            servicesList.push(service);
+                            // service.total = service.price - (service.price * service.discount) / 100;
+                            servicesList.unshift(service);
                           }
                         }
                       });
@@ -554,7 +556,7 @@ module.exports = function init(site) {
               discount: 0,
               comVat: 0,
               pVat: 0,
-              vat: 0,
+              vat: serviceMemory.vat,
               qty: 1,
             };
             if (_data.type == 'out') {
@@ -570,42 +572,57 @@ module.exports = function init(site) {
                 service.price = serviceMemory.creditPriceIn;
               }
             }
-            service.total = service.price + (service.price * service.vat) / 100;
-            service.total = site.toNumber(service.total);
-            service.patientCash = site.toNumber(service.total);
-            servicesList.push(service);
+            // service.total = service.price + (service.price * service.vat) / 100;
+            // service.total = site.toNumber(service.total);
+            // service.patientCash = site.toNumber(service.total);
+            servicesList.unshift(service);
+          }
+
+          let vatIndex = hmisSetting.vatList.findIndex((itm) => itm.id === _data.nationalityId);
+          servicesList[0].totalDisc = (servicesList[0].price * servicesList[0].discount) / 100;
+          servicesList[0].totalAfterDisc = servicesList[0].price - servicesList[0].discount;
+
+          if (vatIndex !== -1) {
+            servicesList[0].pVat = hmisSetting.vatList[vatIndex].pVat;
+            servicesList[0].comVat = hmisSetting.vatList[vatIndex].comVat;
           } else {
-            servicesList[servicesList.length - 1].total = servicesList[servicesList.length - 1].price + (servicesList[servicesList.length - 1].price * servicesList[servicesList.length - 1].vat) / 100;
-            servicesList[servicesList.length - 1].total = site.toNumber(servicesList[servicesList.length - 1].total);
-            let datuct = 0;
-            if (serviceMemory.serviceGroup.type && serviceMemory.serviceGroup.type.id == 2) {
-              if (_data.insuranceContract.insuranceClass.serviceType == 'percent') {
-                datuct = (servicesList[servicesList.length - 1].total * _data.insuranceContract.insuranceClass.serviceDeduct) / 100;
-              } else {
-                datuct = _data.insuranceContract.insuranceClass.serviceDeduct;
-              }
+            servicesList[0].pVat = hmisSetting.pVat || 0;
+            servicesList[0].comVat = hmisSetting.comVat || 0;
+          }
+          servicesList[0].totalVat = (servicesList[0].totalAfterDisc *  servicesList[0].vat || 0) / 100;
+          servicesList[0].totalPVat = (servicesList[0].totalAfterDisc * hmisSetting.pVat || 0) / 100;
+          servicesList[0].totalComVat = (servicesList[0].totalAfterDisc * hmisSetting.comVat || 0) / 100;
+
+          servicesList[0].total = servicesList[0].totalAfterDisc + servicesList[0].totalVat + servicesList[0].totalPVat + servicesList[0].totalComVat;
+          servicesList[0].total = site.toNumber(servicesList[0].total);
+          let datuct = 0;
+          if (serviceMemory.serviceGroup.type && serviceMemory.serviceGroup.type.id == 2) {
+            if (_data.insuranceContract.insuranceClass && _data.insuranceContract.insuranceClass.serviceType == 'percent') {
+              datuct = (servicesList[0].total * _data.insuranceContract.insuranceClass.serviceDeduct) / 100;
             } else {
-              if (_data.insuranceContract.insuranceClass.consultationType == 'percent') {
-                datuct = (servicesList[servicesList.length - 1].total * _data.insuranceContract.insuranceClass.consultationDeduct) / 100;
-              } else {
-                datuct = _data.insuranceContract.insuranceClass.consultationDeduct;
-              }
+              datuct = _data.insuranceContract.insuranceClass.serviceDeduct;
             }
-            if (
-              _data.insuranceContract.insuranceClass &&
-              _data.insuranceContract.insuranceClass.maxDeductAmount &&
-              _data.insuranceContract.insuranceClass.maxDeductAmount < servicesList[servicesList.length - 1].total - datuct
-            ) {
-              servicesList[servicesList.length - 1].patientCash = _data.insuranceContract.insuranceClass.maxDeductAmount;
+          } else {
+            if (_data.insuranceContract.insuranceClass.consultationType == 'percent') {
+              datuct = (servicesList[0].total * _data.insuranceContract.insuranceClass.consultationDeduct) / 100;
             } else {
-              servicesList[servicesList.length - 1].patientCash = servicesList[servicesList.length - 1].total - datuct;
+              datuct = _data.insuranceContract.insuranceClass.consultationDeduct;
             }
+          }
+          if (
+            _data.insuranceContract.insuranceClass &&
+            _data.insuranceContract.insuranceClass.maxDeductAmount &&
+            _data.insuranceContract.insuranceClass.maxDeductAmount < servicesList[0].total - datuct
+          ) {
+            servicesList[0].patientCash = _data.insuranceContract.insuranceClass.maxDeductAmount;
+          } else {
+            servicesList[0].patientCash = servicesList[0].total - datuct;
           }
           if (_data.hospitalResponsibility && _data.hospitalResponsibility.id) {
-            servicesList[servicesList.length - 1].hospitalResponsibility = _data.hospitalResponsibility;
+            servicesList[0].hospitalResponsibility = _data.hospitalResponsibility;
           }
           if (serviceMemory.normalRangeList && serviceMemory.normalRangeList.length > 0) {
-            servicesList[servicesList.length - 1].normalRangeList = serviceMemory.normalRangeList;
+            servicesList[0].normalRangeList = serviceMemory.normalRangeList;
           }
         }
       });

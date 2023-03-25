@@ -723,7 +723,6 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
           order.discountType = _item.$order.unitsList[0].discountType;
           _item.ordersList.unshift(order);
           $scope.calc(_item.ordersList[0]);
-
         } else {
           let obj = {
             mainInsuranceCompany: _item.mainInsuranceCompany,
@@ -733,11 +732,16 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
             payment: _item.payment,
             type: _item.type,
           };
-  
+
           if (_item.doctor && _item.doctor.hospitalResponsibility) {
             obj.hospitalResponsibility = { ..._item.doctor.hospitalResponsibility };
           }
-  
+          if (_item.patient.nationality && _item.patient.nationality.id) {
+            obj.nationalityId = _item.patient.nationality.id;
+          } else {
+            obj.nationalityId = 0;
+          }
+
           $http({
             method: 'POST',
             url: '/api/serviceMainInsurance',
@@ -747,14 +751,14 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
               $scope.busy = false;
               if (response.data.done && response.data.servicesList && response.data.servicesList.length > 0) {
                 _item.ordersList.unshift({
-                 id: order.id,
-                 code: order.code,
-                 nameAr: order.nameAr,
-                 nameEn: order.nameEn,
-                 type: order.type,
-                 price: response.data.servicesList[0].price,
-                 discount: response.data.servicesList[0].discount,
-                 total: response.data.servicesList[0].total,
+                  id: order.id,
+                  code: order.code,
+                  nameAr: order.nameAr,
+                  nameEn: order.nameEn,
+                  type: order.type,
+                  price: response.data.servicesList[0].price,
+                  discount: response.data.servicesList[0].discount,
+                  total: response.data.servicesList[0].total,
                 });
               }
             },
@@ -764,7 +768,6 @@ app.controller('doctorDeskTop', function ($scope, $http, $timeout) {
             }
           );
         }
-
       }
       _item.$order = {};
     } else {

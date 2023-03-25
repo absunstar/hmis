@@ -3,6 +3,7 @@
     <div class="tabs">
       <div class="tabs-header full">
         <a class="tab-link" onclick="site.showTabContent(event, '#printerProgram')"> ##word.Printers Program## </a>
+        <a class="tab-link" x-feature="m-hmis" onclick="site.showTabContent(event, '#hmisSettings')"> <span>##word.HMIS Settings## </span></a>
         <a class="tab-link" onclick="site.showTabContent(event, '#storesSettings')"> <span>##word.Stores Settings## </span></a>
         <a class="tab-link" onclick="site.showTabContent(event, '#accountsSettings')"> <span>##word.Accounting Settings## </span></a>
         <a class="tab-link" onclick="site.showTabContent(event, '#hrSettings')"> <span>##word.HR Settings## </span></a>
@@ -111,7 +112,7 @@
               </div>
               <div class="col2">
                 <i-image class="img128" ng-model="item.printerProgram.invoiceLogo"></i-image>
-                <i-button  type="delete" label="##word.Remove Logo##" ng-click="item.printerProgram.invoiceLogo = {}"></i-button>
+                <i-button type="delete" label="##word.Remove Logo##" ng-click="item.printerProgram.invoiceLogo = {}"></i-button>
               </div>
             </div>
 
@@ -131,7 +132,7 @@
                   <fieldset>
                     <legend class="black">
                       ##word.Invoice Header Right##
-                      <i-button type="add default" ng-click="item.printerProgram.invoiceHeader.push({})"> </i-button>
+                      <i-button type="add default" ng-click="item.printerProgram.invoiceHeader.unshift({})"> </i-button>
                     </legend>
 
                     <div ng-repeat="h in item.printerProgram.invoiceHeader track by $index" class="row">
@@ -145,7 +146,7 @@
                   <fieldset>
                     <legend class="black">
                       ##word.Invoice Header Left##
-                      <i-button type="add default" ng-click="item.printerProgram.invoiceHeader2.push({})"> </i-button>
+                      <i-button type="add default" ng-click="item.printerProgram.invoiceHeader2.unshift({})"> </i-button>
                     </legend>
 
                     <div ng-repeat="f in item.printerProgram.invoiceHeader2 track by $index" class="row">
@@ -163,7 +164,7 @@
                   <fieldset>
                     <legend class="black">
                       ##word.Invoice Footer##
-                      <i-button type="add default" ng-click="item.printerProgram.invoiceFooter.push({})"> </i-button>
+                      <i-button type="add default" ng-click="item.printerProgram.invoiceFooter.unshift({})"> </i-button>
                     </legend>
 
                     <div ng-repeat="f in item.printerProgram.invoiceFooter track by $index" class="row">
@@ -189,7 +190,7 @@
                   <fieldset>
                     <legend class="black">
                       ##word.Invoice Header##
-                      <i-button type="add default" ng-click="item.printerProgram.thermalHeader.push({})"> </i-button>
+                      <i-button type="add default" ng-click="item.printerProgram.thermalHeader.unshift({})"> </i-button>
                     </legend>
 
                     <div ng-repeat="h in item.printerProgram.thermalHeader track by $index" class="row">
@@ -203,7 +204,7 @@
                   <fieldset>
                     <legend class="black">
                       ##word.Invoice Footer##
-                      <i-button type="add default" ng-click="item.printerProgram.thermalFooter.push({})"> </i-button>
+                      <i-button type="add default" ng-click="item.printerProgram.thermalFooter.unshift({})"> </i-button>
                     </legend>
 
                     <div ng-repeat="f in item.printerProgram.thermalFooter track by $index" class="row">
@@ -217,8 +218,63 @@
             </fieldset>
           </fieldset>
         </div>
+        <div id="hmisSettings" x-feature="m-hmis" class="tab-content">
+          <fieldset>
+            <legend>##word.VAT List##</legend>
+
+            <fieldset>
+              <legend>##word.Public VAT##</legend>
+              <div class="row">
+                <i-control class="col3" type="number" label="##word.Patient VAT## ##word.%##" ng-model="item.hmisSetting.pVat"></i-control>
+                <i-control class="col3" type="number" label="##word.Company VAT## ##word.%##" ng-model="item.hmisSetting.comVat"></i-control>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>##word.Nationalities VAT##</legend>
+              <div class="row">
+                <i-list class="col3" display="name##session.lang##" ng-model="item.$nationalityVat.nationality" label="##word.Nathionality##" items="nationalitiesList"> </i-list>
+                <i-control class="col3" type="number" label="##word.Patient VAT## ##word.%##" ng-model="item.$nationalityVat.pVat"></i-control>
+                <i-control class="col3" type="number" label="##word.Company VAT## ##word.%##" ng-model="item.$nationalityVat.comVat"></i-control>
+                <div class="col2">
+                  <br />
+                  <i-button type="push" ng-click="addVatList()"> </i-button>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table hover bold">
+                  <tr>
+                    <th>##word.Nationality##</th>
+                    <th>##word.Patient VAT## ##word.%##</th>
+                    <th>##word.Company VAT## ##word.%##</th>
+                    <th>##word.Actions##</th>
+                  </tr>
+
+                  <tr ng-repeat="vat in item.hmisSetting.vatList">
+                    <td>
+                      <p class="text-center">{{vat.name##session.lang##}}</p>
+                    </td>
+
+                    <td class="text-center">
+                      <p class="text-center">{{vat.pVat}} <span class="currency">##word.%##</span></p>
+                    </td>
+
+                    <td class="text-center">
+                      <p class="text-center">{{vat.comVat}} <span class="currency">##word.%##</span></p>
+                    </td>
+
+                    <td class="text-center">
+                      <i-button type="delete" ng-click="item.hmisSetting.vatList.splice($index,1)"></i-button>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </fieldset>
+          </fieldset>
+        </div>
         <div id="storesSettings" class="tab-content">
-          <fieldset ng-model="item.storesSetting">
+          <fieldset>
             <legend>##word.Stores Setting##</legend>
             <div class="row">
               <i-list class="col4" ng-model="item.storesSetting.store" items="storesList" display="name##session.lang##" label="##word.MainStore##" ng-search="item.storesSetting.$store"> </i-list>
@@ -721,9 +777,11 @@
         </div>
 
         <div id="establishingAccountsSettings" class="tab-content">
-          <fieldset>
-            <legend>##word.Store Purchases##</legend>
-            <div class="table-responsive">
+          <fieldset ng-repeat="scrn in item.establishingAccountsList">
+            <legend>{{scrn.screen.name##session.lang##}}</legend>
+            <i-checkbox label="##word.Active##" ng-model="scrn.screen.active"> </i-checkbox>
+
+            <div class="table-responsive" ng-show="scrn.screen.active">
               <table class="table hover bold">
                 <tr>
                   <th>##word.Field Name##</th>
@@ -732,189 +790,19 @@
                   <th>##word.Actions##</th>
                 </tr>
 
-                <tr ng-repeat="acc in item.storePurchasesList">
+                <tr ng-repeat="acc in scrn.list">
                   <td>
-                    <p class="text-center">{{acc.fieldName.name##session.lang##}}</p>
-                  </td>
-                  <td class="text-center">
-                    <i-list items="accountsGuideList" ng-search="acc.$debtorAccountGuides" display="name##session.lang##" ng-model="acc.debtorAccountGuide"> </i-list>
-                  
+                    <p class="text-center">{{acc.name##session.lang##}}</p>
                   </td>
 
-                  <td class="text-center">
-                    <i-list items="accountsGuideList" ng-search="acc.$creditorAccountGuides" display="name##session.lang##" ng-model="acc.creditorAccountGuide"> </i-list>
-                   
-                  </td>
-                  <td class="text-center">
-                    <i-checkbox label="##word.Active##" ng-model="acc.active"> </i-checkbox>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </fieldset>
-
-          <br />
-
-          <fieldset>
-            <legend>##word.Store Sales For Customers##</legend>
-            <div class="table-responsive">
-              <table class="table hover bold">
-                <tr>
-                  <th>##word.Field Name##</th>
-                  <th>##word.Debtor Account##</th>
-                  <th>##word.Creditor Account##</th>
-                  <th>##word.Actions##</th>
-                </tr>
-
-                <tr ng-repeat="acc in item.storeSalesCustomerList">
-                  <td>
-                    <p class="text-center">{{acc.fieldName.name##session.lang##}}</p>
-                  </td>
                   <td class="text-center">
                     <i-list items="accountsGuideList" ng-search="item.$debtorAccountGuides" display="name##session.lang##" ng-model="acc.debtorAccountGuide"> </i-list>
-                  
                   </td>
 
                   <td class="text-center">
                     <i-list items="accountsGuideList" ng-search="item.$creditorAccountGuides" display="name##session.lang##" ng-model="acc.creditorAccountGuide"> </i-list>
-                   
-                  </td>
-                  <td class="text-center">
-                    <i-checkbox label="##word.Active##" ng-model="acc.active"> </i-checkbox>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </fieldset>
-
-          <br />
-
-          <fieldset>
-            <legend>##word.Store Sales For Companies##</legend>
-            <div class="table-responsive">
-              <table class="table hover bold">
-                <tr>
-                  <th>##word.Field Name##</th>
-                  <th>##word.Debtor Account##</th>
-                  <th>##word.Creditor Account##</th>
-                  <th>##word.Actions##</th>
-                </tr>
-
-                <tr ng-repeat="acc in item.storeSalesCompanyList">
-                  <td>
-                    <p class="text-center">{{acc.fieldName.name##session.lang##}}</p>
-                  </td>
-                  <td class="text-center">
-                    <i-list items="accountsGuideList" ng-search="item.$debtorAccountGuides" display="name##session.lang##" ng-model="acc.debtorAccountGuide"> </i-list>
-                   
                   </td>
 
-                  <td class="text-center">
-                    <i-list items="accountsGuideList" ng-search="item.$creditorAccountGuides" display="name##session.lang##" ng-model="acc.creditorAccountGuide"> </i-list>
-                   
-                  </td>
-                  <td class="text-center">
-                    <i-checkbox label="##word.Active##" ng-model="acc.active"> </i-checkbox>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </fieldset>
-
-          <br />
-
-          <fieldset>
-            <legend>##word.Store Sales For Patients##</legend>
-            <div class="table-responsive">
-              <table class="table hover bold">
-                <tr>
-                  <th>##word.Field Name##</th>
-                  <th>##word.Debtor Account##</th>
-                  <th>##word.Creditor Account##</th>
-                  <th>##word.Actions##</th>
-                </tr>
-
-                <tr ng-repeat="acc in item.storeSalesPatientList">
-                  <td>
-                    <p class="text-center">{{acc.fieldName.name##session.lang##}}</p>
-                  </td>
-                  <td class="text-center">
-                    <i-list items="accountsGuideList" ng-search="item.$debtorAccountGuides" display="name##session.lang##" ng-model="acc.debtorAccountGuide"> </i-list>
-                  
-                  </td>
-
-                  <td class="text-center">
-                    <i-list items="accountsGuideList" ng-search="item.$creditorAccountGuides" display="name##session.lang##" ng-model="acc.creditorAccountGuide"> </i-list>
-                   
-                  </td>
-                  <td class="text-center">
-                    <i-checkbox label="##word.Active##" ng-model="acc.active"> </i-checkbox>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </fieldset>
-
-          <br />
-
-          <fieldset>
-            <legend>##word.Store Return Sales Invoice##</legend>
-            <div class="table-responsive">
-              <table class="table hover bold">
-                <tr>
-                  <th>##word.Field Name##</th>
-                  <th>##word.Debtor Account##</th>
-                  <th>##word.Creditor Account##</th>
-                  <th>##word.Actions##</th>
-                </tr>
-
-                <tr ng-repeat="acc in item.storeReturnSalesList">
-                  <td>
-                    <p class="text-center">{{acc.fieldName.name##session.lang##}}</p>
-                  </td>
-                  <td class="text-center">
-                    <i-list items="accountsGuideList" ng-search="item.$debtorAccountGuides" display="name##session.lang##" ng-model="acc.debtorAccountGuide"> </i-list>
-                   
-                  </td>
-
-                  <td class="text-center">
-                    <i-list items="accountsGuideList" ng-search="item.$creditorAccountGuides" display="name##session.lang##" ng-model="acc.creditorAccountGuide"> </i-list>
-                  
-                  </td>
-                  <td class="text-center">
-                    <i-checkbox label="##word.Active##" ng-model="acc.active"> </i-checkbox>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </fieldset>
-
-          <br />
-
-          <fieldset>
-            <legend>##word.Store Return Purchase Invoice##</legend>
-            <div class="table-responsive">
-              <table class="table hover bold">
-                <tr>
-                  <th>##word.Field Name##</th>
-                  <th>##word.Debtor Account##</th>
-                  <th>##word.Creditor Account##</th>
-                  <th>##word.Actions##</th>
-                </tr>
-
-                <tr ng-repeat="acc in item.storeReturnPurchaseList">
-                  <td>
-                    <p class="text-center">{{acc.fieldName.name##session.lang##}}</p>
-                  </td>
-                  <td class="text-center">
-                    <i-list items="accountsGuideList" ng-search="item.$debtorAccountGuides" display="name##session.lang##" ng-model="acc.debtorAccountGuide"> </i-list>
-                   
-                  </td>
-
-                  <td class="text-center">
-                    <i-list items="accountsGuideList" ng-search="item.$creditorAccountGuides" display="name##session.lang##" ng-model="acc.creditorAccountGuide"> </i-list>
-                  
-                  </td>
                   <td class="text-center">
                     <i-checkbox label="##word.Active##" ng-model="acc.active"> </i-checkbox>
                   </td>

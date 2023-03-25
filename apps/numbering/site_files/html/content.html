@@ -73,9 +73,9 @@
                 </td>
 
                 <td class="center">
-                  <i-button type="bg-green" ng-show="screen0.typeNumbering.id ==3" fas="recycle" ng-click="screen0.lastValue = 0"></i-button>
+                  <i-button type="reset" ng-show="screen0.typeNumbering.id ==3" ng-click="screen0.lastValue = 0"></i-button>
 
-                  <i-button type="view" ng-hide="screen0.typeNumbering.id ==3 || screen0.typeNumbering.id ==4 " ng-click="viewCurrentNumbering(screen0)"></i-button>
+                  <i-button type="list" ng-hide="screen0.typeNumbering.id ==3 || screen0.typeNumbering.id ==4 " ng-click="viewCurrentNumbering(screen0)"></i-button>
                 </td>
               </tr>
             </table>
@@ -138,8 +138,8 @@
                 </td>
 
                 <td class="center">
-                  <i-button ng-show="screen1.typeNumbering.id ==3" type="bg-green" fa="recycle" ng-click="screen1.lastValue = 0"></i-button>
-                  <i-button type="view" ng-hide="screen1.typeNumbering.id ==3 || screen1.typeNumbering.id ==4 " ng-click="viewCurrentNumbering(screen1)"></i-button>
+                  <i-button ng-show="screen1.typeNumbering.id ==3" type="reset" ng-click="screen1.lastValue = 0"></i-button>
+                  <i-button type="list" ng-hide="screen1.typeNumbering.id ==3 || screen1.typeNumbering.id ==4 " ng-click="viewCurrentNumbering(screen1)"></i-button>
                 </td>
               </tr>
             </table>
@@ -202,8 +202,8 @@
                 </td>
 
                 <td class="center">
-                  <i-button ng-show="screen1.typeNumbering.id ==3" type="bg-green" fa="recycle" ng-click="screen1.lastValue = 0"></i-button>
-                  <i-button type="view" ng-hide="screen1.typeNumbering.id ==3 || screen1.typeNumbering.id ==4 " ng-click="viewCurrentNumbering(screen1)"></i-button>
+                  <i-button ng-show="screen1.typeNumbering.id ==3" type="reset" ng-click="screen1.lastValue = 0"></i-button>
+                  <i-button type="list" ng-hide="screen1.typeNumbering.id ==3 || screen1.typeNumbering.id ==4 " ng-click="viewCurrentNumbering(screen1)"></i-button>
                 </td>
               </tr>
             </table>
@@ -219,7 +219,7 @@
 
             <i-control class="col3" ng-model="circulate.firstValue" label="##word.Start Numbering##" type="number"></i-control>
 
-            <i-control class="col3" ng-model="circulate.lengthLevel" label="##word.lengthLevel##" type="number"></i-control>
+            <i-control class="col3" ng-model="circulate.lengthLevel" label="##word.lengthLevel##" type="number"> </i-control>
 
             <div class="col2">
               <br />
@@ -242,39 +242,39 @@
                 <th>##word.Actions##</th>
               </tr>
 
-              <tr ng-repeat="screen2 in numbering.screensList | filter:{category :'accounting'}">
+              <tr ng-repeat="screen1 in numbering.screensList| filter:{category :'accounting'}">
                 <td>
-                  <p class="text-center blue">{{screen2.name}}</p>
+                  <p class="text-center blue">{{screen1.name}}</p>
                 </td>
                 <td>
                     <i-control ng-model="screen0.prefix" type="text"> </i-control>
                   </td>
                 <td>
-                <td>
-                  <i-list class="col3" ng-model="screen2.typeNumbering" items="typeNumberingList" display="name" ng-search="_search.$searchTypeNumbering"> </i-list>
+                  <i-list class="col3" ng-model="screen1.typeNumbering" items="typeNumberingList" display="name" ng-search="_search.$searchTypeNumbering"> </i-list>
                 </td>
 
                 <td>
-                  <i-control ng-show="screen2.typeNumbering.id ==3" ng-model="screen2.firstValue" type="number"> </i-control>
+                  <i-control ng-show="screen1.typeNumbering.id ==3" ng-model="screen1.firstValue" type="number"></i-control>
                 </td>
 
                 <td>
-                  <p class="text-center red" ng-show="screen2.typeNumbering.id ==3">{{screen2.lastValue}}</p>
+                  <p class="text-center red" ng-show="screen1.typeNumbering.id ==3">{{screen1.lastValue}}</p>
                 </td>
 
                 <td>
-                  <i-control ng-show="screen2.typeNumbering.id ==3" ng-model="screen2.lengthLevel" type="number"> </i-control>
+                  <i-control ng-show="screen1.typeNumbering.id ==3" ng-model="screen1.lengthLevel" type="number"></i-control>
                 </td>
 
                 <td class="center">
-                  <i-button ng-show="screen2.typeNumbering.id ==3" type="bg-green" fa="recycle" ng-click="screen2.lastValue = 0"></i-button>
-                  <i-button type="view" ng-hide="screen2.typeNumbering.id ==3 || screen2.typeNumbering.id ==4 " ng-click="viewCurrentNumbering(screen2)"></i-button>
+                  <i-button ng-show="screen1.typeNumbering.id ==3" type="reset" ng-click="screen1.lastValue = 0"></i-button>
+                  <i-button type="list" ng-hide="screen1.typeNumbering.id ==3 || screen1.typeNumbering.id ==4 " ng-click="viewCurrentNumbering(screen1)"></i-button>
                 </td>
               </tr>
             </table>
           </div>
         </fieldset>
       </div>
+
     </div>
   </div>
 </div>

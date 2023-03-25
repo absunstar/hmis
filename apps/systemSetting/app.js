@@ -18,48 +18,32 @@ module.exports = function init(site) {
     thermalFooter: [],
   };
 
-  let establishing = {
-    storePurchasesList: [
-      {
-        fieldName: { nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet' },
-        active: true,
-      },
-      {
-        fieldName: { nameAr: 'إجمالي بعد القيمة المضافة', nameEn: 'Total After VAT', name: 'totalAfterVat' },
-        active: true,
-      },
-    ],
-    storeSalesCustomerList: [
-      {
-        fieldName: { nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet' },
-        active: true,
-      },
-    ],
-    storeSalesCompanyList: [
-      {
-        fieldName: { nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet' },
-        active: true,
-      },
-    ],
-    storeSalesPatientList: [
-      {
-        fieldName: { nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet' },
-        active: true,
-      },
-    ],
-    storeReturnSalesList: [
-      {
-        fieldName: { nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet' },
-        active: true,
-      },
-    ],
-    storeReturnPurchaseList: [
-      {
-        fieldName: { nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet' },
-        active: true,
-      },
-    ],
-  };
+  let establishingAccountsList = [
+    {
+      screen: { nameAr: 'فواتير الشراء', nameEn: 'Purchase Invoices', name: 'purchaseOrders', active: true },
+      list: [{ nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet', active: true }],
+    },
+    {
+      screen: { nameAr: 'فواتير مبيعات العملاء', nameEn: 'Sales Customers Invoices', name: 'salesInvoices', active: true },
+      list: [{ nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet', active: true }],
+    },
+    {
+      screen: { nameAr: 'فواتير مبيعات الشركات', nameEn: 'Sales Companies Invoices', name: 'salesCompaniesInvoices', active: true },
+      list: [{ nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet', active: true }],
+    },
+    {
+      screen: { nameAr: 'فواتير مبيعات المرضى', nameEn: 'Sales Patients Invoices', name: 'salesPatientsInvoices', active: true },
+      list: [{ nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet', active: true }],
+    },
+    {
+      screen: { nameAr: 'مرتجعات فواتير المشتريات', nameEn: 'Return Purchases Invoices', name: 'returnPurchaseOrders', active: true },
+      list: [{ nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet', active: true }],
+    },
+    {
+      screen: { nameAr: 'مرتجعات فواتير مبيعات', nameEn: 'Return Sales Invoices', name: 'returnSalesInvoices', active: true },
+      list: [{ nameAr: 'إجمالي الصافي', nameEn: 'Total Net', name: 'totalNet', active: true }],
+    },
+  ];
 
   site.setting = {
     printerProgram: printerProgram,
@@ -97,7 +81,7 @@ module.exports = function init(site) {
       // },
       // othersVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
     },
-    ...establishing,
+    establishingAccountsList,
   };
 
   app.$collection = site.connectCollection(app.name);
@@ -146,8 +130,8 @@ module.exports = function init(site) {
           site.word({ name: '$', Ar: doc.accountsSetting.currencySymbol, En: doc.accountsSetting.currencySymbol });
         });
       } else {
-        if (!_item.storePurchasesList) {
-          _item = { ...establishing, ..._item };
+        if (!_item.establishingAccountsList) {
+          _item = { establishingAccountsList, ..._item };
         }
 
         doc = { ...doc, ..._item };

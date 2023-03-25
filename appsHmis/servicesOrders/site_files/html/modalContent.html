@@ -233,7 +233,6 @@
         <table class="table hover center bold">
           <tr>
             <th>##word.Name##</th>
-            <th>##word.Qty##</th>
             <th>##word.Price##</th>
             <th>##word.Discount##</th>
             <th>##word.H-Center##</th>
@@ -254,28 +253,27 @@
               <i-button x-permissions="servicesOrdersApprove || servicesOrdersManage" label="##word.Approve##" ng-show="!s.approved" type="approve" ng-click="approveService(s)"> </i-button>
             </td>
             <td class="text-center">
-              <p class="green">{{s.qty}} ##word.+##</p>
-            </td>
-            <td class="text-center">
               <p class="center">{{s.price}} <span class="currency">##word.$##</span></p>
             </td>
             <td class="text-center">
               <p class="center">{{s.discount}} <span class="currency">##word.%##</span></p>
+              <p class="center">{{s.totalDisc}} <span class="currency">##word.$##</span></p>
             </td>
             <td class="text-center">
               <p class="center">{{s.hospitalResponsibility.name##session.lang##}}</p>
             </td>
             <td class="text-center">
               <p class="center">{{s.vat}} <span class="currency">##word.%##</span></p>
+              <p class="center">{{s.totalVat}} <span class="currency">##word.$##</span></p>
+
             </td>
             <td class="text-center">
-              <div class="row">
-                <i-control class="col10" type="number" ng-change="calc(item)" ng-model="s.pVat"> </i-control>
-                <span class="col2 currency">##word.%##</span>
-              </div>
+              <p class="center">{{s.pVat}} <span class="currency">##word.%##</span></p>
+              <p class="center">{{s.totalPVat}} <span class="currency">##word.$##</span></p>
             </td>
             <td class="text-center">
               <p class="center">{{s.comVat}} <span class="currency">##word.%##</span></p>
+              <p class="center">{{s.totalComVat}} <span class="currency">##word.$##</span></p>
             </td>
             <td class="text-center">
               <p class="center">{{s.total}} <span class="currency">##word.$##</span></p>
@@ -296,10 +294,10 @@
         <p class="bold font-20">##word.Gross Amount## : {{item.grossAmount}} <span class="currency">##word.$##</span></p>
         <p class="bold font-20">##word.Total Discount## : {{item.totalDiscount}} <span class="currency">##word.$##</span></p>
         <p class="bold font-20">##word.Total VAT## : {{item.totalVat}} <span class="currency">##word.$##</span></p>
-        <p class="bold font-20">##word.Total Patient-VAT## : {{item.totalPatientVat}} <span class="currency">##word.$##</span></p>
-        <p class="bold font-20">##word.Total Company-VAT## : {{item.totalCompanyVat}} <span class="currency">##word.$##</span></p>
-        <p class="bold font-20">##word.Patient-Balance## : {{item.patientBalance}} <span class="currency">##word.$##</span></p>
-        <p class="bold font-20">##word.Acc-Balance## : {{item.accBalance}} <span class="currency">##word.$##</span></p>
+        <p class="bold font-20">##word.Total Patient-VAT## : {{item.totalPVat}} <span class="currency">##word.$##</span></p>
+        <p class="bold font-20">##word.Total Company-VAT## : {{item.totalComVat}} <span class="currency">##word.$##</span></p>
+     <!--    <p class="bold font-20">##word.Patient-Balance## : {{item.patientBalance}} <span class="currency">##word.$##</span></p>
+        <p class="bold font-20">##word.Acc-Balance## : {{item.accBalance}} <span class="currency">##word.$##</span></p> -->
         <p class="bold font-24 green">##word.Net-Amount## : {{item.totalNet}} <span class="currency">##word.$##</span></p>
       </fieldset>
     </fieldset>

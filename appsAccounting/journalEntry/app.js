@@ -347,7 +347,6 @@ module.exports = function init(site) {
       accountsList: [],
       company: site.getCompany(req),
       branch: site.getBranch(req),
-
     };
 
     let cb = site.getNumbering(numObj);
@@ -359,40 +358,43 @@ module.exports = function init(site) {
     }
 
     journalEntry.addUserInfo = req.getUserFinger();
-    let listName = '';
-    if (obj.appName == 'purchaseOrders') {
-      listName = 'storePurchasesList';
-    }
-    setting[listName].forEach((_p) => {
-      if (_p.active && obj[_p.fieldName.name] > 0) {
-        if (_p.debtorAccountGuide && _p.debtorAccountGuide.id) {
-          journalEntry.accountsList.push({
-            id: _p.debtorAccountGuide.id,
-            code: _p.debtorAccountGuide.code,
-            nameAr: _p.debtorAccountGuide.nameAr,
-            nameEn: _p.debtorAccountGuide.nameEn,
-            side: 'debtor',
-            debtor: obj[_p.fieldName.name],
-            creditor: 0,
-          });
-          journalEntry.totalDebtor += obj[_p.fieldName.name]
-        }
 
-        if (_p.creditorAccountGuide && _p.creditorAccountGuide.id) {
-          journalEntry.accountsList.push({
-            id: _p.creditorAccountGuide.id,
-            code: _p.creditorAccountGuide.code,
-            nameAr: _p.creditorAccountGuide.nameAr,
-            nameEn: _p.creditorAccountGuide.nameEn,
-            side: 'creditor',
-            creditor: obj[_p.fieldName.name],
-            debtor: 0,
-          });
-          journalEntry.totalCreditor += obj[_p.fieldName.name]
-        }
+    let index = setting.establishingAccountsList.findIndex((itm) => itm.screen.name === obj.appName);
+    if (index !== -1) {
+      let establish = setting.establishingAccountsList[index];
+
+      if (establish.screen.active) {
+        establish.list.forEach((_l) => {
+          if (_l.active && obj[_l.name] > 0) {
+            if (_l.debtorAccountGuide && _l.debtorAccountGuide.id) {
+              journalEntry.accountsList.push({
+                id: _l.debtorAccountGuide.id,
+                code: _l.debtorAccountGuide.code,
+                nameAr: _l.debtorAccountGuide.nameAr,
+                nameEn: _l.debtorAccountGuide.nameEn,
+                side: 'debtor',
+                debtor: obj[_l.name],
+                creditor: 0,
+              });
+              journalEntry.totalDebtor += obj[_l.name];
+            }
+
+            if (_l.creditorAccountGuide && _l.creditorAccountGuide.id) {
+              journalEntry.accountsList.push({
+                id: _l.creditorAccountGuide.id,
+                code: _l.creditorAccountGuide.code,
+                nameAr: _l.creditorAccountGuide.nameAr,
+                nameEn: _l.creditorAccountGuide.nameEn,
+                side: 'creditor',
+                creditor: obj[_l.name],
+                debtor: 0,
+              });
+              journalEntry.totalCreditor += obj[_l.name];
+            }
+          }
+        });
       }
-    });
-
+    }
     app.add(journalEntry, (err, doc) => {});
   };
 

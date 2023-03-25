@@ -339,7 +339,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           fullNameAr: 1,
           patientType: 1,
           maritalStatus: 1,
-          dateOfBirth : 1,
+          dateOfBirth: 1,
           gender: 1,
           age: 1,
           motherNameEn: 1,
@@ -550,7 +550,6 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           $scope.item.errMsg = response.data.error;
         }
         $scope.calc($scope.item);
-
       },
       function (err) {
         $scope.busy = false;
@@ -723,6 +722,12 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           obj.hospitalResponsibility = { ...$scope.item.doctor.hospitalResponsibility };
         }
 
+        if ($scope.item.patient.nationality && $scope.item.patient.nationality.id) {
+          obj.nationalityId = $scope.item.patient.nationality.id;
+        } else {
+          obj.nationalityId = 0;
+        }
+
         $http({
           method: 'POST',
           url: '/api/serviceMainInsurance',
@@ -763,40 +768,16 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
       _item.grossAmount = 0;
       _item.totalDiscount = 0;
       _item.totalVat = 0;
-      _item.totalPatientVat = 0;
-      _item.totalCompanyVat = 0;
+      _item.totalPVat = 0;
+      _item.totalComVat = 0;
       _item.servicesList.forEach((_service) => {
-        _service.totalPrice = _service.price * _service.qty;
-
-        _service.totalDiscount = (_service.totalPrice * _service.discount) / 100;
-        _service.totalDiscount = site.toNumber(_service.totalDiscount);
-
-        _service.grossAmount = _service.totalPrice - _service.totalDiscount;
-        _service.grossAmount = site.toNumber(_service.grossAmount);
-        _service.totalPatientVat = (_service.grossAmount * _service.pVat) / 100;
-        _service.totalPatientVat = site.toNumber(_service.totalPatientVat);
-
-        _service.totalVat = (_service.grossAmount * _service.vat) / 100;
-        _service.totalVat = site.toNumber(_service.totalVat);
-
-        _service.totalCompanyVat = (_service.grossAmount * _service.comVat) / 100;
-        _service.totalCompanyVat = site.toNumber(_service.totalCompanyVat);
-
-        _service.total = _service.grossAmount + (_service.totalPatientVat + _service.totalVat + _service.totalCompanyVat);
-        _service.total = site.toNumber(_service.total);
-
-        _item.grossAmount += _service.grossAmount;
-        _item.totalDiscount += _service.totalDiscount;
+        _item.grossAmount += _service.totalAfterDisc;
+        _item.totalDiscount += _service.totalDisc;
         _item.totalVat += _service.totalVat;
-        _item.totalPatientVat += _service.totalPatientVat;
-        _item.totalCompanyVat += _service.totalCompanyVat;
+        _item.totalPVat += _service.totalPVat;
+        _item.totalComVat += _service.totalComVat;
+        _item.totalNet += _service.patientCash;
       });
-
-      _item.grossAmount = site.toNumber(_item.grossAmount);
-      _item.totalVat = site.toNumber(_item.totalVat);
-      _item.totalPatientVat = site.toNumber(_item.totalPatientVat);
-      _item.totalCompanyVat = site.toNumber(_item.totalCompanyVat);
-      _item.totalNet = _item.grossAmount + _item.totalVat + _item.totalPatientVat + _item.totalCompanyVat;
 
       if ($scope.item.servicesList.some((s) => !s.approved)) {
         $scope.item.doneApproval = false;

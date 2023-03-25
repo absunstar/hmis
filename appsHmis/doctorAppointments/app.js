@@ -333,7 +333,10 @@ module.exports = function init(site) {
     if (_data.patient.insuranceClass && _data.patient.insuranceClass.id) {
       insuranceClassId = _data.patient.insuranceClass.id;
     }
-
+    let nationalityId = 0;
+    if (_data.patient.nationality && _data.patient.nationality.id) {
+      nationalityId = _data.patient.nationality.id;
+    }
     let where = { insuranceCompanyId: insuranceCompanyId, insuranceClassId: insuranceClassId };
 
     site.mainInsurancesFromSub(where, (insuranceCallback) => {
@@ -348,6 +351,7 @@ module.exports = function init(site) {
         }
         site.serviceMainInsurance(
           {
+            nationalityId,
             mainInsuranceCompany: insuranceCallback.mainInsuranceCompany,
             insuranceContract: insuranceCallback.insuranceContract,
             patientClass: _data.patient.insuranceClass,
@@ -355,6 +359,7 @@ module.exports = function init(site) {
             payment: payment,
             hospitalResponsibility: _data.doctor.hospitalResponsibility,
             type: 'out',
+            session: req.session
           },
           (serviceCallback) => {
             serviceCallback.elig = nphisCallback.elig;

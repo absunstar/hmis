@@ -334,7 +334,25 @@ module.exports = function init(site) {
                 let where = req.body.where || {};
                 let search = req.body.search || '';
                 let limit = req.body.limit || 10;
-                let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1, active: 1, date: 1, status: 1, approved: 1, title: 1, acceptDate: 1, cancelDate: 1, rejectDate: 1 };
+                let select = req.body.select || {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                    jobNameEn: 1,
+                    jobNameAr: 1,
+                    image: 1,
+                    active: 1,
+                    date: 1,
+                    status: 1,
+                    jobName: 1,
+                    approved: 1,
+                    title: 1,
+                    mobile: 1,
+                    acceptDate: 1,
+                    cancelDate: 1,
+                    rejectDate: 1,
+                };
                 if (search) {
                     where.$or = [];
 

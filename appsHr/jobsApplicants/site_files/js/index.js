@@ -48,6 +48,10 @@ app.controller('jobsApplicants', function ($scope, $http, $timeout) {
             $scope.error = v.messages[0].ar;
             return;
         }
+        const dataValid = $scope.validateInputData(_item);
+        if (!dataValid.success) {
+            return;
+        }
 
         $scope.busy = true;
         $http({
@@ -87,6 +91,10 @@ app.controller('jobsApplicants', function ($scope, $http, $timeout) {
         const v = site.validated($scope.modalID);
         if (!v.ok) {
             $scope.error = v.messages[0].ar;
+            return;
+        }
+        const dataValid = $scope.validateInputData(_item);
+        if (!dataValid.success) {
             return;
         }
         $scope.busy = true;
@@ -226,6 +234,9 @@ app.controller('jobsApplicants', function ($scope, $http, $timeout) {
                 $scope.busy = false;
                 if (response.data.done) {
                     $scope.item = response.data.doc;
+                    $scope.item.interViewTime = new Date($scope.item.interViewTime);
+                    $scope.item.attendTime = new Date($scope.item.attendTime);
+                    $scope.item.attendTime = new Date($scope.item.attendTime);
                 } else {
                     $scope.error = response.data.error;
                 }
@@ -358,7 +369,10 @@ app.controller('jobsApplicants', function ($scope, $http, $timeout) {
                 function (response) {
                     $scope.busy = false;
                     if (response.data.done && response.data.list.length > 0) {
-                        $scope.getJobsAdvertisementsList = response.data.list;
+                        response.data.list.forEach((elem) => {
+                            elem.date = new Date(elem.date).toISOString().slice(0, 10);
+                            $scope.getJobsAdvertisementsList.push(elem);
+                        });
                     }
                 },
                 function (err) {
@@ -564,16 +578,19 @@ app.controller('jobsApplicants', function ($scope, $http, $timeout) {
     };
 
     $scope.validateInputData = function (item) {
+        let success = false;
         if (item && item.applicantStatus != 'acceptable' && item.applicantStatus != 'unacceptable') {
             $scope.error = '##word.Please Set Applicant Status##';
-            return;
+            return success;
         }
 
         if (item.attended && (!item.interviewStatus || !item.interviewStatus.id)) {
             $scope.error = '##word.Please Set Interview Status##';
-            return;
+            return success;
         }
+        return { success: true };
     };
+
     $scope.getApplicantStatusAfterContracting();
     $scope.getQualificationsDegrees();
     $scope.getInterviewStatus();

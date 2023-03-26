@@ -87,8 +87,8 @@
                                 <div class="row">
                                     <div class="col4">
                                         <br />
-                                        <i-radio class="col6" label="##word.ID##" ng-value="id" ng-model="item.idType"> </i-radio>
-                                        <i-radio class="col6" label="##word.Passport /Iqama##" ng-value="iqama" ng-model="item.idType"> </i-radio>
+                                        <i-radio class="col6" label="##word.ID##" v="r" ng-value="id" ng-model="item.idType"> </i-radio>
+                                        <i-radio class="col6" label="##word.Passport /Iqama##" v="r" ng-value="iqama" ng-model="item.idType"> </i-radio>
                                     </div>
                                     <i-control class="col8" v="r ll10 ml10" label="##word.ID /Iqama Number##" ng-model="item.idNumber"> </i-control>
                                 </div>
@@ -300,7 +300,7 @@
                                 <i-list
                                     ng-show="item.attended"
                                     class="col4"
-                                    label="##word.Interview Result##"
+                                    label="##word.Interview Status##"
                                     ng-model="item.interviewStatus"
                                     display="name##session.lang##"
                                     items="interviewStatusList"
@@ -318,7 +318,7 @@
                         <legend class="black">##word.Applicant Status After Contract Data##</legend>
                         <div class="row">
                             <div class="row">
-                                <i-date class="col6" ng-model="item.applicantStatusAfterContractDate" label="##word.Date##"></i-date>
+                                <i-date class="col6" ng-model="item.receiveWorkDate" label="##word.Receive Work Date##"></i-date>
                                 <i-list
                                     class="col4"
                                     label="##word.Applicant Status After Contract##"

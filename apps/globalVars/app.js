@@ -276,7 +276,7 @@ module.exports = function init(site) {
     ];
 
     site.interviewStatus = [
-        { id: 1, nameEn: 'Accepted And Asigned The Contract', nameAr: 'مقبول ووقع علي العقد' },
+        { id: 1, nameEn: 'Accepted And Signed The Contract', nameAr: 'مقبول ووقع علي العقد' },
         { id: 2, nameEn: 'unacceptable', nameAr: 'مرفوض' },
         { id: 3, nameEn: 'waiting List', nameAr: 'قائمة إنتظار' },
         { id: 4, nameEn: 'Rejecting', nameAr: 'رافض' },

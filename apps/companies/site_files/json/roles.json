@@ -108,7 +108,8 @@
             "employeesAdvancesManage",
             "payslipsManage",
             "jobsAdvertisementsManage",
-            "jobsApplicantsManage"
+            "jobsApplicantsManage",
+            "employeesContractsManage"
         ]
     }
 ]

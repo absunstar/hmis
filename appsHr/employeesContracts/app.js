@@ -1,7 +1,7 @@
 module.exports = function init(site) {
     let app = {
-        name: 'jobsApplicants',
-        allowMemory: false,
+        name: 'employeesContracts',
+        allowMemory: true,
         memoryList: [],
         allowCache: false,
         cacheList: [],
@@ -9,9 +9,6 @@ module.exports = function init(site) {
         allowRouteGet: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
-        allowRouteCancel: true,
-        allowRouteAccept: true,
-        allowRouteReject: true,
         allowRouteDelete: true,
         allowRouteView: true,
         allowRouteAll: true,
@@ -147,7 +144,7 @@ module.exports = function init(site) {
                     name: app.name,
                 },
                 (req, res) => {
-                    res.render(app.name + '/index.html', { title: app.name, appName: 'Jobs Applicants' }, { parser: 'html', compres: true });
+                    res.render(app.name + '/index.html', { title: app.name, appName: 'Employees Contracts' }, { parser: 'html', compres: true });
                 }
             );
         }
@@ -159,7 +156,6 @@ module.exports = function init(site) {
                 };
 
                 let _data = req.data;
-
                 _data.company = site.getCompany(req);
 
                 let numObj = {
@@ -175,19 +171,6 @@ module.exports = function init(site) {
                     return;
                 } else if (cb.auto) {
                     _data.code = cb.code;
-                }
-
-                if (_data.applicantStatus == 'unacceptable' || (_data.interviewStatus && _data.interviewStatus.id == 2) || (_data.interviewStatus && _data.interviewStatus.id == 4)) {
-                    _data.status = 'rejected';
-                    _data.approved = true;
-                    _data.approveDate = new Date();
-                    _data.rejectDate = new Date();
-                }
-                if ((_data.applicantStatusAfterContract && _data.applicantStatusAfterContract.id == 2) || (_data.applicantStatusAfterContract && _data.applicantStatusAfterContract.id == 3)) {
-                    _data.status = 'rejected';
-                    _data.approved = true;
-                    _data.approveDate = new Date();
-                    _data.rejectDate = new Date();
                 }
 
                 _data.addUserInfo = req.getUserFinger();
@@ -211,110 +194,7 @@ module.exports = function init(site) {
                 };
 
                 let _data = req.data;
-                if (_data.applicantStatus == 'unacceptable') {
-                    _data.status = 'rejected';
-                    _data.approved = true;
-                    _data.approveDate = new Date();
-                    _data.rejectDate = new Date();
-                }
-                if ((_data.applicantStatusAfterContract && _data.applicantStatusAfterContract.id == 2) || (_data.applicantStatusAfterContract && _data.applicantStatusAfterContract.id == 3)) {
-                    _data.status = 'rejected';
-                    _data.approved = true;
-                    _data.approveDate = new Date();
-                    _data.rejectDate = new Date();
-                }
                 _data.editUserInfo = req.getUserFinger();
-
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
-                    } else {
-                        response.error = err.message;
-                    }
-                    res.json(response);
-                });
-            });
-        }
-
-        if (app.allowRouteCancel) {
-            site.post({ name: `/api/${app.name}/cancel`, require: { permissions: ['login'] } }, (req, res) => {
-                let response = {
-                    done: false,
-                };
-
-                let _data = req.data;
-
-                _data['status'] = 'canceled';
-                _data['cancelDate'] = new Date();
-                _data['active'] = false;
-                _data.cancelUserInfo = req.getUserFinger();
-
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
-                    } else {
-                        response.error = err.message;
-                    }
-                    res.json(response);
-                });
-            });
-        }
-
-        if (app.allowRouteAccept) {
-            site.post({ name: `/api/${app.name}/accept`, require: { permissions: ['login'] } }, (req, res) => {
-                let response = {
-                    done: false,
-                };
-
-                let _data = req.data;
-
-                _data.approved = true;
-                _data.approveDate = new Date();
-                _data.status = 'accepted';
-                _data.acceptDate = new Date();
-                if (_data.applicantStatusAfterContract && _data.applicantStatusAfterContract.id == 2) {
-                    _data.status = 'canceled';
-                    _data.approved = true;
-                    _data.approveDate = new Date();
-                    _data.cancelDate = new Date();
-                }
-                if (_data.applicantStatusAfterContract && _data.applicantStatusAfterContract.id == 3) {
-                    _data.status = 'rejected';
-                    _data.approved = true;
-                    _data.approveDate = new Date();
-                    _data.rejectDate = new Date();
-                }
-                _data.acceptUserInfo = req.getUserFinger();
-                _data.approvedUserInfo = req.getUserFinger();
-
-                app.update(_data, (err, result) => {
-                    if (!err) {
-                        response.done = true;
-                        response.result = result;
-                    } else {
-                        response.error = err.message;
-                    }
-                    res.json(response);
-                });
-            });
-        }
-
-        if (app.allowRouteReject) {
-            site.post({ name: `/api/${app.name}/reject`, require: { permissions: ['login'] } }, (req, res) => {
-                let response = {
-                    done: false,
-                };
-
-                let _data = req.data;
-
-                _data.approved = false;
-                _data.approveDate = new Date();
-                _data.status = 'rejected';
-                _data.rejectDate = new Date();
-
-                _data.rejectdUserInfo = req.getUserFinger();
 
                 app.update(_data, (err, result) => {
                     if (!err) {
@@ -371,59 +251,8 @@ module.exports = function init(site) {
                 let where = req.body.where || {};
                 let search = req.body.search || '';
                 let limit = req.body.limit || 10;
-                let select = req.body.select || {
-                    id: 1,
-                    code: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                    jobNameEn: 1,
-                    jobNameAr: 1,
-                    image: 1,
-                    active: 1,
-                    date: 1,
-                    status: 1,
-                    jobName: 1,
-                    approved: 1,
-                    title: 1,
-                    mobile: 1,
-                    acceptDate: 1,
-                    cancelDate: 1,
-                    rejectDate: 1,
-                };
-                if (search) {
-                    where.$or = [];
+                let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1, active: 1 };
 
-                    where.$or.push({
-                        'employee.id': site.get_RegExp(search, 'i'),
-                    });
-
-                    where.$or.push({
-                        'employee.code': site.get_RegExp(search, 'i'),
-                    });
-
-                    where.$or.push({
-                        'employee.nameAr': site.get_RegExp(search, 'i'),
-                    });
-
-                    where.$or.push({
-                        'employee.nameEn': site.get_RegExp(search, 'i'),
-                    });
-                    where.$or.push({
-                        requestStatus: site.get_RegExp(search, 'i'),
-                    });
-                }
-
-                if (where && where.fromDate && where.toDate) {
-                    let d1 = site.toDate(where.fromDate);
-                    let d2 = site.toDate(where.toDate);
-                    d2.setDate(d2.getDate() + 1);
-                    where.date = {
-                        $gte: d1,
-                        $lt: d2,
-                    };
-                    delete where.fromDate;
-                    delete where.toDate;
-                }
                 if (app.allowMemory) {
                     if (!search) {
                         search = 'id';

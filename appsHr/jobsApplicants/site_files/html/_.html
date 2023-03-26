@@ -8,7 +8,26 @@
             <i-button type="search" x-permissions="jobsApplicantsSearch || jobsApplicantsManage" label="##word.New##" ng-click="searchAll(search={status:'new'})"></i-button>
             <i-button type="search" x-permissions="jobsApplicantsSearch || jobsApplicantsManage" label="##word.Accepted##" ng-click="searchAll(search={status:'accepted'})"></i-button>
             <i-button type="search" x-permissions="jobsApplicantsSearch || jobsApplicantsManage" label="##word.Rejected##" ng-click="searchAll(search={status:'rejected'})"></i-button>
-            <i-button type="search" x-permissions="jobsApplicantsSearch || jobsApplicantsManage" label="##word.Canceled##" ng-click="searchAll(search={status:'canceled'})"></i-button>
+            <i-button type="search" x-permissions="jobsApplicantsSearch || jobsApplicantsManage" label="##word.Canceled##" ng-click="searchAll(search={'interviewStatus.id':1})"></i-button>
+            <i-button type="search" x-permissions="jobsApplicantsSearch || jobsApplicantsManage" label="##word.Waiting##" ng-click="searchAll(search={'interviewStatus.id':3})"></i-button>
+            <i-button
+                type="search"
+                x-permissions="jobsApplicantsSearch || jobsApplicantsManage"
+                label="##word.Received Work##"
+                ng-click="searchAll(search={'applicantStatusAfterContract.id':1})"
+            ></i-button>
+            <i-button
+                type="search"
+                x-permissions="jobsApplicantsSearch || jobsApplicantsManage"
+                label="##word.Accepted And Complete Papers##"
+                ng-click="searchAll(search={'interviewStatus.id':4})"
+            ></i-button>
+            <i-button
+                type="search"
+                x-permissions="jobsApplicantsSearch || jobsApplicantsManage"
+                label="##word.Accepted And Signed Contract##"
+                ng-click="searchAll(search={status:'canceled'})"
+            ></i-button>
         </div>
         <div class="row">
             <i-date class="col3" label="##word.From Date##" ng-model="_search.fromDate"> </i-date>

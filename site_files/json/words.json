@@ -489,5 +489,15 @@
         "name": "Please Set Interview Status",
         "En": "Please Set Interview Status",
         "Ar": "يرجي نحديد حالة المقابلة"
+    },
+    {
+        "name": "Please Select Applicant Status After Contract",
+        "En": "Please Select Applicant Status After Contract",
+        "Ar": "يرجي نحديد حالة الموظف بعد التعاقد"
+    },
+    {
+        "name": "Please Set Receive Work Date",
+        "En": "Please Set Receive Work Date",
+        "Ar": "يرجي نحديد تاريخ إستلام العمل"
     }
 ]

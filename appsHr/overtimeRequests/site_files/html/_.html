@@ -20,7 +20,7 @@
             <i-control ng-model="$search" x-permissions="overtimeRequestsSearch || overtimeRequestsManage"></i-control>
         </div>
         <div class="table-responsive">
-            <table class="table hover bold" id="t1">
+            <table class="table hover bold" id="overtime-requests">
                 <tr>
                     <th>##word.Code##</th>
                     <th>##word.Date##</th>
@@ -66,8 +66,7 @@
                 </tr>
             </table>
         </div>
-        <i-button x-permissions="overtimeRequestsPrint || overtimeRequestsManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
-        <i-button x-permissions="overtimeRequestsExport || overtimeRequestsManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')">
-        </i-button>
+        <i-button x-permissions="overtimeRequestsPrint || overtimeRequestsManage" type="print" label="##word.Print##" onclick="site.print('#overtime-requests')"></i-button>
+        <i-button x-permissions="overtimeRequestsExport || overtimeRequestsManage" type="export" label="##word.Export to excel##" onclick="site.export('#overtime-requests')"> </i-button>
     </div>
 </div>

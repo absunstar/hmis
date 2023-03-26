@@ -28,7 +28,15 @@ app.controller('jobsApplicants', function ($scope, $http, $timeout) {
     $scope.showAdd = function (_item) {
         $scope.error = '';
         $scope.mode = 'add';
-        $scope.item = { ...$scope.structure, skillsList: [], status: 'new', date: new Date(), approved: false };
+        $scope.item = {
+            ...$scope.structure,
+            skillsList: [],
+            status: 'new',
+            date: new Date(),
+            approved: false,
+            interViewDate: new Date(),
+            interViewTime: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 09, 00),
+        };
         site.showModal($scope.modalID);
         document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
@@ -439,6 +447,7 @@ app.controller('jobsApplicants', function ($scope, $http, $timeout) {
         });
         $scope.skill = {};
     };
+
     $scope.addCertificate = function (certificate) {
         $scope.certificateerror = '';
 
@@ -474,6 +483,100 @@ app.controller('jobsApplicants', function ($scope, $http, $timeout) {
         $scope.experience = {};
     };
 
+    $scope.getQualificationsDegrees = function () {
+        $scope.busy = true;
+        $scope.qualificationsDegreesList = [];
+        $http({
+            method: 'POST',
+            url: '/api/qualificationsDegrees',
+            data: {
+                where: {
+                    active: true,
+                },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                },
+            },
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.qualificationsDegreesList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.setAttendInterviewDefaultData = function (item) {
+        if (item.attended) {
+            $scope.item.attendDate = new Date(item.interViewDate);
+            $scope.item.attendTime = new Date(item.interViewTime);
+        }
+    };
+
+    $scope.getInterviewStatus = function () {
+        $scope.busy = true;
+        $scope.interviewStatusList = [];
+        $http({
+            method: 'POST',
+            url: '/api/interviewStatus',
+            data: {},
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.interviewStatusList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.getApplicantStatusAfterContracting = function () {
+        $scope.busy = true;
+        $scope.applicantStatusAfterContractingList = [];
+        $http({
+            method: 'POST',
+            url: '/api/applicantStatusAfterContracting',
+            data: {},
+        }).then(
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.applicantStatusAfterContractingList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
+            }
+        );
+    };
+
+    $scope.validateInputData = function (item) {
+        if (item && item.applicantStatus != 'acceptable' && item.applicantStatus != 'unacceptable') {
+            $scope.error = '##word.Please Set Applicant Status##';
+            return;
+        }
+
+        if (item.attended && (!item.interviewStatus || !item.interviewStatus.id)) {
+            $scope.error = '##word.Please Set Interview Status##';
+            return;
+        }
+    };
+    $scope.getApplicantStatusAfterContracting();
+    $scope.getQualificationsDegrees();
+    $scope.getInterviewStatus();
     $scope.getGenders();
     $scope.getNationalitiesList();
     $scope.getCurrentMonthDate();

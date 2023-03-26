@@ -13,7 +13,7 @@
             <i-control ng-model="$search" x-permissions="salaryAllowancesNamesSearch || salaryAllowancesNamesManage"></i-control>
         </div>
         <div class="table-responsive">
-            <table class="table hover bold" id="t1">
+            <table class="table hover bold" id="salary-allowances-names">
                 <tr>
                     <th>##word.Code##</th>
                     <th>##word.Name##</th>
@@ -37,8 +37,8 @@
                 </tr>
             </table>
         </div>
-        <i-button x-permissions="salaryAllowancesNamesPrint || salaryAllowancesNamesManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
-        <i-button x-permissions="salaryAllowancesNamesExport || salaryAllowancesNamesManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')">
+        <i-button x-permissions="salaryAllowancesNamesPrint || salaryAllowancesNamesManage" type="print" label="##word.Print##" onclick="site.print('#salary-allowances-names')"></i-button>
+        <i-button x-permissions="salaryAllowancesNamesExport || salaryAllowancesNamesManage" type="export" label="##word.Export to excel##" onclick="site.export('#salary-allowances-names' )">
         </i-button>
     </div>
 </div>

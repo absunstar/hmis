@@ -12,7 +12,7 @@
             <i-control ng-model="$search" x-permissions="vacationsNamesSearch || vacationsNamesManage"></i-control>
         </div>
         <div class="table-responsive">
-            <table class="table hover bold" id="t1">
+            <table class="table hover bold" id="vacations-names">
                 <tr>
                     <th class="w150">##word.Logo##</th>
                     <th>##word.Code##</th>
@@ -41,7 +41,7 @@
                 </tr>
             </table>
         </div>
-        <i-button x-permissions="vacationsNamesPrint || vacationsNamesManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
-        <i-button x-permissions="vacationsNamesExport || vacationsNamesManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')"> </i-button>
+        <i-button x-permissions="vacationsNamesPrint || vacationsNamesManage" type="print" label="##word.Print##" onclick="site.print('#vacations-names')"></i-button>
+        <i-button x-permissions="vacationsNamesExport || vacationsNamesManage" type="export" label="##word.Export to excel##" onclick="site.export('#vacations-names')"> </i-button>
     </div>
 </div>

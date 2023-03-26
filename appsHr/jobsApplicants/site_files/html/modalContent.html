@@ -23,20 +23,28 @@
                     ng-search="item.$department"
                 ></i-list>
             </div>
-            <div class="row">
-                <i-control class="col6" type="text" v="r" ng-model="item.jobNameEn" label="##word.Job Name##"></i-control>
-                <i-control class="col6" type="text" v="r" ng-model="item.jobNameAr" label="##word.Job Name Arabic##"></i-control>
-            </div>
         </div>
         <div class="col3 center">
             <i-image class="img128 center" ng-model="item.image"></i-image>
         </div>
+        <div class="row">
+            <i-control class="col6" type="text" v="r" ng-model="item.jobNameEn" label="##word.Job Name##"></i-control>
+            <i-control class="col6" type="text" v="r" ng-model="item.jobNameAr" label="##word.Job Name Arabic##"></i-control>
+        </div>
+        <div class="row">
+            <i-control class="col6" type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
+            <i-control class="col6" type="text" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
+        </div>
     </div>
+    <p class="error">{{error}}</p>
     <fieldset>
         <div class="tabs">
             <div class="tabs-header full">
                 <a class="tab-link" onclick="site.showTabContent(event, '#personalData')">
                     <span> ##word.Personal Data##</span>
+                </a>
+                <a class="tab-link" onclick="site.showTabContent(event, '#qualificationData')">
+                    <span> ##word.Qualifications##</span>
                 </a>
                 <a class="tab-link" onclick="site.showTabContent(event, '#skillsData')">
                     <span> ##word.Skills##</span>
@@ -47,18 +55,24 @@
                 <a class="tab-link" onclick="site.showTabContent(event, '#experiencesData')">
                     <span> ##word.Experiences##</span>
                 </a>
-                <a class="tab-link" onclick="site.showTabContent(event, '#requestData')">
-                    <span> ##word.Request Data##</span>
+                <a class="tab-link" onclick="site.showTabContent(event, '#applicantData')">
+                    <span> ##word.Applicant Data##</span>
+                </a>
+                <a class="tab-link" onclick="site.showTabContent(event, '#interviewData')" ng-show="item.applicantStatus == 'acceptable'">
+                    <span> ##word.Interview Data##</span>
+                </a>
+                <a class="tab-link" onclick="site.showTabContent(event, '#applicantStatusData')" ng-show="item.applicantStatus == 'acceptable'">
+                    <span> ##word.Applicant Status##</span>
                 </a>
             </div>
             <div class="tabs-content">
                 <div id="personalData" class="tab-content">
                     <fieldset>
                         <legend class="black">##word.Personal Informations##</legend>
-                        <p class="error">{{skillError}}</p>
+
                         <div class="row">
-                            <i-control class="col6" type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
-                            <i-control class="col6" type="text" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control>
+                            <!-- <i-control class="col6" type="text" v="r" ng-model="item.nameEn" label="##word.Name##"></i-control>
+                            <i-control class="col6" type="text" ng-model="item.nameAr" label="##word.Name Arabic##"></i-control> -->
                             <i-control class="col4" type="text" ng-model="item.phone" label="##word.Phone##"></i-control>
                             <i-control class="col8" type="text" v="r" ng-model="item.mobile" label="##word.Mobile##"></i-control>
                             <i-control class="col4" type="age" ng-model="item.age" label="##word.Age##"></i-control>
@@ -78,6 +92,36 @@
                                     <i-control class="col8" v="r ll10 ml10" label="##word.ID /Iqama Number##" ng-model="item.idNumber"> </i-control>
                                 </div>
                             </fieldset>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div id="qualificationData" class="tab-content">
+                    <fieldset>
+                        <legend>##word.Qualifications##</legend>
+                        <div class="row">
+                            <i-list
+                                class="col4"
+                                label="##word.Degree##"
+                                ng-model="item.qualificationDegree"
+                                items="qualificationsDegreesList"
+                                display="name##session.lang##"
+                                ng-search="item.$qualificationDegree"
+                            >
+                            </i-list>
+                            <i-control class="col4" label="##word.Major##" ng-model="item.educationalMajor"> </i-control>
+                            <i-control class="col4" label="##word.Educational Qualification##" ng-model="item.educationalQualification"> </i-control>
+
+                            <i-list
+                                class="col4"
+                                label="##word.Country Of Qualification##"
+                                ng-model="item.countryOfQualification"
+                                items="nationalitiesList"
+                                display="name##session.lang##"
+                                ng-search="item.$countryOfQualification"
+                            >
+                            </i-list>
+                            <i-date ng-model="item.graduationDate" class="col4" label="##word.Graduation Date##"></i-date>
                         </div>
                     </fieldset>
                 </div>
@@ -225,18 +269,66 @@
                         </fieldset>
                     </fieldset>
                 </div>
-                <div id="requestData" class="tab-content">
+
+                <div id="applicantData" class="tab-content">
                     <fieldset>
-                        <legend class="black">##word.Request Data##</legend>
+                        <legend class="black">##word.Applicant Data##</legend>
                         <div class="row">
                             <fieldset>
                                 <legend>##word.Phone Call Result##</legend>
                                 <div class="row">
-                                    <i-radio class="col6" label="##word.Acceptable##" ng-value="acceptable" ng-model="item.requestStatus"> </i-radio>
-                                    <i-radio class="col6" label="##word.Unacceptable##" ng-value="unacceptable" ng-model="item.requestStatus"> </i-radio>
+                                    <i-radio class="col6" label="##word.Acceptable##" ng-value="acceptable" ng-model="item.applicantStatus"> </i-radio>
+                                    <i-radio class="col6" label="##word.Unacceptable##" ng-value="unacceptable" ng-model="item.applicantStatus"> </i-radio>
                                 </div>
-                                <i-textarea rows="3" v="r" label="##word.Reason##" ng-model="item.reason"> </i-textarea>
+                                <i-textarea rows="3" label="##word.Comment##" ng-model="item.comment"> </i-textarea>
                             </fieldset>
+                            <i-date class="col6" ng-model="item.interViewDate" label="##word.Interview Date##"></i-date>
+                            <i-control class="col4" type="time" ng-model="item.interViewTime" label="##word.Interview Time##"></i-control>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div id="interviewData" class="tab-content" ng-show="item.applicantStatus == 'acceptable'">
+                    <fieldset>
+                        <legend class="black">##word.Interview Data##</legend>
+                        <div class="row">
+                            <div class="row">
+                                <i-checkbox ng-change="setAttendInterviewDefaultData(item)" ng-model="item.attended" class="col2" label="##word.Attended##"></i-checkbox>
+                                <i-date ng-show="item.attended" class="col6" ng-model="item.attendDate" label="##word.Attend Date##"></i-date>
+                                <i-control ng-show="item.attended" class="col4" type="time" ng-model="item.attendTime" label="##word.Attend Time##"></i-control>
+                                <i-list
+                                    ng-show="item.attended"
+                                    class="col4"
+                                    label="##word.Interview Result##"
+                                    ng-model="item.interviewStatus"
+                                    display="name##session.lang##"
+                                    items="interviewStatusList"
+                                    ng-search="item.$result"
+                                ></i-list>
+                            </div>
+
+                            <i-textarea rows="3" ng-show="item.attended" label="##word.Notes##" ng-model="item.interViewNotes"> </i-textarea>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div id="applicantStatusData" class="tab-content" ng-show="item.applicantStatus == 'acceptable'">
+                    <fieldset>
+                        <legend class="black">##word.Applicant Status After Contract Data##</legend>
+                        <div class="row">
+                            <div class="row">
+                                <i-date class="col6" ng-model="item.applicantStatusAfterContractDate" label="##word.Date##"></i-date>
+                                <i-list
+                                    class="col4"
+                                    label="##word.Applicant Status After Contract##"
+                                    ng-model="item.applicantStatusAfterContract"
+                                    display="name##session.lang##"
+                                    items="applicantStatusAfterContractingList"
+                                    ng-search="item.$status"
+                                ></i-list>
+                            </div>
+
+                            <i-textarea rows="3" label="##word.Notes##" ng-model="item.applicantStatusAfterContractNotes"> </i-textarea>
                         </div>
                     </fieldset>
                 </div>

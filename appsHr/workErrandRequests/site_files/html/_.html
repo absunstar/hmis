@@ -19,7 +19,7 @@
             <i-control ng-model="$search" x-permissions="workErrandRequestsSearch || workErrandRequestsManage"></i-control>
         </div>
         <div class="table-responsive">
-            <table class="table hover bold" id="t1">
+            <table class="table hover bold" id="workerrand-requests">
                 <tr>
                     <th>##word.S##</th>
                     <th>##word.Employee##</th>
@@ -37,9 +37,9 @@
                         <p class="text-center">{{item.date | date:'dd/MM/yyyy'}}</p>
                     </td>
 
-                    <td class="center ">
+                    <td class="center">
                         <p class="blue">{{item.delayDate | date:'dd/MM/yyyy'}}</p>
-                        <p class=" text-success">{{item.fromTime | date:'hh:mm a'}} - {{item.toTime | date:'hh:mm a'}}</p>
+                        <p class="text-success">{{item.fromTime | date:'hh:mm a'}} - {{item.toTime | date:'hh:mm a'}}</p>
                     </td>
 
                     <td class="center">
@@ -78,8 +78,7 @@
                 </tr>
             </table>
         </div>
-        <i-button x-permissions="workErrandRequestsPrint || workErrandRequestsManage" type="print" label="##word.Print##" onclick="site.print('#t1')"></i-button>
-        <i-button x-permissions="workErrandRequestsExport || workErrandRequestsManage" type="export" label="##word.Export to excel##" onclick="export_to_xlsx('t1' , 'report_value_added.xlsx')">
-        </i-button>
+        <i-button x-permissions="workErrandRequestsPrint || workErrandRequestsManage" type="print" label="##word.Print##" onclick="site.print('#workerrand-requests')"></i-button>
+        <i-button x-permissions="workErrandRequestsExport || workErrandRequestsManage" type="export" label="##word.Export to excel##" onclick="site.export('#workerrand-requests' )"> </i-button>
     </div>
 </div>

@@ -52,15 +52,15 @@
                             <th class="not-print">##word.Actions##</th>
                         </tr>
                         <tr ng-repeat="s in item.servicesList">
-                            <td class="text-center blue">{{s.code}}</td>
-                            <td class="text-center">{{s.name##session.lang##}}</td>
-                            <td class="text-center">{{s.cashPriceOut}}</td>
-                            <td class="text-center">
+                            <td class="center blue">{{s.code}}</td>
+                            <td class="center">{{s.name##session.lang##}}</td>
+                            <td class="center">{{s.cashPriceOut}}</td>
+                            <td class="center">
                                 <i-control type="number" ng-change="calc(item)" ng-model="s.qty"></i-control>
                             </td>
-                            <td class="text-center">{{s.total}}</td>
-                            <td class="text-center">{{s.totalVat}}</td>
-                            <td class="text-center not-print">
+                            <td class="center">{{s.total}}</td>
+                            <td class="center">{{s.totalVat}}</td>
+                            <td class="center not-print">
                                 <i-button type="delete default" ng-click="item.servicesList.splice($index,1);calc(item)"> </i-button>
                             </td>
                         </tr>

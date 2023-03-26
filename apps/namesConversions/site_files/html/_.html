@@ -19,10 +19,10 @@
                     <th class="not-print">##word.Actions##</th>
                 </tr>
                 <tr ng-repeat="item in list ">
-                    <td class="text-center">{{item.nameAr}}</td>
-                    <td class="text-center">{{item.nameEn}}</td>
+                    <td class="center">{{item.nameAr}}</td>
+                    <td class="center">{{item.nameEn}}</td>
 
-                    <td class="text-center not-print">
+                    <td class="center not-print">
                         <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
                         <i-button type="edit" x-permissions="namesConversionsUpdate || namesConversionsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>

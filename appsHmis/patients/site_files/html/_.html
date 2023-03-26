@@ -22,13 +22,13 @@
                     <td>
                         <i-image view class="logo center" ng-model="item.image"></i-image>
                     </td>
-                    <td class="text-center blue">{{item.code}}</td>
-                    <td class="text-center">
+                    <td class="center blue">{{item.code}}</td>
+                    <td class="center">
                         <p class="center">{{item.fullNameEn}}</p>
                         <p class="center">{{item.fullNameAr}}</p>
                     </td>
 
-                    <td class="text-center not-print">
+                    <td class="center not-print">
                         <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
                         <i-button type="edit" x-permissions="patientsUpdate || patientsManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>

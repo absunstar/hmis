@@ -50,7 +50,7 @@
                                 <td><p class="text-center">{{$index +1}}</p></td>
                                 <td><p class="text-center">{{emp.fullName##session.lang##}}</p></td>
 
-                                <td class="text-center" ng-show="!item.approved ">
+                                <td class="center" ng-show="!item.approved ">
                                     <i-button type="delete" ng-click="item.employeesList.splice($index,1);"> </i-button>
                                 </td>
                             </tr>

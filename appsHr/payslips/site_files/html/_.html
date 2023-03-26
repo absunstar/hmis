@@ -33,9 +33,9 @@
                     <td>
                         <i-image view class="logo center" ng-model="item.image"></i-image>
                     </td>
-                    <td class="text-center blue">{{item.code}}</td>
-                    <td class="text-center">{{item.employee.fullName##session.lang##}}</td>
-                    <td class="text-center">{{item.fromDate|date:'dd/MM/yyyy'}} - {{item.toDate|date:'dd/MM/yyyy'}}</td>
+                    <td class="center blue">{{item.code}}</td>
+                    <td class="center">{{item.employee.fullName##session.lang##}}</td>
+                    <td class="center">{{item.fromDate|date:'dd/MM/yyyy'}} - {{item.toDate|date:'dd/MM/yyyy'}}</td>
                     <td class="center">
                         <span class="blue">{{item.paySlip.totalAllowance }} </span>- <span class="text-danger">{{item.paySlip.totalDeductions }} </span> = (<span class="text-success bold">
                             {{(item.paySlip.totalAllowance - item.paySlip.totalDeductions).toFixed(3) }} </span
@@ -49,7 +49,7 @@
                         <p class="text-danger" ng-show="!item.approved">##word.No##</p>
                     </td>
 
-                    <td class="text-center not-print">
+                    <td class="center not-print">
                         <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
                         <i-button type="view"  x-permissions="payslipsManage" label="##word.View Payslip##" ng-click="showPrintPayslipModal(item)"></i-button>
 

@@ -441,6 +441,7 @@ module.exports = function init(site) {
                     //         list: docs,
                     //     });
                     // });
+
                     app.all({ where, select, limit }, (err, docs) => {
                         res.json({
                             done: true,

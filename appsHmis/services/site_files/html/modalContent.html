@@ -87,14 +87,14 @@
                                         <th class="not-print">##word.Actions##</th>
                                     </tr>
                                     <tr ng-repeat="n in item.normalRangeList">
-                                        <td class="text-center"><i-control v="r" ng-model="n.name"></i-control></td>
-                                        <td class="text-center"><i-list ng-model="n.gender" display="name##session.lang##" items="gendersList" ng-search="n.$genders"></i-list></td>
-                                        <td class="text-center"><i-control v="r" ng-model="n.unit"></i-control></td>
-                                        <td class="text-center"><i-control type="number" v="r" ng-model="n.fromDays"></i-control></td>
-                                        <td class="text-center"><i-control type="number" v="r" ng-model="n.toDays"></i-control></td>
-                                        <td class="text-center"><i-control v="r" ng-model="n.fromValue"></i-control></td>
-                                        <td class="text-center"><i-control v="r" ng-model="n.toValue"></i-control></td>
-                                        <td class="text-center not-print">
+                                        <td class="center"><i-control v="r" ng-model="n.name"></i-control></td>
+                                        <td class="center"><i-list ng-model="n.gender" display="name##session.lang##" items="gendersList" ng-search="n.$genders"></i-list></td>
+                                        <td class="center"><i-control v="r" ng-model="n.unit"></i-control></td>
+                                        <td class="center"><i-control type="number" v="r" ng-model="n.fromDays"></i-control></td>
+                                        <td class="center"><i-control type="number" v="r" ng-model="n.toDays"></i-control></td>
+                                        <td class="center"><i-control v="r" ng-model="n.fromValue"></i-control></td>
+                                        <td class="center"><i-control v="r" ng-model="n.toValue"></i-control></td>
+                                        <td class="center not-print">
                                             <i-button type="delete default" ng-click="item.normalRangeList.splice($index,1)"> </i-button>
                                         </td>
                                     </tr>
@@ -130,10 +130,10 @@
                                         <th class="not-print">##word.Actions##</th>
                                     </tr>
                                     <tr ng-repeat="s in item.servicesCategoriesList">
-                                        <td class="text-center blue">{{s.code}}</td>
-                                        <td class="text-center">{{s.name##session.lang##}}</td>
+                                        <td class="center blue">{{s.code}}</td>
+                                        <td class="center">{{s.name##session.lang##}}</td>
 
-                                        <td class="text-center not-print">
+                                        <td class="center not-print">
                                             <i-button type="delete default" ng-click="item.servicesCategoriesList.splice($index,1)"> </i-button>
                                         </td>
                                     </tr>

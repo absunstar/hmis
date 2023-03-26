@@ -245,43 +245,43 @@
           </tr>
 
           <tr ng-repeat="s in item.servicesList">
-            <td class="text-center word-line">
+            <td class="center word-line">
               <p>{{s.code}}-{{s.name##session.lang##}}</p>
               <p class="red" ng-show="s.needApproval">( ##word.Need Approval##)</p>
               <p ng-show="s.needApproval && s.approved">##word.Approved##</p>
               <p ng-show="s.needApproval && !s.approved">##word.Not Approved##</p>
               <i-button x-permissions="servicesOrdersApprove || servicesOrdersManage" label="##word.Approve##" ng-show="!s.approved" type="approve" ng-click="approveService(s)"> </i-button>
             </td>
-            <td class="text-center">
+            <td class="center">
               <p class="center">{{s.price}} <span class="currency">##word.$##</span></p>
             </td>
-            <td class="text-center">
+            <td class="center">
               <p class="center">{{s.discount}} <span class="currency">##word.%##</span></p>
               <p class="center">{{s.totalDisc}} <span class="currency">##word.$##</span></p>
             </td>
-            <td class="text-center">
+            <td class="center">
               <p class="center">{{s.hospitalResponsibility.name##session.lang##}}</p>
             </td>
-            <td class="text-center">
+            <td class="center">
               <p class="center">{{s.vat}} <span class="currency">##word.%##</span></p>
               <p class="center">{{s.totalVat}} <span class="currency">##word.$##</span></p>
 
             </td>
-            <td class="text-center">
+            <td class="center">
               <p class="center">{{s.pVat}} <span class="currency">##word.%##</span></p>
               <p class="center">{{s.totalPVat}} <span class="currency">##word.$##</span></p>
             </td>
-            <td class="text-center">
+            <td class="center">
               <p class="center">{{s.comVat}} <span class="currency">##word.%##</span></p>
               <p class="center">{{s.totalComVat}} <span class="currency">##word.$##</span></p>
             </td>
-            <td class="text-center">
+            <td class="center">
               <p class="center">{{s.total}} <span class="currency">##word.$##</span></p>
             </td>
-            <!--  <td class="text-center not-print">
+            <!--  <td class="center not-print">
               <i-button type="delete default" ng-click="item.servicesList.splice($index,1)"> </i-button>
             </td> -->
-            <td class="text-center">
+            <td class="center">
               <p class="center">{{s.patientCash}} <span class="currency">##word.$##</span></p>
             </td>
           </tr>

@@ -234,7 +234,6 @@ app.controller('delayRequests', function ($scope, $http, $timeout) {
     };
 
 
-
     $scope.view = function (_item) {
         $scope.busy = true;
         $scope.error = '';

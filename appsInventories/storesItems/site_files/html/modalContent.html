@@ -124,33 +124,33 @@
                 <th class="not-print">##word.Actions##</th>
               </tr>
               <tr ng-repeat="elem in item.unitsList">
-                <td class="text-center">
-                  <span class="text-center"
+                <td class="center">
+                  <span 
                     >{{elem.unit.name##session.lang##}}
-                    <p class="text-center blue" ng-if="!elem.currentCount">({{elem.currentCount}})</p>
-                    <p class="text-center text-success" ng-if="elem.currentCount>0">(##word.+##{{elem.currentCount}})</p>
-                    <p class="text-center text-danger" ng-if="elem.currentCount<0">(##word.-##{{elem.currentCount}})</p>
+                    <p class=" blue" ng-if="!elem.currentCount">({{elem.currentCount}})</p>
+                    <p class=" text-success" ng-if="elem.currentCount>0">(##word.+##{{elem.currentCount}})</p>
+                    <p class=" text-danger" ng-if="elem.currentCount<0">(##word.-##{{elem.currentCount}})</p>
                   </span>
                 </td>
-                <td>
-                  <p class="text-center">{{elem.purchasePrice }}</p>
+                <td class="center">
+                  <p >{{elem.purchasePrice }}</p>
                 </td>
-                <td class="text-center">
+                <td class="center">
                   <i-control type="number" min="1" ng-model="elem.conversion"></i-control>
                 </td>
-                <td class="text-center">
+                <td class="center">
                   <i-control type="text" ng-model="elem.barcode"></i-control>
                 </td>
-                <td class="text-center">
+                <td class="center">
                   <i-control type="number" min="1" ng-model="elem.purchasePrice"></i-control>
                 </td>
-                <td class="text-center">
+                <td class="center">
                   <i-control type="number" min="1" ng-model="elem.salesPrice"></i-control>
                 </td>
-                <td class="text-center">
+                <td class="center">
                   <i-control type="number" min="1" ng-model="elem.averageCost"></i-control>
                 </td>
-                <td class="text-center">
+                <td class="center">
                   <div class="row">
                     <i-control class="col6" type="number" min="0.00001" ng-model="elem.discount" label="##word.Discount##"></i-control>
                     <i-control class="col6" type="number" min="0.00001" ng-model="elem.maxDiscount" label="##word.Max.Disc##"></i-control>
@@ -161,7 +161,7 @@
                   </div>
                 </td>
 
-                <td class="text-center">
+                <td class="center">
                   <div class="row center">
                     <i-button type="list" ng-click="showStoreData(elem)"> </i-button>
                     <i-button type="view" label="##word.Purchase Prices##" ng-click="showPricesList(elem,'purchase')"> </i-button>
@@ -207,10 +207,10 @@
                   <th class="not-print">##word.Actions##</th>
                 </tr>
                 <tr ng-repeat="elem in item.medicalInformations.activeSubstancesList">
-                  <td class="text-center">{{$index+1}}</td>
-                  <td class="text-center">{{elem.activeSubstance.name##session.lang##}}</td>
-                  <td class="text-center">{{elem.concentration}}</td>
-                  <td class="text-center">
+                  <td class="center">{{$index+1}}</td>
+                  <td class="center">{{elem.activeSubstance.name##session.lang##}}</td>
+                  <td class="center">{{elem.concentration}}</td>
+                  <td class="center">
                     <i-button type="delete" ng-click="item.medicalInformations.activeSubstancesList.splice($index,1)"> </i-button>
                   </td>
                 </tr>
@@ -257,14 +257,14 @@
                 <th class="not-print">##word.Actions##</th>
               </tr>
               <tr ng-repeat="elem in item.collectedItemsList">
-                <td class="text-center">{{$index+1}}</td>
-                <td class="text-center">{{elem.item.name##session.lang##}}</td>
-                <td class="text-center">{{elem.unit.name##session.lang##}}</td>
-                <td class="text-center">
+                <td class="center">{{$index+1}}</td>
+                <td class="center">{{elem.item.name##session.lang##}}</td>
+                <td class="center">{{elem.unit.name##session.lang##}}</td>
+                <td class="center">
                   <i-control type="number" min="1" ng-model="elem.quantity"></i-control>
                 </td>
 
-                <td class="text-center">
+                <td class="center">
                   <i-button type="delete" ng-click="item.collectedItemsList.splice($index,1)"> </i-button>
                 </td>
               </tr>

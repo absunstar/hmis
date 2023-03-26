@@ -17,6 +17,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
     $scope.list = [];
     $scope.document = {};
     $scope.skill = {};
+    $scope.certificates = {};
     $scope.experience = {};
     $scope.selectedAllowance = {};
     $scope.selectedDeduction = {};

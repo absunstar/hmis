@@ -31,23 +31,23 @@
                     <th class="not-print">##word.Actions##</th>
                 </tr>
                 <tr ng-repeat="item in list | filter:$search">
-                    <td class="text-center blue">{{item.code}}</td>
-                    <td class="text-center brown">{{item.date | date:"dd / MM / yyyy"}}</td>
-                    <td class="text-center">{{item.employee.fullName##session.lang##}}</td>
-                    <td class="text-center">{{item.value}} - {{item.type.name##session.lang##}}</td>
+                    <td class="center blue">{{item.code}}</td>
+                    <td class="center brown">{{item.date | date:"dd / MM / yyyy"}}</td>
+                    <td class="center">{{item.employee.fullName##session.lang##}}</td>
+                    <td class="center">{{item.value}} - {{item.type.name##session.lang##}}</td>
                     <td class="center">
                         <p ng-show="item.requestStatus == 'accepted'">{{item.approveDate | date:'dd/MM/yyyy'}} - {{item.approveDate | date:'hh:mm:ss a'}}</p>
                         <p ng-show="item.requestStatus == 'rejected'">{{item.rejectDate | date:'dd/MM/yyyy'}} - {{item.rejectDate | date:'hh:mm:ss a'}}</p>
                         <p ng-show="item.requestStatus == 'canceled'">{{item.cancelDate | date:'dd/MM/yyyy'}} - {{item.cancelDate | date:'hh:mm:ss a'}}</p>
                     </td>
 
-                    <td class="text-center">
+                    <td class="center">
                         <span class="blue" ng-show="item.requestStatus == 'new' || item.requestStatus =='canceled'">{{item.requestStatus|uppercase}}</span>
                         <span class="text-success" ng-show="item.requestStatus == 'accepted'">##word.Accepted##</span>
                         <span class="text-danger" ng-show="item.requestStatus == 'rejected'">##word.Refused##</span>
                     </td>
 
-                    <td class="text-center not-print">
+                    <td class="center not-print">
                         <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
                         <i-button

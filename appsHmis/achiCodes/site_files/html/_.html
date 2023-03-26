@@ -20,14 +20,14 @@
                     <th class="not-print">##word.Actions##</th>
                 </tr>
                 <tr ng-repeat="item in list | filter:$search">
-                    <td class="text-center">
+                    <td class="center">
                         <i-image view class="logo center" ng-model="item.image"></i-image>
                     </td>
-                    <td class="text-center blue">{{item.code}}</td>
-                    <td class="text-center">{{item.achi}}</td>
-                    <td class="text-center">{{item.name##session.lang##}}</td>
+                    <td class="center blue">{{item.code}}</td>
+                    <td class="center">{{item.achi}}</td>
+                    <td class="center">{{item.name##session.lang##}}</td>
 
-                    <td class="text-center not-print">
+                    <td class="center not-print">
                         <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
                         <i-button type="edit" x-permissions="achiCodesUpdate || achiCodesManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button>

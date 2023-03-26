@@ -256,15 +256,15 @@
                       <p class="text-center">{{vat.name##session.lang##}}</p>
                     </td>
 
-                    <td class="text-center">
+                    <td class="center">
                       <p class="text-center">{{vat.pVat}} <span class="currency">##word.%##</span></p>
                     </td>
 
-                    <td class="text-center">
+                    <td class="center">
                       <p class="text-center">{{vat.comVat}} <span class="currency">##word.%##</span></p>
                     </td>
 
-                    <td class="text-center">
+                    <td class="center">
                       <i-button type="delete" ng-click="item.hmisSetting.vatList.splice($index,1)"></i-button>
                     </td>
                   </tr>
@@ -767,9 +767,9 @@
                 </tr>
 
                 <tr ng-repeat="emp in screen.approvalList">
-                  <td class="text-center">{{$index+1}}</td>
-                  <td class="text-center">{{emp.name##session.lang##}}</td>
-                  <td class="text-center"><i-button type="delete" ng-click="screen.approvalList.splice($index,1)"></i-button></td>
+                  <td class="center">{{$index+1}}</td>
+                  <td class="center">{{emp.name##session.lang##}}</td>
+                  <td class="center"><i-button type="delete" ng-click="screen.approvalList.splice($index,1)"></i-button></td>
                 </tr>
               </table>
             </div>
@@ -795,15 +795,15 @@
                     <p class="text-center">{{acc.name##session.lang##}}</p>
                   </td>
 
-                  <td class="text-center">
+                  <td class="center">
                     <i-list items="accountsGuideList" ng-search="item.$debtorAccountGuides" display="name##session.lang##" ng-model="acc.debtorAccountGuide"> </i-list>
                   </td>
 
-                  <td class="text-center">
+                  <td class="center">
                     <i-list items="accountsGuideList" ng-search="item.$creditorAccountGuides" display="name##session.lang##" ng-model="acc.creditorAccountGuide"> </i-list>
                   </td>
 
-                  <td class="text-center">
+                  <td class="center">
                     <i-checkbox label="##word.Active##" ng-model="acc.active"> </i-checkbox>
                   </td>
                 </tr>

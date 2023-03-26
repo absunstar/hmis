@@ -229,17 +229,17 @@
                                 <th class="not-print">##word.Actions##</th>
                             </tr>
                             <tr ng-repeat="bank in item.bankInformationsList">
-                                <td class="text-center">{{$index+1}}</td>
-                                <td class="text-center">{{bank.bank.name##session.lang##}}</td>
-                                <td class="text-center">{{bank.swiftCode}}</td>
-                                <td class="text-center">{{bank.iban}}</td>
-                                <td class="text-center">{{bank.accountNumber}}</td>
-                                <td class="text-center">{{bank.accountName}}</td>
+                                <td class="center">{{$index+1}}</td>
+                                <td class="center">{{bank.bank.name##session.lang##}}</td>
+                                <td class="center">{{bank.swiftCode}}</td>
+                                <td class="center">{{bank.iban}}</td>
+                                <td class="center">{{bank.accountNumber}}</td>
+                                <td class="center">{{bank.accountName}}</td>
                                 <td>
                                     <i-checkbox ng-model="bank.active" class="text-center text-success" label="##word.Active##" ng-if="bank.active"></i-checkbox>
                                     <i-checkbox ng-model="bank.active" class="text-center text-danger" label="##word.Not Active##" ng-if="!bank.active"></i-checkbox>
                                 </td>
-                                <td class="text-center">
+                                <td class="center">
                                     <i-button type="delete" ng-click="item.bankInformationsList.splice($index,1)"> </i-button>
                                 </td>
                             </tr>

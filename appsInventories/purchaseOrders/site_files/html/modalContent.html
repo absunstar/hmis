@@ -131,53 +131,53 @@
             <th class="not-print">##word.Actions##</th>
           </tr>
           <tr ng-repeat="elem in item.itemsList">
-            <td class="text-center">{{$index+1}}</td>
-            <td class="text-center">{{elem.name##session.lang##}}</td>
-            <td class="text-center">
+            <td class="center">{{$index+1}}</td>
+            <td class="center">{{elem.name##session.lang##}}</td>
+            <td class="center">
               {{elem.unit.name##session.lang##}}
               <p class="green center" ng-show="elem.storeBalance > 0">( + {{elem.storeBalance}} )</p>
               <p class="red center" ng-show="elem.storeBalance <= 0">( + {{elem.storeBalance}} )</p>
             </td>
 
-            <td class="text-center" ng-if="item.sourceType.id === 1">
-              <p ng-if="item.sourceType.id === 1 || elem.approved" class="text-center">{{elem.requestedCount}}</p>
+            <td class="center" ng-if="item.sourceType.id === 1">
+              <p ng-if="item.sourceType.id === 1 || elem.approved" >{{elem.requestedCount}}</p>
             </td>
 
-            <td class="text-center">
-              <p ng-if=" elem.approved" class="text-center">{{elem.count}} <span>##word.+##</span></p>
+            <td class="center">
+              <p ng-if=" elem.approved" >{{elem.count}} <span>##word.+##</span></p>
               <i-control ng-change="calculateTotalInItemsList(item)" ng-if=" !elem.approved" min="0" type="number" ng-model="elem.count"></i-control>
             </td>
-            <td class="text-center">
-              <p ng-if=" elem.approved" class="text-center">{{elem.price}} <span class="currency">##word.$##</span></p>
+            <td class="center">
+              <p ng-if=" elem.approved" >{{elem.price}} <span class="currency">##word.$##</span></p>
               <i-control ng-change="calculateTotalInItemsList(item)" type="number" ng-if="!elem.approved" min="0" ng-model="elem.price"></i-control>
             </td>
-            <td class="text-center">
-              <p ng-if=" elem.approved" class="text-center">{{elem.salesPrice}} <span class="currency">##word.$##</span></p>
+            <td class="center">
+              <p ng-if=" elem.approved" >{{elem.salesPrice}} <span class="currency">##word.$##</span></p>
               <i-control type="number" ng-if="!elem.approved" min="0" ng-model="elem.salesPrice"></i-control>
             </td>
-            <td class="text-center">
-              <p ng-if="elem.approved" class="text-center">{{elem.bonusCount}} <span>##word.+##</span></p>
+            <td class="center">
+              <p ng-if="elem.approved" >{{elem.bonusCount}} <span>##word.+##</span></p>
               <i-control type="number" ng-if="!elem.approved" ng-model="elem.bonusCount"></i-control>
             </td>
-            <td class="text-center">
-              <p ng-if="elem.approved" class="text-center">{{elem.legalDiscount}} <span class="currency">##word.%##</span></p>
+            <td class="center">
+              <p ng-if="elem.approved" >{{elem.legalDiscount}} <span class="currency">##word.%##</span></p>
               <i-control type="number" ng-if="!elem.approved" ng-change="calculateTotalInItemsList(item)" ng-model="elem.legalDiscount"></i-control>
             </td>
-            <td class="text-center">
-              <p ng-if="elem.approved" class="text-center">{{elem.vendorDiscount}} <span class="currency">##word.%##</span></p>
+            <td class="center">
+              <p ng-if="elem.approved" >{{elem.vendorDiscount}} <span class="currency">##word.%##</span></p>
               <i-control type="number" ng-if="!elem.approved" ng-change="calculateTotalInItemsList(item)" ng-model="elem.vendorDiscount"></i-control>
             </td>
             <td>
-              <p class="text-center">{{elem.totalVat}} <span class="currency">##word.$##</span> </p>
+              <p class="center">{{elem.totalVat}} <span class="currency">##word.$##</span> </p>
             </td>
             <td>
-              <p class="text-center">{{elem.total}} <span class="currency">##word.$##</span></p>
+              <p class="center">{{elem.total}} <span class="currency">##word.$##</span></p>
             </td>
             <td>
               <p class="text-center text-success" ng-if="elem.approved">##word.Yes##</p>
               <p class="text-center text-danger" ng-if="!elem.approved">##word.No##</p>
             </td>
-            <td class="text-center">
+            <td class="center">
               <i-button
                 type="approve"
                 ng-if="!elem.approved &&!item.approved && mode == 'edit'"

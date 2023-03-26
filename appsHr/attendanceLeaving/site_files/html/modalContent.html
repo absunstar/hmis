@@ -35,14 +35,14 @@
                             <th>##word.Absence##</th>
                         </tr>
                         <tr>
-                            <td class="text-center">
+                            <td class="center">
                                 <i-control type="time" ng-model="item.$attendTime" ng-hide="item.absence || item.attendTime" ng-show="!item.attendTime"></i-control>
 
                                 <i-button type="add" label="##word.Attended##" ng-hide="item.absence || item.attendTime" ng-click="attendTime('attend')"></i-button>
 
                                 <p class="bold" ng-show="item.attendTime">{{item.attendTime | date :"shortTime"}}</p>
                             </td>
-                            <td class="text-center">
+                            <td class="center">
                                 <p class="bold" ng-show="item.attendTime">
                                     <span class="blue" ng-if="!item.attendanceTimeDifference">{{item.attendanceTimeDifference }}</span>
                                     <span class="red" ng-if="item.attendanceTimeDifference>0">{{item.attendanceTimeDifference }}</span>
@@ -50,20 +50,20 @@
                                 </p>
                             </td>
 
-                            <td class="text-center">
+                            <td class="center">
                                 <i-control type="time" ng-model="item.$leaveTime" ng-hide="item.absence || item.leaveTime" ng-show="!item.leaveTime"></i-control>
                                 <i-button type="edit" label="##word.Leave##" ng-show="item.attendTime && !item.leaveTime " ng-click="attendTime('leave')"></i-button>
                                 <p class="bold" ng-show="item.leaveTime">{{item.leaveTime |date:"shortTime"}}</p>
                             </td>
 
-                            <td class="text-center">
+                            <td class="center">
                                 <p class="bold" ng-show="item.attendTime">
                                     <span class="blue" ng-if="!item.leavingTimeDifference">{{item.leavingTimeDifference }}</span>
                                     <span class="red" ng-if="item.leavingTimeDifference>0">{{item.leavingTimeDifference }}</span>
                                     <span class="green" ng-if="item.leavingTimeDifference<0">{{item.leavingTimeDifference }}</span>
                                 </p>
                             </td>
-                            <td class="text-center">
+                            <td class="center">
                                 <i-button type="close" label="##word.Absence##" ng-hide="item.absence || item.attendTime" ng-click="attendTime('absence')"></i-button>
                                 <p class="bold text-danger" ng-show="item.absence">##word.Yes##</p>
                                 <p class="bold text-success" ng-show="!item.absence && item.attendTime">##word.No##</p>

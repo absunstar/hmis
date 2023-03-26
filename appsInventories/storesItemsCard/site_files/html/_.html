@@ -24,16 +24,16 @@
                     <th>##word.Transaction Type##</th>
                 </tr>
                 <tr ng-repeat="elem in list | filter:$search">
-                    <td class="text-center">{{elem.name##session.lang##}}</td>
-                    <td class="text-center">{{elem.unit.name##session.lang##}}</td>
-                    <td>
-                        <p class="text-center text-success" ng-if="elem.countType =='in'"><span class="text-success"> ##word.+##</span> {{elem.count}}</p>
-                        <p class="text-center text-danger" ng-if="elem.countType =='out'"><span class="text-danger"> ##word.-##</span> {{elem.count}}</p>
-                        <p class="text-center blue" ng-show="elem.bonusCount">({{elem.purshaseCount}} + {{elem.bonusCount}})</p>
+                    <td class="center">{{elem.name##session.lang##}}</td>
+                    <td class="center">{{elem.unit.name##session.lang##}}</td>
+                    <td class="center">
+                        <p class=" text-success" ng-if="elem.countType =='in'"><span class="text-success"> ##word.+##</span> {{elem.count}}</p>
+                        <p class=" text-danger" ng-if="elem.countType =='out'"><span class="text-danger"> ##word.-##</span> {{elem.count}}</p>
+                        <p class=" blue" ng-show="elem.bonusCount">({{elem.purshaseCount}} + {{elem.bonusCount}})</p>
                     </td>
-                    <td>
-                        <p class="text-center green">{{elem.totalPrice}} <span class="green"> ##word.$##</span></p>
-                        <p class="text-center blue">( {{elem.price}} <span class="green"> ##word.$##</span> )</p>
+                    <td class="center">
+                        <p class=" green">{{elem.totalPrice}} <span class="green"> ##word.$##</span></p>
+                        <p class=" blue">( {{elem.price}} <span class="green"> ##word.$##</span> )</p>
                     </td>
                     <!-- <td>
                         <p class="text-center green" ng-show="elem.currentCount > 0">{{elem.currentCount}} ##word.+##</p>
@@ -45,11 +45,11 @@
                         <p class="text-center red" ng-show="elem.lastCount <= 0">{{elem.lastCount}}</p>
                     </td> -->
 
-                    <td class="text-center">{{elem.store.name##session.lang##}}</td>
-                    <td class="text-center blue">{{elem.date|date:'dd/MM/yyyy'}} - {{elem.date|date:'hh:mm:ss a'}}</td>
-                    <td class="text-center">{{elem.transactionType.name##session.lang##}}</td>
+                    <td class="center">{{elem.store.name##session.lang##}}</td>
+                    <td class="center blue">{{elem.date|date:'dd/MM/yyyy'}} - {{elem.date|date:'hh:mm:ss a'}}</td>
+                    <td class="center">{{elem.transactionType.name##session.lang##}}</td>
 
-                    <!-- <td class="text-center not-print"> -->
+                    <!-- <td class="center not-print"> -->
                     <!-- <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button> -->
 
                     <!-- <i-button type="edit" x-permissions="storesItemsCardUpdate || storesItemsCardManage" label="##word.Edit##" ng-click="showUpdate(item)"></i-button> -->

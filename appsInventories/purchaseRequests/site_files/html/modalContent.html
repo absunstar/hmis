@@ -68,8 +68,8 @@
                 <th class="not-print" ng-show="!item.approved">##word.Actions##</th>
               </tr>
               <tr ng-repeat="elem in item.itemsList">
-                <td class="text-center">{{$index+1}}</td>
-                <td class="text-center">
+                <td class="center">{{$index+1}}</td>
+                <td class="center">
                   {{elem.name##session.lang##}} <span class="blue"> ({{elem.unit.name##session.lang##}})</span>
                   <fieldset ng-show="showStoresBalance">
                     <legend>##word.Stores Balance## <span class="blue"> {{elem.currentCount}}</span></legend>
@@ -81,16 +81,16 @@
                   </fieldset>
                 </td>
 
-                <td class="text-center">
+                <td class="center">
                   <i-control type="number" min="1" ng-show="!elem.approved" ng-model="elem.count"> </i-control>
 
-                  <span class="text-center" ng-show="elem.approved"> {{elem.count}} </span>
+                  <span  ng-show="elem.approved"> {{elem.count}} </span>
                 </td>
-                <td class="text-center">
+                <td class="center">
                   <span class="text-success" ng-show="elem.approved">##word.Yes##</span>
                   <span class="text-danger" ng-show="!elem.approved">##word.No##</span>
                 </td>
-                <td class="text-center" ng-show="!item.approved">
+                <td class="center" ng-show="!item.approved">
                   <i-button
                     type="unapprove"
                     ng-show="elem.approved && !item.approved  && mode == 'edit'"

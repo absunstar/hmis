@@ -207,15 +207,15 @@
                                 <th class="not-print">##word.Actions##</th>
                             </tr>
                             <tr ng-repeat="discount in item.discountsList">
-                                <td><p class="text-center">{{discount.name##session.lang##}}</p></td>
-                                <td>
-                                    <p class="text-center">
+                                <td class="center"><p>{{discount.name##session.lang##}}</p></td>
+                                <td class="center">
+                                    <p>
                                         {{discount.value}}
                                         <span ng-if="discount.type == 'value'" class="currency">##word.$##</span>
                                         <span ng-if="discount.type == 'percent'" class="currency">##word.%##</span>
                                     </p>
                                 </td>
-                                <td class="text-center">
+                                <td class="center">
                                     <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(discount,'discount');"> </i-button>
                                 </td>
                             </tr>
@@ -252,7 +252,7 @@
                                     <p class="text-center">{{tax.value}} <span class="green">##word.%##</span></p>
                                 </td>
 
-                                <td class="text-center">
+                                <td class="center">
                                     <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(tax,'tax');"> </i-button>
                                 </td>
                             </tr>

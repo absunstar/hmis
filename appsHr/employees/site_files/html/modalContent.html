@@ -203,13 +203,13 @@
                                         <th class="not-print">##word.Actions##</th>
                                     </tr>
                                     <tr ng-repeat="t in item.relativesList">
-                                        <td class="text-center">
+                                        <td class="center">
                                             <i-control type="text" v="r" ng-model="t.name"></i-control>
                                         </td>
-                                        <td class="text-center">
+                                        <td class="center">
                                             <i-control type="text" v="r" ng-model="t.phone"></i-control>
                                         </td>
-                                        <td class="text-center">
+                                        <td class="center">
                                             <i-control type="text" v="r" ng-model="t.degreeOfRelative"></i-control>
                                         </td>
                                         <td>
@@ -272,11 +272,11 @@
                                             <th class="not-print">##word.Actions##</th>
                                         </tr>
                                         <tr ng-repeat="otherSkill in item.skillsList">
-                                            <td class="text-center">{{$index+1}}</td>
-                                            <td class="text-center">{{otherSkill.name}}</td>
-                                            <td class="text-center">{{otherSkill.yearsOfExperience}}</td>
+                                            <td class="center">{{$index+1}}</td>
+                                            <td class="center">{{otherSkill.name}}</td>
+                                            <td class="center">{{otherSkill.yearsOfExperience}}</td>
 
-                                            <td class="text-center not-print">
+                                            <td class="center not-print">
                                                 <i-button type="delete" ng-click="item.skillsList.splice($index,1)"> </i-button>
                                             </td>
                                         </tr>
@@ -310,13 +310,13 @@
                                             <th class="not-print">##word.Actions##</th>
                                         </tr>
                                         <tr ng-repeat="cer in item.certificatesList">
-                                            <td class="text-center">{{$index+1}}</td>
-                                            <td class="text-center">{{cer.name}}</td>
-                                            <td class="text-center">{{cer.source}}</td>
-                                            <td class="text-center"><a target="_blank" href="{{cer.link}}">Certificate URL</a></td>
-                                            <td class="text-center">{{cer.date| date:'dd/MM/yyyy'}}</td>
+                                            <td class="center">{{$index+1}}</td>
+                                            <td class="center">{{cer.name}}</td>
+                                            <td class="center">{{cer.source}}</td>
+                                            <td class="center"><a target="_blank" href="{{cer.link}}">Certificate URL</a></td>
+                                            <td class="center">{{cer.date| date:'dd/MM/yyyy'}}</td>
 
-                                            <td class="text-center not-print">
+                                            <td class="center not-print">
                                                 <i-button type="delete" ng-click="item.certificatesList.splice($index,1)"> </i-button>
                                             </td>
                                         </tr>
@@ -353,20 +353,20 @@
                                             <th class="not-print">##word.Actions##</th>
                                         </tr>
                                         <tr ng-repeat="experience in item.experiencesList">
-                                            <td class="text-center">{{$index+1}}</td>
-                                            <td class="text-center">{{experience.company}}</td>
-                                            <td class="text-center">{{experience.department}}</td>
-                                            <td class="text-center">{{experience.jobTitle}}</td>
-                                            <td>
-                                                <p class="text-center" ng-if="experience.from">{{experience.from |date:'dd/MM/yyyy'}}</p>
-                                                <p class="text-center" ng-if="!experience.from">-</p>
+                                            <td class="center">{{$index+1}}</td>
+                                            <td class="center">{{experience.company}}</td>
+                                            <td class="center">{{experience.department}}</td>
+                                            <td class="center">{{experience.jobTitle}}</td>
+                                            <td class="center">
+                                                <p  ng-if="experience.from">{{experience.from |date:'dd/MM/yyyy'}}</p>
+                                                <p  ng-if="!experience.from">-</p>
                                             </td>
-                                            <td>
-                                                <p class="text-center" ng-if="experience.to">{{experience.to |date:'dd/MM/yyyy'}}</p>
-                                                <p class="text-center" ng-if="!experience.to">-</p>
+                                            <td class="center">
+                                                <p  ng-if="experience.to">{{experience.to |date:'dd/MM/yyyy'}}</p>
+                                                <p  ng-if="!experience.to">-</p>
                                             </td>
 
-                                            <td class="text-center not-print">
+                                            <td class="center not-print">
                                                 <i-button type="delete" ng-click="item.experiencesList.splice($index,1)"> </i-button>
                                             </td>
                                         </tr>
@@ -406,19 +406,19 @@
                                     <th class="not-print">##word.Actions##</th>
                                 </tr>
                                 <tr ng-repeat="document in item.documentsList">
-                                    <td class="text-center">{{$index+1}}</td>
-                                    <td class="text-center">{{document.fileType.name##session.lang##}} - <a download href="{{document.file.url}}">{{document.file.name}}</a></td>
-                                    <td>
-                                        <p class="text-center text-success" ng-if="document.renewable">##word.Yes##</p>
-                                        <p class="text-center text-danger" ng-if="!document.renewable">##word.No##</p>
+                                    <td class="center">{{$index+1}}</td>
+                                    <td class="center">{{document.fileType.name##session.lang##}} - <a download href="{{document.file.url}}">{{document.file.name}}</a></td>
+                                    <td class="center">
+                                        <p class=" text-success" ng-if="document.renewable">##word.Yes##</p>
+                                        <p class=" text-danger" ng-if="!document.renewable">##word.No##</p>
                                     </td>
 
-                                    <td>
-                                        <p class="text-center text-success" ng-if="document.renewable">{{document.renewalDate|date:'dd/MM/yyyy'}}</p>
-                                        <p class="text-center text-danger" ng-if="!document.renewable">-</p>
+                                    <td class="center">
+                                        <p class=" text-success" ng-if="document.renewable">{{document.renewalDate|date:'dd/MM/yyyy'}}</p>
+                                        <p class=" text-danger" ng-if="!document.renewable">-</p>
                                     </td>
 
-                                    <td class="text-center not-print">
+                                    <td class="center not-print">
                                         <i-button type="delete" ng-click="item.documentsList.splice($index,1)"> </i-button>
                                     </td>
                                 </tr>
@@ -491,12 +491,12 @@
                                         <th class="not-print">##word.Actions##</th>
                                     </tr>
                                     <tr ng-repeat="b in item.banksList">
-                                        <td class="text-center">{{$index+1}}</td>
-                                        <td class="text-center">{{b.bank.name##session.lang##}}</td>
-                                        <td class="text-center">{{b.accountNumber}}</td>
-                                        <td class="text-center">{{b.accountName}}</td>
-                                        <td class="text-center">{{b.swiftCode}}</td>
-                                        <td class="text-center">{{b.iban}}</td>
+                                        <td class="center">{{$index+1}}</td>
+                                        <td class="center">{{b.bank.name##session.lang##}}</td>
+                                        <td class="center">{{b.accountNumber}}</td>
+                                        <td class="center">{{b.accountName}}</td>
+                                        <td class="center">{{b.swiftCode}}</td>
+                                        <td class="center">{{b.iban}}</td>
                                         <td>
                                             <div class="row text-center">
                                                 <i-checkbox ng-model="b.salaryBank" ng-if="b.salaryBank" label="##word.Yes##"></i-checkbox>
@@ -505,7 +505,7 @@
                                             </div>
                                         </td>
 
-                                        <td class="text-center not-print">
+                                        <td class="center not-print">
                                             <i-button type="delete " ng-click="item.banksList.splice($index,1)"> </i-button>
                                         </td>
                                     </tr>
@@ -654,15 +654,15 @@
                                                 <th class="not-print">##word.Actions##</th>
                                             </tr>
                                             <tr ng-repeat="itm in item.allowancesList">
-                                                <td class="text-center blue">{{$index+1}}</td>
-                                                <td class="text-center">{{itm.allowance.name##session.lang##}}</td>
-                                                <td class="text-center">
+                                                <td class="center blue">{{$index+1}}</td>
+                                                <td class="center">{{itm.allowance.name##session.lang##}}</td>
+                                                <td class="center">
                                                     <div class="row">
                                                         <i-radio class="col6" group="itm_{{$index}}" label="##word.Value##" ng-value="value" ng-model="itm.type"> </i-radio>
                                                         <i-radio class="col6" group="itm_{{$index}}" label="##word.Percent##" ng-value="percent" ng-model="itm.type"> </i-radio>
                                                     </div>
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="center">
                                                     <div class="row">
                                                         <div class="col9"><i-control type="number" ng-model="itm.value"> </i-control></div>
                                                         <div class="col3">
@@ -678,7 +678,7 @@
                                                         <p class="col6 text-center text-danger" ng-if="!itm.active">##word.Not Active##</p>
                                                     </div>
                                                 </td>
-                                                <td class="text-center not-print">
+                                                <td class="center not-print">
                                                     <i-button type="delete" x-permissions="removeEmployeeAllowance" ng-click="item.allowancesList.splice($index,1)"> </i-button>
                                                 </td>
                                             </tr>
@@ -726,15 +726,15 @@
                                                 <th class="not-print">##word.Actions##</th>
                                             </tr>
                                             <tr ng-repeat="elem in item.deductionsList">
-                                                <td class="text-center blue">{{$index+1}}</td>
-                                                <td class="text-center">{{elem.deduction.name##session.lang##}}</td>
-                                                <td class="text-center">
+                                                <td class="center blue">{{$index+1}}</td>
+                                                <td class="center">{{elem.deduction.name##session.lang##}}</td>
+                                                <td class="center">
                                                     <div class="row">
                                                         <i-radio class="col6" group="elem_{{$index}}" label="##word.Value##" ng-value="value" ng-model="elem.type"> </i-radio>
                                                         <i-radio class="col6" group="elem_{{$index}}" label="##word.Percent##" ng-value="percent" ng-model="elem.type"> </i-radio>
                                                     </div>
                                                 </td>
-                                                <td class="text-center">
+                                                <td class="center">
                                                     <div class="row">
                                                         <div class="col9"><i-control type="number" ng-model="elem.value"> </i-control></div>
                                                         <div class="col3">
@@ -750,7 +750,7 @@
                                                         <p class="col6 text-center text-danger" ng-if="!elem.active">##word.Not Active##</p>
                                                     </div>
                                                 </td>
-                                                <td class="text-center not-print">
+                                                <td class="center not-print">
                                                     <i-button type="delete" x-permissions="removeEmployeeDeduction" ng-click="item.deductionsList.splice($index,1)"> </i-button>
                                                 </td>
                                             </tr>

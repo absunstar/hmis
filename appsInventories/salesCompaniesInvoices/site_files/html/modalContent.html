@@ -96,8 +96,8 @@
                     <p class="center" ng-if="mode != 'add'">{{elem.count}}</p>
                 </td>
                 <td class="center">
-                    <p class="text-center">{{elem.totalPrice}} <span class="currency">##word.$##</span></p>
-                    <p class="text-center blue" ng-if="elem.count > 1">( {{elem.price}} <span class="currency">##word.$##</span> )</p>
+                    <p >{{elem.totalPrice}} <span class="currency">##word.$##</span></p>
+                    <p class=" blue" ng-if="elem.count > 1">( {{elem.price}} <span class="currency">##word.$##</span> )</p>
                 </td>
                 <td class="center">
                     <i-control min="0" type="number" ng-change="calculate(item)" ng-show="!item.approved" ng-model="elem.extraDiscount"></i-control>
@@ -106,7 +106,7 @@
                 <td class="center">
                     <p>{{elem.totalDiscount}} ##word.$##</p>
 
-                    <p class="text-center green">
+                    <p class="green">
                         ( {{elem.discount}}
                         <span ng-if="elem.discountType === 'percent'"> ##word.%## </span>
                         <span ng-if="elem.discountType === 'value'"> ##word.$## </span>
@@ -117,10 +117,10 @@
                     <p>{{elem.totalVat}} ##word.$##</p>
                 </td>
                 <td class="center">
-                    <p class="text-center">{{elem.total}} <span class="currency">##word.$##</span></p>
+                    <p >{{elem.total}} <span class="currency">##word.$##</span></p>
                 </td>
 
-                <td class="text-center">
+                <td class="center">
                     <i-button type="edit" label="##word.Batch##" ng-if="elem.workByBatch || elem.workBySerial || elem.workByQrCode || elem.hasMedicalData" ng-click="showBatchModal(elem)"> </i-button>
                     <i-button type="delete" ng-show="mode == 'add'" ng-click="item.itemsList.splice($index,1)"> </i-button>
                 </td>
@@ -160,15 +160,15 @@
                                 <th class="not-print">##word.Actions##</th>
                             </tr>
                             <tr ng-repeat="discount in item.discountsList">
-                                <td><p class="text-center">{{discount.name##session.lang##}}</p></td>
-                                <td>
-                                    <p class="text-center">
+                                <td><p class="center">{{discount.name##session.lang##}}</p></td>
+                                <td class="center">
+                                    <p >
                                         {{discount.value}}
                                         <span ng-if="discount.type == 'value'" class="currency">##word.$##</span>
                                         <span ng-if="discount.type == 'percent'" class="currency">##word.%##</span>
                                     </p>
                                 </td>
-                                <td class="text-center">
+                                <td class="center">
                                     <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(discount,'discount');"> </i-button>
                                 </td>
                             </tr>
@@ -205,7 +205,7 @@
                                     <p class="text-center">{{tax.value}} <span class="green">##word.%##</span></p>
                                 </td>
 
-                                <td class="text-center">
+                                <td class="center">
                                     <i-button type="delete" label="##word.Delete##" ng-click="spliceFromList(tax,'tax');"> </i-button>
                                 </td>
                             </tr>

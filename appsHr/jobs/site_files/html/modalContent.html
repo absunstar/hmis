@@ -53,7 +53,7 @@
                                 <i-control class="col6" type="text" ng-model="task.notes" label="##word.Notes##"></i-control>
                                 <div class="col2">
                                     <br />
-                                    <i-button type="add" label="##word.Add##" ng-click="addTask(task)"></i-button>
+                                    <i-button type="push" ng-click="addTask(task)"></i-button>
                                 </div>
                             </div>
                             <table class="table center hover bold">
@@ -65,14 +65,14 @@
                                     <th class="not-print">##word.Actions##</th>
                                 </tr>
                                 <tr ng-repeat="mission in item.tasksList">
-                                    <td class="text-center">{{$index + 1}}</td>
-                                    <td>
-                                        <p class="text-center">{{mission.name}}</p>
+                                    <td class="center">{{$index + 1}}</td>
+                                    <td class="center">
+                                        <p >{{mission.name}}</p>
                                     </td>
-                                    <td class="text-center">
-                                        <p class="text-center">{{mission.notes}}</p>
+                                    <td class="center">
+                                        <p >{{mission.notes}}</p>
                                     </td>
-                                    <td class="text-center">
+                                    <td class="center">
                                         <div class="row">
                                             <i-checkbox class="col6" ng-model="mission.active"></i-checkbox>
                                             <span class="col6 text-success" ng-show="mission.active">##word.Active##</span>
@@ -88,7 +88,6 @@
                     </div>
 
                     <div id="jobTools" class="tab-content">
-
                         <fieldset>
                             <legend>##word.Tools##</legend>
                             <div class="row">
@@ -97,7 +96,7 @@
                                 <i-control class="col4" type="text" ng-model="selectedTool.notes" label="##word.Notes##"></i-control>
                                 <div class="col2">
                                     <br />
-                                    <i-button type="add" label="##word.Add##" ng-click="addTool(selectedTool)"></i-button>
+                                    <i-button type="push" ng-click="addTool(selectedTool)"></i-button>
                                 </div>
                             </div>
                             <table class="table center hover bold">
@@ -110,19 +109,19 @@
                                     <th class="not-print">##word.Actions##</th>
                                 </tr>
                                 <tr ng-repeat="tol in item.toolsList">
-                                    <td class="text-center">{{$index + 1}}</td>
-                                    <td>
-                                        <p class="text-center">{{tol.tool.name##session.lang##}}</p>
+                                    <td class="center">{{$index + 1}}</td>
+                                    <td class="center">
+                                        <p >{{tol.tool.name##session.lang##}}</p>
                                     </td>
 
-                                    <td class="text-center">
+                                    <td class="center">
                                         <span class="text-success" ng-show="tol.companyMustProvide">##word.Yes##</span>
                                         <span class="text-danger" ng-show="!tol.companyMustProvide">##word.No##</span>
                                     </td>
-                                    <td class="text-center">
-                                        <p class="text-center">{{tol.notes}}</p>
+                                    <td class="center">
+                                        <p >{{tol.notes}}</p>
                                     </td>
-                                    <td class="text-center">
+                                    <td class="center">
                                         <div class="row">
                                             <i-checkbox class="col6" ng-model="tol.active"></i-checkbox>
                                             <span class="col6 text-success" ng-show="tol.active">##word.Active##</span>
@@ -146,7 +145,7 @@
                                 <i-control class="col3" type="text" ng-model="skill.notes" label="##word.Notes##"></i-control>
                                 <div class="col2">
                                     <br />
-                                    <i-button type="add" label="##word.Add##" ng-click="addSkill(skill)"></i-button>
+                                    <i-button type="push" ng-click="addSkill(skill)"></i-button>
                                 </div>
                             </div>
                             <table class="table center hover bold">
@@ -159,17 +158,17 @@
                                     <th class="not-print">##word.Actions##</th>
                                 </tr>
                                 <tr ng-repeat="gift in item.skillsList">
-                                    <td class="text-center">{{$index + 1}}</td>
-                                    <td>
-                                        <p class="text-center">{{gift.name}}</p>
+                                    <td class="center">{{$index + 1}}</td>
+                                    <td class="center">
+                                        <p >{{gift.name}}</p>
                                     </td>
-                                    <td>
-                                        <p class="text-center">{{gift.experienceYears}}</p>
+                                    <td class="center">
+                                        <p >{{gift.experienceYears}}</p>
                                     </td>
-                                    <td class="text-center">
-                                        <p class="text-center">{{gift.notes}}</p>
+                                    <td class="center">
+                                        <p >{{gift.notes}}</p>
                                     </td>
-                                    <td class="text-center">
+                                    <td class="center">
                                         <div class="row">
                                             <i-checkbox class="col6" ng-model="gift.active"></i-checkbox>
                                             <span class="col6 text-success" ng-show="gift.active">##word.Active##</span>

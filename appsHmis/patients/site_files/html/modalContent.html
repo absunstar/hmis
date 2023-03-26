@@ -250,18 +250,18 @@
                                         <th class="not-print">##word.Actions##</th>
                                     </tr>
                                     <tr ng-repeat="s in item.offersList">
-                                        <td class="text-center blue">{{s.code}}</td>
-                                        <td class="text-center">{{s.name##session.lang##}}</td>
-                                        <td class="text-center">{{s.startDate |date:"dd / MM / yyyy"}}</td>
-                                        <td class="text-center">{{s.expiryDate |date:"dd / MM / yyyy"}}</td>
-                                        <td class="text-center">{{s.discountValue}}</td>
-                                        <td class="text-center">{{s.totalPrice}}</td>
-                                        <td class="text-center">{{s.totalVat}}</td>
-                                        <td class="text-center">{{s.cons}}</td>
-                                        <td class="text-center">{{s.totalNet}}</td>
-                                        <td class="text-center">{{s.paid}}</td>
-                                        <td class="text-center">{{s.balance}}</td>
-                                        <td class="text-center not-print">
+                                        <td class="center blue">{{s.code}}</td>
+                                        <td class="center">{{s.name##session.lang##}}</td>
+                                        <td class="center">{{s.startDate |date:"dd / MM / yyyy"}}</td>
+                                        <td class="center">{{s.expiryDate |date:"dd / MM / yyyy"}}</td>
+                                        <td class="center">{{s.discountValue}}</td>
+                                        <td class="center">{{s.totalPrice}}</td>
+                                        <td class="center">{{s.totalVat}}</td>
+                                        <td class="center">{{s.cons}}</td>
+                                        <td class="center">{{s.totalNet}}</td>
+                                        <td class="center">{{s.paid}}</td>
+                                        <td class="center">{{s.balance}}</td>
+                                        <td class="center not-print">
                                             <i-button type="delete default" ng-click="item.offersList.splice($index,1)"> </i-button>
                                         </td>
                                     </tr>

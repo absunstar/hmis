@@ -43,10 +43,10 @@
                             <th class="not-print">##word.Actions##</th>
                         </tr>
                         <tr ng-repeat="s in item.servicesCategoriesList">
-                            <td class="text-center blue">{{s.code}}</td>
-                            <td class="text-center">{{s.name##session.lang##}}</td>
+                            <td class="center blue">{{s.code}}</td>
+                            <td class="center">{{s.name##session.lang##}}</td>
 
-                            <td class="text-center not-print">
+                            <td class="center not-print">
                                 <i-button type="delete default" ng-click="item.servicesCategoriesList.splice($index,1)"> </i-button>
                             </td>
                         </tr>

@@ -106,7 +106,9 @@
             "workErrandRequestsManage",
             "overtimeRequestsManage",
             "employeesAdvancesManage",
-            "payslipsManage"
+            "payslipsManage",
+            "jobsAdvertisementsManage",
+            "jobsApplicantsManage"
         ]
     }
 ]

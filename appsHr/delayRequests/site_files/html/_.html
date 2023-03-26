@@ -31,8 +31,8 @@
                     <th class="not-print">##word.Actions##</th>
                 </tr>
                 <tr ng-repeat="item in list | filter:$search">
-                    <td class="text-center blue">{{$index+1}}</td>
-                    <td class="text-center">{{item.employee.fullName##session.lang##}}</td>
+                    <td class="center blue">{{$index+1}}</td>
+                    <td class="center">{{item.employee.fullName##session.lang##}}</td>
                     <td>
                         <p class="text-center">{{item.date | date:'dd/MM/yyyy'}}</p>
                     </td>
@@ -54,7 +54,7 @@
                         <span class="text-danger" ng-show="item.requestStatus == 'rejected'">##word.Refused##</span>
                     </td>
 
-                    <td class="text-center not-print">
+                    <td class="center not-print">
                         <i-button type="view" label="##word.View##" ng-click="showView(item)"></i-button>
 
                         <i-button

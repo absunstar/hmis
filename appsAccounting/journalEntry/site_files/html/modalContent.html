@@ -43,11 +43,11 @@
           <th class="not-print">##word.Actions##</th>
         </tr>
         <tr ng-repeat="acc in item.accountsList">
-          <td class="text-center blue">{{acc.code}}</td>
-          <td class="text-center">{{acc.name##session.lang##}}</td>
-          <td class="text-center"><i-control type="number" ng-change="calc(item)" ng-model="acc.debtor"></i-control></td>
-          <td class="text-center"><i-control type="number" ng-change="calc(item)" ng-model="acc.creditor"></i-control></td>
-          <td class="text-center not-print">
+          <td class="center blue">{{acc.code}}</td>
+          <td class="center">{{acc.name##session.lang##}}</td>
+          <td class="center"><i-control type="number" ng-change="calc(item)" ng-model="acc.debtor"></i-control></td>
+          <td class="center"><i-control type="number" ng-change="calc(item)" ng-model="acc.creditor"></i-control></td>
+          <td class="center not-print">
             <i-button type="list" label="##word.Cost Centers##" ng-click="showCostCenters(acc)"></i-button>
             <i-button type="list" label="##word.General Ledgers##" ng-click="showGeneralLedgers(acc)"></i-button>
             <i-button type="delete" label="##word.Delete##" ng-click="item.accountsList.splice($index,1)"> </i-button>

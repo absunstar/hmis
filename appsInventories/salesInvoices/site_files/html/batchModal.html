@@ -7,7 +7,7 @@
 
     <div class="modal-body">
       <form class="form">
-        <fieldset ng-show="batch.hasMedicalData && item.salesType != 'company'">
+        <fieldset ng-show="batch.hasMedicalData && item.salesType.code != 'company'">
           <legend>##word.Medication doses##</legend>
           <div class="row padding">
             <i-list label="##word.Duration##" class="col4" ng-model="batch.medicineDuration" display="name##session.lang##" items="medicineDurationsList" ng-search="batch.$medicineDuration"></i-list>

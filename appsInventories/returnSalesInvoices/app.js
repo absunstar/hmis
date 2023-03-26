@@ -251,6 +251,22 @@ module.exports = function init(site) {
                 item.orderCode = result.doc.code;
                 site.setItemCard(item, app.name);
               });
+              let obj = {
+                code: result.doc.code,
+                image: result.doc.image,
+                appName: app.name,
+                totalNet: result.doc.totalNet,
+                userInfo: result.doc.addApprovedInfo,
+              };
+              if (result.doc.salesType.code == 'patient') {
+                obj.patient = result.doc.patient;
+              } else if (result.doc.salesType.code == 'company') {
+                obj.customer = result.doc.customer;
+              } else if (result.doc.salesType.code == 'customer') {
+                obj.customer = result.doc.customer;
+              }
+
+              site.autoJournalEntry(req.session, obj);
               response.result = result;
             } else {
               response.error = err.message;

@@ -164,7 +164,7 @@ module.exports = function init(site) {
         let medicationDosesList = [];
         site.getBatchesToSalesAuto({ store: _data.store, items: _data.itemsList }, (callbackItems) => {
           _data.itemsList.forEach((_item) => {
-            if (_item.hasMedicalData && _data.salesType != 'company') {
+            if (_item.hasMedicalData && _data.salesType.code != 'company') {
               if (!_item.medicineDuration || !_item.medicineFrequency || !_item.medicineRoute) {
                 let itemName = req.session.lang == 'Ar' ? _item.nameAr : _item.nameEn;
                 medicationDosesList.push(itemName);
@@ -176,10 +176,9 @@ module.exports = function init(site) {
                 if (storesSetting.workFifo) {
                   if (_item.$batchCount != _item.count) {
                     let itemIndex = callbackItems.findIndex((itm) => itm.id === _item.id);
-                    if(itemIndex !== -1) {
+                    if (itemIndex !== -1) {
                       _item.batchesList = callbackItems[itemIndex].batchesList;
                     }
-                  
                   }
                   _item.$batchCount = _item.batchesList.reduce((a, b) => +a + +b.count, 0);
                 }
@@ -215,9 +214,9 @@ module.exports = function init(site) {
 
           let appName = 'salesInvoices';
 
-          if (_data.salesType == 'company') {
+          if (_data.salesType.code == 'company') {
             appName = 'salesCompaniesInvoices';
-          } else if (_data.salesType == 'patient') {
+          } else if (_data.salesType.code == 'patient') {
             appName = 'salesPatientsInvoices';
           }
 
@@ -265,9 +264,26 @@ module.exports = function init(site) {
                   item.orderCode = doc.code;
                   site.setItemCard(item, app.name);
                 });
-                if (doc.salesType == 'patient') {
+                let obj = {
+                  code: doc.code,
+                  image: doc.image,
+                  appName: app.name,
+                  totalNet: doc.totalNet,
+                  userInfo: doc.addUserInfo,
+                };
+                if (doc.salesType.code == 'patient') {
+                  obj.patient = doc.patient;
+                  obj.appName = 'salesPatientsInvoices';
                   site.hasSalesDoctorDeskTop({ id: doc.doctorDeskTop.id });
+                } else if (doc.salesType.code == 'company') {
+                  obj.customer = doc.customer;
+                  obj.appName = 'salesCompaniesInvoices';
+                } else if (doc.salesType.code == 'customer') {
+                  obj.customer = doc.customer;
                 }
+
+                site.autoJournalEntry(req.session, obj);
+
                 response.doc = doc;
               } else {
                 response.error = err.message;

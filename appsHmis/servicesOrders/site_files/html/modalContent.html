@@ -57,7 +57,7 @@
             ng-model="item.patient"
             display="fullName##session.lang##"
             items="patientsList"
-            ng-search="item.$patient"
+            ng-get="getPatientsList($search)"
             ng-disabled="item.servicesList.length"
           ></i-list>
           <div class="col3" ng-show="item.patient.id">

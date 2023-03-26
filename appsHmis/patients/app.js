@@ -325,7 +325,6 @@ module.exports = function init(site) {
             where.$or.push({
               fullNameEn: site.get_RegExp(search, 'i'),
             });
-
             where.$or.push({
               'mobileList.mobile': site.get_RegExp(search, 'i'),
             });

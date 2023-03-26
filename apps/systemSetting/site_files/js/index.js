@@ -372,36 +372,42 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getCustomers = function () {
+    $scope.getCustomers = function ($search) {
+        if ($search && $search.length < 1) {
+          return;
+        }
         $scope.busy = true;
         $scope.customersList = [];
         $http({
-            method: 'POST',
-            url: '/api/customers/all',
-            data: {
-                where: {
-                    active: true,
-                },
-                select: {
-                    id: 1,
-                    code: 1,
-                    nameEn: 1,
-                    nameAr: 1,
-                },
+          method: 'POST',
+          url: '/api/customers/all',
+          data: {
+            where: {
+              active: true,
             },
+            select: {
+              id: 1,
+              code: 1,
+              nameEn: 1,
+              nameAr: 1,
+              taxIdentificationNumber: 1,
+              mobile: 1,
+            },
+            search: $search,
+          },
         }).then(
-            function (response) {
-                $scope.busy = false;
-                if (response.data.done && response.data.list.length > 0) {
-                    $scope.customersList = response.data.list;
-                }
-            },
-            function (err) {
-                $scope.busy = false;
-                $scope.error = err;
+          function (response) {
+            $scope.busy = false;
+            if (response.data.done && response.data.list.length > 0) {
+              $scope.customersList = response.data.list;
             }
+          },
+          function (err) {
+            $scope.busy = false;
+            $scope.error = err;
+          }
         );
-    };
+      };
 
     $scope.getVendors = function () {
         $scope.busy = true;

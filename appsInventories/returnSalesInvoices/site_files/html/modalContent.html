@@ -35,9 +35,12 @@
                 <td class="center" colspan="3">
                     <p class="height-5">{{item.date | date:'dd/MM/yyyy'}} - {{item.date | date:'hh:mm:ss a'}}</p>
                 </td>
-                <th>##word.Customer##</th>
+                <th ng-show="item.salesType.code == 'patient'">##word.Patient##</th>
+                <th ng-show="item.salesType.code == 'customer'">##word.Customer##</th>
+                <th ng-show="item.salesType.code == 'company'">##word.Company##</th>
                 <td class="center" colspan="3">
-                    <p class="height-5">{{item.customer.name##session.lang##}} ( <span class="blue">{{item.customer.code}}</span> )</p>
+                    <p class="height-5" ng-show="item.salesType.code == 'customer' || item.salesType.code == 'company'">{{item.customer.name##session.lang##}} ( <span class="blue">{{item.customer.code}}</span> )</p>
+                    <p class="height-5" ng-show="item.salesType.code == 'patient'">{{item.patient.fullName##session.lang##}} ( <span class="blue">{{item.patient.code}}</span> )</p>
                 </td>
             </tr>
         </table>
@@ -78,7 +81,8 @@
             </table>
         </div>
     </fieldset>
-    <fieldset ng-if="item.itemsList.length > 0">
+
+    <fieldset>
         <legend>##word.Totals##</legend>
         <div class="row">
             <div class="col4">
@@ -88,12 +92,17 @@
             </div>
             <div class="col4">
                 <fieldset>
+                    <p class="bold font-20 text-warning">##word.Total Items Disc## : {{item.totalItemsDiscounts}} <span class="currency">##word.$##</span></p>
+                </fieldset>
+            </div>
+            <div class="col4">
+                <fieldset>
                     <p class="bold font-20 text-warning">##word.Total Before VAT## : {{item.totalBeforeVat}} <span class="currency">##word.$##</span></p>
                 </fieldset>
             </div>
             <div class="col4">
                 <fieldset>
-                    <p class="bold font-20 text-danger">##word.Total Vat## : {{item.totalVat}} <span class="currency">##word.$##</span></p>
+                    <p class="bold font-20 text-warning">##word.Total Vat## : {{item.totalVat}} <span class="currency">##word.$##</span></p>
                 </fieldset>
             </div>
             <div class="col4">
@@ -103,7 +112,7 @@
             </div>
             <div class="col4">
                 <fieldset>
-                    <p class="bold font-20 text-warning">##word.Total Discounts## : {{item.totalDiscounts}} <span class="currency">##word.$##</span></p>
+                    <p class="bold font-20 text-warning">##word.Total Cash Discounts## : {{item.totalDiscounts}} <span class="currency">##word.$##</span></p>
                 </fieldset>
             </div>
             <div class="col4" ng-show="settings.storesSetting.taxesAppearingInInvoices">

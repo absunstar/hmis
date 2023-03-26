@@ -251,6 +251,16 @@ module.exports = function init(site) {
                 item.orderCode = result.doc.code;
                 site.setItemCard(item, app.name);
               });
+
+              let obj = {
+                vendor: result.doc.vendor,
+                code: result.doc.code,
+                image: result.doc.image,
+                appName: app.name,
+                totalNet: result.doc.totalNet,
+                userInfo : result.doc.addApprovedInfo,
+              };
+              site.autoJournalEntry(req.session, obj);
               response.result = result;
             } else {
               response.error = err.message;

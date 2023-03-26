@@ -323,8 +323,11 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getPatientsList = function () {
+  $scope.getPatientsList = function ($search) {
     $scope.busy = true;
+    if ($search && $search.length < 1) {
+      return;
+    }
     $scope.patientsList = [];
     $http({
       method: 'POST',
@@ -339,7 +342,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           fullNameAr: 1,
           patientType: 1,
           maritalStatus: 1,
-          dateOfBirth: 1,
+          dateOfBirth : 1,
           gender: 1,
           age: 1,
           motherNameEn: 1,
@@ -352,6 +355,7 @@ app.controller('servicesOrders', function ($scope, $http, $timeout) {
           insuranceClass: 1,
           expiryDate: 1,
         },
+        search: $search,
       },
     }).then(
       function (response) {

@@ -331,39 +331,40 @@ module.exports = function init(site) {
     }
   }
 
-  site.autoJournalEntry = function (req, obj) {
-    let setting = site.getSystemSetting(req);
-
-    let numObj = {
-      company: site.getCompany(req),
-      screen: app.name,
-      date: new Date(),
-    };
-    let journalEntry = {
-      date: new Date(),
-      active: true,
-      totalDebtor: 0,
-      totalCreditor: 0,
-      accountsList: [],
-      company: site.getCompany(req),
-      branch: site.getBranch(req),
-    };
-
-    let cb = site.getNumbering(numObj);
-    if (!journalEntry.code && !cb.auto) {
-      response.error = 'Must Enter Code';
-      return;
-    } else if (cb.auto) {
-      journalEntry.code = cb.code;
-    }
-
-    journalEntry.addUserInfo = req.getUserFinger();
-
+  site.autoJournalEntry = function (session, obj) {
+    let setting = site.getSystemSetting({ session });
     let index = setting.establishingAccountsList.findIndex((itm) => itm.screen.name === obj.appName);
     if (index !== -1) {
       let establish = setting.establishingAccountsList[index];
 
       if (establish.screen.active) {
+        let numObj = {
+          company: site.getCompany({ session }),
+          screen: app.name,
+          date: new Date(),
+        };
+        let journalEntry = {
+          date: new Date(),
+          image: obj.image,
+          active: true,
+          totalDebtor: 0,
+          totalCreditor: 0,
+          accountsList: [],
+          company: site.getCompany({ session }),
+          branch: site.getBranch({ session }),
+          addUserInfo: obj.userInfo,
+          nameAr: setting.establishingAccountsList[index].screen.nameAr + ' ' + obj.code,
+          nameEn: setting.establishingAccountsList[index].screen.nameEn + ' ' + obj.code,
+        };
+
+        let cb = site.getNumbering(numObj);
+        if (!journalEntry.code && !cb.auto) {
+          response.error = 'Must Enter Code';
+          return;
+        } else if (cb.auto) {
+          journalEntry.code = cb.code;
+        }
+
         establish.list.forEach((_l) => {
           if (_l.active && obj[_l.name] > 0) {
             if (_l.debtorAccountGuide && _l.debtorAccountGuide.id) {
@@ -393,9 +394,9 @@ module.exports = function init(site) {
             }
           }
         });
+        app.add(journalEntry, (err, doc) => {});
       }
     }
-    app.add(journalEntry, (err, doc) => {});
   };
 
   app.init();

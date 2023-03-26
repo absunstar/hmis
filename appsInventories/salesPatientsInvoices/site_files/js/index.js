@@ -44,7 +44,7 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
     $scope.itemsError = '';
     $scope.mode = 'add';
     $scope.resetOrderItem();
-    $scope.item = { ...$scope.structure, salesType: 'patient', date: new Date(), itemsList: [], discountsList: [], taxesList: [] };
+    $scope.item = { ...$scope.structure, salesType: $scope.salesTypesList[2], date: new Date(), itemsList: [], discountsList: [], taxesList: [] };
     if ($scope.settings.storesSetting.paymentType && $scope.settings.storesSetting.paymentType.id) {
       $scope.item.paymentType = $scope.paymentTypesList.find((_t) => {
         return _t.id == $scope.settings.storesSetting.paymentType.id;
@@ -226,7 +226,7 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
     $scope.busy = true;
     $scope.list = [];
     where = where || {};
-    where['salesType'] = 'patient';
+    where['salesType.code'] = 'patient';
     $http({
       method: 'POST',
       url: `${$scope.baseURL}/api/${$scope.appName}/all`,
@@ -1436,7 +1436,37 @@ app.controller('salesPatientsInvoices', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getSalesTypes = function () {
+    $scope.busy = true;
+    $scope.salesTypesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/salesTypesList',
+      data: {
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.salesTypesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+
   $scope.getAll();
+  $scope.getSalesTypes();
   $scope.getPaymentTypes();
   $scope.getDiscountTypes();
   $scope.getTaxTypes();

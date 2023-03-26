@@ -106,7 +106,7 @@
 
     <div class="row">
       <div class="col2"></div>
-      <div class="col8 center borderBlack" ng-show="thermal.salesType == 'customer'">
+      <div class="col8 center borderBlack" ng-show="thermal.salesType.code == 'customer'">
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 1">العميل :</b>
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 2">Customer :</b>
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 3">##word.Customer## :</b>
@@ -118,7 +118,7 @@
         </b>
       </div>
 
-      <div class="col8 center borderBlack" ng-show="thermal.salesType == 'company'">
+      <div class="col8 center borderBlack" ng-show="thermal.salesType.code == 'company'">
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 1">الشركة :</b>
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 2">Company :</b>
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 3">##word.Company## :</b>
@@ -130,7 +130,7 @@
         </b>
       </div>
 
-      <div class="col8 center borderBlack" ng-show="thermal.salesType == 'patient'">
+      <div class="col8 center borderBlack" ng-show="thermal.salesType.code == 'patient'">
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 1">المريض :</b>
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 2">Patient :</b>
         <b class="black font-13 bold" ng-show="settings.printerProgram.thermalLang.id == 3">##word.Patient## :</b>

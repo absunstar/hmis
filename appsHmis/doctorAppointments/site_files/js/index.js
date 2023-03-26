@@ -187,8 +187,11 @@ app.controller('doctorAppointments', function ($scope, $http, $timeout) {
     );
   };
 
-  $scope.getPatientsList = function () {
+  $scope.getPatientsList = function ($search) {
     $scope.busy = true;
+    if ($search && $search.length < 1) {
+      return;
+    }
     $scope.patientsList = [];
     $http({
       method: 'POST',
@@ -216,6 +219,7 @@ app.controller('doctorAppointments', function ($scope, $http, $timeout) {
           insuranceClass: 1,
           expiryDate: 1,
         },
+        search: $search,
       },
     }).then(
       function (response) {

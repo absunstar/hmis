@@ -274,22 +274,31 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
     $scope.search = {};
   };
 
-  $scope.getCustomers = function () {
+  $scope.getCustomers = function ($search) {
+    if ($search && $search.length < 1) {
+      return;
+    }
+    let where = {
+      active: true,
+      commercialCustomer: $scope.commercialCustomer,
+    };
+
     $scope.busy = true;
     $scope.customersList = [];
     $http({
       method: 'POST',
       url: '/api/customers/all',
       data: {
-        where: {
-          active: true,
-        },
+        where,
         select: {
           id: 1,
           code: 1,
           nameEn: 1,
           nameAr: 1,
+          taxIdentificationNumber: 1,
+          mobile: 1,
         },
+        search: $search,
       },
     }).then(
       function (response) {
@@ -305,55 +314,135 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
     );
   };
 
+  $scope.getPatientsList = function ($search) {
+    $scope.busy = true;
+    if ($search && $search.length < 1) {
+      return;
+    }
+    $scope.patientsList = [];
+    $http({
+      method: 'POST',
+      url: '/api/patients/all',
+      data: {
+        where: { active: true, 'type.id': 1 },
+        select: {
+          id: 1,
+          code: 1,
+          image: 1,
+          fullNameEn: 1,
+          fullNameAr: 1,
+          patientType: 1,
+          maritalStatus: 1,
+          dateOfBirth : 1,
+          gender: 1,
+          age: 1,
+          motherNameEn: 1,
+          motherNameAr: 1,
+          newBorn: 1,
+          nationality: 1,
+          mobile: 1,
+          patientType: 1,
+          insuranceCompany: 1,
+          insuranceClass: 1,
+          expiryDate: 1,
+        },
+        search: $search,
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.patientsList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
   $scope.addToItemsList = function (invoice) {
     $scope.item = {
       ...$scope.item,
       invoiceCode: invoice.code,
       invoiceId: invoice.id,
       salesType: invoice.salesType,
-      customer: invoice.customer,
       store: invoice.store,
       sourceType: invoice.sourceType,
       paymentType: invoice.paymentType,
       itemsList: invoice.itemsList,
       totalDiscounts: invoice.totalDiscounts,
+      totalItemsDiscounts: invoice.totalItemsDiscounts,
       totalTaxes: invoice.totalTaxes,
       totalBeforeVat: invoice.totalBeforeVat,
       totalVat: invoice.totalVat,
       totalAfterVat: invoice.totalAfterVat,
       totalNet: invoice.totalNet,
+      totalPrice: invoice.totalPrice,
     };
+    if ($scope.item.salesType.code == 'patient') {
+      $scope.item.patient = invoice.patient;
+    } else {
+      $scope.item.customer = invoice.customer;
+    }
     site.hideModal($scope.getSalesInvoicesModalID);
   };
 
   $scope.showModalGetSalesInvoicesData = function () {
     $scope.search = {};
-
     site.showModal($scope.getSalesInvoicesModalID);
+  };
+
+  $scope.changeSalesType = function (search) {
+    search.customer = {};
+    search.patient = {};
+    if (search.salesType.id == 1) {
+      $scope.commercialCustomer = false;
+      $scope.getCustomers('');
+    } else if (search.salesType.id == 2) {
+      $scope.commercialCustomer = true;
+      $scope.getCustomers('');
+    } else if (search.salesType.id == 3) {
+      $scope.getPatientsList('');
+
+    }
   };
 
   $scope.getSalesInvoices = function (where) {
     $scope.searchError = '';
-    if (where && where.store && where.store.id) {
-      where['store.id'] = where.store.id;
-      delete where.store;
+    if (where) {
+      if (where.store && where.store.id) {
+        where['store.id'] = where.store.id;
+        delete where.store;
+      }
+
+      if (where.paymentType && where.paymentType.id) {
+        where['paymentType.id'] = where.paymentType.id;
+        delete where.paymentType;
+      }
+
+      if (where.salesType && where.salesType.id) {
+        where['salesType.code'] = where.salesType.code;
+        delete where.salesType;
+      }
+
+      if (where.customer && where.customer.id) {
+        where['customer.id'] = where.customer.id;
+      }
+
+      if (where.patient && where.patient.id) {
+        where['patient.id'] = where.patient.id;
+      }
     }
 
-    if (where && where.paymentType && where.paymentType.id) {
-      where['paymentType.id'] = where.paymentType.id;
-      delete where.paymentType;
-    }
-
-    if (where && where.customer && where.customer.id) {
-      where['customer.id'] = where.customer.id;
-      delete where.customer;
-    }
-
+    delete where.patient;
+    delete where.customer;
     delete where['active'];
     where['hasReturnTransaction'] = { $ne: true };
     $scope.busy = true;
     $scope.returnSalesInvoicesList = [];
-
+    console.log(where);
     $http({
       method: 'POST',
       url: '/api/salesInvoices/all',
@@ -434,6 +523,34 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
         $scope.busy = false;
         if (response.data.done && response.data.list.length > 0) {
           $scope.itemsList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.busy = false;
+        $scope.error = err;
+      }
+    );
+  };
+
+  $scope.getSalesTypes = function () {
+    $scope.busy = true;
+    $scope.salesTypesList = [];
+    $http({
+      method: 'POST',
+      url: '/api/salesTypesList',
+      data: {
+        select: {
+          id: 1,
+          code: 1,
+          nameEn: 1,
+          nameAr: 1,
+        },
+      },
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.salesTypesList = response.data.list;
         }
       },
       function (err) {
@@ -705,9 +822,9 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
 
   $scope.getAll();
   $scope.getPaymentTypes();
+  $scope.getSalesTypes();
   $scope.getStores();
   $scope.getStoresItems();
-  $scope.getCustomers();
   $scope.getNumberingAuto();
   $scope.getSetting();
 });

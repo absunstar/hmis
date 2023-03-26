@@ -275,12 +275,8 @@ module.exports = function init(site) {
 
     if (app.allowRouteApprove) {
       site.post({ name: `/api/${app.name}/approve`, require: { permissions: ['login'] } }, (req, res) => {
-        let response = {
-          done: false,
-        };
-
+        let response = { done: false };
         let _data = req.data;
-
         let errBatchList = [];
         _data.itemsList.forEach((_item) => {
           if (_item.workByBatch || _item.workBySerial) {
@@ -310,8 +306,6 @@ module.exports = function init(site) {
             response.done = true;
             result.doc.itemsList.forEach((_item) => {
               let item = { ..._item };
-              _item.count;
-
               item.store = { ...result.doc.store };
               site.editItemsBalance(item, app.name);
               item.invoiceId = result.doc.id;
@@ -322,14 +316,17 @@ module.exports = function init(site) {
               item.orderCode = result.doc.code;
               site.setItemCard(item, app.name);
             });
-            
+
             let obj = {
               vendor: result.doc.vendor,
+              code: result.doc.code,
+              image: result.doc.image,
               appName: app.name,
               totalNet: result.doc.totalNet,
-              totalAfterVat: result.doc.totalAfterVat,
+              userInfo: result.doc.approveUserInfo,
             };
-            site.autoJournalEntry(req, obj);
+
+            site.autoJournalEntry(req.session, obj);
 
             response.result = result;
           } else {

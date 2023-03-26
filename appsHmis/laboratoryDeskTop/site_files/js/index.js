@@ -264,7 +264,7 @@ app.controller('laboratoryDeskTop', function ($scope, $http, $timeout) {
       method: 'POST',
       url: '/api/doctors/all',
       data: {
-        where: { active: true, 'type.id': 2 },
+        where: { active: true, 'type.id': 8 },
         select: {
           id: 1,
           code: 1,

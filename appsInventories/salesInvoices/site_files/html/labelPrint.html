@@ -10,7 +10,7 @@
 </style>
 <div ng-repeat="sInvoice in labelList">
   <div class="border page-a4">
-    <p class="center font-25 bold">##session.company.nameEn## - ##session.company.nameAr##  &nbsp; ##word.Tel## : ##session.company.mobile##</p>
+    <p class="center font-25 bold">##session.company.nameAr## - ##session.company.nameEn##  &nbsp; ##word.Tel## : ##session.company.mobile##</p>
     <p><span class="bold font-25">##word.Patient## : </span> <span class="font-20">{{sInvoice.patient.code}}- {{sInvoice.patient.name##session.lang##}}</span></p>
     <p><span class="bold font-25">##word.Medicine## : </span> <span class="font-20">{{sInvoice.barcode}}- {{sInvoice.name##session.lang##}}</span></p>
     <p>

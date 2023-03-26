@@ -384,6 +384,27 @@ app.controller("security", function ($scope, $http, $interval) {
     )
   };
 
+  $scope.getUsersTypesList = function () {
+
+    $scope.usersTypesList = [];
+
+    $http({
+      method: "POST",
+      url: "/api/usersTypesList",
+      data: {}
+    }).then(
+      function (response) {
+        $scope.busy = false;
+        if (response.data.done && response.data.list.length > 0) {
+          $scope.usersTypesList = response.data.list;
+        }
+      },
+      function (err) {
+        $scope.error = err;
+      }
+    )
+  };
+
 
   $scope.loadStores = function () {
     $scope.error = '';
@@ -445,5 +466,6 @@ app.controller("security", function ($scope, $http, $interval) {
   $scope.loadAll();
   $scope.loadRoles();
   $scope.loadPermissions();
+  $scope.getUsersTypesList();
 });
 

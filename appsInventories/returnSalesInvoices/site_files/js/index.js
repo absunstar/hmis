@@ -324,7 +324,7 @@ app.controller('returnSalesInvoices', function ($scope, $http, $timeout) {
       method: 'POST',
       url: '/api/patients/all',
       data: {
-        where: { active: true, 'type.id': 1 },
+        where: { active: true, 'type.id': 5 },
         select: {
           id: 1,
           code: 1,

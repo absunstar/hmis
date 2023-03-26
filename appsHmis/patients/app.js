@@ -187,7 +187,7 @@ module.exports = function init(site) {
         }
 
         _data.addUserInfo = req.getUserFinger();
-        _data.type = { id: 1, name: 'Patient' };
+        _data.type = site.usersTypesList[4];
         if (!_data.email) {
           _data.email = _data.nameEn + Math.floor(Math.random() * 1000 + 1).toString();
         }
@@ -275,7 +275,7 @@ module.exports = function init(site) {
 
     if (app.allowRouteAll) {
       site.post({ name: `/api/${app.name}/all`, public: true }, (req, res) => {
-        let where = req.body.where || { 'type.id': 1 };
+        let where = req.body.where || { 'type.id': 5 };
         let select = req.body.select || { id: 1, code: 1, fullNameEn: 1, fullNameAr: 1, image: 1 };
         let search = req.body.search || undefined;
 

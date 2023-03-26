@@ -259,6 +259,7 @@ module.exports = function init(site) {
                 return;
               }
             } else {
+              companiesDoc.type = site.usersTypesList[1];
               $companies.add(companiesDoc, (err, doc) => {
                 if (!err) {
                   response.done = true;

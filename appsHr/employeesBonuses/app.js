@@ -364,6 +364,7 @@ module.exports = function init(site) {
                 });
             });
         }
+        
         if (app.allowRouteDelete) {
             site.post({ name: `/api/${app.name}/delete`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {

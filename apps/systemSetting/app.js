@@ -46,42 +46,32 @@ module.exports = function init(site) {
   ];
 
   site.setting = {
-    printerProgram: printerProgram,
-    storesSetting: {
-      hasDefaultVendor: false,
-      cannotExceedMaximumDiscount: false,
-      allowOverdraft: false,
-      defaultStore: {},
-      idefaultItemType: {},
-      idefaultItemGroup: {},
-      defaultItemUnit: {},
-      defaultVendor: {},
-    },
-    accountsSetting: {
-      paymentType: {},
-      currencySymbol: 'SR',
-    },
-    generalSystemSetting: {},
-    hrSettings: {
-      // delay: 0,
-      // overtime: 0,
-      // penality: 0,
-      // absenceHours: 0,
-      absenceDays: 1,
-      forgetFingerprint: 0.5,
-      nathionalitiesVacationsList: [],
-      publicVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
-      nathionalitiesInsuranceList: [],
-      publicInsurance: { totalSubscriptions: 21.5, totalSubscriptionsEmployee: 9.75, totalSubscriptionsOwner: 11.75 },
-      // saudiVacations: {
-      //     nationality: {},
-      //     annualVacation: 0,
-      //     casualVacation: 0,
-      //     regularVacation: 0,
-      // },
-      // othersVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
-    },
-    establishingAccountsList,
+      printerProgram: printerProgram,
+      storesSetting: {
+          hasDefaultVendor: false,
+          cannotExceedMaximumDiscount: false,
+          allowOverdraft: false,
+          defaultStore: {},
+          idefaultItemType: {},
+          idefaultItemGroup: {},
+          defaultItemUnit: {},
+          defaultVendor: {},
+      },
+      accountsSetting: {
+          paymentType: {},
+          currencySymbol: 'SR',
+      },
+      generalSystemSetting: {},
+      hrSettings: {
+          absenceDays: 1,
+          forgetFingerprint: 0.5,
+          nathionalitiesVacationsList: [],
+          publicVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
+          nathionalitiesInsuranceList: [],
+          publicInsurance: { totalSubscriptions: 21.5, employeePercentage: 9.75, companyPercentage: 11.75 },
+
+      },
+      establishingAccountsList,
   };
 
   app.$collection = site.connectCollection(app.name);

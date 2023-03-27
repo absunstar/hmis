@@ -93,7 +93,7 @@ module.exports = function init(site) {
             });
         }
 
-        const insurceCalculatedPercent = employeeDoc.totalSubscriptionsEmployee / 100;
+        const insurceCalculatedPercent = employeeDoc.employeePercentage / 100;
         const netSalary = Math.abs(basicSalary * insurceCalculatedPercent - basicSalary);
         const otherAllownceAfterInsurance = Math.abs(otherAllownce * insurceCalculatedPercent - otherAllownce);
 
@@ -731,6 +731,7 @@ module.exports = function init(site) {
                 });
             });
         }
+        
         if (app.allowPaySlip) {
             site.post({ name: `/api/${app.name}/calculatePaySlip`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {
@@ -952,8 +953,8 @@ module.exports = function init(site) {
                                             basicSalary,
                                             type: calcVal.type,
                                             totalSubscriptions: doc.totalSubscriptions,
-                                            totalSubscriptionsEmployee: doc.totalSubscriptionsEmployee,
-                                            totalSubscriptionsOwner: doc.totalSubscriptionsOwner,
+                                            employeePercentage: doc.employeePercentage,
+                                            companyPercentage: doc.companyPercentage,
                                         });
 
                                         const itemIndex = allowancesList.findIndex((item) => item.id == _elm.id);

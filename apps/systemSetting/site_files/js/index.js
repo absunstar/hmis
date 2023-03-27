@@ -4,7 +4,7 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
     $scope.modalID = '#systemSettingManageModal';
     $scope.mode = 'add';
     $scope.nathionalityVacations = { nationality: {}, annualVacation: 0, casualVacation: 0, regularVacation: 0 };
-    $scope.nathionalityInsurance = { totalSubscriptions: 21.5, totalSubscriptionsEmployee: 9.75, totalSubscriptionsOwner: 11.75 };
+    $scope.nathionalityInsurance = { totalSubscriptions: 21.5, employeePercentage: 9.75, companyPercentage: 11.75 };
     $scope.item = {
         storesSetting: {
             hasDefaultVendor: false,
@@ -30,17 +30,10 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
         },
         workflowAssignmentSettings: {},
         hrSettings: {
-            // saudiVacations: {
-            // nationality: {},
-            // annualVacation: 0,
-            // casualVacation: 0,
-            // regularVacation: 0,
-            // },
             nathionalitiesVacationsList: [],
             publicVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
             nathionalitiesInsurance: [],
-            publicInsuranceList: { totalSubscriptions: 21.5, totalSubscriptionsEmployee: 9.75, totalSubscriptionsOwner: 11.75 },
-            // othersVacations: { annualVacation: 0, casualVacation: 0, regularVacation: 0 },
+            publicInsuranceList: { totalSubscriptions: 21.5, employeePercentage: 9.75, companyPercentage: 11.75 },
 
             absenceDays: 1,
             forgetFingerprint: 0.5,
@@ -87,12 +80,12 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
             $scope.hrInsuranceSettingsError = '##word.Please Set Valid Value For Total##';
             return;
         }
-        if (insurance.totalSubscriptionsEmployee < 0) {
+        if (insurance.employeePercentage < 0) {
             $scope.hrInsuranceSettingsError = '##word.Please Set Valid Value For Employee##';
             return;
         }
 
-        if (insurance.totalSubscriptionsOwner < 0) {
+        if (insurance.companyPercentage < 0) {
             $scope.hrInsuranceSettingsError = '##word.Please Set Valid Value For Company##';
             return;
         }
@@ -103,7 +96,7 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
             return;
         }
         $scope.item.hrSettings.nathionalitiesInsuranceList.push(insurance);
-        $scope.nathionalityInsurance = { totalSubscriptions: 21.5, totalSubscriptionsEmployee: 9.75, totalSubscriptionsOwner: 11.75 };
+        $scope.nathionalityInsurance = { totalSubscriptions: 21.5, employeePercentage: 9.75, companyPercentage: 11.75 };
     };
 
     $scope.addToApprovalList = function (screen) {
@@ -125,20 +118,20 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
     $scope.addVatList = function () {
         $scope.item.hmisSetting.vatList = $scope.item.hmisSetting.vatList || [];
         if ($scope.item.$nationalityVat.nationality && $scope.item.$nationalityVat.nationality.id) {
-            if (! $scope.item.hmisSetting.vatList.some((s) => s.id === $scope.item.$nationalityVat.nationality.id)) {
-               $scope.item.hmisSetting.vatList.unshift({
-                id : $scope.item.$nationalityVat.nationality.id,
-                nameAr : $scope.item.$nationalityVat.nationality.nameAr,
-                nameEn : $scope.item.$nationalityVat.nationality.nameEn,
-                pVat: $scope.item.$nationalityVat.pVat,
-                comVat: $scope.item.$nationalityVat.comVat,
-              });
+            if (!$scope.item.hmisSetting.vatList.some((s) => s.id === $scope.item.$nationalityVat.nationality.id)) {
+                $scope.item.hmisSetting.vatList.unshift({
+                    id: $scope.item.$nationalityVat.nationality.id,
+                    nameAr: $scope.item.$nationalityVat.nationality.nameAr,
+                    nameEn: $scope.item.$nationalityVat.nationality.nameEn,
+                    pVat: $scope.item.$nationalityVat.pVat,
+                    comVat: $scope.item.$nationalityVat.comVat,
+                });
             }
             $scope.item.$nationalityVat = {};
-          } else {
+        } else {
             $scope.error = 'Must Select Nationality';
             return;
-          }
+        }
     };
 
     $scope.save = function (_item) {
@@ -374,40 +367,40 @@ app.controller('systemSetting', function ($scope, $http, $timeout) {
 
     $scope.getCustomers = function ($search) {
         if ($search && $search.length < 1) {
-          return;
+            return;
         }
         $scope.busy = true;
         $scope.customersList = [];
         $http({
-          method: 'POST',
-          url: '/api/customers/all',
-          data: {
-            where: {
-              active: true,
+            method: 'POST',
+            url: '/api/customers/all',
+            data: {
+                where: {
+                    active: true,
+                },
+                select: {
+                    id: 1,
+                    code: 1,
+                    nameEn: 1,
+                    nameAr: 1,
+                    taxIdentificationNumber: 1,
+                    mobile: 1,
+                },
+                search: $search,
             },
-            select: {
-              id: 1,
-              code: 1,
-              nameEn: 1,
-              nameAr: 1,
-              taxIdentificationNumber: 1,
-              mobile: 1,
-            },
-            search: $search,
-          },
         }).then(
-          function (response) {
-            $scope.busy = false;
-            if (response.data.done && response.data.list.length > 0) {
-              $scope.customersList = response.data.list;
+            function (response) {
+                $scope.busy = false;
+                if (response.data.done && response.data.list.length > 0) {
+                    $scope.customersList = response.data.list;
+                }
+            },
+            function (err) {
+                $scope.busy = false;
+                $scope.error = err;
             }
-          },
-          function (err) {
-            $scope.busy = false;
-            $scope.error = err;
-          }
         );
-      };
+    };
 
     $scope.getVendors = function () {
         $scope.busy = true;

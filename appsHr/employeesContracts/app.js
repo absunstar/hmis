@@ -1,7 +1,7 @@
 module.exports = function init(site) {
     let app = {
         name: 'employeesContracts',
-        allowMemory: true,
+        allowMemory: false,
         memoryList: [],
         allowCache: false,
         cacheList: [],
@@ -9,6 +9,8 @@ module.exports = function init(site) {
         allowRouteGet: true,
         allowRouteAdd: true,
         allowRouteUpdate: true,
+        allowRouteAccept: true,
+        allowRouteRejected: true,
         allowRouteDelete: true,
         allowRouteView: true,
         allowRouteAll: true,
@@ -144,7 +146,7 @@ module.exports = function init(site) {
                     name: app.name,
                 },
                 (req, res) => {
-                    res.render(app.name + '/index.html', { title: app.name, appName: 'Employees Contracts' }, { parser: 'html', compres: true });
+                    res.render(app.name + '/index.html', { title: app.name, appName: 'Employees Contracts', setting: site.getSystemSetting(req) }, { parser: 'html', compres: true });
                 }
             );
         }
@@ -208,6 +210,108 @@ module.exports = function init(site) {
             });
         }
 
+        if (app.allowRouteAccept) {
+            site.post({ name: `/api/${app.name}/accept`, require: { permissions: ['login'] } }, (req, res) => {
+                let response = {
+                    done: false,
+                };
+
+                let _data = req.data;
+                _data.company = site.getCompany(req);
+
+                let numObj = {
+                    company: site.getCompany(req),
+                    screen: 'employees',
+                    date: new Date(),
+                };
+
+                let cb = site.getNumbering(numObj);
+                if (!_data.code && !cb.auto) {
+                    response.error = 'Must Enter Code';
+                    res.json(response);
+                    return;
+                } else if (cb.auto) {
+                    _data.code = cb.code;
+                }
+                _data.status = 'accepted';
+                _data.acceptDate = new Date();
+                _data.approved = true;
+                _data.approveDate = new Date();
+                _data.acceptUserInfo = req.getUserFinger();
+                const employeeApp = site.getApp('employees');
+
+                const employee = {
+                    fullNameAr: _data.fullNameAr,
+                    fullNameEn: _data.fullNameEn,
+                    nationality: _data.nationality,
+                    annualVacation: _data.annualVacation,
+                    regularVacation: _data.regularVacation,
+                    casualVacation: _data.casualVacation,
+                    totalSubscriptions: _data.totalSubscriptions,
+                    employeePercentage: _data.employeePercentage,
+                    companyPercentage: _data.companyPercentage,
+                    gender: _data.gender,
+                    idType: _data.idType,
+                    idNumber: _data.idNumber,
+                    dateOfBirth: _data.dateOfBirth,
+                    contractWorkStartDate: _data.contractWorkStartDate,
+                    contractWorkEndDate: _data.contractWorkEndDate,
+                    workStartDate: _data.workStartDate,
+                    workEndDate: _data.workEndDate,
+                    department: _data.department,
+                    section: _data.section,
+                    job: _data.job,
+                    basicSalary: _data.basicSalary,
+                    daySalary: _data.daySalary,
+                    hourSalary: _data.hourSalary,
+                    workDays: _data.workDays,
+                    workHours: _data.workHours,
+                    maritalStatus: _data.maritalStatus,
+                    mobileList: [{ mobile: _data.mobile }],
+                    active: true,
+                    company: _data.company,
+                    mobile: _data.mobile,
+                };
+                employeeApp.$collection.add(employee, (err, doc) => {
+                    if (doc) {
+                        app.update(_data, (err, result) => {
+                            if (!err) {
+                                response.done = true;
+                                response.result = result;
+                            } else {
+                                response.error = err.message;
+                            }
+                            res.json(response);
+                        });
+                    }
+                });
+            });
+        }
+
+        if (app.allowRouteRejected) {
+            site.post({ name: `/api/${app.name}/reject`, require: { permissions: ['login'] } }, (req, res) => {
+                let response = {
+                    done: false,
+                };
+
+                let _data = req.data;
+
+                _data.status = 'rejected';
+                _data.rejectDate = new Date();
+                _data.approved = true;
+                _data.rejectUserInfo = req.getUserFinger();
+
+                app.update(_data, (err, result) => {
+                    if (!err) {
+                        response.done = true;
+                        response.result = result;
+                    } else {
+                        response.error = err.message;
+                    }
+                    res.json(response);
+                });
+            });
+        }
         if (app.allowRouteDelete) {
             site.post({ name: `/api/${app.name}/delete`, require: { permissions: ['login'] } }, (req, res) => {
                 let response = {
@@ -251,7 +355,7 @@ module.exports = function init(site) {
                 let where = req.body.where || {};
                 let search = req.body.search || '';
                 let limit = req.body.limit || 10;
-                let select = req.body.select || { id: 1, code: 1, nameEn: 1, nameAr: 1, image: 1, active: 1 };
+                let select = req.body.select || { id: 1, code: 1, fullNameEn: 1, fullNameAr: 1, image: 1, active: 1, date: 1, status: 1, approved: 1, acceptDate: 1, cancelDate: 1, rejectDate: 1 };
 
                 if (app.allowMemory) {
                     if (!search) {

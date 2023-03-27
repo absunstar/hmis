@@ -35,8 +35,8 @@ app.controller('employees', function ($scope, $http, $timeout) {
             skillsList: [],
             experiencesList: [],
             totalSubscriptions: 21.5,
-            totalSubscriptionsEmployee: 9.75,
-            totalSubscriptionsOwner: 11.75,
+            employeePercentage: 9.75,
+            companyPercentage: 11.75,
             mobileList: [{ mobile: '+966' }],
             banksList: [],
             relativesList: [],
@@ -533,7 +533,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getMaritalStatusList = function () {
+    $scope.getMaritalStatus = function () {
         $scope.busy = true;
         $scope.maritalStatusList = [];
         $http({
@@ -733,7 +733,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getJobsList = function (department) {
+    $scope.getJobs = function (department) {
         $scope.busy = true;
         $scope.jobsList = [];
         $http({
@@ -1146,12 +1146,12 @@ app.controller('employees', function ($scope, $http, $timeout) {
 
             if (nationalityExisit) {
                 $scope.item.totalSubscriptions = nationalityExisit.totalSubscriptions;
-                $scope.item.totalSubscriptionsEmployee = nationalityExisit.totalSubscriptionsEmployee;
-                $scope.item.totalSubscriptionsOwner = nationalityExisit.totalSubscriptionsOwner;
+                $scope.item.employeePercentage = nationalityExisit.employeePercentage;
+                $scope.item.companyPercentage = nationalityExisit.companyPercentage;
             } else {
                 $scope.item.totalSubscriptions = $scope.setting.hrSettings.publicInsurance.totalSubscriptions;
-                $scope.item.totalSubscriptionsEmployee = $scope.setting.hrSettings.publicInsurance.totalSubscriptionsEmployee;
-                $scope.item.totalSubscriptionsOwner = $scope.setting.hrSettings.publicInsurance.totalSubscriptionsOwner;
+                $scope.item.employeePercentage = $scope.setting.hrSettings.publicInsurance.employeePercentage;
+                $scope.item.companyPercentage = $scope.setting.hrSettings.publicInsurance.companyPercentage;
             }
         }
     };
@@ -1164,7 +1164,7 @@ app.controller('employees', function ($scope, $http, $timeout) {
     $scope.getAllowancesList();
     $scope.getDeductionsList();
     $scope.getQualificationsDegrees();
-    $scope.getMaritalStatusList();
+    $scope.getMaritalStatus();
     $scope.getGenders();
     // $scope.getEmployeeStatusList();
     $scope.getDepartments();

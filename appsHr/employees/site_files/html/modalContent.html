@@ -358,12 +358,12 @@
                                             <td class="center">{{experience.department}}</td>
                                             <td class="center">{{experience.jobTitle}}</td>
                                             <td class="center">
-                                                <p  ng-if="experience.from">{{experience.from |date:'dd/MM/yyyy'}}</p>
-                                                <p  ng-if="!experience.from">-</p>
+                                                <p ng-if="experience.from">{{experience.from |date:'dd/MM/yyyy'}}</p>
+                                                <p ng-if="!experience.from">-</p>
                                             </td>
                                             <td class="center">
-                                                <p  ng-if="experience.to">{{experience.to |date:'dd/MM/yyyy'}}</p>
-                                                <p  ng-if="!experience.to">-</p>
+                                                <p ng-if="experience.to">{{experience.to |date:'dd/MM/yyyy'}}</p>
+                                                <p ng-if="!experience.to">-</p>
                                             </td>
 
                                             <td class="center not-print">
@@ -409,13 +409,13 @@
                                     <td class="center">{{$index+1}}</td>
                                     <td class="center">{{document.fileType.name##session.lang##}} - <a download href="{{document.file.url}}">{{document.file.name}}</a></td>
                                     <td class="center">
-                                        <p class=" text-success" ng-if="document.renewable">##word.Yes##</p>
-                                        <p class=" text-danger" ng-if="!document.renewable">##word.No##</p>
+                                        <p class="text-success" ng-if="document.renewable">##word.Yes##</p>
+                                        <p class="text-danger" ng-if="!document.renewable">##word.No##</p>
                                     </td>
 
                                     <td class="center">
-                                        <p class=" text-success" ng-if="document.renewable">{{document.renewalDate|date:'dd/MM/yyyy'}}</p>
-                                        <p class=" text-danger" ng-if="!document.renewable">-</p>
+                                        <p class="text-success" ng-if="document.renewable">{{document.renewalDate|date:'dd/MM/yyyy'}}</p>
+                                        <p class="text-danger" ng-if="!document.renewable">-</p>
                                     </td>
 
                                     <td class="center not-print">
@@ -432,11 +432,11 @@
                         <fieldset>
                             <legend>##word.Social Insurance##</legend>
                             <div class="row">
-                                <i-control type="number" class="col4" label="##word.Total percentage of subscriptions %##" ng-model="item.totalSubscriptions"> </i-control>
+                                <i-control type="number" class="col4" label="##word.Total Subscriptions %##" ng-model="item.totalSubscriptions"> </i-control>
 
-                                <i-control type="number" class="col4" label="##word.Total percentage of subscriptions from Employee %##" ng-model="item.totalSubscriptionsEmployee"> </i-control>
+                                <i-control type="number" class="col4" label="##word.Employee Percentage %##" ng-model="item.employeePercentage"> </i-control>
 
-                                <i-control type="number" class="col4" label="##word.Total percentage of subscriptions from owner %##" ng-model="item.totalSubscriptionsOwner"> </i-control>
+                                <i-control type="number" class="col4" label="##word.Company Percentage %##" ng-model="item.companyPercentage"> </i-control>
                             </div>
                         </fieldset>
                         <fieldset>
@@ -540,7 +540,7 @@
                                     v="r"
                                     class="col4"
                                     label="##word.Section##"
-                                    ng-change="getJobsList(item.department)"
+                                    ng-change="getJobs(item.section)"
                                     ng-model="item.section"
                                     display="name##session.lang##"
                                     items="sectionsList"
@@ -551,11 +551,11 @@
 
                                 <i-list v="r" class="col4" label="##word.Shift##" ng-model="item.shift" display="name##session.lang##" items="jobsShiftsList" ng-search="item.$shift"></i-list>
 
-                                <i-date class="col4" label="##word.Contract Work Start Date ##" ng-model="item.contractWorkStartDate"> </i-date>
-                                <i-date class="col4" label="##word.Contract Work End Date ##" ng-model="item.contractWorkEndDate"> </i-date>
+                                <i-date class="col6" label="##word.Contract Work Start Date ##" ng-model="item.contractWorkStartDate"> </i-date>
+                                <i-date class="col6" label="##word.Contract Work End Date ##" ng-model="item.contractWorkEndDate"> </i-date>
 
-                                <i-date class="col4" label="##word.Work Start Date ##" ng-model="item.workStartDate"> </i-date>
-                                <i-date class="col4" label="##word.Work End Date ##" ng-model="item.workEndDate"> </i-date>
+                                <i-date class="col6" label="##word.Work Start Date ##" ng-model="item.workStartDate"> </i-date>
+                                <i-date class="col6" label="##word.Work End Date ##" ng-model="item.workEndDate"> </i-date>
                             </div>
                         </fieldset>
                         <fieldset>

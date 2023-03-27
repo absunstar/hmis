@@ -161,7 +161,7 @@ app.controller('jobsApplicants', function ($scope, $http, $timeout) {
             $scope.error = '##word.Please Select Applicant status After Contract##';
             return;
         }
-        
+
         if (_item.applicantStatusAfterContract.id == 1 && !_item.receiveWorkDate) {
             $scope.error = '##word.Please Set Receive Work Date##';
             return;
@@ -266,6 +266,7 @@ app.controller('jobsApplicants', function ($scope, $http, $timeout) {
         $scope.item = {};
         $scope.view(_item);
         site.showModal($scope.modalID);
+        document.querySelector(`${$scope.modalID} .tab-link`).click();
     };
 
     $scope.delete = function (_item) {
@@ -304,8 +305,7 @@ app.controller('jobsApplicants', function ($scope, $http, $timeout) {
             method: 'POST',
             url: `${$scope.baseURL}/api/${$scope.appName}/all`,
             data: {
-                where: where,
-                // || { status: 'new' },
+                where: where || { status: 'new' },
             },
         }).then(
             function (response) {
@@ -355,7 +355,6 @@ app.controller('jobsApplicants', function ($scope, $http, $timeout) {
     $scope.searchAll = function () {
         $scope.search = { ...$scope.search, ...$scope._search };
         $scope.getAll($scope.search);
-
         site.hideModal($scope.modalSearchID);
         $scope.search = {};
     };

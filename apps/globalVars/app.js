@@ -1,5 +1,5 @@
 module.exports = function init(site) {
-    site.salesTypesList = [
+    site.salesTypesList = [ 
         { id: 1, nameAr: 'مبيعات للعملاء', nameEn: 'Sales For Customers', code: 'customer' },
         { id: 2, nameAr: 'مبيعات للشركات', nameEn: 'Sales For Companies', code: 'company' },
         { id: 3, nameAr: 'مبيعات للمرضى', nameEn: 'Sales For Patients', code: 'patient' },
@@ -9,6 +9,17 @@ module.exports = function init(site) {
         { id: 1, code: 'N', nameEn: 'Normal', nameAr: 'عادي' },
         { id: 2, code: 'V', nameEn: 'VIP PATIENT', nameAr: 'مميز' },
     ];
+
+    site.usersTypesList = [
+        { id: 1, nameEn: 'Developer', nameAr: 'مطور' , name : 'developers' },
+        { id: 2, nameEn: 'Owner', nameAr: 'مالك' , name : 'owners' },
+        { id: 3, nameEn: 'Admin', nameAr: 'مشرف' , name : 'admins' },
+        { id: 4, nameEn: 'Employee', nameAr: 'موظف' , name : 'employees' },
+        { id: 5, nameEn: 'Patient', nameAr: 'مريض' , name : 'patients' },
+        { id: 6, nameEn: 'Customer', nameAr: 'عميل' , name : 'customers' },
+        { id: 7, nameEn: 'Vendor', nameAr: 'مورد' , name : 'vendors' },
+        { id: 8, nameEn: 'Doctor', nameAr: 'طبيب' , name : 'doctors' },
+      ];
 
     site.qualificationsDegrees = [
         { id: 1, nameEn: 'PHD', nameAr: 'دكتوراه' },
@@ -288,6 +299,13 @@ module.exports = function init(site) {
         { id: 2, nameEn: 'Cancellation By Employee', nameAr: 'إلغاء من طرف الموظف' },
         { id: 3, nameEn: 'Cancellation By Company', nameAr: 'إلغاء من طرف الشركة' },
     ];
+
+    site.post('/api/usersTypesList', (req, res) => {
+        res.json({
+          done: true,
+          list: site.usersTypesList,
+        });
+      });
 
     site.post('/api/accountingLinkList', (req, res) => {
         res.json({

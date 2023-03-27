@@ -2,7 +2,7 @@
 
     {
         "moduleName": "public",
-        "name": "user_management",
+        "name": "userManagement",
         "Ar": "إدارة المستخدميين",
         "En": "User Management",
         "permissions": [
@@ -21,7 +21,7 @@
     }, {
         "moduleName": "public",
         "name": "print",
-        "Ar": "امكانية الطباعة",
+        "Ar": "إمكانية الطباعة",
         "En": "Print",
         "permissions": [
             "Print"

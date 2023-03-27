@@ -302,7 +302,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       data: {
         where: {
           active: true,
-          commercialCustomer : false,
+          commercialCustomer: false,
         },
         select: {
           id: 1,
@@ -439,7 +439,7 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       data: {
         where: {
           active: true,
-          'type.id' : 2
+          'type.id': 2,
         },
         select: {
           id: 1,
@@ -601,7 +601,6 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
       $scope.qr = site.getQRcode($scope.orderItem.barcode);
       where['gtin'] = $scope.qr.gtin;
       where.$and = [{ 'unitsList.storesList.batchesList.code': $scope.qr.code }, { 'unitsList.storesList.batchesList.count': { $gt: 0 } }];
-
     } else {
       where['unitsList.barcode'] = $scope.orderItem.barcode;
     }
@@ -1108,31 +1107,26 @@ app.controller('salesInvoices', function ($scope, $http, $timeout) {
     $('#salesInvoicesLabels').removeClass('hidden');
     $scope.labelList = [];
     $scope.item.itemsList.forEach((itm) => {
-      if (itm.batchesList && itm.batchesList.length > 0) {
-        itm.batchesList.forEach((_b) => {
-          if (_b.count > 0) {
-            for (let i = 0; i < _b.count; i++) {
-              let so = {
-                nameAr: itm.nameAr,
-                nameEn: itm.nameEn,
-                patient: $scope.item.customer,
-                date: $scope.item.date,
-                expiryDate: _b.expiryDate,
-                expiryDate: _b.expiryDate,
-                productionDate: _b.productionDate,
-                medicineDuration: itm.medicineDuration,
-                medicineFrequency: itm.medicineFrequency,
-                medicineRoute: itm.medicineRoute,
-                barcode: itm.barcode,
-                workByBatch: itm.workByBatch,
-                workBySerial: itm.workBySerial,
-                workByQrCode: itm.workByQrCode,
-                count: 1,
-              };
-              $scope.labelList.push(so);
-            }
-          }
-        });
+      if (itm.hasMedicalData) {
+        let so = {
+          nameAr: itm.nameAr,
+          nameEn: itm.nameEn,
+          patient: $scope.item.customer,
+          date: $scope.item.date,
+          medicineDuration: itm.medicineDuration,
+          medicineFrequency: itm.medicineFrequency,
+          medicineRoute: itm.medicineRoute,
+          barcode: itm.barcode,
+          workByBatch: itm.workByBatch,
+          workBySerial: itm.workBySerial,
+          workByQrCode: itm.workByQrCode,
+          count: itm.count,
+        };
+        if (itm.batchesList && itm.batchesList.length > 0) {
+          so.expiryDate = itm.batchesList[0].expiryDate;
+          so.productionDate = itm.batchesList[0].productionDate;
+        }
+        $scope.labelList.push(so);
       }
     });
     $scope.localPrint = function () {

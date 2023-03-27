@@ -14,7 +14,7 @@ module.exports = function init(site) {
     allowRouteAll: true,
   };
 
-  app.$collection = site.connectCollection(app.name);
+  app.$collection = site.connectCollection('users_info');
 
   app.init = function () {
     if (app.allowMemory) {
@@ -174,6 +174,7 @@ module.exports = function init(site) {
         }
 
         _data.addUserInfo = req.getUserFinger();
+        _data.type = site.usersTypesList[5];
 
         app.add(_data, (err, doc) => {
           if (!err && doc) {
@@ -294,6 +295,7 @@ module.exports = function init(site) {
           });
         } else {
           where['company.id'] = site.getCompany(req).id;
+          where['type.id'] = 6;
           app.all({ where, select, limit }, (err, docs) => {
             res.json({
               done: true,

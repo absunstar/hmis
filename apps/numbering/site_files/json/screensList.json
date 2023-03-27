@@ -3,13 +3,17 @@
         "category": "main",
         "feature": "public",
         "id": "printersPaths",
-        "name": "Printers Paths"
+        "name": "Printers Paths",
+        "nameEn": "Printers Paths",
+        "nameAr": "مسار الطابعات"
     },
     {
         "category": "hmis",
         "feature": "public",
         "id": "services",
-        "name": "Services"
+        "name": "Services",
+        "nameEn": "Services",
+        "nameAr": "الخدمات"
     },
     {
         "category": "accounting",
@@ -238,6 +242,12 @@
         "feature": "public",
         "id": "purchaseOrders",
         "name": "Purchase Orders"
+    },
+    {
+        "category": "main",
+        "feature": "public",
+        "id": "customers",
+        "name": "Customers"
     },
     {
         "category": "main",

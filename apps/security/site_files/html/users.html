@@ -11,11 +11,11 @@
       }
       .user {
         padding: 10px;
-    border: 1px solid #eee;
-    margin: 15px;
-    border-radius: 10px;
-    height: 250px;
-    width: 250px;
+        border: 1px solid #eee;
+        margin: 15px;
+        border-radius: 10px;
+        height: 250px;
+        width: 250px;
       }
       .user:hover {
         transform: scale(1.1);
@@ -49,33 +49,22 @@
           </div>
           <br />
           <div x-permissions="securityManage" class="users pointer center loaded">
-
-            <table class="table">
+            <table class="table hover center">
               <tr>
-                  <th> ##word.Security Roles## </th>
-                  <th> ##word.Actions## </th>
+                <th>##word.Image##</th>
+                <th>##word.Email##</th>
+                <th>##word.Name##</th>
+                <th>##word.Type##</th>
               </tr>
-              <tr ng-repeat="role in roles | orderBy : 'id'">
-                  <td> {{role.##session.lang##}} </td>
-                  <td>
-                      <i-button ng-click="displayViewRole(role)" type="view" label="##word.Role Details##"></i-button>
-                      <i-button ng-click="displayUpdateRole(role)" ng-show="role.moduleName == 'custom'" type="edit" label="##word.Edit##"></i-button>
-                      <i-button ng-click="displayDeleteRole(role)" ng-show="role.moduleName == 'custom'" type="remove" label="##word.Remove##"></i-button>
-                  </td>
+              <tr ng-repeat="user in list" ng-click="details(user)">
+                <td>
+                  <i-image view class="logo center" ng-model="user.image"></i-image>
+                </td>
+                <td>{{user.email}}</td>
+                <td>{{user.name##session.lang##}}</td>
+                <td>{{user.type.name##session.lang##}}</td>
               </tr>
-          </table>
-
-            <div class="user inline-grid" ng-repeat="user in list" ng-click="details(user)">
-              <div class="row">
-                <i-image view class="photo hover" ng-model="user.image"></i-image>
-              </div>
-              <div class="row">
-                <h2 class="text-center bold blue">
-                  {{user.name##session.lang##}}
-                  <p class="text-center black">{{user.email}}</p>
-                </h2>
-              </div>
-            </div>
+            </table>
           </div>
         </div>
       </div>

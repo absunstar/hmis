@@ -197,7 +197,7 @@ app.controller('doctorAppointments', function ($scope, $http, $timeout) {
       method: 'POST',
       url: '/api/patients/all',
       data: {
-        where: { active: true, 'type.id': 1 },
+        where: { active: true, 'type.id': 5 },
         select: {
           id: 1,
           code: 1,
@@ -242,7 +242,7 @@ app.controller('doctorAppointments', function ($scope, $http, $timeout) {
       method: 'POST',
       url: '/api/doctors/all',
       data: {
-        where: { active: true, 'type.id': 2 },
+        where: { active: true, 'type.id': 8 },
         select: {
           id: 1,
           code: 1,

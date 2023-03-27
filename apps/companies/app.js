@@ -161,23 +161,211 @@ module.exports = function init(site) {
 
     if (!companiesDoc.code) companiesDoc.code = companiesDoc.nameEn + '-' + '1';
 
-    if (companiesDoc.branchList.length > companiesDoc.branchCount) {
-      response.error = 'You have exceeded the maximum number of Branches';
+    let userExist = {
+      email: undefined,
+      password: undefined,
+    };
+
+    if (companiesDoc.username && companiesDoc.password) {
+      // if(!site.validatePassword(companiesDoc.password)) {
+      //   response.error = 'Must be not less than 8 characters or numbers and must contain at least one character capital, one number and one special character'
+      //   res.json(response)
+      //   return;
+      // }
+
+      if (companiesDoc.username.includes('@') && !companiesDoc.username.includes('.')) {
+        response.error = 'Username must be typed correctly';
+        res.json(response);
+        return;
+      } else if (!companiesDoc.username.includes('@') && companiesDoc.username.includes('.')) {
+        response.error = 'Username must be typed correctly';
+        res.json(response);
+        return;
+      }
+
+      if (!companiesDoc.host.includes('.')) {
+        response.error = 'Host must be typed correctly';
+        res.json(response);
+        return;
+      }
+
+      let existDomain = companiesDoc.username.includes('@');
+      if (!existDomain) {
+        companiesDoc.username = companiesDoc.username + '@' + companiesDoc.host;
+      }
+
+      if (!site.validateEmail(companiesDoc.username)) {
+        response.error = 'Username must be typed correctly';
+        res.json(response);
+        return;
+      }
+
+      if (companiesDoc.username) {
+        userExist = {
+          email: companiesDoc.username,
+          password: companiesDoc.password,
+        };
+      }
+    }
+
+    site.security.isUserExists(userExist, function (err, userFound) {
+      if (userFound) {
+        response.error = 'User Is Exist';
+        res.json(response);
+        return;
+      }
+
+      $companies.findMany(
+        {
+          where: {
+            feature: companiesDoc.feature,
+
+            $or: [{ nameAr: companiesDoc.nameAr }, { nameEn: companiesDoc.nameEn }, { host: companiesDoc.host }, { username: companiesDoc.username }],
+          },
+        },
+        (err, docs) => {
+          if (!err && docs && docs.length > 0) {
+            let existNameAr = false;
+            let existNameEn = false;
+            let existHost = false;
+            let existUsername = false;
+            docs.forEach((_docs) => {
+              if (_docs.nameAr == companiesDoc.nameAr) existNameAr = true;
+              else if (_docs.nameEn == companiesDoc.nameEn) existNameEn = true;
+              else if (_docs.host == companiesDoc.host) existHost = true;
+              else if (_docs.username == companiesDoc.username) existUsername = true;
+            });
+
+            if (existNameAr) {
+              response.error = 'Arabic Name Is Exists';
+              res.json(response);
+              return;
+            } else if (existNameEn) {
+              response.error = 'English Name Is Exists';
+              res.json(response);
+              return;
+            } else if (existHost) {
+              response.error = 'Host Name Is Exists';
+              res.json(response);
+              return;
+            } else if (existUsername) {
+              response.error = 'User Name Is Exists';
+              res.json(response);
+              return;
+            }
+          } else {
+            companiesDoc.type = site.usersTypesList[1];
+            $companies.add(companiesDoc, (err, doc) => {
+              if (!err) {
+                response.done = true;
+                response.doc = doc;
+                let user = {
+                  isCompany: true,
+                  companyId: doc.id,
+                  email: doc.username,
+                  password: doc.password,
+                  refInfo: { id: companiesDoc.id },
+                  roles: [
+                    {
+                      name: 'companiesAdmin',
+                    },
+                  ],
+                  branchList: [
+                    {
+                      company: doc,
+                      branch: doc.branchList[0],
+                    },
+                  ],
+                  nameAr: doc.nameAr,
+                  nameEn: doc.nameEn,
+                  mobile: doc.mobile,
+                  image: companiesDoc.image,
+                };
+                site.security.isUserExists(user, function (err, userFound) {
+                  if (userFound) {
+                    response.error = 'User Is Exist';
+                    res.json(response);
+                    return;
+                  }
+
+                  site.security.addUser(user, (err, userDoc) => {
+                    if (!err) {
+                      delete user._id;
+                      delete user.id;
+                      doc.userInfo = {
+                        id: userDoc.id,
+                      };
+                      $companies.update(doc);
+                      site.call('[company][created]', doc);
+                    }
+                    res.json(response);
+                  });
+                });
+
+                // site.call(
+                //   '[user][add]',
+                //   {
+                //     isCompany: true,
+                //     companyId: doc.id,
+                //     email: doc.username,
+                //     password: doc.password,
+                //     roles: [
+                //       {
+                //         name: 'companiesAdmin',
+                //       },
+                //     ],
+                //     branchList: [
+                //       {
+                //         company: doc,
+                //         branch: doc.branchList[0],
+                //       },
+                //     ],
+                //     profile: {
+                //       nameAr: doc.nameAr,
+                //       nameEn: doc.nameEn,
+                //       mobile: doc.mobile,
+                //       image: companiesDoc.image,
+                //     },
+                //   },
+                //   (err, userDoc) => {
+                //     if (!err && userDoc) {
+                //       doc.userInfo = { id: userDoc.id };
+                //       $companies.update(doc);
+                //       site.call('[company][created]', doc);
+                //     }
+                //   }
+                // );
+              } else {
+                response.error = err.message;
+                res.json(response);
+              }
+            });
+          }
+        }
+      );
+    });
+  });
+
+  site.post('/api/companies/update', (req, res) => {
+    let response = {
+      done: false,
+    };
+
+    if (!req.session.user) {
+      response.error = 'Please Login First';
       res.json(response);
       return;
-    } else {
+    }
+
+    let companiesDoc = req.body;
+
+    if (companiesDoc.id) {
       let userExist = {
         email: undefined,
         password: undefined,
       };
 
       if (companiesDoc.username && companiesDoc.password) {
-        // if(!site.validatePassword(companiesDoc.password)) {
-        //   response.error = 'Must be not less than 8 characters or numbers and must contain at least one character capital, one number and one special character'
-        //   res.json(response)
-        //   return;
-        // }
-
         if (companiesDoc.username.includes('@') && !companiesDoc.username.includes('.')) {
           response.error = 'Username must be typed correctly';
           res.json(response);
@@ -199,306 +387,107 @@ module.exports = function init(site) {
           companiesDoc.username = companiesDoc.username + '@' + companiesDoc.host;
         }
 
-        if (!site.validateEmail(companiesDoc.username)) {
-          response.error = 'Username must be typed correctly';
-          res.json(response);
-          return;
-        }
-
-        if (companiesDoc.username) {
+        if (companiesDoc.username)
           userExist = {
             email: companiesDoc.username,
             password: companiesDoc.password,
           };
-        }
       }
 
-      site.security.isUserExists(userExist, function (err, userFound) {
-        if (userFound) {
-          response.error = 'User Is Exist';
-          res.json(response);
-          return;
+      site.security.getUsers({}, (err, usersDocs, count) => {
+        if (!err) {
+          userFound = false;
+          for (let i = 0; i < usersDocs.length; i++) {
+            let u = usersDocs[i];
+            if (u.email === companiesDoc.username && u.companyId != companiesDoc.id) {
+              userFound = true;
+            }
+          }
+
+          if (userFound) {
+            response.error = 'User Is Exist';
+            res.json(response);
+            return;
+          }
         }
 
-        $companies.findMany(
+        $companies.update(
           {
             where: {
-              feature: companiesDoc.feature,
-
-              $or: [{ nameAr: companiesDoc.nameAr }, { nameEn: companiesDoc.nameEn }, { host: companiesDoc.host }, { username: companiesDoc.username }],
+              id: companiesDoc.id,
             },
+            set: companiesDoc,
+            $req: req,
+            $res: res,
           },
-          (err, docs) => {
-            if (!err && docs && docs.length > 0) {
-              let existNameAr = false;
-              let existNameEn = false;
-              let existHost = false;
-              let existUsername = false;
-              docs.forEach((_docs) => {
-                if (_docs.nameAr == companiesDoc.nameAr) existNameAr = true;
-                else if (_docs.nameEn == companiesDoc.nameEn) existNameEn = true;
-                else if (_docs.host == companiesDoc.host) existHost = true;
-                else if (_docs.username == companiesDoc.username) existUsername = true;
+          (err, result) => {
+            if (!err) {
+              response.done = true;
+              response.doc = result.doc;
+
+              let branchList = [];
+              companiesDoc.branchList.forEach((b) => {
+                branchList.push({
+                  company: companiesDoc,
+                  branch: b,
+                });
               });
 
-              if (existNameAr) {
-                response.error = 'Arabic Name Is Exists';
-                res.json(response);
-                return;
-              } else if (existNameEn) {
-                response.error = 'English Name Is Exists';
-                res.json(response);
-                return;
-              } else if (existHost) {
-                response.error = 'Host Name Is Exists';
-                res.json(response);
-                return;
-              } else if (existUsername) {
-                response.error = 'User Name Is Exists';
-                res.json(response);
-                return;
-              }
-            } else {
-              companiesDoc.type = site.usersTypesList[1];
-              $companies.add(companiesDoc, (err, doc) => {
-                if (!err) {
-                  response.done = true;
-                  response.doc = doc;
-                  let user = {
-                    isCompany: true,
-                    companyId: doc.id,
-                    email: doc.username,
-                    password: doc.password,
+              if (companiesDoc.userInfo) {
+                site.call(
+                  '[user][update]',
+                  {
+                    email: companiesDoc.username,
+                    password: companiesDoc.password,
+                    companyId: companiesDoc.id,
                     refInfo: { id: companiesDoc.id },
+                    id: companiesDoc.userInfo.id,
+                    isCompany: true,
+                    branchList: branchList,
+                    nameAr: companiesDoc.nameAr,
+                    nameEn: companiesDoc.nameEn,
+                    mobile: companiesDoc.mobile,
+                    image: companiesDoc.image,
+                  },
+                  (err, userResult) => {}
+                );
+              } else {
+                site.call(
+                  '[user][add]',
+                  {
+                    email: companiesDoc.username,
+                    password: companiesDoc.password,
+                    companyId: companiesDoc.id,
+                    refInfo: { id: companiesDoc.id },
+                    isCompany: true,
                     roles: [
                       {
                         name: 'companiesAdmin',
                       },
                     ],
-                    branchList: [
-                      {
-                        company: doc,
-                        branch: doc.branchList[0],
-                      },
-                    ],
-                    nameAr: doc.nameAr,
-                    nameEn: doc.nameEn,
-                    mobile: doc.mobile,
+                    branchList: branchList,
+                    nameAr: companiesDoc.nameAr,
+                    nameEn: companiesDoc.nameEn,
+                    mobile: companiesDoc.mobile,
                     image: companiesDoc.image,
-                  };
-                  site.security.isUserExists(user, function (err, userFound) {
-                    if (userFound) {
-                      response.error = 'User Is Exist';
-                      res.json(response);
-                      return;
+                  },
+                  (err, userDoc) => {
+                    if (!err && userDoc) {
+                      result.doc.userInfo = { id: userDoc.id };
+                      $companies.update(result.doc);
+                    } else {
+                      console.log(err);
                     }
-
-                    site.security.addUser(user, (err, userDoc) => {
-                      if (!err) {
-                        delete user._id;
-                        delete user.id;
-                        doc.userInfo = {
-                          id: userDoc.id,
-                        };
-                        $companies.update(doc);
-                        site.call('[company][created]', doc);
-                      }
-                      res.json(response);
-                    });
-                  });
-
-                  // site.call(
-                  //   '[user][add]',
-                  //   {
-                  //     isCompany: true,
-                  //     companyId: doc.id,
-                  //     email: doc.username,
-                  //     password: doc.password,
-                  //     roles: [
-                  //       {
-                  //         name: 'companiesAdmin',
-                  //       },
-                  //     ],
-                  //     branchList: [
-                  //       {
-                  //         company: doc,
-                  //         branch: doc.branchList[0],
-                  //       },
-                  //     ],
-                  //     profile: {
-                  //       nameAr: doc.nameAr,
-                  //       nameEn: doc.nameEn,
-                  //       mobile: doc.mobile,
-                  //       image: companiesDoc.image,
-                  //     },
-                  //   },
-                  //   (err, userDoc) => {
-                  //     if (!err && userDoc) {
-                  //       doc.userInfo = { id: userDoc.id };
-                  //       $companies.update(doc);
-                  //       site.call('[company][created]', doc);
-                  //     }
-                  //   }
-                  // );
-                } else {
-                  response.error = err.message;
-                  res.json(response);
-                }
-              });
+                  }
+                );
+              }
+            } else {
+              response.error = err.message;
             }
+            res.json(response);
           }
         );
       });
-    }
-  });
-
-  site.post('/api/companies/update', (req, res) => {
-    let response = {
-      done: false,
-    };
-
-    if (!req.session.user) {
-      response.error = 'Please Login First';
-      res.json(response);
-      return;
-    }
-
-    let companiesDoc = req.body;
-
-    if (companiesDoc.id) {
-      if (companiesDoc.branchList.length > companiesDoc.branchCount) {
-        response.error = 'You have exceeded the maximum number of Branches';
-        res.json(response);
-      } else {
-        let userExist = {
-          email: undefined,
-          password: undefined,
-        };
-
-        if (companiesDoc.username && companiesDoc.password) {
-          if (companiesDoc.username.includes('@') && !companiesDoc.username.includes('.')) {
-            response.error = 'Username must be typed correctly';
-            res.json(response);
-            return;
-          } else if (!companiesDoc.username.includes('@') && companiesDoc.username.includes('.')) {
-            response.error = 'Username must be typed correctly';
-            res.json(response);
-            return;
-          }
-
-          if (!companiesDoc.host.includes('.')) {
-            response.error = 'Host must be typed correctly';
-            res.json(response);
-            return;
-          }
-
-          let existDomain = companiesDoc.username.includes('@');
-          if (!existDomain) {
-            companiesDoc.username = companiesDoc.username + '@' + companiesDoc.host;
-          }
-
-          if (companiesDoc.username)
-            userExist = {
-              email: companiesDoc.username,
-              password: companiesDoc.password,
-            };
-        }
-
-        site.security.getUsers({}, (err, usersDocs, count) => {
-          if (!err) {
-            userFound = false;
-            for (let i = 0; i < usersDocs.length; i++) {
-              let u = usersDocs[i];
-              if (u.email === companiesDoc.username && u.companyId != companiesDoc.id) {
-                userFound = true;
-              }
-            }
-
-            if (userFound) {
-              response.error = 'User Is Exist';
-              res.json(response);
-              return;
-            }
-          }
-
-          $companies.update(
-            {
-              where: {
-                id: companiesDoc.id,
-              },
-              set: companiesDoc,
-              $req: req,
-              $res: res,
-            },
-            (err, result) => {
-              if (!err) {
-                response.done = true;
-                response.doc = result.doc;
-
-                let branchList = [];
-                companiesDoc.branchList.forEach((b) => {
-                  branchList.push({
-                    company: companiesDoc,
-                    branch: b,
-                  });
-                });
-
-                if (companiesDoc.userInfo) {
-                  site.call(
-                    '[user][update]',
-                    {
-                      email: companiesDoc.username,
-                      password: companiesDoc.password,
-                      companyId: companiesDoc.id,
-                      refInfo: { id: companiesDoc.id },
-                      id: companiesDoc.userInfo.id,
-                      isCompany: true,
-                      branchList: branchList,
-                      nameAr: companiesDoc.nameAr,
-                      nameEn: companiesDoc.nameEn,
-                      mobile: companiesDoc.mobile,
-                      image: companiesDoc.image,
-                    },
-                    (err, userResult) => {}
-                  );
-                } else {
-                  site.call(
-                    '[user][add]',
-                    {
-                      email: companiesDoc.username,
-                      password: companiesDoc.password,
-                      companyId: companiesDoc.id,
-                      refInfo: { id: companiesDoc.id },
-                      isCompany: true,
-                      roles: [
-                        {
-                          name: 'companiesAdmin',
-                        },
-                      ],
-                      branchList: branchList,
-                      nameAr: companiesDoc.nameAr,
-                      nameEn: companiesDoc.nameEn,
-                      mobile: companiesDoc.mobile,
-                      image: companiesDoc.image,
-                    },
-                    (err, userDoc) => {
-                      if (!err && userDoc) {
-                        result.doc.userInfo = { id: userDoc.id };
-                        $companies.update(result.doc);
-                      } else {
-                        console.log(err);
-                      }
-                    }
-                  );
-                }
-              } else {
-                response.error = err.message;
-              }
-              res.json(response);
-            }
-          );
-        });
-      }
     } else {
       response.error = 'no id';
       res.json(response);

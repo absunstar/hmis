@@ -137,29 +137,29 @@ module.exports = function init(site) {
 
     user.company = site.getCompany(req);
     user.branch = site.getBranch(req);
+    let numObj = {
+      company: site.getCompany(req),
+      screen: user.type.name,
+      date: new Date(),
+  };
 
-    site.$users.findMany(
-      {
-        where: {
-          'company.id': site.getCompany(req).id,
-        },
-      },
-      (err, docs, count) => {
-        if (!err && count >= (site.getCompany(req).usersCount || 0)) {
-          response.error = `You have exceeded the maximum number of Users [ ${count} of ${site.getCompany(req).usersCount} ]`;
-          res.json(response);
-        } else {
-          site.security.addUser(user, (err, _id) => {
-            if (!err) {
-              response.done = true;
-            } else {
-              response.error = err.message;
-            }
-            res.json(response);
-          });
-        }
+  let cb = site.getNumbering(numObj);
+  if (!user.code && !cb.auto) {
+      response.error = 'Must Enter Code';
+      res.json(response);
+      return;
+  } else if (cb.auto) {
+      user.code = cb.code;
+  }
+
+    site.security.addUser(user, (err, _id) => {
+      if (!err) {
+        response.done = true;
+      } else {
+        response.error = err.message;
       }
-    );
+      res.json(response);
+    });
   });
 
   site.post('/api/user/update', (req, res) => {

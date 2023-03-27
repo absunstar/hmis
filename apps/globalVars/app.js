@@ -11,14 +11,14 @@ module.exports = function init(site) {
     ];
 
     site.usersTypesList = [
-        { id: 1, nameEn: 'Developer', nameAr: 'مطور' , name : 'developer' },
-        { id: 2, nameEn: 'Owner', nameAr: 'مالك' , name : 'owner' },
-        { id: 3, nameEn: 'Admin', nameAr: 'مشرف' , name : 'admin' },
-        { id: 4, nameEn: 'Employee', nameAr: 'موظف' , name : 'employee' },
-        { id: 5, nameEn: 'Patient', nameAr: 'مريض' , name : 'patient' },
-        { id: 6, nameEn: 'Customer', nameAr: 'عميل' , name : 'customer' },
-        { id: 7, nameEn: 'Vendor', nameAr: 'مورد' , name : 'Vendor' },
-        { id: 8, nameEn: 'Doctor', nameAr: 'طبيب' , name : 'doctor' },
+        { id: 1, nameEn: 'Developer', nameAr: 'مطور' , name : 'developers' },
+        { id: 2, nameEn: 'Owner', nameAr: 'مالك' , name : 'owners' },
+        { id: 3, nameEn: 'Admin', nameAr: 'مشرف' , name : 'admins' },
+        { id: 4, nameEn: 'Employee', nameAr: 'موظف' , name : 'employees' },
+        { id: 5, nameEn: 'Patient', nameAr: 'مريض' , name : 'patients' },
+        { id: 6, nameEn: 'Customer', nameAr: 'عميل' , name : 'customers' },
+        { id: 7, nameEn: 'Vendor', nameAr: 'مورد' , name : 'vendors' },
+        { id: 8, nameEn: 'Doctor', nameAr: 'طبيب' , name : 'doctors' },
       ];
 
     site.qualificationsDegrees = [

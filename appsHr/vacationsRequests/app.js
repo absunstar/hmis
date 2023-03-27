@@ -280,8 +280,9 @@ module.exports = function init(site) {
                 let _data = req.data;
 
                 if (_data && _data.approvedVacationType && _data.approvedVacationType.id) {
-                    const employeeApp = site.getApp('employees');
-                    employeeApp.$collection.find({ where: { id: _data.employee.id } }, (err, doc) => {
+                    // const employeeApp = site.getApp('employees');
+                    const employeeApp = site.getApp('users_info');
+                    employeeApp.$collection.find({ where: { id: _data.employee.id, 'type.id': 4 } }, (err, doc) => {
                         if (doc) {
                             if (_data.approvedVacationType.id === 1) {
                                 doc.annualVacation += _data.approvedDays;
@@ -339,8 +340,9 @@ module.exports = function init(site) {
 
                     if (exisitIndex == -1 || (exisitIndex !== -1 && docs[exisitIndex].id == _data.id)) {
                         if (_data && _data.approvedVacationType && _data.approvedVacationType.id) {
-                            const employeeApp = site.getApp('employees');
-                            employeeApp.$collection.find({ where: { id: _data.employee.id } }, (err, doc) => {
+                            // const employeeApp = site.getApp('employees');
+                            const employeeApp = site.getApp('users_info');
+                            employeeApp.$collection.find({ where: { id: _data.employee.id, 'type.id': 4 } }, (err, doc) => {
                                 if (doc) {
                                     if (_data.approvedVacationType.id === 1) {
                                         doc.annualVacation -= _data.approvedDays;

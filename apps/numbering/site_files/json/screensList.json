@@ -578,5 +578,23 @@
         "feature": "public",
         "id": "payslips",
         "name": "Payslips"
+    },
+    {
+        "category": "hr",
+        "feature": "public",
+        "id": "jobsAdvertisements",
+        "name": "Jobs Advertisements"
+    },
+    {
+        "category": "hr",
+        "feature": "public",
+        "id": "jobsApplicants",
+        "name": "Jobs Applicants"
+    },
+    {
+        "category": "hr",
+        "feature": "public",
+        "id": "employeesContracts",
+        "name": "Employees Contracts"
     }
 ]

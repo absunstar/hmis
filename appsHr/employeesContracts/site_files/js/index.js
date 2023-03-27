@@ -433,14 +433,14 @@ app.controller('employeesContracts', function ($scope, $http, $timeout) {
         );
     };
 
-    $scope.getJobs = function (section) {
+    $scope.getJobs = function (department) {
         $scope.busy = true;
         $scope.jobsList = [];
         $http({
             method: 'POST',
             url: '/api/jobs/all',
             data: {
-                where: { active: true, section },
+                where: { active: true, department },
                 select: {
                     id: 1,
                     code: 1,

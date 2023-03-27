@@ -238,7 +238,8 @@ module.exports = function init(site) {
                 _data.approved = true;
                 _data.approveDate = new Date();
                 _data.acceptUserInfo = req.getUserFinger();
-                const employeeApp = site.getApp('employees');
+                // const employeeApp = site.getApp('employees');
+                const employeeApp = site.getApp('users_info');
 
                 const employee = {
                     fullNameAr: _data.fullNameAr,
@@ -271,6 +272,7 @@ module.exports = function init(site) {
                     active: true,
                     company: _data.company,
                     mobile: _data.mobile,
+                    'type.id': 4,
                 };
                 employeeApp.$collection.add(employee, (err, doc) => {
                     if (doc) {

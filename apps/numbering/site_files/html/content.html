@@ -9,6 +9,10 @@
         <span>##word.HMIS##</span>
       </a>
 
+      <a class="tab-link" onclick="site.showTabContent(event, '#hrTabs')">
+        <span>##word.HR##</span>
+      </a>
+
       <a class="tab-link" onclick="site.showTabContent(event, '#inventoryTabs')">
         <span>##word.Inventory##</span>
       </a>
@@ -21,7 +25,6 @@
     <div class="tabs-content">
       <div id="mainTabs" class="tab-content">
         <fieldset>
-
           <div class="row">
             <i-list class="col3" ng-model="circulate.typeNumbering" items="typeNumberingList" display="name" label="##word.Type Numbering##" ng-search="_search.$searchTypeNumbering"></i-list>
             <i-control class="col3" ng-model="circulate.firstValue" label="##word.Start Numbering##" type="number"></i-control>
@@ -83,9 +86,134 @@
         </fieldset>
       </div>
 
+      <div id="hmisTabs" class="tab-content">
+        <fieldset>
+          <div class="row">
+            <i-list class="col3" ng-model="circulate.typeNumbering" items="typeNumberingList" display="name" label="##word.Numbering Type ##" ng-search="_search.$searchTypeNumbering"></i-list>
+
+            <i-control class="col3" ng-model="circulate.firstValue" label="##word.Start Numbering##" type="number"></i-control>
+
+            <i-control class="col3" ng-model="circulate.lengthLevel" label="##word.lengthLevel##" type="number"> </i-control>
+
+            <div class="col2">
+              <br />
+              <i-button type="edit" label="##word.Circulate##" ng-click="setCirculate('hmis')"> </i-button>
+            </div>
+          </div>
+
+          <br />
+          <br />
+
+          <div class="row">
+            <table class="table loaded center bold hover">
+              <tr>
+                <th>##word.Screen Name##</th>
+                <th>##word.Prefix##</th>
+                <th>##word.Type Numbering##</th>
+                <th>##word.Start Numbering##</th>
+                <th>##word.Last Number##</th>
+                <th>##word.Length Level##</th>
+                <th>##word.Actions##</th>
+              </tr>
+
+              <tr ng-repeat="screen1 in numbering.screensList| filter:{category :'hmis'}">
+                <td>
+                  <p class="text-center blue">{{screen1.name}}</p>
+                </td>
+                <td>
+                  <i-control ng-model="screen0.prefix" type="text"> </i-control>
+                </td>
+                <td>
+                  <i-list class="col3" ng-model="screen1.typeNumbering" items="typeNumberingList" display="name" ng-search="_search.$searchTypeNumbering"> </i-list>
+                </td>
+
+                <td>
+                  <i-control ng-show="screen1.typeNumbering.id ==3" ng-model="screen1.firstValue" type="number"></i-control>
+                </td>
+
+                <td>
+                  <p class="text-center red" ng-show="screen1.typeNumbering.id ==3">{{screen1.lastValue}}</p>
+                </td>
+
+                <td>
+                  <i-control ng-show="screen1.typeNumbering.id ==3" ng-model="screen1.lengthLevel" type="number"></i-control>
+                </td>
+
+                <td class="center">
+                  <i-button ng-show="screen1.typeNumbering.id ==3" type="reset" ng-click="screen1.lastValue = 0"></i-button>
+                  <i-button type="list" ng-hide="screen1.typeNumbering.id ==3 || screen1.typeNumbering.id ==4 " ng-click="viewCurrentNumbering(screen1)"></i-button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </fieldset>
+      </div>
+
+      <div id="hrTabs" class="tab-content">
+        <fieldset>
+          <div class="row">
+            <i-list class="col3" ng-model="circulate.typeNumbering" items="typeNumberingList" display="name" label="##word.Numbering Type ##" ng-search="_search.$searchTypeNumbering"></i-list>
+
+            <i-control class="col3" ng-model="circulate.firstValue" label="##word.Start Numbering##" type="number"></i-control>
+
+            <i-control class="col3" ng-model="circulate.lengthLevel" label="##word.lengthLevel##" type="number"> </i-control>
+
+            <div class="col2">
+              <br />
+              <i-button type="edit" label="##word.Circulate##" ng-click="setCirculate('hr')"> </i-button>
+            </div>
+          </div>
+
+          <br />
+          <br />
+
+          <div class="row">
+            <table class="table loaded center bold hover">
+              <tr>
+                <th>##word.Screen Name##</th>
+                <th>##word.Prefix##</th>
+                <th>##word.Type Numbering##</th>
+                <th>##word.Start Numbering##</th>
+                <th>##word.Last Number##</th>
+                <th>##word.Length Level##</th>
+                <th>##word.Actions##</th>
+              </tr>
+
+              <tr ng-repeat="screen1 in numbering.screensList| filter:{category :'hr'}">
+                <td>
+                  <p class="text-center blue">{{screen1.name}}</p>
+                </td>
+                <td>
+                  <i-control ng-model="screen0.prefix" type="text"> </i-control>
+                </td>
+                <td>
+                  <i-list class="col3" ng-model="screen1.typeNumbering" items="typeNumberingList" display="name" ng-search="_search.$searchTypeNumbering"> </i-list>
+                </td>
+
+                <td>
+                  <i-control ng-show="screen1.typeNumbering.id ==3" ng-model="screen1.firstValue" type="number"></i-control>
+                </td>
+
+                <td>
+                  <p class="text-center red" ng-show="screen1.typeNumbering.id ==3">{{screen1.lastValue}}</p>
+                </td>
+
+                <td>
+                  <i-control ng-show="screen1.typeNumbering.id ==3" ng-model="screen1.lengthLevel" type="number"></i-control>
+                </td>
+
+                <td class="center">
+                  <i-button ng-show="screen1.typeNumbering.id ==3" type="reset" ng-click="screen1.lastValue = 0"></i-button>
+                  <i-button type="list" ng-hide="screen1.typeNumbering.id ==3 || screen1.typeNumbering.id ==4 " ng-click="viewCurrentNumbering(screen1)"></i-button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </fieldset>
+      </div>
+
       <div id="inventoryTabs" class="tab-content">
         <fieldset>
-
           <div class="row">
             <i-list class="col3" ng-model="circulate.typeNumbering" items="typeNumberingList" display="name" label="##word.Numbering Type ##" ng-search="_search.$searchTypeNumbering"></i-list>
 
@@ -147,73 +275,8 @@
         </fieldset>
       </div>
 
-      <div id="hmisTabs" class="tab-content">
-        <fieldset>
-
-          <div class="row">
-            <i-list class="col3" ng-model="circulate.typeNumbering" items="typeNumberingList" display="name" label="##word.Numbering Type ##" ng-search="_search.$searchTypeNumbering"></i-list>
-
-            <i-control class="col3" ng-model="circulate.firstValue" label="##word.Start Numbering##" type="number"></i-control>
-
-            <i-control class="col3" ng-model="circulate.lengthLevel" label="##word.lengthLevel##" type="number"> </i-control>
-
-            <div class="col2">
-              <br />
-              <i-button type="edit" label="##word.Circulate##" ng-click="setCirculate('hmis')"> </i-button>
-            </div>
-          </div>
-
-          <br />
-          <br />
-
-          <div class="row">
-            <table class="table loaded center bold hover">
-              <tr>
-                <th>##word.Screen Name##</th>
-                <th>##word.Prefix##</th>
-                <th>##word.Type Numbering##</th>
-                <th>##word.Start Numbering##</th>
-                <th>##word.Last Number##</th>
-                <th>##word.Length Level##</th>
-                <th>##word.Actions##</th>
-              </tr>
-
-              <tr ng-repeat="screen1 in numbering.screensList| filter:{category :'hmis'}">
-                <td>
-                  <p class="text-center blue">{{screen1.name}}</p>
-                </td>
-                <td>
-                    <i-control ng-model="screen0.prefix" type="text"> </i-control>
-                  </td>
-                <td>
-                  <i-list class="col3" ng-model="screen1.typeNumbering" items="typeNumberingList" display="name" ng-search="_search.$searchTypeNumbering"> </i-list>
-                </td>
-
-                <td>
-                  <i-control ng-show="screen1.typeNumbering.id ==3" ng-model="screen1.firstValue" type="number"></i-control>
-                </td>
-
-                <td>
-                  <p class="text-center red" ng-show="screen1.typeNumbering.id ==3">{{screen1.lastValue}}</p>
-                </td>
-
-                <td>
-                  <i-control ng-show="screen1.typeNumbering.id ==3" ng-model="screen1.lengthLevel" type="number"></i-control>
-                </td>
-
-                <td class="center">
-                  <i-button ng-show="screen1.typeNumbering.id ==3" type="reset" ng-click="screen1.lastValue = 0"></i-button>
-                  <i-button type="list" ng-hide="screen1.typeNumbering.id ==3 || screen1.typeNumbering.id ==4 " ng-click="viewCurrentNumbering(screen1)"></i-button>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </fieldset>
-      </div>
-
       <div id="accountingTabs" class="tab-content">
         <fieldset>
-
           <div class="row">
             <i-list class="col3" ng-model="circulate.typeNumbering" items="typeNumberingList" display="name" label="##word.Numbering Type ##" ng-search="_search.$searchTypeNumbering"></i-list>
 
@@ -247,8 +310,8 @@
                   <p class="text-center blue">{{screen1.name}}</p>
                 </td>
                 <td>
-                    <i-control ng-model="screen0.prefix" type="text"> </i-control>
-                  </td>
+                  <i-control ng-model="screen0.prefix" type="text"> </i-control>
+                </td>
                 <td>
                   <i-list class="col3" ng-model="screen1.typeNumbering" items="typeNumberingList" display="name" ng-search="_search.$searchTypeNumbering"> </i-list>
                 </td>
@@ -274,7 +337,6 @@
           </div>
         </fieldset>
       </div>
-
     </div>
   </div>
 </div>
